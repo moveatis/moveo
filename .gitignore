@@ -1,0 +1,33 @@
+# Gitignore sitä tarkoitusta varten, että repositoryyn tulee vain lähdekoodit.
+# Sami Kallio 13.2.2016 sami.m.j.kallio@student.jyu.fi
+
+# Tällä tiedostolla saadaan aikaan se, ettei Git huomioi määreisiin sopivia 
+# tiedostoja päättäessään, mitä muutoksia se huomioi. Jos käytetään jotain
+# muuta kehitysympäristöä kuin Netbeansia, täytyy tähän tiedostoon tehdä
+# vastaavat muutokset.
+
+
+# Java -luokkatiedostot
+*.class
+
+# Netbeans -sidonnaiset tiedostot
+nbproject/private
+build/
+nbbuild/
+dist/
+ndist/
+nbactions.xml
+.nb-gradle/
+
+# Eclipse ja vim
+*.swp
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
