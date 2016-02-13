@@ -6,13 +6,54 @@
     <artifactId>lotas</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
-    <name>lotas</name>
-
+    <name>Lotas observer</name>
+    <description>Student project for University of Jyväskylä</description>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+	<developers>
+		<developer>
+			<id>jarmo</id>
+			<name>Jarmo Juujärvi</name>
+			<email>jarmojuujarvi@gmail.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>sami</id>
+			<name>Sami Kallio</name>
+			<email>sami.m.j.kallio@student.jyu.fi</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>kai</id>
+			<name>Kai Korhonen</name>
+			<email>jarmojuujarvi@gmail.com</email>
+			<roles>
+				<role>Project manager</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>juha</id>
+			<name>Juha Moisio</name>
+			<email>juha.pa.moisia@student.jyu.fi</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>ilari</id>
+			<name>Ilari Paananen</name>
+			<email>ilari.k.paananen@student.jyu.fi</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
     
     <dependencies>
         <dependency>
@@ -43,6 +84,8 @@
                 <version>2.3</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+		    <warName>lotas</warName>
+		    <outputDirectory>${basedir}/docker</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
