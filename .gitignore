@@ -6,6 +6,8 @@
 # muuta kehitysympäristöä kuin Netbeansia, täytyy tähän tiedostoon tehdä
 # vastaavat muutokset.
 
+# Dockerin hakemisto
+docker/
 
 # Java -luokkatiedostot
 *.class
@@ -17,6 +19,7 @@ nbbuild/
 dist/
 ndist/
 nbactions.xml
+nb-configuration.xml
 .nb-gradle/
 
 # Eclipse ja vim
