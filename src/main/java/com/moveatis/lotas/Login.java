@@ -1,14 +1,13 @@
 package com.moveatis.lotas;
 
-
-import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author sammarju
  */
-@Named(value = "login")
+@Named(value = "loginBean")
 @RequestScoped
 public class Login {
     
