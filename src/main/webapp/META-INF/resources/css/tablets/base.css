@@ -1,0 +1,23 @@
+@media screen and (max-width: 800px) {
+    
+    nav {
+        width: 96%;
+        margin: 1% auto 1% auto;
+        border: none;
+    }
+    
+    .welcomeContent {
+        width: 96%;
+        margin: 1% auto 1% auto;
+    }
+    
+    .accessButtons {
+    width: 9.5em;
+    height: 2.5em;
+    margin: 2.5% auto 2.5% auto;
+    display: block;
+    border: 1px solid yellow;
+    text-align: center;
+    padding: 1.5em;
+}
+}
