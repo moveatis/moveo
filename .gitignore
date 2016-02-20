@@ -7,7 +7,7 @@
 # vastaavat muutokset.
 
 # Dockerin hakemisto
-docker/lotas*
+docker/
 
 # Java -luokkatiedostot
 *.class

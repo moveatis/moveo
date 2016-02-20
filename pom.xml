@@ -18,15 +18,15 @@
 			<name>Jarmo Juujärvi</name>
 			<email>jarmojuujarvi@gmail.com</email>
 			<roles>
-				<role>Developer</role>
+                            <role>Developer</role>
 			</roles>
 		</developer>
 		<developer>
 			<id>sami</id>
 			<name>Sami Kallio</name>
-			<email>sami.m.j.kallio@student.jyu.fi</email>
+			<email>phinaliumz@outlook.com</email>
 			<roles>
-				<role>Developer</role>
+                            <role>Developer</role>
 			</roles>
 		</developer>
 		<developer>
@@ -34,7 +34,7 @@
 			<name>Kai Korhonen</name>
 			<email>jarmojuujarvi@gmail.com</email>
 			<roles>
-				<role>Project manager</role>
+                            <role>Project manager</role>
 			</roles>
 		</developer>
 		<developer>
@@ -42,7 +42,7 @@
 			<name>Juha Moisio</name>
 			<email>juha.pa.moisia@student.jyu.fi</email>
 			<roles>
-				<role>Developer</role>
+                            <role>Developer</role>
 			</roles>
 		</developer>
 		<developer>
@@ -50,12 +50,24 @@
 			<name>Ilari Paananen</name>
 			<email>ilari.k.paananen@student.jyu.fi</email>
 			<roles>
-				<role>Developer</role>
+                            <role>Developer</role>
 			</roles>
 		</developer>
 	</developers>
     
     <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>unknown.binary</groupId>
+            <artifactId>hibernate-jpamodelgen-4.3.1.Final</artifactId>
+            <version>SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
@@ -115,5 +127,11 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <id>unknown-jars-temp-repo</id>
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <url>file:${project.basedir}/lib</url>
+        </repository>
+    </repositories>
 </project>
