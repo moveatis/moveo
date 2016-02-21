@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import javax.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -14,6 +16,7 @@ import javax.inject.Singleton;
 @Singleton
 public class IdentityProviderService {
     
+    private Logger logger = LoggerFactory.getLogger(IdentityProviderService.class);
     
     private static IdentityProviderService service;
     private ServiceLoader<IdentityProvider> loader;
@@ -48,7 +51,7 @@ public class IdentityProviderService {
                 user = identityProvider.getUserEntity();
             }
         } catch (ServiceConfigurationError error){
-            
+            logger.error("IdentityProviverService ran into trouble -> " + error.toString());
         }
         
         return user;
