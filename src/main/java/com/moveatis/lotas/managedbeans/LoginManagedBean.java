@@ -1,22 +1,22 @@
-package com.moveatis.lotas;
+package com.moveatis.lotas.managedbeans;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
  *
- * @author sammarju
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "loginBean")
 @RequestScoped
-public class Login {
+public class LoginManagedBean {
     
     private String etunimi = "Testi"; 
 
     /**
      * Creates a new instance of Login
      */
-    public Login() {
+    public LoginManagedBean() {
         
     }
 
