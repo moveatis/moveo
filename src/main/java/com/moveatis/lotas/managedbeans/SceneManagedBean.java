@@ -1,4 +1,4 @@
-package com.moveatis.lotas.user;
+package com.moveatis.lotas.managedbeans;
 
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -8,14 +8,14 @@ import java.io.Serializable;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value = "userBean")
+@Named(value = "sceneBean")
 @SessionScoped
-public class UserManagedBean implements Serializable {
+public class SceneManagedBean implements Serializable {
 
     /**
-     * Creates a new instance of UserManagedBean
+     * Creates a new instance of SceneManagedBean
      */
-    public UserManagedBean() {
+    public SceneManagedBean() {
     }
     
 }

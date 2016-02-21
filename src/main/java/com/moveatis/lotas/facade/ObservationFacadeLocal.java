@@ -1,5 +1,6 @@
-package com.moveatis.lotas.observation;
+package com.moveatis.lotas.facade;
 
+import com.moveatis.lotas.observation.ObservationEntity;
 import java.util.List;
 import javax.ejb.Local;
 

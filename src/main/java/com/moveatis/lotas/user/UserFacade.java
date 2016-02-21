@@ -1,5 +1,6 @@
 package com.moveatis.lotas.user;
 
+import com.moveatis.lotas.facade.UserFacadeLocal;
 import com.moveatis.lotas.facade.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

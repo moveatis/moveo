@@ -1,5 +1,6 @@
-package com.moveatis.lotas.user;
+package com.moveatis.lotas.facade;
 
+import com.moveatis.lotas.user.UserEntity;
 import java.util.List;
 import javax.ejb.Local;
 

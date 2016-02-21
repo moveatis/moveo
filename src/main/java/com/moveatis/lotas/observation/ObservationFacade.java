@@ -1,5 +1,6 @@
 package com.moveatis.lotas.observation;
 
+import com.moveatis.lotas.facade.ObservationFacadeLocal;
 import com.moveatis.lotas.facade.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

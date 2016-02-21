@@ -1,5 +1,6 @@
 package com.moveatis.lotas.scene;
 
+import com.moveatis.lotas.facade.SceneFacadeLocal;
 import com.moveatis.lotas.facade.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

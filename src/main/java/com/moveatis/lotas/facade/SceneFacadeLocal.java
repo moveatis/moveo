@@ -1,5 +1,6 @@
-package com.moveatis.lotas.scene;
+package com.moveatis.lotas.facade;
 
+import com.moveatis.lotas.scene.SceneEntity;
 import java.util.List;
 import javax.ejb.Local;
 

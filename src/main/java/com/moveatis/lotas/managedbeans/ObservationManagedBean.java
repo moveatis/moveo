@@ -1,4 +1,4 @@
-package com.moveatis.lotas.observation;
+package com.moveatis.lotas.managedbeans;
 
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;

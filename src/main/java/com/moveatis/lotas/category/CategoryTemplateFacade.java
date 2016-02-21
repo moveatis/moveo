@@ -1,5 +1,6 @@
 package com.moveatis.lotas.category;
 
+import com.moveatis.lotas.facade.CategoryTemplateFacadeLocal;
 import com.moveatis.lotas.facade.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

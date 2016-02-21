@@ -1,5 +1,6 @@
-package com.moveatis.lotas.category;
+package com.moveatis.lotas.facade;
 
+import com.moveatis.lotas.category.CategoryEntity;
 import java.util.List;
 import javax.ejb.Local;
 
