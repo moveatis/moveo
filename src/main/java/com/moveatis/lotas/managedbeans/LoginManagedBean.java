@@ -2,6 +2,8 @@ package com.moveatis.lotas.managedbeans;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -10,6 +12,8 @@ import javax.inject.Named;
 @Named(value = "loginBean")
 @RequestScoped
 public class LoginManagedBean {
+    
+    private Logger logger = LoggerFactory.getLogger(LoginManagedBean.class);
     
     private String etunimi = "Testi"; 
 
