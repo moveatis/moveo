@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    
     <h:head>
         <title>#{msg.applicationTitle}</title>
         <h:outputStylesheet library="css" name="base.css"/>
@@ -9,7 +12,19 @@
     </h:head>
     
     <h:body>
-        <nav>
+        <div id="naviHead">
+            <ui:insert name="header" >
+                <ui:include src="commonHeader.xhtml"/>
+            </ui:insert>
+            
+            
+        </div>
+        <h:panelGrid styleClass="naviHeader">
+            <h:outputLink styleClass="naviButtons">
+                <h:outputText value="Valikko"/>
+            </h:outputLink>
+        </h:panelGrid>
+       <nav>
             <h:outputLink styleClass="accessButtons">
                 <h:outputText value="Kurssiavain"/>
                 <h:outputText value="#{loginBean.etunimi}"/>
@@ -28,6 +43,7 @@
                           ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
                           dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
                           deserunt mollit anim id est laborum."/>
+            
             <h:outputText value="Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo 
                           pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh 
                           euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. 

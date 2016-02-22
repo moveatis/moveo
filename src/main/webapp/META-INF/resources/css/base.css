@@ -43,21 +43,37 @@ nav {
     width: 74%;
     display: block;
 }
-
+.naviHeader {
+    height: 10px;
+    background-size: 50%;
+    background-color: darkslateblue;
+    align-content: flex-end;
+    
+}
+.naviButtons {
+    width: 2.5em;
+    height: 0.3em;
+    display: block;
+    border: 3px solid blanchedalmond;
+    text-align: center;
+    padding: 1.0em;
+}
 .accessButtons {
-    width: 7.5em;
-    height: 1.5em;
+    width: 9.5em;
+    height: 2.5em;
     margin: 2.5% auto 2.5% auto;
     display: block;
-    border: 1px solid yellow;
+    border: 2px solid blanchedalmond;
     text-align: center;
     padding: 1.0em;
 }
 
-a:link {text-decoration: none; color: #ffffff;}
-a:visited {text-decoration: none; color: #ffffff;}
-a:active {text-decoration: none; color: #ffffff;}
-a:hover {text-decoration: none; color: red;}
+
+a:link {text-decoration: none; color: lightcyan;}
+a:visited {text-decoration: none; color: lightcyan;}
+a:active {text-decoration: none; color: lightcyan;}
+a:hover {text-decoration: none; color: lightsalmon;}
+
 
 @media screen and (max-width: 800px) {
     
@@ -71,15 +87,29 @@ a:hover {text-decoration: none; color: red;}
         width: 96%;
         margin: 1% auto 1% auto;
     }
-    
+    .naviHeader {
+        
+    height: 10px;
+    background-size: 50%;
+    background-color: darkslateblue;   
+}
+    .naviButtons {
+    width: 2.5em;
+    height: 0.3em;
+    display: block;
+    border: 3px solid blanchedalmond;
+    text-align: center;
+    padding: 1.0em;
+}
     .accessButtons {
         width: 9.5em;
         height: 2.5em;
         margin: 2.5% auto 2.5% auto;
         display: block;
-        border: 1px solid yellow;
+        border: 2px solid blanchedalmond;
         text-align: center;
-        padding: 1.5em;
+        padding: 1.0em;
     }
+
 }
 
