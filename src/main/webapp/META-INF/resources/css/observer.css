@@ -17,30 +17,73 @@ body {
     display: inline-block;
 }
 
+#play, #pause {
+    display: inline-block;
+    position: relative;
+    /*background: #fff;*/
+    border-radius: 50%;
+    width: 16vmin;
+    height: 16vmin;
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    border: 1vmin solid #fff;
+}
+
+#play::before {
+    position: absolute;
+    content: "";
+    top: 3vmin;
+    left: 4.25vmin;
+    border-left: 10vmin solid #fff;
+    border-top: 5vmin solid transparent;
+    border-bottom: 5vmin solid transparent;
+    border-right: 0 solid transparent;
+}
+
+#pause::before, #pause::after {
+    position: absolute;
+    background: #fff;
+    content: "";
+    width: 4vmin;
+    height: 10vmin;
+    top: 3vmin;
+}
+
+#pause::before {
+    left: 3vmin;
+}
+
+#pause::after {
+    right: 3vmin;
+}
+
+
 ul {
     list-style-type: none;
-    padding: 0em;
+    padding: 0;
 }
 
 li {
     background-color: #567;
+    font-size: 5vmin;
     margin: 0.25em;
     padding: 0.25em;
     border-radius: 0.25em;
+    cursor: pointer;
+    
+    /* Disable text selection.
+       Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    /*user-select: none;           /* non-prefixed version, currently
+                                    not supported by any browser */
 }
 
-li:hover {
+li.down {
     background-color: #fa4;
-}
-
-@media screen and (orientation:portrait) {
-    li {
-        font-size: 5vw;
-    }
-}
-
-@media screen and (orientation:landscape) {
-    li {
-        font-size: 5vh;
-    }
 }

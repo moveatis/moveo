@@ -31,6 +31,21 @@ public class ObservationManagedBean implements Serializable {
         types.add("Tehtävien suoritus");
         types.add("Palautteen anto");
         types.add("Lopettelu");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
+        types.add("Dummy dataa");
         types.add(FacesContext.class.getPackage().getImplementationVersion());
     }
     
