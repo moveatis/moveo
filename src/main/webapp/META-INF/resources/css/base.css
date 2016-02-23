@@ -44,16 +44,18 @@ nav {
     display: block;
 }
 .naviHeader {
+    width: 96%;
+    float: right;
     height: 10px;
     background-size: 50%;
-    background-color: darkslateblue;
+    background-color: #567;
     align-content: flex-end;
     
 }
 .naviButtons {
     width: 2.5em;
     height: 0.3em;
-    display: block;
+    display:table-row;
     border: 3px solid blanchedalmond;
     text-align: center;
     padding: 1.0em;
@@ -67,7 +69,15 @@ nav {
     text-align: center;
     padding: 1.0em;
 }
-
+.naviFooter {
+    width: 96%;
+    float: right;
+    height: 10px;
+    background-size: 50%;
+    background-color: #567;
+    align-content: flex-end;
+    
+}
 
 a:link {text-decoration: none; color: lightcyan;}
 a:visited {text-decoration: none; color: lightcyan;}
@@ -88,28 +98,35 @@ a:hover {text-decoration: none; color: lightsalmon;}
         margin: 1% auto 1% auto;
     }
     .naviHeader {
-        
+    width: 96%;
+    float: right;    
     height: 10px;
     background-size: 50%;
-    background-color: darkslateblue;   
-}
+    background-color: #567;   
+    }
     .naviButtons {
     width: 2.5em;
     height: 0.3em;
-    display: block;
+    display: table-row;
     border: 3px solid blanchedalmond;
     text-align: center;
     padding: 1.0em;
-}
-    .accessButtons {
-        width: 9.5em;
-        height: 2.5em;
-        margin: 2.5% auto 2.5% auto;
-        display: block;
-        border: 2px solid blanchedalmond;
-        text-align: center;
-        padding: 1.0em;
     }
+    .accessButtons {
+    width: 9.5em;
+    height: 2.5em;
+    margin: 2.5% auto 2.5% auto;
+    display: block;
+    border: 2px solid blanchedalmond;
+    text-align: center;
+    padding: 1.0em;
+    }
+   .naviFooter {
+    width: 96%;
+    float: right;    
+    height: 10px;
+    background-size: 50%;
+    background-color: #567; 
 
+   }
 }
-

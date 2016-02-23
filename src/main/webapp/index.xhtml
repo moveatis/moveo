@@ -16,14 +16,10 @@
             <ui:insert name="header" >
                 <ui:include src="commonHeader.xhtml"/>
             </ui:insert>
-            
+       
             
         </div>
-        <h:panelGrid styleClass="naviHeader">
-            <h:outputLink styleClass="naviButtons">
-                <h:outputText value="Valikko"/>
-            </h:outputLink>
-        </h:panelGrid>
+
        <nav>
             <h:outputLink styleClass="accessButtons">
                 <h:outputText value="Kurssiavain"/>
@@ -54,6 +50,14 @@
                           Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, 
                           feugiat in, orci. In hac habitasse platea dictumst."/>
         </h:panelGroup>
+  
+        <div id="Footer">
+            <ui:insert name="footer" >
+                <ui:include src="commonFooter.xhtml"/>
+            </ui:insert>
+                  
+        </div>
+
     </h:body>
 </html>
 
