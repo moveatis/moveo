@@ -1,5 +1,6 @@
 package com.moveatis.lotas.facade;
 
+import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -22,6 +23,8 @@ public interface SceneFacadeLocal {
     List<SceneEntity> findAll();
 
     List<SceneEntity> findRange(int[] range);
+    
+    List<String> getCategories();
 
     int count();
     
