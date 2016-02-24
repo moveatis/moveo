@@ -1,12 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Observation</title>
+        <h:outputStylesheet library="css" name="base.css"/>
+        <h:outputStylesheet library="css" name="observer.css"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        
+        <div id="content">
+            <div id="play"></div>
+            <div id="pause" class="hidden"></div>
+            <ul>
+                <ui:repeat value="#{observationBean.types}" var="type">
+                    <ui:fragment>
+                        <li class="observation-item">#{type}</li>
+                    </ui:fragment>
+                </ui:repeat>
+            </ul>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $("#pause").hide();
+                $("#play").click(function() {
+                    $("#play").hide();
+                    $("#pause").show();
+                });
+                
+                $("#pause").click(function() {
+                    $("#pause").hide();
+                    $("#play").show();
+                });
+                
+                $(".observation-item").click(function() {
+                    var elem = $(this);
+                    if (elem.hasClass("down")) {
+                        elem.removeClass("down");
+                    } else {
+                        elem.addClass("down");
+                    }
+                });
+            });
+        </script>
     </h:body>
 </html>
-
