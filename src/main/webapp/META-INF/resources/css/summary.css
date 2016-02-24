@@ -1,0 +1,71 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 24, 2016, 2:10:56 PM
+    Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
+*/
+
+/* Custom styles for the Timeline */  
+#timeline {
+    margin: 42px 0;
+}
+.timeline-frame {
+    background: transparent;
+    border: none;
+}  
+.timeline-content {
+    background: white;
+}  
+  
+.timeline-groups-axis-onleft {  
+    border-style: none solid none none;  
+}  
+  
+.timeline-axis-text {  
+    color: #666;  
+    font-size: 0.8em;
+}  
+  
+.timeline-event {  
+    color: #AEAEAE !important;
+    background: #cedff0 !important;
+    margin-top: -13px!important;
+}  
+  
+.timeline-event-content {  
+    margin: 0!important;  
+    padding: 5px!important;  
+    text-shadow: none;  
+} 
+
+.timeline-groups-text {
+    color: whitesmoke;
+}
+
+.timeline-axis {
+    background: #567;
+}
+
+.timeline-axis-grid {
+    border-left-style: dashed !important;
+    border-top-style: dashed !important;
+}
+.timeline-axis {
+    opacity: 0.3!important;
+    border-width: 1px;
+    border: none !important;
+    border-top: 1px dashed #CBCBCB!important;
+}
+.timeline-groups-axis .timeline-axis,
+.timeline-groups-axis .timeline-axis-grid {
+    display: none;
+}
+
+.timeline-groups-text {
+    font-size: .9em;
+    margin-top: -10px;
+    color: whitesmoke;
+}
