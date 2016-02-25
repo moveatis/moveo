@@ -8,17 +8,36 @@ and open the template in the editor.
 <html 
     xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     
 
     <body>
+        
         <h:panelGroup styleClass="naviHeader">
-            <h:outputLink styleClass="naviButtons">
+<!--            <h:outputLink styleClass="naviButtons">
             <h:outputText value="Valikko"/>
             </h:outputLink>
             <h:outputLink styleClass="naviButtons">
             <h:outputText value="VL"/>
             </h:outputLink>
+            
+            <h:outputLink styleClass="naviButtons">
+-->
+<h:form>
+ <p:menubar styleClass="naviHeader">
+        <p:submenu label="Välilehti">
+                <p:menuitem value="VL 1" url="#" />
+                <p:menuitem value="VL 2" url="#" />
+            </p:submenu>
+ 
+        <p:submenu label="Valikko">
+                <p:menuitem value="Info" url="#" />
+                <p:menuitem value="Kirjaudu ulos" url="#" />
+            </p:submenu>
+
+        </p:menubar>
+            </h:form>
         </h:panelGroup>
     </body>
 </html>

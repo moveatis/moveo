@@ -50,15 +50,14 @@ nav {
     height: 26px;
     background-color: #ff6600;
     background-size: 100%;
-    align-content:flex-end;
     text-align: center;
+    padding-bottom: 0.8em;
 }
 
 .naviButtons {
-    width: 70px;
-    height: 20px;
+    width: 50px;
+    height: 10px;
     display:table-cell;
-    border: 3px solid burlywood;
     text-align: center;
     float: right;
 }
@@ -105,17 +104,19 @@ a:hover {text-decoration: none; color: orange;}
         margin: 1% auto 1% auto;
     }
     .naviHeader {
-        width: 100%;    
+        width: 100%; 
+        float: right;
         height: 26px;
         background-color: #ff6600; 
+        background-size: 100%;
         text-align: center;
+        padding-bottom: 0.8em;
     }
     
     .naviButtons {
-        width: 70px;
-        height: 20px;
+        width: 50px;
+        height: 10px;
         display:table-cell;
-        border: 3px solid burlywood;
         text-align: center;
         float: right;
     }
