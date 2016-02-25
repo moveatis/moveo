@@ -17,7 +17,11 @@ body {
 
 #content {
     display: inline-block;
-    margin: 4.5vmin;
+    margin: 4.5vh 0;
+}
+
+#total-time {
+    font-size: 8vh;
 }
 
 #play, #pause {
@@ -25,22 +29,22 @@ body {
     position: relative;
     /*background: #fff;*/
     border-radius: 50%;
-    width: 16vmin;
-    height: 16vmin;
+    width: 16vh;
+    height: 16vh;
     cursor: pointer;
     margin: 0;
     padding: 0;
-    border: 1vmin solid #fff;
+    border: 1vh solid #fff;
 }
 
 #play::before {
     position: absolute;
     content: "";
-    top: 3vmin;
-    left: 4.25vmin;
-    border-left: 10vmin solid #fff;
-    border-top: 5vmin solid transparent;
-    border-bottom: 5vmin solid transparent;
+    top: 3vh;
+    left: 4.25vh;
+    border-left: 10vh solid #fff;
+    border-top: 5vh solid transparent;
+    border-bottom: 5vh solid transparent;
     border-right: 0 solid transparent;
 }
 
@@ -48,17 +52,17 @@ body {
     position: absolute;
     background: #fff;
     content: "";
-    width: 4vmin;
-    height: 10vmin;
-    top: 3vmin;
+    width: 4vh;
+    height: 10vh;
+    top: 3vh;
 }
 
 #pause::before {
-    left: 3vmin;
+    left: 3vh;
 }
 
 #pause::after {
-    right: 3vmin;
+    right: 3vh;
 }
 
 
@@ -66,6 +70,7 @@ ul {
     list-style-type: none;
 /*    max-height: 72vh;
     overflow: scroll;*/
+    /*max-width: 100vw;*/
     margin: 0;
     padding: 0;
 }
@@ -73,14 +78,14 @@ ul {
 li {
     position: relative;
     background-color: #567;
-    font-size: 5vmin;
+    font-size: 0; /* removes extra space when catergory-name uses inline-block */
     text-align: left;
-    max-width: 90vw;
+    /*max-width: 100vw;*/
     white-space: nowrap;
-    overflow: hidden;
-    margin: 1vmin 0;
-    padding: 1vmin;
-    border-radius: 1vmin;
+    /*overflow: hidden;*/
+    margin: 1vh 0;
+    padding: 1vh;
+    border-radius: 1vh;
     cursor: pointer;
     
     /* Disable text selection.
@@ -98,10 +103,27 @@ li.down {
     background-color: #fa4;
 }
 
-.timer {
-    position: absolute;
-    right: 0;
+.category-name {
+    display: inline-block;
+    font-size: 5vh;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    padding: 0;
+    /*position: relative;*/
+    /*z-index: 0;*/
+}
+
+.category-timer {
+    /*display: inline-block;*/
+    font-size: 5vh;
+    float: right;
     background-color: #345;
+    border-radius: 0.75vmin;
     padding: 0 1vmin;
     margin: 0;
+    margin-left: 1vmin;
+    position: relative;
+    z-index: 1;
 }
