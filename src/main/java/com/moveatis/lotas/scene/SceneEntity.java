@@ -32,7 +32,6 @@ public class SceneEntity implements Serializable {
     @OneToOne
     private SceneTemplateEntity basedOn;
     
-    @NotNull
     @OneToMany(mappedBy = "scene")
     private Set<CategoryEntity> categories;
     
