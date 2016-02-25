@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moveatis.lotas.charts;
+package com.moveatis.lotas.managedbeans;
 
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 
@@ -21,7 +22,8 @@ import org.primefaces.model.chart.ChartSeries;
  */
 @ManagedBean
 @ViewScoped  
-public class BarChart {
+@Named(value = "barChartBean")
+public class BarChartManagedBean {
  
     private HorizontalBarChartModel barModel;
  

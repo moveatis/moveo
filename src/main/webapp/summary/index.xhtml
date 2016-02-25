@@ -14,8 +14,8 @@
     <h:body>
         <h1><h:outputText value="Yhteenveto"/></h1>
         <pe:timeline id="timeline" 
-            value="#{timelineChart.model}"
-            locale="#{timelineChart.locale}"
+            value="#{timelineChartBean.model}"
+            locale="#{timelineChartBean.locale}"
             selectable="false"
             timeChangeable="false"
             showCurrentTime="false"
@@ -29,7 +29,7 @@
             editable="false"
             groupsChangeable="false"/>
         <p:chart type="bar" 
-                 model="#{barChart.model}"
+                 model="#{barChartBean.model}"
                  responsive="true"
                  style="height: 240px; width:95vw;float: right;"/>
     </h:body>

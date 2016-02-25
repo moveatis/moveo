@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moveatis.lotas.charts;
+package com.moveatis.lotas.managedbeans;
 
 import java.util.Date;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
 import org.primefaces.extensions.model.timeline.TimelineModel;
@@ -18,9 +19,10 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
-@ManagedBean  
+@ManagedBean
 @ViewScoped  
-public class TimelineChart {
+@Named(value = "timelineChartBean")
+public class TimelineChartManagedBean {
 
     private TimelineModel model;  
     private String locale; // current locale as String, java.util.Locale is possible too.  
