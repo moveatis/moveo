@@ -6,7 +6,6 @@
 package com.moveatis.lotas.charts;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -27,11 +26,10 @@ public class TimelineChart {
     private String locale; // current locale as String, java.util.Locale is possible too.  
     private Date start;  
     private Date end;
-    private List<TimelineGroup> Categories;
 
     @PostConstruct  
     protected void initialize() {  
-        createRandomTimeline();
+        createTestModel();
     }  
 
     public TimelineModel getModel() {  
@@ -54,7 +52,7 @@ public class TimelineChart {
         return end;  
     }  
 
-    private void createRandomTimeline() {
+    private void createTestModel() {
         // create timeline model  
         model = new TimelineModel();
             

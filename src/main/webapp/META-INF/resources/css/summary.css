@@ -69,3 +69,7 @@ and open the template in the editor.
     margin-top: -10px;
     color: whitesmoke;
 }
+
+.jqplot-yaxis {
+    display: none;
+}
