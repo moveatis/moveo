@@ -1,4 +1,4 @@
-package com.moveatis.lotas.facade;
+package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.category.CategoryTemplateEntity;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.ejb.Local;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local
-public interface CategoryTemplateFacadeLocal {
+public interface CategoryTemplate {
 
     void create(CategoryTemplateEntity categoryTemplateEntity);
 

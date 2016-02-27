@@ -1,4 +1,4 @@
-package com.moveatis.lotas.category.variable;
+package com.moveatis.lotas.variable;
 
 import javax.persistence.MappedSuperclass;
 

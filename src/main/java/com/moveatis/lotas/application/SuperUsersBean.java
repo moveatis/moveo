@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moveatis.lotas.category.application;
+package com.moveatis.lotas.application;
 
-import com.moveatis.lotas.facade.AbstractFacade;
-import com.moveatis.lotas.facade.SuperUsersFacadeLocal;
+import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import com.moveatis.lotas.interfaces.SuperUsers;
 
 /**
  *
  * @author sami
  */
 @Stateless
-public class SuperUsersFacade extends AbstractFacade<SuperUsersEntity> implements SuperUsersFacadeLocal {
+public class SuperUsersBean extends AbstractBean<SuperUsersEntity> implements SuperUsers {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -26,7 +26,7 @@ public class SuperUsersFacade extends AbstractFacade<SuperUsersEntity> implement
         return em;
     }
 
-    public SuperUsersFacade() {
+    public SuperUsersBean() {
         super(SuperUsersEntity.class);
     }
     

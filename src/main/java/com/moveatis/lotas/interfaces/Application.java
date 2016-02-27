@@ -1,6 +1,6 @@
-package com.moveatis.lotas.facade;
+package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.category.application.ApplicationEntity;
+import com.moveatis.lotas.application.ApplicationEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -8,8 +8,8 @@ import javax.ejb.Local;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local
-public interface ApplicationFacadeLocal {
+@Local(Application.class)
+public interface Application {
 
     void create(ApplicationEntity applicationEntity);
 

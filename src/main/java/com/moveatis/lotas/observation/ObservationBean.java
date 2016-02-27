@@ -1,45 +1,49 @@
 package com.moveatis.lotas.observation;
 
 import com.moveatis.lotas.category.CategoryEntity;
-import com.moveatis.lotas.category.CategoryFacade;
-import com.moveatis.lotas.category.timezone.TimeZoneInformation;
-import com.moveatis.lotas.category.variable.CategorizedVariableEntity;
-import com.moveatis.lotas.facade.ObservationFacadeLocal;
-import com.moveatis.lotas.facade.AbstractFacade;
+import com.moveatis.lotas.interfaces.Category;
+import com.moveatis.lotas.timezone.TimeZoneInformation;
+import com.moveatis.lotas.variable.CategorizedVariableEntity;
+import com.moveatis.lotas.interfaces.AbstractBean;
+import com.moveatis.lotas.scene.SceneBean;
+import com.moveatis.lotas.user.UserBean;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import com.moveatis.lotas.interfaces.Observation;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateful
-public class ObservationFacade extends AbstractFacade<CategorizedObservationEntity> implements ObservationFacadeLocal {
+public class ObservationBean extends AbstractBean<CategorizedObservationEntity> implements Observation {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
     
     @Inject
-    private CategoryFacade categoryEJB;
+    private Category categoryEJB;
     
+    @Inject
+    private SceneBean sceneEJB;
     
+    @Inject
+    private UserBean userEJB;
     
     private GregorianCalendar calendar;
-    private Date startTime, stopTime;
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public ObservationFacade() {
+    public ObservationBean() {
         super(CategorizedObservationEntity.class);
     }
     
@@ -63,6 +67,9 @@ public class ObservationFacade extends AbstractFacade<CategorizedObservationEnti
             category.setCreated((Date) calendar.getTime());
             category.setScene(null);
         }
+         
+        variableEntity.setCategory(category);
+        observationEntity.setObservableVariable(variableEntity);
     }
 
     @Override

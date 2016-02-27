@@ -1,6 +1,5 @@
-package com.moveatis.lotas.facade;
+package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -9,8 +8,8 @@ import javax.ejb.Local;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local
-public interface SceneFacadeLocal {
+@Local(Scene.class)
+public interface Scene {
 
     void create(SceneEntity sceneEntity);
 

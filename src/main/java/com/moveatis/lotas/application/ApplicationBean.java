@@ -1,12 +1,12 @@
-package com.moveatis.lotas.category.application;
+package com.moveatis.lotas.application;
 
-import com.moveatis.lotas.facade.AbstractFacade;
+import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.moveatis.lotas.facade.ApplicationFacadeLocal;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.Stateful;
+import com.moveatis.lotas.interfaces.Application;
 
 /**
  *
@@ -15,7 +15,7 @@ import javax.ejb.Stateful;
 @Stateful
 @Singleton
 @Startup
-public class ApplicationFacade extends AbstractFacade<ApplicationEntity> implements ApplicationFacadeLocal {
+public class ApplicationBean extends AbstractBean<ApplicationEntity> implements Application {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -25,7 +25,7 @@ public class ApplicationFacade extends AbstractFacade<ApplicationEntity> impleme
         return em;
     }
 
-    public ApplicationFacade() {
+    public ApplicationBean() {
         super(ApplicationEntity.class);
     }
     

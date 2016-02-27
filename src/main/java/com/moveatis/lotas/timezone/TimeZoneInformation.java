@@ -1,4 +1,4 @@
-package com.moveatis.lotas.category.timezone;
+package com.moveatis.lotas.timezone;
 
 import java.util.TimeZone;
 

@@ -1,15 +1,12 @@
 package com.moveatis.lotas.managedbeans;
-
-import com.moveatis.lotas.category.timezone.TimeZoneInformation;
-import com.moveatis.lotas.facade.ObservationFacadeLocal;
-import com.moveatis.lotas.observation.CategorizedObservationEntity;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import com.moveatis.lotas.interfaces.Observation;
 
 /**
  *
@@ -19,8 +16,8 @@ import javax.inject.Inject;
 @SessionScoped
 public class ObservationManagedBean implements Serializable {
     
-    @Inject
-    private ObservationFacadeLocal observationEJB;
+    @EJB
+    private Observation observationEJB;
     
     private List<String> types;
 

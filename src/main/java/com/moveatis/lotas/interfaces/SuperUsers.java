@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.moveatis.lotas.facade;
+package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.category.application.SuperUsersEntity;
+import com.moveatis.lotas.application.SuperUsersEntity;
 import java.util.List;
 import javax.ejb.Local;
 
 /**
  *
- * @author sami
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local
-public interface SuperUsersFacadeLocal {
+@Local(SuperUsers.class)
+public interface SuperUsers {
 
     void create(SuperUsersEntity superUsers);
 

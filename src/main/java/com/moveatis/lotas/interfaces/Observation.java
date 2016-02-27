@@ -1,4 +1,4 @@
-package com.moveatis.lotas.facade;
+package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.observation.CategorizedObservationEntity;
 import java.util.List;
@@ -8,8 +8,8 @@ import javax.ejb.Local;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local
-public interface ObservationFacadeLocal {
+@Local(Observation.class)
+public interface Observation {
     
     void categorizedObservationActivated(String category);
     void categorizedObservationDeactivated(String category);

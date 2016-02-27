@@ -1,8 +1,8 @@
 package com.moveatis.lotas.observation;
 
 import com.moveatis.lotas.category.CategoryEntity;
-import com.moveatis.lotas.category.variable.AbstractVariable;
-import com.moveatis.lotas.category.variable.CategorizedVariableEntity;
+import com.moveatis.lotas.variable.AbstractVariable;
+import com.moveatis.lotas.variable.CategorizedVariableEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;

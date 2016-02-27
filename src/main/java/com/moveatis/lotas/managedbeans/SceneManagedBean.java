@@ -1,11 +1,11 @@
 package com.moveatis.lotas.managedbeans;
 
-import com.moveatis.lotas.facade.SceneFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
-import javax.inject.Inject;
+import javax.ejb.EJB;
+import com.moveatis.lotas.interfaces.Scene;
 
 /**
  *
@@ -15,8 +15,8 @@ import javax.inject.Inject;
 @SessionScoped
 public class SceneManagedBean implements Serializable {
     
-    @Inject
-    private SceneFacadeLocal sceneEJB;
+    @EJB
+    private Scene sceneEJB;
     
     private List<String> categories;
     
