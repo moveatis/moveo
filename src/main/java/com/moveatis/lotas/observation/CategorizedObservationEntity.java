@@ -1,6 +1,8 @@
 package com.moveatis.lotas.observation;
 
 import com.moveatis.lotas.category.CategoryEntity;
+import com.moveatis.lotas.category.variable.AbstractVariable;
+import com.moveatis.lotas.category.variable.CategorizedVariableEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
@@ -20,9 +22,10 @@ import javax.persistence.TemporalType;
  */
 @Table(name="OBSERVATIONS")
 @Entity
-public class ObservationEntity implements Serializable {
+public class CategorizedObservationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,11 +42,19 @@ public class ObservationEntity implements Serializable {
     private UserEntity user;
     
     @ManyToOne
-    private CategoryEntity category;
+    private CategorizedVariableEntity observableVariable;
     
     @ManyToOne
     private SceneEntity scene;
 
+    public CategorizedVariableEntity getObservableVariable() {
+        return observableVariable;
+    }
+
+    public void setObservableVariable(CategorizedVariableEntity observableVariable) {
+        this.observableVariable = observableVariable;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -84,14 +95,6 @@ public class ObservationEntity implements Serializable {
         this.user = user;
     }
 
-    public CategoryEntity getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryEntity category) {
-        this.category = category;
-    }
-
     public SceneEntity getScene() {
         return scene;
     }
@@ -110,10 +113,10 @@ public class ObservationEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ObservationEntity)) {
+        if (!(object instanceof CategorizedObservationEntity)) {
             return false;
         }
-        ObservationEntity other = (ObservationEntity) object;
+        CategorizedObservationEntity other = (CategorizedObservationEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

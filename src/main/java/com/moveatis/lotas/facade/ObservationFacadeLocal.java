@@ -1,6 +1,6 @@
 package com.moveatis.lotas.facade;
 
-import com.moveatis.lotas.observation.ObservationEntity;
+import com.moveatis.lotas.observation.CategorizedObservationEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -10,18 +10,21 @@ import javax.ejb.Local;
  */
 @Local
 public interface ObservationFacadeLocal {
+    
+    void categorizedObservationActivated(String category);
+    void categorizedObservationDeactivated(String category);
 
-    void create(ObservationEntity observationEntity);
+    void create(CategorizedObservationEntity observationEntity);
 
-    void edit(ObservationEntity observationEntity);
+    void edit(CategorizedObservationEntity observationEntity);
 
-    void remove(ObservationEntity observationEntity);
+    void remove(CategorizedObservationEntity observationEntity);
 
-    ObservationEntity find(Object id);
+    CategorizedObservationEntity find(Object id);
 
-    List<ObservationEntity> findAll();
+    List<CategorizedObservationEntity> findAll();
 
-    List<ObservationEntity> findRange(int[] range);
+    List<CategorizedObservationEntity> findRange(int[] range);
 
     int count();
     

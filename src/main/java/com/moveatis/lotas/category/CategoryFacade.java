@@ -5,6 +5,7 @@ import com.moveatis.lotas.facade.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -24,5 +25,13 @@ public class CategoryFacade extends AbstractFacade<CategoryEntity> implements Ca
     public CategoryFacade() {
         super(CategoryEntity.class);
     }
-    
+
+    @Override
+    public CategoryEntity find(String label) {
+        TypedQuery<CategoryEntity> query = em.createNamedQuery("Category.findByLabel", CategoryEntity.class);
+        query.setParameter("label", label);
+        
+        return query.getSingleResult();
+    }
 }
+    

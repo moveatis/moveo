@@ -18,6 +18,8 @@ public interface CategoryFacadeLocal {
     void remove(CategoryEntity categoryEntity);
 
     CategoryEntity find(Object id);
+    
+    CategoryEntity find(String label);
 
     List<CategoryEntity> findAll();
 
