@@ -1,6 +1,7 @@
 package com.moveatis.lotas.scene;
 
 import com.moveatis.lotas.category.CategoryTemplateEntity;
+import com.moveatis.lotas.user.AbstractUser;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import java.util.Set;
@@ -10,12 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com
  */
 @Entity
+@XmlRootElement
 public class SceneTemplateEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,9 +28,9 @@ public class SceneTemplateEntity implements Serializable {
     private Long id;
     
     @ManyToOne
-    private UserEntity owner;
+    private AbstractUser owner;
     @ManyToOne
-    private UserEntity user;
+    private AbstractUser user;
     
     @OneToMany(mappedBy = "sceneTemplate")
     private Set<CategoryTemplateEntity> categories;
@@ -47,19 +50,19 @@ public class SceneTemplateEntity implements Serializable {
         return hash;
     }
 
-    public UserEntity getOwner() {
+    public AbstractUser getOwner() {
         return owner;
     }
 
-    public void setOwner(UserEntity owner) {
+    public void setOwner(AbstractUser owner) {
         this.owner = owner;
     }
 
-    public UserEntity getUser() {
+    public AbstractUser getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(AbstractUser user) {
         this.user = user;
     }
 

@@ -27,4 +27,8 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
         super(ApplicationEntity.class);
     }
     
+    /**
+     * TODO: checkIfInstalled() ...
+     */
+    
 }
