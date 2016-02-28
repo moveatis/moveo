@@ -1,6 +1,7 @@
 package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.scene.SceneEntity;
+import com.moveatis.lotas.user.UserEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -24,6 +25,11 @@ public interface Scene {
     List<SceneEntity> findRange(int[] range);
     
     List<String> getCategories();
+    
+    List<SceneEntity> findScenesForUser(UserEntity user);
+    
+    SceneEntity getSceneEntity();
+    
 
     int count();
     

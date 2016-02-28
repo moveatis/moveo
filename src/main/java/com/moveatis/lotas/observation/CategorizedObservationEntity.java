@@ -6,7 +6,7 @@ import com.moveatis.lotas.variable.CategorizedVariableEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

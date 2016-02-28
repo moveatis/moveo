@@ -15,6 +15,8 @@ import com.moveatis.lotas.interfaces.Scene;
 @SessionScoped
 public class SceneManagedBean implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+    
     @EJB
     private Scene sceneEJB;
     

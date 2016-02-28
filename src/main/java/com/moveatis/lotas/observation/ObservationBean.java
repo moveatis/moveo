@@ -16,25 +16,31 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.lotas.interfaces.Observation;
+import com.moveatis.lotas.interfaces.Scene;
+import com.moveatis.lotas.interfaces.User;
+import java.io.Serializable;
+import javax.ejb.EJB;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateful
-public class ObservationBean extends AbstractBean<CategorizedObservationEntity> implements Observation {
+public class ObservationBean extends AbstractBean<CategorizedObservationEntity> implements Observation, Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
     
-    @Inject
+    @EJB
     private Category categoryEJB;
     
-    @Inject
-    private SceneBean sceneEJB;
+    @EJB
+    private Scene sceneEJB;
     
-    @Inject
-    private UserBean userEJB;
+    @EJB
+    private User userEJB;
     
     private GregorianCalendar calendar;
 

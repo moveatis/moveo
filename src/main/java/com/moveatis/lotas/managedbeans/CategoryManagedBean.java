@@ -11,6 +11,8 @@ import java.io.Serializable;
 @Named(value = "categoryBean")
 @SessionScoped
 public class CategoryManagedBean implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new instance of CategoryManagedBean

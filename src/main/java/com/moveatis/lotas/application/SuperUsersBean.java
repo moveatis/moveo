@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.moveatis.lotas.application;
 
 import com.moveatis.lotas.interfaces.AbstractBean;
@@ -13,7 +8,7 @@ import com.moveatis.lotas.interfaces.SuperUsers;
 
 /**
  *
- * @author sami
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class SuperUsersBean extends AbstractBean<SuperUsersEntity> implements SuperUsers {

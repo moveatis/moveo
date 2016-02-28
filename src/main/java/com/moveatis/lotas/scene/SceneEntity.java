@@ -3,13 +3,15 @@ package com.moveatis.lotas.scene;
 import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,6 +23,9 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="SCENES")
+@NamedQueries(
+        @NamedQuery(name="SceneEntity.findByUser", query="SELECT scene FROM SceneEntity scene WHERE scene.owner = :user")
+)
 public class SceneEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -16,6 +16,8 @@ import com.moveatis.lotas.interfaces.Observation;
 @SessionScoped
 public class ObservationManagedBean implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+    
     @EJB
     private Observation observationEJB;
     

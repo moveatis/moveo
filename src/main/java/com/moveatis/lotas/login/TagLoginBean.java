@@ -1,5 +1,8 @@
 package com.moveatis.lotas.login;
 
+import com.moveatis.lotas.interfaces.Session;
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -9,9 +12,12 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "tagBasedLoginBean")
 @ViewScoped
-public class TagLoginBean {
+public class TagLoginBean extends AbstractLogin implements Serializable {
     
-    private String loginOutcome = "success";
+    private static final long serialVersionUID = 1L;
+    
+    private Session sessionEJB;
+    private String tag;
 
     /**
      * Creates a new instance of TagLoginBean
@@ -20,11 +26,17 @@ public class TagLoginBean {
         
     }
 
-    public String getLoginOutcome() {
-        return loginOutcome;
+    @Override
+    public void init() {
+        
     }
 
-    public void setLoginOutcome(String loginOutcome) {
-        this.loginOutcome = loginOutcome;
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+        sessionEJB.setTagUser(tag);
     }
 }

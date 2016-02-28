@@ -1,5 +1,9 @@
 package com.moveatis.lotas.login;
 
+import com.moveatis.lotas.interfaces.Session;
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -9,9 +13,12 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "identityProviderBasedLoginBean")
 @ViewScoped
-public class IdentityProviderLoginBean {
+public class IdentityProviderLoginBean extends AbstractLogin implements Serializable {
     
-    private String loginOutcome = "success";
+    private static final long serialVersionUID = 1L;
+        
+    @EJB
+    private Session sessionEJB;
 
     /**
      * Creates a new instance of IdentityProviderLoginBean
@@ -19,13 +26,15 @@ public class IdentityProviderLoginBean {
     public IdentityProviderLoginBean() {
         
     }
-
-    public String getLoginOutcome() {
-        return loginOutcome;
+    
+    @Override
+    @PostConstruct
+    public void init() {
+        sessionEJB.setIdentifiedUser();
     }
-
-    public void setLoginOutcome(String loginOutcome) {
-        this.loginOutcome = loginOutcome;
-    }
+    
+    /**
+     * TODO: This bean must override the getLoginOutcome
+     */
     
 }
