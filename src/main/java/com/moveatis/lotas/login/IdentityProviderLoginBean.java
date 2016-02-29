@@ -1,5 +1,6 @@
 package com.moveatis.lotas.login;
 
+import java.io.Serializable;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -9,7 +10,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "identityProviderBasedLoginBean")
 @ViewScoped
-public class IdentityProviderLoginBean {
+public class IdentityProviderLoginBean implements Serializable {
     
     private String loginOutcome = "success";
 
