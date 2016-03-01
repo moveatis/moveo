@@ -59,3 +59,7 @@ div.timeline-event-selected {
 .timeline-groups-axis {
     display:none!important;
 }
+
+.observation-info {
+    max-width: 60em;
+}

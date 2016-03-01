@@ -8,9 +8,54 @@
         <title>#{msg.applicationTitle} - Yhteenveto</title>
         <h:outputStylesheet library="css" name="base.css"/>
         <h:outputStylesheet library="css" name="summary.css"/>
+        <h:outputStylesheet name="grid/grid.css" library="primefaces" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
+        <div class="ui-fluid observation-info">
+            <div class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6"><h3>Observaatio - 12.12.2012</h3></div>
+                    <div class="ui-grid-col-3"><<div>08:13</div>div>Kesto</div></div>
+                    <div class="ui-grid-col-3"><div>31</div><div>Kirjauksia</div></div>
+                </div>
+            </div>
+
+            <h3>Kirjaukset</h3>
+            <div class="ui-grid ui-grid-fixed">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Järjestelee</div>
+                    <div class="ui-grid-col-1">4</div>
+                    <div class="ui-grid-col-1">4</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Selittää tehtävää</div>
+                    <div class="ui-grid-col-1">4</div>
+                    <div class="ui-grid-col-1">4</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Ohjaa suoritusta</div>
+                    <div class="ui-grid-col-1">4</div>
+                    <div class="ui-grid-col-1">4</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Antaa palautetta</div>
+                    <div class="ui-grid-col-1">4</div>
+                    <div class="ui-grid-col-1">4</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Tarkkailee</div>
+                    <div class="ui-grid-col-1">4</div>
+                    <div class="ui-grid-col-1">4</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Oppilas suorittaa tehtävää</div>
+                    <div class="ui-grid-col-1">4</div>
+                    <div class="ui-grid-col-1">4</div>
+                </div>
+            </div>
+        </div>
+
         <pe:timeline id="timeline" widgetVar="timelineWdgt"
             value="#{timelineChartBean.model}"
             locale="#{timelineChartBean.locale}"
