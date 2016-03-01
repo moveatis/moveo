@@ -2,29 +2,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"  
       xmlns:pe="http://primefaces.org/ui/extensions">
     <h:head>
-        <title>#{msg.applicationTitle} - </title>
+        <title>#{msg.applicationTitle} - Yhteenveto</title>
         <h:outputStylesheet library="css" name="base.css"/>
         <h:outputStylesheet library="css" name="summary.css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <h1><h:outputText value="Yhteenveto"/></h1>
-        <pe:timeline id="timeline" 
+        <pe:timeline id="timeline" widgetVar="timelineWdgt"
             value="#{timelineChartBean.model}"
             locale="#{timelineChartBean.locale}"
-            selectable="false"
+            timeZone="#{timelineChartBean.timeZone}"
+            browserTimeZone="#{timelineChartBean.browserTimeZone}"
+            min="#{timelineChartBean.min}"  
+            max="#{timelineChartBean.max}"  
+            zoomMin="#{timelineChartBean.zoomMin}"  
+            zoomMax="#{timelineChartBean.zoomMax}"
+            animate="false"
+            animateZoom="false"  
+            selectable="true"
+            groupsOrder="true"
+            groupsChangeable="false"
+            editable="false"
             timeChangeable="false"
             showCurrentTime="false"
             showMajorLabels="false" 
-            eventMarginAxis="10"
-            eventMargin="0"
             stackEvents="false"
-            groupsOrder="false"
-            animate="false"
-            animateZoom="false"
-            editable="false"
-            groupsChangeable="false"/>
+            eventMarginAxis="0"
+            eventMargin="20">
+        </pe:timeline>
     </h:body>
 </html>
