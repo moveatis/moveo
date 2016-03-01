@@ -3,6 +3,7 @@ package com.moveatis.lotas.scene;
 import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,15 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
+@Table(name="SCENES")
 public class SceneEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,12 +32,18 @@ public class SceneEntity implements Serializable {
     @OneToOne
     private SceneTemplateEntity basedOn;
     
-    
     @OneToMany(mappedBy = "scene")
     private Set<CategoryEntity> categories;
     
+    @NotNull
     @ManyToOne
     private UserEntity owner;
+    
+    @NotNull
+    private String tag;
+    
+    @NotNull
+    private Date created;
 
     public Long getId() {
         return id;
@@ -40,6 +51,46 @@ public class SceneEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public SceneTemplateEntity getBasedOn() {
+        return basedOn;
+    }
+
+    public void setBasedOn(SceneTemplateEntity basedOn) {
+        this.basedOn = basedOn;
+    }
+
+    public Set<CategoryEntity> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<CategoryEntity> categories) {
+        this.categories = categories;
+    }
+
+    public UserEntity getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserEntity owner) {
+        this.owner = owner;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override
