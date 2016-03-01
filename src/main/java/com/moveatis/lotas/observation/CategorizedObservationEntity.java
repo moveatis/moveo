@@ -1,8 +1,6 @@
 package com.moveatis.lotas.observation;
 
 import com.moveatis.lotas.category.CategoryEntity;
-import com.moveatis.lotas.variable.AbstractVariable;
-import com.moveatis.lotas.variable.CategorizedVariableEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
@@ -41,19 +39,9 @@ public class CategorizedObservationEntity implements Serializable {
     @ManyToOne
     private UserEntity user;
     
-    @ManyToOne
-    private CategorizedVariableEntity observableVariable;
     
     @ManyToOne
     private SceneEntity scene;
-
-    public CategorizedVariableEntity getObservableVariable() {
-        return observableVariable;
-    }
-
-    public void setObservableVariable(CategorizedVariableEntity observableVariable) {
-        this.observableVariable = observableVariable;
-    }
     
     public Long getId() {
         return id;

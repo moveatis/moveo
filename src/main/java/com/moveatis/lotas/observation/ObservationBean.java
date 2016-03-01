@@ -3,7 +3,6 @@ package com.moveatis.lotas.observation;
 import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.interfaces.Category;
 import com.moveatis.lotas.timezone.TimeZoneInformation;
-import com.moveatis.lotas.variable.CategorizedVariableEntity;
 import com.moveatis.lotas.interfaces.AbstractBean;
 import com.moveatis.lotas.scene.SceneBean;
 import com.moveatis.lotas.user.UserBean;
@@ -61,7 +60,6 @@ public class ObservationBean extends AbstractBean<CategorizedObservationEntity> 
     @Override
     public void categorizedObservationActivated(String categoryLabel) {
         CategorizedObservationEntity observationEntity = new CategorizedObservationEntity();
-        CategorizedVariableEntity variableEntity = new CategorizedVariableEntity();
         
         observationEntity.setCreated((Date) calendar.getTime());
         observationEntity.setStartTime((Date) calendar.getTime());
@@ -73,9 +71,6 @@ public class ObservationBean extends AbstractBean<CategorizedObservationEntity> 
             category.setCreated((Date) calendar.getTime());
             category.setScene(null);
         }
-         
-        variableEntity.setCategory(category);
-        observationEntity.setObservableVariable(variableEntity);
     }
 
     @Override
