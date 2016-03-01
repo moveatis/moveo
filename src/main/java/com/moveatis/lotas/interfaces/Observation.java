@@ -1,6 +1,6 @@
 package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.observation.CategorizedObservationEntity;
+import com.moveatis.lotas.observation.ObservationEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,17 +14,17 @@ public interface Observation {
     void categorizedObservationActivated(String category);
     void categorizedObservationDeactivated(String category);
 
-    void create(CategorizedObservationEntity observationEntity);
+    void create(ObservationEntity observationEntity);
 
-    void edit(CategorizedObservationEntity observationEntity);
+    void edit(ObservationEntity observationEntity);
 
-    void remove(CategorizedObservationEntity observationEntity);
+    void remove(ObservationEntity observationEntity);
 
-    CategorizedObservationEntity find(Object id);
+    ObservationEntity find(Object id);
 
-    List<CategorizedObservationEntity> findAll();
+    List<ObservationEntity> findAll();
 
-    List<CategorizedObservationEntity> findRange(int[] range);
+    List<ObservationEntity> findRange(int[] range);
 
     int count();
     

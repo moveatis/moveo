@@ -25,7 +25,7 @@ import javax.ejb.EJB;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateful
-public class ObservationBean extends AbstractBean<CategorizedObservationEntity> implements Observation, Serializable {
+public class ObservationBean extends AbstractBean<ObservationEntity> implements Observation, Serializable {
     
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class ObservationBean extends AbstractBean<CategorizedObservationEntity> 
     }
 
     public ObservationBean() {
-        super(CategorizedObservationEntity.class);
+        super(ObservationEntity.class);
     }
     
     @PostConstruct
@@ -59,7 +59,7 @@ public class ObservationBean extends AbstractBean<CategorizedObservationEntity> 
 
     @Override
     public void categorizedObservationActivated(String categoryLabel) {
-        CategorizedObservationEntity observationEntity = new CategorizedObservationEntity();
+        ObservationEntity observationEntity = new ObservationEntity();
         
         observationEntity.setCreated((Date) calendar.getTime());
         observationEntity.setStartTime((Date) calendar.getTime());

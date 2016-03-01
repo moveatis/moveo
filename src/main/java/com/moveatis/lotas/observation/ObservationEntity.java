@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
  */
 @Table(name="OBSERVATIONS")
 @Entity
-public class CategorizedObservationEntity implements Serializable {
+public class ObservationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -101,10 +101,10 @@ public class CategorizedObservationEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CategorizedObservationEntity)) {
+        if (!(object instanceof ObservationEntity)) {
             return false;
         }
-        CategorizedObservationEntity other = (CategorizedObservationEntity) object;
+        ObservationEntity other = (ObservationEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
