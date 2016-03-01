@@ -17,62 +17,45 @@ body {
 
 #content {
     display: inline-block;
-    margin: 4.5vh 0;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
 }
 
 #total-time {
+    float: right;
     font-size: 8vh;
+    margin-left: 1vh;
+}
+
+#play, #pause, #stop {
+    display: inline-block;
+    font-size: 9vh;
+    background-color: #567;
+    border-radius: 1vh;
+    width: 14vh;
+    padding: 1vh 0;
+    cursor: pointer;
 }
 
 #play, #pause {
-    display: inline-block;
-    position: relative;
-    /*background: #fff;*/
-    border-radius: 50%;
-    width: 16vh;
-    height: 16vh;
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
-    border: 1vh solid #fff;
+    margin-right: 2vh;
 }
-
-#play::before {
-    position: absolute;
-    content: "";
-    top: 3vh;
-    left: 4.25vh;
-    border-left: 10vh solid #fff;
-    border-top: 5vh solid transparent;
-    border-bottom: 5vh solid transparent;
-    border-right: 0 solid transparent;
-}
-
-#pause::before, #pause::after {
-    position: absolute;
-    background: #fff;
-    content: "";
-    width: 4vh;
-    height: 10vh;
-    top: 3vh;
-}
-
-#pause::before {
-    left: 3vh;
-}
-
-#pause::after {
-    right: 3vh;
+#stop {
+    margin-left: 2vh;
 }
 
 
 ul {
     list-style-type: none;
-/*    max-height: 72vh;
-    overflow: scroll;*/
-    /*max-width: 100vw;*/
+    /*max-height: 72vh;*/
+    /*overflow: scroll;*/
     margin: 0;
     padding: 0;
+    /*padding: 2vh;*/
+    /*background-color: #123;*/
+    /*border-radius: 1vh;*/
+    margin-top: 4vh;
 }
 
 li {
@@ -80,11 +63,9 @@ li {
     background-color: #567;
     font-size: 0; /* removes extra space when catergory-name uses inline-block */
     text-align: left;
-    /*max-width: 100vw;*/
     white-space: nowrap;
-    /*overflow: hidden;*/
-    margin: 1vh 0;
-    padding: 1vh;
+    margin: 0.5vh 0;
+    padding: 2vh;
     border-radius: 1vh;
     cursor: pointer;
     
@@ -99,13 +80,21 @@ li {
                                     not supported by any browser */
 }
 
+li:first-child {
+    margin-top: 0;
+}
+
+li:last-child {
+    margin-bottom: 0;
+}
+
 li.down {
     background-color: #fa4;
 }
 
 .category-name {
     display: inline-block;
-    font-size: 5vh;
+    font-size: 6.5vh;
     max-width: 60vw;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -116,14 +105,13 @@ li.down {
 }
 
 .category-timer {
-    /*display: inline-block;*/
-    font-size: 5vh;
+    font-size: 6.5vh;
     float: right;
     background-color: #345;
-    border-radius: 0.75vmin;
-    padding: 0 1vmin;
+    border-radius: 0.75vh;
+    padding: 0 1vh;
     margin: 0;
-    margin-left: 1vmin;
+    margin-left: 1vh;
     position: relative;
     z-index: 1;
 }
