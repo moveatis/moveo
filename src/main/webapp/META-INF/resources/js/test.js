@@ -1,38 +1,97 @@
 
-$(document).ready(function() {
-    var time_running = false;
-    var total_time = 0;
+function Clock() {
+    this.total_time = 0;
+    this.resume_time = 0;
+    this.running = false;
     
-    function timeString(t) {
-        var min = Math.floor(t / 60);
-        var sec = t - min * 60;
-        return  (min < 10 ? "0" + min : min) + ":" +
-                (sec < 10 ? "0" + sec : sec);
-    }
-    
-    function updateTime() {
-        if (time_running) {
-            total_time++;
+    this.resume = function(now) {
+        if (!this.running) {
+            this.resume_time = now;
+            this.running = true;
+        } else {
+            console.log("Clock.resume(): Clock is already running!");
         }
-        var str = timeString(total_time);
-        $("#total-time").empty();
-        $("#total-time").append(document.createTextNode(str));
     }
     
-    updateTime();
+    this.pause = function(now) {
+        if (this.running) {
+            var delta_time = now - this.resume_time;
+            this.total_time += delta_time;
+            this.running = false;
+        } else {
+            console.log("Clock.pause(): Clock is already paused!");
+        }
+    }
     
-    $("#pause").hide();
-    $("#play").click(function() {
-        $("#play").hide();
-        $("#pause").show();
-        time_running = true;
-    });
+    this.getElapsedTime = function(now) {
+        if (this.running) {
+            return this.total_time + (now - this.resume_time);
+        } else {
+            return this.total_time;
+        }
+    }
+    
+    this.isPaused = function() {
+        return !this.running;
+    }
+}
 
-    $("#pause").click(function() {
-        $("#pause").hide();
-        $("#play").show();
-        time_running = false;
-    });
+
+function timeToString(ms) {
+    var t = Math.floor(ms / 1000);
+    var m = Math.floor(t / 60);
+    var s = Math.floor(t - m * 60);
+    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+}
+
+
+function CategoryItem(name, index) {
+    this.li = $(document.createElement("li"));
+    this.li.addClass("category-item");
+    this.li.attr("id", "category-item_" + index);
+
+    this.timer_div = $(document.createElement("div"));
+    this.timer_div.addClass("category-timer");
+    this.timer_div.append(document.createTextNode("00:00"));
+
+    var name_div = $(document.createElement("div"));
+    name_div.addClass("category-name");
+    name_div.append(document.createTextNode(name));
+
+    this.li.append(this.timer_div);
+    this.li.append(name_div);
+    
+    this.time = 0;
+    this.start_time = 0;
+    this.down = false;
+    
+    this.click = function(master_time) {
+        if (this.down) {
+            this.li.removeClass("down");
+            this.time += master_time - this.start_time;
+            this.down = false;
+        } else {
+            this.li.addClass("down");
+            this.start_time = master_time;
+            this.down = true;
+        }
+    }
+    
+    this.updateTimer = function(master_time) {
+        var time = this.time;
+        if (this.down) {
+            time += master_time - this.start_time;
+        }
+        var time_str = timeToString(time);
+        this.timer_div.empty();
+        this.timer_div.append(document.createTextNode(time_str));
+    }
+}
+
+
+$(document).ready(function() {
+    var master_clock = new Clock();
+    var categories = [];
     
     var category_names = [
         "Järjestelyt",
@@ -42,80 +101,64 @@ $(document).ready(function() {
         "Tarkkailu",
         "Muu toiminta",
         "Oppilas suorittaa tehtävää"
-//        "..."
-//        "Dummy data1",
-//        "Dummy data2",
-//        "Dummy data3",
-//        "Dummy data4"
     ];
 
-    var categories = [];
-
-    function updateTimer(index) {
-        var div = categories[index].timer_div;
-        var str = timeString(categories[index].timer);
-        div.empty();
-        div.append(document.createTextNode(str));
-    }
-
-    function createCategoryItem(index) {
-        var category = category_names[index];
-        
-        var li = $(document.createElement("li"));
-        li.addClass("category-item");
-        li.attr("id", "category-item_" + index);
-        
-        var timer_div = $(document.createElement("div"));
-        timer_div.addClass("category-timer");
-        
-        var name_div = $(document.createElement("div"));
-        name_div.addClass("category-name");
-        name_div.append(document.createTextNode(category));
-        
-        li.append(timer_div);
-        li.append(name_div);
-        
-        categories.push({
-            down: false,
-            timer: 0,
-            timer_div: timer_div
-        });
-        updateTimer(index);
-        
-        return li;
-    }
-
     for (var i in category_names) {
-        $("#category-list").append(createCategoryItem(i));
+        var category = new CategoryItem(category_names[i], i);
+        categories.push(category);
+        $("#category-list").append(category.li);
     }
+    
+    //
+    //
+    //
+    
+    function playClick() {
+        if (master_clock.isPaused()) {
+            master_clock.resume(Date.now());
+            $("#play").hide();
+            $("#pause").show();
+        }
+    }
+    
+    function pauseClick() {
+        if (!master_clock.isPaused()) {
+            master_clock.pause(Date.now());
+            $("#pause").hide();
+            $("#play").show();
+        }
+    }
+    
+    $("#pause").hide();
+    $("#play").click(playClick);
+    $("#pause").click(pauseClick);
+    $("#total-time").append(document.createTextNode("00:00"));
 
     function categoryClick() {
-        var elem = $(this);
-        var id = elem.attr("id").split("_");
-        var index = parseInt(id[1]);
+        var id = $(this).attr("id");
+        var index = parseInt(id.split("_")[1]);
         var category = categories[index];
-
+        var time = master_clock.getElapsedTime(Date.now());
+        category.click(time);
         if (category.down) {
-            elem.removeClass("down");
-            category.down = false;
+            // time = record start time
         } else {
-            elem.addClass("down");
-            category.down = true;
+            // time = record end time
+            // if time == record start time: dont make record?
         }
     }
 
     $(".category-item").click(categoryClick);
     
     function tick() {
-        updateTime();
+        var time = master_clock.getElapsedTime(Date.now());
+        var time_str = timeToString(time);
+        $("#total-time").empty();
+        $("#total-time").append(document.createTextNode(time_str));
         for (var i in categories) {
-            var category = categories[i];
-            if (time_running && category.down) {
-                category.timer++;
-                updateTimer(i);
-            }
+            categories[i].updateTimer(time);
         }
     }
 
-    setInterval(tick, 1000);
+    setInterval(tick, 200);
 });
