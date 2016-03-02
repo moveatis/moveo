@@ -146,7 +146,9 @@ $(document).ready(function() {
             $("#start-time").val(recording.start);
             $("#end-time").val(recording.end);
             // This ajax request is described here: http://stackoverflow.com/a/15571052 
-            jsf.ajax.request("rec:add", null, {"javax.faces.behavior.event": "action", "execute": "@form", "render": "recording"});
+            if ("jsf" in window) {
+                jsf.ajax.request("rec:add", null, {"javax.faces.behavior.event": "action", "execute": "@form", "render": "recording"});
+            }
         }
     }
     
