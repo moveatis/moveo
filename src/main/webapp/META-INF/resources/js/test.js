@@ -66,15 +66,22 @@ function CategoryItem(name, index) {
     this.down = false;
     
     this.click = function(master_time) {
+        var recording;
+        
         if (this.down) {
             this.li.removeClass("down");
-            this.time += master_time - this.start_time;
+            if (master_time > this.start_time) {
+                this.time += master_time - this.start_time;
+                recording = {start: this.start_time, end: master_time, category: name};
+            }
             this.down = false;
         } else {
             this.li.addClass("down");
             this.start_time = master_time;
             this.down = true;
         }
+        
+        return recording;
     }
     
     this.updateTimer = function(master_time) {
@@ -92,6 +99,7 @@ function CategoryItem(name, index) {
 $(document).ready(function() {
     var master_clock = new Clock();
     var categories = [];
+    var recordings = [];
     
     var category_names = [
         "Järjestelyt",
@@ -118,6 +126,7 @@ $(document).ready(function() {
             master_clock.resume(Date.now());
             $("#play").hide();
             $("#pause").show();
+            $("#stop").removeClass("disabled");
         }
     }
     
@@ -129,9 +138,53 @@ $(document).ready(function() {
         }
     }
     
+    // The whole recordings-adding-nonsense was inspired by this:
+    // http://www.mkyong.com/jsf2/how-to-pass-new-hidden-value-to-backing-bean-in-jsf/
+    function addRecording(recording) {
+        if (recording !== undefined) {
+            recordings.push(recording);
+            $("#start-time").val(recording.start);
+            $("#end-time").val(recording.end);
+            // This ajax request is described here: http://stackoverflow.com/a/15571052 
+            jsf.ajax.request("rec:add", null, {"javax.faces.behavior.event": "action", "execute": "@form", "render": "recording"});
+        }
+    }
+    
+    function stopClick() {
+        var now = Date.now();
+        
+        if (!master_clock.isPaused()) {
+            master_clock.pause(now);
+            $("#pause").hide();
+            $("#play").show();
+        }
+        
+        $("#play").off("click");
+        $("#pause").off("click");
+        $("#stop").off("click");
+        $(".category-item").off("click");
+        
+        $("#play").addClass("disabled");
+        $("#pause").addClass("disabled");
+        $(".category-item").addClass("disabled");
+        
+        var time = master_clock.getElapsedTime(now);
+        
+        for (var i in categories) {
+            var category = categories[i];
+            if (category.down) {
+                addRecording(category.click(time));
+            }
+        }
+        
+        console.log(recordings);
+    }
+    
     $("#pause").hide();
+    $("#stop").addClass("disabled");
     $("#play").click(playClick);
     $("#pause").click(pauseClick);
+    $("#stop").click(stopClick);
     $("#total-time").append(document.createTextNode("00:00"));
 
     function categoryClick() {
@@ -139,13 +192,7 @@ $(document).ready(function() {
         var index = parseInt(id.split("_")[1]);
         var category = categories[index];
         var time = master_clock.getElapsedTime(Date.now());
-        category.click(time);
-        if (category.down) {
-            // time = record start time
-        } else {
-            // time = record end time
-            // if time == record start time: dont make record?
-        }
+        addRecording(category.click(time));
     }
 
     $(".category-item").click(categoryClick);

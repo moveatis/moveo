@@ -3,11 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Observer</title>
         <h:outputStylesheet library="css" name="base.css"/>
         <h:outputStylesheet library="css" name="observer.css"/>
+        <h:outputScript library="javax.faces" name="jsf.js" />
         <h:outputScript library="primefaces" name="jquery/jquery.js" />
 <!--        <script>
             var category_names = [
@@ -21,5 +23,13 @@
     </h:head>
     <h:body>
         <ui:include src="test.html" />
+        
+        <h:form id="rec" style="display:none">
+            <input type="hidden" id="start-time" name="start-time" value="0"/>
+            <input type="hidden" id="end-time" name="end-time" value="0"/>
+            <h:commandButton id="add" action="#{sceneBean.addRecording}"/>
+        </h:form>
+        <h:outputText id="recording" value="#{sceneBean.recording}"/>
+        
     </h:body>
 </html>

@@ -41,8 +41,18 @@ body {
 #play, #pause {
     margin-right: 2vh;
 }
+
 #stop {
     margin-left: 2vh;
+}
+
+#play.disabled, #stop.disabled {
+    color: #345;
+    cursor: default;
+}
+
+.disabled {
+    cursor: default;
 }
 
 
