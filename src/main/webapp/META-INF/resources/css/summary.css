@@ -8,9 +8,26 @@ and open the template in the editor.
     Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
 */
 
-.ui-grid-row {
+.ui-grid {
     background-color: #567;
-    border-bottom: 1px solid #4F4F4F;
+    position: relative;
+}
+.ui-grid-row {
     padding: 0.2em .3em;
+    max-width: 48em;
+}
+.ui-grid-row:after {
+    content:"";
+    border-bottom: 1px solid #4F4F4F;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    margin-top: -0.2em;
+}
+.ui-grid-row:first-child:after {
+    display: none;
+}
+#details .ui-grid-col-2 {
+    text-align: center;
 }
 

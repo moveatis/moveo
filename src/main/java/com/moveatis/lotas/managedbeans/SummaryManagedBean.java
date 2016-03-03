@@ -5,13 +5,16 @@
  */
 package com.moveatis.lotas.managedbeans;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -26,46 +29,52 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
  */
 @ManagedBean
 @ViewScoped  
-@Named(value = "timelineChartBean")
-public class TimelineChartManagedBean {
+@Named(value = "summaryBean")
+public class SummaryManagedBean {
 
-    private TimelineModel model;  
-    private String locale;
+    private TimelineModel timeline;
+    private Locale locale;
     private TimeZone timeZone;
     private TimeZone browserTimeZone;
     private final Date min;
     private final Date start;
     private final long zoomMin;
     private Date max; //NOTE: this should be the end of observation
-    private long zoomMax; //NOTE: should be the end of observation
+    private final long zoomMax; //NOTE: should be the end of observation
+    private final String observationDate;
+    private final String observationDuration;
 
     // Dummy observation object containing the observation data
     // TODO: get from backend
-    private Observation observation;
+    private Observation observation = createTestObservation();
 
-    public TimelineChartManagedBean() {
-        this.locale = "en";
+    public SummaryManagedBean() {
+        this.locale = new Locale("fi", "FI");
         this.timeZone = TimeZone.getTimeZone("UTC");
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki");
         this.start = new Date(0);
         this.min = new Date(0);
-        this.zoomMin = 10000;
+        this.zoomMin = 10 * 1000;
+        this.observationDate = this.observation.observationDateStr();
+        this.observationDuration = this.observation.durationStr();
+        this.zoomMax = 24 * 60 * 60 * 1000;
+        this.max = new Date(this.observation.getEnd());
     }
 
     @PostConstruct
     protected void initialize() {
-        createTestObservation(); // TODO: remove when observation got from backend
+        createModel();
     }
 
-    public TimelineModel getModel() {  
-        return model;  
+    public TimelineModel getTimeline() {
+        return timeline;
     }  
 
-    public String getLocale() {  
+    public Locale getLocale() {
         return locale;  
     }  
 
-    public void setLocale(String locale) {  
+    public void setLocale(Locale locale) {
         this.locale = locale;  
     }
 
@@ -111,11 +120,19 @@ public class TimelineChartManagedBean {
 
     public void setObservation(Observation observation) {
         this.observation = observation;
-        createModel();
+    }
+
+    public String getObservationDate() {
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
+        return observationDate;
+    }
+
+    public String getObservationDuration() {
+        return observationDuration;
     }
 
     private void createModel() {
-        model = new TimelineModel();
+        timeline = new TimelineModel();
         HashSet<String> categories = new HashSet<>();
         for (Recording recording : this.observation) {
             String category = recording.getCategory();
@@ -123,21 +140,22 @@ public class TimelineChartManagedBean {
             Date eventEnd = new Date(recording.getEnd());
             TimelineEvent event = new TimelineEvent("", eventStart, eventEnd, true, category);
             if (!categories.contains(category)) {
-                model.addGroup(new TimelineGroup(category, category));
+                timeline.addGroup(new TimelineGroup(category, category));
                 categories.add(category);
             }
-            model.add(event);
+            timeline.add(event);
         }
     }
 
     // Dummy data and sample classes for observation data
-    // TODO: remove when observation got from backend
-    private void createTestObservation() {
+    // TODO: remove when observation can be obtained from backend beans
+    private Observation createTestObservation() {
         Random random = new Random();
         Date now = new Date();
         
         Observation newObs = new Observation();
-        newObs.setStart(now);
+        newObs.setObservationDate(now);
+        newObs.setEnd(0);
 
         String[] categories = new String[]{"Järjestelee", "Selittää tehtävää", "Ohjaa suoritusta", "Antaa palautetta", "Tarkkailee", "Oppilas suorittaa tehtävää"};
         int r = random.nextInt(categories.length);
@@ -146,24 +164,26 @@ public class TimelineChartManagedBean {
             if (category.equals(categories[r])) {
                 startGap = 0;
             }
-            long end = startGap * 60 * 1000;
             int count = random.nextInt(20 - 5) + 5;
+            long end = startGap * 60 * 1000;
             for (int i = 0; i < count; i++) {
                 long start = end + Math.round(Math.random()) * 30 * 1000;
                 end = start + Math.round(4 + Math.random() * 100) * 1 * 1000;
                 Recording recording = new Recording(category, start, end);
                 newObs.add(recording);
-                newObs.setEnd(new Date(now.getTime() + end));
+                if (end > newObs.getEnd()) {
+                    newObs.setEnd(end);
+                }
             }
         }
-        setObservation(newObs);
+        return newObs;
     }
 
     class Observation implements Iterable<Recording> {
 
         private final List<Recording> recordings;
-        private Date start;
-        private Date end;
+        private Date observationDate;
+        private long end;
 
         public Observation() {
             this.recordings = new ArrayList<>();
@@ -178,22 +198,39 @@ public class TimelineChartManagedBean {
             this.recordings.add(recording);
         }
 
-        public Date getStart() {
-            return start;
+        public Date getObservationDate() {
+            return observationDate;
         }
 
-        public void setStart(Date start) {
-            this.start = start;
+        public void setObservationDate(Date start) {
+            this.observationDate = start;
         }
 
-        public Date getEnd() {
+        public long getEnd() {
             return end;
         }
 
-        public void setEnd(Date end) {
+        public void setEnd(long end) {
             this.end = end;
         }
 
+        private String observationDateStr() {
+            DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
+            return df.format(observationDate);
+        }
+
+        private String durationStr() {
+            if (TimeUnit.MILLISECONDS.toHours(end) > 0) {
+                return String.format("%02d:%02d:%02d",
+                        TimeUnit.MILLISECONDS.toHours(end),
+                        TimeUnit.MILLISECONDS.toMinutes(end) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(end) % TimeUnit.MINUTES.toSeconds(1));
+            } else {
+                return String.format("%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(end) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(end) % TimeUnit.MINUTES.toSeconds(1));
+            }
+        }
     }
 
     class Recording {

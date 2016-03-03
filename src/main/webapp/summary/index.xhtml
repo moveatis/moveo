@@ -17,9 +17,9 @@
         <div id="observation-info" class="ui-fluid">
             <div class="ui-grid ui-grid-responsive">
                 <div id="details" class="ui-grid-row">
-                    <div class="ui-grid-col-6"><h3>Observaatio - 12.12.2012</h3></div>
-                    <div class="ui-grid-col-2"><div id="total-duration" class="total">08:13</div><div>kesto</div></div>
-                    <div class="ui-grid-col-2"><div id="total-recordings" class="total">31</div><div>kirjausta</div></div>
+                    <div class="ui-grid-col-6"><h3>Observaatio - #{summaryBean.getObservationDate()}</h3></div>
+                    <div class="ui-grid-col-2"><div><div id="total-duration" class="total">#{summaryBean.observationDuration}</div><div>kesto</div></div></div>
+                    <div class="ui-grid-col-2"><div><div id="total-recordings" class="total">31</div><div>kirjausta</div></div></div>
                 </div>
             </div>
 
@@ -28,15 +28,15 @@
         </div>
 
         <pe:timeline id="timeline" widgetVar="timelineWdgt"
-                     value="#{timelineChartBean.model}"
-                     locale="#{timelineChartBean.locale}"
-                     timeZone="#{timelineChartBean.timeZone}"
-                     browserTimeZone="#{timelineChartBean.browserTimeZone}"
-                     min="#{timelineChartBean.min}"
-                     max="#{timelineChartBean.max}"
-                     start="#{timelineChartBean.start}"
-                     zoomMin="#{timelineChartBean.zoomMin}"
-                     zoomMax="#{timelineChartBean.zoomMax}"
+                     value="#{summaryBean.timeline}"
+                     locale="#{summaryBean.locale}"
+                     timeZone="#{summaryBean.timeZone}"
+                     browserTimeZone="#{summaryBean.browserTimeZone}"
+                     min="#{summaryBean.min}"
+                     max="#{summaryBean.max}"
+                     start="#{summaryBean.start}"
+                     zoomMin="#{summaryBean.zoomMin}"
+                     zoomMax="#{summaryBean.zoomMax}"
                      animate="false"
                      animateZoom="false"
                      selectable="true"
