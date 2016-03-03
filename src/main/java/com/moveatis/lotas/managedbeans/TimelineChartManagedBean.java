@@ -119,8 +119,8 @@ public class TimelineChartManagedBean {
         HashSet<String> categories = new HashSet<>();
         for (Recording recording : this.observation) {
             String category = recording.getCategory();
-            Date eventStart = new Date(recording.getStart().getTime() - observation.getStart().getTime());
-            Date eventEnd = new Date(recording.getEnd().getTime() - observation.getStart().getTime());
+            Date eventStart = new Date(recording.getStart());
+            Date eventEnd = new Date(recording.getEnd());
             TimelineEvent event = new TimelineEvent("", eventStart, eventEnd, true, category);
             if (!categories.contains(category)) {
                 model.addGroup(new TimelineGroup(category, category));
@@ -139,17 +139,21 @@ public class TimelineChartManagedBean {
         Observation newObs = new Observation();
         newObs.setStart(now);
 
-        String[] Categories = new String[]{"Järjestelee", "Selittää tehtävää", "Ohjaa suoritusta", "Antaa palautetta", "Tarkkailee", "Oppilas suorittaa tehtävää"};
-
-        for (String category : Categories) {
-            Date end = new Date(now.getTime() + category.length() * 60 * 1000);
+        String[] categories = new String[]{"Järjestelee", "Selittää tehtävää", "Ohjaa suoritusta", "Antaa palautetta", "Tarkkailee", "Oppilas suorittaa tehtävää"};
+        int r = random.nextInt(categories.length);
+        for (String category : categories) {
+            int startGap = category.length();
+            if (category.equals(categories[r])) {
+                startGap = 0;
+            }
+            long end = startGap * 60 * 1000;
             int count = random.nextInt(20 - 5) + 5;
             for (int i = 0; i < count; i++) {
-                Date eventStart = new Date(end.getTime() + Math.round(Math.random()) * 30 * 1000);
-                end = new Date(eventStart.getTime() + Math.round(4 + Math.random() * 100) * 1 * 1000);
-                Recording recording = new Recording(category, eventStart, end);
+                long start = end + Math.round(Math.random()) * 30 * 1000;
+                end = start + Math.round(4 + Math.random() * 100) * 1 * 1000;
+                Recording recording = new Recording(category, start, end);
                 newObs.add(recording);
-                newObs.setEnd(end);
+                newObs.setEnd(new Date(now.getTime() + end));
             }
         }
         setObservation(newObs);
@@ -193,21 +197,22 @@ public class TimelineChartManagedBean {
     }
 
     class Recording {
-        private Date start;
-        private Date end;
-        private String category;
 
-        public Recording(String category, Date start, Date end) {
+        private String category;
+        private long start;
+        private long end;
+
+        public Recording(String category, long start, long end) {
             this.category = category;
             this.start = start;
             this.end = end;
         }
 
-        public Date getStart() {
+        public long getStart() {
             return start;
         }
 
-        public Date getEnd() {
+        public long getEnd() {
             return end;
         }
 
@@ -219,11 +224,11 @@ public class TimelineChartManagedBean {
             this.category = category;
         }
 
-        public void setStart(Date start) {
+        public void setStart(long start) {
             this.start = start;
         }
 
-        public void setEnd(Date end) {
+        public void setEnd(long end) {
             this.end = end;
         }
     }
