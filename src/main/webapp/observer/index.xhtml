@@ -27,9 +27,9 @@
         <h:form id="rec" style="display:none">
             <input type="hidden" id="start-time" name="start-time" value="0"/>
             <input type="hidden" id="end-time" name="end-time" value="0"/>
-            <h:commandButton id="add" action="#{sceneBean.addRecording}"/>
+            <h:commandButton id="add" action="#{observationBean.addRecording}"/>
         </h:form>
-        <h:outputText id="recording" value="#{sceneBean.recording}"/>
+        <h:outputText id="recording" value="#{observationBean.recording}"/>
         
     </h:body>
 </html>
