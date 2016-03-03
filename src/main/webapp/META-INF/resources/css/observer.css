@@ -46,8 +46,14 @@ body {
     margin-left: 2vh;
 }
 
-#play.disabled, #stop.disabled {
+#play.disabled, #pause.disabled, #stop.disabled {
     color: #345;
+    cursor: default;
+}
+
+#stop.down {
+    /*background-color: #f82;*/
+    /*color: #f82;*/
     cursor: default;
 }
 

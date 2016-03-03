@@ -43,7 +43,7 @@ public class ObservationManagedBean implements Serializable {
         private List<Recording> recordings;
         
         public Observation() {
-            recordings = new ArrayList<Recording>();
+            recordings = new ArrayList<>();
         }
         
         public void add(Recording recording) {

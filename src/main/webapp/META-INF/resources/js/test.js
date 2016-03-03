@@ -174,6 +174,7 @@ $(document).ready(function() {
         
         $("#play").addClass("disabled");
         $("#pause").addClass("disabled");
+        $("#stop").addClass("down");
         $(".category-item").addClass("disabled");
         
         var time = master_clock.getElapsedTime(now);
