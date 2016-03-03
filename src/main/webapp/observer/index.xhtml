@@ -24,10 +24,11 @@
     <h:body>
         <ui:include src="test.html" />
         
-        <h:form id="rec" style="display:none">
-            <input type="hidden" id="start-time" name="start-time" value="0"/>
-            <input type="hidden" id="end-time" name="end-time" value="0"/>
-            <h:commandButton id="add" action="#{observationBean.addRecording}"/>
+        <h:form id="recording-form" style="display:none">
+            <input type="hidden" id="rec-category" name="rec-category" value=""/>
+            <input type="hidden" id="rec-start-time" name="rec-start-time" value="0"/>
+            <input type="hidden" id="rec-end-time" name="rec-end-time" value="0"/>
+            <h:commandButton id="add-recording" action="#{observationBean.addRecording}"/>
         </h:form>
         <h:outputText id="recording" value="#{observationBean.recording}"/>
         

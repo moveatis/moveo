@@ -72,7 +72,7 @@ function CategoryItem(name, index) {
             this.li.removeClass("down");
             if (master_time > this.start_time) {
                 this.time += master_time - this.start_time;
-                recording = {start: this.start_time, end: master_time, category: name};
+                recording = {category: name, start: this.start_time, end: master_time};
             }
             this.down = false;
         } else {
@@ -143,11 +143,17 @@ $(document).ready(function() {
     function addRecording(recording) {
         if (recording !== undefined) {
             recordings.push(recording);
-            $("#start-time").val(recording.start);
-            $("#end-time").val(recording.end);
-            // This ajax request is described here: http://stackoverflow.com/a/15571052 
+            $("#rec-category").val(recording.category);
+            $("#rec-start-time").val(recording.start);
+            $("#rec-end-time").val(recording.end);
+            // This ajax request is described here: http://stackoverflow.com/a/15571052
+            // If ajax error handling is needed, look here: http://stackoverflow.com/a/28540357
             if ("jsf" in window) {
-                jsf.ajax.request("rec:add", null, {"javax.faces.behavior.event": "action", "execute": "@form", "render": "recording"});
+                jsf.ajax.request("recording-form:add-recording", null, {
+                    "javax.faces.behavior.event": "action",
+                    "execute": "@form",
+                    "render": "recording"
+                });
             }
         }
     }
