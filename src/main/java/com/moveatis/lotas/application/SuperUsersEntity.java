@@ -1,39 +1,31 @@
-package com.moveatis.lotas.scene;
+package com.moveatis.lotas.application;
 
-import com.moveatis.lotas.category.CategoryTemplateEntity;
-import com.moveatis.lotas.user.AbstractUser;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Table;
 
 /**
  *
- * @author Sami Kallio <phinaliumz at outlook.com
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
+@Table(name="SUPERUSERS")
 @Entity
-@XmlRootElement
-public class SceneTemplateEntity implements Serializable {
+public class SuperUsersEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @ManyToOne
-    private AbstractUser owner;
-    @ManyToOne
-    private AbstractUser user;
-    
-    @OneToMany(mappedBy = "sceneTemplate")
-    private Set<CategoryTemplateEntity> categories;
+        
+    @OneToMany
+    private List<UserEntity> superUsers;
 
     public Long getId() {
         return id;
@@ -50,29 +42,13 @@ public class SceneTemplateEntity implements Serializable {
         return hash;
     }
 
-    public AbstractUser getOwner() {
-        return owner;
-    }
-
-    public void setOwner(AbstractUser owner) {
-        this.owner = owner;
-    }
-
-    public AbstractUser getUser() {
-        return user;
-    }
-
-    public void setUser(AbstractUser user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SceneTemplateEntity)) {
+        if (!(object instanceof SuperUsersEntity)) {
             return false;
         }
-        SceneTemplateEntity other = (SceneTemplateEntity) object;
+        SuperUsersEntity other = (SuperUsersEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -81,7 +57,7 @@ public class SceneTemplateEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.scene.SceneTemplate[ id=" + id + " ]";
+        return "com.moveatis.lotas.category.application.SuperUsers[ id=" + id + " ]";
     }
     
 }

@@ -1,17 +1,17 @@
-package com.moveatis.lotas.observation;
+package com.moveatis.lotas.scene;
 
-import com.moveatis.lotas.facade.ObservationFacadeLocal;
-import com.moveatis.lotas.facade.AbstractFacade;
+import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import com.moveatis.lotas.interfaces.SceneTemplate;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
-public class ObservationFacade extends AbstractFacade<ObservationEntity> implements ObservationFacadeLocal {
+public class SceneTemplateBean extends AbstractBean<SceneTemplateEntity> implements SceneTemplate {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -21,8 +21,8 @@ public class ObservationFacade extends AbstractFacade<ObservationEntity> impleme
         return em;
     }
 
-    public ObservationFacade() {
-        super(ObservationEntity.class);
+    public SceneTemplateBean() {
+        super(SceneTemplateEntity.class);
     }
     
 }

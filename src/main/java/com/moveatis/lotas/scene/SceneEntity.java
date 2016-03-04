@@ -1,19 +1,26 @@
 package com.moveatis.lotas.scene;
 
 import com.moveatis.lotas.category.CategoryEntity;
+import com.moveatis.lotas.user.AbstractUser;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -21,6 +28,10 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="SCENES")
+@NamedQueries(
+        @NamedQuery(name="SceneEntity.findByUser", query="SELECT scene FROM SceneEntity scene WHERE scene.owner = :user")
+)
+@XmlRootElement
 public class SceneEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,12 +48,13 @@ public class SceneEntity implements Serializable {
     
     @NotNull
     @ManyToOne
-    private UserEntity owner;
+    private AbstractUser owner;
     
     @NotNull
     private String tag;
     
     @NotNull
+    @Temporal(TemporalType.DATE)
     private Date created;
 
     public Long getId() {
@@ -61,6 +73,7 @@ public class SceneEntity implements Serializable {
         this.basedOn = basedOn;
     }
 
+    @XmlTransient
     public Set<CategoryEntity> getCategories() {
         return categories;
     }
@@ -69,7 +82,7 @@ public class SceneEntity implements Serializable {
         this.categories = categories;
     }
 
-    public UserEntity getOwner() {
+    public AbstractUser getOwner() {
         return owner;
     }
 

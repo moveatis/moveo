@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
 public class ObservationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -38,12 +39,10 @@ public class ObservationEntity implements Serializable {
     @ManyToOne
     private UserEntity user;
     
-    @ManyToOne
-    private CategoryEntity category;
     
     @ManyToOne
     private SceneEntity scene;
-
+    
     public Long getId() {
         return id;
     }
@@ -82,14 +81,6 @@ public class ObservationEntity implements Serializable {
 
     public void setUser(UserEntity user) {
         this.user = user;
-    }
-
-    public CategoryEntity getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryEntity category) {
-        this.category = category;
     }
 
     public SceneEntity getScene() {

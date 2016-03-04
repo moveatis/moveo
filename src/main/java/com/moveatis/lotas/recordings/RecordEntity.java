@@ -1,34 +1,32 @@
-package com.moveatis.lotas.user;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.moveatis.lotas.recordings;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author sami
  */
-@Table(name="USERS")
 @Entity
-@XmlRootElement
-public class UserEntity extends AbstractUser implements Serializable {
+public class RecordEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -43,10 +41,10 @@ public class UserEntity extends AbstractUser implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserEntity)) {
+        if (!(object instanceof RecordEntity)) {
             return false;
         }
-        UserEntity other = (UserEntity) object;
+        RecordEntity other = (RecordEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -55,7 +53,7 @@ public class UserEntity extends AbstractUser implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.UserEntity[ id=" + id + " ]";
+        return "com.moveatis.lotas.entries.EntryEntity[ id=" + id + " ]";
     }
     
 }

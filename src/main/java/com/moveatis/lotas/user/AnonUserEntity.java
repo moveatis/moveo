@@ -6,16 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Table(name="USERS")
 @Entity
-@XmlRootElement
-public class UserEntity extends AbstractUser implements Serializable {
+@Table(name="ANON_USERS")
+public class AnonUserEntity extends AbstractUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -43,10 +41,10 @@ public class UserEntity extends AbstractUser implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserEntity)) {
+        if (!(object instanceof AnonUserEntity)) {
             return false;
         }
-        UserEntity other = (UserEntity) object;
+        AnonUserEntity other = (AnonUserEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -55,7 +53,7 @@ public class UserEntity extends AbstractUser implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.UserEntity[ id=" + id + " ]";
+        return "com.moveatis.lotas.user.AnonUserEntity[ id=" + id + " ]";
     }
     
 }

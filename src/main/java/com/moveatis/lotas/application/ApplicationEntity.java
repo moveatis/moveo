@@ -1,38 +1,48 @@
-package com.moveatis.lotas.user;
+package com.moveatis.lotas.application;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Table(name="USERS")
+@Table(name="APPLICATION")
 @Entity
-@XmlRootElement
-public class UserEntity extends AbstractUser implements Serializable {
+public class ApplicationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Temporal(TemporalType.DATE)
+    private Date applicationInstalled;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
+    public Date getApplicationInstalled() {
+        return applicationInstalled;
+    }
+
+    public void setApplicationInstalled(Date applicationInstalled) {
+        this.applicationInstalled = applicationInstalled;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -43,10 +53,10 @@ public class UserEntity extends AbstractUser implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserEntity)) {
+        if (!(object instanceof ApplicationEntity)) {
             return false;
         }
-        UserEntity other = (UserEntity) object;
+        ApplicationEntity other = (ApplicationEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -55,7 +65,7 @@ public class UserEntity extends AbstractUser implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.UserEntity[ id=" + id + " ]";
+        return "com.moveatis.lotas.category.application.ApplicationEntity[ id=" + id + " ]";
     }
     
 }
