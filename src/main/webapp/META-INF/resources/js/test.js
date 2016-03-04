@@ -11,7 +11,7 @@ function Clock() {
         } else {
             console.log("Clock.resume(): Clock is already running!");
         }
-    }
+    };
     
     this.pause = function(now) {
         if (this.running) {
@@ -21,7 +21,7 @@ function Clock() {
         } else {
             console.log("Clock.pause(): Clock is already paused!");
         }
-    }
+    };
     
     this.getElapsedTime = function(now) {
         if (this.running) {
@@ -29,11 +29,11 @@ function Clock() {
         } else {
             return this.total_time;
         }
-    }
+    };
     
     this.isPaused = function() {
         return !this.running;
-    }
+    };
 }
 
 
@@ -82,7 +82,7 @@ function CategoryItem(name, index) {
         }
         
         return recording;
-    }
+    };
     
     this.updateTimer = function(master_time) {
         var time = this.time;
@@ -92,55 +92,34 @@ function CategoryItem(name, index) {
         var time_str = timeToString(time);
         this.timer_div.empty();
         this.timer_div.append(document.createTextNode(time_str));
-    }
+    };
 }
 
 
-$(document).ready(function() {
+function Observer(category_names) {
     var master_clock = new Clock();
     var categories = [];
     var recordings = [];
     
-    var category_names = [
-        "Järjestelyt",
-        "Tehtävän selitys",
-        "Ohjaus",
-        "Palautteen anto",
-        "Tarkkailu",
-        "Muu toiminta",
-        "Oppilas suorittaa tehtävää"
-    ];
-
+    var play_button = $("#play");
+    var pause_button = $("#pause");
+    var stop_button = $("#stop");
+    var total_time = $("#total-time");
+    var category_list = $("#category-list");
+    
+    pause_button.hide();
+    stop_button.addClass("disabled");
+    total_time.append(document.createTextNode("00:00"));
+    
     for (var i in category_names) {
         var category = new CategoryItem(category_names[i], i);
         categories.push(category);
-        $("#category-list").append(category.li);
-    }
-    
-    //
-    //
-    //
-    
-    function playClick() {
-        if (master_clock.isPaused()) {
-            master_clock.resume(Date.now());
-            $("#play").hide();
-            $("#pause").show();
-            $("#stop").removeClass("disabled");
-        }
-    }
-    
-    function pauseClick() {
-        if (!master_clock.isPaused()) {
-            master_clock.pause(Date.now());
-            $("#pause").hide();
-            $("#play").show();
-        }
+        category_list.append(category.li);
     }
     
     // The whole recordings-adding-nonsense was inspired by this:
     // http://www.mkyong.com/jsf2/how-to-pass-new-hidden-value-to-backing-bean-in-jsf/
-    function addRecording(recording) {
+    this.addRecording = function(recording) {
         if (recording !== undefined) {
             recordings.push(recording);
             $("#rec-category").val(recording.category);
@@ -156,65 +135,95 @@ $(document).ready(function() {
                 });
             }
         }
-    }
+    };
     
-    function stopClick() {
-        var now = Date.now();
-        
+    this.playClick = function() {
+        if (master_clock.isPaused()) {
+            master_clock.resume(Date.now());
+            play_button.hide();
+            pause_button.show();
+            stop_button.removeClass("disabled");
+        }
+    };
+    
+    function pause(now) {
         if (!master_clock.isPaused()) {
             master_clock.pause(now);
-            $("#pause").hide();
-            $("#play").show();
+            pause_button.hide();
+            play_button.show();
         }
+    }
+    
+    this.pauseClick = function() {
+        pause(Date.now());
+    };
+    
+    this.stopClick = function() {
+        var now = Date.now();
         
-        $("#play").off("click");
-        $("#pause").off("click");
-        $("#stop").off("click");
-        $(".category-item").off("click");
+        pause(now);
         
-        $("#play").addClass("disabled");
-        $("#pause").addClass("disabled");
-        $("#stop").addClass("down");
-        $(".category-item").addClass("disabled");
+        play_button.off("click");
+        play_button.addClass("disabled");
+        pause_button.off("click");
+        pause_button.addClass("disabled");
+//        stop_button.off("click");
+//        stop_button.addClass("down");
         
         var time = master_clock.getElapsedTime(now);
         
         for (var i in categories) {
             var category = categories[i];
+            category.li.off("click");
+            category.li.addClass("disabled");
             if (category.down) {
-                addRecording(category.click(time));
+                this.addRecording(category.click(time));
             }
         }
         
         console.log(recordings);
-    }
+        
+        window.location = "../summary/";
+    };
     
-    $("#pause").hide();
-    $("#stop").addClass("disabled");
-    $("#play").click(playClick);
-    $("#pause").click(pauseClick);
-    $("#stop").click(stopClick);
-    $("#total-time").append(document.createTextNode("00:00"));
-
-    function categoryClick() {
-        var id = $(this).attr("id");
-        var index = parseInt(id.split("_")[1]);
+    this.categoryClick = function(index) {
         var category = categories[index];
         var time = master_clock.getElapsedTime(Date.now());
-        addRecording(category.click(time));
-    }
-
-    $(".category-item").click(categoryClick);
+        this.addRecording(category.click(time));
+    };
     
-    function tick() {
+    this.tick = function() {
         var time = master_clock.getElapsedTime(Date.now());
         var time_str = timeToString(time);
-        $("#total-time").empty();
-        $("#total-time").append(document.createTextNode(time_str));
+        total_time.empty();
+        total_time.append(document.createTextNode(time_str));
         for (var i in categories) {
             categories[i].updateTimer(time);
         }
-    }
+    };
+}
 
-    setInterval(tick, 200);
+
+$(document).ready(function() {
+    var observer = new Observer([
+        "Järjestelyt",
+        "Tehtävän selitys",
+        "Ohjaus",
+        "Palautteen anto",
+        "Tarkkailu",
+        "Muu toiminta",
+        "Oppilas suorittaa tehtävää",
+        "..."
+    ]);
+    
+    $("#play").click(function() { observer.playClick(); });
+    $("#pause").click(function() { observer.pauseClick(); });
+    $("#stop").click(function() { observer.stopClick(); });
+    $(".category-item").click(function() {
+        var id = $(this).attr("id");
+        var index = parseInt(id.split("_")[1]);
+        observer.categoryClick(index);
+    });
+
+    setInterval(function() { observer.tick(); }, 200);
 });

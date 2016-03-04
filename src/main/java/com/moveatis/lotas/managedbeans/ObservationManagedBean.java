@@ -31,9 +31,10 @@ public class ObservationManagedBean implements Serializable {
             long t = ms / 1000;
             long m = t / 60;
             long s = t - m * 60;
-            return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+            return String.format("%02d:%02d", m, s);
         }
         
+        @Override
         public String toString() {
             return category + " " + timeToString(start) + " --> " + timeToString(end);
         }
