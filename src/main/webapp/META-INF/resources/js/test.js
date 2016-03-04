@@ -159,6 +159,10 @@ function Observer(category_names) {
     };
     
     this.stopClick = function() {
+        if (stop_button.hasClass("disabled")) {
+            return;
+        }
+        
         var now = Date.now();
         
         pause(now);
