@@ -39,22 +39,24 @@ public class SummaryManagedBean {
     private final Date min;
     private final Date start;
     private final long zoomMin;
-    private Date max; //NOTE: this should be the end of observation
-    private final long zoomMax; //NOTE: should be the end of observation
-    private final String observationDate;
-    private final String observationDuration;
+    private Date max;
+    private long zoomMax;
+    private String observationDate;
+    private String observationDuration;
 
-    // Dummy observation object containing the observation data
-    // TODO: get from backend
-    private Observation observation = createTestObservation();
+    private Observation observation;
 
     public SummaryManagedBean() {
-        this.locale = new Locale("fi", "FI");
-        this.timeZone = TimeZone.getTimeZone("UTC");
-        this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki");
+        this.locale = new Locale("fi", "FI"); // get from locale "bean" ?
+        this.timeZone = TimeZone.getTimeZone("UTC"); // get from timezone "bean" ?
+        this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get from timezone "bean" ?
         this.start = new Date(0);
         this.min = new Date(0);
         this.zoomMin = 10 * 1000;
+
+        // Dummy observation object containing the observation data
+        // TODO: get from backend
+        this.observation = createTestObservation();
         this.observationDate = this.observation.observationDateStr();
         this.observationDuration = this.observation.durationStr();
         this.zoomMax = 24 * 60 * 60 * 1000;
@@ -63,7 +65,7 @@ public class SummaryManagedBean {
 
     @PostConstruct
     protected void initialize() {
-        createModel();
+        createTimeline();
     }
 
     public TimelineModel getTimeline() {
@@ -131,7 +133,7 @@ public class SummaryManagedBean {
         return observationDuration;
     }
 
-    private void createModel() {
+    private void createTimeline() {
         timeline = new TimelineModel();
         HashSet<String> categories = new HashSet<>();
         for (Recording recording : this.observation) {
