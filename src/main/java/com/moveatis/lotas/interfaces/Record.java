@@ -1,6 +1,6 @@
 package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.recordings.RecordEntity;
+import com.moveatis.lotas.records.RecordEntity;
 import java.util.List;
 import javax.ejb.Local;
 

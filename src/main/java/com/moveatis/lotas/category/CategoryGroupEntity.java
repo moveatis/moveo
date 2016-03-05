@@ -1,36 +1,36 @@
-package com.moveatis.lotas.user;
+package com.moveatis.lotas.category;
 
+import com.moveatis.lotas.scene.SceneGroupEntity;
 import java.io.Serializable;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Inheritance
-@DiscriminatorColumn(name="USER_TYPE")
-@Table(name="USERS")
-public abstract class AbstractUser implements Serializable {
+public class CategoryGroupEntity implements Serializable {
 
+    @ManyToOne
+    private SceneGroupEntity sceneTemplate;
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     public Long getId() {
-        return this.id;
+        return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -41,10 +41,10 @@ public abstract class AbstractUser implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AbstractUser)) {
+        if (!(object instanceof CategoryGroupEntity)) {
             return false;
         }
-        AbstractUser other = (AbstractUser) object;
+        CategoryGroupEntity other = (CategoryGroupEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +53,7 @@ public abstract class AbstractUser implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.AbstractUser[ id=" + id + " ]";
+        return "com.moveatis.lotas.category.CategoryTemplateEntity[ id=" + id + " ]";
     }
     
 }

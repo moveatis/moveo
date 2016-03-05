@@ -1,27 +1,28 @@
-package com.moveatis.lotas.category;
+package com.moveatis.lotas.scenekey;
 
-import com.moveatis.lotas.scene.SceneTemplateEntity;
+import com.moveatis.lotas.scene.SceneEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-public class CategoryTemplateEntity implements Serializable {
-
-    @ManyToOne
-    private SceneTemplateEntity sceneTemplate;
+public class SceneKeyEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @OneToOne
+    private SceneEntity sceneEntity;
 
     public Long getId() {
         return id;
@@ -41,10 +42,10 @@ public class CategoryTemplateEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CategoryTemplateEntity)) {
+        if (!(object instanceof SceneKeyEntity)) {
             return false;
         }
-        CategoryTemplateEntity other = (CategoryTemplateEntity) object;
+        SceneKeyEntity other = (SceneKeyEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +54,7 @@ public class CategoryTemplateEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.category.CategoryTemplateEntity[ id=" + id + " ]";
+        return "com.moveatis.lotas.scenekey.SceneKeyEntity[ id=" + id + " ]";
     }
     
 }

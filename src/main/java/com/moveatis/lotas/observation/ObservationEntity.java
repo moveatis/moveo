@@ -1,6 +1,5 @@
 package com.moveatis.lotas.observation;
 
-import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
@@ -28,11 +27,6 @@ public class ObservationEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Temporal(TemporalType.TIME)
-    private Date startTime;
-    @Temporal(TemporalType.TIME)
-    private Date endTime;
-    
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     
@@ -49,22 +43,6 @@ public class ObservationEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
     }
 
     public Date getCreated() {

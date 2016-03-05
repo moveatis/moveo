@@ -1,6 +1,6 @@
 package com.moveatis.lotas.scene;
 
-import com.moveatis.lotas.category.CategoryTemplateEntity;
+import com.moveatis.lotas.category.CategoryGroupEntity;
 import com.moveatis.lotas.user.AbstractUser;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
@@ -11,15 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com
  */
 @Entity
-@XmlRootElement
-public class SceneTemplateEntity implements Serializable {
+public class SceneGroupEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -33,7 +31,7 @@ public class SceneTemplateEntity implements Serializable {
     private AbstractUser user;
     
     @OneToMany(mappedBy = "sceneTemplate")
-    private Set<CategoryTemplateEntity> categories;
+    private Set<CategoryGroupEntity> categories;
 
     public Long getId() {
         return id;
@@ -69,10 +67,10 @@ public class SceneTemplateEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SceneTemplateEntity)) {
+        if (!(object instanceof SceneGroupEntity)) {
             return false;
         }
-        SceneTemplateEntity other = (SceneTemplateEntity) object;
+        SceneGroupEntity other = (SceneGroupEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
