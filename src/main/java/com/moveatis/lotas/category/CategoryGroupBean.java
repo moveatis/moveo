@@ -1,17 +1,17 @@
-package com.moveatis.lotas.recordings;
+package com.moveatis.lotas.category;
 
 import com.moveatis.lotas.interfaces.AbstractBean;
-import com.moveatis.lotas.interfaces.Record;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import com.moveatis.lotas.interfaces.CategoryGroup;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
-public class RecordBean extends AbstractBean<RecordEntity> implements Record {
+public class CategoryGroupBean extends AbstractBean<CategoryGroupEntity> implements CategoryGroup {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -21,8 +21,7 @@ public class RecordBean extends AbstractBean<RecordEntity> implements Record {
         return em;
     }
 
-    public RecordBean() {
-        super(RecordEntity.class);
+    public CategoryGroupBean() {
+        super(CategoryGroupEntity.class);
     }
-    
 }

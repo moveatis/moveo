@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.lotas.interfaces.Observation;
@@ -62,7 +61,6 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         ObservationEntity observationEntity = new ObservationEntity();
         
         observationEntity.setCreated((Date) calendar.getTime());
-        observationEntity.setStartTime((Date) calendar.getTime());
         
         CategoryEntity category = categoryEJB.find(categoryLabel);
         if(category == null) {

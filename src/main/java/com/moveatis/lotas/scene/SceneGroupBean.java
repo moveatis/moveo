@@ -1,17 +1,17 @@
-package com.moveatis.lotas.category;
+package com.moveatis.lotas.scene;
 
 import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.moveatis.lotas.interfaces.CategoryTemplate;
+import com.moveatis.lotas.interfaces.SceneTemplate;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
-public class CategoryTemplateBean extends AbstractBean<CategoryTemplateEntity> implements CategoryTemplate {
+public class SceneGroupBean extends AbstractBean<SceneGroupEntity> implements SceneTemplate {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -21,7 +21,8 @@ public class CategoryTemplateBean extends AbstractBean<CategoryTemplateEntity> i
         return em;
     }
 
-    public CategoryTemplateBean() {
-        super(CategoryTemplateEntity.class);
+    public SceneGroupBean() {
+        super(SceneGroupEntity.class);
     }
+    
 }

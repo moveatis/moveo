@@ -1,17 +1,17 @@
-package com.moveatis.lotas.scene;
+package com.moveatis.lotas.records;
 
 import com.moveatis.lotas.interfaces.AbstractBean;
+import com.moveatis.lotas.interfaces.Record;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.moveatis.lotas.interfaces.SceneTemplate;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
-public class SceneTemplateBean extends AbstractBean<SceneTemplateEntity> implements SceneTemplate {
+public class RecordBean extends AbstractBean<RecordEntity> implements Record {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -21,8 +21,8 @@ public class SceneTemplateBean extends AbstractBean<SceneTemplateEntity> impleme
         return em;
     }
 
-    public SceneTemplateBean() {
-        super(SceneTemplateEntity.class);
+    public RecordBean() {
+        super(RecordEntity.class);
     }
     
 }

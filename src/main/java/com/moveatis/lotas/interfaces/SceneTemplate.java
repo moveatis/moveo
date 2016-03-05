@@ -1,6 +1,6 @@
 package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.scene.SceneTemplateEntity;
+import com.moveatis.lotas.scene.SceneGroupEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -11,17 +11,17 @@ import javax.ejb.Local;
 @Local(SceneTemplate.class)
 public interface SceneTemplate {
 
-    void create(SceneTemplateEntity sceneTemplateEntity);
+    void create(SceneGroupEntity sceneTemplateEntity);
 
-    void edit(SceneTemplateEntity sceneTemplateEntity);
+    void edit(SceneGroupEntity sceneTemplateEntity);
 
-    void remove(SceneTemplateEntity sceneTemplateEntity);
+    void remove(SceneGroupEntity sceneTemplateEntity);
 
-    SceneTemplateEntity find(Object id);
+    SceneGroupEntity find(Object id);
 
-    List<SceneTemplateEntity> findAll();
+    List<SceneGroupEntity> findAll();
 
-    List<SceneTemplateEntity> findRange(int[] range);
+    List<SceneGroupEntity> findRange(int[] range);
 
     int count();
     
