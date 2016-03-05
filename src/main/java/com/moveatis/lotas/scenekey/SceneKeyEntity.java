@@ -1,7 +1,9 @@
 package com.moveatis.lotas.scenekey;
 
+import com.moveatis.lotas.category.CategoryGroupEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,9 @@ import javax.persistence.OneToOne;
 @Entity
 public class SceneKeyEntity implements Serializable {
 
+    @OneToOne(mappedBy = "sceneKey")
+    private CategoryGroupEntity categoryGroup;
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -23,6 +28,9 @@ public class SceneKeyEntity implements Serializable {
     
     @OneToOne
     private SceneEntity sceneEntity;
+    
+    @Column(unique=true)
+    private String key;
 
     public Long getId() {
         return id;
