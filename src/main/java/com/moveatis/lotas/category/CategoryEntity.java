@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -32,10 +34,14 @@ public class CategoryEntity implements Serializable {
     private SceneEntity scene;
     
     @NotNull
+    @Temporal(TemporalType.DATE)
     private Date created;
     
     @NotNull
     private String label;
+    
+    @ManyToOne
+    private CategoryGroupEntity categoryGroup;
 
     public Long getId() {
         return id;
