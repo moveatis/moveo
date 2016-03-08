@@ -1,0 +1,33 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Feb 24, 2016, 2:10:56 PM
+    Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
+*/
+
+.ui-grid {
+    background-color: #567;
+    position: relative;
+}
+.ui-grid-row {
+    padding: 0.2em .3em;
+    max-width: 48em;
+}
+.ui-grid-row:after {
+    content:"";
+    border-bottom: 1px solid #4F4F4F;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    margin-top: -0.2em;
+}
+.ui-grid-row:first-child:after {
+    display: none;
+}
+#details .ui-grid-col-2 {
+    text-align: center;
+}
+

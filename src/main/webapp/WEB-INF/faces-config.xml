@@ -3,6 +3,39 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <navigation-rule>
+        <from-view-id>index.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{tagBasedLoginBean.getLoginOutcome</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/observer/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{identityProviderBasedLoginBean.getLoginOutcome</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/observer/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{anonymityBasedLoginBean.getLoginOutcome</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/observer/index.xhtml</to-view-id>
+        </navigation-case>
+        <!-- We need different navigation rules for identity and anonymity -based logins
+             since we need to show the list of available scenes to the user
+             
+             TODO: Not implemented yet.
+        -->
+        <navigation-case>
+            <from-action>#{identityProviderBasedLoginBean.getLoginOutcome</from-action>
+            <from-outcome>identity</from-outcome>
+            <to-view-id>observer/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{anonymityBasedLoginBean.getLoginOutcome</from-action>
+            <from-outcome>anonymity</from-outcome>
+            <to-view-id>observer/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     
     <application>
         <locale-config>

@@ -8,8 +8,8 @@ import javax.persistence.Entity;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-public class UserEntity extends AbstractUser implements Serializable {
+public class AnonUserEntity extends AbstractUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
 }

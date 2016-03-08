@@ -1,4 +1,4 @@
-package com.moveatis.lotas.facade;
+package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.category.CategoryEntity;
 import java.util.List;
@@ -8,8 +8,8 @@ import javax.ejb.Local;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local
-public interface CategoryFacadeLocal {
+@Local(Category.class)
+public interface Category {
 
     void create(CategoryEntity categoryEntity);
 
@@ -18,6 +18,8 @@ public interface CategoryFacadeLocal {
     void remove(CategoryEntity categoryEntity);
 
     CategoryEntity find(Object id);
+    
+    CategoryEntity find(String label);
 
     List<CategoryEntity> findAll();
 

@@ -1,17 +1,17 @@
-package com.moveatis.lotas.category;
+package com.moveatis.lotas.application;
 
-import com.moveatis.lotas.facade.CategoryFacadeLocal;
-import com.moveatis.lotas.facade.AbstractFacade;
+import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import com.moveatis.lotas.interfaces.SuperUsers;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
-public class CategoryFacade extends AbstractFacade<CategoryEntity> implements CategoryFacadeLocal {
+public class SuperUsersBean extends AbstractBean<SuperUsersEntity> implements SuperUsers {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -21,8 +21,8 @@ public class CategoryFacade extends AbstractFacade<CategoryEntity> implements Ca
         return em;
     }
 
-    public CategoryFacade() {
-        super(CategoryEntity.class);
+    public SuperUsersBean() {
+        super(SuperUsersEntity.class);
     }
     
 }

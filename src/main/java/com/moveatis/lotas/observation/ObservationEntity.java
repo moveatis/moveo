@@ -1,29 +1,72 @@
 package com.moveatis.lotas.observation;
 
+import com.moveatis.lotas.scene.SceneEntity;
+import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.>
  */
+@Table(name="OBSERVATIONS")
 @Entity
 public class ObservationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
+    
+    @ManyToOne
+    private UserEntity user;
+    
+    
+    @ManyToOne
+    private SceneEntity scene;
+    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public SceneEntity getScene() {
+        return scene;
+    }
+
+    public void setScene(SceneEntity scene) {
+        this.scene = scene;
     }
 
     @Override

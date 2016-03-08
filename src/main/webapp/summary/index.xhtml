@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <h:head>
+        <title>#{msg.applicationTitle} - Yhteenveto</title>
+        <h:outputStylesheet library="css" name="base.css"/>
+        <h:outputStylesheet library="css" name="summary.css"/>
+        <h:outputStylesheet library="css" name="summary-grid.css"/>
+        <h:outputStylesheet library="css" name="timeline.css"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div id="observation-info" class="ui-fluid">
+            <div class="ui-grid ui-grid-responsive">
+                <div id="details" class="ui-grid-row">
+                    <div class="ui-grid-col-6"><h3>Observaatio - #{summaryBean.getObservationDate()}</h3></div>
+                    <div class="ui-grid-col-2"><div><div id="total-duration" class="total">#{summaryBean.observationDuration}</div><div>kesto</div></div></div>
+                    <div class="ui-grid-col-2"><div><div id="total-recordings" class="total">31</div><div>kirjausta</div></div></div>
+                </div>
+            </div>
+
+            <h3>Kirjaukset</h3>
+            <div id="recordings-grid" class="ui-grid ui-grid-responsive"/>
+        </div>
+
+        <pe:timeline id="timeline" widgetVar="timelineWdgt"
+                     value="#{summaryBean.timeline}"
+                     locale="#{summaryBean.locale}"
+                     timeZone="#{summaryBean.timeZone}"
+                     browserTimeZone="#{summaryBean.browserTimeZone}"
+                     min="#{summaryBean.min}"
+                     max="#{summaryBean.max}"
+                     start="#{summaryBean.start}"
+                     zoomMin="#{summaryBean.zoomMin}"
+                     zoomMax="#{summaryBean.zoomMax}"
+                     animate="false"
+                     animateZoom="false"
+                     selectable="true"
+                     groupsOrder="true"
+                     groupsChangeable="false"
+                     groupMinHeight="20"
+                     editable="false"
+                     timeChangeable="false"
+                     showCurrentTime="false"
+                     showMajorLabels="false"
+                     stackEvents="false"
+                     eventMarginAxis="0"
+                     eventMargin="20">
+        </pe:timeline>
+    </h:body>
+    <h:outputScript library="js" name="summary.js"/>
+</html>
