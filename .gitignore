@@ -12,6 +12,7 @@ docker/lotas*
 # Java -luokkatiedostot
 *.class
 *.war
+lib/
 
 # Netbeans -sidonnaiset tiedostot
 nbproject/private
