@@ -10,21 +10,31 @@
         <h:outputStylesheet library="css" name="summary.css"/>
         <h:outputStylesheet library="css" name="summary-grid.css"/>
         <h:outputStylesheet library="css" name="timeline.css"/>
+        <h:outputStylesheet library="primefaces" name="grid/grid.css"/>
         <h:outputScript library="primefaces" name="jquery/jquery.js" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
         <div id="observation-info" class="ui-fluid">
-            <div class="ui-grid ui-grid-responsive">
-                <div id="details" class="ui-grid-row">
-                    <div class="ui-grid-col-6"><h3>Observaatio - #{summaryBean.getObservationDate()}</h3></div>
-                    <div class="ui-grid-col-2"><div><div id="total-duration" class="total">#{summaryBean.observationDuration}</div><div>kesto</div></div></div>
-                    <div class="ui-grid-col-2"><div><div id="total-recordings" class="total">31</div><div>kirjausta</div></div></div>
+
+            <div class="background">
+                <div id="details" class="inline-bar content">
+                    <div class="header-left"><h2>Observaatio - 3.8.2016</h2></div>
+                    <div class="inline-bar align-bar">
+                        <div>
+                            <div id="total-recordings" class="total">31</div>
+                            <div><span>Kirjausta</span></div>
+                        </div>
+                        <div>
+                            <div id="total-duration" class="total">#{summaryBean.observationDuration}</div>
+                            <div><span>Kokonaiskesto</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <h3>Kirjaukset</h3>
-            <div id="recordings-grid" class="ui-grid ui-grid-responsive"/>
+            <div id="recordings" class="ui-grid ui-grid-responsive-260 background"/>
         </div>
 
         <pe:timeline id="timeline" widgetVar="timelineWdgt"
