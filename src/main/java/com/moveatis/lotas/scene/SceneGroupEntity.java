@@ -30,7 +30,7 @@ public class SceneGroupEntity implements Serializable {
     @ManyToOne
     private AbstractUser user;
     
-    @OneToMany(mappedBy = "sceneTemplate")
+    @OneToMany(mappedBy = "sceneGroup")
     private Set<CategoryGroupEntity> categories;
 
     public Long getId() {

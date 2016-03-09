@@ -21,6 +21,9 @@ import javax.persistence.Table;
 @Table(name="CATEGORYGROUPS")
 public class CategoryGroupEntity implements Serializable {
 
+    @ManyToOne
+    private SceneGroupEntity sceneGroup;
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -32,6 +35,7 @@ public class CategoryGroupEntity implements Serializable {
 
     @OneToOne
     private SceneKeyEntity sceneKey;
+    
     
     public Long getId() {
         return id;
