@@ -1,12 +1,13 @@
 package com.moveatis.lotas.managedbeans;
-
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
+import com.moveatis.lotas.interfaces.Observation;
 
 /**
  *
@@ -15,6 +16,29 @@ import javax.faces.context.FacesContext;
 @Named(value = "observationBean")
 @SessionScoped
 public class ObservationManagedBean implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
+    
+    @EJB
+    private Observation observationEJB;
+    
+    private List<String> types;
+
+    public List<String> getTypes() {
+        return types;
+    }
+    
+    public void CategorizedVariableActivated(String category) {
+        observationEJB.categorizedObservationActivated(category);
+    }
+    
+    public void CategorizedVariableDisabled(String category) {
+        
+    }
+    
+    //
+    //
+    //
     
     class Recording {
         private String category;
@@ -40,10 +64,10 @@ public class ObservationManagedBean implements Serializable {
         }
     }
     
-    class Observation {
+    class DummyObservation {
         private List<Recording> recordings;
         
-        public Observation() {
+        public DummyObservation() {
             recordings = new ArrayList<>();
         }
         
@@ -64,14 +88,14 @@ public class ObservationManagedBean implements Serializable {
     //
     //
     
-    private Observation observation;
+    private DummyObservation observation;
     private String recording = "no recording";
 
     /**
      * Creates a new instance of ObservationManagedBean
      */
     public ObservationManagedBean() {
-        observation = new Observation();
+        observation = new DummyObservation();
     }
     
     public void addRecording() {

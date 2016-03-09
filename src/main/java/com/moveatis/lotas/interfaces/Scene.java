@@ -1,7 +1,7 @@
-package com.moveatis.lotas.facade;
+package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.scene.SceneEntity;
+import com.moveatis.lotas.user.UserEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -9,8 +9,8 @@ import javax.ejb.Local;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local
-public interface SceneFacadeLocal {
+@Local(Scene.class)
+public interface Scene {
 
     void create(SceneEntity sceneEntity);
 
@@ -25,6 +25,11 @@ public interface SceneFacadeLocal {
     List<SceneEntity> findRange(int[] range);
     
     List<String> getCategories();
+    
+    List<SceneEntity> findScenesForUser(UserEntity user);
+    
+    SceneEntity getSceneEntity();
+    
 
     int count();
     

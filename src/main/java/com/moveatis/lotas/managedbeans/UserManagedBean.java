@@ -12,6 +12,8 @@ import java.io.Serializable;
 @SessionScoped
 public class UserManagedBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     /**
      * Creates a new instance of UserManagedBean
      */

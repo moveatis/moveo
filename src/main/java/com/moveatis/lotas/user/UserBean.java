@@ -1,17 +1,17 @@
 package com.moveatis.lotas.user;
 
-import com.moveatis.lotas.facade.UserFacadeLocal;
-import com.moveatis.lotas.facade.AbstractFacade;
+import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import com.moveatis.lotas.interfaces.User;
 
 /**
  *
  * @author Sami Kallio <phinalium at outlook.com>
  */
 @Stateless
-public class UserFacade extends AbstractFacade<UserEntity> implements UserFacadeLocal {
+public class UserBean extends AbstractBean<UserEntity> implements User {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -21,7 +21,7 @@ public class UserFacade extends AbstractFacade<UserEntity> implements UserFacade
         return em;
     }
 
-    public UserFacade() {
+    public UserBean() {
         super(UserEntity.class);
     }
     
