@@ -62,7 +62,7 @@ body {
 }
 
 
-ul {
+#category-list {
     list-style-type: none;
     /*max-height: 72vh;*/
     /*overflow: scroll;*/
@@ -74,7 +74,7 @@ ul {
     margin-top: 4vh;
 }
 
-li {
+.category-item {
     position: relative;
     background-color: #567;
     font-size: 0; /* removes extra space when catergory-name uses inline-block */
@@ -96,15 +96,15 @@ li {
                                     not supported by any browser */
 }
 
-li:first-child {
+.category-item:first-child {
     margin-top: 0;
 }
 
-li:last-child {
+.category-item:last-child {
     margin-bottom: 0;
 }
 
-li.down {
+.category-item.down {
     background-color: #f82;
 }
 

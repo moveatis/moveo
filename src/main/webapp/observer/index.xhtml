@@ -8,6 +8,7 @@
     <h:head>
         <title>Observer</title>
         <h:outputStylesheet library="css" name="base.css"/>
+        <h:outputStylesheet library="css" name="base2.css"/>
         <h:outputStylesheet library="css" name="observer.css"/>
         <h:outputScript library="javax.faces" name="jsf.js" />
         <h:outputScript library="primefaces" name="jquery/jquery.js" />
@@ -23,6 +24,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
+        
+        <div id="naviHead">
+            <ui:insert name="header" >
+                <ui:include src="../commonHeader.xhtml"/>
+            </ui:insert>
+        </div>
+        
         <ui:include src="test.html" />
         
         <ui:debug />
@@ -34,6 +42,13 @@
             <h:commandButton id="add-recording" action="#{observationBean.addRecording}"/>
         </h:form>
         <h:outputText id="recording" value="#{observationBean.recordingStr}"/>
+        
+        
+        <div id="Footer">
+            <ui:insert name="footer" >
+                <ui:include src="../commonFooter.xhtml"/>
+            </ui:insert>
+        </div>
         
     </h:body>
 </html>
