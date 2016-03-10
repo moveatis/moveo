@@ -8,7 +8,7 @@
     <h:head>
         <title>Observer</title>
         <h:outputStylesheet library="css" name="base.css"/>
-        <h:outputStylesheet library="css" name="base2.css"/>
+        <h:outputStylesheet library="css" name="basev2.css"/>
         <h:outputStylesheet library="css" name="observer.css"/>
         <h:outputScript library="javax.faces" name="jsf.js" />
         <h:outputScript library="primefaces" name="jquery/jquery.js" />
@@ -25,16 +25,14 @@
     </h:head>
     <h:body>
         
-        <div id="naviHead">
-            <ui:insert name="header" >
-                <ui:include src="../commonHeader.xhtml"/>
-            </ui:insert>
+        <div id="header">
+            <ui:include src="../commonHeader.xhtml"/>
         </div>
-        
+
         <ui:include src="test.html" />
-        
+
         <ui:debug />
-        
+
         <h:form id="recording-form" style="display:none">
             <input type="hidden" id="rec-category" name="rec-category" value=""/>
             <input type="hidden" id="rec-start-time" name="rec-start-time" value="0"/>
@@ -42,12 +40,9 @@
             <h:commandButton id="add-recording" action="#{observationBean.addRecording}"/>
         </h:form>
         <h:outputText id="recording" value="#{observationBean.recordingStr}"/>
-        
-        
-        <div id="Footer">
-            <ui:insert name="footer" >
-                <ui:include src="../commonFooter.xhtml"/>
-            </ui:insert>
+
+        <div id="footer">
+            <ui:include src="../commonFooter.xhtml"/>
         </div>
         
     </h:body>

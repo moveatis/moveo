@@ -8,42 +8,65 @@ and open the template in the editor.
     Author     : ilkrpaan
 */
 
-body {
-    text-align: center;
+html {
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 0; /* removes extra space between elements */
+}
+
+#header, #footer {
+    font-size: 12px;
+    width: 100%;
+    position: absolute;
+}
+
+#header {
+    top: 0;
+}
+
+#footer {
+    bottom: 0;
 }
 
 #content {
-    display: inline-block;
+    max-width: 100%;
+    height: 85%;
     margin: 0;
+    margin-top: 40px;
     padding: 0;
-    font-size: 0;
+    display: inline-block;
+}
+
+#controls {
+    height: 12%;
 }
 
 #total-time {
+    margin: 0;
+    padding: 0;
     float: right;
-    font-size: 8vh;
-    margin-left: 1vh;
+    font-size: 6vh;
 }
 
 #play, #pause, #stop {
-    display: inline-block;
-    font-size: 9vh;
-    background-color: #567;
+    width: 10vh;
+    margin: 0 1vh;
+    padding: 1vh;
     border-radius: 1vh;
-    width: 14vh;
-    padding: 1vh 0;
+    display: inline-block;
+    font-size: 8vh;
+    background-color: #567;
     cursor: pointer;
-}
-
-#play, #pause {
-    margin-right: 2vh;
-}
-
-#stop {
-    margin-left: 2vh;
 }
 
 #play.disabled, #pause.disabled, #stop.disabled {
@@ -52,8 +75,6 @@ body {
 }
 
 #stop.down {
-    /*background-color: #f82;*/
-    /*color: #f82;*/
     cursor: default;
 }
 
@@ -63,26 +84,25 @@ body {
 
 
 #category-list {
-    list-style-type: none;
-    /*max-height: 72vh;*/
-    /*overflow: scroll;*/
+    max-width: 100%;
+    height: 88%;
     margin: 0;
     padding: 0;
-    /*padding: 2vh;*/
-    /*background-color: #123;*/
-    /*border-radius: 1vh;*/
-    margin-top: 4vh;
+    list-style-type: none;
+    /*overflow: scroll;*/
 }
 
 .category-item {
+    max-width: 100%;
+    height: 13.5%;
+    margin: 0;
+    margin-bottom: 1%;
+    padding: 0;
+    border-radius: 1vh;
     position: relative;
-    background-color: #567;
-    font-size: 0; /* removes extra space when catergory-name uses inline-block */
     text-align: left;
     white-space: nowrap;
-    margin: 0.5vh 0;
-    padding: 2vh;
-    border-radius: 1vh;
+    background-color: #567;
     cursor: pointer;
     
     /* Disable text selection.
@@ -96,8 +116,8 @@ body {
                                     not supported by any browser */
 }
 
-.category-item:first-child {
-    margin-top: 0;
+.category-item:nth-child(even) {
+    background-color: #456;
 }
 
 .category-item:last-child {
@@ -109,25 +129,28 @@ body {
 }
 
 .category-name {
+    max-width: 90%;
+    margin: 0 0.3em;
+    padding: 0;
     display: inline-block;
-    font-size: 6.5vh;
-    max-width: 60vw;
+    position: relative;
+    top: 25%;
+    /*margin-left: 0.3em;*/
+    /*max-width: 60vw;*/
     overflow: hidden;
     text-overflow: ellipsis;
-    margin: 0;
-    padding: 0;
-    /*position: relative;*/
-    /*z-index: 0;*/
+    font-size: 5vh;
 }
 
 .category-timer {
-    font-size: 6.5vh;
-    float: right;
-    background-color: #345;
-    border-radius: 0.75vh;
-    padding: 0 1vh;
     margin: 0;
-    margin-left: 1vh;
+    padding: 0 0.15em;
+    border-radius: 1vh;
+    float: right;
     position: relative;
+    /*top: 25%;*/
+    margin-left: 0.3em;
     z-index: 1;
+    font-size: 3vh;
+    background-color: #345;
 }
