@@ -7,6 +7,7 @@ and open the template in the editor.
     Created on : Mar 8, 2016, 5:33:35 PM
     Author     : jaanjuuj
 */
+
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 @import url(smartphones/basev2.css);
 @import url(tablets/basev2.css);
@@ -17,8 +18,8 @@ html {
 }
 
 body {
-    width: 50%;
-    margin: 10% 10% 10% 10%;
+    width: 96%;
+    margin: 5% auto 0 auto;
     font-size: 100%;
     color: #ffffff;
     background-color: #131D24;
@@ -32,9 +33,64 @@ body {
     background-attachment: fixed;
     font-family: 'Roboto', sans-serif;
 }
+
 nav {
-    float: center;
-    width: 300px;
+    float: left;
+    width: 24%;
+    border: none;
     margin-right: 0.5em;
-    padding-bottom: 0.5;
+    padding-bottom: 4.5;
+    padding-right: 6.5;
+}
+  
+.accessButtons {
+    
+    width: 9.5em;
+    height: 2.0em;
+    margin: auto auto auto auto;
+/*    display: block;*/
+    text-align: center;
+    padding: 1.0em;
+}
+
+    .coloredButton {
+        background: #ff6600;
+        opacity: 0.9;
+    }
+
+a:link {text-decoration: none; color: whitesmoke;}
+a:visited {text-decoration: none; color: whitesmoke;}
+a:active {text-decoration: none; color: whitesmoke;}
+a:hover {text-decoration: none; color: orange;}
+
+
+@media screen and (max-width: 800px) {
+    
+    nav {
+        padding-top: 0.5em;
+        width: 96%;
+        margin: 1% auto 1% auto;
+        border: none;
+        padding-bottom: 0.5em;
+        
+    }
+    
+    .welcomeContent {
+        width: 96%;
+        margin: 1% auto 1% auto;
+        padding: 1.0em;
+    }
+    
+    .accessButtons {
+        width: 9.5em;
+        height: 2.0em;
+/*        margin: 2.5% auto 2.5% auto;*/
+        display:table;
+        text-align: center;
+        padding: 1.0em; 
+
+        .coloredButton {
+        background: #ff6600;
+        opacity: 0.9;
+    }
 }
