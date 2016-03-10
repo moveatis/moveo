@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
@@ -39,12 +40,15 @@ public class SummaryManagedBean {
     private final Date min;
     private final Date start;
     private final long zoomMin;
+    private final long zoomMax;
     private Date max;
-    private long zoomMax;
     private String observationDate;
     private String observationDuration;
 
     private Observation observation;
+    
+//    @ManagedProperty(value = "#{observationBean}")
+    private ObservationManagedBean observationBean;
 
     public SummaryManagedBean() {
         this.locale = new Locale("fi", "FI"); // get from locale "bean" ?
@@ -53,18 +57,27 @@ public class SummaryManagedBean {
         this.start = new Date(0);
         this.min = new Date(0);
         this.zoomMin = 10 * 1000;
-
-        // Dummy observation object containing the observation data
-        // TODO: get from backend
-        this.observation = createTestObservation();
-        this.observationDate = this.observation.observationDateStr();
-        this.observationDuration = this.observation.durationStr();
         this.zoomMax = 24 * 60 * 60 * 1000;
-        this.max = new Date(this.observation.getEnd());
     }
 
     @PostConstruct
     protected void initialize() {
+        // Get observation bean. ManagedProperty annotation doesn't seem to work (perhaps because
+        // it's resolved later?) so we do it like this: http://stackoverflow.com/a/2633733
+        FacesContext context = FacesContext.getCurrentInstance();
+        observationBean = (ObservationManagedBean) context.getApplication()
+                .evaluateExpressionGet(context, "#{observationBean}", ObservationManagedBean.class);
+        
+        if (observationBean == null) {
+            this.observation = createTestObservation();
+        } else {
+            this.observation = observationBean.getObservation();
+        }
+        
+        this.observationDate = this.observation.observationDateStr();
+        this.observationDuration = this.observation.durationStr();
+        //this.max = new Date(this.observation.getEnd());
+        
         createTimeline();
     }
 
@@ -116,16 +129,7 @@ public class SummaryManagedBean {
         return zoomMax;
     }
 
-    public Observation getObservation() {
-        return observation;
-    }
-
-    public void setObservation(Observation observation) {
-        this.observation = observation;
-    }
-
     public String getObservationDate() {
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
         return observationDate;
     }
 
@@ -181,7 +185,7 @@ public class SummaryManagedBean {
         return newObs;
     }
 
-    class Observation implements Iterable<Recording> {
+    public static class Observation implements Iterable<Recording> {
 
         private final List<Recording> recordings;
         private Date observationDate;
@@ -196,7 +200,7 @@ public class SummaryManagedBean {
             return recordings.iterator();
         }
 
-        private void add(Recording recording) {
+        public void add(Recording recording) {
             this.recordings.add(recording);
         }
 
@@ -217,6 +221,7 @@ public class SummaryManagedBean {
         }
 
         private String observationDateStr() {
+            Locale locale = new Locale("fi", "FI"); // Originally used SummaryManagedBean's locale when this class wasn't static!
             DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
             return df.format(observationDate);
         }
@@ -235,7 +240,7 @@ public class SummaryManagedBean {
         }
     }
 
-    class Recording {
+    public static class Recording {
 
         private String category;
         private long start;

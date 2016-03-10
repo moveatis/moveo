@@ -10,67 +10,79 @@ and open the template in the editor.
 
 body {
     text-align: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 #content {
-    max-width: 90vw;
     display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+}
+
+#total-time {
+    float: right;
+    font-size: 8vh;
+    margin-left: 1vh;
+}
+
+#play, #pause, #stop {
+    display: inline-block;
+    font-size: 9vh;
+    background-color: #567;
+    border-radius: 1vh;
+    width: 14vh;
+    padding: 1vh 0;
+    cursor: pointer;
 }
 
 #play, #pause {
-    display: inline-block;
-    position: relative;
-    /*background: #fff;*/
-    border-radius: 50%;
-    width: 16vmin;
-    height: 16vmin;
-    cursor: pointer;
-    padding: 0;
-    border: 0;
-    margin: 0;
-    border: 1vmin solid #fff;
+    margin-right: 2vh;
 }
 
-#play::before {
-    position: absolute;
-    content: "";
-    top: 3vmin;
-    left: 4.25vmin;
-    border-left: 10vmin solid #fff;
-    border-top: 5vmin solid transparent;
-    border-bottom: 5vmin solid transparent;
-    border-right: 0 solid transparent;
+#stop {
+    margin-left: 2vh;
 }
 
-#pause::before, #pause::after {
-    position: absolute;
-    background: #fff;
-    content: "";
-    width: 4vmin;
-    height: 10vmin;
-    top: 3vmin;
+#play.disabled, #pause.disabled, #stop.disabled {
+    color: #345;
+    cursor: default;
 }
 
-#pause::before {
-    left: 3vmin;
+#stop.down {
+    /*background-color: #f82;*/
+    /*color: #f82;*/
+    cursor: default;
 }
 
-#pause::after {
-    right: 3vmin;
+.disabled {
+    cursor: default;
 }
 
 
 ul {
     list-style-type: none;
+    /*max-height: 72vh;*/
+    /*overflow: scroll;*/
+    margin: 0;
     padding: 0;
+    /*padding: 2vh;*/
+    /*background-color: #123;*/
+    /*border-radius: 1vh;*/
+    margin-top: 4vh;
 }
 
 li {
+    position: relative;
     background-color: #567;
-    font-size: 5vmin;
-    margin: 0.25em;
-    padding: 0.25em;
-    border-radius: 0.25em;
+    font-size: 0; /* removes extra space when catergory-name uses inline-block */
+    text-align: left;
+    white-space: nowrap;
+    margin: 0.5vh 0;
+    padding: 2vh;
+    border-radius: 1vh;
     cursor: pointer;
     
     /* Disable text selection.
@@ -84,6 +96,38 @@ li {
                                     not supported by any browser */
 }
 
+li:first-child {
+    margin-top: 0;
+}
+
+li:last-child {
+    margin-bottom: 0;
+}
+
 li.down {
-    background-color: #fa4;
+    background-color: #f82;
+}
+
+.category-name {
+    display: inline-block;
+    font-size: 6.5vh;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    padding: 0;
+    /*position: relative;*/
+    /*z-index: 0;*/
+}
+
+.category-timer {
+    font-size: 6.5vh;
+    float: right;
+    background-color: #345;
+    border-radius: 0.75vh;
+    padding: 0 1vh;
+    margin: 0;
+    margin-left: 1vh;
+    position: relative;
+    z-index: 1;
 }

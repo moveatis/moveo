@@ -8,13 +8,50 @@ and open the template in the editor.
     Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
 */
 
+.background {
+    background-color: rgba(85, 102, 119, 0.5);
+    padding: .1em .5em;
+}
+.content {
+    text-align: center;
+}
+.content,
+.ui-grid-row {
+    max-width: 38em;
+}
+.content span {
+    font-size: .9em;
+}
+.inline-bar > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+.total {
+    font-size: 1.4em;
+}
+
+.align-bar {
+    margin: auto 2%;
+}
+.align-bar > div {
+    text-align: center;
+    padding: .3em .6em;
+    margin: .2em .5em;
+}
+.header-left {
+    float: left;
+    padding-top: .6em;
+    padding-bottom: .3em;
+}
+.header-left > *{
+    margin: 0;
+}
+
 .ui-grid {
-    background-color: #567;
     position: relative;
 }
 .ui-grid-row {
     padding: 0.2em .3em;
-    max-width: 48em;
 }
 .ui-grid-row:after {
     content:"";
@@ -23,11 +60,23 @@ and open the template in the editor.
     position: absolute;
     left: 0;
     margin-top: -0.2em;
-}
-.ui-grid-row:first-child:after {
-    display: none;
-}
-#details .ui-grid-col-2 {
-    text-align: center;
+    opacity: 0.5;
 }
 
+.ui-grid-col-2 {
+    text-align: right;
+}
+
+/* Responsive */
+@media (max-width:260px){
+    .ui-grid.ui-grid-responsive-260 .ui-grid-row{
+        display:block;
+    }
+    .ui-grid.ui-grid-responsive-260 .ui-grid-row > div{
+        width:100%;
+        float:none;
+    }
+    .ui-grid-col-2 {
+        text-align: left;
+    }
+}

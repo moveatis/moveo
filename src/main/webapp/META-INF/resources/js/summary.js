@@ -13,8 +13,6 @@ $(function () {
 
     // NOTE: setting showCurrentTime did not work from JSF
     timeline.options.showCurrentTime = false;
-    timeline.options.scale = links.Timeline.StepDate.SCALE.MINUTE;
-    timeline.options.step = 1;
 
     $("#total-recordings").text(timeline.items.length);
 
@@ -22,7 +20,7 @@ $(function () {
 });
 
 function updateRecordingsInfo(timeline) {
-    var grid = $("#recordings-grid");
+    var grid = $("#recordings");
     var categories = timeline.getItemsByGroup(timeline.items);
     var totalDuration = getTotalDuration(categories);
     grid.empty();
