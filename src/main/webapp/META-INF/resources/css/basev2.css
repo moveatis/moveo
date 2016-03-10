@@ -2,12 +2,12 @@
 The base stylesheet for Lotas-webapplication
 */
 /* 
-    Created on : 14.2.2016, 13:14:11
-    Author     : Sami Kallio
+    Created on : 24.2.2016, 11:55:11
+    Author     : Jarmo Juujärvi (based on base.css by Sami kallio)
 */
 @import url(https://fonts.googleapis.com/css?family=Roboto);
-@import url(smartphones/base.css);
-@import url(tablets/base.css);
+@import url(smartphones/basev2.css);
+@import url(tablets/basev2.css);
 
 html {
     width: 100%;
@@ -34,21 +34,23 @@ body {
 nav {
     float: left;
     width: 24%;
-    border: 1px solid #567;
+    border: none;
     margin-right: 0.5em;
-    padding-bottom: 0.5;
+    padding-bottom: 4.5;
+    padding-right: 6.5;
 }
 
 .welcomeContent {
     float: right;
-    width: 74%;
+    width: 70%;
     display: block;
+    padding: 0.5em;
 }
 .naviHeader {
     width: 100%;
     float:right;
     height: 26px;
-    background-color: #567;
+    background-color: #ff6600;
     background-size: 100%;
     text-align: center;
     padding-bottom: 0.8em;
@@ -65,28 +67,33 @@ nav {
 .accessButtons {
     
     width: 9.5em;
-    height: 2.5em;
-    margin: 2.5% auto 2.5% auto;
-    display: block;
-    border: 2px solid blanchedalmond;
+    height: 2.0em;
+    margin: auto auto auto auto;
+/*    display: block;*/
     text-align: center;
     padding: 1.0em;
 }
+
+    .coloredButton {
+        background: #ff6600;
+        opacity: 0.9;
+    }
+ 
 .naviFooter {
     width: 100%;
     float: right;
     height: 20px;
     background-size: 50%;
-    background-color: #567;
+    background-color: #ff6600;
     align-content: flex-end;
     text-align: center;
     
 }
 
-a:link {text-decoration: none; color: lightcyan;}
-a:visited {text-decoration: none; color: lightcyan;}
-a:active {text-decoration: none; color: lightcyan;}
-a:hover {text-decoration: none; color: lightsalmon;}
+a:link {text-decoration: none; color: whitesmoke;}
+a:visited {text-decoration: none; color: whitesmoke;}
+a:active {text-decoration: none; color: whitesmoke;}
+a:hover {text-decoration: none; color: orange;}
 
 
 @media screen and (max-width: 800px) {
@@ -97,17 +104,19 @@ a:hover {text-decoration: none; color: lightsalmon;}
         margin: 1% auto 1% auto;
         border: none;
         padding-bottom: 0.5em;
+        
     }
     
     .welcomeContent {
         width: 96%;
         margin: 1% auto 1% auto;
+        padding: 1.0em;
     }
     .naviHeader {
         width: 100%; 
         float: right;
         height: 26px;
-        background-color: #567; 
+        background-color: #ff6600; 
         background-size: 100%;
         text-align: center;
         padding-bottom: 0.8em;
@@ -123,12 +132,16 @@ a:hover {text-decoration: none; color: lightsalmon;}
     
     .accessButtons {
         width: 9.5em;
-        height: 2.5em;
-        margin: 2.5% auto 2.5% auto;
-        display: block;
-        border: 2px solid blanchedalmond;
+        height: 2.0em;
+/*        margin: 2.5% auto 2.5% auto;*/
+        display:table;
         text-align: center;
-        padding: 1.0em;
+        padding: 1.0em;        
+    }
+    
+    .coloredButton {
+        background: #ff6600;
+        opacity: 0.9;
     }
   
     .naviFooter {
@@ -136,7 +149,7 @@ a:hover {text-decoration: none; color: lightsalmon;}
         float: right;    
         height: 20px;
         background-size: 50%;
-        background-color: #567; 
+        background-color: #ff6600; 
         text-align: center;
    }
 }

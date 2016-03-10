@@ -1,28 +1,42 @@
 package com.moveatis.lotas.category;
 
 import com.moveatis.lotas.scene.SceneGroupEntity;
+import com.moveatis.lotas.scenekey.SceneKeyEntity;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
+@Table(name="CATEGORYGROUPS")
 public class CategoryGroupEntity implements Serializable {
 
     @ManyToOne
-    private SceneGroupEntity sceneTemplate;
+    private SceneGroupEntity sceneGroup;
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @OneToMany(mappedBy = "categoryGroup")
+    private List<CategoryEntity> categoryEntitys;
 
+    @OneToOne
+    private SceneKeyEntity sceneKey;
+    
+    
     public Long getId() {
         return id;
     }
