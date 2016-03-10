@@ -1,6 +1,6 @@
 
-function Clock() {
-    this.total_time = 0;
+function Clock(initial_time) {
+    this.total_time = initial_time;
     this.resume_time = 0;
     this.running = false;
     
@@ -45,14 +45,14 @@ function timeToString(ms) {
 }
 
 
-function CategoryItem(name, index) {
+function CategoryItem(name, index, initial_time) {
     this.li = $(document.createElement("li"));
     this.li.addClass("category-item");
     this.li.attr("id", "category-item_" + index);
 
     this.timer_div = $(document.createElement("div"));
     this.timer_div.addClass("category-timer");
-    this.timer_div.append(document.createTextNode("00:00"));
+    this.timer_div.append(document.createTextNode(timeToString(initial_time)));
 
     var name_div = $(document.createElement("div"));
     name_div.addClass("category-name");
@@ -96,8 +96,8 @@ function CategoryItem(name, index) {
 }
 
 
-function Observer(category_names) {
-    var master_clock = new Clock();
+function Observer(initial_time, category_data) {
+    var master_clock = new Clock(initial_time);
     var categories = [];
     var recordings = [];
     
@@ -109,10 +109,11 @@ function Observer(category_names) {
     
     pause_button.hide();
     stop_button.addClass("disabled");
-    total_time.append(document.createTextNode("00:00"));
+    total_time.append(document.createTextNode(timeToString(initial_time)));
     
-    for (var i in category_names) {
-        var category = new CategoryItem(category_names[i], i);
+    for (var i in category_data) {
+        var data = category_data[i];
+        var category = new CategoryItem(data.name, i, data.initial_time);
         categories.push(category);
         category_list.append(category.li);
     }
@@ -187,7 +188,11 @@ function Observer(category_names) {
         
         console.log(recordings);
         
-        window.location = "../summary/";
+        // TODO: IMPORTANT: We should ensure that all recordings have been received by backend before redirecting!
+        // TODO: We propably shouldn't redirect when stop is clicked --> We need a dedicated button that takes to summary page(?)
+        setTimeout(function() {
+            window.location = "../summary/";
+        }, 1000);
     };
     
     this.categoryClick = function(index) {
@@ -209,16 +214,18 @@ function Observer(category_names) {
 
 
 $(document).ready(function() {
-    var observer = new Observer([
-        "Järjestelyt",
-        "Tehtävän selitys",
-        "Ohjaus",
-        "Palautteen anto",
-        "Tarkkailu",
-        "Muu toiminta",
-        "Oppilas suorittaa tehtävää",
-        "..."
-    ]);
+    var initial_time = initial_time || 0;
+    var category_data = category_data || [
+        {name: "Järjestelyt", initial_time: 0},
+        {name: "Tehtävän selitys", initial_time: 0},
+        {name: "Ohjaus", initial_time: 0},
+        {name: "Palautteen anto", initial_time: 0},
+        {name: "Tarkkailu", initial_time: 0},
+        {name: "Muu toiminta", initial_time: 0},
+        {name: "Oppilas suorittaa tehtävää", initial_time: 0}
+    ];
+    
+    var observer = new Observer(initial_time, category_data);
     
     $("#play").click(function() { observer.playClick(); });
     $("#pause").click(function() { observer.pauseClick(); });
