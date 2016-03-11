@@ -22,7 +22,7 @@ and open the template in the editor.
                 <div class="accessButtons" style="min-height: 300px;">
                     <p:commandButton value="Omat asetukset" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                     <p:commandButton value="Luo tapahtuma" type="button" onclick="PF('dlg2').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
-                    <p:commandButton value="Tee ny jotain" type="button" onclick="" style="width: 200px; margin-top: 15px" class="coloredButton"/>
+                    <p:commandButton value="Tee ny jotain" type="button" onclick="PF('dlg3').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                     
                 </div>
  
@@ -36,6 +36,9 @@ and open the template in the editor.
                     <h:outputText value="Tähän se tulee..."/>
                 </p:dialog>
                
+               <p:dialog header="Tein jo jotain" widgetVar="dlg3" minHeight="80" position="center" class="coloredButton">
+                    <h:outputText value="Press anykey"/>
+                </p:dialog>
            </h:form>
         </div>
         </nav>
