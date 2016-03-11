@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author Sami Kallio <phinaliumz at outlook.com
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 public class SceneGroupEntity implements Serializable {
