@@ -15,11 +15,11 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <body>
-        
+        <ui:composition>
         <nav>
         <div>
            <h:form>
-                <div class="accessButtons">
+                <div class="accessButtons" style="min-height: 300px;">
                     <p:commandButton value="Omat asetukset" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                     <p:commandButton value="Luo tapahtuma" type="button" onclick="PF('dlg2').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                     <p:commandButton value="Tee ny jotain" type="button" onclick="" style="width: 200px; margin-top: 15px" class="coloredButton"/>
@@ -35,9 +35,10 @@ and open the template in the editor.
                 <p:dialog header="Luo observointitapahtumatapahtuma" widgetVar="dlg2" minHeight="80" position="center" class="coloredButton">
                     <h:outputText value="Tähän se tulee..."/>
                 </p:dialog>
+               
            </h:form>
         </div>
         </nav>
-        
+        </ui:composition>
     </body>
 </html>

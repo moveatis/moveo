@@ -37,10 +37,12 @@ body {
 nav {
     float: left;
     width: 24%;
+    min-height: 50%;
     border: none;
-    margin-right: 0.5em;
-    padding-bottom: 4.5;
-    padding-right: 6.5;
+    display: table;
+    margin: 5% 5% 5% 5%;
+    padding-bottom: 7.5em;
+    padding-right:  3.5em;
 }
   
 .accessButtons {
@@ -48,9 +50,10 @@ nav {
     width: 9.5em;
     height: 2.0em;
     margin: auto auto auto auto;
-/*    display: block;*/
+    
     text-align: center;
     padding: 1.0em;
+    min-height: 40%;
 }
 
     .coloredButton {
@@ -69,6 +72,7 @@ a:hover {text-decoration: none; color: orange;}
     nav {
         padding-top: 0.5em;
         width: 96%;
+        height: 50%;
         margin: 1% auto 1% auto;
         border: none;
         padding-bottom: 0.5em;
@@ -88,7 +92,7 @@ a:hover {text-decoration: none; color: orange;}
         display:table;
         text-align: center;
         padding: 1.0em; 
-
+    }
         .coloredButton {
         background: #ff6600;
         opacity: 0.9;
