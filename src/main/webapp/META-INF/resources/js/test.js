@@ -131,8 +131,7 @@ function Observer(initial_time, category_data) {
             if ("jsf" in window) {
                 jsf.ajax.request("recording-form:add-recording", null, {
                     "javax.faces.behavior.event": "action",
-                    "execute": "@form",
-                    "render": "recording"
+                    "execute": "@form"
                 });
             }
         }

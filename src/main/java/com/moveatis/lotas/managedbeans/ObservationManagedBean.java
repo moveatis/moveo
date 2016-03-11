@@ -62,7 +62,6 @@ public class ObservationManagedBean implements Serializable {
 //    }
     
     private SummaryManagedBean.Observation observation;
-    private String recordingStr = "no recording";
 //    private long initialTime;
 //    private List<Category> categoryData;
 
@@ -89,10 +88,6 @@ public class ObservationManagedBean implements Serializable {
     
     public SummaryManagedBean.Observation getObservation() {
         return observation;
-    }
-    
-    public String getRecordingStr() {
-        return recordingStr;
     }
     
 //    public long getInitialTime() {
@@ -125,7 +120,5 @@ public class ObservationManagedBean implements Serializable {
         if (end > observation.getEnd()) {
             observation.setEnd(end);
         }
-        
-        recordingStr = category + ": " + start + " --> " + end;
     }
 }
