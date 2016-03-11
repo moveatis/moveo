@@ -17,7 +17,6 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -41,8 +40,8 @@ public class SummaryManagedBean {
     private final Date min;
     private final Date start;
     private final long zoomMin;
+    private final long zoomMax;
     private Date max;
-    private long zoomMax;
     private String observationDate;
     private String observationDuration;
 
@@ -50,14 +49,6 @@ public class SummaryManagedBean {
     
 //    @ManagedProperty(value = "#{observationBean}")
     private ObservationManagedBean observationBean;
-    
-//    public void setObservationBean(ObservationManagedBean obsBean) {
-//        observationBean = obsBean;
-//    }
-//    
-//    public ObservationManagedBean getObservationBean() {
-//        return observationBean;
-//    }
 
     public SummaryManagedBean() {
         this.locale = new Locale("fi", "FI"); // get from locale "bean" ?
@@ -66,9 +57,7 @@ public class SummaryManagedBean {
         this.start = new Date(0);
         this.min = new Date(0);
         this.zoomMin = 10 * 1000;
-
-        // Dummy observation object containing the observation data
-        // TODO: get from backend
+        this.zoomMax = 24 * 60 * 60 * 1000;
     }
 
     @PostConstruct
@@ -87,8 +76,7 @@ public class SummaryManagedBean {
         
         this.observationDate = this.observation.observationDateStr();
         this.observationDuration = this.observation.durationStr();
-        this.zoomMax = 24 * 60 * 60 * 1000;
-        this.max = new Date(this.observation.getEnd());
+        //this.max = new Date(this.observation.getEnd());
         
         createTimeline();
     }
@@ -141,16 +129,7 @@ public class SummaryManagedBean {
         return zoomMax;
     }
 
-    public Observation getObservation() {
-        return observation;
-    }
-
-    public void setObservation(Observation observation) {
-        this.observation = observation;
-    }
-
     public String getObservationDate() {
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
         return observationDate;
     }
 
