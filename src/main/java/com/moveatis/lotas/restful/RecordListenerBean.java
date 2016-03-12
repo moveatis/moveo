@@ -1,7 +1,11 @@
 package com.moveatis.lotas.restful;
 
+import com.moveatis.lotas.enums.UserType;
+import com.moveatis.lotas.interfaces.Session;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,8 +23,11 @@ import javax.ws.rs.core.MediaType;
 @Named(value="recordBean")
 @Stateful
 public class RecordListenerBean implements Serializable {
-    
+  
     private static final long serialVersionUID = 1L;
+    
+    @EJB(beanName="DebugSessionBean")
+    private Session sessionBean;
     
     public RecordListenerBean() {
         
@@ -42,7 +49,11 @@ public class RecordListenerBean implements Serializable {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String helloWorld() {
-        return "Hello, world!";
+        if(sessionBean.getUserType() == UserType.IDENTIFIED_USER) {
+            return "You are identified, output will be saved to database";
+        } else {
+            return "You are not identified, output will not be saved to database";
+        }
     }
     
 }
