@@ -1,7 +1,8 @@
 package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.observation.ObservationEntity;
-import com.moveatis.lotas.records.RecordEntity;
+import com.moveatis.lotas.restful.DebugRecordEntity;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -9,8 +10,8 @@ import javax.ejb.Local;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local(Observation.class)
-public interface Observation {
+@Local(DebugObservation.class)
+public interface DebugObservation {
     
     void categorizedObservationActivated(String category);
     void categorizedObservationDeactivated(String category);
@@ -29,6 +30,10 @@ public interface Observation {
 
     int count();
     
-    void addRecord(RecordEntity recordEntity);
+    void addRecord(DebugRecordEntity recordEntity);
+    
+    List<DebugRecordEntity> getRecords();
+    
+    Iterator<DebugRecordEntity> getIterator();
     
 }

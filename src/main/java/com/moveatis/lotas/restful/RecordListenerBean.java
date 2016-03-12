@@ -1,6 +1,7 @@
 package com.moveatis.lotas.restful;
 
 import com.moveatis.lotas.enums.UserType;
+import com.moveatis.lotas.interfaces.DebugObservation;
 import com.moveatis.lotas.interfaces.Session;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -30,6 +31,9 @@ public class RecordListenerBean implements Serializable {
     @EJB(beanName="DebugSessionBean")
     private Session sessionBean;
     
+    @EJB(beanName="DebugObservationBean")
+    private DebugObservation observationBean;
+    
     public RecordListenerBean() {
         logger.debug("Constructor");
     }
@@ -38,12 +42,9 @@ public class RecordListenerBean implements Serializable {
     @Path("addrecord")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public void addRecord(String firstName, String lastName) {
-        logger.debug("RECORDBEAN POST");
-        logger.debug("Data -> " + firstName + ", " + lastName);
-        System.out.println("Data -> " + firstName + ", " + lastName);
-        System.out.println("RECORDBEAN POST");
-        //return "ok";
+    public String addRecord(DebugRecordEntity record) {
+        observationBean.addRecord(record);
+        return "Data received ok";
     }
     
     @POST
@@ -51,23 +52,13 @@ public class RecordListenerBean implements Serializable {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String updateRecord() {
-        logger.debug("RECORDBEAN PUT");
         return "ok";
-    }
-    
-    @POST
-    @Consumes(MediaType.TEXT_PLAIN) 
-    public void testi() {
-        logger.debug("Testi");
     }
     
     //For debug purposes
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String helloWorld() {
-        
-        logger.debug("RECORDBEAN GET");
-        
         if(sessionBean.getUserType() == UserType.IDENTIFIED_USER) {
             return "You are identified, output will be saved to database";
         } else {

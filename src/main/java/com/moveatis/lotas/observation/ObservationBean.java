@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.interfaces.Scene;
 import com.moveatis.lotas.interfaces.User;
+import com.moveatis.lotas.records.RecordEntity;
 import java.io.Serializable;
 import javax.ejb.EJB;
 
@@ -74,6 +75,11 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     @Override
     public void categorizedObservationDeactivated(String category) {
         
+    }
+
+    @Override
+    public void addRecord(RecordEntity recordEntity) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

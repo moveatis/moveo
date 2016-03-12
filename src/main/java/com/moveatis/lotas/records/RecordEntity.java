@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.moveatis.lotas.records;
 
 import com.moveatis.lotas.category.CategoryEntity;
@@ -15,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- * @author sami
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 public class RecordEntity implements Serializable {
@@ -28,6 +23,9 @@ public class RecordEntity implements Serializable {
     
     @ManyToOne
     private CategoryEntity categoryEntity;
+    
+    private Long startTime;
+    private Long endTime;
 
     public Long getId() {
         return id;
@@ -37,6 +35,30 @@ public class RecordEntity implements Serializable {
         this.id = id;
     }
 
+    public CategoryEntity getCategoryEntity() {
+        return categoryEntity;
+    }
+
+    public void setCategoryEntity(CategoryEntity categoryEntity) {
+        this.categoryEntity = categoryEntity;
+    }
+
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
+
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
