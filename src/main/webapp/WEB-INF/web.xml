@@ -17,6 +17,10 @@
         <servlet-name>Exporter</servlet-name>
         <servlet-class>com.moveatis.lotas.export.Exporter</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Errorhandler</servlet-name>
+        <servlet-class>com.moveatis.lotas.error.ErrorHandler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
@@ -28,6 +32,10 @@
     <servlet-mapping>
         <servlet-name>com.moveatis.lotas.restful.MoveatisRestApplication</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Errorhandler</servlet-name>
+        <url-pattern>/errorhandler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

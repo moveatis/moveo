@@ -3,8 +3,6 @@ package com.moveatis.lotas.restful;
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 
 /**
@@ -18,16 +16,14 @@ public class MoveatisRestApplication extends Application {
         
     }
     
-    
     @Override
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
         classes.add(RecordListenerBean.class);
+        classes.add(NotFoundExceptionMapper.class);
+        
+        System.out.println("SYSTEM INITIALIZED");
+        
         return classes;
-    }
-    
-    @GET
-    public String nothingToSeeHere() {
-        return "Nothing to see here!";
     }
 }
