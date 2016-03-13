@@ -5,8 +5,7 @@
  */
 package com.moveatis.lotas.managedbeans;
 
-import com.moveatis.lotas.interfaces.DebugObservation;
-import com.moveatis.lotas.restful.DebugRecordEntity;
+import com.moveatis.lotas.records.RecordEntity;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
@@ -32,9 +31,11 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 @ManagedBean
-@ViewScoped  
+@RequestScoped  
 @Named(value = "summaryBean")
 public class SummaryManagedBean {
+    
+    private final static Long DEVEL_PHASE_OBSERVATION_ID = 1L;
 
     private TimelineModel timeline;
     private Locale locale;
@@ -50,8 +51,8 @@ public class SummaryManagedBean {
 
     private Observation observation;
     
-    @EJB(beanName="DebugObservationBean")
-    private DebugObservation observationBean;
+    @EJB
+    private com.moveatis.lotas.interfaces.Observation observationBean;
     
 //    @ManagedProperty(value = "#{observationBean}")
     //private ObservationManagedBean observationBean;
@@ -146,7 +147,7 @@ public class SummaryManagedBean {
     private void createTimeline() {
         timeline = new TimelineModel();
         HashSet<String> categories = new HashSet<>();
-        for (DebugRecordEntity recording : observationBean.getRecords()) {
+        for (RecordEntity recording : observationBean.getRecords(DEVEL_PHASE_OBSERVATION_ID)) {
             String category = recording.getCategory();
             Date eventStart = new Date(recording.getStartTime());
             Date eventEnd = new Date(recording.getEndTime());

@@ -1,8 +1,9 @@
 package com.moveatis.lotas.restful;
 
 import com.moveatis.lotas.enums.UserType;
-import com.moveatis.lotas.interfaces.DebugObservation;
+import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.interfaces.Session;
+import com.moveatis.lotas.records.RecordEntity;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
@@ -25,25 +26,26 @@ import org.slf4j.LoggerFactory;
 @Stateful
 public class RecordListenerBean implements Serializable {
     
-    private final Logger logger = LoggerFactory.getLogger(RecordListenerBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecordListenerBean.class);
     private static final long serialVersionUID = 1L;
     
     @EJB(beanName="DebugSessionBean")
     private Session sessionBean;
     
-    @EJB(beanName="DebugObservationBean")
-    private DebugObservation observationBean;
+    @EJB
+    private Observation observationBean;
     
     public RecordListenerBean() {
-        logger.debug("Constructor");
+        
     }
     
     @POST
     @Path("addrecord")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public String addRecord(DebugRecordEntity record) {
+    public String addRecord(RecordEntity record) {
         observationBean.addRecord(record);
+
         return "Data received ok";
     }
     

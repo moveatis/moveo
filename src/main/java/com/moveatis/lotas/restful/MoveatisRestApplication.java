@@ -22,8 +22,6 @@ public class MoveatisRestApplication extends Application {
         classes.add(RecordListenerBean.class);
         classes.add(NotFoundExceptionMapper.class);
         
-        System.out.println("SYSTEM INITIALIZED");
-        
         return classes;
     }
 }
