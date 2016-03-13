@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
@@ -31,12 +30,10 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 @ManagedBean
-@RequestScoped  
+@ViewScoped  
 @Named(value = "summaryBean")
 public class SummaryManagedBean {
     
-    private final static Long DEVEL_PHASE_OBSERVATION_ID = 1L;
-
     private TimelineModel timeline;
     private Locale locale;
     private TimeZone timeZone;
@@ -147,7 +144,7 @@ public class SummaryManagedBean {
     private void createTimeline() {
         timeline = new TimelineModel();
         HashSet<String> categories = new HashSet<>();
-        for (RecordEntity recording : observationBean.getRecords(DEVEL_PHASE_OBSERVATION_ID)) {
+        for (RecordEntity recording : observationBean.getRecords()) {
             String category = recording.getCategory();
             Date eventStart = new Date(recording.getStartTime());
             Date eventEnd = new Date(recording.getEndTime());

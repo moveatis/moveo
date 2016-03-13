@@ -31,6 +31,6 @@ public interface Observation {
     
     void addRecord(RecordEntity recordEntity);
     
-    List<RecordEntity> getRecords(Long observationId);
+    List<RecordEntity> getRecords();
     
 }

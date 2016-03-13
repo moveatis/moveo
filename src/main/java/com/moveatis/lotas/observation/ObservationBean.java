@@ -103,19 +103,18 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 
     @Override
     public void addRecord(RecordEntity recordEntity) {
-        if(this.observation == null) {
-            observation = new ObservationEntity();
-            observation.setCreated(Calendar.getInstance(TimeZoneInformation.getTimeZone()).getTime());
-            List<RecordEntity> records = new ArrayList<>();
-            observation.setRecords(records);
-            observation.setUser(user);
-        }
-        this.observation.getRecords().add(recordEntity);
-        develFileOperations.write(observation);
+        
+        develFileOperations.write(recordEntity);
+        
+        LOGGER.debug("Category -> " + recordEntity.getCategory());
+        LOGGER.debug("Start time -> " + recordEntity.getStartTime());
+        LOGGER.debug("End time -> " + recordEntity.getEndTime());
+        
+        LOGGER.debug("addRecord lopetettu");
     }
 
     @Override
-    public List<RecordEntity> getRecords(Long observationId) {
-        return develFileOperations.read().getRecords();
+    public List<RecordEntity> getRecords() {
+        return develFileOperations.read();
     }
 }
