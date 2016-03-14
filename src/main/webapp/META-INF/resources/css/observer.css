@@ -25,13 +25,13 @@ body {
 }
 
 #header, #footer {
-    font-size: 12px;
     width: 100%;
+    font-size: 12px;
 }
 
 #footer {
-    position: absolute;
-    bottom: 0;
+    /*position: absolute;*/
+    /*bottom: 0;*/
 }
 
 #content {
@@ -44,8 +44,6 @@ body {
     height: -o-calc(100% - 56px); /* Opera */
     height: calc(100% - 56px); /* Standard */
     
-    /*min-height: 120px;*/
-    
     margin: 0;
     padding: 0;
     display: inline-block;
@@ -56,10 +54,10 @@ body {
 }
 
 #total-time {
+    font-size: 6vh;
     margin: 0;
     padding: 0;
     float: right;
-    font-size: 6vh;
 }
 
 #play, #pause, #stop {
@@ -67,8 +65,8 @@ body {
     margin: 0 1vh;
     padding: 1vh;
     border-radius: 1vh;
-    display: inline-block;
     font-size: 8vh;
+    display: inline-block;
     background-color: #567;
     cursor: pointer;
 }
@@ -93,7 +91,7 @@ body {
     margin: 0;
     padding: 0;
     list-style-type: none;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
 .category-item {
@@ -101,8 +99,8 @@ body {
     height: 13%;
     margin: 0;
     margin-bottom: 1vh;
-    padding: 0;
     border-radius: 1vh;
+    padding: 0;
     position: relative;
     text-align: left;
     white-space: nowrap;
@@ -135,38 +133,45 @@ body {
 .category-name {
     max-width: 90%;
     margin: 0 0.3em;
+    font-size: 5vh;
     padding: 0;
     display: inline-block;
     position: relative;
     top: 25%;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 5vh;
 }
 
 .category-timer {
-    margin: 0;
-    padding: 0 0.15em;
+    font-size: 3vh;
     border-radius: 1vh;
+    margin: 0;
+    margin-left: 0.3em;
+    padding: 0 0.15em;
     float: right;
     position: relative;
-    margin-left: 0.3em;
     z-index: 1;
-    font-size: 3vh;
     background-color: #345;
 }
 
 @media screen and (min-height: 480px) {
     
     #content {
-        height: 408px;
+        /*height: calc(100% - 56px);*/
+        height: 424px;
     }
     
     #total-time {
+        /*font-size: 6vh;*/
         font-size: 28.8px;
     }
     
     #play, #pause, #stop {
+        /*width: 10vh;*/
+        /*margin: 0 1vh;*/
+        /*padding: 1vh;*/
+        /*border-radius: 1vh;*/
+        /*font-size: 8vh;*/
         width: 48px;
         margin: 0 4.8px;
         padding: 4.8px;
@@ -175,19 +180,72 @@ body {
     }
     
     .category-item {
+        /*margin: 0;*/
+        /*margin-bottom: 1vh;*/
+        /*border-radius: 1vh;*/
         margin: 0;
         margin-bottom: 4.8px;
-        padding: 0;
         border-radius: 4.8px;
     }
     
     .category-name {
+        /*font-size: 5vh;*/
         font-size: 24px;
     }
     
     .category-timer {
-        border-radius: 4.8px;
+        /*font-size: 3vh;*/
+        /*border-radius: 1vh;*/
         font-size: 14.4px;
+        border-radius: 4.8px;
+    }
+    
+}
+
+@media screen and (max-height: 200px) {
+    
+    #content {
+        /*height: calc(100% - 56px);*/
+        height: 144px;
+    }
+    
+    #total-time {
+        /*font-size: 6vh;*/
+        font-size: 12px;
+    }
+    
+    #play, #pause, #stop {
+        /*width: 10vh;*/
+        /*margin: 0 1vh;*/
+        /*padding: 1vh;*/
+        /*border-radius: 1vh;*/
+        /*font-size: 8vh;*/
+        width: 20px;
+        margin: 0 2px;
+        padding: 2px;
+        border-radius: 2px;
+        font-size: 16px;
+    }
+    
+    .category-item {
+        /*margin: 0;*/
+        /*margin-bottom: 1vh;*/
+        /*border-radius: 1vh;*/
+        margin: 0;
+        margin-bottom: 2px;
+        border-radius: 2px;
+    }
+    
+    .category-name {
+        /*font-size: 5vh;*/
+        font-size: 10px;
+    }
+    
+    .category-timer {
+        /*font-size: 3vh;*/
+        /*border-radius: 1vh;*/
+        font-size: 6px;
+        border-radius: 2px;
     }
     
 }

@@ -72,7 +72,7 @@ function CategoryItem(name, index, initial_time) {
             this.li.removeClass("down");
             if (master_time > this.start_time) {
                 this.time += master_time - this.start_time;
-                recording = {category: name, start: this.start_time, end: master_time};
+                recording = {category: name, startTime: this.start_time, endTime: master_time};
             }
             this.down = false;
         } else {
@@ -117,23 +117,20 @@ function Observer(initial_time, category_data) {
         categories.push(category);
         category_list.append(category.li);
     }
-    
-    // The whole recordings-adding-nonsense was inspired by this:
-    // http://www.mkyong.com/jsf2/how-to-pass-new-hidden-value-to-backing-bean-in-jsf/
+
     this.addRecording = function(recording) {
         if (recording !== undefined) {
             recordings.push(recording);
-            $("#rec-category").val(recording.category);
-            $("#rec-start-time").val(recording.start);
-            $("#rec-end-time").val(recording.end);
-            // This ajax request is described here: http://stackoverflow.com/a/15571052
-            // If ajax error handling is needed, look here: http://stackoverflow.com/a/28540357
-            if ("jsf" in window) {
-                jsf.ajax.request("recording-form:add-recording", null, {
-                    "javax.faces.behavior.event": "action",
-                    "execute": "@form"
-                });
-            }
+
+            $.ajax({
+                url: "../webapi/records/addrecord",
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json",
+                cache: false,
+                data: JSON.stringify(recording),
+                success: function(data) { console.log(data); }
+            });
         }
     };
     
@@ -213,8 +210,8 @@ function Observer(initial_time, category_data) {
 
 
 $(document).ready(function() {
-    var initial_time = initial_time || 0;
-    var category_data = category_data || [
+    var initial_time = 0;
+    var category_data = [
         {name: "Järjestelyt", initial_time: 0},
         {name: "Tehtävän selitys", initial_time: 0},
         {name: "Ohjaus", initial_time: 0},
