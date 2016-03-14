@@ -78,6 +78,7 @@ nav {
     .coloredButton {
         background: #ff6600;
         opacity: 0.9;
+        color: white;
     }
  
 .naviFooter {
@@ -137,7 +138,8 @@ a:hover {text-decoration: none; color: orange;}
 /*        margin: 2.5% auto 2.5% auto;*/
         display:table;
         text-align: center;
-        padding: 1.0em;        
+        padding: 1.0em;
+        color: white;   
     }
     
     .coloredButton {
