@@ -5,6 +5,7 @@
  */
 package com.moveatis.lotas.managedbeans;
 
+import com.moveatis.lotas.records.RecordEntity;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,9 +17,9 @@ import java.util.Random;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
@@ -32,7 +33,7 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
 @ViewScoped  
 @Named(value = "summaryBean")
 public class SummaryManagedBean {
-
+    
     private TimelineModel timeline;
     private Locale locale;
     private TimeZone timeZone;
@@ -47,8 +48,11 @@ public class SummaryManagedBean {
 
     private Observation observation;
     
+    @EJB
+    private com.moveatis.lotas.interfaces.Observation observationBean;
+    
 //    @ManagedProperty(value = "#{observationBean}")
-    private ObservationManagedBean observationBean;
+    //private ObservationManagedBean observationBean;
 
     public SummaryManagedBean() {
         this.locale = new Locale("fi", "FI"); // get from locale "bean" ?
@@ -64,19 +68,19 @@ public class SummaryManagedBean {
     protected void initialize() {
         // Get observation bean. ManagedProperty annotation doesn't seem to work (perhaps because
         // it's resolved later?) so we do it like this: http://stackoverflow.com/a/2633733
-        FacesContext context = FacesContext.getCurrentInstance();
-        observationBean = (ObservationManagedBean) context.getApplication()
-                .evaluateExpressionGet(context, "#{observationBean}", ObservationManagedBean.class);
-        
-        if (observationBean == null) {
-            this.observation = createTestObservation();
-        } else {
-            this.observation = observationBean.getObservation();
-        }
-        
-        this.observationDate = this.observation.observationDateStr();
-        this.observationDuration = this.observation.durationStr();
-        //this.max = new Date(this.observation.getEnd());
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        observationBean = (ObservationManagedBean) context.getApplication()
+//                .evaluateExpressionGet(context, "#{observationBean}", ObservationManagedBean.class);
+//        
+//        if (observationBean == null) {
+//            this.observation = createTestObservation();
+//        } else {
+//            this.observation = observationBean.getObservation();
+//        }
+//        
+//        this.observationDate = this.observation.observationDateStr();
+//        this.observationDuration = this.observation.durationStr();
+//        //this.max = new Date(this.observation.getEnd());
         
         createTimeline();
     }
@@ -140,10 +144,10 @@ public class SummaryManagedBean {
     private void createTimeline() {
         timeline = new TimelineModel();
         HashSet<String> categories = new HashSet<>();
-        for (Recording recording : this.observation) {
+        for (RecordEntity recording : observationBean.getRecords()) {
             String category = recording.getCategory();
-            Date eventStart = new Date(recording.getStart());
-            Date eventEnd = new Date(recording.getEnd());
+            Date eventStart = new Date(recording.getStartTime());
+            Date eventEnd = new Date(recording.getEndTime());
             TimelineEvent event = new TimelineEvent("", eventStart, eventEnd, true, category);
             if (!categories.contains(category)) {
                 timeline.addGroup(new TimelineGroup(category, category));

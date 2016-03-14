@@ -34,10 +34,11 @@ body {
 nav {
     float: left;
     width: 24%;
+    height: 40%;
     border: none;
     margin-right: 0.5em;
-    padding-bottom: 4.5;
-    padding-right: 6.5;
+    padding-bottom: 1.5em;
+    padding-right: 0.5em;
 }
 
 .welcomeContent {
@@ -103,14 +104,14 @@ a:hover {text-decoration: none; color: orange;}
         width: 96%;
         margin: 1% auto 1% auto;
         border: none;
-        padding-bottom: 0.5em;
+        padding-bottom: 0.5em;  
         
     }
     
     .welcomeContent {
         width: 96%;
         margin: 1% auto 1% auto;
-        padding: 1.0em;
+        padding: 0.5em;
     }
     .naviHeader {
         width: 100%; 

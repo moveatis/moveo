@@ -1,14 +1,17 @@
 package com.moveatis.lotas.observation;
 
+import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.scene.SceneEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,15 +30,14 @@ public class ObservationEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
-    
     @ManyToOne
     private UserEntity user;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
     
-    @ManyToOne
-    private SceneEntity scene;
+    @OneToMany(mappedBy = "observation")
+    private List<RecordEntity> records;
     
     public Long getId() {
         return id;
@@ -45,12 +47,8 @@ public class ObservationEntity implements Serializable {
         this.id = id;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
+    public List<RecordEntity> getRecords() {
+        return records;
     }
 
     public UserEntity getUser() {
@@ -61,12 +59,16 @@ public class ObservationEntity implements Serializable {
         this.user = user;
     }
 
-    public SceneEntity getScene() {
-        return scene;
+    public void setRecords(List<RecordEntity> records) {
+        this.records = records;
     }
 
-    public void setScene(SceneEntity scene) {
-        this.scene = scene;
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override

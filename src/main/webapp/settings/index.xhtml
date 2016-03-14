@@ -19,14 +19,16 @@
             </ui:insert>
        
         </div>
-
+        
+        <h:panelGroup>
         <div id="mainPage">
-            <ui:insert name ="mainpage">
-                <ui:include src="loginPage.xhtml"/>
+            <ui:insert name ="settingspage">
+                <ui:include src="settingsPage.xhtml"/>
             </ui:insert>
             
         </div>
-
+        </h:panelGroup>
+        
         <div id="Footer">
             <ui:insert name="footer" >
                 <ui:include src="commonFooter.xhtml"/>

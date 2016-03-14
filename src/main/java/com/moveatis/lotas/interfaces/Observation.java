@@ -1,6 +1,7 @@
 package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.observation.ObservationEntity;
+import com.moveatis.lotas.records.RecordEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -27,5 +28,9 @@ public interface Observation {
     List<ObservationEntity> findRange(int[] range);
 
     int count();
+    
+    void addRecord(RecordEntity recordEntity);
+    
+    List<RecordEntity> getRecords();
     
 }

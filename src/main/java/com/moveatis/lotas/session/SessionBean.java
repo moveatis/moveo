@@ -36,6 +36,7 @@ public class SessionBean implements Session {
         this.tag = tag;
     }
 
+    @Override
     public UserType getUserType() {
         return userType;
     }

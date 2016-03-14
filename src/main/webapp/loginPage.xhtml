@@ -20,6 +20,7 @@ and open the template in the editor.
         <ui:composition>
        <nav>
            <h:form>
+               <h:panelGroup>
                 <div class="accessButtons">
                     <p:commandButton value="Kurssiavain" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                     <p:commandButton value="JYU-tunnukset" type="button" onclick="PF('dlg2').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
@@ -36,7 +37,7 @@ and open the template in the editor.
                 <p:dialog header="Tämä avaa JYU-kirjautumissivun" widgetVar="dlg2" minHeight="80" position="center" class="coloredButton">
                     <h:outputText value="#{tagBasedLoginBean.loginOutcome}"/>
                 </p:dialog>
-               
+               </h:panelGroup>
            </h:form>
         </nav>
    
