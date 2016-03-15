@@ -21,28 +21,44 @@ and open the template in the editor.
        <nav>
            <h:form>
                <h:panelGroup>
-                <div class="accessButtons">
+                <div class="accessButtons" style="min-height: 200px;">
                     <p:commandButton value="Kurssiavain" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
-                    <p:commandButton value="JYU-tunnukset" type="button" onclick="PF('dlg2').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
-                    <p:commandButton value="Julkinen" type="button" onclick="" style="width: 200px; margin-top: 15px" class="coloredButton"/>
+                    <p:commandButton value="JYU-tunnukset" type="button" style="width: 200px; margin-top: 15px" class="coloredButton" action="#{identityProviderBasedLoginBean.loginOutcome}"/>
+                    <p:commandButton value="Julkinen" type="button" onclick="" style="width: 200px; margin-top: 15px" class="coloredButton" action="#{anonymityBasedLoginBean.loginOutcome}"/>
                     
                 </div>
  
-               <p:dialog header="Anna kurssiavain" widgetVar="dlg1" minHeight="80" position="center"  class="coloredButton">
-                    <p:inputText />
-                    <p:button icon="ui-icon-check">
-                    </p:button>
+               <p:dialog header="Anna kurssiavain" widgetVar="dlg1" minHeight="80" position="top"  class="coloredButton">
+                    <p:inputText autocomplete="off" binding="#{inputKey}"/>
+                    <p:commandButton icon="ui-icon-check" action="#{tagBasedLoginBean.setLoginOutcome(inputKey)}" onclick="PF('dlg1').hide();">
+                    </p:commandButton>
                 </p:dialog>
                
-                <p:dialog header="Tämä avaa JYU-kirjautumissivun" widgetVar="dlg2" minHeight="80" position="center" class="coloredButton">
+<!--                <p:dialog header="Tämä avaa JYU-kirjautumissivun" widgetVar="dlg2" minHeight="80" position="center" class="coloredButton">
                     <h:outputText value="#{tagBasedLoginBean.loginOutcome}"/>
-                </p:dialog>
+                </p:dialog>-->
                </h:panelGroup>
            </h:form>
         </nav>
    
         <h:panelGroup styleClass="welcomeContent">
-            <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+            <h:graphicImage library="images" name="jy_teksti_oikealla_540.png" width="100"/>
+            <p>
+            <h:outputText value="Lotas Observer Web Edition. Jyväskylän Yliopiston Liikuntakasvatuksen laitos."/>
+            </p>
+            <p>
+            <h:outputText value="Valitse jokin seuraavista käyttötavoista:"/>
+            </p>
+            <p>
+            <h:outputText value="- Käyttö kurssiavaimella: sisältää pohjatiedot."/>
+            </p>
+            <p>
+            <h:outputText value="- Käyttö JYU-tunnuksilla: täydet toiminnallisuudet."/>
+            </p>
+            <p>
+            <h:outputText value="- Julkinen käyttö: ei tallennusmahdollisuutta."/>
+            </p>
+<!--            <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
                           labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
                           ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
                           dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
@@ -56,7 +72,7 @@ and open the template in the editor.
                           aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl 
                           adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. 
                           Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, 
-                          feugiat in, orci. In hac habitasse platea dictumst."/>
+                          feugiat in, orci. In hac habitasse platea dictumst."/>-->
         </h:panelGroup>
   
         </ui:composition>
