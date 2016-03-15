@@ -14,12 +14,19 @@ and open the template in the editor.
         <h:outputStylesheet library="css" name="settings.css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
+    
     <body>
         <ui:composition>
         <nav>
         <div>
            <h:form>
                 <div class="accessButtons" style="min-height: 200px;">
+                    <p:commandButton id="languageButton" value="Kieli" icon="ui-icon-triangle-1-s" style="width: 200px; margin-top: 15px" class="coloredButton">
+                        <p:menu overlay="true" trigger="languageButton" my="left top" at="left bottom">
+                            <p:menuitem value="suomi" class="coloredButton"/>
+                            <p:menuitem value="englanti" class="coloredButton"/>
+                        </p:menu>
+                    </p:commandButton>
                     <p:commandButton value="Omat asetukset" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                     <p:commandButton value="Luo tapahtuma" type="button" onclick="PF('dlg2').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                     <p:commandButton value="Tee ny jotain" type="button" onclick="PF('dlg3').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
@@ -40,8 +47,18 @@ and open the template in the editor.
                     <h:outputText value="Press anykey"/>
                 </p:dialog>
            </h:form>
-        </div>
+            </div>
         </nav>
+            <div>
+            <h:panelGroup styleClass="welcomeContent">
+            <p>
+            <h:outputText value="Lotas Observer Web Edition asetukset."/>
+            </p>
+            <p>
+            <h:outputText value="- Yleiset asetukset ja tapahtumakohtaiset asetukset."/>
+            </p>
+            </h:panelGroup>
+        </div>
         </ui:composition>
     </body>
 </html>
