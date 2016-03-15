@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.json.*;
 
 /**
  *
@@ -46,6 +47,29 @@ public class RecordListenerBean implements Serializable {
     public String addRecord(RecordEntity record) {
         observationBean.addRecord(record);
 
+        return "Data received ok";
+    }
+    
+    @POST
+    @Path("addobservationdata")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String addObservationData(String data) {
+        
+        JSONObject obs = new JSONObject(data);
+        JSONArray array = obs.getJSONArray("data");
+        
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            
+            RecordEntity record = new RecordEntity();
+            record.setCategory(object.getString("category"));
+            record.setStartTime(object.getLong("startTime"));
+            record.setEndTime(object.getLong("endTime"));
+            
+            observationBean.addRecord(record);
+        }
+        
         return "Data received ok";
     }
     

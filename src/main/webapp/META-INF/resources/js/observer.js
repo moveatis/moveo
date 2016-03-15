@@ -121,16 +121,6 @@ function Observer(initial_time, category_data) {
     this.addRecording = function(recording) {
         if (recording !== undefined) {
             this.recordings.push(recording);
-
-            $.ajax({
-                url: "../webapi/records/addrecord",
-                type: "POST",
-                dataType: "text",
-                contentType: "application/json",
-                cache: false,
-                data: JSON.stringify(recording),
-                success: function(data) { console.log(data); }
-            });
         }
     };
     
@@ -182,13 +172,23 @@ function Observer(initial_time, category_data) {
             }
         }
         
-        console.log(this.recordings);
+        console.log("Sending observation data to server...");
         
-        // TODO: IMPORTANT: We should ensure that all recordings have been received by backend before redirecting!
-        // TODO: We propably shouldn't redirect when stop is clicked --> We need a dedicated button that takes to summary page(?)
-        setTimeout(function() {
-            window.location = "../summary/";
-        }, 1000);
+        $.ajax({
+            url: "../webapi/records/addobservationdata",
+            type: "POST",
+            dataType: "text",
+            contentType: "application/json",
+            cache: false,
+            data: JSON.stringify({ data: this.recordings }),
+            success: function(data) {
+                console.log("Success: " + data);
+                setTimeout(function() { window.location = "../summary/"; }, 1000);
+            },
+            error: function(xhr, status, error) {
+                console.log("Error: " + error);
+            }
+        });
     };
     
     this.categoryClick = function(index) {
