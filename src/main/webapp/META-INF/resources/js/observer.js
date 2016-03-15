@@ -72,7 +72,7 @@ function CategoryItem(name, index, initial_time) {
             this.li.removeClass("down");
             if (master_time > this.start_time) {
                 this.time += master_time - this.start_time;
-                recording = {category: name, start: this.start_time, end: master_time};
+                recording = {category: name, startTime: this.start_time, endTime: master_time};
             }
             this.down = false;
         } else {
@@ -97,88 +97,84 @@ function CategoryItem(name, index, initial_time) {
 
 
 function Observer(initial_time, category_data) {
-    var master_clock = new Clock(initial_time);
-    var categories = [];
-    var recordings = [];
+    this.master_clock = new Clock(initial_time);
+    this.categories = [];
+    this.recordings = [];
     
-    var play_button = $("#play");
-    var pause_button = $("#pause");
-    var stop_button = $("#stop");
-    var total_time = $("#total-time");
-    var category_list = $("#category-list");
+    initialize(this, initial_time, category_data);
     
-    pause_button.hide();
-    stop_button.addClass("disabled");
-    total_time.append(document.createTextNode(timeToString(initial_time)));
-    
-    for (var i in category_data) {
-        var data = category_data[i];
-        var category = new CategoryItem(data.name, i, data.initial_time);
-        categories.push(category);
-        category_list.append(category.li);
+    function initialize(this_, initial_time, category_data) {
+        $("#pause").hide();
+        $("#stop").addClass("disabled");
+        $("#total-time").append(document.createTextNode(timeToString(initial_time)));
+        
+        var category_list = $("#category-list");
+        
+        for (var i in category_data) {
+            var data = category_data[i];
+            var category = new CategoryItem(data.name, i, data.initial_time);
+            this_.categories.push(category);
+            category_list.append(category.li);
+        }
     }
-    
-    // The whole recordings-adding-nonsense was inspired by this:
-    // http://www.mkyong.com/jsf2/how-to-pass-new-hidden-value-to-backing-bean-in-jsf/
+
     this.addRecording = function(recording) {
         if (recording !== undefined) {
-            recordings.push(recording);
-            $("#rec-category").val(recording.category);
-            $("#rec-start-time").val(recording.start);
-            $("#rec-end-time").val(recording.end);
-            // This ajax request is described here: http://stackoverflow.com/a/15571052
-            // If ajax error handling is needed, look here: http://stackoverflow.com/a/28540357
-            if ("jsf" in window) {
-                jsf.ajax.request("recording-form:add-recording", null, {
-                    "javax.faces.behavior.event": "action",
-                    "execute": "@form",
-                    "render": "recording"
-                });
-            }
+            this.recordings.push(recording);
+
+            $.ajax({
+                url: "../webapi/records/addrecord",
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json",
+                cache: false,
+                data: JSON.stringify(recording),
+                success: function(data) { console.log(data); }
+            });
         }
     };
     
     this.playClick = function() {
-        if (master_clock.isPaused()) {
-            master_clock.resume(Date.now());
-            play_button.hide();
-            pause_button.show();
-            stop_button.removeClass("disabled");
+        if (this.master_clock.isPaused()) {
+            this.master_clock.resume(Date.now());
+            $("#play").hide();
+            $("#pause").show();
+            $("#stop").removeClass("disabled");
         }
     };
     
-    function pause(now) {
-        if (!master_clock.isPaused()) {
-            master_clock.pause(now);
-            pause_button.hide();
-            play_button.show();
+    function pause(this_, now) {
+        if (!this_.master_clock.isPaused()) {
+            this_.master_clock.pause(now);
+            $("#pause").hide();
+            $("#play").show();
         }
     }
     
     this.pauseClick = function() {
-        pause(Date.now());
+        pause(this, Date.now());
     };
     
     this.stopClick = function() {
-        if (stop_button.hasClass("disabled")) {
+        if ($("#stop").hasClass("disabled")) {
             return;
         }
         
         var now = Date.now();
         
-        pause(now);
+        pause(this, now);
         
+        var play_button = $("#play");
+        var pause_button = $("#pause");
         play_button.off("click");
         play_button.addClass("disabled");
         pause_button.off("click");
         pause_button.addClass("disabled");
-//        stop_button.off("click");
-//        stop_button.addClass("down");
         
-        var time = master_clock.getElapsedTime(now);
+        var time = this.master_clock.getElapsedTime(now);
         
-        for (var i in categories) {
-            var category = categories[i];
+        for (var i in this.categories) {
+            var category = this.categories[i];
             category.li.off("click");
             category.li.addClass("disabled");
             if (category.down) {
@@ -186,7 +182,7 @@ function Observer(initial_time, category_data) {
             }
         }
         
-        console.log(recordings);
+        console.log(this.recordings);
         
         // TODO: IMPORTANT: We should ensure that all recordings have been received by backend before redirecting!
         // TODO: We propably shouldn't redirect when stop is clicked --> We need a dedicated button that takes to summary page(?)
@@ -196,26 +192,29 @@ function Observer(initial_time, category_data) {
     };
     
     this.categoryClick = function(index) {
-        var category = categories[index];
-        var time = master_clock.getElapsedTime(Date.now());
+        var category = this.categories[index];
+        var time = this.master_clock.getElapsedTime(Date.now());
         this.addRecording(category.click(time));
     };
     
     this.tick = function() {
-        var time = master_clock.getElapsedTime(Date.now());
+        var time = this.master_clock.getElapsedTime(Date.now());
+        
         var time_str = timeToString(time);
+        var total_time = $("#total-time");
         total_time.empty();
         total_time.append(document.createTextNode(time_str));
-        for (var i in categories) {
-            categories[i].updateTimer(time);
+        
+        for (var i in this.categories) {
+            this.categories[i].updateTimer(time);
         }
     };
 }
 
 
 $(document).ready(function() {
-    var initial_time = initial_time || 0;
-    var category_data = category_data || [
+    var initial_time = 0;
+    var category_data = [
         {name: "Järjestelyt", initial_time: 0},
         {name: "Tehtävän selitys", initial_time: 0},
         {name: "Ohjaus", initial_time: 0},
