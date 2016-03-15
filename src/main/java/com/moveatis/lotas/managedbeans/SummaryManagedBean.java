@@ -23,8 +23,8 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
-@RequestScoped
 @Named(value = "summaryBean")
+@RequestScoped
 public class SummaryManagedBean {
     
     private TimelineModel timeline;
