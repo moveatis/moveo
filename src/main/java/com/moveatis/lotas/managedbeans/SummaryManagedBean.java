@@ -5,21 +5,15 @@
  */
 package com.moveatis.lotas.managedbeans;
 
+import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.records.RecordEntity;
-import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
@@ -29,8 +23,7 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
-@ManagedBean
-@ViewScoped  
+@RequestScoped
 @Named(value = "summaryBean")
 public class SummaryManagedBean {
     
@@ -45,14 +38,9 @@ public class SummaryManagedBean {
     private Date max;
     private String observationDate;
     private String observationDuration;
-
-    private Observation observation;
     
     @EJB
-    private com.moveatis.lotas.interfaces.Observation observationBean;
-    
-//    @ManagedProperty(value = "#{observationBean}")
-    //private ObservationManagedBean observationBean;
+    private Observation observationBean;
 
     public SummaryManagedBean() {
         this.locale = new Locale("fi", "FI"); // get from locale "bean" ?
@@ -66,22 +54,6 @@ public class SummaryManagedBean {
 
     @PostConstruct
     protected void initialize() {
-        // Get observation bean. ManagedProperty annotation doesn't seem to work (perhaps because
-        // it's resolved later?) so we do it like this: http://stackoverflow.com/a/2633733
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        observationBean = (ObservationManagedBean) context.getApplication()
-//                .evaluateExpressionGet(context, "#{observationBean}", ObservationManagedBean.class);
-//        
-//        if (observationBean == null) {
-//            this.observation = createTestObservation();
-//        } else {
-//            this.observation = observationBean.getObservation();
-//        }
-//        
-//        this.observationDate = this.observation.observationDateStr();
-//        this.observationDuration = this.observation.durationStr();
-//        //this.max = new Date(this.observation.getEnd());
-        
         createTimeline();
     }
 
@@ -144,140 +116,16 @@ public class SummaryManagedBean {
     private void createTimeline() {
         timeline = new TimelineModel();
         HashSet<String> categories = new HashSet<>();
-        for (RecordEntity recording : observationBean.getRecords()) {
-            String category = recording.getCategory();
-            Date eventStart = new Date(recording.getStartTime());
-            Date eventEnd = new Date(recording.getEndTime());
-            TimelineEvent event = new TimelineEvent("", eventStart, eventEnd, true, category);
+        for (RecordEntity record : observationBean.getRecords()) {
+            String category = record.getCategory();
+            Date recordStart = new Date(record.getStartTime());
+            Date recordEnd = new Date(record.getEndTime());
+            TimelineEvent timelineEvent = new TimelineEvent("", recordStart, recordEnd, true, category);
             if (!categories.contains(category)) {
                 timeline.addGroup(new TimelineGroup(category, category));
                 categories.add(category);
             }
-            timeline.add(event);
-        }
-    }
-
-    // Dummy data and sample classes for observation data
-    // TODO: remove when observation can be obtained from backend beans
-    private Observation createTestObservation() {
-        Random random = new Random();
-        Date now = new Date();
-        
-        Observation newObs = new Observation();
-        newObs.setObservationDate(now);
-        newObs.setEnd(0);
-
-        String[] categories = new String[]{"Järjestelee", "Selittää tehtävää", "Ohjaa suoritusta", "Antaa palautetta", "Tarkkailee", "Oppilas suorittaa tehtävää"};
-        int r = random.nextInt(categories.length);
-        for (String category : categories) {
-            int startGap = category.length();
-            if (category.equals(categories[r])) {
-                startGap = 0;
-            }
-            int count = random.nextInt(20 - 5) + 5;
-            long end = startGap * 60 * 1000;
-            for (int i = 0; i < count; i++) {
-                long start = end + Math.round(Math.random()) * 30 * 1000;
-                end = start + Math.round(4 + Math.random() * 100) * 1 * 1000;
-                Recording recording = new Recording(category, start, end);
-                newObs.add(recording);
-                if (end > newObs.getEnd()) {
-                    newObs.setEnd(end);
-                }
-            }
-        }
-        return newObs;
-    }
-
-    public static class Observation implements Iterable<Recording> {
-
-        private final List<Recording> recordings;
-        private Date observationDate;
-        private long end;
-
-        public Observation() {
-            this.recordings = new ArrayList<>();
-        }
-
-        @Override
-        public Iterator<Recording> iterator() {
-            return recordings.iterator();
-        }
-
-        public void add(Recording recording) {
-            this.recordings.add(recording);
-        }
-
-        public Date getObservationDate() {
-            return observationDate;
-        }
-
-        public void setObservationDate(Date start) {
-            this.observationDate = start;
-        }
-
-        public long getEnd() {
-            return end;
-        }
-
-        public void setEnd(long end) {
-            this.end = end;
-        }
-
-        private String observationDateStr() {
-            Locale locale = new Locale("fi", "FI"); // Originally used SummaryManagedBean's locale when this class wasn't static!
-            DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
-            return df.format(observationDate);
-        }
-
-        private String durationStr() {
-            if (TimeUnit.MILLISECONDS.toHours(end) > 0) {
-                return String.format("%02d:%02d:%02d",
-                        TimeUnit.MILLISECONDS.toHours(end),
-                        TimeUnit.MILLISECONDS.toMinutes(end) % TimeUnit.HOURS.toMinutes(1),
-                        TimeUnit.MILLISECONDS.toSeconds(end) % TimeUnit.MINUTES.toSeconds(1));
-            } else {
-                return String.format("%02d:%02d",
-                        TimeUnit.MILLISECONDS.toMinutes(end) % TimeUnit.HOURS.toMinutes(1),
-                        TimeUnit.MILLISECONDS.toSeconds(end) % TimeUnit.MINUTES.toSeconds(1));
-            }
-        }
-    }
-
-    public static class Recording {
-
-        private String category;
-        private long start;
-        private long end;
-
-        public Recording(String category, long start, long end) {
-            this.category = category;
-            this.start = start;
-            this.end = end;
-        }
-
-        public long getStart() {
-            return start;
-        }
-
-        public long getEnd() {
-            return end;
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public void setStart(long start) {
-            this.start = start;
-        }
-
-        public void setEnd(long end) {
-            this.end = end;
+            timeline.add(timelineEvent);
         }
     }
 }
