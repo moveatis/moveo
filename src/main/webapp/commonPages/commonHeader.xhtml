@@ -14,29 +14,19 @@ and open the template in the editor.
     <body>
         <ui:composition>
         <h:panelGroup styleClass="naviHeader">
-<!--            <h:outputLink styleClass="naviButtons">
-            <h:outputText value="Valikko"/>
-            </h:outputLink>
-            <h:outputLink styleClass="naviButtons">
-            <h:outputText value="VL"/>
-            </h:outputLink>
-            
-            <h:outputLink styleClass="naviButtons">
--->
-<h:form>
- <p:menubar styleClass="naviHeader">
-        <p:submenu label="Välilehti" >
-                <p:menuitem value="VL 1" url="#" class="coloredButton"/>
-                <p:menuitem value="VL 2" url="#" class="coloredButton"/>
-            </p:submenu>
- 
-        <p:submenu label="Valikko">
-                <p:menuitem value="Info" url="#" class="coloredButton"/>
-                <p:menuitem value="#{loginBean.etunimi}" url="#" class="coloredButton"/>
-                <p:menuitem value="Kirjaudu ulos" url="#" class="coloredButton"/>
-            </p:submenu>
+            <h:form>
+                <p:menubar styleClass="naviHeader">
+                    <p:submenu label="Välilehti" >
+                        <p:menuitem value="VL 1" url="#" class="coloredButton"/>
+                        <p:menuitem value="VL 2" url="#" class="coloredButton"/>
+                    </p:submenu>
 
-        </p:menubar>
+                    <p:submenu label="Valikko">
+                            <p:menuitem value="Info" url="#" class="coloredButton"/>
+                            <p:menuitem value="#{loginBean.etunimi}" url="#" class="coloredButton"/>
+                            <p:menuitem value="Kirjaudu ulos" url="#" class="coloredButton"/>
+                    </p:submenu>
+                </p:menubar>
             </h:form>
         </h:panelGroup>
         </ui:composition>
