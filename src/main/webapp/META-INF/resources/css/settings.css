@@ -93,7 +93,8 @@ a:hover {text-decoration: none; color: orange;}
         text-align: center;
         padding: 1.0em; 
     }
-        .coloredButton {
+    
+    .coloredButton {
         background: #ff6600;
         opacity: 0.9;
     }

@@ -1,5 +1,6 @@
 package com.moveatis.lotas.login;
 
+import com.moveatis.lotas.interfaces.Login;
 import com.moveatis.lotas.interfaces.Session;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -12,31 +13,31 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "tagBasedLoginBean")
 @ViewScoped
-public class TagLoginBean extends AbstractLogin implements Serializable {
+public class TagLoginBean implements Login, Serializable {
     
     private static final long serialVersionUID = 1L;
     
     private Session sessionEJB;
     private String tag;
 
-    /**
-     * Creates a new instance of TagLoginBean
-     */
+
     public TagLoginBean() {
         
     }
 
     @Override
+    @PostConstruct
     public void init() {
         
     }
 
-    public String getTag() {
-        return tag;
+    @Override
+    public void setLoginOutcome(String loginOutcome) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-        sessionEJB.setTagUser(tag);
+    @Override
+    public String getLoginOutcome() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

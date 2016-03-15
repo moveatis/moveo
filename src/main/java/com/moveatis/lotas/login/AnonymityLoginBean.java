@@ -1,5 +1,6 @@
 package com.moveatis.lotas.login;
 
+import com.moveatis.lotas.interfaces.Login;
 import com.moveatis.lotas.interfaces.Session;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -13,12 +14,14 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "anonymityBasedLoginBean")
 @ViewScoped
-public class AnonymityLoginBean extends AbstractLogin implements Serializable {
+public class AnonymityLoginBean implements Login, Serializable {
 
     private static final long serialVersionUID = 1L;    
     
     @EJB
     private Session sessionEJB;
+    
+    private String loginOutcome;
 
     /**
      * Creates a new instance of AnonymityLoginBean
@@ -31,6 +34,16 @@ public class AnonymityLoginBean extends AbstractLogin implements Serializable {
     @Override
     public void init() {
         sessionEJB.setAnonymityUser();
+    }
+
+    @Override
+    public void setLoginOutcome(String loginOutcome) {
+        this.loginOutcome = loginOutcome;
+    }
+
+    @Override
+    public String getLoginOutcome() {
+        return this.loginOutcome;
     }
     
     /**

@@ -18,8 +18,6 @@ import com.moveatis.lotas.interfaces.User;
 import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import org.slf4j.Logger;

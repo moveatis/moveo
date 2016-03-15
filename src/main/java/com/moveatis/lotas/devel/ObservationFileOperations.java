@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,14 +42,18 @@ public class ObservationFileOperations {
     private FileInputStream fileInputStream;
     private BufferedInputStream bufferedInputStream;
     private ObjectInputStream objectInputStream;
+    
+    private Random random;
 
     public ObservationFileOperations() {
         path = Paths.get(".").toAbsolutePath().normalize().toString();
+        
+        random = new Random();
     }
     
     public void write(RecordEntity record) {
         try {
-            file = new File(path + "/" + record.getCategory() + ".dat");
+            file = new File(path + "/" + record.getCategory() + random.nextInt() + ".dat");
             fileOutputStream = new FileOutputStream(file);
             bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
             objectOutputStream = new ObjectOutputStream(bufferedOutputStream);
@@ -92,6 +97,13 @@ public class ObservationFileOperations {
                 fileInputStream.close();
             }
             
+            for(File f : files) {
+                if (f.delete()) {
+                    LOGGER.debug("Tiedosto poistettiin -> " + f.getName());
+                } else {
+                    LOGGER.debug("Tiedoston poisto epäonnistui -> " + f.getName());
+                }
+            }
             
             return records;
         } catch(IOException | ClassNotFoundException ioe) {
