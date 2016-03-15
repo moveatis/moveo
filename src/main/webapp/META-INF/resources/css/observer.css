@@ -24,14 +24,9 @@ body {
     font-size: 0; /* removes extra space between elements */
 }
 
-#header, #footer {
+#naviHead, #Footer {
     width: 100%;
     font-size: 12px;
-}
-
-#footer {
-    /*position: absolute;*/
-    /*bottom: 0;*/
 }
 
 #content {

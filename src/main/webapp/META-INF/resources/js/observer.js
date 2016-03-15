@@ -183,7 +183,7 @@ function Observer(initial_time, category_data) {
             data: JSON.stringify({ data: this.recordings }),
             success: function(data) {
                 console.log("Success: " + data);
-                setTimeout(function() { window.location = "../summary/"; }, 1000);
+                window.location = "../summary/";
             },
             error: function(xhr, status, error) {
                 console.log("Error: " + error);
