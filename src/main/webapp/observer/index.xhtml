@@ -2,38 +2,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Observer</title>
-        <h:outputStylesheet library="css" name="base.css"/>
-        <h:outputStylesheet library="css" name="observer.css"/>
-        <h:outputScript library="javax.faces" name="jsf.js" />
-        <h:outputScript library="primefaces" name="jquery/jquery.js" />
-<!--        <script>
-            var initial_time = # {observationBean.initialTime};
-            var category_data = [
-            <ui:repeat value="# {observationBean.categoryData}" var="category">
-                {name: "# {category.name}", initial_time: # {category.time}},
-            </ui:repeat>
-            ];
-        </script>-->
-        <h:outputScript library="js" name="test.js"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:body>
-        <ui:include src="test.html" />
-        
-        <ui:debug />
-        
-        <h:form id="recording-form" style="display:none">
-            <input type="hidden" id="rec-category" name="rec-category" value=""/>
-            <input type="hidden" id="rec-start-time" name="rec-start-time" value="0"/>
-            <input type="hidden" id="rec-end-time" name="rec-end-time" value="0"/>
-            <h:commandButton id="add-recording" action="#{observationBean.addRecording}"/>
-        </h:form>
-        <h:outputText id="recording" value="#{observationBean.recordingStr}"/>
-        
+        <ui:composition template="../index.xhtml">
+
+            <ui:define name="title">#{msg.applicationTitle} - Observointi</ui:define>
+
+            <ui:define name="mainpage">
+                <h:outputStylesheet library="css" name="observer.css"/>
+                <h:outputScript library="primefaces" name="jquery/jquery.js" />
+                <h:outputScript library="js" name="observer.js"/>
+                
+                <ui:include src="observer.html" />
+
+            </ui:define>
+            
+        </ui:composition>
     </h:body>
 </html>
