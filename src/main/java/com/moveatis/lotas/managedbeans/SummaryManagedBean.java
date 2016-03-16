@@ -36,8 +36,6 @@ public class SummaryManagedBean {
     private final long zoomMin;
     private final long zoomMax;
     private Date max;
-    private String observationDate;
-    private String observationDuration;
     
     @EJB
     private Observation observationBean;
@@ -105,12 +103,14 @@ public class SummaryManagedBean {
         return zoomMax;
     }
 
-    public String getObservationDate() {
-        return observationDate;
+    public String getObservationName() {
+        //return observationBean.getName();
+        return "Observoinnin nimi/päivä";
     }
 
     public String getObservationDuration() {
-        return observationDuration;
+        // return observationBean.getDuration();
+        return "(hh:)mm:ss";
     }
 
     private void createTimeline() {
