@@ -59,3 +59,8 @@ div.timeline-event-selected {
 .timeline-groups-axis {
     display:none!important;
 }
+
+.timeline-frame {
+    border-radius: 0;
+    border: none;
+}
