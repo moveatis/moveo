@@ -9,6 +9,8 @@ import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.records.RecordEntity;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
@@ -116,13 +118,18 @@ public class SummaryManagedBean {
     private void createTimeline() {
         timeline = new TimelineModel();
         HashSet<String> categories = new HashSet<>();
-        for (RecordEntity record : observationBean.getRecords()) {
+        List<RecordEntity> records = observationBean.getRecords();
+        ListIterator li = records.listIterator(records.size());
+        while (li.hasPrevious()) {
+            RecordEntity record = (RecordEntity) li.previous();
             String category = record.getCategory();
-            Date recordStart = new Date(record.getStartTime());
-            Date recordEnd = new Date(record.getEndTime());
-            TimelineEvent timelineEvent = new TimelineEvent("", recordStart, recordEnd, true, category);
+            long startTime = record.getStartTime();
+            long endTime = record.getEndTime();
+            TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
+                    new Date(endTime), true, category);
             if (!categories.contains(category)) {
-                timeline.addGroup(new TimelineGroup(category, category));
+                TimelineGroup timelineGroup = new TimelineGroup(category, category);
+                timeline.addGroup(timelineGroup);
                 categories.add(category);
             }
             timeline.add(timelineEvent);
