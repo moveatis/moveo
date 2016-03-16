@@ -35,13 +35,12 @@ and open the template in the editor.
 }
 .align-bar > div {
     text-align: center;
-    padding: .3em .6em;
-    margin: .2em .5em;
+    margin: .3em .5em;
 }
 .header-left {
     float: left;
-    padding-top: .6em;
-    padding-bottom: .3em;
+    margin: .6em;
+    margin-bottom: .3em;
 }
 .header-left > *{
     margin: 0;
