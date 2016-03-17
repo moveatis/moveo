@@ -48,7 +48,7 @@ public class SummaryManagedBean {
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get from timezone "bean" ?
         this.start = new Date(0);
         this.min = new Date(0);
-        this.zoomMin = 10 * 1000;
+        this.zoomMin = 5 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
     }
 
@@ -117,21 +117,34 @@ public class SummaryManagedBean {
 
     private void createTimeline() {
         timeline = new TimelineModel();
-        HashSet<String> categories = new HashSet<>();
+
         List<RecordEntity> records = observationBean.getRecords();
-        ListIterator li = records.listIterator(records.size());
-        while (li.hasPrevious()) {
-            RecordEntity record = (RecordEntity) li.previous();
+        HashSet<String> categories = new HashSet<>();
+
+        // Add categories to timeline as timelinegroups
+        for (RecordEntity record : records) {
+            String category = record.getCategory();
+            if (!categories.contains(category)) {
+                categories.add(record.getCategory());
+                // Add category name inside element with class name
+                // use css style to hide them in timeline
+                String numberedLabel = categories.size() + ". <span class=categoryLabel>" + category + "</span>";
+                TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
+                timeline.addGroup(timelineGroup);
+            }
+        }
+
+        // Add records to timeline as timeline-events
+        ListIterator iterator = records.listIterator(records.size());
+        // add them in reversed order to show them in correct order
+        // Reason: timeline.axisOnBottom displays groups in reversed order
+        while (iterator.hasPrevious()) {
+            RecordEntity record = (RecordEntity) iterator.previous();
             String category = record.getCategory();
             long startTime = record.getStartTime();
             long endTime = record.getEndTime();
             TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
-                    new Date(endTime), true, category);
-            if (!categories.contains(category)) {
-                TimelineGroup timelineGroup = new TimelineGroup(category, category);
-                timeline.addGroup(timelineGroup);
-                categories.add(category);
-            }
+                    new Date(endTime), false, category);
             timeline.add(timelineEvent);
         }
     }

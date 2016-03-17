@@ -9,7 +9,7 @@
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
 
-    //console.log(timeline);
+    console.log(timeline);
 
     // NOTE: setting showCurrentTime did not work from JSF
     timeline.options.showCurrentTime = false;
