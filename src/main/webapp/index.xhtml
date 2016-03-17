@@ -13,18 +13,22 @@
     </h:head>
 
     <h:body>
-        <div id="naviHead">
-            <ui:insert name="header">
-                <ui:include src="/commonPages/commonHeader.xhtml"/>
-            </ui:insert>
+        <div class="wrapper">
+            <div id="naviHead">
+                <ui:insert name="header">
+                    <ui:include src="/commonPages/commonHeader.xhtml"/>
+                </ui:insert>
 
-        </div>
+            </div>
 
-        <div id="mainPage">
-            <ui:insert name ="mainpage">
-                <ui:include src="loginPage.xhtml"/>
-            </ui:insert>
+            <div id="mainPage">
+                <ui:insert name ="mainpage">
+                    <ui:include src="loginPage.xhtml"/>
+                </ui:insert>
 
+            </div>
+
+            <div class="push"></div>
         </div>
 
         <div id="Footer">
