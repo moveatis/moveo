@@ -34,15 +34,20 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <h3 class="recordsHeader">Kirjaukset</h3>
 
-                    <h3>Kirjaukset</h3>
-
-                    <h:form>
-                        <p:commandButton value="Tallenna" id="save" icon="fa fa-save"
-                                         actionListener="#{buttonView.buttonAction}"/>
-                        <p:commandButton value="Lähetä" id="save" icon="fa fa-envelope-square"
-                                         actionListener="#{buttonView.buttonAction}"/>
-                    </h:form>
+                        <h:form styleClass="actions-form">
+                            <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
+                                             actionListener="#{buttonView.buttonAction}"/>
+                            <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-square"
+                                             onclick="PF('dlgMail').show();"/>
+                        </h:form>
+                        <p:dialog header="Anna sähköpostiosoite" widgetVar="dlgMail" minHeight="80" position="top" class="coloredButton">
+                            <p:inputText autocomplete="off" binding="#{inputKey}"/>
+                            <p:commandButton icon="ui-icon-check" onclick="PF('dlgMail').hide();" />
+                        </p:dialog>
+                    </div>
 
                     <div class="ui-grid ui-grid-responsive-260">
                         <div class="ui-grid-row">
