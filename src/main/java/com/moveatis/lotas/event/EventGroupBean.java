@@ -1,17 +1,17 @@
-package com.moveatis.lotas.application;
+package com.moveatis.lotas.event;
 
 import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.moveatis.lotas.interfaces.SuperUsers;
+import com.moveatis.lotas.interfaces.SceneTemplate;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
-public class SuperUsersBean extends AbstractBean<SuperUsersEntity> implements SuperUsers {
+public class EventGroupBean extends AbstractBean<EventGroupEntity> implements SceneTemplate {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -21,8 +21,8 @@ public class SuperUsersBean extends AbstractBean<SuperUsersEntity> implements Su
         return em;
     }
 
-    public SuperUsersBean() {
-        super(SuperUsersEntity.class);
+    public EventGroupBean() {
+        super(EventGroupEntity.class);
     }
     
 }

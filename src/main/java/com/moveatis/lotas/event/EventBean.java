@@ -1,4 +1,4 @@
-package com.moveatis.lotas.scene;
+package com.moveatis.lotas.event;
 
 import com.moveatis.lotas.interfaces.AbstractBean;
 import java.util.ArrayList;
@@ -15,20 +15,20 @@ import javax.persistence.TypedQuery;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateful
-public class SceneBean extends AbstractBean<SceneEntity> implements Scene {
+public class EventBean extends AbstractBean<EventEntity> implements Scene {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
     
-    private SceneEntity sceneEntity;
+    private EventEntity sceneEntity;
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public SceneBean() {
-        super(SceneEntity.class);
+    public EventBean() {
+        super(EventEntity.class);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SceneBean extends AbstractBean<SceneEntity> implements Scene {
     }
 
     @Override
-    public SceneEntity getSceneEntity() {
+    public EventEntity getSceneEntity() {
         if(this.sceneEntity == null) {
             
         }
@@ -54,8 +54,8 @@ public class SceneBean extends AbstractBean<SceneEntity> implements Scene {
     }
 
     @Override
-    public List<SceneEntity> findScenesForUser(UserEntity user) {
-        TypedQuery<SceneEntity> query = em.createNamedQuery("SceneEntity.findByUser", SceneEntity.class);
+    public List<EventEntity> findScenesForUser(UserEntity user) {
+        TypedQuery<EventEntity> query = em.createNamedQuery("SceneEntity.findByUser", EventEntity.class);
         query.setParameter("owner", user);
         return query.getResultList();
     }

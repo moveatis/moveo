@@ -1,6 +1,6 @@
 package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.scene.SceneEntity;
+import com.moveatis.lotas.event.EventEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -12,23 +12,23 @@ import javax.ejb.Local;
 @Local(Scene.class)
 public interface Scene {
 
-    void create(SceneEntity sceneEntity);
+    void create(EventEntity sceneEntity);
 
-    void edit(SceneEntity sceneEntity);
+    void edit(EventEntity sceneEntity);
 
-    void remove(SceneEntity sceneEntity);
+    void remove(EventEntity sceneEntity);
 
-    SceneEntity find(Object id);
+    EventEntity find(Object id);
 
-    List<SceneEntity> findAll();
+    List<EventEntity> findAll();
 
-    List<SceneEntity> findRange(int[] range);
+    List<EventEntity> findRange(int[] range);
     
     List<String> getCategories();
     
-    List<SceneEntity> findScenesForUser(UserEntity user);
+    List<EventEntity> findScenesForUser(UserEntity user);
     
-    SceneEntity getSceneEntity();
+    EventEntity getSceneEntity();
     
 
     int count();
