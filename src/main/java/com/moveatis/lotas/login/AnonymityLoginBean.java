@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,6 +17,8 @@ import javax.faces.view.ViewScoped;
 @Named(value = "anonymityBasedLoginBean")
 @ViewScoped
 public class AnonymityLoginBean implements Login, Serializable {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnonymityLoginBean.class);
 
     private static final long serialVersionUID = 1L;    
     

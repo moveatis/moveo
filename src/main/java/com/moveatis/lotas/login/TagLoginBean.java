@@ -6,6 +6,8 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,10 +17,14 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class TagLoginBean implements Login, Serializable {
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(TagLoginBean.class);
+    
     private static final long serialVersionUID = 1L;
     
     private Session sessionEJB;
     private String tag;
+    
+    private String loginOutcome;
 
 
     public TagLoginBean() {
@@ -33,11 +39,11 @@ public class TagLoginBean implements Login, Serializable {
 
     @Override
     public void setLoginOutcome(String loginOutcome) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LOGGER.debug("Loginoutcome -> " + loginOutcome);
     }
 
     @Override
     public String getLoginOutcome() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return loginOutcome;
     }
 }
