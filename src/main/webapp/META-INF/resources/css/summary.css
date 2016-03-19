@@ -12,9 +12,6 @@ and open the template in the editor.
     background-color: rgba(85, 102, 119, 0.5);
     padding: .1em .5em;
 }
-.content {
-    text-align: center;
-}
 .content,
 .ui-grid-row {
     max-width: 38em;
@@ -35,13 +32,7 @@ and open the template in the editor.
 }
 .align-bar > div {
     text-align: center;
-    padding: .3em .6em;
-    margin: .2em .5em;
-}
-.header-left {
-    float: left;
-    padding-top: .6em;
-    padding-bottom: .3em;
+    margin: .3em .5em;
 }
 .header-left > *{
     margin: 0;
@@ -67,7 +58,27 @@ and open the template in the editor.
     text-align: right;
 }
 
+.actions-form {
+    float: right;
+}
+
+.actions-form > .ui-button {
+    width: auto;
+}
+
+.recordsHeader {
+    display: inline-block;
+    margin: 0;
+    margin-top: 0.3em;
+    margin-left: 0.3em;
+}
+
 /* Responsive */
+@media (max-width:700px){
+    .content {
+        text-align: center;
+    }
+}
 @media (max-width:260px){
     .ui-grid.ui-grid-responsive-260 .ui-grid-row{
         display:block;
@@ -78,5 +89,8 @@ and open the template in the editor.
     }
     .ui-grid-col-2 {
         text-align: left;
+    }
+    .actions-form > .ui-button {
+        width: 100%;
     }
 }

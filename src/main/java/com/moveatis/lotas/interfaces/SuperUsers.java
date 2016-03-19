@@ -1,6 +1,6 @@
 package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.application.SuperUsersEntity;
+import com.moveatis.lotas.superuser.SuperUsersEntity;
 import java.util.List;
 import javax.ejb.Local;
 

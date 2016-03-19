@@ -12,6 +12,8 @@ The base stylesheet for Lotas-webapplication
 html {
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -31,6 +33,27 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sticky footer based on this:
+   http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ */
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -25px;
+}
+#Footer, .push {
+    height: 25px;
+}
+
+
 nav {
     float: left;
     width: 24%;
@@ -47,14 +70,20 @@ nav {
     display: block;
     padding: 0.5em;
 }
+
 .naviHeader {
     width: 100%;
-    float:right;
     height: 26px;
     background-color: #ff6600;
     background-size: 100%;
     text-align: center;
     padding-bottom: 0.8em;
+    border: 0;
+    border-radius: 0;
+}
+
+.naviHeader > ul {
+    float: right;
 }
 
 .naviButtons {
@@ -114,9 +143,9 @@ a:hover {text-decoration: none; color: orange;}
         margin: 1% auto 1% auto;
         padding: 0.5em;
     }
+    
     .naviHeader {
         width: 100%; 
-        float: right;
         height: 26px;
         background-color: #ff6600; 
         background-size: 100%;

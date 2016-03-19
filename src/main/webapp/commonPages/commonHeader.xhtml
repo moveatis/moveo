@@ -7,28 +7,23 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html 
     xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     
     <body>
         <ui:composition>
-        <h:panelGroup styleClass="naviHeader">
-            <h:form>
-                <p:menubar styleClass="naviHeader">
-                    <p:submenu label="Välilehti" >
-                        <p:menuitem value="VL 1" url="#" class="coloredButton"/>
-                        <p:menuitem value="VL 2" url="#" class="coloredButton"/>
-                    </p:submenu>
-
-                    <p:submenu label="Valikko">
-                            <p:menuitem value="Info" url="#" class="coloredButton"/>
-                            <p:menuitem value="#{loginBean.etunimi}" url="#" class="coloredButton"/>
-                            <p:menuitem value="Kirjaudu ulos" url="#" class="coloredButton"/>
-                    </p:submenu>
-                </p:menubar>
-            </h:form>
-        </h:panelGroup>
+            <p:menubar styleClass="naviHeader" autoDisplay="false">
+                <p:submenu label="Välilehti" >
+                    <p:menuitem value="VL 1" url="#" class="coloredButton"/>
+                    <p:menuitem value="VL 2" url="#" class="coloredButton"/>
+                </p:submenu>
+ 
+                <p:submenu label="Valikko">
+                    <p:menuitem value="Info" url="#" class="coloredButton"/>
+                    <p:menuitem value="Asetukset" url="/settings/index.xhtml" class="coloredButton"/>
+                    <p:menuitem value="Kirjaudu ulos" url="/index.xhtml" class="coloredButton"/>
+                </p:submenu>
+            </p:menubar>
         </ui:composition>
     </body>
 </html>

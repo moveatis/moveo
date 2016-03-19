@@ -24,17 +24,21 @@ function updateRecordingsInfo(timeline) {
     var categories = timeline.getItemsByGroup(timeline.items);
     var totalDuration = getTotalDuration(categories);
     grid.empty();
-    $.each(categories, function (category, recordings) {
+    var keys = Object.keys(categories);
+    for (var i = keys.length - 1; i >= 0; i--) {
+        var category = keys[i];
+        var recordings = categories[category];
         var record = $('<div class="ui-grid-row">');
         var duration = recordingsDuration(recordings);
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
-        record.append('<div class="ui-grid-col-2">' + convertMsToStr(duration) + "</div>");
         record.append('<div class="ui-grid-col-2">' + recordings.length + "</div>");
+        record.append('<div class="ui-grid-col-2">' + convertMsToStr(duration) + "</div>");
         record.append('<div class="ui-grid-col-2">' + percentOf(duration, totalDuration) + " %</div>");
         grid.append(record);
-    });
+    }
 }
 
+// calculate total duration of categories
 function getTotalDuration(categories) {
     var duration = 0;
     $.each(categories, function (category, recordings) {
@@ -43,6 +47,7 @@ function getTotalDuration(categories) {
     return duration;
 }
 
+// calculates duration for recordings
 function recordingsDuration(recordings) {
     var duration = 0;
     $.each(recordings, function () {
@@ -51,6 +56,7 @@ function recordingsDuration(recordings) {
     return duration;
 }
 
+// converts ms number to time string
 function convertMsToStr(ms) {
     var d = ms;
     var ms = d % 1000;
@@ -64,10 +70,12 @@ function convertMsToStr(ms) {
     return [lz(m), lz(s)].join(':');
 }
 
+// append leading zero to number if smaller than 10
 function lz(n) {
     return (n < 10 ? "0" + n : n);
 }
 
+// calculate percentage
 function percentOf(a, b) {
     return Math.round((a / b) * 100);
 }

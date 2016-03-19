@@ -9,6 +9,8 @@ import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.records.RecordEntity;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
@@ -36,8 +38,6 @@ public class SummaryManagedBean {
     private final long zoomMin;
     private final long zoomMax;
     private Date max;
-    private String observationDate;
-    private String observationDuration;
     
     @EJB
     private Observation observationBean;
@@ -48,7 +48,7 @@ public class SummaryManagedBean {
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get from timezone "bean" ?
         this.start = new Date(0);
         this.min = new Date(0);
-        this.zoomMin = 10 * 1000;
+        this.zoomMin = 5 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
     }
 
@@ -105,26 +105,46 @@ public class SummaryManagedBean {
         return zoomMax;
     }
 
-    public String getObservationDate() {
-        return observationDate;
+    public String getObservationName() {
+        //return observationBean.getName();
+        return "Observoinnin nimi/päivä";
     }
 
     public String getObservationDuration() {
-        return observationDuration;
+        // return observationBean.getDuration();
+        return "(hh:)mm:ss";
     }
 
     private void createTimeline() {
         timeline = new TimelineModel();
+
+        List<RecordEntity> records = observationBean.getRecords();
         HashSet<String> categories = new HashSet<>();
-        for (RecordEntity record : observationBean.getRecords()) {
+
+        // Add categories to timeline as timelinegroups
+        for (RecordEntity record : records) {
             String category = record.getCategory();
-            Date recordStart = new Date(record.getStartTime());
-            Date recordEnd = new Date(record.getEndTime());
-            TimelineEvent timelineEvent = new TimelineEvent("", recordStart, recordEnd, true, category);
             if (!categories.contains(category)) {
-                timeline.addGroup(new TimelineGroup(category, category));
-                categories.add(category);
+                categories.add(record.getCategory());
+                // Add category name inside element with class name
+                // use css style to hide them in timeline
+                String numberedLabel = categories.size() + ". <span class=categoryLabel>" + category + "</span>";
+                TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
+                timeline.addGroup(timelineGroup);
             }
+        }
+
+        // Add records to timeline as timeline-events
+        ListIterator iterator = records.listIterator(records.size());
+        // add them in reversed order to show them in correct order
+        // Reason: timeline.axisOnBottom displays groups in reversed order
+        while (iterator.hasPrevious()) {
+            RecordEntity record = (RecordEntity) iterator.previous();
+            String category = record.getCategory();
+            long startTime = record.getStartTime();
+            long endTime = record.getEndTime();
+            TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
+                    new Date(endTime), false, category);
             timeline.add(timelineEvent);
         }
     }
