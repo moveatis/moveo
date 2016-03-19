@@ -31,7 +31,7 @@ public class EventGroupEntity implements Serializable {
     @ManyToOne
     private AbstractUser user;
     
-    @OneToMany(mappedBy = "sceneGroup")
+    @OneToMany(mappedBy = "eventGroup")
     private Set<CategoryGroupEntity> categories;
 
     public Long getId() {
