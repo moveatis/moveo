@@ -1,10 +1,9 @@
 package com.moveatis.lotas.session;
 
 import com.moveatis.lotas.enums.UserType;
-import com.moveatis.lotas.timeout.AnonymityTimerSessionBean;
+import com.moveatis.lotas.timers.AnonymityTimerSessionBean;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;

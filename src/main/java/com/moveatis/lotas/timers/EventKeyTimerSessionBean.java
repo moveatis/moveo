@@ -1,4 +1,4 @@
-package com.moveatis.lotas.timeout;
+package com.moveatis.lotas.timers;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;

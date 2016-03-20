@@ -1,4 +1,4 @@
-package com.moveatis.lotas.timeout;
+package com.moveatis.lotas.timers;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
