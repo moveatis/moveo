@@ -5,6 +5,7 @@
  */
 package com.moveatis.lotas.filters;
 
+import com.moveatis.lotas.session.SessionBean;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -16,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -97,6 +99,19 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
+        
+        SessionBean sessionBean = (SessionBean)((HttpServletRequest)request).getSession()
+                .getAttribute("sessionBean");
+        
+        if(sessionBean == null) {
+            log("NULL -> User has not logged in");
+        } else {
+            if(sessionBean.isLoggedIn()) {
+                log("User has logged in");
+            } else {
+                log("User has not logged in");
+            }
+        }
         
         if (debug) {
             log("LoginFilter:doFilter()");

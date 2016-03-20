@@ -25,6 +25,8 @@ public class SessionBean implements Serializable  {
     private String tag;
     private UserEntity userEntity;
     
+    private Boolean loggedIn = false;
+    
     @Inject
     private AnonymityTimerSessionBean anonymityTimer;
     
@@ -45,6 +47,7 @@ public class SessionBean implements Serializable  {
     public void setTagUser(String tag) {
         userType = UserType.TAG_USER;
         anonymityTimer.setTimer();
+        this.loggedIn = true;
         this.tag = tag;
     }
 
@@ -55,6 +58,13 @@ public class SessionBean implements Serializable  {
     public void setUserEntity(UserEntity user) {
         this.userEntity = user;
     }
-    
-    
+
+    public Boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setIsLoggedIn(Boolean isLoggedIn) {
+        this.loggedIn = isLoggedIn;
+    }
+        
 }
