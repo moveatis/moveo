@@ -2,22 +2,26 @@ package com.moveatis.lotas.restful;
 
 import com.moveatis.lotas.enums.UserType;
 import com.moveatis.lotas.interfaces.Observation;
-import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.records.RecordEntity;
+import com.moveatis.lotas.session.SessionBean;
 import java.io.Serializable;
 import java.io.StringReader;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +40,10 @@ public class RecordListenerBean implements Serializable {
     
     private JsonReader jsonReader;
     
-    @EJB(beanName="DebugSessionBean")
-    private Session sessionBean;
+    @Context
+    private HttpServletRequest httpRequest;
+    
+    private SessionBean sessionBean;
     
     @EJB
     private Observation observationBean;
@@ -51,6 +57,9 @@ public class RecordListenerBean implements Serializable {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String addRecord(RecordEntity record) {
+        
+        sessionBean = getSessionBean();
+        
         observationBean.addRecord(record);
 
         return "Data received ok";
@@ -61,6 +70,8 @@ public class RecordListenerBean implements Serializable {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String addObservationData(String data) {
+        
+        sessionBean = getSessionBean();
         
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
@@ -86,6 +97,8 @@ public class RecordListenerBean implements Serializable {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String updateRecord() {
+        
+        sessionBean = getSessionBean();
         return "ok";
     }
     
@@ -93,10 +106,17 @@ public class RecordListenerBean implements Serializable {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String helloWorld() {
+        
+        sessionBean = getSessionBean();
+        
         if(sessionBean.getUserType() == UserType.IDENTIFIED_USER) {
             return "You are identified, output will be saved to database";
         } else {
             return "You are not identified, output will not be saved to database";
         }
+    }
+    
+    private SessionBean getSessionBean() {
+        return (SessionBean)httpRequest.getSession().getAttribute("sessionBean");
     }
 }

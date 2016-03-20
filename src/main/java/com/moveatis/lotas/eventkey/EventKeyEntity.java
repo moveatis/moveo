@@ -29,10 +29,10 @@ public class EventKeyEntity implements Serializable {
     private Long id;
     
     @OneToOne
-    private EventEntity sceneEntity;
+    private EventEntity eventEntity;
     
     @Column(unique=true)
-    private String key;
+    private String eventKey;
 
     public Long getId() {
         return id;

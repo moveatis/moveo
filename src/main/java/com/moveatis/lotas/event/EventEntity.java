@@ -52,8 +52,8 @@ public class EventEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date created;
     
-    @OneToOne(mappedBy = "sceneEntity")
-    private EventKeyEntity sceneKeyEntity;
+    @OneToOne(mappedBy = "eventEntity")
+    private EventKeyEntity eventKeyEntity;
 
     public Long getId() {
         return id;
@@ -95,12 +95,12 @@ public class EventEntity implements Serializable {
         this.created = created;
     }
     
-    public EventKeyEntity getSceneKeyEntity() {
-        return sceneKeyEntity;
+    public EventKeyEntity getEventKeyEntity() {
+        return eventKeyEntity;
     }
 
-    public void setSceneKeyEntity(EventKeyEntity sceneKeyEntity) {
-        this.sceneKeyEntity = sceneKeyEntity;
+    public void setEventKeyEntity(EventKeyEntity eventKeyEntity) {
+        this.eventKeyEntity = eventKeyEntity;
     }
 
     @Override
