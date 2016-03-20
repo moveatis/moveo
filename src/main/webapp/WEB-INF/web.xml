@@ -2,12 +2,15 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <security-constraint>
         <web-resource-collection>
-            <url-pattern>/summary/*</url-pattern>
-            <url-pattern>/settings/*</url-pattern>
-            <url-pattern>/observer/*</url-pattern>
-            <url-pattern>/control/*</url-pattern>
-            <url-pattern>/exporter/*</url-pattern>
+            <url-pattern>/*</url-pattern>
         </web-resource-collection>
+        <!-- NOT USED IN DEVEL
+        <user-data-constraint>
+            <transport-guarantee>
+                CONFIDENTIAL
+            </transport-guarantee>
+        </user-data-constraint>    
+        -->
     </security-constraint>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
