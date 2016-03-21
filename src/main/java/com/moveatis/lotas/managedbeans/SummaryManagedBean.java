@@ -48,7 +48,7 @@ public class SummaryManagedBean {
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get from timezone "bean" ?
         this.start = new Date(0);
         this.min = new Date(0);
-        this.zoomMin = 5 * 1000;
+        this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
     }
 
