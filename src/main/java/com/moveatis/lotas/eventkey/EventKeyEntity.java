@@ -1,15 +1,13 @@
-package com.moveatis.lotas.category;
+package com.moveatis.lotas.eventkey;
 
-import com.moveatis.lotas.event.EventGroupEntity;
-import com.moveatis.lotas.eventkey.EventKeyEntity;
+import com.moveatis.lotas.category.CategoryGroupEntity;
+import com.moveatis.lotas.event.EventEntity;
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -18,11 +16,11 @@ import javax.persistence.Table;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="CATEGORYGROUPS")
-public class CategoryGroupEntity implements Serializable {
+@Table(name="EVENTKEYS")
+public class EventKeyEntity implements Serializable {
 
-    @ManyToOne
-    private EventGroupEntity eventGroup;
+    @OneToOne(mappedBy = "eventKey")
+    private CategoryGroupEntity categoryGroup;
 
     private static final long serialVersionUID = 1L;
     
@@ -30,13 +28,12 @@ public class CategoryGroupEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany(mappedBy = "categoryGroup")
-    private List<CategoryEntity> categoryEntitys;
-
     @OneToOne
-    private EventKeyEntity eventKey;
+    private EventEntity sceneEntity;
     
-    
+    @Column(unique=true)
+    private String key;
+
     public Long getId() {
         return id;
     }
@@ -55,10 +52,10 @@ public class CategoryGroupEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CategoryGroupEntity)) {
+        if (!(object instanceof EventKeyEntity)) {
             return false;
         }
-        CategoryGroupEntity other = (CategoryGroupEntity) object;
+        EventKeyEntity other = (EventKeyEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -67,7 +64,7 @@ public class CategoryGroupEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.category.CategoryTemplateEntity[ id=" + id + " ]";
+        return "com.moveatis.lotas.eventkey.eventKeyEntity[ id=" + id + " ]";
     }
     
 }

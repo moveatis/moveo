@@ -1,8 +1,7 @@
-package com.moveatis.lotas.scene;
+package com.moveatis.lotas.event;
 
 import com.moveatis.lotas.category.CategoryGroupEntity;
 import com.moveatis.lotas.user.AbstractUser;
-import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -11,13 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-public class SceneGroupEntity implements Serializable {
+@Table(name="EVENTGROUPS")
+public class EventGroupEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -30,7 +31,7 @@ public class SceneGroupEntity implements Serializable {
     @ManyToOne
     private AbstractUser user;
     
-    @OneToMany(mappedBy = "sceneGroup")
+    @OneToMany(mappedBy = "eventGroup")
     private Set<CategoryGroupEntity> categories;
 
     public Long getId() {
@@ -67,10 +68,10 @@ public class SceneGroupEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SceneGroupEntity)) {
+        if (!(object instanceof EventGroupEntity)) {
             return false;
         }
-        SceneGroupEntity other = (SceneGroupEntity) object;
+        EventGroupEntity other = (EventGroupEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

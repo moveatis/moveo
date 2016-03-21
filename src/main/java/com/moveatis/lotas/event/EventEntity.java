@@ -1,7 +1,7 @@
-package com.moveatis.lotas.scene;
+package com.moveatis.lotas.event;
 
 import com.moveatis.lotas.category.CategoryEntity;
-import com.moveatis.lotas.scenekey.SceneKeyEntity;
+import com.moveatis.lotas.eventkey.EventKeyEntity;
 import com.moveatis.lotas.user.AbstractUser;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
@@ -26,11 +26,11 @@ import javax.validation.constraints.NotNull;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="SCENES")
+@Table(name="EVENTS")
 @NamedQueries(
-        @NamedQuery(name="SceneEntity.findByUser", query="SELECT scene FROM SceneEntity scene WHERE scene.owner = :user")
+        @NamedQuery(name="EventEntity.findByUser", query="SELECT event FROM EventEntity event WHERE event.owner = :user")
 )
-public class SceneEntity implements Serializable {
+public class EventEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -39,7 +39,7 @@ public class SceneEntity implements Serializable {
     private Long id;
     
     @OneToOne
-    private SceneGroupEntity basedOn;
+    private EventGroupEntity basedOn;
     
     @OneToMany(mappedBy = "scene")
     private Set<CategoryEntity> categories;
@@ -53,7 +53,7 @@ public class SceneEntity implements Serializable {
     private Date created;
     
     @OneToOne(mappedBy = "sceneEntity")
-    private SceneKeyEntity sceneKeyEntity;
+    private EventKeyEntity sceneKeyEntity;
 
     public Long getId() {
         return id;
@@ -63,11 +63,11 @@ public class SceneEntity implements Serializable {
         this.id = id;
     }
 
-    public SceneGroupEntity getBasedOn() {
+    public EventGroupEntity getBasedOn() {
         return basedOn;
     }
 
-    public void setBasedOn(SceneGroupEntity basedOn) {
+    public void setBasedOn(EventGroupEntity basedOn) {
         this.basedOn = basedOn;
     }
 
@@ -95,11 +95,11 @@ public class SceneEntity implements Serializable {
         this.created = created;
     }
     
-    public SceneKeyEntity getSceneKeyEntity() {
+    public EventKeyEntity getSceneKeyEntity() {
         return sceneKeyEntity;
     }
 
-    public void setSceneKeyEntity(SceneKeyEntity sceneKeyEntity) {
+    public void setSceneKeyEntity(EventKeyEntity sceneKeyEntity) {
         this.sceneKeyEntity = sceneKeyEntity;
     }
 
@@ -113,10 +113,10 @@ public class SceneEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SceneEntity)) {
+        if (!(object instanceof EventEntity)) {
             return false;
         }
-        SceneEntity other = (SceneEntity) object;
+        EventEntity other = (EventEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

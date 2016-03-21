@@ -1,7 +1,7 @@
 
 package com.moveatis.lotas.category;
 
-import com.moveatis.lotas.scene.SceneEntity;
+import com.moveatis.lotas.event.EventEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -31,7 +31,7 @@ public class CategoryEntity implements Serializable {
     
     @NotNull
     @ManyToOne
-    private SceneEntity scene;
+    private EventEntity scene;
     
     @NotNull
     @Temporal(TemporalType.DATE)
@@ -51,11 +51,11 @@ public class CategoryEntity implements Serializable {
         this.id = id;
     }
 
-    public SceneEntity getScene() {
+    public EventEntity getScene() {
         return scene;
     }
 
-    public void setScene(SceneEntity scene) {
+    public void setScene(EventEntity scene) {
         this.scene = scene;
     }
 

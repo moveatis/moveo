@@ -1,7 +1,7 @@
 package com.moveatis.lotas.observation;
 
 import com.moveatis.lotas.records.RecordEntity;
-import com.moveatis.lotas.scene.SceneEntity;
+import com.moveatis.lotas.event.EventEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import java.util.Date;

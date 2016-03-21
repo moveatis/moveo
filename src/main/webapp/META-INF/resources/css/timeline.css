@@ -10,52 +10,63 @@ and open the template in the editor.
 
 /* Custom styles for the Timeline */
 
-.timeline-event {
-    color: #AEAEAE !important;
-    background: #cedff0 !important;
+#timeline .timeline-event {
+    color: #AEAEAE;
+    background: #fa4;
+    box-shadow: none;
+    margin-top: -2px;
 }
 
-.timeline-event-content {
-    margin: 0!important;
-    padding: 8px!important;
+#timeline .timeline-event-content {
+    margin: 0;
+    padding: 8px;
     text-shadow: none;
 }
 
-.timeline-axis {
+#timeline .timeline-axis {
     background: #567;
-    opacity: 1!important;
+    opacity: 1;
 }
 
-.timeline-axis-text {
+#timeline .timeline-axis-text {
     font-size: 0.9em;
-    color: white!important;
-}
-
-.timeline-axis-grid {
-    border-left-style: dashed !important;
-    border-top-style: dashed !important;
-}
-
-.timeline-groups-axis {
-    background-color: #567;
-    color: #4F4F4F;
-}
-.timeline-groups-axis  > .timeline-groups-text {
     color: white;
 }
 
-.timeline-event-range-drag-left,
-.timeline-event-range-drag-right,
-.timeline-navigation-delete {
-    display: none!important;
-}
-div.timeline-event-selected div.timeline-event-content {
-    cursor: pointer!important;
-}
-div.timeline-event-selected {
-    background-color: #fa4!important;
+#timeline .timeline-axis-grid {
+    border-left-style: dashed!important;
+    border-top-style: dashed!important;
 }
 
-.timeline-groups-axis {
-    display:none!important;
+#timeline .timeline-groups-axis {
+    background-color: #567;
+}
+
+#timeline .timeline-groups-axis  > .timeline-groups-text {
+    color: white;
+}
+
+#timeline .timeline-event-selected .timeline-event-content {
+    cursor: default;
+}
+
+#timeline .timeline-event-selected {
+    background-color: #cedff0;
+}
+
+#timeline .categoryLabel {
+    display: none!important;
+}
+
+#timeline .timeline-frame {
+    border-radius: 0;
+    border: none;
+}
+
+#timeline .ui-widget-content:not(.timeline-axis) {
+    color: #000;
+}
+
+#timeline .timeline-axis {
+    color: #4F4F4F;
 }

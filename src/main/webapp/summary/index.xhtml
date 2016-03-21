@@ -3,64 +3,89 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:pe="http://primefaces.org/ui/extensions">
-    <h:head>
-        <title>#{msg.applicationTitle} - Yhteenveto</title>
-        <h:outputStylesheet library="css" name="base.css"/>
-        <h:outputStylesheet library="css" name="summary.css"/>
-        <h:outputStylesheet library="css" name="summary-grid.css"/>
-        <h:outputStylesheet library="css" name="timeline.css"/>
-        <h:outputStylesheet library="primefaces" name="grid/grid.css"/>
-        <h:outputScript library="primefaces" name="jquery/jquery.js" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:body>
-        <div id="observation-info" class="ui-fluid">
+        <ui:composition template="../index.xhtml">
 
-            <div class="background">
-                <div id="details" class="inline-bar content">
-                    <div class="header-left"><h2>Observaatio - #{summaryBean.observationDate}</h2></div>
-                    <div class="inline-bar align-bar">
-                        <div>
-                            <div id="total-recordings" class="total">31</div>
-                            <div><span>Kirjausta</span></div>
-                        </div>
-                        <div>
-                            <div id="total-duration" class="total">#{summaryBean.observationDuration}</div>
-                            <div><span>Kokonaiskesto</span></div>
+            <ui:define name="title">#{msg.applicationTitle} - Yhteenveto</ui:define>
+
+            <ui:define name="mainpage">
+
+                <h:outputStylesheet library="css" name="summary.css"/>
+                <h:outputStylesheet library="css" name="timeline.css"/>
+                <h:outputStylesheet library="primefaces" name="grid/grid.css"/>
+                <h:outputScript library="primefaces" name="jquery/jquery.js" />
+
+                <div id="observation-info" class="ui-fluid">
+
+                    <div class="background">
+                        <div id="details" class="inline-bar content">
+                            <div class="header-left"><h2>#{summaryBean.observationName}</h2></div>
+                            <div class="inline-bar align-bar">
+                                <div>
+                                    <div id="total-recordings" class="total">31</div>
+                                    <div><span>Kirjausta</span></div>
+                                </div>
+                                <div>
+                                    <div id="total-duration" class="total">#{summaryBean.observationDuration}</div>
+                                    <div><span>Kesto</span></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div>
+                        <h3 class="recordsHeader">Kirjaukset</h3>
+
+                        <h:form styleClass="actions-form">
+                            <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
+                                             actionListener="#{buttonView.buttonAction}"/>
+                            <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-square"
+                                             onclick="PF('dlgMail').show();"/>
+                        </h:form>
+                        <p:dialog header="Anna sähköpostiosoite" widgetVar="dlgMail" minHeight="80" position="top" class="coloredButton">
+                            <p:inputText autocomplete="off" binding="#{inputKey}"/>
+                            <p:commandButton icon="ui-icon-check" onclick="PF('dlgMail').hide();" />
+                        </p:dialog>
+                    </div>
+
+                    <div class="ui-grid ui-grid-responsive-260">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-5">Kategoria</div>
+                            <div class="ui-grid-col-2">Kertoja</div>
+                            <div class="ui-grid-col-2">Kesto</div>
+                            <div class="ui-grid-col-2">Osuus</div>
+                        </div>
+                    </div>
+                    <div id="recordings" class="ui-grid ui-grid-responsive-260 background"/>
                 </div>
-            </div>
 
-            <h3>Kirjaukset</h3>
-            <div id="recordings" class="ui-grid ui-grid-responsive-260 background"/>
-        </div>
-
-        <pe:timeline id="timeline" widgetVar="timelineWdgt"
-                     value="#{summaryBean.timeline}"
-                     locale="#{summaryBean.locale}"
-                     timeZone="#{summaryBean.timeZone}"
-                     browserTimeZone="#{summaryBean.browserTimeZone}"
-                     min="#{summaryBean.min}"
-                     max="#{summaryBean.max}"
-                     start="#{summaryBean.start}"
-                     zoomMin="#{summaryBean.zoomMin}"
-                     zoomMax="#{summaryBean.zoomMax}"
-                     animate="false"
-                     animateZoom="false"
-                     selectable="true"
-                     groupsOrder="true"
-                     groupsChangeable="false"
-                     groupMinHeight="20"
-                     editable="false"
-                     timeChangeable="false"
-                     showCurrentTime="false"
-                     showMajorLabels="false"
-                     stackEvents="false"
-                     eventMarginAxis="0"
-                     eventMargin="20">
-        </pe:timeline>
+                <pe:timeline id="timeline" widgetVar="timelineWdgt"
+                             value="#{summaryBean.timeline}"
+                             locale="#{summaryBean.locale}"
+                             timeZone="#{summaryBean.timeZone}"
+                             browserTimeZone="#{summaryBean.browserTimeZone}"
+                             min="#{summaryBean.min}"
+                             max="#{summaryBean.max}"
+                             start="#{summaryBean.start}"
+                             zoomMin="#{summaryBean.zoomMin}"
+                             zoomMax="#{summaryBean.zoomMax}"
+                             animate="false"
+                             animateZoom="false"
+                             selectable="true"
+                             groupsOrder="false"
+                             groupsChangeable="false"
+                             groupMinHeight="16"
+                             editable="false"
+                             timeChangeable="false"
+                             showCurrentTime="false"
+                             showMajorLabels="false"
+                             stackEvents="false"
+                             eventMarginAxis="0"
+                             eventMargin="16">
+                </pe:timeline>
+                <h:outputScript library="js" name="summary.js"/>
+            </ui:define>
+        </ui:composition>
     </h:body>
-    <h:outputScript library="js" name="summary.js"/>
 </html>

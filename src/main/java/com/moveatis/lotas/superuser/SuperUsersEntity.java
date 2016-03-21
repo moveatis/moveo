@@ -1,4 +1,4 @@
-package com.moveatis.lotas.application;
+package com.moveatis.lotas.superuser;
 
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
