@@ -15,7 +15,9 @@ and open the template in the editor.
         padding-bottom: 0.5em;  
     }    
 
+    #superusers{
+        width: 80%; 
+        max-width: 400px; 
+        min-width: 250px
+    }
     
-@media screen and (max-width:px) {
-    
-}
