@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <h:head>
+        <title>#{msg.applicationTitle} - Pääkäyttäjäsivu</title>
+        <h:outputStylesheet library="css" name="basev2.css"/>
+        <h:outputStylesheet library="css" name="superuser.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+
+        <div class="superuser_actions">
+
+            <H1> Pääkäyttäjän toiminnot </H1>
+
+            
+        <!--Kaikkien tapahtumaryhmien, tapahtumien ja observointien listaaminen-->
+                 
+        <h3> tapahtumaryhmät ja tapahtumat</h3>
+        
+            <h:form>
+            <p:growl autoUpdate="true"/>
+                    <p:panelMenu style="width: 80%; max-width: 400px; min-width: 250px">
+                        <p:submenu label="Omat" expanded="false" >
+                            <p:submenu label="Tapahtumaryhmä 1" >
+                                <p:submenu label="Tapahtuma 1" >
+                                    <p:menuitem value="Observointi 1" />
+                                </p:submenu>
+                                <p:submenu label="Tapahtuma 2">
+                                    <p:menuitem value="Observointi 1" />
+                                    <p:menuitem value="Observointi 2" />
+                                    <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
+                                </p:submenu>
+                                <p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick" style="color: black;"/>
+                            </p:submenu>
+                            <p:menuitem value="Uusi tapahtumaryhmä..." icon="ui-icon-plusthick"/>
+                        </p:submenu>
+
+                        <p:submenu label="Yleiset" expanded="false">
+                            <p:submenu label="Tapahtumaryhmä 1" >
+                                <p:submenu label="Tapahtuma 1" >
+                                    <p:menuitem value="Observointi 1" />
+                                    <p:menuitem value="Observointi 2" />
+                                    <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
+                                </p:submenu>
+                                <p:submenu label="Tapahtuma 2" >
+                                    <p:menuitem value="Observointi 1" />
+                                    <p:menuitem value="Observointi 2" />
+                                    <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
+                                </p:submenu>
+                                <p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick"/>
+                            </p:submenu>
+                            <p:menuitem value="Uusi tapahtumaryhmä..." icon="ui-icon-plusthick"/>
+                        </p:submenu>
+                        </p:panelMenu>
+                </h:form> 
+        
+
+            <!--Pääkäyttäjien listaaminen, poistamis- ja lisäämistoiminnot-->
+            
+            <h3>Pääkäyttäjät</h3>
+            <h:form id="superusers">
+                <p:dataList id="superuserList" value="#{dataListView.superusers}" var="superuser">
+                    <!--
+                        <f:facet name="superusers">
+                        Pääkäyttäjät
+                        </f:facet>
+                    -->
+
+                    #{superuser.name}, #{superuser.expiration}, <p:button id="removeSuperuserRights" value="X" />
+                </p:dataList>
+            </h:form>
+            <br />
+
+            <h:form id="addSuperuser">
+                <h:panelGrid columns="3" style="width: 80%; max-width: 400px; min-width: 250px; border: soldi white 1px;" >
+                <p:inputText id="user" placeholder="Käyttäjätunnus" style="margin-right: 0.2em;" size="10"/>  
+                <p:inputMask id="expirationDate" placeholder="01.01.2017" value="#{maskView.date}" mask="99/99/9999" size="8" style="margin-right: 0.2em;" />
+                <p:commandButton id="addSuperuser" value="Lisää" type="button" onclick="PF('addSuperuserConfirmation').show();"/>
+
+
+                <p:dialog id="userToSuperuser" header="Lisätään pääkäyttäjäoikeudet" widgetVar="addSuperuserConfirmation" modal="true" width="300px">
+                    
+                    <br />
+                    <p:commandButton value="Ei" type="button" styleClass="ui-confirmdialog-No" style="float: left;" />
+                    <p:commandButton value="Kyllä" type="button" styleClass="ui-confirmdialog-Yes" actionListener="#{superuserBean.addSuperuser}" style="float: right;" />
+
+                </p:dialog>   
+
+                </h:panelGrid>
+                
+                <!--Julkisten kategoriaryhmien luominen-->
+                
+                <h3>Julkiset kategoriaryhmät</h3>
+                
+                
+                <!--Estä julkinen käyttö-->
+                <!--Julkisen ja avainkäytön aikaraja-->
+            </h:form>
+            
+
+        </div>
+    </body>
+</html>
