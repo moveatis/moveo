@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="../index.xhtml">
+
+            <ui:define name="title">#{msg.applicationTitle} - Kategorioiden valinta</ui:define>
+
+            <ui:define name="mainpage">
+                <!--<h:outputStylesheet library="css" name="observer.css"/>-->
+                <!--<h:outputScript library="primefaces" name="jquery/jquery.js" />-->
+                <!--<h:outputScript library="js" name="observer.js"/>-->
+                
+                <h:form>
+                    <h1>Valitse kategoriat</h1>
+                    
+                    <p:selectManyCheckbox id="category-set" value="#{categoryBean.selectedCategories}" layout="grid" columns="1">
+                        <f:selectItems value="#{categoryBean.categories}" var="category" itemLabel="#{category}" itemValue="#{category}"/>
+                    </p:selectManyCheckbox>
+                    
+<!--                    <ui:repeat value="# {categoryBean.categorySets}" var="categorySet">
+                        <h2># {categorySet.name}</h2>
+                        <p:selectManyCheckbox id="# {categorySet.id}" value="# {categorySet.selectedCategories}">
+                            <f:selectItems value="# {categorySet.categories}" var="category" itemLabel="# {category}" itemValue="# {category}"/>
+                        </p:selectManyCheckbox>
+                    </ui:repeat>-->
+                    
+                    <p:commandButton value="Jatka" update="display" oncomplete="PF('dlg').show()" />
+                    
+                    <p:dialog header="Valitut kategoriat" modal="true" widgetVar="dlg" resizable="false">
+                        <p:outputPanel id="display">
+                            <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                                <p:dataList value="#{categorySet.selectedCategories}" var="category">
+                                    <f:facet name="header">
+                                        #{categorySet.name}
+                                    </f:facet>
+                                    #{category}
+                                </p:dataList>
+                            </ui:repeat>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+                
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+
