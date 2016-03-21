@@ -9,6 +9,9 @@
 # Dockerin hakemisto
 docker/
 
+# Openshiftin hakemisto
+# deployments/
+
 # Java -luokkatiedostot
 *.class
 *.war
