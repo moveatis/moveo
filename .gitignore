@@ -10,7 +10,7 @@
 docker/
 
 # Openshiftin hakemisto
-# deployments/
+deployments/
 
 # Java -luokkatiedostot
 *.class
