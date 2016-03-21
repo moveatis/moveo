@@ -119,9 +119,13 @@ public class SummaryManagedBean {
         timeline = new TimelineModel();
 
         List<RecordEntity> records = observationBean.getRecords();
+        //List<CategoryEntity> categories = observationBean.getCategories();
+
         HashSet<String> categories = new HashSet<>();
 
         // Add categories to timeline as timelinegroups
+        // TODO: Get order of categories from observationBean.
+        //// Now categories follow the order of records.
         for (RecordEntity record : records) {
             String category = record.getCategory();
             if (!categories.contains(category)) {
