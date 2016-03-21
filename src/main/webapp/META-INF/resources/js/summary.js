@@ -8,6 +8,7 @@
 
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
+    var zeroDate = getLocalZeroTime();
 
     console.log(timeline);
 
@@ -17,6 +18,14 @@ $(function () {
     $("#total-recordings").text(timeline.items.length);
 
     updateRecordingsInfo(timeline);
+
+    // Zoom buttons
+    $("#button-zoom-in").click(function () {
+        timeline.zoom(0.2, zeroDate);
+    });
+    $("#button-zoom-out").click(function () {
+        timeline.zoom(-0.2);
+    });
 });
 
 function updateRecordingsInfo(timeline) {
@@ -78,4 +87,11 @@ function lz(n) {
 // calculate percentage
 function percentOf(a, b) {
     return Math.round((a / b) * 100);
+}
+
+// get "zero" date with timezone offset
+function getLocalZeroTime() {
+    var localDate = new Date(0);
+    var zeroDate = new Date(localDate.getTimezoneOffset() * 60 * 1000);
+    return zeroDate;
 }

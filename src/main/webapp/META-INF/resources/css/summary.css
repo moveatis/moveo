@@ -73,6 +73,16 @@ and open the template in the editor.
     margin-left: 0.3em;
 }
 
+.timelineControls {
+    text-align: right;
+}
+
+.fa-search-plus,
+.fa-search-minus {
+    cursor: pointer;
+}
+
+
 /* Responsive */
 @media (max-width:700px){
     .content {

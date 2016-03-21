@@ -38,14 +38,14 @@
                         <h3 class="recordsHeader">Kirjaukset</h3>
 
                         <h:form styleClass="actions-form">
-                            <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
-                                             actionListener="#{buttonView.buttonAction}"/>
                             <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-square"
                                              onclick="PF('dlgMail').show();"/>
+                            <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
+                                             actionListener="#{buttonView.buttonAction}"/>
                         </h:form>
                         <p:dialog header="Anna sähköpostiosoite" widgetVar="dlgMail" minHeight="80" position="top" class="coloredButton">
                             <p:inputText autocomplete="off" binding="#{inputKey}"/>
-                            <p:commandButton icon="ui-icon-check" onclick="PF('dlgMail').hide();" />
+                            <p:commandButton value="Lähetä" icon="ui-icon-check" onclick="PF('dlgMail').hide();" />
                         </p:dialog>
                     </div>
 
@@ -58,6 +58,15 @@
                         </div>
                     </div>
                     <div id="recordings" class="ui-grid ui-grid-responsive-260 background"/>
+                </div>
+
+                <div class="timelineControls">
+                    <span>Suurennus: </span>
+                    <a id="button-zoom-in" class="fa fa-search-plus"></a>
+                    <a id="button-zoom-out" class="fa fa-search-minus"></a>
+                    <span>Rajaus: </span>
+                    <p:inputText size="9" value="00:00:00" />
+                    <p:inputText size="9" value="00:02:10" />
                 </div>
 
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
