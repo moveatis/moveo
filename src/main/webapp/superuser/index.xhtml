@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <h:head>
+        <title>#{msg.applicationTitle} - Pääkäyttäjäsivu</title>
+        <h:outputStylesheet library="css" name="base.css"/>
+        <h:outputStylesheet library="css" name="superuser.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+
+
+
+        <div class="superuser_actions">
+
+            <H1> Pääkäyttäjän toiminnot </H1>
+
+
+            <h:panelGrid columns="1" cellpadding="5">
+
+                <p>Lisää pääkäyttäjäoikeudet</p>
+                <p:inputText id="usernameInput" placeholder="Käyttäjätunnus.." style="margin-right: 1em;"/>       
+                <p:commandButton value="Lisää" type="button" onclick="PF('dlg2').show();" />
+
+            </h:panelGrid>
+            <p:dialog header="Vahvista" widgetVar="dlg2" modal="true" width="300px">
+
+                <h:outputText value="Lisätään pääkäyttäjän oikeudet käyttäjälle" />
+                <br />
+                <h:outputText value="#Käyttäjä" /> 
+                <br />
+                <p:commandButton value="Ei" type="button" styleClass="ui-confirmdialog-No" style="float: left;" />
+                <p:commandButton value="Kyllä" type="button" styleClass="ui-confirmdialog-Yes" actionListener="#{superuserBean.addSuperuser}" style="float: right;" />
+
+            </p:dialog>   
+
+            <h:panelGrid columns="1" cellpadding="2">
+
+                <h2>Luo uusi kategoriaryhmä</h2>
+                <p>Kategoriaryhmän nimi</p>
+
+                <p:inputText />
+
+                <p>Kategoriat</p>
+                <p:inputText />
+                <a href="#" id="addCategoryToSet" >Lisää..</a>
+
+            </h:panelGrid>
+
+
+
+            <script>
+
+                $(document).ready(function() {
+                $('#addCategoryToSet').click(function() {
+                addRow(addCategorySets);
+                });
+                        function addRow(tableID) {
+                        // Get a reference to the table
+                        var tableRef = document.getElementById(tableID);
+                                // Insert a row in the table at row index 0
+                                var newRow = tableRef.insertRow(0);
+                                // Insert a cell in the row at index 0
+                                var newCell = newRow.insertCell(0);
+                                // Append a text node to the cell
+                                var newText = document.createTextNode('New top row');
+                                newCell.appendChild(newText);
+                                }
+
+            </script>
+
+        </div>
+    </body>
+</html>
