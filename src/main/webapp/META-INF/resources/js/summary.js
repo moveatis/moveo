@@ -36,12 +36,25 @@ $(function () {
     $("#button-zoom-out").click(function () {
         timeline.zoom(-0.2);
     });
+
+    // Calculation source change event
+    $("#select-calc-source").change(function () {
+        var selected = $(this).find(":selected").val();
+        if (selected === "duration") {
+            updateRecordingsInfo(timeline);
+        } else {
+            updateRecordingsInfo(timeline, {"counts": true});
+        }
+    });
 });
 
-function updateRecordingsInfo(timeline) {
+function updateRecordingsInfo(timeline, options) {
     var grid = $("#recordings");
     var categories = timeline.getItemsByGroup(timeline.items);
     var totalDuration = getTotalDuration(categories);
+    if (!options) {
+        options = {};
+    }
     grid.empty();
     $.each(categories, function (category, recordings) {
         var record = $('<div class="ui-grid-row">');
@@ -49,7 +62,11 @@ function updateRecordingsInfo(timeline) {
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
         record.append('<div class="ui-grid-col-2">' + recordings.length + "</div>");
         record.append('<div class="ui-grid-col-2">' + convertMsToStr(duration) + "</div>");
-        record.append('<div class="ui-grid-col-2">' + percentOf(duration, totalDuration) + " %</div>");
+        if (options["counts"]) {
+            record.append('<div class="ui-grid-col-2">' + percentOf(recordings.length, timeline.items.length) + " %</div>");
+        } else {
+            record.append('<div class="ui-grid-col-2">' + percentOf(duration, totalDuration) + " %</div>");
+        }
         grid.append(record);
     });
 }

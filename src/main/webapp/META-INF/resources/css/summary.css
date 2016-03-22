@@ -77,6 +77,11 @@ and open the template in the editor.
     /*text-align: right;*/
 }
 
+.timelineControls > div {
+    display: inline-block;
+    margin: 0 .3em;
+}
+
 .fa-search-plus,
 .fa-search-minus {
     cursor: pointer;
@@ -91,6 +96,10 @@ and open the template in the editor.
 
 .dialog-form > * {
     margin-bottom: .3em;
+}
+
+select > .placeholder {
+    display: none;
 }
 
 

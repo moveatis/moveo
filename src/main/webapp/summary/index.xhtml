@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:body>
         <ui:composition template="../index.xhtml">
@@ -95,15 +96,25 @@
                     </div>
                     <div id="recordings" class="ui-grid ui-grid-responsive-260 background"/>
                 </div>
-
                 <div class="timelineControls">
-                    <span>Valitse aikajänne </span>
-                    <p:inputText id="range-start" size="5" value="00:00:00" />
-                    <span> - </span>
-                    <p:inputText id="range-end" size="5" value="00:02:10" />
-                    <span>Suurennus </span>
-                    <a id="button-zoom-out" class="fa fa-search-minus" title="Pienennä"></a>
-                    <a id="button-zoom-in" class="fa fa-search-plus" title="Suurenna"></a>
+                    <div>
+                        <span>Valitse aikajänne </span>
+                        <p:inputText id="range-start" size="5" value="00:00:00" />
+                        <span> - </span>
+                        <p:inputText id="range-end" size="5" value="00:02:10" />
+                    </div>
+                    <div>
+                        <span>Näytä </span>
+                        <select id="select-calc-source">
+                            <option value="duration">Kestojen osuudet</option>
+                            <option value="count">Kertojen osuudet</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Suurennus </span>
+                        <a id="button-zoom-out" class="fa fa-search-minus" title="Pienennä"></a>
+                        <a id="button-zoom-in" class="fa fa-search-plus" title="Suurenna"></a>
+                    </div>
                 </div>
 
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
