@@ -74,12 +74,13 @@ and open the template in the editor.
 }
 
 .timelineControls {
-    text-align: right;
+    /*text-align: right;*/
 }
 
 .fa-search-plus,
 .fa-search-minus {
     cursor: pointer;
+    font-size: 1.6em;
 }
 
 .ui-button > .ui-icon.fa {
@@ -88,7 +89,7 @@ and open the template in the editor.
     height: auto;
 }
 
-.form-save > * {
+.dialog-form > * {
     margin-bottom: .3em;
 }
 

@@ -51,7 +51,7 @@
                                   responsive="true"
                                   modal="true"
                                   styleClass="coloredButton">
-                            <h:form>
+                            <h:form styleClass="dialog-form">
                                 <p:inputText id="input-email"
                                              placeholder="Sähköpostiosoite" />
                                 <p:commandButton value="Lähetä" icon="ui-icon-check"
@@ -67,7 +67,7 @@
                                   responsive="true"
                                   modal="true"
                                   styleClass="coloredButton">
-                            <h:form styleClass="form-save">
+                            <h:form styleClass="dialog-form">
                                 <p:inputText id="input-name"
                                              value="#{summaryBean.observationName}"
                                              placeholder="Observoinnin nimi"/>
@@ -77,7 +77,7 @@
                                 <p:inputTextarea id="input-description"
                                                  value="#{summaryBean.observationDescription}"
                                                  placeholder="Observoinnin kuvaus"
-                                                 rows="6" cols="33" autoResize="true"/>
+                                                 rows="6" cols="33" autoResize="true" />
                                 <p:commandButton value="Tallenna" icon="ui-icon-check"
                                                  onclick="PF('dlgSave').hide();"
                                                  actionListener="#{buttonView.buttonAction}"/>
@@ -97,12 +97,13 @@
                 </div>
 
                 <div class="timelineControls">
-                    <span>Suurennus: </span>
-                    <a id="button-zoom-in" class="fa fa-search-plus"></a>
-                    <a id="button-zoom-out" class="fa fa-search-minus"></a>
-                    <span>Rajaus: </span>
-                    <p:inputText size="9" value="00:00:00" />
-                    <p:inputText size="9" value="00:02:10" />
+                    <span>Valitse aikajänne </span>
+                    <p:inputText id="range-start" size="5" value="00:00:00" />
+                    <span> - </span>
+                    <p:inputText id="range-end" size="5" value="00:02:10" />
+                    <span>Suurennus </span>
+                    <a id="button-zoom-out" class="fa fa-search-minus" title="Pienennä"></a>
+                    <a id="button-zoom-in" class="fa fa-search-plus" title="Suurenna"></a>
                 </div>
 
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
@@ -117,12 +118,13 @@
                              zoomMax="#{summaryBean.zoomMax}"
                              animate="false"
                              animateZoom="false"
+                             axisOnTop="true"
                              selectable="true"
                              groupsOrder="false"
                              groupsChangeable="false"
                              groupMinHeight="16"
-                             editable="false"
-                             timeChangeable="false"
+                             editable="true"
+                             timeChangeable="true"
                              showCurrentTime="false"
                              showMajorLabels="false"
                              stackEvents="false"
