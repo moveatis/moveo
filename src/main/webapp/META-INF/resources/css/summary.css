@@ -82,6 +82,16 @@ and open the template in the editor.
     cursor: pointer;
 }
 
+.ui-button > .ui-icon.fa {
+    border-radius: 0;
+    width: auto;
+    height: auto;
+}
+
+.form-save > * {
+    margin-bottom: .3em;
+}
+
 
 /* Responsive */
 @media (max-width:700px){

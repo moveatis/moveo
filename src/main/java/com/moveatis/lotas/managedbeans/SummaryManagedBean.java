@@ -7,6 +7,7 @@ package com.moveatis.lotas.managedbeans;
 
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.records.RecordEntity;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -107,7 +108,19 @@ public class SummaryManagedBean {
 
     public String getObservationName() {
         //return observationBean.getName();
-        return "Observoinnin nimi/päivä";
+        Date date = new Date();
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, this.locale);
+        return "Observointi - " + df.format(date);
+    }
+
+    public String getObservationTarget() {
+        //return observationBean.getTarget();
+        return "";
+    }
+
+    public String getObservationDescription() {
+        //return observationBean.getDescription();
+        return "";
     }
 
     public String getObservationDuration() {

@@ -38,14 +38,50 @@
                         <h3 class="recordsHeader">Kirjaukset</h3>
 
                         <h:form styleClass="actions-form">
-                            <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-square"
+                            <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-o"
                                              onclick="PF('dlgMail').show();"/>
                             <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
-                                             actionListener="#{buttonView.buttonAction}"/>
+                                             onclick="PF('dlgSave').show();"/>
                         </h:form>
-                        <p:dialog header="Anna sähköpostiosoite" widgetVar="dlgMail" minHeight="80" position="top" class="coloredButton">
-                            <p:inputText autocomplete="off" binding="#{inputKey}"/>
-                            <p:commandButton value="Lähetä" icon="ui-icon-check" onclick="PF('dlgMail').hide();" />
+                        <p:dialog header="Anna sähköpostiosoite"
+                                  widgetVar="dlgMail"
+                                  position="top"
+                                  draggable="false"
+                                  resizable="false"
+                                  responsive="true"
+                                  modal="true"
+                                  styleClass="coloredButton">
+                            <h:form>
+                                <p:inputText id="input-email"
+                                             placeholder="Sähköpostiosoite" />
+                                <p:commandButton value="Lähetä" icon="ui-icon-check"
+                                                 onclick="PF('dlgMail').hide();"
+                                                 actionListener="#{buttonView.buttonAction}" />
+                            </h:form>
+                        </p:dialog>
+                        <p:dialog header="Anna observoinnin tiedot"
+                                  widgetVar="dlgSave"
+                                  position="top"
+                                  draggable="false"
+                                  resizable="false"
+                                  responsive="true"
+                                  modal="true"
+                                  styleClass="coloredButton">
+                            <h:form styleClass="form-save">
+                                <p:inputText id="input-name"
+                                             value="#{summaryBean.observationName}"
+                                             placeholder="Observoinnin nimi"/>
+                                <p:inputText id="input-target"
+                                             value="#{summaryBean.observationTarget}"
+                                             placeholder="Observoinnin kohde"/>
+                                <p:inputTextarea id="input-description"
+                                                 value="#{summaryBean.observationDescription}"
+                                                 placeholder="Observoinnin kuvaus"
+                                                 rows="6" cols="33" autoResize="true"/>
+                                <p:commandButton value="Tallenna" icon="ui-icon-check"
+                                                 onclick="PF('dlgSave').hide();"
+                                                 actionListener="#{buttonView.buttonAction}"/>
+                            </h:form>
                         </p:dialog>
                     </div>
 
