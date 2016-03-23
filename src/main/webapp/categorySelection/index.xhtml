@@ -18,16 +18,20 @@
                 <h:form>
                     <h1>Valitse kategoriat</h1>
                     
-                    <p:selectManyCheckbox id="category-set" value="#{categoryBean.selectedCategories}" layout="grid" columns="1">
-                        <f:selectItems value="#{categoryBean.categories}" var="category" itemLabel="#{category}" itemValue="#{category}"/>
-                    </p:selectManyCheckbox>
-                    
-<!--                    <ui:repeat value="# {categoryBean.categorySets}" var="categorySet">
-                        <h2># {categorySet.name}</h2>
-                        <p:selectManyCheckbox id="# {categorySet.id}" value="# {categorySet.selectedCategories}">
-                            <f:selectItems value="# {categorySet.categories}" var="category" itemLabel="# {category}" itemValue="# {category}"/>
-                        </p:selectManyCheckbox>
-                    </ui:repeat>-->
+                    <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                        <div style="margin-bottom: 1em;">
+                            <h2>#{categorySet.name}</h2>
+                            <h:panelGroup layout="block" id="category-set" class="ui-widget">
+                                <p:selectManyCheckbox value="#{categorySet.selectedCategories}" layout="grid" columns="1">
+                                    <f:selectItems value="#{categorySet.categories}" var="category" itemLabel="#{category}" itemValue="#{category}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+                            <p:inplace editor="true" class="fa fa-plus" label=" Uusi kategoria" style="margin-left: 0.5em;">
+                                <p:inputText value="#{categorySet.category}"/>
+                                <p:ajax event="save" listener="#{categorySet.addCategory}" update="category-set"/>
+                            </p:inplace>
+                        </div>
+                    </ui:repeat>
                     
                     <p:commandButton value="Jatka" update="display" oncomplete="PF('dlg').show()" />
                     
