@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:body>
         <ui:composition template="../index.xhtml">
@@ -38,14 +39,50 @@
                         <h3 class="recordsHeader">Kirjaukset</h3>
 
                         <h:form styleClass="actions-form">
-                            <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
-                                             actionListener="#{buttonView.buttonAction}"/>
-                            <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-square"
+                            <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-o"
                                              onclick="PF('dlgMail').show();"/>
+                            <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
+                                             onclick="PF('dlgSave').show();"/>
                         </h:form>
-                        <p:dialog header="Anna sähköpostiosoite" widgetVar="dlgMail" minHeight="80" position="top" class="coloredButton">
-                            <p:inputText autocomplete="off" binding="#{inputKey}"/>
-                            <p:commandButton icon="ui-icon-check" onclick="PF('dlgMail').hide();" />
+                        <p:dialog header="Anna sähköpostiosoite"
+                                  widgetVar="dlgMail"
+                                  position="top"
+                                  draggable="false"
+                                  resizable="false"
+                                  responsive="true"
+                                  modal="true"
+                                  styleClass="coloredButton">
+                            <h:form styleClass="dialog-form">
+                                <p:inputText id="input-email"
+                                             placeholder="Sähköpostiosoite" />
+                                <p:commandButton value="Lähetä" icon="ui-icon-check"
+                                                 onclick="PF('dlgMail').hide();"
+                                                 actionListener="#{buttonView.buttonAction}" />
+                            </h:form>
+                        </p:dialog>
+                        <p:dialog header="Anna observoinnin tiedot"
+                                  widgetVar="dlgSave"
+                                  position="top"
+                                  draggable="false"
+                                  resizable="false"
+                                  responsive="true"
+                                  modal="true"
+                                  styleClass="coloredButton">
+                            <h:form styleClass="dialog-form">
+                                <p:inputText id="input-name"
+                                             value="#{summaryBean.observationName}"
+                                             placeholder="Observoinnin nimi"/>
+                                <p:inputText id="input-target"
+                                             value="#{summaryBean.observationTarget}"
+                                             placeholder="Observoinnin kohde"/>
+                                <p:inputTextarea id="input-description"
+                                                 value="#{summaryBean.observationDescription}"
+                                                 placeholder="Observoinnin kuvaus"
+                                                 rows="6" cols="33" autoResize="true" />
+                                <p:commandButton value="Tallenna" icon="ui-icon-check"
+                                                 onclick="PF('dlgSave').hide();"
+                                                 actionListener="#{buttonView.buttonAction}"/>
+                            </h:form>
                         </p:dialog>
                     </div>
 
@@ -58,6 +95,26 @@
                         </div>
                     </div>
                     <div id="recordings" class="ui-grid ui-grid-responsive-260 background"/>
+                </div>
+                <div class="timelineControls">
+                    <div>
+                        <span>Valitse aikajänne </span>
+                        <p:inputText id="range-start" size="5" value="00:00:00" />
+                        <span> - </span>
+                        <p:inputText id="range-end" size="5" value="00:02:10" />
+                    </div>
+                    <div>
+                        <span>Näytä </span>
+                        <select id="select-calc-source">
+                            <option value="duration">Kestojen osuudet</option>
+                            <option value="count">Kertojen osuudet</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Suurennus </span>
+                        <a id="button-zoom-out" class="fa fa-search-minus" title="Pienennä"></a>
+                        <a id="button-zoom-in" class="fa fa-search-plus" title="Suurenna"></a>
+                    </div>
                 </div>
 
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
@@ -72,12 +129,13 @@
                              zoomMax="#{summaryBean.zoomMax}"
                              animate="false"
                              animateZoom="false"
+                             axisOnTop="true"
                              selectable="true"
                              groupsOrder="false"
                              groupsChangeable="false"
                              groupMinHeight="16"
-                             editable="false"
-                             timeChangeable="false"
+                             editable="true"
+                             timeChangeable="true"
                              showCurrentTime="false"
                              showMajorLabels="false"
                              stackEvents="false"

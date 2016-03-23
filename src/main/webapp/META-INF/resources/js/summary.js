@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 
-/* global PF */
+/* global PF, links */
 
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
+    var zeroDate = getLocalZeroTime();
 
-    console.log(timeline);
+    //console.log(timeline);
 
     // NOTE: setting showCurrentTime did not work from JSF
     timeline.options.showCurrentTime = false;
@@ -17,25 +18,57 @@ $(function () {
     $("#total-recordings").text(timeline.items.length);
 
     updateRecordingsInfo(timeline);
+
+    // Add items for time range selection
+//    timeline.addItem({
+//        "start": zeroDate,
+//        "end": new Date(0),
+//        "content": "",
+//        "className": "range-selection",
+//        "editable": true,
+//        "group": "range-selection"
+//    });
+
+    // Zoom buttons
+    $("#button-zoom-in").click(function () {
+        timeline.zoom(0.2, zeroDate);
+    });
+    $("#button-zoom-out").click(function () {
+        timeline.zoom(-0.2);
+    });
+
+    // Calculation source change event
+    $("#select-calc-source").change(function () {
+        var selected = $(this).find(":selected").val();
+        if (selected === "duration") {
+            updateRecordingsInfo(timeline);
+        } else {
+            updateRecordingsInfo(timeline, {"counts": true});
+        }
+    });
 });
 
-function updateRecordingsInfo(timeline) {
+function updateRecordingsInfo(timeline, options) {
     var grid = $("#recordings");
     var categories = timeline.getItemsByGroup(timeline.items);
     var totalDuration = getTotalDuration(categories);
+    if (!options) {
+        options = {};
+    }
     grid.empty();
-    var keys = Object.keys(categories);
-    for (var i = keys.length - 1; i >= 0; i--) {
-        var category = keys[i];
-        var recordings = categories[category];
+    $.each(categories, function (category, recordings) {
         var record = $('<div class="ui-grid-row">');
         var duration = recordingsDuration(recordings);
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
         record.append('<div class="ui-grid-col-2">' + recordings.length + "</div>");
         record.append('<div class="ui-grid-col-2">' + convertMsToStr(duration) + "</div>");
-        record.append('<div class="ui-grid-col-2">' + percentOf(duration, totalDuration) + " %</div>");
+        if (options["counts"]) {
+            record.append('<div class="ui-grid-col-2">' + percentOf(recordings.length, timeline.items.length) + " %</div>");
+        } else {
+            record.append('<div class="ui-grid-col-2">' + percentOf(duration, totalDuration) + " %</div>");
+        }
         grid.append(record);
-    }
+    });
 }
 
 // calculate total duration of categories
@@ -78,4 +111,11 @@ function lz(n) {
 // calculate percentage
 function percentOf(a, b) {
     return Math.round((a / b) * 100);
+}
+
+// get "zero" date with timezone offset
+function getLocalZeroTime() {
+    var localDate = new Date(0);
+    var zeroDate = new Date(localDate.getTimezoneOffset() * 60 * 1000);
+    return zeroDate;
 }
