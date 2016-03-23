@@ -44,7 +44,7 @@
                             <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
                                              onclick="PF('dlgSave').show();"/>
                         </h:form>
-                        <p:dialog header="Anna sähköpostiosoite"
+                        <p:dialog header="Lähetä observointi sähköpostiin"
                                   widgetVar="dlgMail"
                                   position="top"
                                   draggable="false"
@@ -53,6 +53,17 @@
                                   modal="true"
                                   styleClass="coloredButton">
                             <h:form styleClass="dialog-form">
+                                <p:inputText id="input-name"
+                                             value="#{summaryBean.observationName}"
+                                             placeholder="Observoinnin nimi"/>
+                                <p:inputText id="input-target"
+                                             value="#{summaryBean.observationTarget}"
+                                             placeholder="Observoinnin kohde"/>
+                                <p:inputTextarea id="input-description"
+                                                 value="#{summaryBean.observationDescription}"
+                                                 placeholder="Observoinnin kuvaus"
+                                                 rows="6" cols="33" autoResize="true" />
+                                <h:outputText value="Anna sähköpostiosoite"/>
                                 <p:inputText id="input-email"
                                              placeholder="Sähköpostiosoite" />
                                 <p:commandButton value="Lähetä" icon="ui-icon-check"
@@ -60,7 +71,7 @@
                                                  actionListener="#{buttonView.buttonAction}" />
                             </h:form>
                         </p:dialog>
-                        <p:dialog header="Anna observoinnin tiedot"
+                        <p:dialog header="Tallenna observointi"
                                   widgetVar="dlgSave"
                                   position="top"
                                   draggable="false"
