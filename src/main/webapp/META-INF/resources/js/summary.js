@@ -103,6 +103,12 @@ function convertMsToStr(ms) {
     return [lz(m), lz(s)].join(':');
 }
 
+// converts time string hh:mm:ss to milliseconds
+function convertStrToMs(str) {
+    var time = str.split(/:/);
+    return (time[0] * 3600 + time[1] * 60 + time[2]) * 1000;
+}
+
 // append leading zero to number if smaller than 10
 function lz(n) {
     return (n < 10 ? "0" + n : n);
