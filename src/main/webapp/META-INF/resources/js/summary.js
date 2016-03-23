@@ -36,37 +36,22 @@ $(function () {
     $("#button-zoom-out").click(function () {
         timeline.zoom(-0.2);
     });
-
-    // Calculation source change event
-    $("#select-calc-source").change(function () {
-        var selected = $(this).find(":selected").val();
-        if (selected === "duration") {
-            updateRecordingsInfo(timeline);
-        } else {
-            updateRecordingsInfo(timeline, {"counts": true});
-        }
-    });
 });
 
-function updateRecordingsInfo(timeline, options) {
+function updateRecordingsInfo(timeline) {
     var grid = $("#recordings");
     var categories = timeline.getItemsByGroup(timeline.items);
     var totalDuration = getTotalDuration(categories);
-    if (!options) {
-        options = {};
-    }
+    var totalItems = timeline.items.length;
     grid.empty();
     $.each(categories, function (category, recordings) {
         var record = $('<div class="ui-grid-row">');
         var duration = recordingsDuration(recordings);
+        var recordsStr = recordings.length + '<span class="percent"> (' + percentOf(recordings.length, totalItems) + " %)</span>";
+        var durationStr = convertMsToStr(duration) + '<span class="percent"> (' + percentOf(duration, totalDuration) + " %)</span>";
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
-        record.append('<div class="ui-grid-col-2">' + recordings.length + "</div>");
-        record.append('<div class="ui-grid-col-2">' + convertMsToStr(duration) + "</div>");
-        if (options["counts"]) {
-            record.append('<div class="ui-grid-col-2">' + percentOf(recordings.length, timeline.items.length) + " %</div>");
-        } else {
-            record.append('<div class="ui-grid-col-2">' + percentOf(duration, totalDuration) + " %</div>");
-        }
+        record.append('<div class="ui-grid-col-3">' + recordsStr + "</div>");
+        record.append('<div class="ui-grid-col-3">' + durationStr + "</div>");
         grid.append(record);
     });
 }
@@ -101,6 +86,12 @@ function convertMsToStr(ms) {
     if (h > 0)
         return [lz(h), lz(m), lz(s)].join(':');
     return [lz(m), lz(s)].join(':');
+}
+
+// converts time string hh:mm:ss to milliseconds
+function convertStrToMs(str) {
+    var time = str.split(/:/);
+    return (time[0] * 3600 + time[1] * 60 + time[2]) * 1000;
 }
 
 // append leading zero to number if smaller than 10
