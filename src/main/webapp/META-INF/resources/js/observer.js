@@ -180,7 +180,13 @@ function Observer(initial_time, category_data) {
             dataType: "text",
             contentType: "application/json",
             cache: false,
-            data: JSON.stringify({ data: this.recordings }),
+            data: JSON.stringify({
+                // TODO: send all relevant data
+                startTime: 0,
+                endTime: 0,
+                categories: [],
+                data: this.recordings
+            }),
             success: function(data) {
                 console.log("Success: " + data);
                 window.location = "../summary/";
@@ -211,6 +217,9 @@ function Observer(initial_time, category_data) {
     };
 }
 
+//
+// TODO: Send keep-alive signals to backend
+//
 
 $(document).ready(function() {
     var initial_time = 0;
