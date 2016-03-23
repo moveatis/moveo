@@ -4,37 +4,23 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    
-    
-    <h:head>
-        <title>#{msg.applicationTitle}</title>
-        <h:outputStylesheet library="css" name="basev2.css"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    
+
+
     <h:body>
-        <div id="naviHead">
-            <ui:insert name="header" >
-                <ui:include src="/commonPages/commonHeader.xhtml"/>
-            </ui:insert>
-       
-        </div>
-        
-        <h:panelGroup>
-        <div id="mainPage">
-            <ui:insert name ="settingspage">
-                <ui:include src="settingsPage.xhtml"/>
-            </ui:insert>
-            
-        </div>
-        </h:panelGroup>
-        
-        <div id="Footer">
-            <ui:insert name="footer" >
-                <ui:include src="/commonPages/commonFooter.xhtml"/>
-            </ui:insert>
-                  
-        </div>
+        <ui:composition template="../index.xhtml">
+
+            <ui:define name="title">#{msg.applicationTitle} - Asetukset</ui:define>
+
+            <ui:define name="mainpage">
+                <h:outputStylesheet library="css" name="settings.css"/>
+
+                <ui:include src="settingsPage.xhtml" />
+
+            </ui:define>
+
+        </ui:composition>
+
     </h:body>
+
 </html>
 
