@@ -7,10 +7,10 @@ package com.moveatis.lotas.managedbeans;
 
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.records.RecordEntity;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
@@ -48,7 +48,7 @@ public class SummaryManagedBean {
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get from timezone "bean" ?
         this.start = new Date(0);
         this.min = new Date(0);
-        this.zoomMin = 5 * 1000;
+        this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
     }
 
@@ -107,7 +107,19 @@ public class SummaryManagedBean {
 
     public String getObservationName() {
         //return observationBean.getName();
-        return "Observoinnin nimi/päivä";
+        Date date = new Date();
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, this.locale);
+        return "Observointi - " + df.format(date);
+    }
+
+    public String getObservationTarget() {
+        //return observationBean.getTarget();
+        return "";
+    }
+
+    public String getObservationDescription() {
+        //return observationBean.getDescription();
+        return "";
     }
 
     public String getObservationDuration() {
@@ -119,9 +131,13 @@ public class SummaryManagedBean {
         timeline = new TimelineModel();
 
         List<RecordEntity> records = observationBean.getRecords();
+        //List<CategoryEntity> categories = observationBean.getCategories();
+
         HashSet<String> categories = new HashSet<>();
 
         // Add categories to timeline as timelinegroups
+        // TODO: Get order of categories from observationBean.
+        //// Now categories follow the order of records.
         for (RecordEntity record : records) {
             String category = record.getCategory();
             if (!categories.contains(category)) {
@@ -134,12 +150,12 @@ public class SummaryManagedBean {
             }
         }
 
+        // Add group for time range selection
+//        TimelineGroup timerangeGroup = new TimelineGroup("range-selection", "");
+//        timeline.addGroup(timerangeGroup);
+
         // Add records to timeline as timeline-events
-        ListIterator iterator = records.listIterator(records.size());
-        // add them in reversed order to show them in correct order
-        // Reason: timeline.axisOnBottom displays groups in reversed order
-        while (iterator.hasPrevious()) {
-            RecordEntity record = (RecordEntity) iterator.previous();
+        for (RecordEntity record : records) {
             String category = record.getCategory();
             long startTime = record.getStartTime();
             long endTime = record.getEndTime();

@@ -54,7 +54,7 @@ and open the template in the editor.
     opacity: 0.5;
 }
 
-.ui-grid-col-2 {
+.ui-grid-row > div:not(:first-child) {
     text-align: right;
 }
 
@@ -71,6 +71,43 @@ and open the template in the editor.
     margin: 0;
     margin-top: 0.3em;
     margin-left: 0.3em;
+}
+
+.timelineControls {
+    /*text-align: right;*/
+}
+
+.timelineControls > div {
+    display: inline-block;
+    margin: 0 .3em;
+}
+
+.fa-search-plus,
+.fa-search-minus {
+    cursor: pointer;
+    font-size: 1.6em;
+}
+
+.ui-button > .ui-icon.fa {
+    border-radius: 0;
+    width: auto;
+    height: auto;
+}
+
+.dialog-form > * {
+    margin-bottom: .3em;
+}
+
+select > .placeholder {
+    display: none;
+}
+
+.ui-dialog.coloredButton {
+    max-width: 48em;
+}
+
+.percent {
+    font-size: .8em;
 }
 
 /* Responsive */

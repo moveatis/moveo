@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 
-/* global PF */
+/* global PF, links */
 
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
+    var zeroDate = getLocalZeroTime();
 
-    console.log(timeline);
+    //console.log(timeline);
 
     // NOTE: setting showCurrentTime did not work from JSF
     timeline.options.showCurrentTime = false;
@@ -17,25 +18,42 @@ $(function () {
     $("#total-recordings").text(timeline.items.length);
 
     updateRecordingsInfo(timeline);
+
+    // Add items for time range selection
+//    timeline.addItem({
+//        "start": zeroDate,
+//        "end": new Date(0),
+//        "content": "",
+//        "className": "range-selection",
+//        "editable": true,
+//        "group": "range-selection"
+//    });
+
+    // Zoom buttons
+    $("#button-zoom-in").click(function () {
+        timeline.zoom(0.2, zeroDate);
+    });
+    $("#button-zoom-out").click(function () {
+        timeline.zoom(-0.2);
+    });
 });
 
 function updateRecordingsInfo(timeline) {
     var grid = $("#recordings");
     var categories = timeline.getItemsByGroup(timeline.items);
     var totalDuration = getTotalDuration(categories);
+    var totalItems = timeline.items.length;
     grid.empty();
-    var keys = Object.keys(categories);
-    for (var i = keys.length - 1; i >= 0; i--) {
-        var category = keys[i];
-        var recordings = categories[category];
+    $.each(categories, function (category, recordings) {
         var record = $('<div class="ui-grid-row">');
         var duration = recordingsDuration(recordings);
+        var recordsStr = recordings.length + '<span class="percent"> (' + percentOf(recordings.length, totalItems) + " %)</span>";
+        var durationStr = convertMsToStr(duration) + '<span class="percent"> (' + percentOf(duration, totalDuration) + " %)</span>";
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
-        record.append('<div class="ui-grid-col-2">' + recordings.length + "</div>");
-        record.append('<div class="ui-grid-col-2">' + convertMsToStr(duration) + "</div>");
-        record.append('<div class="ui-grid-col-2">' + percentOf(duration, totalDuration) + " %</div>");
+        record.append('<div class="ui-grid-col-3">' + recordsStr + "</div>");
+        record.append('<div class="ui-grid-col-3">' + durationStr + "</div>");
         grid.append(record);
-    }
+    });
 }
 
 // calculate total duration of categories
@@ -70,6 +88,12 @@ function convertMsToStr(ms) {
     return [lz(m), lz(s)].join(':');
 }
 
+// converts time string hh:mm:ss to milliseconds
+function convertStrToMs(str) {
+    var time = str.split(/:/);
+    return (time[0] * 3600 + time[1] * 60 + time[2]) * 1000;
+}
+
 // append leading zero to number if smaller than 10
 function lz(n) {
     return (n < 10 ? "0" + n : n);
@@ -78,4 +102,11 @@ function lz(n) {
 // calculate percentage
 function percentOf(a, b) {
     return Math.round((a / b) * 100);
+}
+
+// get "zero" date with timezone offset
+function getLocalZeroTime() {
+    var localDate = new Date(0);
+    var zeroDate = new Date(localDate.getTimezoneOffset() * 60 * 1000);
+    return zeroDate;
 }
