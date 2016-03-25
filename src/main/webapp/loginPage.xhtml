@@ -16,26 +16,33 @@
        <nav>
            <h:form>
                <h:panelGroup>
-                <div class="accessButtons" style="min-height: 200px;">
-                    <p:commandButton value="Kurssiavain" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
-                    <p:commandButton value="JYU-tunnukset" type="button" style="width: 200px; margin-top: 15px" class="coloredButton" action="#{loginBean.doIdentityProviderLogin()}"/>
-                    <p:commandButton value="Julkinen" type="button" onclick="" style="width: 200px; margin-top: 15px" class="coloredButton" action="#{loginBean.doAnonymityLogin()}"/>
-                    
-                </div>
- 
-                   <!-- TODO: REQUIRES VALIDATION -->
-               <p:dialog header="Anna kurssiavain" widgetVar="dlg1" minHeight="80" position="top" class="coloredButton">
-                   <p:inputText id="tagField" autocomplete="off" value="#{loginBean.tag}" required="true"
-                                requiredMessage="#{msg.tagRequired}"/>
-                   <p:commandButton icon="ui-icon-check" action="#{loginBean.doTagLogin}"/>
-                   <p:message for="tagField" style="color: red;"/>
-                </p:dialog>
-               
-<!--                <p:dialog header="Tämä avaa JYU-kirjautumissivun" widgetVar="dlg2" minHeight="80" position="center" class="coloredButton">
-                    <h:outputText value="#{tagBasedLoginBean.loginOutcome}"/>
-                </p:dialog>-->
+                    <div class="accessButtons" style="min-height: 200px;">
+                        <p:commandButton value="Kurssiavain" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" 
+                                class="coloredButton"/>
+                        <p:commandButton value="JYU-tunnukset" onclick="PF('dlg2').show();" style="width: 200px; margin-top: 15px" 
+                                class="coloredButton" />
+                        <p:commandButton value="Julkinen" type="button" onclick="" style="width: 200px; margin-top: 15px" 
+                                class="coloredButton" action="#{loginBean.doAnonymityLogin()}"/>
+                    </div>
                </h:panelGroup>
            </h:form>
+ 
+            <!-- TODO: REQUIRES VALIDATION -->
+            <p:dialog header="Anna kurssiavain" widgetVar="dlg1" minHeight="80" position="top" class="coloredButton">
+                <h:form>
+                    <p:inputText id="tagField" autocomplete="off" value="#{loginBean.tag}" required="true"/>
+                    <p:commandButton icon="ui-icon-check" action="#{loginBean.doTagLogin}"/>
+                </h:form>
+             </p:dialog>
+            
+            <p:dialog header="Tämä avaa JYU-kirjautumissivun" widgetVar="dlg2" minHeight="80" position="top" 
+                     class="coloredButton">
+                <h:form>
+                    <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true"/> 
+                    <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true"/> 
+                    <p:commandButton icon="ui-icon-check" action="#{loginBean.doIdentityProviderLogin}"/>
+                </h:form>
+            </p:dialog>
         </nav>
    
         <h:panelGroup styleClass="welcomeContent">
@@ -55,21 +62,12 @@
             <p>
             <h:outputText value="- Julkinen käyttö: ei tallennusmahdollisuutta."/>
             </p>
-<!--            <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
-                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-                          ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-                          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-                          deserunt mollit anim id est laborum."/>
-            
-            <h:outputText value="Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo 
-                          pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh 
-                          euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. 
-                          Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. 
-                          Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, 
-                          aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl 
-                          adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. 
-                          Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, 
-                          feugiat in, orci. In hac habitasse platea dictumst."/>-->
+            <p>
+                <h:outputText value="Demossa admin-tunnus on 'admin' ja salasana on 'admin'"/>
+            </p>
+            <p>
+                <h:outputText value="Demossa user-tunnus on 'user' ja salasana on 'user'" />
+            </p>
         </h:panelGroup>
         </ui:composition>
     </h:body>

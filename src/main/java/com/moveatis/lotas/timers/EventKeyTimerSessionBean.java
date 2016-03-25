@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 @Stateless
 @LocalBean
+@Deprecated
 public class EventKeyTimerSessionBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventKeyTimerSessionBean.class);

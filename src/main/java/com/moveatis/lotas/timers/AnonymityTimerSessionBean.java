@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 @Stateless
 @LocalBean
+@Deprecated
 public class AnonymityTimerSessionBean {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(AnonymityTimerSessionBean.class);

@@ -1,12 +1,11 @@
 package com.moveatis.lotas.session;
 
+import com.moveatis.lotas.enums.SessionStatus;
 import com.moveatis.lotas.enums.UserType;
-import com.moveatis.lotas.timers.AnonymityTimerSessionBean;
+import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +13,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@ManagedBean(name="sessionBean")
 @SessionScoped
-public class SessionBean implements Serializable  {
+public class SessionBean implements Serializable, Session  {
     
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
@@ -25,18 +23,24 @@ public class SessionBean implements Serializable  {
     private String tag;
     private UserEntity userEntity;
     
-    private Boolean loggedIn = false;
+    private String userName;
+    private String password;
     
-    @Inject
-    private AnonymityTimerSessionBean anonymityTimer;
+    private Boolean loggedIn = false;
     
     public SessionBean() {
         
     }
 
-    
-    public void setIdentifiedUser() {
+    @Override
+    public SessionStatus setIdentityProviderUser(String userName, String password) {
         userType = UserType.IDENTIFIED_USER;
+        if("admin".equals(userName) && "admin".equals(password)) {
+            return SessionStatus.USER_OK;
+        } else if("user".equals(userName) && "user".equals(password)) {
+            return SessionStatus.USER_OK;
+        }
+        return SessionStatus.USER_NOT_FOUND;
     }
     
     public void setAnonymityUser() {
@@ -44,11 +48,15 @@ public class SessionBean implements Serializable  {
         
     }
     
-    public void setTagUser(String tag) {
+    @Override
+    public SessionStatus setTagUser(String tag) {
+        if(tag == null) {
+            return SessionStatus.TAG_NOT_FOUND;
+        }
         userType = UserType.TAG_USER;
-        anonymityTimer.setTimer();
         this.loggedIn = true;
         this.tag = tag;
+        return SessionStatus.TAG_NOT_FOUND;
     }
 
     public UserType getUserType() {
@@ -65,6 +73,11 @@ public class SessionBean implements Serializable  {
 
     public void setIsLoggedIn(Boolean isLoggedIn) {
         this.loggedIn = isLoggedIn;
+    }
+    
+    @Override
+    public String toString() {
+        return "SessionBean: userType -> " + getUserType() + ", loggedIn -> " + isLoggedIn();
     }
         
 }

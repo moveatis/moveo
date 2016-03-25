@@ -14,12 +14,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.interfaces.Scene;
+import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.interfaces.User;
 import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +53,9 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     @EJB
     private User userEJB;
     
+    @Inject
+    private Session sessionBean;
+    
     private GregorianCalendar calendar;
     
     private ObservationEntity observation;
@@ -77,6 +82,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
             user = new UserEntity();
             userEJB.create(user);
         }
+        
+        LOGGER.debug("Sessionbean returns following information ->" + sessionBean.toString());
     }
 
     @Override

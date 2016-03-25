@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
 /**
@@ -11,7 +12,7 @@ import javax.inject.Named;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "observationBean")
-@SessionScoped
+@ViewScoped
 public class ObservationManagedBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
