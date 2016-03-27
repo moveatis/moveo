@@ -69,7 +69,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
         </dependencies>
     </dependencyManagement>
     
@@ -77,6 +76,10 @@
         <dependency>
             <groupId>org.modeshape</groupId>
             <artifactId>modeshape-jcr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.modeshape</groupId>
+            <artifactId>modeshape-jcr-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.jbossts</groupId>

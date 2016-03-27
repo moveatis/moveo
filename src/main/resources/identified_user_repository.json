@@ -1,3 +1,15 @@
 {
-  
+    "name" : "Repository-for-identified-users",
+    "workspaces" : {
+        "default" : "default",
+        "allowCreation" : false
+    },
+    "storage": {
+        "cacheConfiguration" : "infinispan-configuration.xml",
+        "cacheName" : "identified-user-repository",
+        "binaryStorage": {
+            "type" : "file",
+            "directory" : "target/binaries/identifiedusers/"
+        }
+    }
 }

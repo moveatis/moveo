@@ -1,15 +1,15 @@
 {
-    "name" : "Repository-for-keybased-users",
+    "name" : "Repository-for-application",
     "workspaces" : {
         "default" : "default",
         "allowCreation" : false
     },
     "storage": {
         "cacheConfiguration" : "infinispan-configuration.xml",
-        "cacheName" : "keybased-user-repository",
+        "cacheName" : "application-repository",
         "binaryStorage": {
             "type" : "file",
-            "directory" : "target/binaries/keybased"
+            "directory" : "target/binaries/application"
         }
     }
 }

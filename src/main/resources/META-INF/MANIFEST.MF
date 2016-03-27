@@ -1,0 +1,2 @@
+Dependencies: javax.jcr, org.modeshape.jcr.api export services, org.modeshape export services
+
