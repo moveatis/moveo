@@ -75,7 +75,8 @@ public class RecordListenerBean implements Serializable {
         
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
-        JsonArray array = jsonReader.readArray();
+        JsonObject jObject = jsonReader.readObject();
+        JsonArray array = jObject.getJsonArray("data");
         jsonReader.close();
         
         for (int i = 0; i < array.size(); i++) {
