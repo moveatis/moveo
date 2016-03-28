@@ -6,7 +6,9 @@ import javax.persistence.PersistenceContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import com.moveatis.lotas.interfaces.Application;
+import com.moveatis.lotas.user.UserEntity;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -28,12 +30,21 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     public ApplicationBean() {
         super(ApplicationEntity.class);
+        applicationEntity = super.find(1L);
     }
 
     @Override
     public boolean checkInstalled() {
         Date installed = super.find(1L).getApplicationInstalled();
         return installed != null;
+    }
+
+    @Override
+    public void addSuperUser(UserEntity superUser) {
+        List<UserEntity> superusers = applicationEntity.getSuperUsers();
+        superusers.add(superUser);
+        applicationEntity.setSuperUsers(superusers);
+        super.edit(applicationEntity);
     }
     
 }

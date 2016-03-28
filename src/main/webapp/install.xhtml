@@ -6,18 +6,18 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:panelGroup>
+        <p>
             Tämän sivun avulla voidaan kontrolloida sovelluksen asentamista. Tässä voitaisiin asettaa
             pääkäyttäjä ja muita soveltuvia ominaisuuksia. Asennuksen jälkeen tämä tiedosto pitää poistaa,
             ettei pääkäyttäjää voi tämän avulla vaihtaa. Tai tehdä muuta koiruutta.
-        </h:panelGroup>
-        <h:panelGroup>
+        </p>
+        <p>
             Vielä tällä hetkellä tämä ei tee mitään muuta kuin alustaa backendissa ApplicationEntityn, jonka
             avulla pidetään kirjaa siitä, onko sovellus asennettu vai ei.
             <h:form>
                 <h:commandButton value="Paina tästä asentaaksesi ohjelmiston" action="#{applicationManagedBean.installApplication}"/>
             </h:form>
-        </h:panelGroup>
+        </p>
     </h:body>
 </html>
 

@@ -1,6 +1,7 @@
 package com.moveatis.lotas.restful;
 
 import com.moveatis.lotas.enums.UserType;
+import com.moveatis.lotas.interfaces.Category;
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.session.SessionBean;
@@ -46,7 +47,10 @@ public class RecordListenerBean implements Serializable {
     private SessionBean sessionBean;
     
     @EJB
-    private Observation observationBean;
+    private Observation observationEJB;
+    
+    @EJB
+    private Category categoryEJB;
     
     public RecordListenerBean() {
         
@@ -60,7 +64,7 @@ public class RecordListenerBean implements Serializable {
         
         sessionBean = getSessionBean();
         
-        observationBean.addRecord(record);
+        observationEJB.addRecord(record);
 
         return "Data received ok";
     }
@@ -83,11 +87,15 @@ public class RecordListenerBean implements Serializable {
             JsonObject object = array.getJsonObject(i);
             
             RecordEntity record = new RecordEntity();
-            record.setCategory(object.getString("category"));
+            
+            if(categoryEJB.find(object.getString("category")) != null) {
+                record.setCategory(categoryEJB.find(object.getString("category")));
+            }
+                       
             record.setStartTime(object.getJsonNumber("startTime").longValue());
             record.setEndTime(object.getJsonNumber("endTime").longValue());
             
-            observationBean.addRecord(record);
+            observationEJB.addRecord(record);
         }
         
         return "Data received ok";

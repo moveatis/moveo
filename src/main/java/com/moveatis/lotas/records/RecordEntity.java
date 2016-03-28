@@ -3,11 +3,13 @@ package com.moveatis.lotas.records;
 import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.observation.ObservationEntity;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,7 +26,9 @@ public class RecordEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String category;
+    @ManyToOne
+    private CategoryEntity category;
+    
     private Long startTime;
     private Long endTime;
     
@@ -47,11 +51,11 @@ public class RecordEntity implements Serializable {
         this.observation = observation;
     }
 
-    public String getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(CategoryEntity category) {
         this.category = category;
     }
 

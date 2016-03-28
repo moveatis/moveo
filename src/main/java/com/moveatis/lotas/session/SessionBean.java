@@ -4,6 +4,7 @@ import com.moveatis.lotas.enums.SessionStatus;
 import com.moveatis.lotas.enums.UserType;
 import com.moveatis.lotas.interfaces.Application;
 import com.moveatis.lotas.interfaces.Session;
+import com.moveatis.lotas.interfaces.User;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -22,10 +23,13 @@ public class SessionBean implements Serializable, Session  {
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
     
     @EJB
-    private Application applicationBean;
+    private Application applicationEJB;
+    @EJB
+    private User userEJB;
 
     private UserType userType;
     private String tag;
+    
     private UserEntity userEntity;
     
     private Boolean loggedIn = false;
@@ -38,8 +42,12 @@ public class SessionBean implements Serializable, Session  {
     public SessionStatus setIdentityProviderUser(String userName, String password) {
         userType = UserType.IDENTIFIED_USER;
         if("admin".equals(userName) && "admin".equals(password)) {
+            this.userEntity = userEJB.findByName("Paavo", "Pääkäyttäjä");
+            this.loggedIn = true;
             return SessionStatus.USER_OK;
         } else if("user".equals(userName) && "user".equals(password)) {
+            this.userEntity = userEJB.findByName("Taavi", "Testaaja");
+            this.loggedIn = true;
             return SessionStatus.USER_OK;
         }
         return SessionStatus.USER_NOT_FOUND;

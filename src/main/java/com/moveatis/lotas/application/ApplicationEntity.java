@@ -41,6 +41,14 @@ public class ApplicationEntity implements Serializable {
         this.id = id;
     }
 
+    public List<UserEntity> getSuperUsers() {
+        return superUsers;
+    }
+
+    public void setSuperUsers(List<UserEntity> superUsers) {
+        this.superUsers = superUsers;
+    }
+
     public Date getApplicationInstalled() {
         return applicationInstalled;
     }

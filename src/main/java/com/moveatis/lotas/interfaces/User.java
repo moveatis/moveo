@@ -18,6 +18,8 @@ public interface User {
     void remove(UserEntity userEntity);
 
     UserEntity find(Object id);
+    
+    UserEntity findByName(String firstName, String lastName);
 
     List<UserEntity> findAll();
 

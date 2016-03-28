@@ -97,7 +97,6 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
             category = new CategoryEntity();
             category.setLabel(categoryLabel);
             category.setCreated((Date) calendar.getTime());
-            category.setScene(null);
         }
     }
 
