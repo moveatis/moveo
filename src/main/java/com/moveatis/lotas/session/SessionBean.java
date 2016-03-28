@@ -2,9 +2,11 @@ package com.moveatis.lotas.session;
 
 import com.moveatis.lotas.enums.SessionStatus;
 import com.moveatis.lotas.enums.UserType;
+import com.moveatis.lotas.interfaces.Application;
 import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +20,13 @@ public class SessionBean implements Serializable, Session  {
     
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
+    
+    @EJB
+    private Application applicationBean;
 
     private UserType userType;
     private String tag;
     private UserEntity userEntity;
-    
-    private String userName;
-    private String password;
     
     private Boolean loggedIn = false;
     

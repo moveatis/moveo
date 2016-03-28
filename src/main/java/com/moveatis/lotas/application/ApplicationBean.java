@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import com.moveatis.lotas.interfaces.Application;
+import java.util.Date;
 
 /**
  *
@@ -17,6 +18,8 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
+    
+    private ApplicationEntity applicationEntity;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -26,9 +29,11 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
     public ApplicationBean() {
         super(ApplicationEntity.class);
     }
-    
-    /**
-     * TODO: checkIfInstalled() ...
-     */
+
+    @Override
+    public boolean checkInstalled() {
+        Date installed = super.find(1L).getApplicationInstalled();
+        return installed != null;
+    }
     
 }

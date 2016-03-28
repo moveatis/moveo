@@ -25,4 +25,6 @@ public interface Application {
 
     int count();
     
+    boolean checkInstalled();
+    
 }
