@@ -150,10 +150,6 @@ public class SummaryManagedBean {
             }
         }
 
-        // Add group for time range selection
-//        TimelineGroup timerangeGroup = new TimelineGroup("range-selection", "");
-//        timeline.addGroup(timerangeGroup);
-
         // Add records to timeline as timeline-events
         for (RecordEntity record : records) {
             String category = record.getCategory();
