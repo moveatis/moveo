@@ -146,6 +146,7 @@ function Observer(initial_time, category_data) {
     };
     
     this.stopClick = function() {
+        // TODO: Don't rely on the class!!!
         if ($("#stop").hasClass("disabled")) {
             return;
         }

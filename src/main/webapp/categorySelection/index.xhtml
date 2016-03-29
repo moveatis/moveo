@@ -11,46 +11,49 @@
             <ui:define name="title">#{msg.applicationTitle} - Kategorioiden valinta</ui:define>
 
             <ui:define name="mainpage">
-                <!--<h:outputStylesheet library="css" name="observer.css"/>-->
-                <!--<h:outputScript library="primefaces" name="jquery/jquery.js" />-->
-                <!--<h:outputScript library="js" name="observer.js"/>-->
-                
-                <h:form>
-                    <h1>Valitse kategoriat</h1>
-                    
-                    <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
-                        <div style="margin-bottom: 1em;">
-                            <h2>#{categorySet.name}</h2>
-                            <h:panelGroup layout="block" id="category-set" class="ui-widget">
-                                <p:selectManyCheckbox value="#{categorySet.selectedCategories}" layout="grid" columns="1">
-                                    <f:selectItems value="#{categorySet.categories}" var="category" itemLabel="#{category}" itemValue="#{category}"/>
-                                </p:selectManyCheckbox>
-                            </h:panelGroup>
-                            <p:inplace editor="true" class="fa fa-plus" label=" Uusi kategoria" style="margin-left: 0.5em;">
-                                <p:inputText value="#{categorySet.category}"/>
-                                <p:ajax event="save" listener="#{categorySet.addCategory}" update="category-set"/>
-                            </p:inplace>
-                        </div>
-                    </ui:repeat>
-                    
-                    <p:commandButton value="Jatka" update="display" oncomplete="PF('dlg').show()" />
-                    
-                    <p:dialog header="Valitut kategoriat" modal="true" widgetVar="dlg" resizable="false">
-                        <p:outputPanel id="display">
+                <div style="text-align: center; margin-bottom: 1em; clear: both">
+                    <div style="display: inline-block; text-align: left; margin: 0 1em">
+                        <h:form>
+                            <h1>Valitse kategoriat</h1>
+
                             <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
-                                <p:dataList value="#{categorySet.selectedCategories}" var="category">
-                                    <f:facet name="header">
-                                        #{categorySet.name}
-                                    </f:facet>
-                                    #{category}
-                                </p:dataList>
+                                <div style="display: inline-block; vertical-align: top">
+                                    <h2>#{categorySet.name}</h2>
+                                    <div style="padding-left: 1em">
+                                        <ui:repeat value="#{categorySet.categories}" var="category">
+                                            <div style="margin-bottom: 0.5em">
+                                                <p:selectBooleanCheckbox value="#{category.selected}" style="margin-right: 0.5em"/>
+                                                <p:inputText value="#{category.name}" style="margin-right: 0.5em"/>
+                                                <p:commandButton icon="ui-icon-close" action="#{categorySet.removeCategory(category)}" update="@form"/>
+                                            </div>
+                                        </ui:repeat>
+                                        <p:commandButton value="Uusi kategoria" icon="ui-icon-plusthick"
+                                                         style="width: 100%; text-align: left"
+                                                         action="#{categorySet.addCategory}" update="@form"/>
+                                    </div>
+                                </div>
                             </ui:repeat>
-                        </p:outputPanel>
-                    </p:dialog>
-                </h:form>
-                
+                            <div style="margin-top: 1em; text-align: right">
+                                <p:commandButton value="Jatka" update="display" oncomplete="PF('dlg').show()" />
+                            </div>
+
+                            <p:dialog header="Valitut kategoriat" modal="true" widgetVar="dlg" resizable="false">
+                                <p:outputPanel id="display">
+                                    <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                                        <p:dataList value="#{categorySet.selectedCategories}" var="category">
+                                            <f:facet name="header">
+                                                #{categorySet.name}
+                                            </f:facet>
+                                            #{category}
+                                        </p:dataList>
+                                    </ui:repeat>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>
+                    </div>
+                </div>
             </ui:define>
-            
+
         </ui:composition>
     </h:body>
 </html>
