@@ -25,7 +25,7 @@
                             <div class="header-left"><h2>#{summaryBean.observationName}</h2></div>
                             <div class="inline-bar align-bar">
                                 <div>
-                                    <div id="total-recordings" class="total">31</div>
+                                    <div id="total-records" class="total">31</div>
                                     <div><span>Kirjausta</span></div>
                                 </div>
                                 <div>
@@ -106,20 +106,24 @@
                             <div class="ui-grid-col-3">Kesto</div>
                         </div>
                     </div>
-                    <div id="recordings" class="ui-grid ui-grid-responsive-260 background"/>
+                    <div id="records" class="ui-grid ui-grid-responsive-260 background"/>
                 </div>
                 <div class="timelineControls">
                     <div>
-                        <span>Valitse aikajänne </span>
-                        <p:inputText id="range-start" size="5" value="00:00:00">
-                            <f:validateRegex pattern="^\d+:\d+:\d+$" />
+                        <span>Rajaus </span>
+                        <p:inputMask id="input-rangeStart"
+                                     mask="99:99:99" autocomplete="false"
+                                     size="6" placeholder="hh:mm:ss">
+                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                             <p:clientValidator event="keyup"/>
-                        </p:inputText>
+                        </p:inputMask>
                         <span> - </span>
-                        <p:inputText id="range-end" size="5" value="00:02:10">
-                            <f:validateRegex pattern="^\d+:\d+:\d+$" />
+                        <p:inputMask id="input-rangeEnd"
+                                     mask="99:99:99" autocomplete="false"
+                                     size="6" placeholder="hh:mm:ss">
+                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                             <p:clientValidator event="keyup"/>
-                        </p:inputText>
+                        </p:inputMask>
                     </div>
                     <div>
                         <span>Suurennus </span>
