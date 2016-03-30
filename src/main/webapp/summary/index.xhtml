@@ -18,6 +18,8 @@
                 <h:outputStylesheet library="primefaces" name="grid/grid.css"/>
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
 
+                <p:growl id="growl" widgetVar="growlWdgt" severity="info" showDetail="true" sticky="true" escape="false" />
+
                 <div id="observation-info" class="ui-fluid">
 
                     <div class="background">
@@ -110,22 +112,20 @@
                 </div>
                 <div class="timelineControls">
                     <div>
-                        <h:form>
-                            <span>Rajaus </span>
-                            <p:inputMask id="input-rangeStart"
-                                         mask="99:99:99" autocomplete="false"
-                                         size="6" placeholder="hh:mm:ss">
-                                <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
-                                <p:clientValidator event="keyup"/>
-                            </p:inputMask>
-                            <span> - </span>
-                            <p:inputMask id="input-rangeEnd"
-                                         mask="99:99:99" autocomplete="false"
-                                         size="6" placeholder="hh:mm:ss">
-                                <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
-                                <p:clientValidator event="keyup"/>
-                            </p:inputMask>
-                        </h:form>
+                        <span>Rajaus </span>
+                        <p:inputMask id="input-rangeStart"
+                                     mask="99:99:99" autocomplete="false"
+                                     size="6" placeholder="hh:mm:ss">
+                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                            <p:clientValidator event="keyup"/>
+                        </p:inputMask>
+                        <span> - </span>
+                        <p:inputMask id="input-rangeEnd"
+                                     mask="99:99:99" autocomplete="false"
+                                     size="6" placeholder="hh:mm:ss">
+                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                            <p:clientValidator event="keyup"/>
+                        </p:inputMask>
                     </div>
                     <div>
                         <span>Suurennus </span>
@@ -133,6 +133,7 @@
                         <a id="button-zoom-in" class="fa fa-search-plus" title="Suurenna"></a>
                     </div>
                 </div>
+
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
                              value="#{summaryBean.timeline}"
                              locale="#{summaryBean.locale}"
@@ -160,8 +161,6 @@
                              eventMarginAxis="0"
                              eventMargin="16">
                 </pe:timeline>
-
-                <p:growl id="growl" showDetail="true" sticky="true" />
 
                 <h:outputScript library="js" name="summary.js"/>
             </ui:define>

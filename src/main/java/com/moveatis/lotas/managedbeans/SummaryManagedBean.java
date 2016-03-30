@@ -16,8 +16,6 @@ import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
@@ -126,7 +124,7 @@ public class SummaryManagedBean {
 
     public String getObservationDuration() {
         // return observationBean.getDuration();
-        return "(hh:)mm:ss";
+        return "hh:mm:ss";
     }
 
     private void createTimeline() {
@@ -146,7 +144,8 @@ public class SummaryManagedBean {
                 categories.add(record.getCategory());
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
-                String numberedLabel = categories.size() + ". <span class=categoryLabel>" + category + "</span>";
+                String numberedLabel = "<span class=categoryNumber>" + categories.size() + ". </span>"
+                        + "<span class=categoryLabel>" + category + "</span>";
                 TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
                 timeline.addGroup(timelineGroup);
             }
@@ -161,10 +160,5 @@ public class SummaryManagedBean {
                     new Date(endTime), false, category);
             timeline.add(timelineEvent);
         }
-    }
-
-    public void onSelect() {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected event:", "asdasd");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }
