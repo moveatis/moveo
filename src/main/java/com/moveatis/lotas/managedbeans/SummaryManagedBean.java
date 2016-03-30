@@ -16,6 +16,8 @@ import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
@@ -159,5 +161,10 @@ public class SummaryManagedBean {
                     new Date(endTime), false, category);
             timeline.add(timelineEvent);
         }
+    }
+
+    public void onSelect() {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected event:", "asdasd");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

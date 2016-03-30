@@ -38,12 +38,12 @@
                     <div>
                         <h3 class="recordsHeader">Kirjaukset</h3>
 
-                        <div class="actions-form">
+                        <h:form styleClass="actions-form">
                             <p:commandButton value="Lähetä" id="mailButton" icon="fa fa-envelope-o"
                                              onclick="PF('dlgMail').show();"/>
                             <p:commandButton value="Tallenna" id="saveButton" icon="fa fa-save"
                                              onclick="PF('dlgSave').show();"/>
-                        </div>
+                        </h:form>
                         <p:dialog header="Lähetä observointi sähköpostiin"
                                   widgetVar="dlgMail"
                                   position="top"
@@ -110,20 +110,22 @@
                 </div>
                 <div class="timelineControls">
                     <div>
-                        <span>Rajaus </span>
-                        <p:inputMask id="input-rangeStart"
-                                     mask="99:99:99" autocomplete="false"
-                                     size="6" placeholder="hh:mm:ss">
-                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
-                            <p:clientValidator event="keyup"/>
-                        </p:inputMask>
-                        <span> - </span>
-                        <p:inputMask id="input-rangeEnd"
-                                     mask="99:99:99" autocomplete="false"
-                                     size="6" placeholder="hh:mm:ss">
-                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
-                            <p:clientValidator event="keyup"/>
-                        </p:inputMask>
+                        <h:form>
+                            <span>Rajaus </span>
+                            <p:inputMask id="input-rangeStart"
+                                         mask="99:99:99" autocomplete="false"
+                                         size="6" placeholder="hh:mm:ss">
+                                <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                                <p:clientValidator event="keyup"/>
+                            </p:inputMask>
+                            <span> - </span>
+                            <p:inputMask id="input-rangeEnd"
+                                         mask="99:99:99" autocomplete="false"
+                                         size="6" placeholder="hh:mm:ss">
+                                <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                                <p:clientValidator event="keyup"/>
+                            </p:inputMask>
+                        </h:form>
                     </div>
                     <div>
                         <span>Suurennus </span>
@@ -158,6 +160,9 @@
                              eventMarginAxis="0"
                              eventMargin="16">
                 </pe:timeline>
+
+                <p:growl id="growl" showDetail="true" sticky="true" />
+
                 <h:outputScript library="js" name="summary.js"/>
             </ui:define>
         </ui:composition>
