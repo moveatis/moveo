@@ -175,6 +175,12 @@ function Observer(initial_time, category_data) {
         
         console.log("Sending observation data to server...");
         
+        var categories_in_order = [];
+        for (var i in category_data) {
+            var data = category_data[i];
+            categories_in_order.push(data.name);
+        }
+        
         $.ajax({
             url: "../webapi/records/addobservationdata",
             type: "POST",
@@ -184,8 +190,8 @@ function Observer(initial_time, category_data) {
             data: JSON.stringify({
                 // TODO: send all relevant data
                 startTime: 0,
-                endTime: 0,
-                categories: [],
+                endTime: time,
+                categories: categories_in_order,
                 data: this.recordings
             }),
             success: function(data) {
