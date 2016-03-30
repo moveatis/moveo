@@ -110,6 +110,10 @@ select > .placeholder {
     font-size: .8em;
 }
 
+.ui-growl .categoryNumber {
+    display: none;
+}
+
 /* Responsive */
 @media (max-width:700px){
     .content {

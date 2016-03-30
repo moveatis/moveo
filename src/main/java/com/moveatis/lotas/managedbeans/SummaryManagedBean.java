@@ -119,7 +119,7 @@ public class SummaryManagedBean {
 
     public String getObservationDuration() {
         // return observationBean.getDuration();
-        return "(hh:)mm:ss";
+        return "hh:mm:ss";
     }
 
     private void createTimeline() {
@@ -139,7 +139,8 @@ public class SummaryManagedBean {
                 categories.add(record.getCategory().getLabel());
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
-                String numberedLabel = categories.size() + ". <span class=categoryLabel>" + category + "</span>";
+                String numberedLabel = "<span class=categoryNumber>" + categories.size() + ". </span>"
+                        + "<span class=categoryLabel>" + category + "</span>";
                 TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
                 timeline.addGroup(timelineGroup);
             }

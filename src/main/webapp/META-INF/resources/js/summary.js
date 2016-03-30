@@ -8,8 +8,10 @@
 
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
-    var zeroDate = getLocalZeroTime();
+    var zeroDate = getLocalZeroDate();
+    var growl = PF("growlWdgt");
 
+    //console.log(growl);
     //console.log(timeline);
 
     // NOTE: setting showCurrentTime did not work from JSF
@@ -17,9 +19,9 @@ $(function () {
 
     $("#total-records").text(timeline.items.length);
 
-    updateRecordsInfo(timeline, timeline.getVisibleChartRange());
+    updateRecordsTable(timeline, timeline.getVisibleChartRange());
 
-    // Time range selection
+    // Timeline range selection
     $("#input-rangeStart").keyup(function () {
         var input = $(this);
         if (!input.hasClass("ui-state-error")) {
@@ -32,7 +34,7 @@ $(function () {
             timeline.options.min = new Date(zeroDate.getTime() + startMs);
             timeline.setVisibleChartRangeAuto();
             var range = timeline.getVisibleChartRange();
-            updateRecordsInfo(timeline, range);
+            updateRecordsTable(timeline, range);
         }
     });
     $("#input-rangeEnd").keyup(function () {
@@ -47,25 +49,40 @@ $(function () {
             timeline.options.max = new Date(zeroDate.getTime() + endMs);
             timeline.setVisibleChartRangeAuto();
             var range = timeline.getVisibleChartRange();
-            updateRecordsInfo(timeline, range);
+            updateRecordsTable(timeline, range);
         }
     });
 
-    // Zoom buttons
+    // Timeline Zoom buttons
     $("#button-zoom-in").click(function () {
         timeline.zoom(0.2, zeroDate);
     });
     $("#button-zoom-out").click(function () {
         timeline.zoom(-0.2);
     });
+
+    // On timeline event selection show growl with record details
+    links.events.addListener(timeline, "select", function () {
+        var selection = timeline.getSelection();
+        if (selection.length) {
+            if (selection[0].row !== undefined) {
+                var record = timeline.getItem(selection[0].row);
+                growl.removeAll();
+                growl.renderMessage({summary: 'Kirjaus: ' + record.group,
+                    detail: getRecordDetails(record),
+                    severity: "info"});
+            }
+        }
+
+    });
 });
 
-function updateRecordsInfo(timeline, range) {
-    var grid = $("#records");
+function updateRecordsTable(timeline, range) {
+    var table = $("#records");
     var categories = timeline.getItemsByGroup(timeline.items);
     var totalDuration = getTotalDuration(categories, range);
     var totalCount = parseRecords(timeline.items, range).length;
-    grid.empty();
+    table.empty();
     $.each(categories, function (category, records) {
         var record = $('<div class="ui-grid-row">');
         var records = parseRecords(records, range);
@@ -75,8 +92,13 @@ function updateRecordsInfo(timeline, range) {
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
         record.append('<div class="ui-grid-col-3">' + recordsStr + "</div>");
         record.append('<div class="ui-grid-col-3">' + durationStr + "</div>");
-        grid.append(record);
+        table.append(record);
     });
+    var summary = $('<div class="ui-grid-row">');
+    summary.append('<div class="ui-grid-col-5">Yhteensä</div>');
+    summary.append('<div class="ui-grid-col-3">' + totalCount + "</div>");
+    summary.append('<div class="ui-grid-col-3">' + convertMsToStr(totalDuration) + "</div>");
+    table.append(summary);
 }
 
 // Get all items which start or end time is in given range
@@ -92,6 +114,20 @@ function parseRecords(records, range) {
     return recordsIn;
 }
 
+// Get record details
+function getRecordDetails(record) {
+    var details = "";
+    var begin = getLocalZeroDate().getTime();
+    var start = Math.abs(begin - record.start.getTime());
+    var end = Math.abs(begin - record.end.getTime());
+    details += "Aloitus: " + convertMsToStr(start);
+    details += "<br/>";
+    details += "Lopetus: " + convertMsToStr(end);
+    details += "<br/>";
+    details += "Kesto: " + convertMsToStr(end - start);
+    return details;
+}
+
 // calculate total duration of categories
 function getTotalDuration(categories, range) {
     var duration = 0;
@@ -101,7 +137,7 @@ function getTotalDuration(categories, range) {
     return duration;
 }
 
-// calculates duration for records in given range
+// Calculate duration for records in given range
 function recordsDuration(records, range) {
     var duration = 0;
     $.each(records, function () {
@@ -120,7 +156,7 @@ function recordsDuration(records, range) {
     return duration;
 }
 
-// converts ms number to time string
+// Converts milliseconds to time string hh:mm:ss
 function convertMsToStr(ms) {
     var d = ms;
     var ms = d % 1000;
@@ -129,12 +165,10 @@ function convertMsToStr(ms) {
     d = Math.floor(d / 60);
     var m = d % 60;
     var h = Math.floor(d / 60);
-    if (h > 0)
-        return [lz(h), lz(m), lz(s)].join(':');
-    return [lz(m), lz(s)].join(':');
+    return [lz(h), lz(m), lz(s)].join(':');
 }
 
-// converts time string hh:mm:ss to milliseconds
+// Converts time string hh:mm:ss to milliseconds
 function convertStrToMs(str) {
     var time = str.split(/:/);
     for (var i = 3 - time.length; i > 0; i--) {
@@ -147,12 +181,12 @@ function convertStrToMs(str) {
     return seconds * 1000;
 }
 
-// append leading zero to single digit numbers
+// Append leading zero to single digit numbers
 function lz(n) {
     return (n < 10 ? "0" + n : n);
 }
 
-// calculate percentage
+// Calculate percentage
 function percentOf(a, b) {
     if (a === 0 || b === 0) {
         return 0;
@@ -160,8 +194,8 @@ function percentOf(a, b) {
     return Math.round((a / b) * 100);
 }
 
-// get "zero" date with timezone offset
-function getLocalZeroTime() {
+// Get "zero" date with timezone offset
+function getLocalZeroDate() {
     var localDate = new Date(0);
     var zeroDate = new Date(localDate.getTimezoneOffset() * 60 * 1000);
     return zeroDate;
