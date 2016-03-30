@@ -9,6 +9,8 @@ import com.moveatis.lotas.interfaces.Application;
 import com.moveatis.lotas.user.UserEntity;
 import java.util.Date;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,6 +19,8 @@ import java.util.List;
 @Singleton
 @Startup
 public class ApplicationBean extends AbstractBean<ApplicationEntity> implements Application {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationBean.class);
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -30,7 +34,7 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     public ApplicationBean() {
         super(ApplicationEntity.class);
-        applicationEntity = super.find(1L);
+        findApplicationEntity();
     }
 
     @Override
@@ -45,6 +49,14 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
         superusers.add(superUser);
         applicationEntity.setSuperUsers(superusers);
         super.edit(applicationEntity);
+    }
+    
+    private void findApplicationEntity() {
+        try {
+            applicationEntity = super.find(1L);
+        } catch(NullPointerException npe) {
+            LOGGER.debug("applicationEntitya ei ole vielä luotu");
+        }
     }
     
 }
