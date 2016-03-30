@@ -5,27 +5,30 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html 
+<html
     xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-    
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
     <body>
         <ui:composition>
-            <p:menubar styleClass="naviHeader" autoDisplay="false">
-                <p:submenu label="Välilehti" >
-                    <p:menuitem value="VL 1" url="#" class="coloredButton"/>
-                    <p:menuitem value="VL 2" url="#" class="coloredButton"/>
-                </p:submenu>
- 
-                <p:submenu label="Valikko">
-                    <p:menuitem value="Info" url="/info/index.xhtml" class="coloredButton"/>
-                    <p:menuitem value="Hallintasivu" url="/control/index.xhtml" class="coloredButton"/>
-                    <p:menuitem value="Pääkäyttäjäsivu" url="/superuser/index.xhtml" class="coloredButton"/>
-                    <p:menuitem value="Asetukset" url="/settings/index.xhtml" class="coloredButton"/>
-                    <p:menuitem value="Kirjaudu ulos" url="/index.xhtml" class="coloredButton"/>
-                </p:submenu>
-            </p:menubar>
+            <h:form>
+                <p:menubar styleClass="naviHeader" autoDisplay="false">
+                    <p:submenu label="Välilehti" >
+                        <p:menuitem value="VL 1" url="#" class="coloredButton"/>
+                        <p:menuitem value="VL 2" url="#" class="coloredButton"/>
+                    </p:submenu>
+
+                    <p:submenu label="Valikko">
+                        <p:menuitem value="Info" url="/info/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="Hallintasivu" url="/control/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="Pääkäyttäjäsivu" url="/superuser/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="Asetukset" url="/settings/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="Kirjaudu ulos" url="/index.xhtml" class="coloredButton"/>
+                    </p:submenu>
+                </p:menubar>
+            </h:form>
         </ui:composition>
     </body>
 </html>
