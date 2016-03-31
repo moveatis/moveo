@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="../index.xhtml">
+
+            <ui:define name="title">#{msg.applicationTitle} - #{msg.cs_title}</ui:define>
+
+            <ui:define name="mainpage">
+                <h:outputStylesheet library="css" name="categoryselection.css"/>
+                
+                <div id="container">
+                    <h:form>
+                        <h1>#{msg.cs_heading}</h1>
+                        
+                        <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                        <div class="category-set">
+                            <h2>#{categorySet.name}</h2>
+                            <ui:repeat value="#{categorySet.categories}" var="category">
+                            <div class="category">
+                                <p:selectBooleanCheckbox value="#{category.selected}" class="category-checkbox"/>
+                                <p:inputText value="#{category.name}" class="category-text"/>
+                                <p:commandButton icon="ui-icon-close" class="category-remove-button"
+                                                 action="#{categorySet.removeCategory(category)}" update="@form"/>
+                            </div>
+                            </ui:repeat>
+                            <p:commandButton value="#{msg.cs_newCategory}" icon="ui-icon-plusthick" class="new-category-button"
+                                             action="#{categorySet.addCategory}" update="@form"/>
+                        </div>
+                        </ui:repeat>
+                        
+                        <div id="control-div">
+                            <!-- TODO: Should we ensure that all changes to the categories have been received by the backend before redirect? -->
+                            <p:commandButton value="#{msg.cs_continueToObservation}" action="/observer/index.xhtml?faces-redirect=true" />
+                        </div>
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+
