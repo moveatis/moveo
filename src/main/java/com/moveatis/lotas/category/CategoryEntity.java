@@ -1,18 +1,15 @@
 
 package com.moveatis.lotas.category;
 
-import com.moveatis.lotas.event.EventEntity;
 import com.moveatis.lotas.records.RecordEntity;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,9 +23,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @NamedQuery(name="Category.findByLabel", query="SELECT category FROM CategoryEntity category WHERE category.label = :label")
 public class CategoryEntity implements Serializable {
-
-    @OneToMany(mappedBy = "category")
-    private List<RecordEntity> records;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,14 +63,6 @@ public class CategoryEntity implements Serializable {
         this.label = label;
     }
 
-    public List<RecordEntity> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<RecordEntity> records) {
-        this.records = records;
-    }
-
     public CategoryGroupEntity getCategoryGroup() {
         return categoryGroup;
     }
@@ -95,13 +81,10 @@ public class CategoryEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CategoryEntity)) {
+        if (!(object instanceof RecordEntity)) {
             return false;
         }
-        CategoryEntity other = (CategoryEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
+        
         return true;
     }
 

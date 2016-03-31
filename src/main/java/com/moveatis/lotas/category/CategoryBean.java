@@ -1,7 +1,6 @@
 package com.moveatis.lotas.category;
 
 import com.moveatis.lotas.interfaces.AbstractBean;
-import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.interfaces.Category;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

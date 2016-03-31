@@ -1,7 +1,7 @@
 package com.moveatis.lotas.event;
 
-import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.eventkey.EventKeyEntity;
+import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.user.AbstractUser;
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
@@ -41,9 +41,6 @@ public class EventEntity implements Serializable {
     @OneToOne
     private EventGroupEntity basedOn;
     
-    @OneToMany(mappedBy = "scene")
-    private Set<CategoryEntity> categories;
-    
     @NotNull
     @ManyToOne
     private AbstractUser owner;
@@ -69,14 +66,6 @@ public class EventEntity implements Serializable {
 
     public void setBasedOn(EventGroupEntity basedOn) {
         this.basedOn = basedOn;
-    }
-
-    public Set<CategoryEntity> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<CategoryEntity> categories) {
-        this.categories = categories;
     }
 
     public AbstractUser getOwner() {
