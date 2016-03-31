@@ -30,11 +30,14 @@ public class CategoryManagedBean implements Serializable {
     //
     //
     
-    public class CategorySet {
+    public class Category {
         private String name;
-        private List<String> categories;
-        private String[] selectedCategories;
-        private String category = "";
+        private boolean selected;
+        
+        public Category(String name) {
+            this.name = name;
+            this.selected = true;
+        }
         
         public String getName() {
             return name;
@@ -44,82 +47,91 @@ public class CategoryManagedBean implements Serializable {
             this.name = name;
         }
         
-        public List<String> getCategories() {
+        public boolean isSelected() {
+            return selected;
+        }
+        
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
+    }
+    
+    public class CategorySet {
+        private String name;
+        private List<Category> categories;
+        
+        public String getName() {
+            return name;
+        }
+        
+        public void setName(String name) {
+            this.name = name;
+        }
+        
+        public List<Category> getCategories() {
             return categories;
         }
         
-        public void setCategories(List<String> categories) {
+        public void setCategories(List<Category> categories) {
             this.categories = categories;
         }
         
-        public String[] getSelectedCategories() {
-            return selectedCategories;
-        }
-        
-        public void setSelectedCategories(String[] selectedCategories) {
-            this.selectedCategories = selectedCategories;
-        }
-        
-        public String getCategory() {
-            return category;
-        }
-        
-        public void setCategory(String category) {
-            this.category = category;
-        }
-        
         public void addCategory() {
-            if (category.length() > 0) {
-                if (categories.indexOf(category) < 0) {
-                    LOGGER.debug("Added category " + category);
-                    categories.add(category);
-                    category = "";
-                } else {
-                    // What to do?
+            categories.add(new Category(""));
+            LOGGER.debug("Added new category to set " + name);
+        }
+        
+        public void removeCategory(Category category) {
+            categories.remove(category);
+            LOGGER.debug("Removed category from set " + name);
+        }
+        
+        public String[] getSelectedCategories() {
+            List<String> selectedCategories = new ArrayList<>();
+            for (Category category : categories) {
+                if (category.isSelected()) {
+                    String categoryName = category.getName();
+                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
+                        selectedCategories.add(categoryName);
+                    }
                 }
             }
+            
+            String[] categoryArr = new String[selectedCategories.size()];
+            return selectedCategories.toArray(categoryArr);
         }
     }
     
     private List<CategorySet> categorySets;
     
-    private List<String> categories;
-    private String[] selectedCategories;
-    
     @PostConstruct
     public void init() {
-        categories = new ArrayList<>();
-        categories.add("Järjestelyt");
-        categories.add("Tehtävän selitys");
-        categories.add("Ohjaus");
-        categories.add("Palautteen anto");
-        categories.add("Tarkkailu");
-        categories.add("Muu toiminta");
-
-        List<String> oppilaanToiminnot = new ArrayList<>();
-        oppilaanToiminnot.add("Oppilas suorittaa tehtävää");
-        
         categorySets = new ArrayList<>();
+        
         CategorySet categorySet = new CategorySet();
         categorySet.setName("Opettajan toiminnot");
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category("Järjestelyt"));
+        categories.add(new Category("Tehtävän selitys"));
+        categories.add(new Category("Ohjaus"));
+        categories.add(new Category("Palautteen anto"));
+        categories.add(new Category("Tarkkailu"));
+        categories.add(new Category("Muu toiminta"));
         categorySet.setCategories(categories);
         categorySets.add(categorySet);
+        
         categorySet = new CategorySet();
         categorySet.setName("Oppilaan toiminnot");
-        categorySet.setCategories(oppilaanToiminnot);
+        categories = new ArrayList<>();
+        categories.add(new Category("Oppilas suorittaa tehtävää"));
+        categorySet.setCategories(categories);
         categorySets.add(categorySet);
-    }
-    
-    public List<String> getCategories() {
-        return categories;
-    }
-    
-    public String[] getSelectedCategories() {
-        return selectedCategories;
-    }
-    
-    public void setSelectedCategories(String[] selectedCategories) {
-        this.selectedCategories = selectedCategories;
+        
+        categorySet = new CategorySet();
+        categorySet.setName("Muut");
+        categories = new ArrayList<>();
+        categorySet.setCategories(categories);
+        categorySets.add(categorySet);
     }
     
     public List<CategorySet> getCategorySets() {
