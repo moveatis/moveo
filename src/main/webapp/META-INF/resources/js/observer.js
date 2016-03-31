@@ -229,8 +229,8 @@ function Observer(initial_time, category_data) {
 //
 
 $(document).ready(function() {
-    var initial_time = 0;
-    var category_data = [
+    var time = initial_time || 0;
+    var category_data = initial_category_data || [
         {name: "Järjestelyt", initial_time: 0},
         {name: "Tehtävän selitys", initial_time: 0},
         {name: "Ohjaus", initial_time: 0},

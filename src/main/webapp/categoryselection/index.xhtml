@@ -34,21 +34,9 @@
                         </ui:repeat>
                         
                         <div id="control-div">
-                            <p:commandButton value="#{msg.cs_continueToObservation}" update="display" oncomplete="PF('dlg').show()" />
+                            <!-- TODO: Should we ensure that all changes to the categories have been received by the backend before redirect? -->
+                            <p:commandButton value="#{msg.cs_continueToObservation}" action="/observer/index.xhtml?faces-redirect=true" />
                         </div>
-
-                        <p:dialog header="#{msg.cs_selectedCategories}" modal="true" widgetVar="dlg" resizable="false">
-                            <p:outputPanel id="display">
-                                <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
-                                <p:dataList value="#{categorySet.selectedCategories}" var="category">
-                                    <f:facet name="header">
-                                        #{categorySet.name}
-                                    </f:facet>
-                                    #{category}
-                                </p:dataList>
-                                </ui:repeat>
-                            </p:outputPanel>
-                        </p:dialog>
                     </h:form>
                 </div>
             </ui:define>

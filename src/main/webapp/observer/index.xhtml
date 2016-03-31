@@ -9,6 +9,17 @@
             <ui:define name="title">#{msg.applicationTitle} - #{msg.obs_title}</ui:define>
 
             <ui:define name="mainpage">
+                <script>
+                    var initial_time = 0;
+                    var initial_category_data = [
+                    <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                    <ui:repeat value="#{categorySet.selectedCategories}" var="category">
+                        {name: "#{category}", initial_time: 0},
+                    </ui:repeat>
+                    </ui:repeat>
+                    ];
+                </script>
+                
                 <h:outputStylesheet library="css" name="observer.css"/>
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
                 <h:outputScript library="js" name="observer.js"/>
