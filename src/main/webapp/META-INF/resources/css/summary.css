@@ -54,6 +54,10 @@ and open the template in the editor.
     opacity: 0.5;
 }
 
+.summary-row {
+    font-weight: bold;
+}
+
 .ui-grid-row > div:not(:first-child) {
     text-align: right;
 }
@@ -73,13 +77,16 @@ and open the template in the editor.
     margin-left: 0.3em;
 }
 
-.timelineControls {
-    /*text-align: right;*/
-}
-
 .timelineControls > div {
     display: inline-block;
-    margin: 0 .3em;
+}
+
+.zoomControl {
+    float: right;
+}
+
+#timeline {
+    clear: both;
 }
 
 .fa-search-plus,
@@ -108,6 +115,8 @@ select > .placeholder {
 
 .percent {
     font-size: .8em;
+    white-space: nowrap;
+    margin-left: .2em;
 }
 
 .ui-growl .categoryNumber {
@@ -121,15 +130,16 @@ select > .placeholder {
     }
 }
 @media (max-width:260px){
-    .ui-grid.ui-grid-responsive-260 .ui-grid-row{
+    .ui-grid.ui-grid-responsive-260 .ui-grid-row {
         display:block;
     }
-    .ui-grid.ui-grid-responsive-260 .ui-grid-row > div{
+    .ui-grid.ui-grid-responsive-260 .ui-grid-row > div {
         width:100%;
         float:none;
     }
-    .ui-grid-col-2 {
-        text-align: left;
+    .ui-grid.ui-grid-responsive-260 .ui-grid-row > .ui-grid-col-5 {
+        float: left;
+        width: auto;
     }
     .actions-form > .ui-button {
         width: 100%;

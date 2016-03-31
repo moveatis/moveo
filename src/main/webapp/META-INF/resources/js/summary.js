@@ -87,17 +87,21 @@ function updateRecordsTable(timeline, range) {
         var record = $('<div class="ui-grid-row">');
         var records = parseRecords(records, range);
         var duration = recordsDuration(records, range);
-        var recordsStr = records.length + '<span class="percent"> (' + percentOf(records.length, totalCount) + " %)</span>";
-        var durationStr = convertMsToStr(duration) + '<span class="percent"> (' + percentOf(duration, totalDuration) + " %)</span>";
+        var recordsPc = '<span class="percent"> (' + percentOf(records.length, totalCount) + " %)</span>";
+        var durationPc = '<span class="percent"> (' + percentOf(duration, totalDuration) + " %)</span>";
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
-        record.append('<div class="ui-grid-col-3">' + recordsStr + "</div>");
-        record.append('<div class="ui-grid-col-3">' + durationStr + "</div>");
+        record.append('<div class="ui-grid-col-2">' + records.length + "</div>");
+        record.append('<div class="ui-grid-col-1">' + recordsPc + "</div>");
+        record.append('<div class="ui-grid-col-2">' + convertMsToUnits(duration) + "</div>");
+        record.append('<div class="ui-grid-col-1">' + durationPc + "</div>");
         table.append(record);
     });
-    var summary = $('<div class="ui-grid-row">');
+    var summary = $('<div class="ui-grid-row summary-row">');
     summary.append('<div class="ui-grid-col-5">Yhteensä</div>');
-    summary.append('<div class="ui-grid-col-3">' + totalCount + "</div>");
-    summary.append('<div class="ui-grid-col-3">' + convertMsToStr(totalDuration) + "</div>");
+    summary.append('<div class="ui-grid-col-2">' + totalCount + "</div>");
+    summary.append('<div class="ui-grid-col-1"/>');
+    summary.append('<div class="ui-grid-col-2">' + convertMsToUnits(totalDuration) + "</div>");
+    summary.append('<div class="ui-grid-col-1"/>');
     table.append(summary);
 }
 
@@ -124,7 +128,7 @@ function getRecordDetails(record) {
     details += "<br/>";
     details += "Lopetus: " + convertMsToStr(end);
     details += "<br/>";
-    details += "Kesto: " + convertMsToStr(end - start);
+    details += "Kesto: " + convertMsToUnits(end - start);
     return details;
 }
 
@@ -166,6 +170,33 @@ function convertMsToStr(ms) {
     var m = d % 60;
     var h = Math.floor(d / 60);
     return [lz(h), lz(m), lz(s)].join(':');
+}
+
+// convert time string hh:mm:ss to string with units e.g. 1h 2m 0s
+function convertMsToUnits(ms) {
+    var time = convertMsToStr(ms).split(":");
+    var units = "";
+
+    var getUnit = function (i, unit) {
+        var n = parseInt(time[i], 10);
+        if (n > 0) {
+            units += n + unit;
+        }
+    };
+
+    if (time.length === 3) {
+        getUnit(0, "h");
+    }
+    if (time.length >= 2) {
+        getUnit(1, "m");
+    }
+    if (time.length >= 1) {
+        getUnit(2, "s");
+    }
+    if (units.length === 0) {
+        return "0s";
+    }
+    return units;
 }
 
 // Converts time string hh:mm:ss to milliseconds

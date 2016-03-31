@@ -124,7 +124,7 @@ public class SummaryManagedBean {
 
     public String getObservationDuration() {
         // return observationBean.getDuration();
-        return "hh:mm:ss";
+        return "??h ??m ??s";
     }
 
     private void createTimeline() {
