@@ -85,6 +85,13 @@ public class RecordListenerBean implements Serializable {
         
         for (int i = 0; i < array.size(); i++) {
             JsonObject object = array.getJsonObject(i);
+//        observationBean.setStartTime(obs.getString("startTime"));
+//        observationBean.setEndTime(obs.getLong("endTime"));
+//        
+//        JSONArray categoryArray = obs.getJSONArray("categories");
+//        for (int i = 0; i < array.length(); i++) {
+//            observationBean.addCategory(categoryArray.getString(i));
+//        }
             
             RecordEntity record = new RecordEntity();
             

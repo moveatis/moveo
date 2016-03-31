@@ -32,6 +32,23 @@
                 <h:form>
                     <p:inputText id="tagField" autocomplete="off" value="#{loginBean.tag}" required="true"/>
                     <p:commandButton icon="ui-icon-check" action="#{loginBean.doTagLogin}"/>
+                    <h:panelGroup>
+                        <div class="accessButtons" style="min-height: 200px;">
+                            <p:commandButton value="Kurssiavain" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
+                            <p:commandButton value="JYU-tunnukset" type="button" style="width: 200px; margin-top: 15px" class="coloredButton" action="#{identityProviderBasedLoginBean.loginOutcome}"/>
+                            <p:commandButton value="Julkinen" ajax="false" style="width: 200px; margin-top: 15px" class="coloredButton" action="/categoryselection/index.xhtml?faces-redirect=true"/>
+                        </div>
+
+                        <p:dialog header="Anna kurssiavain" widgetVar="dlg1" minHeight="80" position="top" draggable="false" resizable="false" responsive="true" modal="true" fitViewport="true" class="coloredButton">
+                            <p:inputText autocomplete="off" binding="#{inputKey}"/>
+                            <p:commandButton icon="ui-icon-check" action="#{tagBasedLoginBean.setLoginOutcome(inputKey)}" onclick="PF('dlg1').hide();">
+                            </p:commandButton>
+                        </p:dialog>
+
+                        <!--                <p:dialog header="Tämä avaa JYU-kirjautumissivun" widgetVar="dlg2" minHeight="80" position="center" class="coloredButton">
+                                            <h:outputText value="#{tagBasedLoginBean.loginOutcome}"/>
+                                        </p:dialog>-->
+                    </h:panelGroup>
                 </h:form>
              </p:dialog>
             
