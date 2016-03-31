@@ -83,6 +83,7 @@ public class CategoryManagedBean implements Serializable {
         
         public void removeCategory(Category category) {
             categories.remove(category);
+            LOGGER.debug("Removed category from set " + name);
         }
         
         public String[] getSelectedCategories() {
@@ -127,9 +128,8 @@ public class CategoryManagedBean implements Serializable {
         categorySets.add(categorySet);
         
         categorySet = new CategorySet();
-        categorySet.setName("Oppilaan toiminnot 2");
+        categorySet.setName("Muut");
         categories = new ArrayList<>();
-        categories.add(new Category("Oppilas suorittaa tehtävää 2"));
         categorySet.setCategories(categories);
         categorySets.add(categorySet);
     }

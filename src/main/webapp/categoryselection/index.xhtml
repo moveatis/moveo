@@ -11,46 +11,45 @@
             <ui:define name="title">#{msg.applicationTitle} - #{msg.cs_title}</ui:define>
 
             <ui:define name="mainpage">
-                <div style="text-align: center; margin-bottom: 1em; clear: both">
-                    <div style="display: inline-block; text-align: left; margin: 0 1em">
-                        <h:form>
-                            <h1>#{msg.cs_heading}</h1>
-
-                            <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
-                                <div style="display: inline-block; vertical-align: top">
-                                    <h2>#{categorySet.name}</h2>
-                                    <div style="padding-left: 1em">
-                                        <ui:repeat value="#{categorySet.categories}" var="category">
-                                            <div style="margin-bottom: 0.5em">
-                                                <p:selectBooleanCheckbox value="#{category.selected}" style="margin-right: 0.5em"/>
-                                                <p:inputText value="#{category.name}" style="margin-right: 0.5em"/>
-                                                <p:commandButton icon="ui-icon-close" action="#{categorySet.removeCategory(category)}" update="@form"/>
-                                            </div>
-                                        </ui:repeat>
-                                        <p:commandButton value="#{msg.cs_newCategory}" icon="ui-icon-plusthick"
-                                                         style="width: 100%; text-align: left"
-                                                         action="#{categorySet.addCategory}" update="@form"/>
-                                    </div>
-                                </div>
-                            </ui:repeat>
-                            <div style="margin-top: 1em; text-align: right">
-                                <p:commandButton value="#{msg.cs_continueToObservation}" update="display" oncomplete="PF('dlg').show()" />
+                <h:outputStylesheet library="css" name="categoryselection.css"/>
+                
+                <div id="container">
+                    <h:form>
+                        <h1>#{msg.cs_heading}</h1>
+                        
+                        <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                        <div class="category-set">
+                            <h2>#{categorySet.name}</h2>
+                            <ui:repeat value="#{categorySet.categories}" var="category">
+                            <div class="category">
+                                <p:selectBooleanCheckbox value="#{category.selected}" class="category-checkbox"/>
+                                <p:inputText value="#{category.name}" class="category-text"/>
+                                <p:commandButton icon="ui-icon-close" class="category-remove-button"
+                                                 action="#{categorySet.removeCategory(category)}" update="@form"/>
                             </div>
+                            </ui:repeat>
+                            <p:commandButton value="#{msg.cs_newCategory}" icon="ui-icon-plusthick" class="new-category-button"
+                                             action="#{categorySet.addCategory}" update="@form"/>
+                        </div>
+                        </ui:repeat>
+                        
+                        <div id="control-div">
+                            <p:commandButton value="#{msg.cs_continueToObservation}" update="display" oncomplete="PF('dlg').show()" />
+                        </div>
 
-                            <p:dialog header="#{msg.cs_selectedCategories}" modal="true" widgetVar="dlg" resizable="false">
-                                <p:outputPanel id="display">
-                                    <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
-                                        <p:dataList value="#{categorySet.selectedCategories}" var="category">
-                                            <f:facet name="header">
-                                                #{categorySet.name}
-                                            </f:facet>
-                                            #{category}
-                                        </p:dataList>
-                                    </ui:repeat>
-                                </p:outputPanel>
-                            </p:dialog>
-                        </h:form>
-                    </div>
+                        <p:dialog header="#{msg.cs_selectedCategories}" modal="true" widgetVar="dlg" resizable="false">
+                            <p:outputPanel id="display">
+                                <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                                <p:dataList value="#{categorySet.selectedCategories}" var="category">
+                                    <f:facet name="header">
+                                        #{categorySet.name}
+                                    </f:facet>
+                                    #{category}
+                                </p:dataList>
+                                </ui:repeat>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </h:form>
                 </div>
             </ui:define>
 
