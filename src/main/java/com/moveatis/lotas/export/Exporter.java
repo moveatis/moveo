@@ -1,45 +1,60 @@
 package com.moveatis.lotas.export;
 
+import com.moveatis.lotas.interfaces.Session;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
+@WebServlet("/exporter")
 public class Exporter extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Exporter</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Exporter at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+    
+    private final String fileName = "testi.csv";
+    
+    private void processRequest(HttpSession session, HttpServletRequest request, HttpServletResponse response) 
+        throws ServletException, IOException {
+        
+        response.setContentType("text/plain");
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+        
+        OutputStream outputStream = response.getOutputStream();
+        
+        try (FileInputStream inputStream = new FileInputStream(constructFile(fileName))) {
+            byte[] buffer = new byte[4096];
+            int length;
+            
+            while((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
         }
+        outputStream.flush();
+    }
+    
+    private File constructFile(String fileName) throws IOException {
+        File f = new File(fileName);
+        
+        try (FileWriter fw = new FileWriter(f); BufferedWriter bw = new BufferedWriter(fw)) {
+            bw.write("Diipa,Daapa,Duupa,Wuupa,Wuu");
+        }
+        
+        return f;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -51,21 +66,11 @@ public class Exporter extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+        
+        HttpSession session = request.getSession(false);
+        //if(session != null) {
+            processRequest(session, request, response);
+        //}
     }
 
     /**
@@ -76,6 +81,6 @@ public class Exporter extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

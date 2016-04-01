@@ -24,10 +24,10 @@ import javax.servlet.http.HttpServletRequest;
  * @author sami
  */
 @WebFilter(filterName = "LoginFilter", urlPatterns = {"/observer/*", "/settings/*", "/summary/*",
-"/control/*"})
+"/control/*, /exporter"})
 public class LoginFilter implements Filter {
     
-    private static final boolean debug = true;
+    private static final boolean DEBUG = true;
 
     private FilterConfig filterConfig = null;
     
@@ -36,7 +36,7 @@ public class LoginFilter implements Filter {
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
-        if (debug) {
+        if (DEBUG) {
             log("LoginFilter:DoBeforeProcessing");
         }
 
@@ -64,7 +64,7 @@ public class LoginFilter implements Filter {
     
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
-        if (debug) {
+        if (DEBUG) {
             log("LoginFilter:DoAfterProcessing");
         }
 
@@ -113,7 +113,7 @@ public class LoginFilter implements Filter {
             }
         }
         
-        if (debug) {
+        if (DEBUG) {
             log("LoginFilter:doFilter()");
         }
         
@@ -173,7 +173,7 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
+            if (DEBUG) {                
                 log("LoginFilter:Initializing filter");
             }
         }

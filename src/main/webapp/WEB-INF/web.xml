@@ -30,20 +30,12 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>Exporter</servlet-name>
-        <servlet-class>com.moveatis.lotas.export.Exporter</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Errorhandler</servlet-name>
         <servlet-class>com.moveatis.lotas.error.ErrorHandler</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Exporter</servlet-name>
-        <url-pattern>/exporter</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>com.moveatis.lotas.restful.MoveatisRestApplication</servlet-name>
