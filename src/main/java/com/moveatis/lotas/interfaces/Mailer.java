@@ -1,6 +1,7 @@
 package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.enums.MailStatus;
+import java.io.File;
 import javax.ejb.Local;
 
 /**
@@ -10,6 +11,7 @@ import javax.ejb.Local;
 @Local
 public interface Mailer {
 
-    MailStatus sendEmail(String recipient, String subject, String message);
+    MailStatus sendEmail(final String[] recipients, final String subject, final String message);
+    MailStatus sendEmailWithAttachment(final String[] recipient, final String subject, final String message, final File[] attachmentFile);
     
 }

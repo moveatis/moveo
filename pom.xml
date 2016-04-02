@@ -8,6 +8,9 @@
     <packaging>war</packaging>
     <name>Lotas observer</name>
     <description>Student project for University of Jyväskylä</description>
+    <organization>
+        <name>University of Jyväskylä</name>
+    </organization>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

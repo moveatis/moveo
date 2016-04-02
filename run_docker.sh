@@ -2,6 +2,7 @@
 
 polku=`pwd`/docker
 tietokannanPolku=`pwd`/db
+sähköpostienPolku=`pwd`/mails
 
 echo "Yritetään käynnistää db-image"
 docker start moveatis-db 2>&1
@@ -19,7 +20,7 @@ echo "Yritetään käynnissää wildfly-image"
 docker start -a -i moveatis-wildfly 2>/dev/null # Virheilmoitukset bittitaivaiseen
 # Luetaan virheilmoitus, jos wildlfy-imagea ei vielä löydy
 if [ $? -ne 0 ]; then
-    docker create --privileged=true -it -p 8080:8080 -p 8787:8787 -p 9990:9990 --name moveatis-wildfly --link moveatis-db:lotasdb -v $polku:/opt/wildfly/standalone/deployments moveatis/moveatis-devel 2>/dev/null
+    docker create --privileged=true -it -p 8080:8080 -p 8787:8787 -p 9990:9990 --name moveatis-wildfly --link moveatis-db:lotasdb -v $polku:/opt/wildfly/standalone/deployments -v $sähköpostienPolku:/opt/mailer/mail moveatis/moveatis-devel 2>/dev/null
     # Ja käynnistetään
     docker start -a -i moveatis-wildfy 2>/dev/null
 fi

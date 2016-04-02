@@ -24,6 +24,7 @@ nbbuild/
 dist/
 ndist/
 nbactions.xml
+nbactions-moveatis.xml
 nb-configuration.xml
 .nb-gradle/
 
