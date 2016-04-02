@@ -2,16 +2,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Testaillaan backendin toimintoja</title>
     </h:head>
     <h:body>
         <h:panelGroup>
-            <h:outputText value="Dummy-sivu backendin testailua varten"/>
+            <p>
+                <h:outputText value="Dummy-sivu backendin testailua varten"/>
+            </p>
+            <p>
+                <h4>Sähköposteja ei lähetetä oikeasti mihinkään tässä testiversiossa!</h4>
+            </p>
         </h:panelGroup>
         <h:panelGroup>
             <h:form id='justEmail'>
+                <h3>Sähköpostin lähetys</h3>
                 <p>
                     <h:outputLabel for="recipient" value="Vastaanottaja"/>
                     <h:inputText id="recipient" value="#{mailerManagedBean.recipient}"/>
@@ -32,7 +39,9 @@
                                 infoStyle="color: green;" errorStyle="color: red;"/>
                 </p>
             </h:form>
+            <hr/>
             <h:form id='emailAndAttachment'>
+                <h3>Sähköposti liitetiedostolla lähetys</h3>
                 <p>
                     <h:outputLabel for="recipientAttachment" value="Vastaanottaja"/>
                     <h:inputText id="recipientAttachment" value="#{mailerManagedBean.recipient}"/>
@@ -46,8 +55,8 @@
                     <h:inputTextarea id="textAttachment" value="#{mailerManagedBean.text}"/>
                 </p>
                 <p>
-                    <h:outputLabel for="fileName" value="Tiedosto"/>
-                    <h:outputText id="fileName" value="testi.csv"/>
+                    <h:outputLabel for="fileName" value="Tiedostonimi"/>
+                    <h:inputText id="fileName" value="#{mailerManagedBean.fileName}" style="margin-left: 2em;"/>
                 </p>
                 <p>
                     <h:commandButton value="Lähetä sähköpostia liitetiedostolla" 
@@ -57,6 +66,14 @@
                     <h:messages id="emailMessagesWithAttachments" showSummary="false" showDetail="true"
                                 infoStyle="color: green;" errorStyle="color: red;"/>
                 </p>
+            </h:form>
+            <hr/>
+            <h:form id="downloadTesting">
+                <h3>Harjoitustiedoston lataus</h3>
+                <p:commandButton value="Lataa harjoitustiedosto" action="#{fileExporter.prepare()}"
+                             ajax="false">
+                    <p:fileDownload value="#{fileExporter.file}"/>
+                </p:commandButton>
             </h:form>
         </h:panelGroup>
     </h:body>

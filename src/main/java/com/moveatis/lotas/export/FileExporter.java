@@ -53,16 +53,6 @@ public class FileExporter implements Serializable {
         return file;
     }
     
-    private File constructFile(String fileName) throws IOException {
-        
-        LOGGER.debug("constructFile");
-        File f = new File(fileName);
-        
-        try (FileWriter fw = new FileWriter(f); BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write("Diipa,Daapa,Duupa,Wuupa,Wuu");
-        }
-        
-        return f;
-    }
+    private File constructFile(String fileName) throws IOException { return new FileBuilder().constructFile(fileName); }
     
 }

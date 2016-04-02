@@ -30,13 +30,19 @@
 package com.moveatis.lotas.devel;
 
 import com.moveatis.lotas.enums.MailStatus;
+import com.moveatis.lotas.export.FileBuilder;
 import com.moveatis.lotas.interfaces.Mailer;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import org.slf4j.LoggerFactory;
 
 /**
  * MailerManagedBean
@@ -47,6 +53,8 @@ import javax.inject.Inject;
 @Named(value="mailerManagedBean")
 @RequestScoped
 public class DevelMailerManagedBean {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DevelMailerManagedBean.class);
     
     @Inject
     private Mailer mailerEJB;
@@ -54,6 +62,7 @@ public class DevelMailerManagedBean {
     private String recipient;
     private String subject;
     private String text;
+    private String fileName;
 
     public DevelMailerManagedBean() {
         
@@ -82,6 +91,14 @@ public class DevelMailerManagedBean {
     public void setText(String text) {
         this.text = text;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
     
     public void sendEmail(ActionEvent ae) {
         if(mailerEJB.sendEmail(this.recipient.split(","), this.subject, this.text) == MailStatus.MAIL_SENT_OK) {
@@ -89,20 +106,27 @@ public class DevelMailerManagedBean {
                 FacesMessage.SEVERITY_INFO, "Sähköposti lähetetty", "Sähköposti lähetetty onnistuneesti"));
         } else {
             FacesContext.getCurrentInstance().addMessage(recipient, new FacesMessage(
-                FacesMessage.SEVERITY_ERROR, "Sähköposti lähetetty", "Sähköpostin lähetys epäonnistui"));
+                FacesMessage.SEVERITY_ERROR, "Sähköposti jäi lähettämättä", "Sähköpostin lähetys epäonnistui"));
         }
         
     }
     
     public void sendEmailWithAttachment(ActionEvent ae) {
-        if(mailerEJB.sendEmail(this.recipient.split(","), this.subject, this.text) == MailStatus.MAIL_SENT_OK) {
-            FacesContext.getCurrentInstance().addMessage(recipient, new FacesMessage(
-                FacesMessage.SEVERITY_INFO, "Sähköposti lähetetty", "Sähköposti lähetetty onnistuneesti"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(recipient, new FacesMessage(
-                FacesMessage.SEVERITY_ERROR, "Sähköposti lähetetty", "Sähköpostin lähetys epäonnistui"));
-        }
         
+        try {
+            File[] files = new File[1];
+            files[0] = new FileBuilder().constructFile(this.fileName);
+            
+            if(mailerEJB.sendEmailWithAttachment(this.recipient.split(","), this.subject, this.text, 
+                    files) == MailStatus.MAIL_SENT_OK) {
+                FacesContext.getCurrentInstance().addMessage(recipient, new FacesMessage(
+                FacesMessage.SEVERITY_INFO, "Sähköposti liitteineen lähetetty", "Sähköposti liitteineen lähetetty onnistuneesti"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(recipient, new FacesMessage(
+                FacesMessage.SEVERITY_ERROR, "Sähköposti liitteinen jäi lähettämättä", "Sähköpostin ja liitteiden lähetys epäonnistui"));
+            }
+        } catch (IOException ex) {
+            LOGGER.debug(ex.toString());
+        }
     }
-    
 }

@@ -4,8 +4,12 @@ import com.moveatis.lotas.enums.MailStatus;
 import javax.ejb.Stateless;
 import com.moveatis.lotas.interfaces.Mailer;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -28,6 +32,8 @@ public class MailerBean implements Mailer {
     private static final String MAILHOST = "localhost";
     private static final String FROM = "lotas@jyu.fi";
     
+    private static final String CHARSET = "UTF-8";
+    
 
     public MailerBean() {
         
@@ -38,8 +44,13 @@ public class MailerBean implements Mailer {
         
         try {
             MimeMessage msg = setMessage(recipients, subject);
-            msg.setText(message);
+            MimeBodyPart textPart = new MimeBodyPart();
+            textPart.setText(message, CHARSET);
             
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(textPart);
+            
+            msg.setContent(multipart);
             Transport.send(msg);
             
             return MailStatus.MAIL_SENT_OK;
@@ -55,11 +66,11 @@ public class MailerBean implements Mailer {
         
         try {
             MimeMessage msg = setMessage(recipients,subject);
+            MimeBodyPart textPart = new MimeBodyPart();
+            textPart.setText(message, CHARSET);
             
             Multipart multipart = new MimeMultipart();
-            MimeBodyPart msgPart = new MimeBodyPart();
-            msgPart.setContent(msg, "text/html");
-            multipart.addBodyPart(msgPart);
+            multipart.addBodyPart(textPart);
             
             for(File f:attachmentFiles) {
                 MimeBodyPart attachPart = new MimeBodyPart();
@@ -69,6 +80,7 @@ public class MailerBean implements Mailer {
             
             msg.setContent(multipart);
             Transport.send(msg);
+            
             return MailStatus.MAIL_SENT_OK;
             
         } catch(MessagingException ex) {
@@ -83,6 +95,7 @@ public class MailerBean implements Mailer {
     private MimeMessage setMessage(final String[] recipients, final String subject) throws MessagingException {
         Properties props = System.getProperties();
         props.setProperty("mail.smtp.host", MAILHOST);
+        props.setProperty("mail.mime.charset", CHARSET);
         Session session = Session.getDefaultInstance(props);
         MimeMessage msg = new MimeMessage(session);
         
@@ -90,7 +103,8 @@ public class MailerBean implements Mailer {
         for(String recipient:recipients) {
             msg.addRecipients(Message.RecipientType.TO, recipient);
         }
-        msg.setSubject(subject);
+
+        msg.setSubject(subject, CHARSET);
 
         return msg;
     }
