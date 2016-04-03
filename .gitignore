@@ -9,6 +9,7 @@
 # Dockerin hakemistot
 db/
 docker/
+mails/
 
 # Openshiftin hakemisto
 deployments/

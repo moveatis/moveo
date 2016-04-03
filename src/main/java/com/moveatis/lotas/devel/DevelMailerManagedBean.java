@@ -34,8 +34,6 @@ import com.moveatis.lotas.export.FileBuilder;
 import com.moveatis.lotas.interfaces.Mailer;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
