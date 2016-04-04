@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <security-constraint>
+        <web-resource-collection>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <!-- NOT USED IN DEVEL
+        <user-data-constraint>
+            <transport-guarantee>
+                CONFIDENTIAL
+            </transport-guarantee>
+        </user-data-constraint>    
+        -->
+    </security-constraint>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>    
@@ -18,20 +30,12 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>Exporter</servlet-name>
-        <servlet-class>com.moveatis.lotas.export.Exporter</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Errorhandler</servlet-name>
         <servlet-class>com.moveatis.lotas.error.ErrorHandler</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Exporter</servlet-name>
-        <url-pattern>/exporter</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>com.moveatis.lotas.restful.MoveatisRestApplication</servlet-name>

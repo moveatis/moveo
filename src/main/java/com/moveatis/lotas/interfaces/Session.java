@@ -1,7 +1,6 @@
 package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.enums.UserType;
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.enums.SessionStatus;
 import javax.ejb.Local;
 
 /**
@@ -11,10 +10,7 @@ import javax.ejb.Local;
 @Local(Session.class)
 public interface Session {
     
-    public void setIdentifiedUser();
-    public void setAnonymityUser();
-    public void setTagUser(String tag);
-    public void setUserEntity(UserEntity user);
-    public UserType getUserType();
+    public SessionStatus setTagUser(String tag);
+    public SessionStatus setIdentityProviderUser(String userName, String password);
     
 }

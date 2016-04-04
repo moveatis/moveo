@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.lotas.interfaces.User;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -23,6 +24,13 @@ public class UserBean extends AbstractBean<UserEntity> implements User {
 
     public UserBean() {
         super(UserEntity.class);
+    }
+
+    @Override
+    public UserEntity findByName(String firstName, String lastName) {
+        TypedQuery<UserEntity> user = em.createNamedQuery("findUserByName", UserEntity.class);
+        return user.setParameter("firstName", firstName).setParameter("lastName", lastName)
+                .getSingleResult();
     }
     
 }

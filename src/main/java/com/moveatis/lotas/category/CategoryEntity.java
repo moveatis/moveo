@@ -1,7 +1,7 @@
 
 package com.moveatis.lotas.category;
 
-import com.moveatis.lotas.event.EventEntity;
+import com.moveatis.lotas.records.RecordEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -28,11 +28,7 @@ public class CategoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @NotNull
-    @ManyToOne
-    private EventEntity scene;
-    
+   
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date created;
@@ -51,14 +47,6 @@ public class CategoryEntity implements Serializable {
         this.id = id;
     }
 
-    public EventEntity getScene() {
-        return scene;
-    }
-
-    public void setScene(EventEntity scene) {
-        this.scene = scene;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -74,7 +62,14 @@ public class CategoryEntity implements Serializable {
     public void setLabel(String label) {
         this.label = label;
     }
-    
+
+    public CategoryGroupEntity getCategoryGroup() {
+        return categoryGroup;
+    }
+
+    public void setCategoryGroup(CategoryGroupEntity categoryGroup) {
+        this.categoryGroup = categoryGroup;
+    }
 
     @Override
     public int hashCode() {
@@ -86,13 +81,10 @@ public class CategoryEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CategoryEntity)) {
+        if (!(object instanceof RecordEntity)) {
             return false;
         }
-        CategoryEntity other = (CategoryEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
+        
         return true;
     }
 

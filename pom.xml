@@ -8,10 +8,21 @@
     <packaging>war</packaging>
     <name>Lotas observer</name>
     <description>Student project for University of Jyväskylä</description>
+    <organization>
+        <name>University of Jyväskylä</name>
+    </organization>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <logDirectory>/var/log/</logDirectory>
+        <hibernate.version>4.3.1.Final</hibernate.version>
+        <slf4j.version>1.7.12</slf4j.version>
+        <primefaces.version>5.3</primefaces.version>
+        <primefaces-extension.version>4.0.0</primefaces-extension.version>
+        <jboss-logging.version>3.3.0.Final</jboss-logging.version>
+        <log4j.version>1.2.17</log4j.version>
+        <javaee-api.version>7.0</javaee-api.version>
+        <datasource>java:/jboss/jdbc/MoveatisDS</datasource>
     </properties>
 	<developers>
 		<developer>
@@ -55,59 +66,89 @@
 			</roles>
 		</developer>
 	</developers>
+        
+    <dependencyManagement>
+        <dependencies>
+          <!-- Import the ModeShape BOM for embedded usage. This adds to the "dependenciesManagement" section
+               defaults for all of the modules we might need, but we still have to include in the
+               "dependencies" section the modules we DO need. The benefit is that we don't have to
+               specify the versions of any of those modules.-->
+            <dependency>
+                <groupId>org.modeshape.bom</groupId>
+                <artifactId>modeshape-bom-embedded</artifactId>
+                <version>4.0.0.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     
     <dependencies>
         <dependency>
+            <groupId>org.modeshape</groupId>
+            <artifactId>modeshape-jcr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.modeshape</groupId>
+            <artifactId>modeshape-jcr-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jbossts</groupId>
+            <artifactId>jbossjta</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.1.Final</version>
+            <version>${hibernate.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>4.3.1.Final</version>
+            <version>${hibernate.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.12</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>5.3</version>
+            <version>${primefaces.version}</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
-            <version>4.0.0</version>
+            <version>${primefaces-extension.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
-            <version>3.3.0.Final</version>
+            <version>${jboss-logging.version}</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160212</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
+            <version>${javaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
+        <!-- Not yet working properly, will be needed for Openshift Postgresql connection -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -130,6 +171,23 @@
 		    <warName>lotas</warName>
 		    <outputDirectory>${basedir}/docker</outputDirectory>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>default-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -158,13 +216,6 @@
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
-        </repository>
-    </repositories>
     <profiles>
         <profile>
              <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
@@ -172,6 +223,9 @@
              <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
              <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
              <id>openshift</id>
+             <properties>
+                 <datasource>java:jboss/datasources/PostgreSQLDS</datasource>
+             </properties>
              <build>
                 <plugins>
                    <plugin>

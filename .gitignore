@@ -6,8 +6,10 @@
 # muuta kehitysympäristöä kuin Netbeansia, täytyy tähän tiedostoon tehdä
 # vastaavat muutokset.
 
-# Dockerin hakemisto
+# Dockerin hakemistot
+db/
 docker/
+mails/
 
 # Openshiftin hakemisto
 deployments/
@@ -23,6 +25,7 @@ nbbuild/
 dist/
 ndist/
 nbactions.xml
+nbactions-moveatis.xml
 nb-configuration.xml
 .nb-gradle/
 

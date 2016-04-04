@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class SuperUserManagedBean implements Serializable {
 
     public SuperUserManagedBean() {
+        
     }
     
 }

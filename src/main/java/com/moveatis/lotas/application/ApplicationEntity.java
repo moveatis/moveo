@@ -1,11 +1,14 @@
 package com.moveatis.lotas.application;
 
+import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +29,9 @@ public class ApplicationEntity implements Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date applicationInstalled;
+    
+    @OneToMany
+    private List <UserEntity> superUsers;
 
     public Long getId() {
         return id;
@@ -33,6 +39,14 @@ public class ApplicationEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<UserEntity> getSuperUsers() {
+        return superUsers;
+    }
+
+    public void setSuperUsers(List<UserEntity> superUsers) {
+        this.superUsers = superUsers;
     }
 
     public Date getApplicationInstalled() {

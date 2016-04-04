@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.moveatis.lotas.managedbeans;
 
 import com.moveatis.lotas.interfaces.Observation;
@@ -139,9 +134,9 @@ public class SummaryManagedBean {
         // TODO: Get order of categories from observationBean.
         //// Now categories follow the order of records.
         for (RecordEntity record : records) {
-            String category = record.getCategory();
+            String category = record.getCategory().getLabel();
             if (!categories.contains(category)) {
-                categories.add(record.getCategory());
+                categories.add(record.getCategory().getLabel());
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
                 String numberedLabel = "<span class=categoryNumber>" + categories.size() + ". </span>"
@@ -153,7 +148,7 @@ public class SummaryManagedBean {
 
         // Add records to timeline as timeline-events
         for (RecordEntity record : records) {
-            String category = record.getCategory();
+            String category = record.getCategory().getLabel();
             long startTime = record.getStartTime();
             long endTime = record.getEndTime();
             TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
