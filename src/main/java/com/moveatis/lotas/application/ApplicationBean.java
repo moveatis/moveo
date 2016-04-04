@@ -34,7 +34,7 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     public ApplicationBean() {
         super(ApplicationEntity.class);
-        findApplicationEntity();
+        
     }
 
     @Override
@@ -45,17 +45,30 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     @Override
     public void addSuperUser(UserEntity superUser) {
-        List<UserEntity> superusers = applicationEntity.getSuperUsers();
-        superusers.add(superUser);
-        applicationEntity.setSuperUsers(superusers);
-        super.edit(applicationEntity);
+        try {
+            findApplicationEntity();
+            List<UserEntity> superusers = this.applicationEntity.getSuperUsers();
+            superusers.add(superUser);
+            applicationEntity.setSuperUsers(superusers);
+            super.edit(applicationEntity);
+        } catch(NullPointerException npe) {
+            LOGGER.debug("Nullpointer");
+        }
+        
     }
     
     private void findApplicationEntity() {
         try {
-            applicationEntity = super.find(1L);
+            this.applicationEntity = super.find(1L);
+            if(this.applicationEntity == null) {
+                this.applicationEntity = new ApplicationEntity();
+                super.create(this.applicationEntity);
+            }
+            LOGGER.debug("applicationEntity löytyi");
         } catch(NullPointerException npe) {
             LOGGER.debug("applicationEntitya ei ole vielä luotu");
+            this.applicationEntity = new ApplicationEntity();
+            em.persist(this.applicationEntity);
         }
     }
     

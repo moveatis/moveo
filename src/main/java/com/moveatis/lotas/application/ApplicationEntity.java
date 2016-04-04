@@ -2,6 +2,7 @@ package com.moveatis.lotas.application;
 
 import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -42,6 +43,9 @@ public class ApplicationEntity implements Serializable {
     }
 
     public List<UserEntity> getSuperUsers() {
+        if(superUsers == null) {
+            superUsers = new ArrayList<>();
+        }
         return superUsers;
     }
 
