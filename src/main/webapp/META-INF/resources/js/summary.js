@@ -6,9 +6,10 @@
 
 /* global PF, links */
 
+var TIMELINE_BEGIN = getLocalZeroDate();
+
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
-    var zeroDate = getLocalZeroDate();
     var growl = PF("growlWdgt");
 
     //console.log(growl);
@@ -21,62 +22,29 @@ $(function () {
 
     updateRecordsTable(timeline, timeline.getVisibleChartRange());
 
-    // Timeline range selection
+    // Timeline range selections
     $("#input-rangeStart").keyup(function () {
-        var input = $(this);
-        if (!input.hasClass("ui-state-error")) {
-            var startMs = convertStrToMs(input.val());
-            var inputEnd = $("#input-rangeEnd");
-            if (inputEnd.val() && !inputEnd.hasClass("ui-state-error") && startMs > convertStrToMs(inputEnd.val())) {
-                input.addClass("ui-state-error");
-                return;
-            }
-            timeline.options.min = new Date(zeroDate.getTime() + startMs);
-            timeline.setVisibleChartRangeAuto();
-            var range = timeline.getVisibleChartRange();
-            updateRecordsTable(timeline, range);
-        }
+        updateTimelineRange(timeline, $(this));
     });
     $("#input-rangeEnd").keyup(function () {
-        var input = $(this);
-        if (!input.hasClass("ui-state-error")) {
-            var endMs = convertStrToMs(input.val());
-            var inputStart = $("#input-rangeStart");
-            if (inputStart.val() && !inputStart.hasClass("ui-state-error") && endMs < convertStrToMs(inputStart.val())) {
-                input.addClass("ui-state-error");
-                return;
-            }
-            timeline.options.max = new Date(zeroDate.getTime() + endMs);
-            timeline.setVisibleChartRangeAuto();
-            var range = timeline.getVisibleChartRange();
-            updateRecordsTable(timeline, range);
-        }
+        updateTimelineRange(timeline, $(this));
     });
 
     // Timeline Zoom buttons
     $("#button-zoom-in").click(function () {
-        timeline.zoom(0.2, zeroDate);
+        timeline.zoom(0.2, TIMELINE_BEGIN);
     });
     $("#button-zoom-out").click(function () {
         timeline.zoom(-0.2);
     });
 
-    // On timeline event selection show growl with record details
+    // On timeline event selection show growl message with record details
     links.events.addListener(timeline, "select", function () {
-        var selection = timeline.getSelection();
-        if (selection.length) {
-            if (selection[0].row !== undefined) {
-                var record = timeline.getItem(selection[0].row);
-                growl.removeAll();
-                growl.renderMessage({summary: 'Kirjaus: ' + record.group,
-                    detail: getRecordDetails(record),
-                    severity: "info"});
-            }
-        }
-
+        showRecordDetails(timeline, growl);
     });
 });
 
+// Updates records table information for given time range
 function updateRecordsTable(timeline, range) {
     var table = $("#records");
     var categories = timeline.getItemsByGroup(timeline.items);
@@ -105,13 +73,61 @@ function updateRecordsTable(timeline, range) {
     table.append(summary);
 }
 
-// Get all items which start or end time is in given range
+// Update timeline range to match start and end range input values
+function updateTimelineRange(timeline, input) {
+    var inputStart = $("#input-rangeStart");
+    var inputEnd = $("#input-rangeEnd");
+
+    if (!inputStart.hasClass("ui-state-error") && !inputEnd.hasClass("ui-state-error")) {
+        var msStart = convertStrToMs(inputStart.val());
+        var msEnd = convertStrToMs(inputEnd.val());
+
+        // check the validity of start and end values that start >= end
+        if (msStart >= msEnd) {
+            input.addClass("ui-state-error");
+            return;
+        }
+
+        if (msStart) {
+            timeline.options.min = new Date(TIMELINE_BEGIN.getTime() + msStart);
+        } else {
+            timeline.options.min = TIMELINE_BEGIN;
+        }
+
+        if (msEnd) {
+            timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + msEnd);
+        }
+
+        timeline.setVisibleChartRangeAuto();
+        updateRecordsTable(timeline, timeline.getVisibleChartRange());
+    }
+}
+
+// Show selected record details in growl message
+function showRecordDetails(timeline, growl) {
+    var selection = timeline.getSelection();
+    if (selection.length) {
+        if (selection[0].row !== undefined) {
+            var record = timeline.getItem(selection[0].row);
+            growl.removeAll();
+            growl.renderMessage({
+                summary: record.group,
+                detail: getRecordDetails(record),
+                severity: "info"
+            });
+        }
+    }
+}
+
+// Get all records that are fully or partially in the given time range
 function parseRecords(records, range) {
     var recordsIn = [];
     $.each(records, function (i, record) {
         if (record.start >= range.start && record.start < range.end) {
             recordsIn.push(record);
         } else if (record.end <= range.end && record.end > range.start) {
+            recordsIn.push(record);
+        } else if (record.start < range.start && record.end > range.end) {
             recordsIn.push(record);
         }
     });
@@ -121,9 +137,8 @@ function parseRecords(records, range) {
 // Get record details
 function getRecordDetails(record) {
     var details = "";
-    var begin = getLocalZeroDate().getTime();
-    var start = Math.abs(begin - record.start.getTime());
-    var end = Math.abs(begin - record.end.getTime());
+    var start = Math.abs(TIMELINE_BEGIN.getTime() - record.start.getTime());
+    var end = Math.abs(TIMELINE_BEGIN.getTime() - record.end.getTime());
     details += "Aloitus: " + convertMsToStr(start);
     details += "<br/>";
     details += "Lopetus: " + convertMsToStr(end);
@@ -160,48 +175,23 @@ function recordsDuration(records, range) {
     return duration;
 }
 
-// Converts milliseconds to time string hh:mm:ss
+// Convert milliseconds to time string hh:mm:ss
 function convertMsToStr(ms) {
     var d = ms;
-    var ms = d % 1000;
     d = Math.floor(d / 1000);
     var s = d % 60;
     d = Math.floor(d / 60);
     var m = d % 60;
-    var h = Math.floor(d / 60);
+    d = Math.floor(d / 60);
+    var h = d % 60;
     return [lz(h), lz(m), lz(s)].join(':');
 }
 
-// convert time string hh:mm:ss to string with units e.g. 1h 2m 0s
-function convertMsToUnits(ms) {
-    var time = convertMsToStr(ms).split(":");
-    var units = "";
-
-    var getUnit = function (i, unit) {
-        var n = parseInt(time[i], 10);
-        if (n > 0) {
-            units += n + unit;
-        }
-    };
-
-    if (time.length === 3) {
-        getUnit(0, "h");
-    }
-    if (time.length >= 2) {
-        getUnit(1, "m");
-    }
-    if (time.length >= 1) {
-        getUnit(2, "s");
-    }
-    if (units.length === 0) {
-        return "0s";
-    }
-    return units;
-}
-
-// Converts time string hh:mm:ss to milliseconds
+// Convert time string hh:mm:ss to milliseconds
+// returns NaN for unparseable time string
 function convertStrToMs(str) {
     var time = str.split(/:/);
+    // insert missing values
     for (var i = 3 - time.length; i > 0; i--) {
         time.unshift("0");
     }
@@ -210,6 +200,31 @@ function convertStrToMs(str) {
         seconds += parseInt(time[n], 10) * Math.pow(60, 2 - n);
     }
     return seconds * 1000;
+}
+
+// Convert milliseconds to string with units e.g. 1h 2m 0s
+function convertMsToUnits(ms) {
+    var time = convertMsToStr(ms).split(":");
+    var units = "";
+
+    var getTimeUnit = function (i, unit) {
+        var n = parseInt(time[i], 10);
+        if (n > 0) {
+            units += n + unit;
+        }
+    };
+
+    if (ms < 1000) {
+        return ">1s";
+    }
+    if (time.length === 3) {
+        getTimeUnit(0, "h");
+        getTimeUnit(1, "m");
+        getTimeUnit(2, "s");
+    } else {
+        units = "0s";
+    }
+    return units;
 }
 
 // Append leading zero to single digit numbers
