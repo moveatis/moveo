@@ -17,19 +17,6 @@ import org.slf4j.LoggerFactory;
 @SessionScoped
 public class CategoryManagedBean implements Serializable {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryManagedBean.class);
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Creates a new instance of CategoryManagedBean
-     */
-    public CategoryManagedBean() {
-    }
-    
-    //
-    //
-    //
-    
     public class Category {
         private String name;
         private boolean selected;
@@ -102,7 +89,20 @@ public class CategoryManagedBean implements Serializable {
         }
     }
     
+    //
+    //
+    //
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryManagedBean.class);
+    private static final long serialVersionUID = 1L;
+    
     private List<CategorySet> categorySets;
+
+    /**
+     * Creates a new instance of CategoryManagedBean
+     */
+    public CategoryManagedBean() {
+    }
     
     @PostConstruct
     public void init() {

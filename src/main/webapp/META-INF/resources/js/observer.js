@@ -1,4 +1,18 @@
 
+//
+// TODO:
+// - Send keep-alive signals to backend.
+// - Is there need for Observer?
+// - Rethink CategoryItem.
+// - How and where from should we get categories?
+// - Is there need for initial_time other than 0?
+//
+
+
+/*
+ * Master clock that can be paused and resumed at will.
+ * Individual categories get their time from the master clock.
+ */
 function Clock(initial_time) {
     this.total_time = initial_time;
     this.resume_time = 0;
@@ -96,6 +110,9 @@ function CategoryItem(name, index, initial_time) {
 }
 
 
+/*
+ * Handles the actual observing.
+ */
 function Observer(initial_time, category_data) {
     this.master_clock = new Clock(initial_time);
     this.categories = [];
@@ -224,9 +241,6 @@ function Observer(initial_time, category_data) {
     };
 }
 
-//
-// TODO: Send keep-alive signals to backend
-//
 
 $(document).ready(function() {
     var time = initial_time || 0;
@@ -240,7 +254,7 @@ $(document).ready(function() {
         {name: "Oppilas suorittaa tehtävää", initial_time: 0}
     ];
     
-    var observer = new Observer(initial_time, category_data);
+    var observer = new Observer(time, category_data);
     
     $("#play").click(function() { observer.playClick(); });
     $("#pause").click(function() { observer.pauseClick(); });
