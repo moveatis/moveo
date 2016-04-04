@@ -24,8 +24,9 @@ public class RecordEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
-    private CategoryEntity category;
+    //@ManyToOne
+    //private CategoryEntity category;
+    private String category;
     
     private Long startTime;
     private Long endTime;
@@ -49,11 +50,19 @@ public class RecordEntity implements Serializable {
         this.observation = observation;
     }
 
-    public CategoryEntity getCategory() {
+    /*public CategoryEntity getCategory() {
         return category;
     }
 
     public void setCategory(CategoryEntity category) {
+        this.category = category;
+    }*/
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
         this.category = category;
     }
 

@@ -1,10 +1,7 @@
 package com.moveatis.lotas.managedbeans;
 
-import com.moveatis.lotas.application.ApplicationEntity;
 import com.moveatis.lotas.application.InstallDevelEntitiesBean;
 import com.moveatis.lotas.enums.ApplicationStatusCode;
-import com.moveatis.lotas.interfaces.Application;
-import java.util.Calendar;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;

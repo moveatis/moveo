@@ -42,7 +42,7 @@ public class SessionBean implements Serializable, Session  {
     public SessionStatus setIdentityProviderUser(String userName, String password) {
         userType = UserType.IDENTIFIED_USER;
         if("admin".equals(userName) && "admin".equals(password)) {
-            this.userEntity = userEJB.findByName("Paavo", "Pääkäyttäjä");
+            this.userEntity = userEJB.findByName("Paavo", "Paakayttaja");
             this.loggedIn = true;
             return SessionStatus.USER_OK;
         } else if("user".equals(userName) && "user".equals(password)) {
@@ -53,8 +53,10 @@ public class SessionBean implements Serializable, Session  {
         return SessionStatus.USER_NOT_FOUND;
     }
     
-    public void setAnonymityUser() {
+    @Override
+    public SessionStatus setAnonymityUser() {
         userType = UserType.ANONYMITY_USER;
+        return SessionStatus.USER_OK;
         
     }
     

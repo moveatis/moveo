@@ -134,9 +134,9 @@ public class SummaryManagedBean {
         // TODO: Get order of categories from observationBean.
         //// Now categories follow the order of records.
         for (RecordEntity record : records) {
-            String category = record.getCategory().getLabel();
+            String category = record.getCategory();
             if (!categories.contains(category)) {
-                categories.add(record.getCategory().getLabel());
+                categories.add(record.getCategory());
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
                 String numberedLabel = "<span class=categoryNumber>" + categories.size() + ". </span>"
@@ -148,7 +148,7 @@ public class SummaryManagedBean {
 
         // Add records to timeline as timeline-events
         for (RecordEntity record : records) {
-            String category = record.getCategory().getLabel();
+            String category = record.getCategory();
             long startTime = record.getStartTime();
             long endTime = record.getEndTime();
             TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),

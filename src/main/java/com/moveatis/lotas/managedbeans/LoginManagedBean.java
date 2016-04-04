@@ -51,7 +51,7 @@ public class LoginManagedBean {
     public void setTag(String tag) {
         this.tag = tag;
         if(sessionBean.setTagUser(tag) == SessionStatus.TAG_OK) {
-           this.loginOutcome = CATEGORY_SELECTION_URL;
+           this.loginOutcome = "taguser";
         } else {
             RequestContext.getCurrentInstance().showMessageInDialog(
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), 
@@ -60,16 +60,17 @@ public class LoginManagedBean {
     }
 
     public String doTagLogin() {
-        return this.loginOutcome;
+        return "taguser";
     }
     
     public String doAnonymityLogin() {
-        return this.loginOutcome;
+        sessionBean.setAnonymityUser();
+        return "anonymityuser";
     }
     
     public String doIdentityProviderLogin() {
         if(sessionBean.setIdentityProviderUser(this.userName, this.password) == SessionStatus.USER_OK) {
-            this.loginOutcome = CATEGORY_SELECTION_URL;
+            this.loginOutcome = "useridentified";
             LOGGER.debug("user identified");
         } else {
             RequestContext.getCurrentInstance().showMessageInDialog(

@@ -8,6 +8,25 @@
         <navigation-case>
             <to-view-id>/index.xhtml</to-view-id>
             <from-outcome>installed</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/categoryselection/index.xhtml</to-view-id>
+            <from-outcome>useridentified</from-outcome>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <to-view-id>/categoryselection/index.xhtml</to-view-id>
+            <from-outcome>anonymityuser</from-outcome>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <to-view-id>/categoryselection/index.xhtml</to-view-id>
+            <from-outcome>taguser</from-outcome>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
     <application>

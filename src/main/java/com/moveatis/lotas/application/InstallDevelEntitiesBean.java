@@ -28,7 +28,7 @@ public class InstallDevelEntitiesBean {
     
     public ApplicationStatusCode createDevelEntities() {
         
-        if(applicationEJB.find(1L) != null) {
+        if(applicationEJB.find(1L) == null) {
             ApplicationEntity applicationEntity = new ApplicationEntity();
             applicationEntity.setApplicationInstalled(Calendar.getInstance().getTime());
             applicationEJB.create(applicationEntity);
@@ -40,8 +40,8 @@ public class InstallDevelEntitiesBean {
         
         userEJB.create(createRegularUser());
         UserEntity superUser = createAdminUser();
-        applicationEJB.addSuperUser(superUser);
         userEJB.create(superUser);
+        applicationEJB.addSuperUser(superUser);
         
         return ApplicationStatusCode.INSTALLATION_OK;
     }
@@ -56,7 +56,7 @@ public class InstallDevelEntitiesBean {
     private UserEntity createAdminUser() {
         UserEntity admin = new UserEntity();
         admin.setFirstName("Paavo");
-        admin.setLastName("Pääkäyttäjä");
+        admin.setLastName("Paakayttaja");
         return admin;
     }
     

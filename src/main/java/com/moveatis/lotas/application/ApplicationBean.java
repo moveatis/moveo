@@ -7,6 +7,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import com.moveatis.lotas.interfaces.Application;
 import com.moveatis.lotas.user.UserEntity;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
@@ -34,7 +35,6 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     public ApplicationBean() {
         super(ApplicationEntity.class);
-        
     }
 
     @Override
@@ -45,31 +45,17 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     @Override
     public void addSuperUser(UserEntity superUser) {
-        try {
-            findApplicationEntity();
-            List<UserEntity> superusers = this.applicationEntity.getSuperUsers();
-            superusers.add(superUser);
-            applicationEntity.setSuperUsers(superusers);
-            super.edit(applicationEntity);
-        } catch(NullPointerException npe) {
-            LOGGER.debug("Nullpointer");
+        this.applicationEntity = super.find(1L);
+        if(!checkInstalled()) {
+            return;
         }
+        List<UserEntity> superusers = this.applicationEntity.getSuperUsers();
+        if(superusers == null) {
+            superusers = new ArrayList<>();
+        }
+        superusers.add(superUser);
+        this.applicationEntity.setSuperUsers(superusers);
+        super.edit(this.applicationEntity);
         
-    }
-    
-    private void findApplicationEntity() {
-        try {
-            this.applicationEntity = super.find(1L);
-            if(this.applicationEntity == null) {
-                this.applicationEntity = new ApplicationEntity();
-                super.create(this.applicationEntity);
-            }
-            LOGGER.debug("applicationEntity löytyi");
-        } catch(NullPointerException npe) {
-            LOGGER.debug("applicationEntitya ei ole vielä luotu");
-            this.applicationEntity = new ApplicationEntity();
-            em.persist(this.applicationEntity);
-        }
-    }
-    
+    }    
 }

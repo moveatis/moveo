@@ -12,5 +12,6 @@ public interface Session {
     
     public SessionStatus setTagUser(String tag);
     public SessionStatus setIdentityProviderUser(String userName, String password);
+    public SessionStatus setAnonymityUser();
     
 }

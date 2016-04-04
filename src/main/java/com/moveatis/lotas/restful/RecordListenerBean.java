@@ -113,10 +113,11 @@ public class RecordListenerBean implements Serializable {
             JsonObject object = array.getJsonObject(i);
             RecordEntity record = new RecordEntity();
             
-            if(categoryEJB.find(object.getString("category")) != null) {
+            /*if(categoryEJB.find(object.getString("category")) != null) {
                 record.setCategory(categoryEJB.find(object.getString("category")));
-            }
+            }*/
                        
+            record.setCategory(object.getString("category"));
             record.setStartTime(object.getJsonNumber("startTime").longValue());
             record.setEndTime(object.getJsonNumber("endTime").longValue());
             
