@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
         <ui:composition template="../index.xhtml">
 
@@ -13,9 +14,11 @@
                     var initial_time = 0;
                     var initial_category_data = [
                     <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
-                    <ui:repeat value="#{categorySet.selectedCategories}" var="category">
-                        {name: "#{category}", initial_time: 0},
-                    </ui:repeat>
+                        {name: "#{categorySet.name}", categories: [
+                        <ui:repeat value="#{categorySet.selectedCategories}" var="category">
+                            {name: "#{category}", initial_time: 0},
+                        </ui:repeat>
+                        ]},
                     </ui:repeat>
                     ];
                 </script>
@@ -31,7 +34,10 @@
                         <div id="pause" class="fa fa-pause"></div>
                         <div id="stop" class="fa fa-stop"></div>
                     </div>
-                    <ul id="category-list" class="no-text-select"></ul>
+                    <div id="category-list"></div>
+<!--                    <div id="stop-div">
+                        <p:commandButton value="Lopeta ja tallenna" id="stop-button" icon="fa fa-arrow-right"/>
+                    </div>-->
                 </div>
             </ui:define>
             

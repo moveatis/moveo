@@ -127,11 +127,24 @@ function Observer(initial_time, category_data) {
         
         var category_list = $("#category-list");
         
+        var index = 0;
+        
         for (var i in category_data) {
-            var data = category_data[i];
-            var category = new CategoryItem(data.name, i, data.initial_time);
-            this_.categories.push(category);
-            category_list.append(category.li);
+            var set = category_data[i];
+            if (set.categories.length > 0) {
+                var category_set = $(document.createElement("ul"));
+                category_set.attr("id", set.name);
+                category_set.addClass("category-set");
+                category_set.addClass("no-text-select");
+                for (var j in set.categories) {
+                    var data = set.categories[j];
+                    var category = new CategoryItem(data.name, index, data.initial_time);
+                    this_.categories.push(category);
+                    category_set.append(category.li);
+                    index += 1;
+                }
+                category_list.append(category_set);
+            }
         }
     }
 
@@ -245,13 +258,17 @@ function Observer(initial_time, category_data) {
 $(document).ready(function() {
     var time = initial_time || 0;
     var category_data = initial_category_data || [
-        {name: "Järjestelyt", initial_time: 0},
-        {name: "Tehtävän selitys", initial_time: 0},
-        {name: "Ohjaus", initial_time: 0},
-        {name: "Palautteen anto", initial_time: 0},
-        {name: "Tarkkailu", initial_time: 0},
-        {name: "Muu toiminta", initial_time: 0},
-        {name: "Oppilas suorittaa tehtävää", initial_time: 0}
+        {name: "Opettajan toiminnot", categories: [
+            {name: "Järjestelyt", initial_time: 0},
+            {name: "Tehtävän selitys", initial_time: 0},
+            {name: "Ohjaus", initial_time: 0},
+            {name: "Palautteen anto", initial_time: 0},
+            {name: "Tarkkailu", initial_time: 0},
+            {name: "Muu toiminta", initial_time: 0}
+        ]},
+        {name: "Oppilaan toiminnot", categories: [
+            {name: "Oppilas suorittaa tehtävää", initial_time: 0}
+        ]}
     ];
     
     var observer = new Observer(time, category_data);
