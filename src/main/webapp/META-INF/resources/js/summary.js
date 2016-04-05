@@ -11,6 +11,7 @@ var TIMELINE_BEGIN = getLocalZeroDate();
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
     var growl = PF("growlWdgt");
+    var range = timeline.getVisibleChartRange();
 
     //console.log(growl);
     //console.log(timeline);
@@ -18,9 +19,8 @@ $(function () {
     // NOTE: setting showCurrentTime did not work from JSF
     timeline.options.showCurrentTime = false;
 
-    $("#total-records").text(timeline.items.length);
-
-    updateRecordsTable(timeline, timeline.getVisibleChartRange());
+    $("#total-records").text(parseRecords(timeline.items, range).length);
+    updateRecordsTable(timeline, range);
 
     // Timeline range selections
     $("#input-rangeStart").keyup(function () {
@@ -123,7 +123,9 @@ function showRecordDetails(timeline, growl) {
 function parseRecords(records, range) {
     var recordsIn = [];
     $.each(records, function (i, record) {
-        if (record.start >= range.start && record.start < range.end) {
+        if (record.className === "dummyRecord") {
+            return true;
+        } else if (record.start >= range.start && record.start < range.end) {
             recordsIn.push(record);
         } else if (record.end <= range.end && record.end > range.start) {
             recordsIn.push(record);
@@ -162,6 +164,9 @@ function recordsDuration(records, range) {
     $.each(records, function () {
         var start = this.start;
         var end = this.end;
+        if (this.className === "dummyRecord") {
+            return true;
+        }
         if (start < range.start) {
             start = range.start;
         }
@@ -206,7 +211,6 @@ function convertStrToMs(str) {
 function convertMsToUnits(ms) {
     var time = convertMsToStr(ms).split(":");
     var units = "";
-
     var getTimeUnit = function (i, unit) {
         var n = parseInt(time[i], 10);
         if (n > 0) {
@@ -214,6 +218,9 @@ function convertMsToUnits(ms) {
         }
     };
 
+    if (ms <= 0) {
+        return "0s";
+    }
     if (ms < 1000) {
         return ">1s";
     }

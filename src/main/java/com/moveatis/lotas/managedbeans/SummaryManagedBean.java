@@ -1,20 +1,23 @@
 package com.moveatis.lotas.managedbeans;
 
 import com.moveatis.lotas.interfaces.Observation;
+import com.moveatis.lotas.managedbeans.CategoryManagedBean.CategorySet;
 import com.moveatis.lotas.records.RecordEntity;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
 import org.primefaces.extensions.model.timeline.TimelineModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,10 +40,15 @@ public class SummaryManagedBean {
     @EJB
     private Observation observationBean;
 
+    @Inject
+    private CategoryManagedBean categoryBean;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
+
     public SummaryManagedBean() {
-        this.locale = new Locale("fi", "FI"); // get from locale "bean" ?
-        this.timeZone = TimeZone.getTimeZone("UTC"); // get from timezone "bean" ?
-        this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get from timezone "bean" ?
+        this.locale = new Locale("fi", "FI"); // get users locale from session bean ?
+        this.timeZone = TimeZone.getTimeZone("UTC"); // this should be the servers timezone
+        this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get users browser timezone from session bean ?
         this.start = new Date(0);
         this.min = new Date(0);
         this.zoomMin = 10 * 1000;
@@ -126,23 +134,22 @@ public class SummaryManagedBean {
         timeline = new TimelineModel();
 
         List<RecordEntity> records = observationBean.getRecords();
-        //List<CategoryEntity> categories = observationBean.getCategories();
-
-        HashSet<String> categories = new HashSet<>();
+        List<CategorySet> categorySets = categoryBean.getCategorySets();
 
         // Add categories to timeline as timelinegroups
-        // TODO: Get order of categories from observationBean.
-        //// Now categories follow the order of records.
-        for (RecordEntity record : records) {
-            String category = record.getCategory();
-            if (!categories.contains(category)) {
-                categories.add(record.getCategory());
+        int index = 0;
+        for (CategorySet categorySet : categorySets) {
+            for (String category : categorySet.getSelectedCategories()) {
+                index++;
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
-                String numberedLabel = "<span class=categoryNumber>" + categories.size() + ". </span>"
+                String numberedLabel = "<span class=categoryNumber>" + index + ". </span>"
                         + "<span class=categoryLabel>" + category + "</span>";
                 TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
                 timeline.addGroup(timelineGroup);
+                // Add dummy records to show empty categories in timeline
+                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, category, "dummyRecord");
+                timeline.add(timelineEvent);
             }
         }
 

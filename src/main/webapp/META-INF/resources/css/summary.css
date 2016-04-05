@@ -120,7 +120,11 @@ select > .placeholder {
 }
 
 .ui-growl .categoryNumber {
-    display: none;
+    display: none!important;
+}
+
+.dummyRecord {
+    display: none!important;
 }
 
 /* Responsive */
