@@ -40,6 +40,7 @@ import javax.ejb.Stateful;
 import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.servlet.http.HttpServletRequest;
@@ -96,6 +97,16 @@ public class RecordListenerBean implements Serializable {
     }
     
     @POST
+    @Path("startobservation")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String startObservation(String data) {
+        LOGGER.debug(data);
+        // TODO: Set observation startTime.
+        return "Observatoin started";
+    }
+    
+    @POST
     @Path("addobservationdata")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
@@ -106,8 +117,11 @@ public class RecordListenerBean implements Serializable {
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
         JsonObject jObject = jsonReader.readObject();
+        JsonNumber endTime = jObject.getJsonNumber("endTime");
         JsonArray array = jObject.getJsonArray("data");
         jsonReader.close();
+        
+        observationEJB.setEndTime(endTime.longValue());
         
         for (int i = 0; i < array.size(); i++) {
             JsonObject object = array.getJsonObject(i);

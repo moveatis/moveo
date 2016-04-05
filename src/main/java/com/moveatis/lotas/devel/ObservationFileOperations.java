@@ -10,6 +10,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,36 @@ public class ObservationFileOperations {
         random = new Random();
     }
     
+    /* Total hack! */
+    public static class Obs implements Serializable {
+        
+        private static final long serialVersionUID = 1L;
+        
+        public long endTime = 0;
+    }
+    
+    public void writeEndTime(long endTime) {
+        try {
+            file = new File(path + "/observation.txt");
+            fileOutputStream = new FileOutputStream(file);
+            bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
+            objectOutputStream = new ObjectOutputStream(bufferedOutputStream);
+            
+            Obs observation = new Obs();
+            observation.endTime = endTime;
+            objectOutputStream.writeObject(observation);
+            
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            bufferedOutputStream.close();
+            fileOutputStream.close();
+        } catch(IOException ioe) {
+            LOGGER.debug("Tiedoston kirjoitus meni vikaan -> " + ioe.toString());
+        }
+        
+        LOGGER.debug("Kirjoitettu tiedosto -> " + file.getName());
+    }
+    
     public void write(RecordEntity record) {
         try {
             file = new File(path + "/" + record.getCategory() + random.nextInt() + ".dat");
@@ -69,6 +100,34 @@ public class ObservationFileOperations {
         }
         
         LOGGER.debug("Kirjoitettu tiedosto -> " + file.getName());
+    }
+    
+    public long readEndTime() {
+        try {
+            file = new File(path + "/observation.txt");
+            LOGGER.debug("Luetaan tiedostoa -> " + file.getName());
+            fileInputStream = new FileInputStream(file);
+            bufferedInputStream = new BufferedInputStream(fileInputStream);
+            objectInputStream = new ObjectInputStream(bufferedInputStream);
+            
+            Obs observation = (Obs) objectInputStream.readObject();
+
+            objectInputStream.close();
+            bufferedInputStream.close();
+            fileInputStream.close();
+            
+            if (file.delete()) {
+                LOGGER.debug("Tiedosto poistettiin -> " + file.getName());
+            } else {
+                LOGGER.debug("Tiedoston poisto epäonnistui -> " + file.getName());
+            }
+            
+            return observation.endTime;
+        } catch(IOException | ClassNotFoundException ioe) {
+            LOGGER.debug("Tiedostosta luku epäonnistui -> " + ioe.toString());
+        }
+        
+        return 0;
     }
     
     public List<RecordEntity> read() {

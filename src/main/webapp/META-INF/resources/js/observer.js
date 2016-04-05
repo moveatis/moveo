@@ -120,6 +120,7 @@ function Observer(initial_time, category_data) {
     this.categories = [];
     this.recordings = [];
     this.started = false;
+    this.waiting = false;
     
     initialize(this, initial_time, category_data);
     
@@ -159,13 +160,39 @@ function Observer(initial_time, category_data) {
     
     this.playClick = function() {
         if (this.master_clock.isPaused()) {
-            // TODO: For the first time play is clicked (started == false),
-            // send ajax notification to backend and do the following onsuccess!
-            this.master_clock.resume(Date.now());
-            this.started = true;
-            $("#play").hide();
-            $("#pause").show();
-            $("#stop").removeClass("disabled");
+            if (this.started) {
+                this.master_clock.resume(Date.now());
+                $("#play").hide();
+                $("#pause").show();
+            } else {
+                if (this.waiting) return;
+                this.waiting = true;
+                
+                var this_ = this;
+                
+                $.ajax({
+                    url: "../webapi/records/startobservation",
+                    type: "POST",
+                    dataType: "text",
+                    contentType: "text/plain",
+                    cache: false,
+                    data: "start observation",
+                    success: function(data) {
+                        console.log("Success: " + data);
+                        this_.master_clock.resume(Date.now());
+                        this_.started = true;
+                        this_.waiting = false;
+                        $("#play").hide();
+                        $("#pause").show();
+                        $("#stop").removeClass("disabled");
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("Error: " + error);
+                        this_.waiting = false;
+                        // TODO: Error popup?
+                    }
+                });
+            }
         }
     };
     
@@ -182,9 +209,8 @@ function Observer(initial_time, category_data) {
     };
     
     this.stopClick = function() {
-        if (!this.started) return;
-        // TODO: Don't let the data be sent multiple times?
-        // (Maybe set started=false in ajax onsuccess or...?)
+        if (!this.started || this.waiting) return;
+        this.waiting = true;
         
         var now = Date.now();
         
@@ -210,11 +236,7 @@ function Observer(initial_time, category_data) {
         
         console.log("Sending observation data to server...");
         
-        var categories_in_order = [];
-        for (var i in category_data) {
-            var data = category_data[i];
-            categories_in_order.push(data.name);
-        }
+        var this_ = this;
         
         $.ajax({
             url: "../webapi/records/addobservationdata",
@@ -223,22 +245,18 @@ function Observer(initial_time, category_data) {
             contentType: "application/json",
             cache: false,
             data: JSON.stringify({
-                // TODO: send all relevant data
-                // Should we only send recordings?
-                // - maybe ajax notification when observation starts => starTime
-                // - back end gets endTime from this ajax call
-                // - categories from CategoryManagedBean
-                startTime: 0,
                 endTime: time,
-                categories: categories_in_order,
                 data: this.recordings
             }),
             success: function(data) {
                 console.log("Success: " + data);
+                this_.waiting = false;
                 window.location = "../summary/";
             },
             error: function(xhr, status, error) {
                 console.log("Error: " + error);
+                this_.waiting = false;
+                // TODO: Error popup?
             }
         });
     };
