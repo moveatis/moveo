@@ -12,6 +12,11 @@ and open the template in the editor.
     background-color: rgba(85, 102, 119, 0.5);
     padding: .1em .5em;
 }
+
+#observation-info {
+    font-size: 1.1em;
+}
+
 .content,
 .ui-grid-row {
     max-width: 38em;
