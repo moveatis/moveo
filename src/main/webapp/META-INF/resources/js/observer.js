@@ -6,6 +6,8 @@
 // - Rethink CategoryItem.
 // - How and where from should we get categories?
 // - Is there need for initial_time other than 0?
+// - Error handling? Message dialog on ajax errors?
+// - Remove/comment out console.log calls in release?
 //
 
 
@@ -117,6 +119,7 @@ function Observer(initial_time, category_data) {
     this.master_clock = new Clock(initial_time);
     this.categories = [];
     this.recordings = [];
+    this.started = false;
     
     initialize(this, initial_time, category_data);
     
@@ -156,7 +159,10 @@ function Observer(initial_time, category_data) {
     
     this.playClick = function() {
         if (this.master_clock.isPaused()) {
+            // TODO: For the first time play is clicked (started == false),
+            // send ajax notification to backend and do the following onsuccess!
             this.master_clock.resume(Date.now());
+            this.started = true;
             $("#play").hide();
             $("#pause").show();
             $("#stop").removeClass("disabled");
@@ -176,10 +182,9 @@ function Observer(initial_time, category_data) {
     };
     
     this.stopClick = function() {
-        // TODO: Don't rely on the class!!!
-        if ($("#stop").hasClass("disabled")) {
-            return;
-        }
+        if (!this.started) return;
+        // TODO: Don't let the data be sent multiple times?
+        // (Maybe set started=false in ajax onsuccess or...?)
         
         var now = Date.now();
         
@@ -219,6 +224,10 @@ function Observer(initial_time, category_data) {
             cache: false,
             data: JSON.stringify({
                 // TODO: send all relevant data
+                // Should we only send recordings?
+                // - maybe ajax notification when observation starts => starTime
+                // - back end gets endTime from this ajax call
+                // - categories from CategoryManagedBean
                 startTime: 0,
                 endTime: time,
                 categories: categories_in_order,
@@ -256,6 +265,8 @@ function Observer(initial_time, category_data) {
 
 
 $(document).ready(function() {
+    // TODO: Error message if initial_time or initial_category_data not defined?
+    //       => No need for this default data!
     var time = initial_time || 0;
     var category_data = initial_category_data || [
         {name: "Opettajan toiminnot", categories: [
