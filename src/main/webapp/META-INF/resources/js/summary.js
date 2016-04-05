@@ -96,6 +96,8 @@ function updateTimelineRange(timeline, input) {
 
         if (msEnd) {
             timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + msEnd);
+        } else {
+            timeline.options.max = null;
         }
 
         timeline.setVisibleChartRangeAuto();
