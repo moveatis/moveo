@@ -46,19 +46,27 @@ nav {
 }
 
 .accessButtons {
-    
+
     width: 9.5em;
     height: 2.0em;
     margin: auto auto auto auto;
     display: block;
     text-align: center;
     padding: 1.0em;
+    color: white; 
 }
 
 .welcomeContent {
-        margin: auto auto auto auto;
-        padding: 1.0em;
-        display: table;
+    margin: auto auto auto auto;
+    padding: 1.0em;
+    display: table;
+}
+
+.dropDownMenu {
+    a:link {text-decoration: none; color: black;}
+    a:visited {text-decoration: none; color: black;}
+    a:active {text-decoration: none; color: black;}
+    a:hover {text-decoration: none; color: black;}
 }
 
 a:link {text-decoration: none; color: black;}
@@ -67,22 +75,22 @@ a:active {text-decoration: none; color: black;}
 a:hover {text-decoration: none; color: black;}
 
 @media screen and (max-width: 800px) {
-    
+
     nav {
         border: none;
         padding-bottom: 0.5em;
         padding-top: 0.0;
-        
+
     }
-        .accessButtons {
+    .accessButtons {
         width: 9.5em;
         height: 2.0em;
-/*        margin: 2.5% auto 2.5% auto;*/
+        /*        margin: 2.5% auto 2.5% auto;*/
         display:table;
         text-align: center;
         color: white;   
     }
-    
+
     .welcomeContent {
         width: 96%;
         margin: 1% auto 1% auto;
