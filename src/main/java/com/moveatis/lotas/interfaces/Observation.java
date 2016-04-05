@@ -29,8 +29,11 @@ public interface Observation {
 
     int count();
     
+//    void setStartTime(Date??);
+    void setEndTime(long endTime);
     void addRecord(RecordEntity recordEntity);
     
+    long getEndTime();
     List<RecordEntity> getRecords();
     
 }

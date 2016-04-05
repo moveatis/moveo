@@ -61,6 +61,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     private ObservationEntity observation;
     private UserEntity user;
     
+    
+    
 
     @Override
     protected EntityManager getEntityManager() {
@@ -104,6 +106,11 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     public void categorizedObservationDeactivated(String category) {
         
     }
+    
+    @Override
+    public void setEndTime(long endTime) {
+        develFileOperations.writeEndTime(endTime);
+    }
 
     @Override
     public void addRecord(RecordEntity recordEntity) {
@@ -115,6 +122,11 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         LOGGER.debug("End time -> " + recordEntity.getEndTime());
         
         LOGGER.debug("addRecord lopetettu");
+    }
+    
+    @Override
+    public long getEndTime() {
+        return develFileOperations.readEndTime();
     }
 
     @Override
