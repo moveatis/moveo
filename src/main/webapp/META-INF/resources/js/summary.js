@@ -51,15 +51,15 @@ $(function () {
 function updateRecordsTable(timeline, range) {
     var table = $("#records");
     var categories = timeline.getItemsByGroup(timeline.items);
-    var totalDuration = getTotalDuration(categories, range);
-    var totalCount = parseRecords(timeline.items, range).length;
+    var rangeDuration = getRangeDuration(range);
+    var recordsCount = parseRecords(timeline.items, range).length;
     table.empty();
     $.each(categories, function (category, records) {
         var record = $('<div class="ui-grid-row">');
         var records = parseRecords(records, range);
         var duration = recordsDuration(records, range);
-        var recordsPc = '<span class="percent"> (' + percentOf(records.length, totalCount) + " %)</span>";
-        var durationPc = '<span class="percent"> (' + percentOf(duration, totalDuration) + " %)</span>";
+        var recordsPc = '<span class="percent"> (' + percentOf(records.length, recordsCount) + " %)</span>";
+        var durationPc = '<span class="percent"> (' + percentOf(duration, rangeDuration) + " %)</span>";
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
         record.append('<div class="ui-grid-col-2">' + records.length + "</div>");
         record.append('<div class="ui-grid-col-1">' + recordsPc + "</div>");
@@ -69,9 +69,9 @@ function updateRecordsTable(timeline, range) {
     });
     var summary = $('<div class="ui-grid-row summary-row">');
     summary.append('<div class="ui-grid-col-5">Yhteensä</div>');
-    summary.append('<div class="ui-grid-col-2">' + totalCount + "</div>");
+    summary.append('<div class="ui-grid-col-2">' + recordsCount + "</div>");
     summary.append('<div class="ui-grid-col-1"/>');
-    summary.append('<div class="ui-grid-col-2">' + convertMsToUnits(totalDuration) + "</div>");
+    summary.append('<div class="ui-grid-col-2">' + convertMsToUnits(rangeDuration) + "</div>");
     summary.append('<div class="ui-grid-col-1"/>');
     table.append(summary);
 }
@@ -144,8 +144,8 @@ function parseRecords(records, range) {
 // Get record details
 function getRecordDetails(record) {
     var details = "";
-    var start = Math.abs(TIMELINE_BEGIN.getTime() - record.start.getTime());
-    var end = Math.abs(TIMELINE_BEGIN.getTime() - record.end.getTime());
+    var start = toTimelineTime(record.start);
+    var end = toTimelineTime(record.end);
     details += "Aloitus: " + convertMsToStr(start);
     details += "<br/>";
     details += "Lopetus: " + convertMsToStr(end);
@@ -154,13 +154,22 @@ function getRecordDetails(record) {
     return details;
 }
 
-// calculate total duration of categories
-function getTotalDuration(categories, range) {
+// Get total duration of records in given range
+function getTotalRecordsDuration(categories, range) {
     var duration = 0;
     $.each(categories, function (category, records) {
         duration += recordsDuration(records, range);
     });
     return duration;
+}
+
+// Get duration of observation or if given is shorter get duration of range
+function getRangeDuration(range) {
+    var rStartMs = toTimelineTime(range.start);
+    var rEndMs = toTimelineTime(range.end);
+    var start = (rStartMs > 0) ? rStartMs : 0;
+    var end = (rEndMs < OBSERVATION_DURATION) ? rEndMs : OBSERVATION_DURATION;
+    return end - start;
 }
 
 // Calculate duration for records in given range
@@ -257,4 +266,8 @@ function getLocalZeroDate() {
     var localDate = new Date(0);
     var zeroDate = new Date(localDate.getTimezoneOffset() * 60 * 1000);
     return zeroDate;
+}
+
+function toTimelineTime(date) {
+    return Math.abs(TIMELINE_BEGIN.getTime() - date.getTime())
 }
