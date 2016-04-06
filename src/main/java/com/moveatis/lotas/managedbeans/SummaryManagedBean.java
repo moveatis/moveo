@@ -244,7 +244,7 @@ public class SummaryManagedBean {
      * @return long
      */
     public long getEndTime() {
-        return observationBean.getEndTime();
+        return observationBean.getDuration();
     }
 
     /**

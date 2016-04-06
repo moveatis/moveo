@@ -31,6 +31,7 @@ package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.observation.ObservationEntity;
 import com.moveatis.lotas.records.RecordEntity;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -58,11 +59,13 @@ public interface Observation {
 
     int count();
     
-//    void setStartTime(Date??);
-    void setEndTime(long endTime);
-    void addRecord(RecordEntity recordEntity);
+    void setDate(Date date);
+    Date getDate();
     
-    long getEndTime();
+    void setDuration(long duration);
+    long getDuration();
+    
+    void addRecord(RecordEntity recordEntity);
     List<RecordEntity> getRecords();
     
 }

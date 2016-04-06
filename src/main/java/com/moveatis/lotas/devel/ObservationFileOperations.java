@@ -42,6 +42,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import org.slf4j.Logger;
@@ -81,24 +82,14 @@ public class ObservationFileOperations {
         random = new Random();
     }
     
-    /* Total hack! */
-    public static class Obs implements Serializable {
-        
-        private static final long serialVersionUID = 1L;
-        
-        public long endTime = 0;
-    }
-    
-    public void writeEndTime(long endTime) {
+    private <T> void writeObject(T object, String fileName) {
         try {
-            file = new File(path + "/observation.txt");
+            file = new File(path + "/" + fileName);
             fileOutputStream = new FileOutputStream(file);
             bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
             objectOutputStream = new ObjectOutputStream(bufferedOutputStream);
             
-            Obs observation = new Obs();
-            observation.endTime = endTime;
-            objectOutputStream.writeObject(observation);
+            objectOutputStream.writeObject(object);
             
             objectOutputStream.flush();
             objectOutputStream.close();
@@ -106,40 +97,21 @@ public class ObservationFileOperations {
             fileOutputStream.close();
         } catch(IOException ioe) {
             LOGGER.debug("Tiedoston kirjoitus meni vikaan -> " + ioe.toString());
+            return;
         }
         
         LOGGER.debug("Kirjoitettu tiedosto -> " + file.getName());
     }
     
-    public void write(RecordEntity record) {
+    private <T> T readObject(String fileName) {
         try {
-            file = new File(path + "/" + record.getCategory() + random.nextInt() + ".dat");
-            fileOutputStream = new FileOutputStream(file);
-            bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-            objectOutputStream = new ObjectOutputStream(bufferedOutputStream);
-            
-            objectOutputStream.writeObject(record);
-            
-            objectOutputStream.flush();
-            objectOutputStream.close();
-            bufferedOutputStream.close();
-            fileOutputStream.close();
-        } catch(IOException ioe) {
-            LOGGER.debug("Tiedoston kirjoitus meni vikaan -> " + ioe.toString());
-        }
-        
-        LOGGER.debug("Kirjoitettu tiedosto -> " + file.getName());
-    }
-    
-    public long readEndTime() {
-        try {
-            file = new File(path + "/observation.txt");
+            file = new File(path + "/" + fileName);
             LOGGER.debug("Luetaan tiedostoa -> " + file.getName());
             fileInputStream = new FileInputStream(file);
             bufferedInputStream = new BufferedInputStream(fileInputStream);
             objectInputStream = new ObjectInputStream(bufferedInputStream);
             
-            Obs observation = (Obs) objectInputStream.readObject();
+            T object = (T) objectInputStream.readObject();
 
             objectInputStream.close();
             bufferedInputStream.close();
@@ -151,12 +123,42 @@ public class ObservationFileOperations {
                 LOGGER.debug("Tiedoston poisto epäonnistui -> " + file.getName());
             }
             
-            return observation.endTime;
+            return object;
+            
         } catch(IOException | ClassNotFoundException ioe) {
             LOGGER.debug("Tiedostosta luku epäonnistui -> " + ioe.toString());
         }
         
-        return 0;
+        return null;
+    }
+    
+    public void writeDate(Date date) {
+        writeObject(date, "date.txt");
+    }
+    
+    public Date readDate() {
+        return readObject("date.txt");
+    }
+    
+    public static class Duration implements Serializable {
+        private static final long serialVersionUID = 1L;
+        public long duration;
+        public Duration(long duration) {
+            this.duration = duration;
+        }
+    }
+    
+    public void writeDuration(long duration) {
+        writeObject(new Duration(duration), "duration.txt");
+    }
+    
+    public long readDuration() {
+        Duration d = readObject("duration.txt");
+        return d.duration;
+    }
+    
+    public void write(RecordEntity record) {
+        writeObject(record, record.getCategory() + random.nextInt() + ".dat");
     }
     
     public List<RecordEntity> read() {
@@ -172,7 +174,7 @@ public class ObservationFileOperations {
             
             File[] files = file.listFiles(filenameFilter);
             
-            for(File f:files) {
+            for(File f : files) {
                 LOGGER.debug("Luetaan tiedostoa -> " + f.getName());
                 fileInputStream = new FileInputStream(f);
                 bufferedInputStream = new BufferedInputStream(fileInputStream);
