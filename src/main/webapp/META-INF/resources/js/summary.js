@@ -7,7 +7,7 @@
 /* global PF, links */
 
 var TIMELINE_BEGIN = getLocalZeroDate();
-var OBSERVATION_END = getEndTime();
+var OBSERVATION_DURATION = getObservationDuration(); // function in summary/index.xhtml
 
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
@@ -22,7 +22,7 @@ $(function () {
     timeline.options.showCurrentTime = false;
 
     $("#total-records").text(parseRecords(timeline.items, range).length);
-    $("#total-duration").text(convertMsToUnits(OBSERVATION_END));
+    $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
     updateRecordsTable(timeline, range);
 
     // Timeline range selections
