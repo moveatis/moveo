@@ -16,6 +16,10 @@ and open the template in the editor.
 #observation-info {
     font-size: 1.1em;
 }
+#observation-info .categoryNumber {
+    font-family: Arial,sans-serif;
+    margin-right: 10px;
+}
 
 .content,
 .ui-grid-row {
@@ -47,7 +51,8 @@ and open the template in the editor.
     position: relative;
 }
 .ui-grid-row {
-    padding: 0.2em .3em;
+    padding: 0.2em 0;
+    margin-left: 10px;
 }
 .ui-grid-row:after {
     content:"";
@@ -78,8 +83,8 @@ and open the template in the editor.
 .recordsHeader {
     display: inline-block;
     margin: 0;
-    margin-top: 0.3em;
-    margin-left: 0.3em;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 .timelineControls > div {

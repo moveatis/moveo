@@ -163,7 +163,11 @@
                              eventMarginAxis="0"
                              eventMargin="16">
                 </pe:timeline>
-
+                <h:outputScript>
+                    function getEndTime() {
+                    return #{summaryBean.endTime};
+                    }
+                </h:outputScript>
                 <h:outputScript library="js" name="summary.js"/>
             </ui:define>
         </ui:composition>

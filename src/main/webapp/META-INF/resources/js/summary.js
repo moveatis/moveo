@@ -7,6 +7,7 @@
 /* global PF, links */
 
 var TIMELINE_BEGIN = getLocalZeroDate();
+var OBSERVATION_END = getEndTime();
 
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
@@ -15,11 +16,13 @@ $(function () {
 
     //console.log(growl);
     //console.log(timeline);
+    //console.log(OBSERVATION_END);
 
     // NOTE: setting showCurrentTime did not work from JSF
     timeline.options.showCurrentTime = false;
 
     $("#total-records").text(parseRecords(timeline.items, range).length);
+    $("#total-duration").text(convertMsToUnits(OBSERVATION_END));
     updateRecordsTable(timeline, range);
 
     // Timeline range selections
