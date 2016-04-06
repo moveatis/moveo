@@ -4,14 +4,19 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
 @Named(value = "categoryBean")
 @SessionScoped
@@ -63,6 +68,10 @@ public class CategoryManagedBean implements Serializable {
             this.categories = categories;
         }
         
+        public void add(String category) {
+            categories.add(new Category(category));
+        }
+        
         public void addCategory() {
             categories.add(new Category(""));
             LOGGER.debug("Added new category to set " + name);
@@ -73,7 +82,7 @@ public class CategoryManagedBean implements Serializable {
             LOGGER.debug("Removed category from set " + name);
         }
         
-        public String[] getSelectedCategories() {
+        public List<String> getSelectedCategories() {
             List<String> selectedCategories = new ArrayList<>();
             for (Category category : categories) {
                 if (category.isSelected()) {
@@ -83,9 +92,7 @@ public class CategoryManagedBean implements Serializable {
                     }
                 }
             }
-            
-            String[] categoryArr = new String[selectedCategories.size()];
-            return selectedCategories.toArray(categoryArr);
+            return selectedCategories;
         }
     }
     
@@ -108,33 +115,51 @@ public class CategoryManagedBean implements Serializable {
     public void init() {
         categorySets = new ArrayList<>();
         
+        String[] opettajanToiminnot = {
+            "Järjestelyt",
+            "Tehtävän selitys",
+            "Ohjaus",
+            "Palautteen anto",
+            "Tarkkailu",
+            "Muu toiminta"
+        };
+        addCategorySet("Opettajan toiminnot", Arrays.asList(opettajanToiminnot));
+        
+        String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
+        addCategorySet("Oppilaan toiminnot", Arrays.asList(oppilaanToiminnot));
+        
+        addCategorySet("Muut", new ArrayList<String>());
+    }
+    
+    public void addCategorySet(String name, List<String> categories) {
         CategorySet categorySet = new CategorySet();
-        categorySet.setName("Opettajan toiminnot");
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category("Järjestelyt"));
-        categories.add(new Category("Tehtävän selitys"));
-        categories.add(new Category("Ohjaus"));
-        categories.add(new Category("Palautteen anto"));
-        categories.add(new Category("Tarkkailu"));
-        categories.add(new Category("Muu toiminta"));
-        categorySet.setCategories(categories);
-        categorySets.add(categorySet);
-        
-        categorySet = new CategorySet();
-        categorySet.setName("Oppilaan toiminnot");
-        categories = new ArrayList<>();
-        categories.add(new Category("Oppilas suorittaa tehtävää"));
-        categorySet.setCategories(categories);
-        categorySets.add(categorySet);
-        
-        categorySet = new CategorySet();
-        categorySet.setName("Muut");
-        categories = new ArrayList<>();
-        categorySet.setCategories(categories);
+        categorySet.setName(name);
+        categorySet.setCategories(new ArrayList<Category>());
+        for (String category : categories) {
+            categorySet.add(category);
+        }
         categorySets.add(categorySet);
     }
     
     public List<CategorySet> getCategorySets() {
         return categorySets;
+    }
+    
+    public String checkSelectedCategories() {
+        for (CategorySet categorySet : categorySets) {
+            List<String> selectedCategories = categorySet.getSelectedCategories();
+            if (!selectedCategories.isEmpty()) return "categoriesok";
+        }
+        
+        // NOTE: Managed property for messages doesn't work.
+        // TODO: Does this method work in all situtations?
+        // Getting ResourceBundle based on this: http://stackoverflow.com/a/9434554
+        ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                                  messages.getString("dialogErrorTitle"),
+                                                  messages.getString("cs_errorNoneSelected")));
+        return "";
     }
 }

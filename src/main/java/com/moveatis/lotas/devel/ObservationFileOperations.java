@@ -125,6 +125,7 @@ public class ObservationFileOperations {
     
     public long readDuration() {
         Duration d = readObject("duration.txt");
+        if (d == null) return 0;
         return d.duration;
     }
     

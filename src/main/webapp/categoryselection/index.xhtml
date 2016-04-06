@@ -15,6 +15,8 @@
                 
                 <div id="container">
                     <h:form>
+                        <p:growl id="growl" showDetail="true"/>
+                        
                         <h1>#{msg.cs_heading}</h1>
                         
                         <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
@@ -34,8 +36,7 @@
                         </ui:repeat>
                         
                         <div id="control-div">
-                            <!-- TODO: Should we ensure that all changes to the categories have been received by the backend before redirect? -->
-                            <p:commandButton value="#{msg.cs_continueToObservation}" action="/observer/index.xhtml?faces-redirect=true" />
+                            <p:commandButton value="#{msg.cs_continueToObservation}" action="#{categoryBean.checkSelectedCategories}" update="growl"/>
                         </div>
                     </h:form>
                 </div>

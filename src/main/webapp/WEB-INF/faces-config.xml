@@ -29,6 +29,14 @@
             <redirect/>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/categoryselection/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/observer/index.xhtml</to-view-id>
+            <from-outcome>categoriesok</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
     <application>
         <locale-config>
             <default-locale>en</default-locale>
