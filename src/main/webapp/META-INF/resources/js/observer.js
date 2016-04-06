@@ -245,7 +245,7 @@ function Observer(initial_time, category_data) {
             contentType: "application/json",
             cache: false,
             data: JSON.stringify({
-                endTime: time,
+                duration: time,
                 data: this.recordings
             }),
             success: function(data) {

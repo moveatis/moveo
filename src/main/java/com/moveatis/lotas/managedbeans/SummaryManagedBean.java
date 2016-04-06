@@ -131,7 +131,7 @@ public class SummaryManagedBean {
     }
 
     public long getEndTime() {
-        return observationBean.getEndTime();
+        return observationBean.getDuration();
     }
 
     private void createTimeline() {

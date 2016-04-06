@@ -108,8 +108,23 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
     
     @Override
-    public void setEndTime(long endTime) {
-        develFileOperations.writeEndTime(endTime);
+    public void setDate(java.util.Date date) {
+        develFileOperations.writeDate(date);
+    }
+    
+    @Override
+    public java.util.Date getDate() {
+        return develFileOperations.readDate();
+    }
+    
+    @Override
+    public void setDuration(long duration) {
+        develFileOperations.writeDuration(duration);
+    }
+    
+    @Override
+    public long getDuration() {
+        return develFileOperations.readDuration();
     }
 
     @Override
@@ -122,11 +137,6 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         LOGGER.debug("End time -> " + recordEntity.getEndTime());
         
         LOGGER.debug("addRecord lopetettu");
-    }
-    
-    @Override
-    public long getEndTime() {
-        return develFileOperations.readEndTime();
     }
 
     @Override

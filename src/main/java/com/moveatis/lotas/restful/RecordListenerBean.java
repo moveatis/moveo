@@ -35,6 +35,7 @@ import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.session.SessionBean;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.inject.Named;
@@ -102,7 +103,7 @@ public class RecordListenerBean implements Serializable {
     @Produces(MediaType.TEXT_PLAIN)
     public String startObservation(String data) {
         LOGGER.debug(data);
-        // TODO: Set observation startTime.
+        observationEJB.setDate(new Date());
         return "Observatoin started";
     }
     
@@ -117,11 +118,11 @@ public class RecordListenerBean implements Serializable {
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
         JsonObject jObject = jsonReader.readObject();
-        JsonNumber endTime = jObject.getJsonNumber("endTime");
+        JsonNumber duration = jObject.getJsonNumber("duration");
         JsonArray array = jObject.getJsonArray("data");
         jsonReader.close();
         
-        observationEJB.setEndTime(endTime.longValue());
+        observationEJB.setDuration(duration.longValue());
         
         for (int i = 0; i < array.size(); i++) {
             JsonObject object = array.getJsonObject(i);
