@@ -49,6 +49,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Class for Summary page managed bean. Responsive for creating summary page
+ * timeline model and get required variables from observation.
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
@@ -75,7 +77,7 @@ public class SummaryManagedBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
     /**
-     *
+     * Default constructor to initialize timeline options.
      */
     public SummaryManagedBean() {
         this.locale = new Locale("fi", "FI"); // get users locale from session bean ?
@@ -88,7 +90,7 @@ public class SummaryManagedBean {
     }
 
     /**
-     *
+     * Post constructor to create timeline on request.
      */
     @PostConstruct
     protected void initialize() {
@@ -96,54 +98,61 @@ public class SummaryManagedBean {
     }
 
     /**
+     * Get timeline model.
      *
-     * @return
+     * @return TimelineModel
      */
     public TimelineModel getTimeline() {
         return timeline;
     }  
 
     /**
+     * Get timeline locale.
      *
-     * @return
+     * @return Locale
      */
     public Locale getLocale() {
         return locale;  
     }  
 
     /**
+     * Set timeline locale.
      *
-     * @param locale
+     * @param locale Locale
      */
     public void setLocale(Locale locale) {
         this.locale = locale;  
     }
 
     /**
+     * Get timeline time zone.
      *
-     * @return
+     * @return TimeZone
      */
     public TimeZone getTimeZone() {
         return timeZone;
     }
 
     /**
+     * Set timeline time zone.
      *
-     * @param timeZone
+     * @param timeZone TimeZone
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
     }
 
     /**
+     * Get user time zone for timeline.
      *
-     * @return
+     * @return TimeZone
      */
     public TimeZone getBrowserTimeZone() {
         return browserTimeZone;
     }
 
     /**
+     * Set user time zone for timeline.
      *
      * @param browserTimeZone
      */
@@ -152,48 +161,55 @@ public class SummaryManagedBean {
     }
 
     /**
+     * Get min date of timeline. User cannot move the timeline before that date.
      *
-     * @return
+     * @return Date
      */
     public Date getMin() {
         return min;
     }
 
     /**
+     * Get maximum date of timeline. User cannot move the timeline after that
+     * date.
      *
-     * @return
+     * @return Date
      */
     public Date getMax() {
         return max;
     }
 
     /**
+     * Get timeline start date.
      *
-     * @return
+     * @return Date
      */
     public Date getStart() {
         return start;
     }
 
     /**
+     * Get minimum zoom interval for timeline in milliseconds.
      *
-     * @return
+     * @return long
      */
     public long getZoomMin() {
         return zoomMin;
     }
 
     /**
+     * Get maximum zoom interval for timeline in milliseconds.
      *
-     * @return
+     * @return long
      */
     public long getZoomMax() {
         return zoomMax;
     }
 
     /**
+     * Get observation name.
      *
-     * @return
+     * @return String
      */
     public String getObservationName() {
         //return observationBean.getName();
@@ -203,8 +219,9 @@ public class SummaryManagedBean {
     }
 
     /**
+     * Get observation target
      *
-     * @return
+     * @return String
      */
     public String getObservationTarget() {
         //return observationBean.getTarget();
@@ -212,8 +229,9 @@ public class SummaryManagedBean {
     }
 
     /**
+     * Get observation description
      *
-     * @return
+     * @return String
      */
     public String getObservationDescription() {
         //return observationBean.getDescription();
@@ -221,22 +239,18 @@ public class SummaryManagedBean {
     }
 
     /**
+     * Get observation duration
      *
-     * @return
-     */
-    public String getObservationDuration() {
-        // return observationBean.getDuration();
-        return "??h ??m ??s";
-    }
-
-    /**
-     *
-     * @return
+     * @return long
      */
     public long getEndTime() {
         return observationBean.getEndTime();
     }
 
+    /**
+     * Create timeline model. Add category groups as timeline event groups and
+     * records as timeline events.
+     */
     private void createTimeline() {
         timeline = new TimelineModel();
 
