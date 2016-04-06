@@ -234,9 +234,9 @@ function convertMsToUnits(ms) {
         getTimeUnit(1, "m");
         getTimeUnit(2, "s");
     } else {
-        units = "0s";
+        return "0s";
     }
-    return units;
+    return units.replace(/([h,m,s])(\d)/g, "$1 $2");
 }
 
 // Append leading zero to single digit numbers
