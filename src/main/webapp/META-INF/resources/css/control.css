@@ -53,12 +53,17 @@ nav {
     display: block;
     text-align: center;
     padding: 1.0em;
+    color: white; 
 }
 
 .welcomeContent {
         margin: auto auto auto auto;
         padding: 1.0em;
         display: table;
+}
+
+.dropDownMenuBlack {
+    color: black
 }
 
 a:link {text-decoration: none; color: black;}

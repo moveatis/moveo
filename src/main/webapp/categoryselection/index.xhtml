@@ -24,11 +24,11 @@
                             <div class="category">
                                 <p:selectBooleanCheckbox value="#{category.selected}" class="category-checkbox"/>
                                 <p:inputText value="#{category.name}" class="category-text"/>
-                                <p:commandButton icon="ui-icon-close" class="category-remove-button"
+                                <p:commandButton icon="fa fa-remove" class="category-remove-button"
                                                  action="#{categorySet.removeCategory(category)}" update="@form"/>
                             </div>
                             </ui:repeat>
-                            <p:commandButton value="#{msg.cs_newCategory}" icon="ui-icon-plusthick" class="new-category-button"
+                            <p:commandButton value="#{msg.cs_newCategory}" icon="fa fa-plus" class="new-category-button"
                                              action="#{categorySet.addCategory}" update="@form"/>
                         </div>
                         </ui:repeat>

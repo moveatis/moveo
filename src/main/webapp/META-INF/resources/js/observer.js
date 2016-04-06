@@ -6,6 +6,8 @@
 // - Rethink CategoryItem.
 // - How and where from should we get categories?
 // - Is there need for initial_time other than 0?
+// - Error handling? Message dialog on ajax errors?
+// - Remove/comment out console.log calls in release?
 //
 
 
@@ -117,6 +119,8 @@ function Observer(initial_time, category_data) {
     this.master_clock = new Clock(initial_time);
     this.categories = [];
     this.recordings = [];
+    this.started = false;
+    this.waiting = false;
     
     initialize(this, initial_time, category_data);
     
@@ -127,11 +131,24 @@ function Observer(initial_time, category_data) {
         
         var category_list = $("#category-list");
         
+        var index = 0;
+        
         for (var i in category_data) {
-            var data = category_data[i];
-            var category = new CategoryItem(data.name, i, data.initial_time);
-            this_.categories.push(category);
-            category_list.append(category.li);
+            var set = category_data[i];
+            if (set.categories.length > 0) {
+                var category_set = $(document.createElement("ul"));
+                category_set.attr("id", set.name);
+                category_set.addClass("category-set");
+                category_set.addClass("no-text-select");
+                for (var j in set.categories) {
+                    var data = set.categories[j];
+                    var category = new CategoryItem(data.name, index, data.initial_time);
+                    this_.categories.push(category);
+                    category_set.append(category.li);
+                    index += 1;
+                }
+                category_list.append(category_set);
+            }
         }
     }
 
@@ -143,10 +160,39 @@ function Observer(initial_time, category_data) {
     
     this.playClick = function() {
         if (this.master_clock.isPaused()) {
-            this.master_clock.resume(Date.now());
-            $("#play").hide();
-            $("#pause").show();
-            $("#stop").removeClass("disabled");
+            if (this.started) {
+                this.master_clock.resume(Date.now());
+                $("#play").hide();
+                $("#pause").show();
+            } else {
+                if (this.waiting) return;
+                this.waiting = true;
+                
+                var this_ = this;
+                
+                $.ajax({
+                    url: "../webapi/records/startobservation",
+                    type: "POST",
+                    dataType: "text",
+                    contentType: "text/plain",
+                    cache: false,
+                    data: "start observation",
+                    success: function(data) {
+                        console.log("Success: " + data);
+                        this_.master_clock.resume(Date.now());
+                        this_.started = true;
+                        this_.waiting = false;
+                        $("#play").hide();
+                        $("#pause").show();
+                        $("#stop").removeClass("disabled");
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("Error: " + error);
+                        this_.waiting = false;
+                        // TODO: Error popup?
+                    }
+                });
+            }
         }
     };
     
@@ -163,10 +209,8 @@ function Observer(initial_time, category_data) {
     };
     
     this.stopClick = function() {
-        // TODO: Don't rely on the class!!!
-        if ($("#stop").hasClass("disabled")) {
-            return;
-        }
+        if (!this.started || this.waiting) return;
+        this.waiting = true;
         
         var now = Date.now();
         
@@ -192,11 +236,7 @@ function Observer(initial_time, category_data) {
         
         console.log("Sending observation data to server...");
         
-        var categories_in_order = [];
-        for (var i in category_data) {
-            var data = category_data[i];
-            categories_in_order.push(data.name);
-        }
+        var this_ = this;
         
         $.ajax({
             url: "../webapi/records/addobservationdata",
@@ -205,18 +245,18 @@ function Observer(initial_time, category_data) {
             contentType: "application/json",
             cache: false,
             data: JSON.stringify({
-                // TODO: send all relevant data
-                startTime: 0,
                 endTime: time,
-                categories: categories_in_order,
                 data: this.recordings
             }),
             success: function(data) {
                 console.log("Success: " + data);
+                this_.waiting = false;
                 window.location = "../summary/";
             },
             error: function(xhr, status, error) {
                 console.log("Error: " + error);
+                this_.waiting = false;
+                // TODO: Error popup?
             }
         });
     };
@@ -243,15 +283,21 @@ function Observer(initial_time, category_data) {
 
 
 $(document).ready(function() {
+    // TODO: Error message if initial_time or initial_category_data not defined?
+    //       => No need for this default data!
     var time = initial_time || 0;
     var category_data = initial_category_data || [
-        {name: "Järjestelyt", initial_time: 0},
-        {name: "Tehtävän selitys", initial_time: 0},
-        {name: "Ohjaus", initial_time: 0},
-        {name: "Palautteen anto", initial_time: 0},
-        {name: "Tarkkailu", initial_time: 0},
-        {name: "Muu toiminta", initial_time: 0},
-        {name: "Oppilas suorittaa tehtävää", initial_time: 0}
+        {name: "Opettajan toiminnot", categories: [
+            {name: "Järjestelyt", initial_time: 0},
+            {name: "Tehtävän selitys", initial_time: 0},
+            {name: "Ohjaus", initial_time: 0},
+            {name: "Palautteen anto", initial_time: 0},
+            {name: "Tarkkailu", initial_time: 0},
+            {name: "Muu toiminta", initial_time: 0}
+        ]},
+        {name: "Oppilaan toiminnot", categories: [
+            {name: "Oppilas suorittaa tehtävää", initial_time: 0}
+        ]}
     ];
     
     var observer = new Observer(time, category_data);

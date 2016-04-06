@@ -9,13 +9,17 @@ and open the template in the editor.
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
         <ui:composition>
             <h:form>
                 <p:menubar styleClass="naviHeader" autoDisplay="false">
-                    <p:submenu label="Välilehti" >
+                    <f:facet name="options">
+                        <h:outputText value="Moveatis" styleClass="facetLeft"/>
+                    </f:facet>
+                    <p:submenu label="Välilehti">
                         <p:menuitem value="VL 1" url="#" class="coloredButton"/>
                         <p:menuitem value="VL 2" url="#" class="coloredButton"/>
                     </p:submenu>
@@ -25,6 +29,9 @@ and open the template in the editor.
                         <p:menuitem value="Hallintasivu" url="/control/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="Pääkäyttäjäsivu" url="/superuser/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="Asetukset" url="/settings/index.xhtml" class="coloredButton"/>
+                        <p:separator />
+                        <p:separator />
+                        <p:separator />
                         <p:menuitem value="Kirjaudu ulos" url="/index.xhtml" class="coloredButton"/>
                     </p:submenu>
                 </p:menubar>

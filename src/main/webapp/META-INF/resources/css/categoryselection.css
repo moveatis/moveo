@@ -24,7 +24,7 @@ and open the template in the editor.
     width: 340px;
     display: inline-block;
     vertical-align: top;
-    margin: 0 0.5em 2em 0;
+    margin: 0 1em 2em 0;
 }
 
 .category-set h2 {
@@ -57,7 +57,7 @@ and open the template in the editor.
 
 #control-div {
     margin-top: 1em;
-    text-align: center;
+    text-align: right;
 }
 
 @media screen and (min-width: 720px) {
