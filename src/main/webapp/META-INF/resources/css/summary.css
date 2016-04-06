@@ -64,10 +64,6 @@ and open the template in the editor.
     opacity: 0.5;
 }
 
-.summary-row {
-    font-weight: bold;
-}
-
 .ui-grid-row > div:not(:first-child) {
     text-align: right;
 }

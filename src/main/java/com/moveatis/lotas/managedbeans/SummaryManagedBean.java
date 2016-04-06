@@ -1,3 +1,32 @@
+/* 
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.moveatis.lotas.managedbeans;
 
 import com.moveatis.lotas.interfaces.Observation;
@@ -20,6 +49,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Class for Summary page managed bean. Responsive for creating summary page
+ * timeline model and get required variables from observation.
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
@@ -45,6 +76,9 @@ public class SummaryManagedBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
+    /**
+     * Default constructor to initialize timeline options.
+     */
     public SummaryManagedBean() {
         this.locale = new Locale("fi", "FI"); // get users locale from session bean ?
         this.timeZone = TimeZone.getTimeZone("UTC"); // this should be the servers timezone
@@ -55,59 +89,128 @@ public class SummaryManagedBean {
         this.zoomMax = 24 * 60 * 60 * 1000;
     }
 
+    /**
+     * Post constructor to create timeline on request.
+     */
     @PostConstruct
     protected void initialize() {
         createTimeline();
     }
 
+    /**
+     * Get timeline model.
+     *
+     * @return TimelineModel
+     */
     public TimelineModel getTimeline() {
         return timeline;
     }  
 
+    /**
+     * Get timeline locale.
+     *
+     * @return Locale
+     */
     public Locale getLocale() {
         return locale;  
     }  
 
+    /**
+     * Set timeline locale.
+     *
+     * @param locale Locale
+     */
     public void setLocale(Locale locale) {
         this.locale = locale;  
     }
 
+    /**
+     * Get timeline time zone.
+     *
+     * @return TimeZone
+     */
     public TimeZone getTimeZone() {
         return timeZone;
     }
 
+    /**
+     * Set timeline time zone.
+     *
+     * @param timeZone TimeZone
+     */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
     }
 
+    /**
+     * Get user time zone for timeline.
+     *
+     * @return TimeZone
+     */
     public TimeZone getBrowserTimeZone() {
         return browserTimeZone;
     }
 
+    /**
+     * Set user time zone for timeline.
+     *
+     * @param browserTimeZone
+     */
     public void setBrowserTimeZone(TimeZone browserTimeZone) {
         this.browserTimeZone = browserTimeZone;
     }
 
+    /**
+     * Get min date of timeline. User cannot move the timeline before that date.
+     *
+     * @return Date
+     */
     public Date getMin() {
         return min;
     }
 
+    /**
+     * Get maximum date of timeline. User cannot move the timeline after that
+     * date.
+     *
+     * @return Date
+     */
     public Date getMax() {
         return max;
     }
 
+    /**
+     * Get timeline start date.
+     *
+     * @return Date
+     */
     public Date getStart() {
         return start;
     }
 
+    /**
+     * Get minimum zoom interval for timeline in milliseconds.
+     *
+     * @return long
+     */
     public long getZoomMin() {
         return zoomMin;
     }
 
+    /**
+     * Get maximum zoom interval for timeline in milliseconds.
+     *
+     * @return long
+     */
     public long getZoomMax() {
         return zoomMax;
     }
 
+    /**
+     * Get observation name.
+     *
+     * @return String
+     */
     public String getObservationName() {
         //return observationBean.getName();
         Date date = new Date();
@@ -115,25 +218,39 @@ public class SummaryManagedBean {
         return "Observointi - " + df.format(date);
     }
 
+    /**
+     * Get observation target
+     *
+     * @return String
+     */
     public String getObservationTarget() {
         //return observationBean.getTarget();
         return "";
     }
 
+    /**
+     * Get observation description
+     *
+     * @return String
+     */
     public String getObservationDescription() {
         //return observationBean.getDescription();
         return "";
     }
 
-    public String getObservationDuration() {
-        // return observationBean.getDuration();
-        return "??h ??m ??s";
-    }
-
-    public long getEndTime() {
+    /**
+     * Get observation duration
+     *
+     * @return long
+     */
+    public long getObservationDuration() {
         return observationBean.getDuration();
     }
 
+    /**
+     * Create timeline model. Add category groups as timeline event groups and
+     * records as timeline events.
+     */
     private void createTimeline() {
         timeline = new TimelineModel();
 
