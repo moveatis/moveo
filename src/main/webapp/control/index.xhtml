@@ -11,12 +11,12 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
-        <ui:composition template="../index.xhtml">
+        <ui:composition template="../index.xhtml" >
 
             <ui:define name="title">#{msg.applicationTitle} - Hallinta</ui:define>
 
             <ui:define name="mainpage">
-<!--                <h:outputStylesheet library="css" name="basev2.css"/>-->
+                <h:outputStylesheet library="css" name="control.css"/>
 
                 <ui:include src="controlPage.xhtml" />
 
