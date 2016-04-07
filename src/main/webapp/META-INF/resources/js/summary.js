@@ -94,7 +94,7 @@ function updateRecordsTable(timeline, range) {
         var recordsPc = '<span class="percent"> (' + percentOf(records.length, recordsCount) + " %)</span>";
         var durationPc = '<span class="percent"> (' + percentOf(duration, rangeDuration) + " %)</span>";
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
-        record.append('<div class="ui-grid-col-2">' + records.length + "</div>");
+        record.append('<div class="ui-grid-col-1">' + records.length + "</div>");
         record.append('<div class="ui-grid-col-1">' + recordsPc + "</div>");
         record.append('<div class="ui-grid-col-2">' + convertMsToUnits(duration) + "</div>");
         record.append('<div class="ui-grid-col-1">' + durationPc + "</div>");
@@ -102,7 +102,7 @@ function updateRecordsTable(timeline, range) {
     });
     var summary = $('<div class="ui-grid-row summary-row">');
     summary.append('<div class="ui-grid-col-5">' + msg.sum_total + '</div>');
-    summary.append('<div class="ui-grid-col-2">' + recordsCount + "</div>");
+    summary.append('<div class="ui-grid-col-1">' + recordsCount + "</div>");
     summary.append('<div class="ui-grid-col-1"/>');
     summary.append('<div class="ui-grid-col-2">' + convertMsToUnits(rangeDuration) + "</div>");
     summary.append('<div class="ui-grid-col-1"/>');
