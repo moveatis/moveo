@@ -17,16 +17,49 @@
                     <h:form>
                         <p:growl id="growl" showDetail="true"/>
                         
-                        <h1>#{msg.cs_heading}</h1>
+                        <h1>#{msg.cs_addCategorySets}</h1>
                         
-                        <div style="margin-bottom: 2em">
-                            <p:outputLabel for="public-category-sets" value="#{msg.cs_publicCategorySets}:" style="vertical-align: middle; margin-right: 1em"/>
-                            <p:selectOneMenu id="public-category-sets" style="width: 150px; vertical-align: middle; margin-right: 1em">
+                        <!--<div class="ui-fluid">
+                            <p:panelGrid columns="3" columnClasses="ui-grid-col-5,ui-grid-col-5,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel for="public-category-sets" value="#{msg.cs_publicCategorySets}:" style="color: #fff; vertical-align: middle"/>
+                                <p:selectOneMenu id="public-category-sets" style="vertical-align: middle">
+                                    <f:selectItem itemLabel="Opettajan toiminnot 2" itemValue="1"/>
+                                    <f:selectItem itemLabel="Oppilaan toiminnot 2" itemValue="2"/>
+                                </p:selectOneMenu>
+                                <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"/>
+
+                                <p:outputLabel for="users-category-sets" value="Omat kategoriaryhmät:" style="color: #fff; vertical-align: middle"/>
+                                <p:selectOneMenu id="users-category-sets" style="vertical-align: middle">
+                                    <f:selectItem itemLabel="Omat toiminnot 1" itemValue="1"/>
+                                    <f:selectItem itemLabel="Omat toiminnot 2" itemValue="2"/>
+                                </p:selectOneMenu>
+                                <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"/>
+                            </p:panelGrid>
+                        </div>-->
+                        
+                        <div style="margin-bottom: 0.5em">
+                            <div style="width: 220px; display: inline-block">
+                                <p:outputLabel for="public-category-sets" value="#{msg.cs_publicCategorySets}:" style="vertical-align: middle; margin-right: 1em"/>
+                            </div>
+                            <p:selectOneMenu id="public-category-sets" style="width: 170px; vertical-align: middle; margin-right: 1em">
                                 <f:selectItem itemLabel="Opettajan toiminnot 2" itemValue="1"/>
                                 <f:selectItem itemLabel="Oppilaan toiminnot 2" itemValue="2"/>
                             </p:selectOneMenu>
                             <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"/>
                         </div>
+                        
+                        <div style="margin-bottom: 2em">
+                            <div style="width: 220px; display: inline-block">
+                                <p:outputLabel for="users-category-sets" value="#{msg.cs_privateCategorySets}:" style="vertical-align: middle; margin-right: 1em"/>
+                            </div>
+                            <p:selectOneMenu id="users-category-sets" style="width: 170px; vertical-align: middle; margin-right: 1em">
+                                <f:selectItem itemLabel="Omat toiminnot 1" itemValue="1"/>
+                                <f:selectItem itemLabel="Omat toiminnot 2" itemValue="2"/>
+                            </p:selectOneMenu>
+                            <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"/>
+                        </div>
+                        
+                        <h1>#{msg.cs_heading}</h1>
                         
                         <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
                         <div class="category-set">

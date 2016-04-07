@@ -20,6 +20,10 @@ and open the template in the editor.
     text-align: left;
 }
 
+h1 {
+    font-size: 1.8em;
+}
+
 .category-set {
     width: 300px;
     display: inline-block;
