@@ -41,6 +41,7 @@ import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
@@ -60,9 +61,9 @@ import org.slf4j.LoggerFactory;
 public class SummaryManagedBean {
     
     private TimelineModel timeline;
-    private Locale locale;
-    private TimeZone timeZone;
-    private TimeZone browserTimeZone;
+    private final Locale locale;
+    private final TimeZone serverTimeZone;
+    private final TimeZone browserTimeZone;
     private final Date min;
     private final Date start;
     private final long zoomMin;
@@ -81,8 +82,8 @@ public class SummaryManagedBean {
      * Default constructor to initialize timeline options.
      */
     public SummaryManagedBean() {
-        this.locale = new Locale("fi", "FI"); // get users locale from session bean ?
-        this.timeZone = TimeZoneInformation.getTimeZone(); // this is the servers timezone
+        this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale(); // get users locale from session bean ?
+        this.serverTimeZone = TimeZoneInformation.getTimeZone(); // this is the servers timezone
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get users browser timezone from session bean ?
         this.start = new Date(0);
         this.min = new Date(0);
@@ -114,15 +115,6 @@ public class SummaryManagedBean {
      */
     public Locale getLocale() {
         return locale;  
-    }  
-
-    /**
-     * Set timeline locale.
-     *
-     * @param locale Locale
-     */
-    public void setLocale(Locale locale) {
-        this.locale = locale;  
     }
 
     /**
@@ -130,17 +122,8 @@ public class SummaryManagedBean {
      *
      * @return TimeZone
      */
-    public TimeZone getTimeZone() {
-        return timeZone;
-    }
-
-    /**
-     * Set timeline time zone.
-     *
-     * @param timeZone TimeZone
-     */
-    public void setTimeZone(TimeZone timeZone) {
-        this.timeZone = timeZone;
+    public TimeZone getServerTimeZone() {
+        return serverTimeZone;
     }
 
     /**
@@ -150,15 +133,6 @@ public class SummaryManagedBean {
      */
     public TimeZone getBrowserTimeZone() {
         return browserTimeZone;
-    }
-
-    /**
-     * Set user time zone for timeline.
-     *
-     * @param browserTimeZone
-     */
-    public void setBrowserTimeZone(TimeZone browserTimeZone) {
-        this.browserTimeZone = browserTimeZone;
     }
 
     /**
@@ -245,7 +219,7 @@ public class SummaryManagedBean {
      * @return long
      */
     public long getObservationDuration() {
-        return observationBean.getDuration();
+        return max.getTime();
     }
 
     /**
@@ -258,20 +232,22 @@ public class SummaryManagedBean {
         List<RecordEntity> records = observationBean.getRecords();
         List<CategorySet> categorySets = categoryBean.getCategorySets();
 
+        this.max = new Date((long) (observationBean.getDuration() * 1.1));
+
         // Add categories to timeline as timelinegroups
-        int index = 0;
+        int categoryNumber = 1;
         for (CategorySet categorySet : categorySets) {
             for (String category : categorySet.getSelectedCategories()) {
-                index++;
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
-                String numberedLabel = "<span class=categoryNumber>" + index + ". </span>"
+                String numberedLabel = "<span class=categoryNumber>" + categoryNumber + ". </span>"
                         + "<span class=categoryLabel>" + category + "</span>";
                 TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
                 timeline.addGroup(timelineGroup);
                 // Add dummy records to show empty categories in timeline
                 TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, category, "dummyRecord");
                 timeline.add(timelineEvent);
+                categoryNumber++;
             }
         }
 
