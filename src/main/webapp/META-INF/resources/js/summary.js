@@ -49,7 +49,7 @@ $(function () {
 
     //console.log(growl);
     //console.log(timeline);
-    //console.log(OBSERVATION_END);
+    //console.log(OBSERVATION_DURATION);
 
     // NOTE: setting showCurrentTime did not work from JSF
     timeline.options.showCurrentTime = false;
@@ -118,8 +118,8 @@ function updateTimelineRange(timeline, input) {
         var msStart = convertStrToMs(inputStart.val());
         var msEnd = convertStrToMs(inputEnd.val());
 
-        // check the validity of start and end values that start >= end
-        if (msStart >= msEnd) {
+        // check validity of time range
+        if (msStart >= msEnd || convertStrToMs(input.val()) > OBSERVATION_DURATION) {
             input.addClass("ui-state-error");
             return;
         }
@@ -133,7 +133,7 @@ function updateTimelineRange(timeline, input) {
         if (msEnd) {
             timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + msEnd);
         } else {
-            timeline.options.max = null;
+            timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + OBSERVATION_DURATION * 1.1);
         }
 
         timeline.setVisibleChartRangeAuto();
