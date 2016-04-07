@@ -82,6 +82,10 @@ public class ObservationFileOperations {
         random = new Random();
     }
     
+    //
+    // Helper methods
+    //
+    
     private <T> void writeObject(T object, String fileName) {
         try {
             file = new File(path + "/" + fileName);
@@ -117,12 +121,6 @@ public class ObservationFileOperations {
             bufferedInputStream.close();
             fileInputStream.close();
             
-            if (file.delete()) {
-                LOGGER.debug("Tiedosto poistettiin -> " + file.getName());
-            } else {
-                LOGGER.debug("Tiedoston poisto epäonnistui -> " + file.getName());
-            }
-            
             return object;
             
         } catch(IOException | ClassNotFoundException ioe) {
@@ -132,7 +130,39 @@ public class ObservationFileOperations {
         return null;
     }
     
+    private File[] getDatFiles() {
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String string) {
+                return string.endsWith(".dat");
+            }
+        };
+        file = new File(path);
+        return file.listFiles(filenameFilter);
+    }
+    
+    private void deleteFile(String fileName) {
+        file = new File(path + "/" + fileName);
+        if (file.delete()) LOGGER.debug("Tiedosto poistettiin -> " + file.getName());
+        else LOGGER.debug("Tiedoston poisto epäonnistui -> " + file.getName());
+    }
+    
+    private void deleteDatFiles() {
+        File[] files = getDatFiles();
+        for(File f : files) {
+            if (f.delete()) LOGGER.debug("Tiedosto poistettiin -> " + f.getName());
+            else LOGGER.debug("Tiedoston poisto epäonnistui -> " + f.getName());
+        }
+    }
+    
+    //
+    //
+    //
+    
     public void writeDate(Date date) {
+        deleteFile("date.txt");
+        deleteFile("duration.txt");
+        deleteDatFiles();
         writeObject(date, "date.txt");
     }
     
@@ -165,15 +195,7 @@ public class ObservationFileOperations {
     public List<RecordEntity> read() {
         ArrayList<RecordEntity> records = new ArrayList<>();
         try {
-            file = new File(path);
-            FilenameFilter filenameFilter = new FilenameFilter() {
-                @Override
-                public boolean accept(File file, String string) {
-                    return string.endsWith(".dat");
-                }
-            };
-            
-            File[] files = file.listFiles(filenameFilter);
+            File[] files = getDatFiles();
             
             for(File f : files) {
                 LOGGER.debug("Luetaan tiedostoa -> " + f.getName());
@@ -186,14 +208,6 @@ public class ObservationFileOperations {
                 objectInputStream.close();
                 bufferedInputStream.close();
                 fileInputStream.close();
-            }
-            
-            for(File f : files) {
-                if (f.delete()) {
-                    LOGGER.debug("Tiedosto poistettiin -> " + f.getName());
-                } else {
-                    LOGGER.debug("Tiedoston poisto epäonnistui -> " + f.getName());
-                }
             }
             
             return records;
