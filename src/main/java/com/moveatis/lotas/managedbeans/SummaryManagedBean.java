@@ -32,6 +32,7 @@ package com.moveatis.lotas.managedbeans;
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.managedbeans.CategoryManagedBean.CategorySet;
 import com.moveatis.lotas.records.RecordEntity;
+import com.moveatis.lotas.timezone.TimeZoneInformation;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -81,7 +82,7 @@ public class SummaryManagedBean {
      */
     public SummaryManagedBean() {
         this.locale = new Locale("fi", "FI"); // get users locale from session bean ?
-        this.timeZone = TimeZone.getTimeZone("UTC"); // this should be the servers timezone
+        this.timeZone = TimeZoneInformation.getTimeZone(); // this is the servers timezone
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get users browser timezone from session bean ?
         this.start = new Date(0);
         this.min = new Date(0);

@@ -1,13 +1,46 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* global PF, links */
+/* global PF, links, SummaryIndex */
 
+/**
+ * Javascript methods for summary page.
+ *  Calculates recordings summary details.
+ *  Updates the details on time frame change.
+ *  Adds zoom button click events for timeline zooming.
+ *  Shows growl message on timeline event selection.
+ * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
+ */
 var TIMELINE_BEGIN = getLocalZeroDate();
-var OBSERVATION_DURATION = getObservationDuration(); // function in summary/index.xhtml
+var OBSERVATION_DURATION = SummaryIndex.getObservationDuration(); // function in summary/index.xhtml
+var msg = SummaryIndex.getMessages(); // function in summary/index.xhtml
 
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
@@ -61,15 +94,15 @@ function updateRecordsTable(timeline, range) {
         var recordsPc = '<span class="percent"> (' + percentOf(records.length, recordsCount) + " %)</span>";
         var durationPc = '<span class="percent"> (' + percentOf(duration, rangeDuration) + " %)</span>";
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
-        record.append('<div class="ui-grid-col-2">' + records.length + "</div>");
+        record.append('<div class="ui-grid-col-1">' + records.length + "</div>");
         record.append('<div class="ui-grid-col-1">' + recordsPc + "</div>");
         record.append('<div class="ui-grid-col-2">' + convertMsToUnits(duration) + "</div>");
         record.append('<div class="ui-grid-col-1">' + durationPc + "</div>");
         table.append(record);
     });
     var summary = $('<div class="ui-grid-row summary-row">');
-    summary.append('<div class="ui-grid-col-5">Yhteensä</div>');
-    summary.append('<div class="ui-grid-col-2">' + recordsCount + "</div>");
+    summary.append('<div class="ui-grid-col-5">' + msg.sum_total + '</div>');
+    summary.append('<div class="ui-grid-col-1">' + recordsCount + "</div>");
     summary.append('<div class="ui-grid-col-1"/>');
     summary.append('<div class="ui-grid-col-2">' + convertMsToUnits(rangeDuration) + "</div>");
     summary.append('<div class="ui-grid-col-1"/>');
@@ -146,11 +179,11 @@ function getRecordDetails(record) {
     var details = "";
     var start = toTimelineTime(record.start);
     var end = toTimelineTime(record.end);
-    details += "Aloitus: " + convertMsToStr(start);
+    details += msg.sum_begin + ": " + convertMsToStr(start);
     details += "<br/>";
-    details += "Lopetus: " + convertMsToStr(end);
+    details += msg.sum_end + ": " + convertMsToStr(end);
     details += "<br/>";
-    details += "Kesto: " + convertMsToUnits(end - start);
+    details += msg.sum_duration + ": " + convertMsToUnits(end - start);
     return details;
 }
 
@@ -269,5 +302,5 @@ function getLocalZeroDate() {
 }
 
 function toTimelineTime(date) {
-    return Math.abs(TIMELINE_BEGIN.getTime() - date.getTime())
+    return Math.abs(TIMELINE_BEGIN.getTime() - date.getTime());
 }
