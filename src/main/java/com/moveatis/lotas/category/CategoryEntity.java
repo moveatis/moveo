@@ -29,7 +29,7 @@
  */
 package com.moveatis.lotas.category;
 
-import com.moveatis.lotas.records.RecordEntity;
+import com.moveatis.lotas.label.LabelEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -41,31 +41,32 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Table(name="CATEGORIES")
+@Table(name="CATEGORY")
 @Entity
 @NamedQuery(name="Category.findByLabel", query="SELECT category FROM CategoryEntity category WHERE category.label = :label")
 public class CategoryEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
    
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date created;
     
-    @NotNull
-    private String label;
+    @ManyToOne
+    private LabelEntity label;
     
     @ManyToOne
     private CategoryGroupEntity categoryGroup;
+    
+    private Boolean canOverlap;
 
     public Long getId() {
         return id;
@@ -83,11 +84,11 @@ public class CategoryEntity implements Serializable {
         this.created = created;
     }
 
-    public String getLabel() {
+    public LabelEntity getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public void setLabel(LabelEntity label) {
         this.label = label;
     }
 
@@ -99,6 +100,14 @@ public class CategoryEntity implements Serializable {
         this.categoryGroup = categoryGroup;
     }
 
+    public Boolean getCanOverlap() {
+        return canOverlap;
+    }
+
+    public void setCanOverlap(Boolean canOverlap) {
+        this.canOverlap = canOverlap;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -108,12 +117,7 @@ public class CategoryEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RecordEntity)) {
-            return false;
-        }
-        
-        return true;
+        return object instanceof CategoryEntity;
     }
 
     @Override

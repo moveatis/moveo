@@ -54,8 +54,12 @@ public class ObservationManagedBean implements Serializable {
         return types;
     }
     
+    public String createNewObservation() {
+        return "success";
+    }
+    
     public void CategorizedVariableActivated(String category) {
-        observationEJB.categorizedObservationActivated(category);
+        
     }
     
     public void CategorizedVariableDisabled(String category) {

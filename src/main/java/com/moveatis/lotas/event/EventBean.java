@@ -34,17 +34,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.moveatis.lotas.interfaces.Scene;
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import javax.ejb.Stateful;
 import javax.persistence.TypedQuery;
+import com.moveatis.lotas.interfaces.Event;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateful
-public class EventBean extends AbstractBean<EventEntity> implements Scene {
+public class EventBean extends AbstractBean<EventEntity> implements Event {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
@@ -83,7 +83,7 @@ public class EventBean extends AbstractBean<EventEntity> implements Scene {
     }
 
     @Override
-    public List<EventEntity> findScenesForUser(UserEntity user) {
+    public List<EventEntity> findScenesForUser(IdentifiedUserEntity user) {
         TypedQuery<EventEntity> query = em.createNamedQuery("SceneEntity.findByUser", EventEntity.class);
         query.setParameter("owner", user);
         return query.getResultList();

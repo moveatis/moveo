@@ -29,20 +29,44 @@
  */
 package com.moveatis.lotas.managedbeans;
 
+import com.moveatis.lotas.interfaces.Role;
+import com.moveatis.lotas.roles.SuperUserRoleEntity;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com
  */
 @Named(value = "superUserBean")
-@SessionScoped
-public class SuperUserManagedBean implements Serializable {
+@RequestScoped
+public class SuperUserManagedBean {
+    
+    @Inject
+    private Role roleBean;
 
     public SuperUserManagedBean() {
         
+    }
+    
+    public void addSuperUserRights(IdentifiedUserEntity userEntity) {
+        roleBean.addSuperuserRoleToUser(userEntity);
+    }
+
+    public void addSuperUserRights(IdentifiedUserEntity userEntity, Date startDate, Date endDate) {
+        roleBean.addSuperuserRoleToUser(userEntity, startDate, endDate);
+    }
+
+    public void removeSuperUserRights(IdentifiedUserEntity userEntity) {
+        roleBean.removeSuperuserRoleFromUser(userEntity);
+    }
+    
+    public List<SuperUserRoleEntity> listSuperUsers() {
+        return roleBean.listSuperusers();
     }
     
 }

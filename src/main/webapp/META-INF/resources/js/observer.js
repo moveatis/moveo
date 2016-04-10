@@ -171,7 +171,7 @@ function Observer(initial_time, category_data) {
                 var this_ = this;
                 
                 $.ajax({
-                    url: "../webapi/records/startobservation",
+                    url: "../../webapi/records/startobservation",
                     type: "POST",
                     dataType: "text",
                     contentType: "text/plain",
@@ -239,7 +239,7 @@ function Observer(initial_time, category_data) {
         var this_ = this;
         
         $.ajax({
-            url: "../webapi/records/addobservationdata",
+            url: "../../webapi/records/addobservationdata",
             type: "POST",
             dataType: "text",
             contentType: "application/json",

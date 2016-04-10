@@ -30,16 +30,17 @@
 package com.moveatis.lotas.category;
 
 import com.moveatis.lotas.event.EventGroupEntity;
-import com.moveatis.lotas.eventkey.EventKeyEntity;
+import com.moveatis.lotas.user.AbstractUser;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -47,12 +48,10 @@ import javax.persistence.Table;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="CATEGORYGROUPS")
+@Table(name="CATEGORYGROUP")
 public class CategoryGroupEntity implements Serializable {
 
-    @ManyToOne
-    private EventGroupEntity eventGroup;
-
+    
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -62,16 +61,71 @@ public class CategoryGroupEntity implements Serializable {
     @OneToMany(mappedBy = "categoryGroup")
     private List<CategoryEntity> categoryEntitys;
 
-    @OneToOne
-    private EventKeyEntity eventKey;
+    @ManyToOne
+    private IdentifiedUserEntity creator;
     
+    @OneToMany
+    private Set<AbstractUser> users;
     
+    @ManyToOne
+    private EventGroupEntity eventGroupEntity;
+    
+    private String label;
+        
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<CategoryEntity> getCategoryEntitys() {
+        return categoryEntitys;
+    }
+
+    public void setCategoryEntitys(List<CategoryEntity> categoryEntitys) {
+        this.categoryEntitys = categoryEntitys;
+    }
+
+    public IdentifiedUserEntity getOwner() {
+        return creator;
+    }
+
+    public void setOwner(IdentifiedUserEntity owner) {
+        this.creator = owner;
+    }
+
+    public Set<AbstractUser> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<AbstractUser> users) {
+        this.users = users;
+    }
+
+    public IdentifiedUserEntity getCreator() {
+        return creator;
+    }
+
+    public void setCreator(IdentifiedUserEntity creator) {
+        this.creator = creator;
+    }
+
+    public EventGroupEntity getEventGroupEntity() {
+        return eventGroupEntity;
+    }
+
+    public void setEventGroupEntity(EventGroupEntity eventGroupEntity) {
+        this.eventGroupEntity = eventGroupEntity;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     @Override

@@ -31,6 +31,7 @@ package com.moveatis.lotas.records;
 
 import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.observation.ObservationEntity;
+import java.io.File;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,7 @@ import javax.persistence.Table;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="RECORDS")
+@Table(name="RECORD")
 public class RecordEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,15 +54,17 @@ public class RecordEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    //@ManyToOne
-    //private CategoryEntity category;
-    private String category;
+    @ManyToOne
+    private CategoryEntity category;
     
     private Long startTime;
     private Long endTime;
     
     @ManyToOne
     private ObservationEntity observation;
+    
+    private String comment;
+    private File voiceComment;
 
     public Long getId() {
         return id;
@@ -79,19 +82,11 @@ public class RecordEntity implements Serializable {
         this.observation = observation;
     }
 
-    /*public CategoryEntity getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
     public void setCategory(CategoryEntity category) {
-        this.category = category;
-    }*/
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -110,6 +105,22 @@ public class RecordEntity implements Serializable {
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public File getVoiceComment() {
+        return voiceComment;
+    }
+
+    public void setVoiceComment(File voiceComment) {
+        this.voiceComment = voiceComment;
+    }
     
     @Override
     public int hashCode() {
@@ -120,7 +131,6 @@ public class RecordEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof RecordEntity)) {
             return false;
         }

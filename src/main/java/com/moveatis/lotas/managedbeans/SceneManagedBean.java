@@ -34,7 +34,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import com.moveatis.lotas.interfaces.Scene;
+import com.moveatis.lotas.interfaces.Event;
 
 /**
  *
@@ -47,7 +47,7 @@ public class SceneManagedBean implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @EJB
-    private Scene sceneEJB;
+    private Event sceneEJB;
     
     private List<String> categories;
     

@@ -30,16 +30,17 @@
 package com.moveatis.lotas.managedbeans;
 
 import com.moveatis.lotas.interfaces.Observation;
-import com.moveatis.lotas.managedbeans.CategoryManagedBean.CategorySet;
+import com.moveatis.lotas.interfaces.Session;
+import com.moveatis.lotas.managedbeans.CategorySelectionManagedBean.CategorySet;
 import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.timezone.TimeZoneInformation;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.SortedSet;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -70,11 +71,14 @@ public class SummaryManagedBean {
     private final long zoomMax;
     private Date max;
 
-    @EJB
-    private Observation observationBean;
+    @Inject
+    private Observation observationEJB; //EJB-beans have EJB in their name by convention
 
     @Inject
-    private CategoryManagedBean categoryBean;
+    private CategorySelectionManagedBean categoryBean; //Managedbeans have Bean in their name by convention
+    
+    @Inject
+    private Session sessionBean;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
@@ -87,6 +91,7 @@ public class SummaryManagedBean {
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get users browser timezone from session bean ?
         this.start = new Date(0);
         this.min = new Date(0);
+        this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
     }
@@ -229,10 +234,23 @@ public class SummaryManagedBean {
     private void createTimeline() {
         timeline = new TimelineModel();
 
-        List<RecordEntity> records = observationBean.getRecords();
+        SortedSet<Long> observations = sessionBean.getSessionObservationsIds();
+        
+        if(observations.isEmpty()) {
+            return;
+        }
+        
+        /*
+        * TODO: SortedSet offers first-method to return first element in the set
+        * What if there are more observations?
+        */
+        Long observationId = observations.first();
+        
+        List<RecordEntity> records = observationEJB.findRecords(observationId);
+        LOGGER.debug("Records-size ->" + records.size());
         List<CategorySet> categorySets = categoryBean.getCategorySets();
 
-        this.max = new Date((long) (observationBean.getDuration() * 1.1));
+        this.max = new Date((long) (observationEJB.find(observationId).getDuration() * 1.1));
 
         // Add categories to timeline as timelinegroups
         int categoryNumber = 1;
@@ -253,7 +271,7 @@ public class SummaryManagedBean {
 
         // Add records to timeline as timeline-events
         for (RecordEntity record : records) {
-            String category = record.getCategory();
+            String category = record.getCategory().getLabel().getLabel();
             long startTime = record.getStartTime();
             long endTime = record.getEndTime();
             TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),

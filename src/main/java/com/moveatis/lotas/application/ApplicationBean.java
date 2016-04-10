@@ -35,7 +35,8 @@ import javax.persistence.PersistenceContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import com.moveatis.lotas.interfaces.Application;
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.roles.SuperUserRoleEntity;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,21 +71,5 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
     public boolean checkInstalled() {
         Date installed = super.find(1L).getApplicationInstalled();
         return installed != null;
-    }
-
-    @Override
-    public void addSuperUser(UserEntity superUser) {
-        this.applicationEntity = super.find(1L);
-        if(!checkInstalled()) {
-            return;
-        }
-        List<UserEntity> superusers = this.applicationEntity.getSuperUsers();
-        if(superusers == null) {
-            superusers = new ArrayList<>();
-        }
-        superusers.add(superUser);
-        this.applicationEntity.setSuperUsers(superusers);
-        super.edit(this.applicationEntity);
-        
-    }    
+    }   
 }

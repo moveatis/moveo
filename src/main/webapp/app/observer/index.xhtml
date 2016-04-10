@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/WEB-INF/template.xhtml">
+
+            <ui:define name="title">#{msg.applicationTitle} - #{msg.obs_title}</ui:define>
+
+            <ui:define name="mainpage">
+                <script>
+                    var initial_time = 0;
+                    var initial_category_data = [
+                    <ui:repeat value="#{categoryBean.categorySets}" var="categorySet">
+                        {name: "#{categorySet.name}", categories: [
+                        <ui:repeat value="#{categorySet.selectedCategories}" var="category">
+                            {name: "#{category}", initial_time: 0},
+                        </ui:repeat>
+                        ]},
+                    </ui:repeat>
+                    ];
+                </script>
+                
+                <h:outputStylesheet library="css" name="observer.css"/>
+                <h:outputScript library="primefaces" name="jquery/jquery.js" />
+                <h:outputScript library="js" name="observer.js"/>
+                
+                <div id="content">
+                    <div id="total-time" class="no-text-select"></div>
+                    <div id="controls">
+                        <div id="play" class="fa fa-play"></div>
+                        <div id="pause" class="fa fa-pause"></div>
+                        <div id="stop" class="fa fa-stop"></div>
+                    </div>
+                    <div id="category-list"></div>
+<!--                    <div id="stop-div">
+                        <p:commandButton value="Lopeta ja tallenna" id="stop-button" icon="fa fa-arrow-right"/>
+                    </div>-->
+                </div>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
