@@ -59,16 +59,29 @@ public class CategorySelectionManagedBean implements Serializable {
         private boolean selected;
         
         public Category(String name) {
-            this.name = name;
+            setName(name);
             this.selected = true;
         }
         
         public String getName() {
-            return name;
+             return name;
         }
         
         public void setName(String name) {
-            this.name = name;
+            // TODO: Where/how should we escape/validate everything?
+            StringBuilder validName = new StringBuilder();
+            for (int i = 0; i < name.length(); ) {
+                int codePoint = name.codePointAt(i);
+                if (Character.isLetterOrDigit(codePoint)) {
+                    validName.appendCodePoint(codePoint);
+                } else if (Character.isSpaceChar(codePoint)) {
+                    validName.append(' ');
+                }
+                i += Character.charCount(codePoint);
+            }
+            this.name = validName.toString().trim();
+            // this.name = StringEscapeUtils.escapeEcmaScript(name);
+            // this.name = name;
         }
         
         public boolean isSelected() {
