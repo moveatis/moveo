@@ -13,7 +13,7 @@
                 <script>
                     var initial_time = 0;
                     var initial_category_data = [
-                    <ui:repeat value="#{categorySelectionBean.categorySets}" var="categorySet">
+                    <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
                         {name: "#{categorySet.name}", categories: [
                         <ui:repeat value="#{categorySet.selectedCategories}" var="category">
                             {name: "#{category}", initial_time: 0},

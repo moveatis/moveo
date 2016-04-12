@@ -246,7 +246,7 @@ public class SummaryManagedBean {
         
         List<RecordEntity> records = observationEJB.findRecords(observationId);
         LOGGER.debug("Records-size ->" + records.size());
-        List<CategorySet> categorySets = categoryBean.getCategorySets();
+        List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
 
         this.max = new Date((long) (observationEJB.find(observationId).getDuration() * 1.1));
 

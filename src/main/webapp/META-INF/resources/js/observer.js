@@ -196,6 +196,12 @@ function Observer(initial_time, category_data) {
         }
     };
     
+    /**
+     * Private method that pauses observation.
+     * @param {type} this_
+     * @param {type} now Time in milliseconds.
+     * @returns {undefined}
+     */
     function pause(this_, now) {
         if (!this_.master_clock.isPaused()) {
             this_.master_clock.pause(now);
@@ -284,21 +290,8 @@ function Observer(initial_time, category_data) {
 
 $(document).ready(function() {
     // TODO: Error message if initial_time or initial_category_data not defined?
-    //       => No need for this default data!
     var time = initial_time || 0;
-    var category_data = initial_category_data || [
-        {name: "Opettajan toiminnot", categories: [
-            {name: "Järjestelyt", initial_time: 0},
-            {name: "Tehtävän selitys", initial_time: 0},
-            {name: "Ohjaus", initial_time: 0},
-            {name: "Palautteen anto", initial_time: 0},
-            {name: "Tarkkailu", initial_time: 0},
-            {name: "Muu toiminta", initial_time: 0}
-        ]},
-        {name: "Oppilaan toiminnot", categories: [
-            {name: "Oppilas suorittaa tehtävää", initial_time: 0}
-        ]}
-    ];
+    var category_data = initial_category_data || [];
     
     var observer = new Observer(time, category_data);
     

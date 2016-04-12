@@ -62,20 +62,14 @@ nav {
         display: table;
 }
 
-.dropDownMenuBlack {
-    color: black
-}
-
 .coloredButton {
     background: #ff6600;
-    opacity: 0.9;
     color: white;
 }
 
-a:link {text-decoration: none; color: black;}
-a:visited {text-decoration: none; color: black;}
-a:active {text-decoration: none; color: black;}
-a:hover {text-decoration: none; color: black;}
+.ui-panelmenu .ui-menuitem-text {
+    color: black;
+}
 
 @media screen and (max-width: 800px) {
     
