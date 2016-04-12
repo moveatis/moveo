@@ -213,6 +213,10 @@ public class CategorySelectionManagedBean implements Serializable {
             }
             return null;
         }
+        
+        public void remove(CategorySet categorySet) {
+            categorySets.remove(categorySet);
+        }
     }
     
     //
@@ -260,9 +264,9 @@ public class CategorySelectionManagedBean implements Serializable {
         privateCategorySets.add("Omat toiminnot 2", Arrays.asList(omatToiminnot2));
         
         categorySetsInUse = new CategorySetList();
-//        for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
-//            categorySetsInUse.addClone(categorySet);
-//        }
+        for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
+            categorySetsInUse.addClone(categorySet);
+        }
         categorySetsInUse.add("Muut", new ArrayList<String>());
     }
     
@@ -308,6 +312,10 @@ public class CategorySelectionManagedBean implements Serializable {
             if (categorySet != null) categorySetsInUse.addClone(categorySet);
             else LOGGER.debug("Selected private category set not found!");
         }
+    }
+    
+    public void removeCategorySet(CategorySet categorySet) {
+        categorySetsInUse.remove(categorySet);
     }
     
     private void addErrorMessage(String message) {

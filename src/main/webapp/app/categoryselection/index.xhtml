@@ -43,6 +43,8 @@
                         
                         <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
                         <div class="category-set">
+                            <p:commandButton icon="fa fa-remove" class="category-remove-button" style="float: right"
+                                             action="#{categorySelectionBean.removeCategorySet(categorySet)}" update="@form"/>
                             <h2>#{categorySet.name}</h2>
                             <ui:repeat value="#{categorySet.categories}" var="category">
                             <div class="category">
