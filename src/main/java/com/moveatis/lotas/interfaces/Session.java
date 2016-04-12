@@ -30,6 +30,8 @@
 package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.enums.SessionStatus;
+import com.moveatis.lotas.user.AbstractUser;
+import java.util.SortedSet;
 import javax.ejb.Local;
 
 /**
@@ -42,5 +44,9 @@ public interface Session {
     public SessionStatus setTagUser(String tag);
     public SessionStatus setIdentityProviderUser(String userName, String password);
     public SessionStatus setAnonymityUser();
+    public boolean isLoggedIn();
+    public SortedSet<Long> getSessionObservationsIds();
+    public void setSessionObservations(SortedSet<Long> observationsIds);
+    public AbstractUser getLoggedInUser();
     
 }

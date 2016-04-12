@@ -30,10 +30,12 @@
 package com.moveatis.lotas.application;
 
 import com.moveatis.lotas.category.CategoryEntity;
+import com.moveatis.lotas.category.CategoryGroupEntity;
 import com.moveatis.lotas.enums.ApplicationStatusCode;
 import com.moveatis.lotas.interfaces.Application;
+import com.moveatis.lotas.interfaces.Role;
 import com.moveatis.lotas.interfaces.User;
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import java.util.Calendar;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -51,6 +53,9 @@ public class InstallDevelEntitiesBean {
     @Inject
     private User userEJB;
     
+    @Inject
+    private Role roleEJB;
+    
     public InstallDevelEntitiesBean() {
         
     }
@@ -60,6 +65,7 @@ public class InstallDevelEntitiesBean {
         if(applicationEJB.find(1L) == null) {
             ApplicationEntity applicationEntity = new ApplicationEntity();
             applicationEntity.setApplicationInstalled(Calendar.getInstance().getTime());
+            applicationEntity.setBaseURL("/lotas/");
             applicationEJB.create(applicationEntity);
             
             if(applicationEJB.find(1L) == null) {
@@ -68,24 +74,33 @@ public class InstallDevelEntitiesBean {
         }
         
         userEJB.create(createRegularUser());
-        UserEntity superUser = createAdminUser();
+        IdentifiedUserEntity superUser = createAdminUser();
         userEJB.create(superUser);
-        applicationEJB.addSuperUser(superUser);
+        roleEJB.addSuperuserRoleToUser(superUser);
         
         return ApplicationStatusCode.INSTALLATION_OK;
     }
     
-    private UserEntity createRegularUser() {
-        UserEntity user = new UserEntity();
+    private void createDummyCategories() {
+        CategoryGroupEntity teacherGroupEntity = new CategoryGroupEntity();
+        teacherGroupEntity.setLabel("Opettajan toiminnot");
+        
+    }
+    
+    
+    private IdentifiedUserEntity createRegularUser() {
+        IdentifiedUserEntity user = new IdentifiedUserEntity();
         user.setFirstName("Taavi");
         user.setLastName("Testaaja");
+        user.setEmail("taavi.testaaja@jossain.fi");
         return user;
     }
 
-    private UserEntity createAdminUser() {
-        UserEntity admin = new UserEntity();
+    private IdentifiedUserEntity createAdminUser() {
+        IdentifiedUserEntity admin = new IdentifiedUserEntity();
         admin.setFirstName("Paavo");
         admin.setLastName("Paakayttaja");
+        admin.setEmail("paavo.paakayttaja@jossain.fi");
         return admin;
     }
     

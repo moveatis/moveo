@@ -29,10 +29,8 @@
  */
 package com.moveatis.lotas.event;
 
-import com.moveatis.lotas.eventkey.EventKeyEntity;
-import com.moveatis.lotas.records.RecordEntity;
+import com.moveatis.lotas.observation.ObservationEntity;
 import com.moveatis.lotas.user.AbstractUser;
-import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -44,22 +42,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="EVENTS")
+@Table(name="EVENT")
 @NamedQueries(
-        @NamedQuery(name="EventEntity.findByUser", query="SELECT event FROM EventEntity event WHERE event.owner = :user")
+        @NamedQuery(name="EventEntity.findByCreator", query="SELECT event FROM EventEntity event WHERE event.creator = :user")
 )
 public class EventEntity implements Serializable {
+
+    @ManyToOne
+    private EventGroupEntity eventGroup;
 
     private static final long serialVersionUID = 1L;
     
@@ -67,19 +66,20 @@ public class EventEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToOne
-    private EventGroupEntity basedOn;
-    
-    @NotNull
     @ManyToOne
-    private AbstractUser owner;
+    private AbstractUser creator;
         
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date created;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date removed;
     
-    @OneToOne(mappedBy = "eventEntity")
-    private EventKeyEntity eventKeyEntity;
+    @OneToMany(mappedBy = "event")
+    private Set<ObservationEntity> observations;
+    
+    private String description;
+    private String label;
 
     public Long getId() {
         return id;
@@ -89,22 +89,6 @@ public class EventEntity implements Serializable {
         this.id = id;
     }
 
-    public EventGroupEntity getBasedOn() {
-        return basedOn;
-    }
-
-    public void setBasedOn(EventGroupEntity basedOn) {
-        this.basedOn = basedOn;
-    }
-
-    public AbstractUser getOwner() {
-        return owner;
-    }
-
-    public void setOwner(UserEntity owner) {
-        this.owner = owner;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -112,13 +96,53 @@ public class EventEntity implements Serializable {
     public void setCreated(Date created) {
         this.created = created;
     }
-    
-    public EventKeyEntity getEventKeyEntity() {
-        return eventKeyEntity;
+
+    public EventGroupEntity getEventGroup() {
+        return eventGroup;
     }
 
-    public void setEventKeyEntity(EventKeyEntity eventKeyEntity) {
-        this.eventKeyEntity = eventKeyEntity;
+    public void setEventGroup(EventGroupEntity eventGroup) {
+        this.eventGroup = eventGroup;
+    }
+
+    public AbstractUser getCreator() {
+        return creator;
+    }
+
+    public void setCreator(AbstractUser creator) {
+        this.creator = creator;
+    }
+
+    public Date getRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(Date removed) {
+        this.removed = removed;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public Set<ObservationEntity> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(Set<ObservationEntity> observations) {
+        this.observations = observations;
     }
 
     @Override
@@ -130,20 +154,16 @@ public class EventEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof EventEntity)) {
             return false;
         }
         EventEntity other = (EventEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.scene.Scene[ id=" + id + " ]";
+        return "com.moveatis.lotas.event.EventEntity[ id=" + id + " ]";
     }
     
 }

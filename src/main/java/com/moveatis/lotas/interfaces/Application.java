@@ -30,7 +30,7 @@
 package com.moveatis.lotas.interfaces;
 
 import com.moveatis.lotas.application.ApplicationEntity;
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -56,7 +56,5 @@ public interface Application {
     int count();
     
     boolean checkInstalled();
-    
-    void addSuperUser(UserEntity superUser);
     
 }

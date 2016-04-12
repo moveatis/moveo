@@ -29,30 +29,22 @@
  */
 package com.moveatis.lotas.observation;
 
-import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.devel.ObservationFileOperations;
-import com.moveatis.lotas.interfaces.Category;
-import com.moveatis.lotas.timezone.TimeZoneInformation;
+import com.moveatis.lotas.enums.UserType;
 import com.moveatis.lotas.interfaces.AbstractBean;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.lotas.interfaces.Observation;
-import com.moveatis.lotas.interfaces.Scene;
-import com.moveatis.lotas.interfaces.Session;
-import com.moveatis.lotas.interfaces.User;
 import com.moveatis.lotas.records.RecordEntity;
-import com.moveatis.lotas.user.UserEntity;
 import java.io.Serializable;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.moveatis.lotas.repository.RepositoryDescriptorBean;
+import com.moveatis.lotas.session.SessionBean;
+import java.util.List;
 
 /**
  *
@@ -69,30 +61,18 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     * For development phase we use local file, not database
     */
     private ObservationFileOperations develFileOperations;
+    
+    @Inject
+    private SessionBean sessionBean;
+    
+    @EJB
+    private RepositoryDescriptorBean repositoryBean;
+    
+    private ObservationEntity observationEntity;
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
-    
-    @EJB
-    private Category categoryEJB;
-    
-    @EJB
-    private Scene sceneEJB;
-    
-    @EJB
-    private User userEJB;
-    
-    @Inject
-    private Session sessionBean;
-    
-    private GregorianCalendar calendar;
-    
-    private ObservationEntity observation;
-    private UserEntity user;
-    
-    
-    
-
+        
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -102,74 +82,22 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         super(ObservationEntity.class);
     }
     
-    @PostConstruct
-    public void initialize() {
-        calendar = (GregorianCalendar) Calendar.getInstance(TimeZoneInformation.getTimeZone());
-        develFileOperations = new ObservationFileOperations();
-        
-        //For devel-phase there is just one user
-        user = userEJB.find(1L);
-        if(user == null) {
-            user = new UserEntity();
-            userEJB.create(user);
-        }
-        
-        LOGGER.debug("Sessionbean returns following information ->" + sessionBean.toString());
-    }
-
     @Override
-    public void categorizedObservationActivated(String categoryLabel) {
-        ObservationEntity observationEntity = new ObservationEntity();
-        
-        observationEntity.setCreated((Date) calendar.getTime());
-        
-        CategoryEntity category = categoryEJB.find(categoryLabel);
-        if(category == null) {
-            category = new CategoryEntity();
-            category.setLabel(categoryLabel);
-            category.setCreated((Date) calendar.getTime());
+    public void create(ObservationEntity observationEntity) {
+        if(sessionBean.getUserType() == UserType.ANONYMITY_USER || sessionBean.getUserType() == UserType.TAG_USER ) {
+            /*
+            * TODO: Create observationentity to repository, not database
+            */
+            super.create(observationEntity);
+        } else if(sessionBean.getUserType() == UserType.IDENTIFIED_USER) {
+            super.create(observationEntity);
         }
     }
 
     @Override
-    public void categorizedObservationDeactivated(String category) {
-        
-    }
-    
-    @Override
-    public void setDate(java.util.Date date) {
-        develFileOperations.writeDate(date);
-    }
-    
-    @Override
-    public java.util.Date getDate() {
-        return develFileOperations.readDate();
-    }
-    
-    @Override
-    public void setDuration(long duration) {
-        develFileOperations.writeDuration(duration);
-    }
-    
-    @Override
-    public long getDuration() {
-        return develFileOperations.readDuration();
-    }
-
-    @Override
-    public void addRecord(RecordEntity recordEntity) {
-        
-        develFileOperations.write(recordEntity);
-        
-        LOGGER.debug("Category -> " + recordEntity.getCategory());
-        LOGGER.debug("Start time -> " + recordEntity.getStartTime());
-        LOGGER.debug("End time -> " + recordEntity.getEndTime());
-        
-        LOGGER.debug("addRecord lopetettu");
-    }
-
-    @Override
-    public List<RecordEntity> getRecords() {
-        return develFileOperations.read();
+    public List<RecordEntity> findRecords(Object id) {
+        observationEntity = em.find(ObservationEntity.class, id);
+        LOGGER.debug("observation-entity records size ->" + observationEntity.getRecords().size());
+        return observationEntity.getRecords();
     }
 }

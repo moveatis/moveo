@@ -21,9 +21,8 @@ docker start -a -i moveatis-wildfly 2>/dev/null # Virheilmoitukset bittitaivaise
 # Luetaan virheilmoitus, jos wildlfy-imagea ei vielä löydy
 if [ $? -ne 0 ]; then
     docker create --privileged=true -it -p 8080:8080 -p 8787:8787 -p 9990:9990 --name moveatis-wildfly --link moveatis-db:lotasdb -v $polku:/opt/wildfly/standalone/deployments -v $sahkopostienPolku:/opt/mails moveatis/moveatis-devel 2>/dev/null
-    wildflyCreated=true
-fi
-if [ $wildflyCreated ]; then
-    docker start -a -i moveatis-wildfly 2>/dev/null
+    if [ $? -eq 0 ]; then
+    	docker start -a -i moveatis-wildfly 2>/dev/null
+    fi
 fi
 

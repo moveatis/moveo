@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * @author Sami Kallio <phinalium at outlook.com>
  */
 @Stateless
-public class UserBean extends AbstractBean<UserEntity> implements User {
+public class UserBean extends AbstractBean<IdentifiedUserEntity> implements User {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserBean.class);
 
@@ -57,13 +57,13 @@ public class UserBean extends AbstractBean<UserEntity> implements User {
     }
 
     public UserBean() {
-        super(UserEntity.class);
+        super(IdentifiedUserEntity.class);
     }
 
     @Override
-    public UserEntity findByName(String firstName, String lastName) {
+    public IdentifiedUserEntity findByName(String firstName, String lastName) {
         try {
-            TypedQuery<UserEntity> user = em.createNamedQuery("findUserByName", UserEntity.class);
+            TypedQuery<IdentifiedUserEntity> user = em.createNamedQuery("findUserByName", IdentifiedUserEntity.class);
             return user.setParameter("firstName", firstName).setParameter("lastName", lastName)
                     .getSingleResult();
         }catch(NoResultException nre) {

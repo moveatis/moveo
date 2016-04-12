@@ -27,6 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.moveatis.lotas.user;
 
 import java.io.Serializable;
@@ -36,22 +37,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.Table;
+import javax.persistence.InheritanceType;
 
 /**
  *
- * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Sami Kallio <phinaliumz at outlook.>
  */
 @Entity
-@Inheritance
+@Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="USER_TYPE")
-@Table(name="USERS")
 public abstract class AbstractUser implements Serializable {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
+    protected Long id;
+
     public Long getId() {
         return this.id;
     }
@@ -69,20 +69,15 @@ public abstract class AbstractUser implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof AbstractUser)) {
             return false;
         }
         AbstractUser other = (AbstractUser) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "com.moveatis.lotas.user.AbstractUser[ id=" + id + " ]";
     }
-    
 }

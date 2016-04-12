@@ -173,7 +173,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </dependencies>
 
     <build>
-        <!-- Not yet working properly, will be needed for Openshift Postgresql connection -->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

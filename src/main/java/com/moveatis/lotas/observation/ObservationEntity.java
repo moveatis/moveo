@@ -31,11 +31,15 @@ package com.moveatis.lotas.observation;
 
 import com.moveatis.lotas.records.RecordEntity;
 import com.moveatis.lotas.event.EventEntity;
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.user.AbstractUser;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +53,7 @@ import javax.persistence.TemporalType;
  *
  * @author Sami Kallio <phinaliumz at outlook.>
  */
-@Table(name="OBSERVATIONS")
+@Table(name="OBSERVATION")
 @Entity
 public class ObservationEntity implements Serializable {
 
@@ -60,13 +64,21 @@ public class ObservationEntity implements Serializable {
     private Long id;
     
     @ManyToOne
-    private UserEntity user;
+    private AbstractUser observer;
+    
+    @ManyToOne
+    private EventEntity event;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     
-    @OneToMany(mappedBy = "observation")
+    @OneToMany(mappedBy = "observation", fetch=FetchType.EAGER)
     private List<RecordEntity> records;
+    
+    private long duration;
+    
+    private String description;
+    private String name;
     
     public Long getId() {
         return id;
@@ -80,16 +92,32 @@ public class ObservationEntity implements Serializable {
         return records;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public AbstractUser getObserver() {
+        return observer;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setObserver(AbstractUser observer) {
+        this.observer = observer;
+    }
+
+    public EventEntity getEvent() {
+        return event;
+    }
+
+    public void setEvent(EventEntity event) {
+        this.event = event;
     }
 
     public void setRecords(List<RecordEntity> records) {
         this.records = records;
+    }
+    
+    public void addRecord(RecordEntity record) {
+        if(this.getRecords() == null) {
+            this.records = new ArrayList<>();
+        }
+        getRecords().add(record);
+        record.setObservation(this);
     }
 
     public Date getCreated() {
@@ -98,6 +126,30 @@ public class ObservationEntity implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -109,15 +161,11 @@ public class ObservationEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ObservationEntity)) {
             return false;
         }
         ObservationEntity other = (ObservationEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

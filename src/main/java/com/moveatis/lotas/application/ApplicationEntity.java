@@ -29,7 +29,7 @@
  */
 package com.moveatis.lotas.application;
 
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.roles.SuperUserRoleEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,7 +61,9 @@ public class ApplicationEntity implements Serializable {
     private Date applicationInstalled;
     
     @OneToMany
-    private List <UserEntity> superUsers;
+    private List<SuperUserRoleEntity> superUsers;
+    
+    private String baseURL;
 
     public Long getId() {
         return id;
@@ -71,14 +73,14 @@ public class ApplicationEntity implements Serializable {
         this.id = id;
     }
 
-    public List<UserEntity> getSuperUsers() {
+    public List<SuperUserRoleEntity> getSuperUsers() {
         if(superUsers == null) {
             superUsers = new ArrayList<>();
         }
         return superUsers;
     }
 
-    public void setSuperUsers(List<UserEntity> superUsers) {
+    public void setSuperUsers(List<SuperUserRoleEntity> superUsers) {
         this.superUsers = superUsers;
     }
 
@@ -88,6 +90,14 @@ public class ApplicationEntity implements Serializable {
 
     public void setApplicationInstalled(Date applicationInstalled) {
         this.applicationInstalled = applicationInstalled;
+    }
+
+    public String getBaseURL() {
+        return baseURL;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
     }
     
     @Override
@@ -99,15 +109,11 @@ public class ApplicationEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ApplicationEntity)) {
             return false;
         }
         ApplicationEntity other = (ApplicationEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

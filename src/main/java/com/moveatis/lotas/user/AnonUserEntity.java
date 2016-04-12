@@ -30,15 +30,83 @@
 package com.moveatis.lotas.user;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
+@Table(name="PUBLIC_USER")
 public class AnonUserEntity extends AbstractUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date created;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date removed;
+    
+    @ManyToOne
+    private IdentifiedUserEntity creator;
+    
+    private String label;
+    
+    public Date getCreated() {
+        return created;
+    }
 
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(Date removed) {
+        this.removed = removed;
+    }
+
+    public IdentifiedUserEntity getCreator() {
+        return creator;
+    }
+
+    public void setCreator(IdentifiedUserEntity creator) {
+        this.creator = creator;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof AnonUserEntity)) {
+            return false;
+        }
+        AnonUserEntity other = (AnonUserEntity) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
+    @Override
+    public String toString() {
+        return "com.moveatis.lotas.user.AnonUserEntity[ id=" + id + " ]";
+    }
 }

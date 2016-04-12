@@ -29,7 +29,7 @@
  */
 package com.moveatis.lotas.identityprovider.spi;
 
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 
 /**
  *
@@ -37,7 +37,7 @@ import com.moveatis.lotas.user.UserEntity;
  */
 public interface IdentityProvider {
     
-    public UserEntity getUserEntity();
+    public IdentifiedUserEntity getUserEntity();
     public String getServiceProviderName();
     public void setServiceProviderName(String name);
 }

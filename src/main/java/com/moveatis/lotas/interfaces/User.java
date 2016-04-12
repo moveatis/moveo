@@ -29,7 +29,7 @@
  */
 package com.moveatis.lotas.interfaces;
 
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -40,19 +40,19 @@ import javax.ejb.Local;
 @Local(User.class)
 public interface User {
 
-    void create(UserEntity userEntity);
+    void create(IdentifiedUserEntity userEntity);
 
-    void edit(UserEntity userEntity);
+    void edit(IdentifiedUserEntity userEntity);
 
-    void remove(UserEntity userEntity);
+    void remove(IdentifiedUserEntity userEntity);
 
-    UserEntity find(Object id);
+    IdentifiedUserEntity find(Object id);
     
-    UserEntity findByName(String firstName, String lastName);
+    IdentifiedUserEntity findByName(String firstName, String lastName);
 
-    List<UserEntity> findAll();
+    List<IdentifiedUserEntity> findAll();
 
-    List<UserEntity> findRange(int[] range);
+    List<IdentifiedUserEntity> findRange(int[] range);
 
     int count();
     

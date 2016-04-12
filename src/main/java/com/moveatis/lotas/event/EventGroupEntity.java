@@ -30,8 +30,10 @@
 package com.moveatis.lotas.event;
 
 import com.moveatis.lotas.category.CategoryGroupEntity;
+import com.moveatis.lotas.groupkey.GroupKeyEntity;
 import com.moveatis.lotas.user.AbstractUser;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,14 +41,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="EVENTGROUPS")
+@Table(name="EVENTGROUP")
 public class EventGroupEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,13 +59,28 @@ public class EventGroupEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
-    private AbstractUser owner;
-    @ManyToOne
-    private AbstractUser user;
+    @OneToMany(mappedBy = "eventGroupEntity")
+    private Set<CategoryGroupEntity> categoryGroups;
     
     @OneToMany(mappedBy = "eventGroup")
-    private Set<CategoryGroupEntity> categories;
+    private Set<EventEntity> events;
+    
+    @OneToOne
+    private GroupKeyEntity groupKey;
+    
+    @ManyToOne
+    private AbstractUser owner;
+    
+    @OneToMany
+    private Set<AbstractUser> users;
+    
+    private String label;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date created;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date removed;
+    
 
     public Long getId() {
         return id;
@@ -69,13 +88,6 @@ public class EventGroupEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
     }
 
     public AbstractUser getOwner() {
@@ -86,30 +98,81 @@ public class EventGroupEntity implements Serializable {
         this.owner = owner;
     }
 
-    public AbstractUser getUser() {
-        return user;
+    public Set<AbstractUser> getUsers() {
+        return users;
     }
 
-    public void setUser(AbstractUser user) {
-        this.user = user;
+    public void setUsers(Set<AbstractUser> users) {
+        this.users = users;
+    }
+
+    public Set<CategoryGroupEntity> getCategoryGroups() {
+        return categoryGroups;
+    }
+
+    public void setCategoryGroups(Set<CategoryGroupEntity> categoryGroups) {
+        this.categoryGroups = categoryGroups;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(Date removed) {
+        this.removed = removed;
+    }
+
+    public Set<EventEntity> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<EventEntity> events) {
+        this.events = events;
+    }
+
+    public GroupKeyEntity getGroupKey() {
+        return groupKey;
+    }
+
+    public void setGroupKey(GroupKeyEntity groupKey) {
+        this.groupKey = groupKey;
     }
 
     @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+    
+    @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof EventGroupEntity)) {
             return false;
         }
         EventGroupEntity other = (EventGroupEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.scene.SceneTemplate[ id=" + id + " ]";
+        return "com.moveatis.lotas.scene.EventGroupEntity[ id=" + id + " ]";
     }
     
 }

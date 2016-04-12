@@ -34,10 +34,14 @@ import com.moveatis.lotas.enums.UserType;
 import com.moveatis.lotas.interfaces.Application;
 import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.interfaces.User;
-import com.moveatis.lotas.user.UserEntity;
+import com.moveatis.lotas.user.AbstractUser;
+import com.moveatis.lotas.user.IdentifiedUserEntity;
 import java.io.Serializable;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +50,7 @@ import org.slf4j.LoggerFactory;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @SessionScoped
+@Named
 public class SessionBean implements Serializable, Session  {
     
     private static final long serialVersionUID = 1L;
@@ -59,9 +64,11 @@ public class SessionBean implements Serializable, Session  {
     private UserType userType;
     private String tag;
     
-    private UserEntity userEntity;
+    private SortedSet<Long> sessionObservations;
     
-    private Boolean loggedIn = false;
+    private IdentifiedUserEntity userEntity;
+    
+    private boolean loggedIn = false;
     
     public SessionBean() {
         
@@ -85,6 +92,7 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public SessionStatus setAnonymityUser() {
         userType = UserType.ANONYMITY_USER;
+        this.loggedIn = true;
         return SessionStatus.USER_OK;
         
     }
@@ -104,21 +112,31 @@ public class SessionBean implements Serializable, Session  {
         return userType;
     }
 
-    public void setUserEntity(UserEntity user) {
-        this.userEntity = user;
-    }
-
-    public Boolean isLoggedIn() {
+    @Override
+    public boolean isLoggedIn() {
         return loggedIn;
-    }
-
-    public void setIsLoggedIn(Boolean isLoggedIn) {
-        this.loggedIn = isLoggedIn;
     }
     
     @Override
     public String toString() {
         return "SessionBean: userType -> " + getUserType() + ", loggedIn -> " + isLoggedIn();
     }
-        
+
+    @Override
+    public SortedSet<Long> getSessionObservationsIds() {
+        if(this.sessionObservations == null) {
+            return new TreeSet<>();
+        }
+        return this.sessionObservations;
+    }
+
+    @Override
+    public void setSessionObservations(SortedSet<Long> observationsIds) {
+        this.sessionObservations = observationsIds;
+    }        
+
+    @Override
+    public AbstractUser getLoggedInUser() {
+        return this.userEntity;
+    }
 }

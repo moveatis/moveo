@@ -189,7 +189,7 @@ public class ObservationFileOperations {
     }
     
     public void write(RecordEntity record) {
-        writeObject(record, record.getCategory() + random.nextInt() + ".dat");
+        writeObject(record, record.getCategory().getLabel().getLabel() + random.nextInt() + ".dat");
     }
     
     public List<RecordEntity> read() {

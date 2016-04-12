@@ -29,16 +29,23 @@
  */
 package com.moveatis.lotas.restful;
 
-import com.moveatis.lotas.enums.UserType;
+import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.interfaces.Category;
+import com.moveatis.lotas.interfaces.Label;
 import com.moveatis.lotas.interfaces.Observation;
+import com.moveatis.lotas.interfaces.Record;
+import com.moveatis.lotas.interfaces.Session;
+import com.moveatis.lotas.label.LabelEntity;
+import com.moveatis.lotas.observation.ObservationEntity;
 import com.moveatis.lotas.records.RecordEntity;
-import com.moveatis.lotas.session.SessionBean;
 import java.io.Serializable;
 import java.io.StringReader;
-import java.util.Date;
-import javax.ejb.EJB;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.SortedSet;
 import javax.ejb.Stateful;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -47,7 +54,6 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -73,39 +79,44 @@ public class RecordListenerBean implements Serializable {
     @Context
     private HttpServletRequest httpRequest;
     
-    private SessionBean sessionBean;
+    @Inject
+    private Session sessionBean;
     
-    @EJB
+    private ObservationEntity observationEntity;
+    
+    @Inject
     private Observation observationEJB;
-    
-    @EJB
+    @Inject
+    private Record recordEJB;
+    @Inject
     private Category categoryEJB;
+    @Inject
+    private Label labelEJB;
     
     public RecordListenerBean() {
         
     }
     
-    @POST
-    @Path("addrecord")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String addRecord(RecordEntity record) {
-        
-        sessionBean = getSessionBean();
-        
-        observationEJB.addRecord(record);
-
-        return "Data received ok";
-    }
-    
+    /*
+    * Do we actually need this at all?
+    */
     @POST
     @Path("startobservation")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public String startObservation(String data) {
         LOGGER.debug(data);
-        observationEJB.setDate(new Date());
-        return "Observatoin started";
+        return "success";
+    }
+    
+    /*
+    * TODO: Needs work - what to do when keep-alive request is commenced?
+    */
+    @POST
+    @Path("keepalive")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String keepAlive() {
+        return "keep-alive";
     }
     
     @POST
@@ -114,7 +125,8 @@ public class RecordListenerBean implements Serializable {
     @Produces(MediaType.TEXT_PLAIN)
     public String addObservationData(String data) {
         
-        sessionBean = getSessionBean();
+        observationEntity = new ObservationEntity();
+        observationEntity.setCreated(Calendar.getInstance().getTime());
         
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
@@ -123,51 +135,44 @@ public class RecordListenerBean implements Serializable {
         JsonArray array = jObject.getJsonArray("data");
         jsonReader.close();
         
-        observationEJB.setDuration(duration.longValue());
-        
-        for (int i = 0; i < array.size(); i++) {
-            JsonObject object = array.getJsonObject(i);
-            RecordEntity record = new RecordEntity();
-            
-            /*if(categoryEJB.find(object.getString("category")) != null) {
-                record.setCategory(categoryEJB.find(object.getString("category")));
-            }*/
-                       
-            record.setCategory(object.getString("category"));
-            record.setStartTime(object.getJsonNumber("startTime").longValue());
-            record.setEndTime(object.getJsonNumber("endTime").longValue());
-            
-            observationEJB.addRecord(record);
+        observationEntity.setDuration(duration.longValue());
+
+        try {
+            for (int i = 0; i < array.size(); i++) {
+                JsonObject object = array.getJsonObject(i);
+                RecordEntity record = new RecordEntity();
+                /*
+                * Wont work yet
+                */
+                //record.setCategory(categoryEJB.find(object.getJsonNumber("categoryId").longValue()));
+                CategoryEntity categoryEntity = new CategoryEntity();
+                LabelEntity labelEntity = new LabelEntity();
+                labelEntity.setLabel(object.getJsonString("category").getString());
+                
+                categoryEntity.setLabel(labelEntity);
+                
+                labelEJB.create(labelEntity);
+                categoryEJB.create(categoryEntity);
+                
+                record.setCategory(categoryEntity);
+                
+                record.setStartTime(object.getJsonNumber("startTime").longValue());
+                record.setEndTime(object.getJsonNumber("endTime").longValue());
+
+                recordEJB.create(record);
+                observationEntity.addRecord(record);
+            }
+        } catch(Exception e) {
+            LOGGER.debug(e.toString());
+            return "failed";
         }
         
-        return "Data received ok";
-    }
-    
-    @POST
-    @Path("updaterecord")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String updateRecord() {
+        observationEJB.create(observationEntity);
         
-        sessionBean = getSessionBean();
-        return "ok";
-    }
-    
-    //For debug purposes
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String helloWorld() {
+        SortedSet<Long> observations = sessionBean.getSessionObservationsIds();
+        observations.add(observationEntity.getId());
+        sessionBean.setSessionObservations(observations);
         
-        sessionBean = getSessionBean();
-        
-        if(sessionBean.getUserType() == UserType.IDENTIFIED_USER) {
-            return "You are identified, output will be saved to database";
-        } else {
-            return "You are not identified, output will not be saved to database";
-        }
-    }
-    
-    private SessionBean getSessionBean() {
-        return (SessionBean)httpRequest.getSession().getAttribute("sessionBean");
+        return "success";
     }
 }

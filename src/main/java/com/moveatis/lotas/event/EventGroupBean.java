@@ -33,14 +33,14 @@ import com.moveatis.lotas.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.moveatis.lotas.interfaces.SceneTemplate;
+import com.moveatis.lotas.interfaces.EventTemplate;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
-public class EventGroupBean extends AbstractBean<EventGroupEntity> implements SceneTemplate {
+public class EventGroupBean extends AbstractBean<EventGroupEntity> implements EventTemplate {
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;

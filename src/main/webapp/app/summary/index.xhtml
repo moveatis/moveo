@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:body>
+        <ui:composition template="/WEB-INF/template.xhtml">
+
+            <ui:define name="title">#{msg.applicationTitle} - #{msg.sum_title}</ui:define>
+
+            <ui:define name="mainpage">
+
+                <h:outputStylesheet library="css" name="summary.css"/>
+                <h:outputStylesheet library="css" name="timeline.css"/>
+                <h:outputStylesheet library="primefaces" name="grid/grid.css"/>
+                <h:outputScript library="primefaces" name="jquery/jquery.js" />
+
+                <p:growl id="growl" widgetVar="growlWdgt" severity="info" showDetail="true" sticky="true" escape="false" />
+
+                <div class="background">
+                    <div id="details" class="inline-bar content">
+                        <div class="header-left"><h2>#{summaryBean.observationName}</h2></div>
+                        <div class="inline-bar align-bar">
+                            <div>
+                                <div id="total-records" class="total"></div>
+                                <div><span>#{msg.sum_totalRecordings}</span></div>
+                            </div>
+                            <div>
+                                <div id="total-duration" class="total"></div>
+                                <div><span>#{msg.sum_duration}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-fluid">
+                    <h3 class="recordsHeader">#{msg.sum_recordings}</h3>
+
+                    <h:form styleClass="actions-form">
+                        <p:commandButton value="#{msg.sum_sendMail}" id="mailButton" icon="fa fa-envelope-o"
+                                         onclick="PF('dlgMail').show();"/>
+                        <p:commandButton value="#{msg.sum_save}" id="saveButton" icon="fa fa-save"
+                                         onclick="PF('dlgSave').show();"/>
+                    </h:form>
+                    <p:dialog header="#{msg.sum_mailDialogHeader}"
+                              widgetVar="dlgMail"
+                              position="top"
+                              draggable="false"
+                              resizable="false"
+                              responsive="true"
+                              modal="true"
+                              fitViewport="true"
+                              styleClass="coloredButton">
+                        <h:form styleClass="dialog-form">
+                            <p:inputText id="input-name"
+                                         value="#{summaryBean.observationName}"
+                                         placeholder="#{msg.sum_observationName}"/>
+                            <p:inputText id="input-target"
+                                         value="#{summaryBean.observationTarget}"
+                                         placeholder="#{msg.sum_observationTarget}"/>
+                            <p:inputTextarea id="input-description"
+                                             value="#{summaryBean.observationDescription}"
+                                             placeholder="#{msg.sum_observationDescription}"
+                                             rows="6" cols="33" autoResize="true" />
+                            <h:outputText value="#{msg.sum_giveEmail}"/>
+                            <p:inputText id="input-email"
+                                         placeholder="#{msg.sum_emailAddress}" />
+                            <p:commandButton value="#{msg.sum_sendMail}" icon="ui-icon-check"
+                                             onclick="PF('dlgMail').hide();"
+                                             actionListener="#{buttonView.buttonAction}" />
+                        </h:form>
+                    </p:dialog>
+                    <p:dialog header="#{msg.sum_saveDialogHeader}"
+                              widgetVar="dlgSave"
+                              position="top"
+                              draggable="false"
+                              resizable="false"
+                              responsive="true"
+                              modal="true"
+                              fitViewport="true"
+                              styleClass="coloredButton">
+                        <h:form styleClass="dialog-form">
+                            <p:inputText id="input-name"
+                                         value="#{summaryBean.observationName}"
+                                         placeholder="#{msg.sum_observationName}"/>
+                            <p:inputText id="input-target"
+                                         value="#{summaryBean.observationTarget}"
+                                         placeholder="#{msg.sum_observationTarget}"/>
+                            <p:inputTextarea id="input-description"
+                                             value="#{summaryBean.observationDescription}"
+                                             placeholder="#{msg.sum_observationDescription}"
+                                             rows="6" cols="33" autoResize="true" />
+                            <p:commandButton value="#{msg.sum_save}" icon="ui-icon-check"
+                                             onclick="PF('dlgSave').hide();"
+                                             actionListener="#{buttonView.buttonAction}"/>
+                        </h:form>
+                    </p:dialog>
+                </div>
+
+
+                <div id="observation-info" class="ui-fluid">
+                    <div class="ui-grid ui-grid-responsive-260">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-5">#{msg.sum_category}</div>
+                            <div class="ui-grid-col-2">#{msg.sum_number}</div>
+                            <div class="ui-grid-col-1"/>
+                            <div class="ui-grid-col-2">#{msg.sum_duration}</div>
+                            <div class="ui-grid-col-1"/>
+                        </div>
+                    </div>
+                    <div id="records" class="ui-grid ui-grid-responsive-260 background"/>
+                </div>
+                <div class="timelineControls">
+                    <div>
+                        <span>#{msg.sum_timeFrame} </span>
+                        <p:inputMask id="input-rangeStart"
+                                     mask="99:99:99" autocomplete="false"
+                                     size="6" placeholder="hh:mm:ss">
+                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                            <p:clientValidator event="keyup"/>
+                        </p:inputMask>
+                        <span> - </span>
+                        <p:inputMask id="input-rangeEnd"
+                                     mask="99:99:99" autocomplete="false"
+                                     size="6" placeholder="hh:mm:ss">
+                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                            <p:clientValidator event="keyup"/>
+                        </p:inputMask>
+                    </div>
+                    <div class="zoomControl">
+                        <span>#{msg.sum_zoom} </span>
+                        <a id="button-zoom-out" class="fa fa-search-minus" title="#{msg.sum_zoomOut}"></a>
+                        <a id="button-zoom-in" class="fa fa-search-plus" title="#{msg.sum_zoomIn}"></a>
+                    </div>
+                </div>
+
+                <pe:timeline id="timeline" widgetVar="timelineWdgt"
+                             value="#{summaryBean.timeline}"
+                             locale="#{summaryBean.locale}"
+                             timeZone="#{summaryBean.serverTimeZone}"
+                             browserTimeZone="#{summaryBean.browserTimeZone}"
+                             min="#{summaryBean.min}"
+                             max="#{summaryBean.max}"
+                             start="#{summaryBean.start}"
+                             zoomMin="#{summaryBean.zoomMin}"
+                             zoomMax="#{summaryBean.zoomMax}"
+                             selectable="true"
+                             zoomable="true"
+                             moveable="true"
+                             animate="false"
+                             animateZoom="false"
+                             axisOnTop="true"
+                             groupsOrder="false"
+                             groupsChangeable="false"
+                             groupMinHeight="16"
+                             editable="false"
+                             timeChangeable="true"
+                             showCurrentTime="false"
+                             showMajorLabels="false"
+                             stackEvents="false"
+                             eventMarginAxis="0"
+                             eventMargin="16">
+                </pe:timeline>
+                <h:outputScript>
+                    var SummaryIndex = {
+                    getObservationDuration: function () {
+                    return #{summaryBean.observationDuration};
+                    },
+                    getMessages: function (){
+                    return msg = {
+                    sum_total: "#{msg.sum_total}",
+                    sum_begin: "#{msg.sum_begin}",
+                    sum_end: "#{msg.sum_end}",
+                    sum_duration: "#{msg.sum_duration}"
+                    };
+                    },
+                    };
+                </h:outputScript>
+                <h:outputScript library="js" name="summary.js"/>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
