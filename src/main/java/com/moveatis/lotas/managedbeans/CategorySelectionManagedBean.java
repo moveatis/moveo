@@ -50,11 +50,10 @@ import com.moveatis.lotas.interfaces.MessageBundle;
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
 @Named(value = "categorySelectionBean")
-//@ManagedBean(name="categoryBean") //bean needs to be ManagedBean in order to ManagedProperty to work
 @SessionScoped
 public class CategorySelectionManagedBean implements Serializable {
     
-    public class Category {
+    public static class Category {
         private String name;
         private boolean selected;
         
@@ -67,7 +66,7 @@ public class CategorySelectionManagedBean implements Serializable {
              return name;
         }
         
-        public void setName(String name) {
+        public final void setName(String name) {
             // TODO: Where/how should we escape/validate everything?
             StringBuilder validName = new StringBuilder();
             for (int i = 0; i < name.length(); ) {
@@ -91,11 +90,18 @@ public class CategorySelectionManagedBean implements Serializable {
         public void setSelected(boolean selected) {
             this.selected = selected;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null) return false;
+            Category category = (Category)o;
+            return name.equals(category.name);
+        }
     }
     
-    public class CategorySet {
+    public static class CategorySet {
         private String name;
-        private List<Category> categories;
+        private List<Category> categories = new ArrayList<>();
         
         public String getName() {
             return name;
@@ -117,14 +123,42 @@ public class CategorySelectionManagedBean implements Serializable {
             categories.add(new Category(category));
         }
         
-        public void addCategory() {
+        public void addEmpty() {
             categories.add(new Category(""));
-            LOGGER.debug("Added new category to set " + name);
         }
         
-        public void removeCategory(Category category) {
+        public void remove(Category category) {
             categories.remove(category);
-            LOGGER.debug("Removed category from set " + name);
+        }
+        
+        public boolean allCategoriesHaveUniqueName() {
+            for (int i = 0; i < categories.size(); i++) {
+                Category category = categories.get(i);
+                if (categories.lastIndexOf(category) != i) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        public boolean allCategoriesHaveNonEmptyName() {
+            for (int i = 0; i < categories.size(); i++) {
+                Category category = categories.get(i);
+                if (category.getName().isEmpty()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        public boolean atLeastOneCategorySelected() {
+            for (int i = 0; i < categories.size(); i++) {
+                Category category = categories.get(i);
+                if (category.isSelected()) {
+                    return true;
+                }
+            }
+            return false;
         }
         
         public List<String> getSelectedCategories() {
@@ -141,6 +175,50 @@ public class CategorySelectionManagedBean implements Serializable {
         }
     }
     
+    public static class CategorySetList {
+        private List<CategorySet> categorySets = new ArrayList<>();
+        
+        public List<CategorySet> getCategorySets() {
+            return categorySets;
+        }
+        
+        public void setCategorySets(List<CategorySet> categorySets) {
+            this.categorySets = categorySets;
+        }
+        
+        public void add(String name, List<String> categories) {
+            CategorySet categorySet = new CategorySet();
+            categorySet.setName(name);
+            for (String category : categories) {
+                categorySet.add(category);
+            }
+            categorySets.add(categorySet);
+        }
+        
+        public void addClone(CategorySet categorySet) {
+            CategorySet cloned = new CategorySet();
+            cloned.setName(categorySet.getName());
+            for (Category category : categorySet.getCategories()) {
+                cloned.add(category.getName());
+            }
+            categorySets.add(cloned);
+        }
+        
+        // TODO: Find by id? index? what?
+        public CategorySet find(String name) {
+            for (CategorySet categorySet : categorySets) {
+                if (categorySet.getName().equals(name)) {
+                    return categorySet;
+                }
+            }
+            return null;
+        }
+        
+        public void remove(CategorySet categorySet) {
+            categorySets.remove(categorySet);
+        }
+    }
+    
     //
     //
     //
@@ -148,13 +226,12 @@ public class CategorySelectionManagedBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySelectionManagedBean.class);
     private static final long serialVersionUID = 1L;
     
-    private List<CategorySet> categorySets;
+    private String selectedPublicCategorySet;
+    private String selectedPrivateCategorySet;
     
-    /*
-    * To Ilari:
-    * The bean has to be "ManagedBean", eg annotated @ManagedBean, now its CDI bean since
-    * its annotated as @Named.
-    */
+    private CategorySetList publicCategorySets;
+    private CategorySetList privateCategorySets;
+    private CategorySetList categorySetsInUse;
 
     @Inject @MessageBundle //created MessageBundle to allow resourcebundle injection to CDI beans
     private transient ResourceBundle messages;  //RequestBundle is not serializable (this bean is @SessionScoped) so it needs to be transient
@@ -167,8 +244,7 @@ public class CategorySelectionManagedBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        categorySets = new ArrayList<>();
-        
+        publicCategorySets = new CategorySetList();
         String[] opettajanToiminnot = {
             "Järjestelyt",
             "Tehtävän selitys",
@@ -177,45 +253,103 @@ public class CategorySelectionManagedBean implements Serializable {
             "Tarkkailu",
             "Muu toiminta"
         };
-        addCategorySet("Opettajan toiminnot", Arrays.asList(opettajanToiminnot));
-        
+        publicCategorySets.add("Opettajan toiminnot", Arrays.asList(opettajanToiminnot));
         String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
-        addCategorySet("Oppilaan toiminnot", Arrays.asList(oppilaanToiminnot));
+        publicCategorySets.add("Oppilaan toiminnot", Arrays.asList(oppilaanToiminnot));
         
-        addCategorySet("Muut", new ArrayList<String>());
-    }
-    
-    public void addCategorySet(String name, List<String> categories) {
-        CategorySet categorySet = new CategorySet();
-        categorySet.setName(name);
-        categorySet.setCategories(new ArrayList<Category>());
-        for (String category : categories) {
-            categorySet.add(category);
+        privateCategorySets = new CategorySetList();
+        String[] omatToiminnot1 = { "Tekee jotain 1", "Tekee jotain 2", "Tekee jotain 3" };
+        privateCategorySets.add("Omat toiminnot 1", Arrays.asList(omatToiminnot1));
+        String[] omatToiminnot2 = { "Tekee jotain muuta 1", "Tekee jotain muuta 2", "Tekee jotain muuta 3" };
+        privateCategorySets.add("Omat toiminnot 2", Arrays.asList(omatToiminnot2));
+        
+        categorySetsInUse = new CategorySetList();
+        for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
+            categorySetsInUse.addClone(categorySet);
         }
-        categorySets.add(categorySet);
+        categorySetsInUse.add("Muut", new ArrayList<String>());
     }
     
-    public List<CategorySet> getCategorySets() {
-        return categorySets;
+    public String getSelectedPublicCategorySet() {
+        return selectedPublicCategorySet;
     }
     
-    public String checkSelectedCategories() {
-        for (CategorySet categorySet : categorySets) {
-            List<String> selectedCategories = categorySet.getSelectedCategories();
-            if (!selectedCategories.isEmpty()) return "categoriesok";
+    public void setSelectedPublicCategorySet(String selectedPublicCategorySet) {
+        this.selectedPublicCategorySet = selectedPublicCategorySet;
+    }
+    
+    public String getSelectedPrivateCategorySet() {
+        return selectedPrivateCategorySet;
+    }
+    
+    public void setSelectedPrivateCategorySet(String selectedPrivateCategorySet) {
+        this.selectedPrivateCategorySet = selectedPrivateCategorySet;
+    }
+    
+    public List<CategorySet> getPublicCategorySets() {
+        return publicCategorySets.getCategorySets();
+    }
+    
+    public List<CategorySet> getPrivateCategorySets() {
+        return privateCategorySets.getCategorySets();
+    }
+    
+    public List<CategorySet> getCategorySetsInUse() {
+        return categorySetsInUse.getCategorySets();
+    }
+    
+    public void addPublicCategorySet() {
+        if (categorySetsInUse.find(selectedPublicCategorySet) == null) {
+            CategorySet categorySet = publicCategorySets.find(selectedPublicCategorySet);
+            if (categorySet != null) categorySetsInUse.addClone(categorySet);
+            else LOGGER.debug("Selected public category set not found!");
         }
-        
-        // NOTE: Managed property for messages doesn't work.
-        // FYI Ilari: Thats because this bean is not managedbean (eg @ManagedBean), its CDI bean (@Named)
-        // TODO: Does this method work in all situtations?
-        // Getting ResourceBundle based on this: http://stackoverflow.com/a/9434554
-        // Not needed anymore as there is MessageBundle injected
-        //ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        
+    }
+    
+    public void addPrivateCategorySet() {
+        if (categorySetsInUse.find(selectedPrivateCategorySet) == null) {
+            CategorySet categorySet = privateCategorySets.find(selectedPrivateCategorySet);
+            if (categorySet != null) categorySetsInUse.addClone(categorySet);
+            else LOGGER.debug("Selected private category set not found!");
+        }
+    }
+    
+    public void removeCategorySet(CategorySet categorySet) {
+        categorySetsInUse.remove(categorySet);
+    }
+    
+    private void addErrorMessage(String message) {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                                  messages.getString("dialogErrorTitle"),
-                                                  messages.getString("cs_errorNoneSelected")));
-        return "";
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
+    }
+    
+    private void addWarningMessage(String message) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, messages.getString("dialogWarningTitle"), message));
+    }
+    
+    public String checkCategories() {
+        boolean atLeastOneCategorySelected = false;
+        
+        for (CategorySet categorySet : categorySetsInUse.getCategorySets()) {
+            if (!categorySet.allCategoriesHaveUniqueName()) {
+                addErrorMessage(messages.getString("cs_errorNotUniqueCategories"));
+                return "";
+            }
+            if (!categorySet.allCategoriesHaveNonEmptyName()) {
+                addWarningMessage(messages.getString("cs_warningEmptyCategories"));
+                return ""; // TODO: Show confirmation or something and let user continue.
+            }
+            if (categorySet.atLeastOneCategorySelected()) {
+                atLeastOneCategorySelected = true;
+            }
+        }
+        
+        if (!atLeastOneCategorySelected) {
+            addErrorMessage(messages.getString("cs_errorNoneSelected"));
+            return "";
+        }
+        
+        return "categoriesok";
     }
 }
