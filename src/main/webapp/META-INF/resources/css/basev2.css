@@ -111,6 +111,10 @@ nav {
     display: none;
 }
 
+.ui-menu .ui-menu-parent .ui-icon-triangle-1-e {
+    display: none;
+}
+
 .naviButtons {
     display:table-cell;
     text-align: center;
@@ -129,7 +133,6 @@ nav {
 
 .coloredButton {
     background: #ff6600;
-    opacity: 0.9;
     color: white!important;
     font-size: 100%!important;
 }
@@ -218,7 +221,6 @@ a:hover {text-decoration: none; color: white;}
 
     .coloredButton {
         background: #ff6600;
-        opacity: 0.9;
     }
 
     .naviFooter {

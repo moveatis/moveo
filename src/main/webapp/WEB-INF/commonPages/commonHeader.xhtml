@@ -21,25 +21,25 @@ and open the template in the editor.
                     </f:facet>
                     
                     <p:submenu icon="fa fa-floppy-o">
-                        <p:menuitem value="Tallenna" url="#" class="coloredButton"/>
-                        <p:menuitem value="Lähetä" url="#" class="coloredButton"/>
+                        <p:menuitem value="Tallenna" icon="fa fa-cloud-upload" url="#" class="coloredButton"/>
+                        <p:menuitem value="Lähetä" icon="fa fa-envelope" url="#" class="coloredButton"/>
                     </p:submenu>
 
                     
                     <p:submenu icon="fa fa-user">
-                        <p:menuitem value="VL 1" url="#" class="coloredButton"/>
-                        <p:menuitem value="VL 2" url="#" class="coloredButton"/>
+                        <p:menuitem value="Hallintasivu" icon="fa fa-sitemap" url="/app/control/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="Pääkäyttäjäsivu" icon="fa fa-group" url="/app/superuser/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="Kirjaudu ulos" icon="fa fa-sign-out" url="/index.xhtml" class="coloredButton"/>
                     </p:submenu>
 
                     <p:submenu icon="fa fa-cogs">
-                        <p:menuitem value="Info" url="/app/info/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="Hallintasivu" url="/app/control/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="Pääkäyttäjäsivu" url="/app/superuser/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="Asetukset" url="/app/settings/index.xhtml" class="coloredButton"/>
-                        <p:separator />
-                        <p:separator />
-                        <p:separator />
-                        <p:menuitem value="Kirjaudu ulos" url="/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="Info" icon="fa fa-info" url="/app/info/index.xhtml" class="coloredButton"/>
+                        <p:submenu label="Kieliasetus" icon="fa fa-language" class="coloredButton">
+                            <p:menuitem value="suomi" icon="fa fa-flag-o" class="coloredButton" />
+                            <p:menuitem value="english" icon="fa fa-flag-checkered" class="coloredButton"/>
+                        </p:submenu>
+                        <p:menuitem value="Etusivulle" icon="fa fa-rotate-left" url="/index.xhtml" class="coloredButton"/>
+                        
                     </p:submenu>
                 </p:menubar>
             </h:form>
