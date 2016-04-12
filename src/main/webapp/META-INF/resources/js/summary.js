@@ -56,6 +56,7 @@ $(function () {
 
     $("#total-records").text(parseRecords(timeline.items, range).length);
     $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
+    $("#input-rangeEnd").val(convertMsToStr(OBSERVATION_DURATION));
     updateRecordsTable(timeline, range);
 
     // Timeline range selections

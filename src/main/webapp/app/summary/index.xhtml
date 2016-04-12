@@ -18,11 +18,19 @@
                 <h:outputStylesheet library="primefaces" name="grid/grid.css"/>
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
 
-                <p:growl id="growl" widgetVar="growlWdgt" severity="info" showDetail="true" sticky="true" escape="false" />
+                <div id="summary-content">
+                    <h:form styleClass="actions-form">
+                        <p:commandButton value="#{msg.sum_sendMail}" id="mailButton" icon="fa fa-envelope-o"
+                                         onclick="PF('dlgMail').show();"/>
+                        <p:commandButton value="#{msg.sum_save}" id="saveButton" icon="fa fa-save"
+                                         onclick="PF('dlgSave').show();"/>
+                    </h:form>
 
-                <div class="background">
-                    <div id="details" class="inline-bar content">
-                        <div class="header-left"><h2>#{summaryBean.observationName}</h2></div>
+                    <h1>#{summaryBean.observationName}</h1>
+
+                    <h2>#{msg.sum_title}</h2>
+
+                    <div class="inline-bar content">
                         <div class="inline-bar align-bar">
                             <div>
                                 <div id="total-records" class="total"></div>
@@ -33,17 +41,90 @@
                                 <div><span>#{msg.sum_duration}</span></div>
                             </div>
                         </div>
+                        <div class="inline-bar align-bar">
+                            <div class="timeframe">
+                                <div>
+                                    <p:inputMask id="input-rangeStart" value="00:00:00"
+                                                 mask="99:99:99" autocomplete="false"
+                                                 size="6" placeholder="hh:mm:ss"
+                                                 title="#{msg.sum_timeFrameTitle}">
+                                        <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                                        <p:clientValidator event="keyup"/>
+                                    </p:inputMask>
+                                </div>
+                                <div>
+                                    <span>#{msg.sum_timeFrameStart}</span>
+                                </div>
+                            </div>
+                            <div class="timeframe">
+                                <div>
+                                    <p:inputMask id="input-rangeEnd"
+                                                 mask="99:99:99" autocomplete="false"
+                                                 size="6" placeholder="hh:mm:ss"
+                                                 title="#{msg.sum_timeFrameTitle}">
+                                        <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
+                                        <p:clientValidator event="keyup"/>
+                                    </p:inputMask>
+                                </div>
+                                <div>
+                                    <span>#{msg.sum_timeFrameEnd}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="ui-fluid">
-                    <h3 class="recordsHeader">#{msg.sum_recordings}</h3>
 
-                    <h:form styleClass="actions-form">
-                        <p:commandButton value="#{msg.sum_sendMail}" id="mailButton" icon="fa fa-envelope-o"
-                                         onclick="PF('dlgMail').show();"/>
-                        <p:commandButton value="#{msg.sum_save}" id="saveButton" icon="fa fa-save"
-                                         onclick="PF('dlgSave').show();"/>
-                    </h:form>
+                <div id="recordings-details" class="ui-fluid">
+                    <h3>#{msg.sum_recordings}</h3>
+                    <div class="ui-grid ui-grid-responsive-320">
+                        <div class="ui-grid-row header-row">
+                            <div class="ui-grid-col-5">#{msg.sum_category}</div>
+                            <div class="ui-grid-col-2">#{msg.sum_number}</div>
+                            <div class="ui-grid-col-1"/>
+                            <div class="ui-grid-col-2">#{msg.sum_duration}</div>
+                            <div class="ui-grid-col-1"/>
+                        </div>
+                    </div>
+                    <div id="records" class="ui-grid ui-grid-responsive-320"/>
+                </div>
+
+                <pe:timeline id="timeline" widgetVar="timelineWdgt"
+                             value="#{summaryBean.timeline}"
+                             locale="#{summaryBean.locale}"
+                             timeZone="#{summaryBean.serverTimeZone}"
+                             browserTimeZone="#{summaryBean.browserTimeZone}"
+                             min="#{summaryBean.min}"
+                             max="#{summaryBean.max}"
+                             start="#{summaryBean.start}"
+                             zoomMin="#{summaryBean.zoomMin}"
+                             zoomMax="#{summaryBean.zoomMax}"
+                             selectable="true"
+                             zoomable="true"
+                             moveable="true"
+                             animate="false"
+                             animateZoom="false"
+                             axisOnTop="true"
+                             groupsOrder="false"
+                             groupsChangeable="false"
+                             groupMinHeight="16"
+                             editable="false"
+                             timeChangeable="true"
+                             showCurrentTime="false"
+                             showMajorLabels="false"
+                             stackEvents="false"
+                             eventMarginAxis="0"
+                             eventMargin="16">
+                </pe:timeline>
+
+                <div class="timelineControls">
+                    <div class="zoomControl">
+                        <span>#{msg.sum_zoom} </span>
+                        <a id="button-zoom-out" class="fa fa-search-minus" title="#{msg.sum_zoomOut}"></a>
+                        <a id="button-zoom-in" class="fa fa-search-plus" title="#{msg.sum_zoomIn}"></a>
+                    </div>
+                </div>
+
+                <div class="ui-fluid">
                     <p:dialog header="#{msg.sum_mailDialogHeader}"
                               widgetVar="dlgMail"
                               position="top"
@@ -99,70 +180,8 @@
                     </p:dialog>
                 </div>
 
+                <p:growl id="growl" widgetVar="growlWdgt" severity="info" showDetail="true" sticky="true" escape="false" />
 
-                <div id="observation-info" class="ui-fluid">
-                    <div class="ui-grid ui-grid-responsive-260">
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-5">#{msg.sum_category}</div>
-                            <div class="ui-grid-col-2">#{msg.sum_number}</div>
-                            <div class="ui-grid-col-1"/>
-                            <div class="ui-grid-col-2">#{msg.sum_duration}</div>
-                            <div class="ui-grid-col-1"/>
-                        </div>
-                    </div>
-                    <div id="records" class="ui-grid ui-grid-responsive-260 background"/>
-                </div>
-                <div class="timelineControls">
-                    <div>
-                        <span>#{msg.sum_timeFrame} </span>
-                        <p:inputMask id="input-rangeStart"
-                                     mask="99:99:99" autocomplete="false"
-                                     size="6" placeholder="hh:mm:ss">
-                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
-                            <p:clientValidator event="keyup"/>
-                        </p:inputMask>
-                        <span> - </span>
-                        <p:inputMask id="input-rangeEnd"
-                                     mask="99:99:99" autocomplete="false"
-                                     size="6" placeholder="hh:mm:ss">
-                            <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
-                            <p:clientValidator event="keyup"/>
-                        </p:inputMask>
-                    </div>
-                    <div class="zoomControl">
-                        <span>#{msg.sum_zoom} </span>
-                        <a id="button-zoom-out" class="fa fa-search-minus" title="#{msg.sum_zoomOut}"></a>
-                        <a id="button-zoom-in" class="fa fa-search-plus" title="#{msg.sum_zoomIn}"></a>
-                    </div>
-                </div>
-
-                <pe:timeline id="timeline" widgetVar="timelineWdgt"
-                             value="#{summaryBean.timeline}"
-                             locale="#{summaryBean.locale}"
-                             timeZone="#{summaryBean.serverTimeZone}"
-                             browserTimeZone="#{summaryBean.browserTimeZone}"
-                             min="#{summaryBean.min}"
-                             max="#{summaryBean.max}"
-                             start="#{summaryBean.start}"
-                             zoomMin="#{summaryBean.zoomMin}"
-                             zoomMax="#{summaryBean.zoomMax}"
-                             selectable="true"
-                             zoomable="true"
-                             moveable="true"
-                             animate="false"
-                             animateZoom="false"
-                             axisOnTop="true"
-                             groupsOrder="false"
-                             groupsChangeable="false"
-                             groupMinHeight="16"
-                             editable="false"
-                             timeChangeable="true"
-                             showCurrentTime="false"
-                             showMajorLabels="false"
-                             stackEvents="false"
-                             eventMarginAxis="0"
-                             eventMargin="16">
-                </pe:timeline>
                 <h:outputScript>
                     var SummaryIndex = {
                     getObservationDuration: function () {

@@ -34,25 +34,32 @@
     Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
 */
 
-.background {
-    background-color: rgba(85, 102, 119, 0.5);
+#mainPage {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+# summary-content {
     padding: .1em .5em;
 }
 
-#observation-info {
+#recordings-details {
     font-size: 1.1em;
+    padding: .1em .5em;
+    background-color: rgba(85, 102, 119, 0.4);
+    border-radius: 10px 10px 0 0;
 }
 
-#observation-info .ui-grid-col-5 {
+#recordings-details .ui-grid-col-5 {
     display: table;
 }
 
-#observation-info .categoryNumber,
-#observation-info .categoryLabel {
+#recordings-details .categoryNumber,
+#recordings-details .categoryLabel {
     display: table-cell;
 }
 
-#observation-info .categoryNumber {
+#recordings-details .categoryNumber {
     font-family: Arial,sans-serif;
     padding-right: 10px;
     width: 1em;
@@ -62,26 +69,24 @@
 .ui-grid-row {
     max-width: 38em;
 }
-.content span {
-    font-size: .9em;
-}
 .inline-bar > div {
     display: inline-block;
     vertical-align: middle;
 }
 .total {
-    font-size: 1.4em;
+    font-size: 2em;
+}
+
+.timeframe > div {
+    margin-top: .3em;
 }
 
 .align-bar {
-    margin: auto 2%;
+    margin: auto 1%;
 }
 .align-bar > div {
     text-align: center;
     margin: .3em .5em;
-}
-.header-left > *{
-    margin: 0;
 }
 
 .ui-grid {
@@ -113,25 +118,15 @@
     width: auto;
 }
 
-.recordsHeader {
-    display: inline-block;
-    margin: 0;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.timelineControls > div {
-    display: inline-block;
-}
-
-.zoomControl {
-    float: right;
-}
-
 #timeline {
     clear: both;
 }
-
+.zoomControl {
+    float: right;
+}
+.zoomControl a:hover {
+    color: #fa4;
+}
 .fa-search-plus,
 .fa-search-minus {
     cursor: pointer;
@@ -166,6 +161,21 @@ select > .placeholder {
     display: none!important;
 }
 
+.ui-growl .ui-growl-icon-close {
+    display: block !important;
+    background-color: white;
+    opacity: 0.7;
+    background-position: -96px -128px;
+    -webkit-box-shadow: 2px 2px 1px -1px rgba(0,0,0,0.6);
+    -moz-box-shadow: 2px 2px 1px -1px rgba(0,0,0,0.6);
+    box-shadow: 2px 2px 1px -1px rgba(0,0,0,0.6);
+    border-radius: 5px;
+}
+
+.ui-growl .ui-growl-icon-close:hover {
+    opacity: 1;
+}
+
 .dummyRecord {
     display: none!important;
 }
@@ -176,15 +186,15 @@ select > .placeholder {
         text-align: center;
     }
 }
-@media (max-width:260px){
-    .ui-grid.ui-grid-responsive-260 .ui-grid-row {
+@media (max-width:320px){
+    .ui-grid.ui-grid-responsive-320 .ui-grid-row {
         display:block;
     }
-    .ui-grid.ui-grid-responsive-260 .ui-grid-row > div {
+    .ui-grid.ui-grid-responsive-320 .ui-grid-row > div {
         width:100%;
         float:none;
     }
-    .ui-grid.ui-grid-responsive-260 .ui-grid-row > .ui-grid-col-5 {
+    .ui-grid.ui-grid-responsive-320 .ui-grid-row > .ui-grid-col-5 {
         float: left;
         width: auto;
     }
