@@ -19,12 +19,19 @@ and open the template in the editor.
                     <f:facet name="options">
                         <h:outputText value="Moveatis" styleClass="facetLeft"/>
                     </f:facet>
-                    <p:submenu label="Välilehti" style="color: white">
+                    
+                    <p:submenu icon="fa fa-floppy-o">
+                        <p:menuitem value="Tallenna" url="#" class="coloredButton"/>
+                        <p:menuitem value="Lähetä" url="#" class="coloredButton"/>
+                    </p:submenu>
+
+                    
+                    <p:submenu icon="fa fa-user">
                         <p:menuitem value="VL 1" url="#" class="coloredButton"/>
                         <p:menuitem value="VL 2" url="#" class="coloredButton"/>
                     </p:submenu>
 
-                    <p:submenu label="Valikko">
+                    <p:submenu icon="fa fa-cogs">
                         <p:menuitem value="Info" url="/app/info/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="Hallintasivu" url="/app/control/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="Pääkäyttäjäsivu" url="/app/superuser/index.xhtml" class="coloredButton"/>

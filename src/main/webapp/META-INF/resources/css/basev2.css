@@ -85,22 +85,38 @@ nav {
 
 .naviHeader {
     width: 100%;
-    height: 26px;
+    height: 28px;
     background-color: #ff6600;
     background-size: 100%;
     text-align: center;
     padding-bottom: 0.8em;
     border: 0;
     border-radius: 0;
+    color: white!important;
+}
+
+.ui-icon.fa {
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    padding: 0 0.7em;
+    font-size: 115%;
 }
 
 .naviHeader > ul {
     float: right;
 }
 
+.ui-menubar > .ui-menuitem-link {
+    width: auto;
+    padding: 0.3em 0.9em;
+}
+
+.ui-menu .ui-menu-parent .ui-icon-triangle-1-s {
+    display: none;
+}
+
 .naviButtons {
-    width: 50px;
-    height: 10px;
     display:table-cell;
     text-align: center;
     float: right;
@@ -119,7 +135,8 @@ nav {
 .coloredButton {
     background: #ff6600;
     opacity: 0.9;
-    color: white;
+    color: white!important;
+    font-size: 100%!important;
 }
 
 .naviFooter {
@@ -130,6 +147,7 @@ nav {
     background-color: #ff6600;
     align-content: flex-end;
     text-align: center;
+    color: white !important;
 
 }
 
@@ -144,6 +162,7 @@ a:link {text-decoration: none; color: white;}
 a:visited {text-decoration: none; color: white;}
 a:active {text-decoration: none; color: white;}
 a:hover {text-decoration: none; color: white;}
+
 
 .ui-dialog-content {
     overflow-y: auto;
@@ -176,11 +195,12 @@ a:hover {text-decoration: none; color: white;}
 
     .naviHeader {
         width: 100%;
-        height: 26px;
+        height: 28px;
         background-color: #ff6600;
         background-size: 100%;
         text-align: center;
         padding-bottom: 0.8em;
+        color: white !important;
     }
 
     .naviButtons {
@@ -213,6 +233,7 @@ a:hover {text-decoration: none; color: white;}
         background-size: 50%;
         background-color: #ff6600;
         text-align: center;
+        color: white !important;
     }
 
 }

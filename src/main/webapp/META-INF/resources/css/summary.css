@@ -138,12 +138,6 @@
     font-size: 1.6em;
 }
 
-.ui-button > .ui-icon.fa {
-    border-radius: 0;
-    width: auto;
-    height: auto;
-}
-
 .dialog-form > * {
     margin-bottom: .3em;
 }
