@@ -62,7 +62,6 @@ import org.slf4j.LoggerFactory;
 public class SummaryManagedBean {
     
     private TimelineModel timeline;
-    private final Locale locale;
     private final TimeZone serverTimeZone;
     private final TimeZone browserTimeZone;
     private final Date min;
@@ -70,6 +69,7 @@ public class SummaryManagedBean {
     private final long zoomMin;
     private final long zoomMax;
     private Date max;
+    private String observationName;
 
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
@@ -86,7 +86,6 @@ public class SummaryManagedBean {
      * Default constructor to initialize timeline options.
      */
     public SummaryManagedBean() {
-        this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale(); // get users locale from session bean ?
         this.serverTimeZone = TimeZoneInformation.getTimeZone(); // this is the servers timezone
         this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get users browser timezone from session bean ?
         this.start = new Date(0);
@@ -94,6 +93,7 @@ public class SummaryManagedBean {
         this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
+        this.observationName = "";
     }
 
     /**
@@ -111,15 +111,6 @@ public class SummaryManagedBean {
      */
     public TimelineModel getTimeline() {
         return timeline;
-    }  
-
-    /**
-     * Get timeline locale.
-     *
-     * @return Locale
-     */
-    public Locale getLocale() {
-        return locale;  
     }
 
     /**
@@ -192,10 +183,15 @@ public class SummaryManagedBean {
      * @return String
      */
     public String getObservationName() {
-        //return observationBean.getName();
-        Date date = new Date();
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, this.locale);
-        return "Observointi - " + df.format(date);
+        return observationName;
+    }
+
+    /**
+     * Set observation name.
+     * @param name observation name
+     */
+    public void setObservationName(String name) {
+        this.observationName = name;
     }
 
     /**
@@ -245,6 +241,8 @@ public class SummaryManagedBean {
         * What if there are more observations?
         */
         Long observationId = observations.first();
+
+        setObservationName(observationEJB.find(observationId).getName());
         
         List<RecordEntity> records = observationEJB.findRecords(observationId);
         LOGGER.debug("Records-size ->" + records.size());

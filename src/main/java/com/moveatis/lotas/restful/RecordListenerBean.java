@@ -40,9 +40,12 @@ import com.moveatis.lotas.observation.ObservationEntity;
 import com.moveatis.lotas.records.RecordEntity;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedSet;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -92,7 +95,7 @@ public class RecordListenerBean implements Serializable {
     private Category categoryEJB;
     @Inject
     private Label labelEJB;
-    
+
     public RecordListenerBean() {
         
     }
@@ -124,9 +127,15 @@ public class RecordListenerBean implements Serializable {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String addObservationData(String data) {
-        
+
+        Date createdTime = Calendar.getInstance().getTime();
+        Locale locale = httpRequest.getLocale();
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+                DateFormat.SHORT, locale);
+
         observationEntity = new ObservationEntity();
-        observationEntity.setCreated(Calendar.getInstance().getTime());
+        observationEntity.setCreated(createdTime);
+        observationEntity.setName("Observointi" + " - " + df.format(createdTime)); // TODO: get observation from messages bundle
         
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
