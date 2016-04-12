@@ -95,7 +95,7 @@ nav {
     color: white!important;
 }
 
-.ui-icon.fa {
+#naviHead .ui-icon.fa {
     border-radius: 0;
     width: auto;
     height: auto;
