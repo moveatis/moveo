@@ -47,10 +47,15 @@ body {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin: 0 auto -25px;
+    margin: 0 auto -30px;
 }
-#Footer, .push {
-    height: 25px;
+.push {
+    height: 30px;
+}
+#Footer {
+    height: 30px;
+    font-size: 16px;
+    background-color: #ff6600;
 }
 
 
