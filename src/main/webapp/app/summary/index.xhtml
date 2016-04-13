@@ -19,12 +19,6 @@
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
 
                 <div id="summary-content">
-                    <h:form styleClass="actions-form">
-                        <p:commandButton value="#{msg.sum_sendMail}" id="mailButton" icon="fa fa-envelope-o"
-                                         onclick="PF('dlgMail').show();"/>
-                        <p:commandButton value="#{msg.sum_save}" id="saveButton" icon="fa fa-save"
-                                         onclick="PF('dlgSave').show();"/>
-                    </h:form>
 
                     <h1>#{summaryBean.observationName}</h1>
 
