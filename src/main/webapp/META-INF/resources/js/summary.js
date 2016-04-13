@@ -92,6 +92,9 @@ function updateRecordsTable(timeline, range) {
         var record = $('<div class="ui-grid-row">');
         var records = parseRecords(records, range);
         var duration = recordsDuration(records, range);
+        // TODO: escape XSS
+        // TODO: generalize table row creation
+        // TODO: set information of category group
         var recordsPc = '<span class="percent"> (' + percentOf(records.length, recordsCount) + " %)</span>";
         var durationPc = '<span class="percent"> (' + percentOf(duration, rangeDuration) + " %)</span>";
         record.append('<div class="ui-grid-col-5">' + category + "</div>");
