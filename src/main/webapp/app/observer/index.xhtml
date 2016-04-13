@@ -11,12 +11,11 @@
 
             <ui:define name="mainpage">
                 <script>
-                    var initial_time = 0;
-                    var initial_category_data = [
+                    var category_sets = [
                     <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
                         {name: "#{categorySet.name}", categories: [
                         <ui:repeat value="#{categorySet.selectedCategories}" var="category">
-                            {name: "#{category}", initial_time: 0},
+                            "#{category}",
                         </ui:repeat>
                         ]},
                     </ui:repeat>
