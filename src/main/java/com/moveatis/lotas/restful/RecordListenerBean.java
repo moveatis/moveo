@@ -136,7 +136,8 @@ public class RecordListenerBean implements Serializable {
 
         observationEntity = new ObservationEntity();
         observationEntity.setCreated(createdTime);
-        observationEntity.setName("Observointi" + " - " + df.format(createdTime)); // TODO: get observation from messages bundle
+        observationEntity.setName(messages.getString("obs_title")
+                + " - " + df.format(createdTime));
         
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
