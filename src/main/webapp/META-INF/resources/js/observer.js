@@ -5,7 +5,6 @@
 // - Is there need for Observer?
 // - Rethink CategoryItem.
 // - How and where from should we get categories?
-// - Is there need for initial_time other than 0?
 // - Error handling? Message dialog on ajax errors?
 // - Remove/comment out console.log calls in release?
 //
@@ -16,7 +15,7 @@
  * Individual categories get their time from the master clock.
  */
 function Clock(initial_time) {
-    this.total_time = initial_time;
+    this.total_time = initial_time; // TODO: No need for initial_time.
     this.resume_time = 0;
     this.running = false;
     
@@ -55,20 +54,25 @@ function Clock(initial_time) {
 
 function timeToString(ms) {
     var t = Math.floor(ms / 1000);
-    var m = Math.floor(t / 60);
-    var s = Math.floor(t - m * 60);
-    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    var s = t % 60;
+    var m = Math.floor(t / 60) % 60;
+    var h = Math.floor(t / 60 / 60) % 60;
+    var str = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    if (h > 0) {
+        str = (h < 10 ? "0" + h : h) + ":" + str;
+    }
+    return str;
 }
 
 
-function CategoryItem(name, index, initial_time) {
+function CategoryItem(name, index) {
     this.li = $(document.createElement("li"));
     this.li.addClass("category-item");
     this.li.attr("id", "category-item_" + index);
 
     this.timer_div = $(document.createElement("div"));
     this.timer_div.addClass("category-timer");
-    this.timer_div.append(document.createTextNode(timeToString(initial_time)));
+    this.timer_div.append(document.createTextNode(timeToString(0)));
 
     var name_div = $(document.createElement("div"));
     name_div.addClass("category-name");
@@ -82,13 +86,13 @@ function CategoryItem(name, index, initial_time) {
     this.down = false;
     
     this.click = function(master_time) {
-        var recording;
+        var record;
         
         if (this.down) {
             this.li.removeClass("down");
             if (master_time > this.start_time) {
                 this.time += master_time - this.start_time;
-                recording = {category: name, startTime: this.start_time, endTime: master_time};
+                record = {category: name, startTime: this.start_time, endTime: master_time};
             }
             this.down = false;
         } else {
@@ -97,7 +101,7 @@ function CategoryItem(name, index, initial_time) {
             this.down = true;
         }
         
-        return recording;
+        return record;
     };
     
     this.updateTimer = function(master_time) {
@@ -115,16 +119,17 @@ function CategoryItem(name, index, initial_time) {
 /*
  * Handles the actual observing.
  */
-function Observer(initial_time, category_data) {
+function Observer(category_sets) {
+    var initial_time = 59*60*1000+50*1000; // TODO: Only for debuggin!
     this.master_clock = new Clock(initial_time);
     this.categories = [];
-    this.recordings = [];
+    this.records = [];
     this.started = false;
     this.waiting = false;
     
-    initialize(this, initial_time, category_data);
+    initialize(this, category_sets);
     
-    function initialize(this_, initial_time, category_data) {
+    function initialize(this_, category_sets) {
         $("#pause").hide();
         $("#stop").addClass("disabled");
         $("#total-time").append(document.createTextNode(timeToString(initial_time)));
@@ -133,28 +138,33 @@ function Observer(initial_time, category_data) {
         
         var index = 0;
         
-        for (var i in category_data) {
-            var set = category_data[i];
+        for (var i = 0; i < category_sets.length; i++) {
+            
+            var set = category_sets[i];
+            
             if (set.categories.length > 0) {
                 var category_set = $(document.createElement("ul"));
                 category_set.attr("id", set.name);
                 category_set.addClass("category-set");
                 category_set.addClass("no-text-select");
-                for (var j in set.categories) {
-                    var data = set.categories[j];
-                    var category = new CategoryItem(data.name, index, data.initial_time);
+                
+                for (var j = 0; j < set.categories.length; j++) {
+                    var category_name = set.categories[j];
+                    var category = new CategoryItem(category_name, index);
                     this_.categories.push(category);
                     category_set.append(category.li);
+                    
                     index += 1;
                 }
+                
                 category_list.append(category_set);
             }
         }
     }
 
-    this.addRecording = function(recording) {
-        if (recording !== undefined) {
-            this.recordings.push(recording);
+    this.addRecord = function(record) {
+        if (record !== undefined) {
+            this.records.push(record);
         }
     };
     
@@ -170,6 +180,8 @@ function Observer(initial_time, category_data) {
                 
                 var this_ = this;
                 
+                // TODO: Do we want to tell backend that observation started?
+                // Or should we send start time when observation is stopped?
                 $.ajax({
                     url: "../../webapi/records/startobservation",
                     type: "POST",
@@ -231,12 +243,12 @@ function Observer(initial_time, category_data) {
         
         var time = this.master_clock.getElapsedTime(now);
         
-        for (var i in this.categories) {
+        for (var i = 0; i < this.categories.length; i++) {
             var category = this.categories[i];
             category.li.off("click");
             category.li.addClass("disabled");
             if (category.down) {
-                this.addRecording(category.click(time));
+                this.addRecord(category.click(time));
             }
         }
         
@@ -252,7 +264,7 @@ function Observer(initial_time, category_data) {
             cache: false,
             data: JSON.stringify({
                 duration: time,
-                data: this.recordings
+                data: this.records
             }),
             success: function(data) {
                 console.log("Success: " + data);
@@ -270,7 +282,7 @@ function Observer(initial_time, category_data) {
     this.categoryClick = function(index) {
         var category = this.categories[index];
         var time = this.master_clock.getElapsedTime(Date.now());
-        this.addRecording(category.click(time));
+        this.addRecord(category.click(time));
     };
     
     this.tick = function() {
@@ -281,7 +293,7 @@ function Observer(initial_time, category_data) {
         total_time.empty();
         total_time.append(document.createTextNode(time_str));
         
-        for (var i in this.categories) {
+        for (var i = 0; i < this.categories.length; i++) {
             this.categories[i].updateTimer(time);
         }
     };
@@ -289,11 +301,7 @@ function Observer(initial_time, category_data) {
 
 
 $(document).ready(function() {
-    // TODO: Error message if initial_time or initial_category_data not defined?
-    var time = initial_time || 0;
-    var category_data = initial_category_data || [];
-    
-    var observer = new Observer(time, category_data);
+    var observer = new Observer(category_sets);
     
     $("#play").click(function() { observer.playClick(); });
     $("#pause").click(function() { observer.pauseClick(); });

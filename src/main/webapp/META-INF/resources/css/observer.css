@@ -110,11 +110,8 @@ body {
 
 #category-list {
     max-width: 100%;
-    /*height: 73%;*/
     margin: 0;
     padding: 0;
-    /*list-style-type: none;*/
-    /*overflow-y: auto;*/
 }
 
 .category-set {
@@ -122,8 +119,7 @@ body {
     margin: 0 0 1vh 0;
     padding: 1vh;
     list-style-type: none;
-    background-color: #202a33;
-    border: 1px solid #2a3640;
+    background: rgba(85, 102, 119, 0.4);
     border-radius: 1vh;
 }
 
