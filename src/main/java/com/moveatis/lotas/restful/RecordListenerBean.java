@@ -32,7 +32,6 @@ package com.moveatis.lotas.restful;
 import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.interfaces.Category;
 import com.moveatis.lotas.interfaces.Label;
-import com.moveatis.lotas.interfaces.MessageBundle;
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.interfaces.Record;
 import com.moveatis.lotas.interfaces.Session;
@@ -85,8 +84,7 @@ public class RecordListenerBean implements Serializable {
     @Inject
     private Session sessionBean;
     
-    @Inject @MessageBundle
-    private transient ResourceBundle messages;
+    private ResourceBundle messages;
     
     private ObservationEntity observationEntity;
     
@@ -133,6 +131,7 @@ public class RecordListenerBean implements Serializable {
 
         Date createdTime = Calendar.getInstance().getTime();
         Locale locale = httpRequest.getLocale();
+        messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
                 DateFormat.SHORT, locale);
 
@@ -140,7 +139,7 @@ public class RecordListenerBean implements Serializable {
         observationEntity.setCreated(createdTime);
         observationEntity.setName(messages.getString("obs_title")
                 + " - " + df.format(createdTime));
-        
+
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
         JsonObject jObject = jsonReader.readObject();
