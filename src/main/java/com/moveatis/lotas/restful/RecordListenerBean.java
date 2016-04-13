@@ -47,6 +47,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
+import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
@@ -69,7 +70,8 @@ import org.slf4j.LoggerFactory;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Path("/records")
-@Named(value="recordBean")
+@Named(value = "recordBean")
+@Stateful
 public class RecordListenerBean implements Serializable {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordListenerBean.class);
