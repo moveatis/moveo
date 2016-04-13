@@ -256,6 +256,8 @@ public class SummaryManagedBean {
             for (String category : categorySet.getSelectedCategories()) {
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
+                // class name is intentionally without quotes, timeline expectional case
+                // TODO: escape XSS
                 String numberedLabel = "<span class=categoryNumber>" + categoryNumber + ". </span>"
                         + "<span class=categoryLabel>" + category + "</span>";
                 TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
