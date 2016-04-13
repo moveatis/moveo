@@ -21,24 +21,26 @@ and open the template in the editor.
                     </f:facet>
                     
                     <p:submenu icon="fa fa-floppy-o">
-                        <p:menuitem value="Tallenna" icon="fa fa-cloud-upload" url="#" class="coloredButton"/>
-                        <p:menuitem value="Lähetä" icon="fa fa-envelope" url="#" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_save}" icon="fa fa-cloud-upload" url="#" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_send}" icon="fa fa-envelope" url="#" class="coloredButton"/>
                     </p:submenu>
 
                     
                     <p:submenu icon="fa fa-user">
-                        <p:menuitem value="Hallintasivu" icon="fa fa-sitemap" url="/app/control/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="Pääkäyttäjäsivu" icon="fa fa-group" url="/app/superuser/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="Kirjaudu ulos" icon="fa fa-sign-out" url="/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_superuserPage}" icon="fa fa-group" url="/app/superuser/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_logout}" icon="fa fa-sign-out" url="/index.xhtml" class="coloredButton"/>
                     </p:submenu>
 
                     <p:submenu icon="fa fa-cogs">
-                        <p:menuitem value="Info" icon="fa fa-info" url="/app/info/index.xhtml" class="coloredButton"/>
-                        <p:submenu label="Kieliasetus" icon="fa fa-language" class="coloredButton">
-                            <p:menuitem value="suomi" icon="fa fa-flag-o" class="coloredButton" />
-                            <p:menuitem value="english" icon="fa fa-flag-checkered" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/app/info/index.xhtml" class="coloredButton"/>
+                        <p:submenu label="#{msg.head_langSet}" icon="fa fa-language" class="coloredButton">
+                            <p:menuitem value="#{msg.head_langFi}" icon="fa fa-flag-o" class="coloredButton" />
+                            <p:menuitem value="#{msg.head_langEn}" icon="fa fa-flag-checkered" class="coloredButton"/>
                         </p:submenu>
-                        <p:menuitem value="Etusivulle" icon="fa fa-rotate-left" url="/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_resetObs}" icon="fa fa-eraser" url="/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_backToCatEd}" icon="fa fa-edit" url="/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_toFrontPage}" icon="fa fa-rotate-left" url="/index.xhtml" class="coloredButton"/>
                         
                     </p:submenu>
                 </p:menubar>
