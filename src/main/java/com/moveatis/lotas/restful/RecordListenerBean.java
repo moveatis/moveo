@@ -32,6 +32,7 @@ package com.moveatis.lotas.restful;
 import com.moveatis.lotas.category.CategoryEntity;
 import com.moveatis.lotas.interfaces.Category;
 import com.moveatis.lotas.interfaces.Label;
+import com.moveatis.lotas.interfaces.MessageBundle;
 import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.interfaces.Record;
 import com.moveatis.lotas.interfaces.Session;
@@ -41,13 +42,11 @@ import com.moveatis.lotas.records.RecordEntity;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.SortedSet;
-import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
@@ -71,7 +70,6 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/records")
 @Named(value="recordBean")
-@Stateful
 public class RecordListenerBean implements Serializable {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordListenerBean.class);
@@ -84,6 +82,9 @@ public class RecordListenerBean implements Serializable {
     
     @Inject
     private Session sessionBean;
+    
+    @Inject @MessageBundle
+    private transient ResourceBundle messages;
     
     private ObservationEntity observationEntity;
     
@@ -143,6 +144,8 @@ public class RecordListenerBean implements Serializable {
         JsonNumber duration = jObject.getJsonNumber("duration");
         JsonArray array = jObject.getJsonArray("data");
         jsonReader.close();
+        
+        messages.getString("userNotFound");
         
         observationEntity.setDuration(duration.longValue());
 
