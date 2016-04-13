@@ -8,18 +8,7 @@ and open the template in the editor.
     Author     : ilkrpaan
 */
 
-html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
     font-size: 0; /* removes extra space between elements */
 }
 
@@ -29,48 +18,26 @@ body {
 
 #mainPage {
     width: 100%;
-    
-/*     Height calculation base on this: http://stackoverflow.com/a/14101451 
-    height: -moz-calc(100% - 64px);  Firefox 
-    height: -webkit-calc(100% - 64px);  WebKit 
-    height: -o-calc(100% - 64px);  Opera 
-    height: calc(100% - 64px);  Standard */
-    
     margin: 0;
     padding: 0;
-    
     text-align: center;
     clear: both;
 }
 
 #content {
     max-width: 100%;
-    /*height: 100%;*/
     margin: 0;
     padding: 0;
     display: inline-block;
 }
 
 #total-time {
-    /*height: 12%;*/
-    height: calc((100vh - 64px) * 0.12);
-    font-size: 9vh;
     margin: 0;
     padding: 0;
     cursor: default;
 }
 
-#controls {
-    /*height: 15%;*/
-    height: calc((100vh - 64px) * 0.15);
-}
-
 #play, #pause, #stop {
-    width: 12vh;
-    margin: 0 2vh;
-    padding: 1vh;
-    border-radius: 1vh;
-    font-size: 8vh;
     display: inline-block;
     background-color: #567;
     background: linear-gradient(0deg, #345, #567);
@@ -81,15 +48,6 @@ body {
     color: #345;
     cursor: default;
 }
-
-/*#stop-div {
-    text-align: right;
-    margin: 5vh 0;
-}
-
-#stop-button {
-    font-size: 16px;
-}*/
 
 .disabled {
     cursor: default;
@@ -116,20 +74,12 @@ body {
 
 .category-set {
     max-width: 100%;
-    margin: 0 0 1vh 0;
-    padding: 1vh;
     list-style-type: none;
     background: rgba(85, 102, 119, 0.4);
-    border-radius: 1vh;
 }
 
 .category-item {
     max-width: 100%;
-    /*height: 12.7%;*/
-    height: calc((100vh - 64px) * 0.73 * 0.127);
-    margin: 0;
-    margin-bottom: 1vh;
-    border-radius: 1vh;
     padding: 0;
     position: relative;
     text-align: left;
@@ -150,7 +100,6 @@ body {
 .category-name {
     max-width: 90%;
     margin: 0 0.3em;
-    font-size: 5vh;
     padding: 0;
     display: inline-block;
     vertical-align: middle;
@@ -161,8 +110,6 @@ body {
 }
 
 .category-timer {
-    font-size: 4vh;
-    border-radius: 1vh;
     margin: 0;
     margin-left: 0.3em;
     padding: 0 0.15em;
@@ -172,40 +119,64 @@ body {
     background-color: #345;
 }
 
+/*
+
+    TODO: Use browser specific calc?
+    http://stackoverflow.com/a/14101451
+
+*/
+
+#total-time {
+    height: calc((100vh - 70px) * 0.12);
+    font-size: 9vh;
+}
+
+#controls {
+    height: calc((100vh - 70px) * 0.15);
+}
+
+#play, #pause, #stop {
+    width: 12vh;
+    margin: 0 2vh;
+    padding: 1vh;
+    border-radius: 1vh;
+    font-size: 8vh;
+}
+
+.category-set {
+    margin: 0 0 1.5vh 0;
+    padding: 1.5vh;
+    border-radius: 1vh;
+}
+
+.category-item {
+    height: calc((100vh - 70px) * 0.73 * 0.127);
+    margin: 0;
+    margin-bottom: 1vh;
+    border-radius: 1vh;
+}
+
+.category-name {
+    font-size: 5vh;
+}
+
+.category-timer {
+    font-size: 4vh;
+    border-radius: 1vh;
+}
+
 @media screen and (min-height: 480px) {
     
-    #mainPage {
-        /*height: calc(100% - 64px);*/
-        /*height: calc(480px - 64px);*/
-    }
-    /**/
     #total-time {
-        /*height: calc((100vh - 64px) * 0.12);*/
-        height: calc((480px - 64px) * 0.12);
-    }
-
-    #controls {
-        /*height: calc((100vh - 64px) * 0.15);*/
-        height: calc((480px - 64px) * 0.15);
-    }
-
-    .category-item {
-        /*height: calc((100vh - 64px) * 0.73 * 0.127);*/
-        height: calc((480px - 64px) * 0.73 * 0.127);
-        
-    }
-    /**/
-    #total-time {
-        /*font-size: 9vh;*/
+        height: calc((480px - 70px) * 0.12);
         font-size: calc(480px * 0.09);
     }
 
+    #controls {
+        height: calc((480px - 70px) * 0.15);
+    }
+
     #play, #pause, #stop {
-        /*width: 12vh;*/
-        /*margin: 0 2vh;*/
-        /*padding: 1vh;*/
-        /*border-radius: 1vh;*/
-        /*font-size: 8vh;*/
         width: calc(480px * 0.12);
         margin: 0 calc(480px * 0.02);
         padding: calc(480px * 0.01);
@@ -213,89 +184,71 @@ body {
         font-size: calc(480px * 0.08);
     }
 
+    .category-set {
+        margin: 0 0 calc(480px * 0.015) 0;
+        padding: calc(480px * 0.015);
+        border-radius: calc(480px * 0.01);
+    }
+
     .category-item {
-        /*margin: 0;*/
-        /*margin-bottom: 1vh;*/
-        /*border-radius: 1vh;*/
+        height: calc((480px - 70px) * 0.73 * 0.127);
         margin: 0;
         margin-bottom: calc(480px * 0.01);
         border-radius: calc(480px * 0.01);
     }
 
     .category-name {
-        /*font-size: 5vh;*/
         font-size: calc(480px * 0.05);
     }
 
     .category-timer {
-        /*font-size: 4vh;*/
-        /*border-radius: 1vh;*/
         font-size: calc(480px * 0.04);
         border-radius: calc(480px * 0.01);
     }
     
 }
 
-@media screen and (max-height: 200px) {
+@media screen and (max-height: 240px) {
     
-    #mainPage {
-        /*height: calc(100% - 64px);*/
-        /*height: calc(200px - 64px);*/
-    }
-    /**/
     #total-time {
-        /*height: calc((100vh - 64px) * 0.12);*/
-        height: calc((200px - 64px) * 0.12);
+        height: calc((240px - 70px) * 0.12);
+        font-size: calc(240px * 0.09);
     }
 
     #controls {
-        /*height: calc((100vh - 64px) * 0.15);*/
-        height: calc((200px - 64px) * 0.15);
-    }
-
-    .category-item {
-        /*height: calc((100vh - 64px) * 0.73 * 0.127);*/
-        height: calc((200px - 64px) * 0.73 * 0.127);
-        
-    }
-    /**/
-    #total-time {
-        /*font-size: 9vh;*/
-        font-size: calc(200px * 0.09);
+        height: calc((240px - 70px) * 0.15);
     }
 
     #play, #pause, #stop {
-        /*width: 12vh;*/
-        /*margin: 0 2vh;*/
-        /*padding: 1vh;*/
-        /*border-radius: 1vh;*/
-        /*font-size: 8vh;*/
-        width: calc(200px * 0.12);
-        margin: 0 calc(200px * 0.02);
-        padding: calc(200px * 0.01);
-        border-radius: calc(200px * 0.01);
-        font-size: calc(200px * 0.08);
+        width: calc(240px * 0.12);
+        margin: 0 calc(240px * 0.02);
+        padding: calc(240px * 0.01);
+        border-radius: calc(240px * 0.01);
+        font-size: calc(240px * 0.08);
+    }
+
+    .category-set {
+        margin: 0 0 calc(240px * 0.015) 0;
+        padding: calc(240px * 0.015);
+        border-radius: calc(240px * 0.01);
     }
 
     .category-item {
-        /*margin: 0;*/
-        /*margin-bottom: 1vh;*/
-        /*border-radius: 1vh;*/
+        height: calc((240px - 70px) * 0.73 * 0.127);
         margin: 0;
-        margin-bottom: calc(200px * 0.01);
-        border-radius: calc(200px * 0.01);
+        margin-bottom: calc(240px * 0.01);
+        border-radius: calc(240px * 0.01);
     }
 
     .category-name {
-        /*font-size: 5vh;*/
-        font-size: calc(200px * 0.05);
+        font-size: calc(240px * 0.05);
     }
 
     .category-timer {
-        /*font-size: 4vh;*/
-        /*border-radius: 1vh;*/
-        font-size: calc(200px * 0.04);
-        border-radius: calc(200px * 0.01);
+        font-size: calc(240px * 0.04);
+        border-radius: calc(240px * 0.01);
     }
     
 }
+
+

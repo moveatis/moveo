@@ -70,6 +70,9 @@ public class SummaryManagedBean {
     private final long zoomMax;
     private Date max;
     private String observationName;
+    private String observationDescription;
+    private String observationTarget;
+    private long observationDuration;
 
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
@@ -220,7 +223,7 @@ public class SummaryManagedBean {
      * @return long
      */
     public long getObservationDuration() {
-        return max.getTime();
+        return observationDuration;
     }
 
     /**
@@ -248,7 +251,8 @@ public class SummaryManagedBean {
         LOGGER.debug("Records-size ->" + records.size());
         List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
 
-        this.max = new Date((long) (observationEJB.find(observationId).getDuration() * 1.1));
+        this.observationDuration = observationEJB.find(observationId).getDuration();
+        this.max = new Date(Math.round(this.observationDuration * 1.1)); // timeline max 110% of obs. duration
 
         // Add categories to timeline as timelinegroups
         int categoryNumber = 1;

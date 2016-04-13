@@ -34,6 +34,7 @@ import com.moveatis.lotas.interfaces.MessageBundle;
 import java.util.ResourceBundle;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -48,10 +49,10 @@ public class MessageProvider {
     public ResourceBundle getBundle() {
         
         if(resourceBundle == null) {
-            resourceBundle = ResourceBundle.getBundle("com.moveatis.messages.Messages");
+            FacesContext context = FacesContext.getCurrentInstance();
+            resourceBundle = context.getApplication().getResourceBundle(context, "msg");
         }
         
         return resourceBundle;
     }
-
 }
