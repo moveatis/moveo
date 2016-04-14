@@ -216,7 +216,7 @@ public class SummaryManagedBean {
         * TODO: SortedSet offers first-method to return first element in the set
         * What if there are more observations?
         */
-        Long observationId = observations.first();
+        Long observationId = observations.last();
 
         setObservationName(observationEJB.find(observationId).getName());
         

@@ -127,9 +127,9 @@ function Observer(category_sets) {
     this.started = false;
     this.waiting = false;
     
-    initialize(this, category_sets);
+    initialize(this);
     
-    function initialize(this_, category_sets) {
+    function initialize(this_) {
         $("#pause").hide();
         $("#stop").addClass("disabled");
         $("#total-time").append(document.createTextNode(timeToString(initial_time)));
@@ -264,8 +264,9 @@ function Observer(category_sets) {
             cache: false,
             data: JSON.stringify({
                 duration: time,
-                data: this.records,
-                timeZoneOffsetInMs: -1 * 60 * 1000 * new Date().getTimezoneOffset() // Time zone offset in Java format
+                category_sets: category_sets,
+                timeZoneOffsetInMs: -1 * 60 * 1000 * new Date().getTimezoneOffset(), // Time zone offset in Java format
+                data: this.records
             }),
             success: function(data) {
                 console.log("Success: " + data);
