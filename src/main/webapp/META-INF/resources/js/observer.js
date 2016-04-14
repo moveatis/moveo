@@ -120,7 +120,7 @@ function CategoryItem(name, index) {
  * Handles the actual observing.
  */
 function Observer(category_sets) {
-    var initial_time = 59*60*1000+50*1000; // TODO: Only for debuggin!
+    var initial_time = 0; // TODO: Only for debuggin!
     this.master_clock = new Clock(initial_time);
     this.categories = [];
     this.records = [];
@@ -265,7 +265,8 @@ function Observer(category_sets) {
             data: JSON.stringify({
                 duration: time,
                 category_sets: category_sets,
-                timeZoneOffsetInMs: -1 * 60 * 1000 * new Date().getTimezoneOffset(), // Time zone offset in Java format
+                timeZoneOffsetInMs: getTimeZoneOffset(),
+                daylightSavingInMs: getDaylightSaving(),
                 data: this.records
             }),
             success: function(data) {
@@ -316,3 +317,13 @@ $(document).ready(function() {
 
     setInterval(function() { observer.tick(); }, 200);
 });
+
+function getTimeZoneOffset(){
+    return -1 * 60 * 1000 * new Date().getTimezoneOffset();
+}
+
+function getDaylightSaving() {
+    var now = new Date();
+    var jan = new Date(now.getFullYear(), 0, 1);
+    return (jan.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+}

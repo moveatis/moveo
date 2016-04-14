@@ -31,6 +31,8 @@ package com.moveatis.lotas.managedbeans;
 
 import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.timezone.TimeZoneInformation;
+import java.util.Date;
+import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

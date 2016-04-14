@@ -29,6 +29,8 @@
  */
 package com.moveatis.lotas.timezone;
 
+import java.util.Calendar;
+import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 /**
@@ -53,18 +55,24 @@ public class TimeZoneInformation {
     }
 
     /**
-     * Get TimeZone from time zone offset
+     * Get TimeZone from time zone offset and daylight saving time
      *
-     * @param timeZoneOffset time zone offset in milliseconds
+     * @param offset time zone offset in milliseconds
+     * @param DSTSaving daylight saving in milliseconds
      * @return TimeZone
      */
-    public static TimeZone getTimeZoneFromOffset(int timeZoneOffset) {
-        String[] timezones = TimeZone.getAvailableIDs(timeZoneOffset);
-        if (timezones.length > 0) {
-            return TimeZone.getTimeZone(timezones[0]);
+    public static TimeZone getTimeZoneFromOffset(int offset, int DSTSaving) {
+        if (DSTSaving > 0) {
+            return new SimpleTimeZone(
+                    offset - DSTSaving, "GMT/" + offset,
+                    Calendar.JANUARY, -1, Calendar.SUNDAY,
+                    offset,
+                    Calendar.DECEMBER, -1, Calendar.SUNDAY,
+                    offset,
+                    DSTSaving
+            );
         } else {
-            // return server timezone if no applicable time zones found
-            return TIMEZONE;
+            return new SimpleTimeZone(offset, "GMT/" + offset);
         }
     }
 }

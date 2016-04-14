@@ -136,12 +136,14 @@ public class RecordListenerBean implements Serializable {
         JsonObject jObject = jsonReader.readObject();
         JsonNumber duration = jObject.getJsonNumber("duration");
         JsonNumber timeZoneOffset = jObject.getJsonNumber("timeZoneOffsetInMs");
+        JsonNumber DSTOffset = jObject.getJsonNumber("daylightSavingInMs");
         JsonArray array = jObject.getJsonArray("data");
         jsonReader.close();
 
         Date createdTime = Calendar.getInstance().getTime();
         Locale locale = httpRequest.getLocale();
-        TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(timeZoneOffset.intValue());
+        TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(
+                timeZoneOffset.intValue(), DSTOffset.intValue());
         sessionBean.setSessionTimeZone(timeZone);
 
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,
