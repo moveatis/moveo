@@ -31,43 +31,39 @@
 /* global PF, links, SummaryIndex */
 
 /**
- * Javascript methods for summary page.
- *  Calculates recordings summary details.
- *  Updates the details on time frame change.
- *  Adds zoom button click events for timeline zooming.
- *  Shows growl message on timeline event selection.
+ * Javascript methods for the summary page.
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 var TIMELINE_BEGIN = getLocalZeroDate();
 var OBSERVATION_DURATION = SummaryIndex.getObservationDuration(); // function in summary/index.xhtml
 var msg = SummaryIndex.getMessages(); // function in summary/index.xhtml
 
+/*
+ * On document ready:
+ *  - Calculate recordings summary details.
+ *  - Update the details on time frame change.
+ *  - Add zoom button click events for timeline zooming.
+ *  - Show growl message on timeline event selection.
+ */
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
     var growl = PF("growlWdgt");
-    var range = timeline.getVisibleChartRange();
+    var timeframe = timeline.getVisibleChartRange();
 
-    //console.log(growl);
-    //console.log(timeline);
-    //console.log(OBSERVATION_DURATION);
+    timeline.options.showCurrentTime = false; // NOTE: setting this did not work from JSF
 
-    // NOTE: setting showCurrentTime did not work from JSF
-    timeline.options.showCurrentTime = false;
-
-    $("#total-records").text(parseRecords(timeline.items, range).length);
+    $("#total-records").text(getRecordsInTimeframe(timeline.items, timeframe).length);
     $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
-    $("#input-rangeEnd").val(convertMsToStr(OBSERVATION_DURATION));
-    updateRecordsTable(timeline, range);
+    $("#input-timeframeEnd").val(convertMsToStr(OBSERVATION_DURATION));
+    updateRecordsTable(timeline, timeframe);
 
-    // Timeline range selections
-    $("#input-rangeStart").keyup(function () {
-        updateTimelineRange(timeline, $(this));
+    $("#input-timeframeStart").keyup(function () {
+        updateTimelineTimeframe(timeline, $(this));
     });
-    $("#input-rangeEnd").keyup(function () {
-        updateTimelineRange(timeline, $(this));
+    $("#input-timeframeEnd").keyup(function () {
+        updateTimelineTimeframe(timeline, $(this));
     });
 
-    // Timeline Zoom buttons
     $("#button-zoom-in").click(function () {
         timeline.zoom(0.2, TIMELINE_BEGIN);
     });
@@ -75,54 +71,79 @@ $(function () {
         timeline.zoom(-0.2);
     });
 
-    // On timeline event selection show growl message with record details
     links.events.addListener(timeline, "select", function () {
         showRecordDetails(timeline, growl);
     });
 });
 
-// Updates records table information for given time range
-function updateRecordsTable(timeline, range) {
-    var table = $("#records");
+
+/**
+ * Updates records table information for given time frame.
+ * @param {object} timeline - The timeline component.
+ * @param {object} timeframe - The selected start and end time.
+ */
+function updateRecordsTable(timeline, timeframe) {
+    var recordsTable = $("#records");
     var categories = timeline.getItemsByGroup(timeline.items);
-    var rangeDuration = getRangeDuration(range);
-    var recordsCount = parseRecords(timeline.items, range).length;
-    table.empty();
-    $.each(categories, function (category, records) {
-        var record = $('<div class="ui-grid-row">');
-        var records = parseRecords(records, range);
-        var duration = recordsDuration(records, range);
-        // TODO: escape XSS
-        // TODO: generalize table row creation
-        // TODO: set information of category group
-        var recordsPc = '<span class="percent"> (' + percentOf(records.length, recordsCount) + " %)</span>";
-        var durationPc = '<span class="percent"> (' + percentOf(duration, rangeDuration) + " %)</span>";
-        record.append('<div class="ui-grid-col-5">' + category + "</div>");
-        record.append('<div class="ui-grid-col-1">' + records.length + "</div>");
-        record.append('<div class="ui-grid-col-1">' + recordsPc + "</div>");
-        record.append('<div class="ui-grid-col-2">' + convertMsToUnits(duration) + "</div>");
-        record.append('<div class="ui-grid-col-1">' + durationPc + "</div>");
-        table.append(record);
+    var timeframeDuration = getTimeframeDuration(timeframe);
+    var recordsTotalCount = getRecordsInTimeframe(timeline.items, timeframe).length;
+    recordsTable.empty();
+    
+    $.each(categories, function (category, categoryRecords) {
+        var records = getRecordsInTimeframe(categoryRecords, timeframe);
+        var duration = getDurationOfRecords(records, timeframe);
+        var recordRow = createRecordRow({
+            name: category,
+            count: records.length,
+            duration: duration,
+            countPercent: spanPercentOf(records.length, recordsTotalCount),
+            durationPercent: spanPercentOf(duration, timeframeDuration)
+        });
+        recordsTable.append(recordRow);
     });
-    var summary = $('<div class="ui-grid-row summary-row">');
-    summary.append('<div class="ui-grid-col-5">' + msg.sum_total + '</div>');
-    summary.append('<div class="ui-grid-col-1">' + recordsCount + "</div>");
-    summary.append('<div class="ui-grid-col-1"/>');
-    summary.append('<div class="ui-grid-col-2">' + convertMsToUnits(rangeDuration) + "</div>");
-    summary.append('<div class="ui-grid-col-1"/>');
-    table.append(summary);
+    var summaryRow = createRecordRow({
+        name: msg.sum_total,
+        count: recordsTotalCount,
+        duration: timeframeDuration,
+        countPercent: "",
+        durationPercent: ""
+    });
+    summaryRow.addClass("summary-row");
+    recordsTable.append(summaryRow);
 }
 
-// Update timeline range to match start and end range input values
-function updateTimelineRange(timeline, input) {
-    var inputStart = $("#input-rangeStart");
-    var inputEnd = $("#input-rangeEnd");
+/*
+ * Create html element containing the data of a record.
+ * @param {object} record - object containing record data
+ *  Data form: {name, count, countPercentage, duration, durationPercentage}
+ * @returns {object} - jquery object containing the record row element.
+ */    
+function createRecordRow(record) {
+    // TODO: escape XSS
+    // TODO: set information of category group
+    var row = $('<div class="ui-grid-row">');
+    row.append('<div class="ui-grid-col-5">' + record.name + "</div>");
+    row.append('<div class="ui-grid-col-1">' + record.count + "</div>");
+    row.append('<div class="ui-grid-col-1">' + record.countPercent + "</div>");
+    row.append('<div class="ui-grid-col-2">' + convertMsToUnits(record.duration) + "</div>");
+    row.append('<div class="ui-grid-col-1">' + record.durationPercent + "</div>");
+    return row;
+}
+
+/*
+ * Updates timeline's time frame to match the start and end time of the time frame inputs.
+ * @param {object} timeline - The timeline component.
+ * @param {object} input - jquery object of the input element.
+ */
+function updateTimelineTimeframe(timeline, input) {
+    var inputStart = $("#input-timeframeStart");
+    var inputEnd = $("#input-timeframeEnd");
 
     if (!inputStart.hasClass("ui-state-error") && !inputEnd.hasClass("ui-state-error")) {
         var msStart = convertStrToMs(inputStart.val());
         var msEnd = convertStrToMs(inputEnd.val());
 
-        // check validity of time range
+        // check validity of time frame
         if (msStart >= msEnd || convertStrToMs(input.val()) > OBSERVATION_DURATION) {
             input.addClass("ui-state-error");
             return;
@@ -145,7 +166,11 @@ function updateTimelineRange(timeline, input) {
     }
 }
 
-// Show selected record details in growl message
+/*
+ * Show a growl message of the selected record.
+ * @param {object} timeline - The timeline component.
+ * @param {object} growl - The growl component.
+ */
 function showRecordDetails(timeline, growl) {
     var selection = timeline.getSelection();
     if (selection.length) {
@@ -161,24 +186,33 @@ function showRecordDetails(timeline, growl) {
     }
 }
 
-// Get all records that are fully or partially in the given time range
-function parseRecords(records, range) {
+/*
+ * Get all records that are fully or partially in the given time frame.
+ * @param {object} records - object containing the records.
+ * @param {object} timeframe - The selected start and end time.
+ * @returns {object} - returns a list of matched records.
+ */
+function getRecordsInTimeframe(records, timeframe) {
     var recordsIn = [];
     $.each(records, function (i, record) {
         if (record.className === "dummyRecord") {
             return true;
-        } else if (record.start >= range.start && record.start < range.end) {
+        } else if (record.start >= timeframe.start && record.start < timeframe.end) {
             recordsIn.push(record);
-        } else if (record.end <= range.end && record.end > range.start) {
+        } else if (record.end <= timeframe.end && record.end > timeframe.start) {
             recordsIn.push(record);
-        } else if (record.start < range.start && record.end > range.end) {
+        } else if (record.start < timeframe.start && record.end > timeframe.end) {
             recordsIn.push(record);
         }
     });
     return recordsIn;
 }
 
-// Get record details
+/*
+ * Get record details.
+ * @param {object} record - a record object from the timeline component.
+ * @returns {string} - details as a string value.
+ */
 function getRecordDetails(record) {
     var details = "";
     var start = toTimelineTime(record.start);
@@ -191,26 +225,38 @@ function getRecordDetails(record) {
     return details;
 }
 
-// Get total duration of records in given range
-function getTotalRecordsDuration(categories, range) {
+/*
+ * Get total duration of records of all categories in given time frame.
+ * @param {object} records - object containing the records.
+ * @param {object} timeframe - The selected start and end time.
+ * @returns {number} - duration of the records.
+ */
+function getDurationOfCategories(categories, timeframe) {
     var duration = 0;
     $.each(categories, function (category, records) {
-        duration += recordsDuration(records, range);
+        duration += getDurationOfRecords(records, timeframe);
     });
     return duration;
 }
 
-// Get duration of observation or if given is shorter get duration of range
-function getRangeDuration(range) {
-    var rStartMs = toTimelineTime(range.start);
-    var rEndMs = toTimelineTime(range.end);
+/*
+ * Get duration of observation's time frame.
+ * @param {object} timeframe - The selected start and end time.
+ * @returns {number} - duration of the observation's time frame.
+ */
+function getTimeframeDuration(timeframe) {
+    var rStartMs = toTimelineTime(timeframe.start);
+    var rEndMs = toTimelineTime(timeframe.end);
     var start = (rStartMs > 0) ? rStartMs : 0;
     var end = (rEndMs < OBSERVATION_DURATION) ? rEndMs : OBSERVATION_DURATION;
     return end - start;
 }
 
-// Calculate duration for records in given range
-function recordsDuration(records, range) {
+/* Get total duration of records in given time frame.
+ * @param {object} records - object containing the records.
+ * @returns {number} - duration of the records.
+ */
+function getDurationOfRecords(records, timeframe) {
     var duration = 0;
     $.each(records, function () {
         var start = this.start;
@@ -218,11 +264,11 @@ function recordsDuration(records, range) {
         if (this.className === "dummyRecord") {
             return true;
         }
-        if (start < range.start) {
-            start = range.start;
+        if (start < timeframe.start) {
+            start = timeframe.start;
         }
-        if (end > range.end) {
-            end = range.end;
+        if (end > timeframe.end) {
+            end = timeframe.end;
         }
         if (end > start) {
             duration += end - start;
@@ -231,7 +277,11 @@ function recordsDuration(records, range) {
     return duration;
 }
 
-// Convert milliseconds to time string hh:mm:ss
+/*
+ * Convert milliseconds to time string hh:mm:ss. 
+ * @param {number} ms - time in milliseconds.
+ * @returns {string} - time in string as hh:mm:ss.
+ */
 function convertMsToStr(ms) {
     var d = ms;
     d = Math.floor(d / 1000);
@@ -243,8 +293,11 @@ function convertMsToStr(ms) {
     return [lz(h), lz(m), lz(s)].join(':');
 }
 
-// Convert time string hh:mm:ss to milliseconds
-// returns NaN for unparseable time string
+/*
+ * Convert time string hh:mm:ss to milliseconds
+ * @param {string} str - time in string as hh:mm:ss.
+ * @returns {number} - time in milliseconds or NaN for unparseable time string.
+ */
 function convertStrToMs(str) {
     var time = str.split(/:/);
     // insert missing values
@@ -252,13 +305,17 @@ function convertStrToMs(str) {
         time.unshift("0");
     }
     var seconds = 0;
-    for (var n in time) {
+    time.forEach(function(n) {
         seconds += parseInt(time[n], 10) * Math.pow(60, 2 - n);
-    }
+    });
     return seconds * 1000;
 }
 
-// Convert milliseconds to string with units e.g. 1h 2m 0s
+/*
+ * Convert time in milliseconds to string with time units e.g. 1h 2m 0s. 
+ * @param {number} ms - time in milliseconds.
+ * @returns {string} - time in string with units e.g. 1h 2m 0s.
+ */
 function convertMsToUnits(ms) {
     var time = convertMsToStr(ms).split(":");
     var units = "";
@@ -285,12 +342,21 @@ function convertMsToUnits(ms) {
     return units.replace(/([h,m,s])(\d)/g, "$1 $2");
 }
 
-// Append leading zero to single digit numbers
+/*
+ * Append leading zero to single digit numbers. 
+ * @param {number} n - number.
+ * @returns {string} - number with possible leading zero.
+ */
 function lz(n) {
-    return (n < 10 ? "0" + n : n);
+    return (n < 10 ? "0" + n : n.toString());
 }
 
-// Calculate percentage
+/*
+ * Calculate percent of two values.
+ * @param {number} a - the number of share.
+ * @param {number} b - the number of total quantity.
+ * @returns {number} - percentage ratio.
+ */
 function percentOf(a, b) {
     if (a === 0 || b === 0) {
         return 0;
@@ -298,13 +364,31 @@ function percentOf(a, b) {
     return Math.round((a / b) * 100);
 }
 
-// Get "zero" date with timezone offset
+/*
+ * Get percent of two values as span element string.
+ * @param {number} a - the number of share.
+ * @param {number} b - the number of total quantity.
+ * @returns {string} - percent as span element string.
+ */
+function spanPercentOf(a, b) {
+    return '<span class="percent"> (' + percentOf(a, b) + " %)</span>";
+}
+
+/*
+ * Get "zero" date with time zone offset.
+ * @returns {date} - zero date with time zone offset.
+ */
 function getLocalZeroDate() {
     var localDate = new Date(0);
     var zeroDate = new Date(localDate.getTimezoneOffset() * 60 * 1000);
     return zeroDate;
 }
 
+/*
+ * Convert date object to the timeline component time.
+ * @param {date} date - the date object of the time to convert.
+ * @returns {number} - converted time in milliseconds.
+ */
 function toTimelineTime(date) {
     return Math.abs(TIMELINE_BEGIN.getTime() - date.getTime());
 }
