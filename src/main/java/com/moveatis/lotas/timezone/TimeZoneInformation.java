@@ -51,4 +51,20 @@ public class TimeZoneInformation {
     public static TimeZone getTimeZone() {
         return TIMEZONE;
     }
+
+    /**
+     * Get TimeZone from time zone offset
+     *
+     * @param timeZoneOffset time zone offset in milliseconds
+     * @return TimeZone
+     */
+    public static TimeZone getTimeZoneFromOffset(int timeZoneOffset) {
+        String[] timezones = TimeZone.getAvailableIDs(timeZoneOffset);
+        if (timezones.length > 0) {
+            return TimeZone.getTimeZone(timezones[0]);
+        } else {
+            // return server timezone if no applicable time zones found
+            return TIMEZONE;
+        }
+    }
 }

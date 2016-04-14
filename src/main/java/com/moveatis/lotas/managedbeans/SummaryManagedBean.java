@@ -33,16 +33,11 @@ import com.moveatis.lotas.interfaces.Observation;
 import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.managedbeans.CategorySelectionManagedBean.CategorySet;
 import com.moveatis.lotas.records.RecordEntity;
-import com.moveatis.lotas.timezone.TimeZoneInformation;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.SortedSet;
-import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
@@ -62,8 +57,6 @@ import org.slf4j.LoggerFactory;
 public class SummaryManagedBean {
     
     private TimelineModel timeline;
-    private final TimeZone serverTimeZone;
-    private final TimeZone browserTimeZone;
     private final Date min;
     private final Date start;
     private final long zoomMin;
@@ -89,8 +82,6 @@ public class SummaryManagedBean {
      * Default constructor to initialize timeline options.
      */
     public SummaryManagedBean() {
-        this.serverTimeZone = TimeZoneInformation.getTimeZone(); // this is the servers timezone
-        this.browserTimeZone = TimeZone.getTimeZone("Europe/Helsinki"); // get users browser timezone from session bean ?
         this.start = new Date(0);
         this.min = new Date(0);
         this.max = new Date(0);
@@ -114,24 +105,6 @@ public class SummaryManagedBean {
      */
     public TimelineModel getTimeline() {
         return timeline;
-    }
-
-    /**
-     * Get timeline time zone.
-     *
-     * @return TimeZone
-     */
-    public TimeZone getServerTimeZone() {
-        return serverTimeZone;
-    }
-
-    /**
-     * Get user time zone for timeline.
-     *
-     * @return TimeZone
-     */
-    public TimeZone getBrowserTimeZone() {
-        return browserTimeZone;
     }
 
     /**
