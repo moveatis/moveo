@@ -120,7 +120,8 @@ function CategoryItem(name, index) {
  * Handles the actual observing.
  */
 function Observer(category_sets) {
-    var initial_time = 59*60*1000+50*1000; // TODO: Only for debuggin!
+    var initial_time = 0; // TODO: This should be removed entirely.
+//    initial_time = 59*60*1000+50*1000; // TODO: Only for debuggin!
     this.master_clock = new Clock(initial_time);
     this.categories = [];
     this.records = [];
@@ -264,7 +265,7 @@ function Observer(category_sets) {
             cache: false,
             data: JSON.stringify({
                 duration: time,
-                category_sets: category_sets,
+                categorySets: category_sets,
                 data: this.records
             }),
             success: function(data) {
