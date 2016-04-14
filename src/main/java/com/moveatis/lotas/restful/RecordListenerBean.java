@@ -38,6 +38,7 @@ import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.label.LabelEntity;
 import com.moveatis.lotas.observation.ObservationEntity;
 import com.moveatis.lotas.records.RecordEntity;
+import com.moveatis.lotas.timezone.TimeZoneInformation;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -46,6 +47,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
+import java.util.TimeZone;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -129,27 +131,30 @@ public class RecordListenerBean implements Serializable {
     @Produces(MediaType.TEXT_PLAIN)
     public String addObservationData(String data) {
 
-        Date createdTime = Calendar.getInstance().getTime();
-        Locale locale = httpRequest.getLocale();
-        messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
-                DateFormat.SHORT, locale);
-
-        observationEntity = new ObservationEntity();
-        observationEntity.setCreated(createdTime);
-        observationEntity.setName(messages.getString("obs_title")
-                + " - " + df.format(createdTime));
-
         StringReader stringReader = new StringReader(data);
         jsonReader = Json.createReader(stringReader);
         JsonObject jObject = jsonReader.readObject();
         JsonNumber duration = jObject.getJsonNumber("duration");
+        JsonNumber timeZoneOffset = jObject.getJsonNumber("timeZoneOffsetInMs");
         JsonArray array = jObject.getJsonArray("data");
         jsonReader.close();
-        
-        messages.getString("userNotFound");
-        
+
+        Date createdTime = Calendar.getInstance().getTime();
+        Locale locale = httpRequest.getLocale();
+        TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(timeZoneOffset.intValue());
+        sessionBean.setSessionTimeZone(timeZone);
+
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+                DateFormat.SHORT, locale);
+        dateFormat.setTimeZone(timeZone);
+        messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+        //messages.getString("userNotFound");
+
+        observationEntity = new ObservationEntity();
+        observationEntity.setName(messages.getString("obs_title")
+                + " - " + dateFormat.format(createdTime));
         observationEntity.setDuration(duration.longValue());
+        observationEntity.setCreated(createdTime);
 
         try {
             for (int i = 0; i < array.size(); i++) {

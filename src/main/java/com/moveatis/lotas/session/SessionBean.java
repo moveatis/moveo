@@ -34,10 +34,12 @@ import com.moveatis.lotas.enums.UserType;
 import com.moveatis.lotas.interfaces.Application;
 import com.moveatis.lotas.interfaces.Session;
 import com.moveatis.lotas.interfaces.User;
+import com.moveatis.lotas.timezone.TimeZoneInformation;
 import com.moveatis.lotas.user.AbstractUser;
 import com.moveatis.lotas.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.SortedSet;
+import java.util.TimeZone;
 import java.util.TreeSet;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -69,7 +71,9 @@ public class SessionBean implements Serializable, Session  {
     private IdentifiedUserEntity userEntity;
     
     private boolean loggedIn = false;
-    
+
+    private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
+
     public SessionBean() {
         
     }
@@ -138,5 +142,15 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public AbstractUser getLoggedInUser() {
         return this.userEntity;
+    }
+
+    @Override
+    public TimeZone getSessionTimeZone() {
+        return sessionTimeZone;
+    }
+
+    @Override
+    public void setSessionTimeZone(TimeZone timeZone) {
+        this.sessionTimeZone = timeZone;
     }
 }

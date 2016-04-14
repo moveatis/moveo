@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -27,29 +27,31 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.lotas.interfaces;
+package com.moveatis.lotas.managedbeans;
 
-import com.moveatis.lotas.enums.SessionStatus;
-import com.moveatis.lotas.user.AbstractUser;
-import java.util.SortedSet;
+import com.moveatis.lotas.interfaces.Session;
+import com.moveatis.lotas.timezone.TimeZoneInformation;
 import java.util.TimeZone;
-import javax.ejb.Local;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
- * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Juha Moisio
  */
-@Local(Session.class)
-public interface Session {
-    
-    public SessionStatus setTagUser(String tag);
-    public SessionStatus setIdentityProviderUser(String userName, String password);
-    public SessionStatus setAnonymityUser();
-    public boolean isLoggedIn();
-    public SortedSet<Long> getSessionObservationsIds();
-    public void setSessionObservations(SortedSet<Long> observationsIds);
-    public AbstractUser getLoggedInUser();
-    public TimeZone getSessionTimeZone();
-    public void setSessionTimeZone(TimeZone timeZone);
+@Named(value = "timeBean")
+@RequestScoped
+public class TimeManagedBean {
 
+    @Inject
+    private Session sessionBean;
+
+    public TimeZone getUserTimeZone() {
+        return sessionBean.getSessionTimeZone();
+    }
+
+    public TimeZone getServerTimeZone() {
+        return TimeZoneInformation.getTimeZone();
+    }
 }

@@ -264,7 +264,8 @@ function Observer(category_sets) {
             cache: false,
             data: JSON.stringify({
                 duration: time,
-                data: this.records
+                data: this.records,
+                timeZoneOffsetInMs: -1 * 60 * 1000 * new Date().getTimezoneOffset() // Time zone offset in Java format
             }),
             success: function(data) {
                 console.log("Success: " + data);
