@@ -267,7 +267,7 @@ public class CategorySelectionManagedBean implements Serializable {
         for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
             categorySetsInUse.addClone(categorySet);
         }
-        categorySetsInUse.add("Muutama muu kategoria mahtuu tähän ryhmään", new ArrayList<String>());
+        categorySetsInUse.add("Muut", new ArrayList<String>());
     }
     
     public String getSelectedPublicCategorySet() {

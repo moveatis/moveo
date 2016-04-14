@@ -135,6 +135,7 @@ public class RecordListenerBean implements Serializable {
         jsonReader = Json.createReader(stringReader);
         JsonObject jObject = jsonReader.readObject();
         JsonNumber duration = jObject.getJsonNumber("duration");
+        JsonArray categorySets = jObject.getJsonArray("categorySets");
         JsonNumber timeZoneOffset = jObject.getJsonNumber("timeZoneOffsetInMs");
         JsonNumber DSTOffset = jObject.getJsonNumber("daylightSavingInMs");
         JsonArray array = jObject.getJsonArray("data");
@@ -156,7 +157,47 @@ public class RecordListenerBean implements Serializable {
         observationEntity.setName(messages.getString("obs_title")
                 + " - " + dateFormat.format(createdTime));
         observationEntity.setDuration(duration.longValue());
+        
         observationEntity.setCreated(createdTime);
+        
+        try {
+            for (int i = 0; i < categorySets.size(); i++) {
+                JsonObject categorySet = categorySets.getJsonObject(i);
+                JsonArray categories = categorySet.getJsonArray("categories");
+                // NOTE: Do we have to keep category sets that have no categories in them?
+                //      Maybe empty category sets shouldn't even get out of category selection view?
+                String categorySetName = categorySet.getString("name");
+                LOGGER.debug("Category set: " + categorySetName);
+                for (int j = 0; j < categories.size(); j++) {
+                    String categoryName = categories.getString(j);
+                    LOGGER.debug(" * " + categoryName);
+                }
+            }
+            
+            // NOTE(ilari):
+            // Pseudo code saving observation when user clicks "Save to database" in summary view:
+            //
+            // obsID = database.addObservation(observation.info)      // Info contains name, user, date, duration, etc.
+            // catIDs = []
+            // for categorySet in observation:
+            //      setID = categorySet.id
+            //      if categorySet not in database:                     // This shouldn't ever happen because new category
+            //          setID = database.addCategorySet(categorySet)    // sets can't be added in category selection view.
+            //          // Should we actually NOT save the category set?
+            //          // Maybe setID should be < 0 (or something) as an indication?
+            //      for category in categorySet:
+            //          catID = category.id
+            //          if category not in database:                    // This can happen because new categories can be added in category selection.
+            //              catID = database.addCategory(category)
+            //          catIDs.add(catID)
+            //          database.addObservationUsesCategory(obsID, setID, catID) // We should propably add some info that tells if category was a new one.
+            // for record in observation:
+            //      database.addRecord(obsID, record.start, record.end, catIDs[record.categoryIndex])
+            
+        } catch (Exception e) {
+            LOGGER.debug(e.toString());
+            return "failed";
+        }
 
         try {
             for (int i = 0; i < array.size(); i++) {
