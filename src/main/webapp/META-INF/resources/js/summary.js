@@ -119,7 +119,8 @@ function updateRecordsTable(timeline, timeframe) {
  * @returns {object} - jquery object containing the record row element.
  */    
 function createRecordRow(record) {
-    // TODO: escape XSS
+    // TODO: escape XSS; Is it required? Values are from backing bean and are
+    //       already escaped and user cannot change them later.
     // TODO: set information of category group
     var row = $('<div class="ui-grid-row">');
     row.append('<div class="ui-grid-col-5">' + record.name + "</div>");
@@ -305,9 +306,9 @@ function convertStrToMs(str) {
         time.unshift("0");
     }
     var seconds = 0;
-    time.forEach(function(n) {
-        seconds += parseInt(time[n], 10) * Math.pow(60, 2 - n);
-    });
+    for (var i = 0; i < time.length; i++) {
+        seconds += parseInt(time[i], 10) * Math.pow(60, 2 - i);
+    }
     return seconds * 1000;
 }
 
@@ -391,4 +392,17 @@ function getLocalZeroDate() {
  */
 function toTimelineTime(date) {
     return Math.abs(TIMELINE_BEGIN.getTime() - date.getTime());
+}
+
+/*
+ * Encode main html markup characters to html entities.
+ * @param {string} str - the string to encode.
+ * @returns {str} - the encoded string.
+ */
+function encodeHTML(str) {
+    return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
 }

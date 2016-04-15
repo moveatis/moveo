@@ -40,6 +40,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
 import org.primefaces.extensions.model.timeline.TimelineModel;
@@ -234,9 +235,8 @@ public class SummaryManagedBean {
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
                 // class name is intentionally without quotes, timeline expectional case
-                // TODO: escape XSS
                 String numberedLabel = "<span class=categoryNumber>" + categoryNumber + ". </span>"
-                        + "<span class=categoryLabel>" + category + "</span>";
+                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category) + "</span>";
                 TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
                 timeline.addGroup(timelineGroup);
                 // Add dummy records to show empty categories in timeline
