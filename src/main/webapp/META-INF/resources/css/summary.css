@@ -39,7 +39,7 @@
     margin: 0 auto;
 }
 
-# summary-content {
+#summary-content {
     padding: .1em .5em;
 }
 
@@ -59,8 +59,13 @@
     display: table-cell;
 }
 
-#recordings-details .categoryNumber {
+#recordings-details .categoryNumber,
+#recordings-details .header-row,
+#recordings-details .summary-row {
     font-family: Arial,sans-serif;
+}
+
+#recordings-details .categoryNumber {
     padding-right: 10px;
     width: 1em;
 }
@@ -93,16 +98,16 @@
     position: relative;
 }
 .ui-grid-row {
-    padding: 0.2em 0;
-    margin-left: 10px;
+    padding: 0.4em 0;
+    margin-left: 3px;
 }
-.ui-grid-row:after {
+.ui-grid-row:not(.header-row):after {
     content:"";
     border-bottom: 1px solid #4F4F4F;
     width: 100%;
     position: absolute;
     left: 0;
-    margin-top: -0.2em;
+    margin-top: -0.4em;
     opacity: 0.5;
 }
 
@@ -118,9 +123,6 @@
     width: auto;
 }
 
-#timeline {
-    clear: both;
-}
 .zoomControl {
     float: right;
 }

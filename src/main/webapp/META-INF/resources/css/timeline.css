@@ -12,7 +12,7 @@ and open the template in the editor.
 
 #timeline .timeline-event {
     color: #AEAEAE;
-    background: #fa4;
+    background: #F82;
     box-shadow: none;
     margin-top: 0px;
 }
@@ -23,8 +23,9 @@ and open the template in the editor.
     text-shadow: none;
 }
 
-#timeline .timeline-axis {
-    background: #567;
+#timeline .timeline-axis,
+#timeline .timeline-groups-axis {
+    background: transparent linear-gradient(0deg, #345, #567) repeat scroll 0% 0%;
     opacity: 1;
 }
 
@@ -36,10 +37,6 @@ and open the template in the editor.
 #timeline .timeline-axis-grid {
     border-left-style: dashed!important;
     border-top-style: dashed!important;
-}
-
-#timeline .timeline-groups-axis {
-    background-color: #567;
 }
 
 #timeline .timeline-groups-axis  > .timeline-groups-text {
@@ -69,4 +66,8 @@ and open the template in the editor.
 
 #timeline .timeline-axis {
     color: #4F4F4F;
+}
+
+#timeline {
+    clear: both;
 }
