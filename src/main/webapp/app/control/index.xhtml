@@ -18,59 +18,58 @@ and open the template in the editor.
             <ui:define name="mainpage">
                 <h:outputStylesheet library="css" name="control.css"/>
 
-                 <nav>
-                <h:form>
-                    <div>
-                        <p:panelMenu>
-                            <p:submenu label="Omat" expanded="false">
-                                <p:submenu label="Tapahtumaryhmä 1" >
-                                    <p:submenu label="Tapahtuma 1">
-                                        <p:menuitem value="Observointi 1" />
-                                        <p:menuitem value="Observointi 2" />
-                                        <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick" />
-                                    </p:submenu>
-                                    <p:submenu label="Tapahtuma 2" >
-                                        <p:menuitem value="Observointi 1" />
-                                        <p:menuitem value="Observointi 2" />
-                                        <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
-                                    </p:submenu>
-                                    <p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick"/>
-                                </p:submenu>
-                                <p:menuitem value="Uusi tapahtumaryhmä..." icon="ui-icon-plusthick"/>
-                            </p:submenu>
+                <nav>
+                   <h:form>
+                       <div>
+                           <p:panelMenu model="#{controlManagedBean.menuModel}"/>
+                           <!--
+                               <p:submenu label="Omat" expanded="false">
+                                   <p:submenu label="Tapahtumaryhmä 1" >
+                                       <p:submenu label="Tapahtuma 1">
+                                           <p:menuitem value="Observointi 1" />
+                                           <p:menuitem value="Observointi 2" />
+                                           <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick" />
+                                       </p:submenu>
+                                       <p:submenu label="Tapahtuma 2" >
+                                           <p:menuitem value="Observointi 1" />
+                                           <p:menuitem value="Observointi 2" />
+                                           <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
+                                       </p:submenu>
+                                       <p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick"/>
+                                   </p:submenu>
+                                   <p:menuitem value="Uusi tapahtumaryhmä..." icon="ui-icon-plusthick"/>
+                               </p:submenu>
 
-                            <p:submenu label="Yleiset" expanded="false">
-                                <p:submenu label="Tapahtumaryhmä 1" >
-                                    <p:submenu label="Tapahtuma 1" >
-                                        <p:menuitem value="Observointi 1" />
-                                        <p:menuitem value="Observointi 2" />
-                                        <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
-                                    </p:submenu>
-                                    <p:submenu label="Tapahtuma 2" >
-                                        <p:menuitem value="Observointi 1" />
-                                        <p:menuitem value="Observointi 2" />
-                                        <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
-                                    </p:submenu>
-                                    <p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick"/>
-                                </p:submenu>
-                                <p:menuitem value="Uusi tapahtumaryhmä..." icon="ui-icon-plusthick"/>
-                            </p:submenu>
-                        </p:panelMenu>
-                    </div>
-                </h:form> 
-            </nav>
-            <h:panelGroup styleClass="welcomeContent" style="float: left; width: 450px">
-                <p>
-                    <h:outputText value="Moveatis hallintasivu."/>
-                </p>
-                <p>
-                    <h:outputText value="- Omat ja yleiset."/>
-                </p>
-            </h:panelGroup>
+                               <p:submenu label="Yleiset" expanded="false">
+                                   <p:submenu label="Tapahtumaryhmä 1" >
+                                       <p:submenu label="Tapahtuma 1" >
+                                           <p:menuitem value="Observointi 1" />
+                                           <p:menuitem value="Observointi 2" />
+                                           <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
+                                       </p:submenu>
+                                       <p:submenu label="Tapahtuma 2" >
+                                           <p:menuitem value="Observointi 1" />
+                                           <p:menuitem value="Observointi 2" />
+                                           <p:menuitem value="Uusi observointi..." icon="ui-icon-plusthick"/>
+                                       </p:submenu>
+                                       <p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick"/>
+                                   </p:submenu>
+                                   <p:menuitem value="Uusi tapahtumaryhmä..." icon="ui-icon-plusthick"/>
+                               </p:submenu>
+                           </p:panelMenu> -->
+                       </div>
+                   </h:form> 
+               </nav>
+                <h:panelGroup styleClass="welcomeContent" style="float: left; width: 450px">
+                    <p>
+                        <h:outputText value="Moveatis hallintasivu."/>
+                    </p>
+                    <p>
+                        <h:outputText value="- Omat ja yleiset."/>
+                    </p>
+                </h:panelGroup>
 
             </ui:define>
-
         </ui:composition>
-
     </h:body>
 </html>

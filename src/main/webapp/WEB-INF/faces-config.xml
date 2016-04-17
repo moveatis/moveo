@@ -37,7 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <from-view-id>/install.xhtml</from-view-id>
         <navigation-case>
             <to-view-id>/index.xhtml</to-view-id>
-            <from-outcome>installed</from-outcome>
+            <from-outcome>success</from-outcome>
             <redirect/>
         </navigation-case>
     </navigation-rule>
@@ -75,6 +75,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <redirect/>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/app/control/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/app/categoryselection/index.xhtml</to-view-id>
+            <from-outcome>newobservation</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
     <application>
         <locale-config>
             <default-locale>en</default-locale>
@@ -83,6 +91,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <resource-bundle>
             <base-name>com.moveatis.messages.Messages</base-name>
             <var>msg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>com.moveatis.messages.IdentityProviderMessages</base-name>
+            <var>identitymessages</var>
         </resource-bundle>
     </application>
 </faces-config>

@@ -183,6 +183,9 @@ function Observer(category_sets) {
                 
                 // TODO: Do we want to tell backend that observation started?
                 // Or should we send start time when observation is stopped?
+                // 
+                // [Sami] I think that telling backend that observation has started
+                // has the benefit of letting us know backend is listening.
                 $.ajax({
                     url: "../../webapi/records/startobservation",
                     type: "POST",

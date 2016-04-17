@@ -33,6 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <jta-data-source>${datasource}</jta-data-source>
     <class>com.moveatis.lotas.label.LabelEntity</class>
     <class>com.moveatis.lotas.roles.SuperUserRoleEntity</class>
+    <class>com.moveatis.identityprovider.IdentityProviderSaltEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

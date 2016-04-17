@@ -31,7 +31,7 @@
                         <div class="accessButtons" style="min-height: 200px;">
                             <p:commandButton value="Kurssiavain" type="button" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px" class="coloredButton"/>
                             <p:commandButton value="JYU-tunnukset" type="button" style="width: 200px; margin-top: 15px" class="coloredButton" action="#{identityProviderBasedLoginBean.loginOutcome}"/>
-                            <p:commandButton value="Julkinen" ajax="false" style="width: 200px; margin-top: 15px" class="coloredButton" action="/categoryselection/index.xhtml?faces-redirect=true"/>
+                            <p:commandButton value="Julkinen" ajax="false" style="width: 200px; margin-top: 15px" class="coloredButton" action="#{loginBean.doAnonymityLogin()}"/>
                         </div>
 
                         <p:dialog header="Anna kurssiavain" widgetVar="dlg1" minHeight="80" position="top" draggable="false" resizable="false" responsive="true" modal="true" fitViewport="true" class="coloredButton">
@@ -50,37 +50,37 @@
             <p:dialog header="Tämä avaa JYU-kirjautumissivun" widgetVar="dlg2" minHeight="80" position="top" 
                      class="coloredButton">
                 <h:form>
-                    <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true"/> 
-                    <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true"/> 
-                    <p:commandButton icon="ui-icon-check" action="#{loginBean.doIdentityProviderLogin}"/>
+                    <p:inputText id="userName" autocomplete="off" value="#{identityProviderLoginBean.userName}" required="true"/> 
+                    <p:password id="password" autocomplete="off" value="#{identityProviderLoginBean.password}" required="true"/> 
+                    <p:commandButton icon="ui-icon-check" action="#{identityProviderLoginBean.doIdentityProviderLogin()}" onclick="PF('dlg2').hide();"/>
                 </h:form>
             </p:dialog>
         </nav>
    
-        <h:panelGroup styleClass="welcomeContent">
-            <h:graphicImage library="images" name="jy_teksti_oikealla_540.png" width="100"/>
-            <p>
-            <h:outputText value="Moveatis. Jyväskylän Yliopiston Liikuntakasvatuksen laitos."/>
+            <h:panelGroup styleClass="welcomeContent" rendered="#{applicationManagedBean.installed}">
+                <h:graphicImage library="images" name="jy_teksti_oikealla_540.png" width="100"/>
+                <p>
+                <h:outputText value="Moveatis. Jyväskylän Yliopiston Liikuntakasvatuksen laitos."/>
+                </p>
+                <p>
+                <h:outputText value="Valitse jokin seuraavista käyttötavoista:"/>
+                </p>
+                <p>
+                <h:outputText value="- Käyttö kurssiavaimella: sisältää pohjatiedot."/>
+                </p>
+                <p>
+                <h:outputText value="- Käyttö JYU-tunnuksilla: täydet toiminnallisuudet."/>
+                </p>
+                <p>
+                <h:outputText value="- Julkinen käyttö: ei tallennusmahdollisuutta."/>
             </p>
-            <p>
-            <h:outputText value="Valitse jokin seuraavista käyttötavoista:"/>
-            </p>
-            <p>
-            <h:outputText value="- Käyttö kurssiavaimella: sisältää pohjatiedot."/>
-            </p>
-            <p>
-            <h:outputText value="- Käyttö JYU-tunnuksilla: täydet toiminnallisuudet."/>
-            </p>
-            <p>
-            <h:outputText value="- Julkinen käyttö: ei tallennusmahdollisuutta."/>
-            </p>
-            <p>
-                <h:outputText value="Demossa admin-tunnus on 'admin' ja salasana on 'admin'"/>
-            </p>
-            <p>
-                <h:outputText value="Demossa user-tunnus on 'user' ja salasana on 'user'" />
-            </p>
-        </h:panelGroup>
+            </h:panelGroup>
+                <h:panelGroup rendered="#{!applicationManagedBean.installed}" style="margin-top: 10em;">
+                <h:outputText value="#{msg.installationHelp} "/>
+                <h:outputLink value="install.xhtml" style="text-decoration: underline;">
+                    <h:outputText value="#{msg.installationLink}"/>
+                </h:outputLink>
+            </h:panelGroup>
             </ui:define>
         </ui:composition>
     </h:body>
