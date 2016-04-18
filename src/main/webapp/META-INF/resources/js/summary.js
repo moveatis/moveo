@@ -37,6 +37,7 @@
 var TIMELINE_BEGIN = getLocalZeroDate();
 var OBSERVATION_DURATION = SummaryIndex.getObservationDuration(); // function in summary/index.xhtml
 var msg = SummaryIndex.getMessages(); // function in summary/index.xhtml
+var ESCAPE_KEY = 27;
 
 /*
  * On document ready:
@@ -74,8 +75,19 @@ $(function () {
     links.events.addListener(timeline, "select", function () {
         showRecordDetails(timeline, growl);
     });
-});
 
+    $(document).click(function (e) {
+        if (!$(e.target).hasClass("timeline-event-content")) {
+            hideMessages(timeline, growl);
+        }
+    });
+
+    $(document).keyup(function (e) {
+        if (e.keyCode === ESCAPE_KEY) {
+            hideMessages(timeline, growl);
+        }
+    });
+});
 
 /**
  * Updates records table information for given time frame.
@@ -88,7 +100,7 @@ function updateRecordsTable(timeline, timeframe) {
     var timeframeDuration = getTimeframeDuration(timeframe);
     var recordsTotalCount = getRecordsInTimeframe(timeline.items, timeframe).length;
     recordsTable.empty();
-    
+
     $.each(categories, function (category, categoryRecords) {
         var records = getRecordsInTimeframe(categoryRecords, timeframe);
         var duration = getDurationOfRecords(records, timeframe);
@@ -117,7 +129,7 @@ function updateRecordsTable(timeline, timeframe) {
  * @param {object} record - object containing record data
  *  Data form: {name, count, countPercentage, duration, durationPercentage}
  * @returns {object} - jquery object containing the record row element.
- */    
+ */
 function createRecordRow(record) {
     // TODO: escape XSS; Is it required? Values are from backing bean and are
     //       already escaped and user cannot change them later.
@@ -185,6 +197,16 @@ function showRecordDetails(timeline, growl) {
             });
         }
     }
+}
+
+/*
+ * Hide all growl messages and remove timeline selection.
+ * @param {object} timeline - The timeline component.
+ * @param {object} growl - The growl component.
+ */
+function hideMessages(timeline, growl) {
+    growl.removeAll();
+    timeline.setSelection(null);
 }
 
 /*
