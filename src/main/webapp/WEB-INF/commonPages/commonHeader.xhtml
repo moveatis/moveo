@@ -26,11 +26,15 @@ and open the template in the editor.
                     </p:submenu>
 
 
-                    <p:submenu icon="fa fa-user">
+                    <p:submenu icon="fa fa-user" rendered="#{sessionBean.identifiedUser}">
                         <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="#{msg.head_superuserPage}" icon="fa fa-group" url="/app/superuser/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="#{msg.head_logout}" icon="fa fa-sign-out"  
+                        <p:menuitem value="#{msg.head_logout}" icon="fa fa-sign-out"
                                     actionListener="#{logoutBean.logOut}"  class="coloredButton"/>
+                    </p:submenu>
+
+                    <p:submenu icon="fa fa-lock" rendered="#{!sessionBean.identifiedUser}">
+                        <p:menuitem value="#{msg.head_login}" icon="fa fa-sign-in"  onclick="PF('dlgLogin').show();" class="coloredButton"/>
                     </p:submenu>
 
                     <p:submenu icon="fa fa-cogs">
@@ -46,6 +50,16 @@ and open the template in the editor.
                     </p:submenu>
                 </p:menubar>
             </h:form>
+
+            <p:dialog header="#{msg.head_loginTitle}" widgetVar="dlgLogin" minHeight="80" position="top"
+                      draggable="false" resizable="false" responsive="true" modal="true" fitViewport="true"
+                      class="coloredButton">
+                <h:form class="ui-fluid">
+                    <p:inputText id="userName" autocomplete="off" value="#{identityProviderLoginBean.userName}" placeholder="#{msg.head_userName}" required="true"/>
+                    <p:password id="password" autocomplete="off" value="#{identityProviderLoginBean.password}" placeholder="#{msg.head_password}" required="true"/>
+                    <p:commandButton icon="ui-icon-check" value="#{msg.head_login}" action="#{identityProviderLoginBean.doIdentityProviderLogin()}" onclick="PF('dlgLogin').hide();"/>
+                </h:form>
+            </p:dialog>
         </ui:composition>
     </body>
 </html>

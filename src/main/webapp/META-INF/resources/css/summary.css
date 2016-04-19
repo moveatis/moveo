@@ -135,10 +135,6 @@
     font-size: 1.6em;
 }
 
-.dialog-form > * {
-    margin-bottom: .3em;
-}
-
 select > .placeholder {
     display: none;
 }

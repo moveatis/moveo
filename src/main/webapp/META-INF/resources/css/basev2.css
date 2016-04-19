@@ -167,6 +167,10 @@ a:hover {text-decoration: none; color: white;}
     max-height: calc(100vh - 65px);
 }
 
+.ui-dialog-content > form > * {
+    margin-bottom: .3em;
+}
+
 @media screen and (max-width: 800px) {
 
     nav {

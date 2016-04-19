@@ -75,6 +75,7 @@ public class SessionBean implements Serializable, Session  {
     private AbstractUser abstractUser;
     
     private boolean loggedIn = false;
+    private boolean identifiedUser = false;
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
 
@@ -120,6 +121,11 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public boolean isLoggedIn() {
         return loggedIn;
+    }
+
+    @Override
+    public boolean isIdentifiedUser() {
+        return userType == UserType.IDENTIFIED_USER;
     }
     
     @Override
