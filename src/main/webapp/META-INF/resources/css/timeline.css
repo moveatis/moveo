@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
 */
 
-/* Custom styles for the Timeline */
+/* Custom styles for the Timeline component. */
 
 #timeline .timeline-event {
     color: #AEAEAE;
@@ -70,4 +70,8 @@ and open the template in the editor.
 
 #timeline {
     clear: both;
+}
+
+.dummyRecord {
+    display: none!important;
 }
