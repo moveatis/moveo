@@ -68,7 +68,6 @@ public class CategorySelectionManagedBean implements Serializable {
         }
         
         public final void setName(String name) {
-            // TODO: Where/how should we escape/validate everything?
             StringBuilder validName = new StringBuilder();
             for (int i = 0; i < name.length(); ) {
                 int codePoint = name.codePointAt(i);
@@ -80,8 +79,6 @@ public class CategorySelectionManagedBean implements Serializable {
                 i += Character.charCount(codePoint);
             }
             this.name = validName.toString().trim();
-            // this.name = StringEscapeUtils.escapeEcmaScript(name);
-            // this.name = name;
         }
         
         public boolean isSelected() {

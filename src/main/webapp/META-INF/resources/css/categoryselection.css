@@ -82,6 +82,11 @@ h1 {
 .category-remove-button {
 }
 
+.category .ui-message-error {
+    background-color: transparent;
+    border: 0;
+}
+
 .new-category-button {
     width: 100%;
     text-align: left;

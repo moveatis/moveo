@@ -49,10 +49,12 @@
                             <ui:repeat value="#{categorySet.categories}" var="category">
                             <div class="category">
                                 <p:selectBooleanCheckbox value="#{category.selected}" class="category-checkbox"/>
-                                <p:inputText value="#{category.name}" id="category-name-input" class="category-text"/>
+                                <p:inputText value="#{category.name}" id="category-name-input" class="category-text"
+                                             validator="#{validationBean.validateCategoryName}"/>
                                 <p:watermark value="#{msg.cs_categoryName}" for="category-name-input"/>
                                 <p:commandButton icon="fa fa-remove" class="category-remove-button"
                                                  action="#{categorySet.remove(category)}" update="@form"/>
+                                <p:message for="category-name-input"/>
                             </div>
                             </ui:repeat>
                             <p:commandButton value="#{msg.cs_newCategory}" icon="fa fa-plus" class="new-category-button"
@@ -61,7 +63,7 @@
                         </ui:repeat>
                         
                         <div id="control-div">
-                            <p:commandButton value="#{msg.cs_continueToObservation}" action="#{categorySelectionBean.checkCategories}" update="growl"/>
+                            <p:commandButton value="#{msg.cs_continueToObservation}" action="#{categorySelectionBean.checkCategories}" update="@form"/>
                         </div>
                     </h:form>
                 </div>
