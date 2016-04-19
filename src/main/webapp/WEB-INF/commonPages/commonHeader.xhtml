@@ -53,7 +53,7 @@ and open the template in the editor.
 
             <p:dialog header="#{msg.head_loginTitle}" widgetVar="dlgLogin" minHeight="80" position="top"
                       draggable="false" resizable="false" responsive="true" modal="true" fitViewport="true"
-                      class="coloredButton">
+                      class="coloredButton" rendered="#{!sessionBean.identifiedUser}">
                 <h:form class="ui-fluid">
                     <p:inputText id="userName" autocomplete="off" value="#{identityProviderLoginBean.userName}" placeholder="#{msg.head_userName}" required="true"/>
                     <p:password id="password" autocomplete="off" value="#{identityProviderLoginBean.password}" placeholder="#{msg.head_password}" required="true"/>
