@@ -76,6 +76,7 @@ public class SessionBean implements Serializable, Session  {
     
     private boolean loggedIn = false;
     private boolean identifiedUser = false;
+    private boolean saveable = false;
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
 
@@ -139,6 +140,11 @@ public class SessionBean implements Serializable, Session  {
             return new TreeSet<>();
         }
         return this.sessionObservations;
+    }
+
+    @Override
+    public boolean isSaveable() {
+        return this.sessionObservations != null;
     }
 
     @Override
