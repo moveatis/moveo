@@ -27,17 +27,18 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.moveatis.managedbeans;
 
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.EventGroup;
+import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -45,6 +46,7 @@ import javax.inject.Inject;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,96 +55,45 @@ import org.slf4j.LoggerFactory;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="controlManagedBean")
+@Named(value = "controlManagedBean")
 @ViewScoped
 public class ControlManagedBean implements Serializable {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
 
     private List<EventGroupEntity> ownEventGroups;
     private List<EventGroupEntity> accessEventGroups;
     private List<EventGroupEntity> publicEventGroups;
-    
+
     private List<String> ownEvents;
     private List<String> accessEvents;
     private List<String> publicEvents;
-    
+
     private MenuModel menuModel;
-    
+
     @Inject
     private EventGroup eventGroupEJB;
-    
+
     @Inject
     private Session sessionBean;
-    
+
+    @Inject
+    @MessageBundle
+    private transient ResourceBundle messages;
+
     private AbstractUser user;
-    
+
     public ControlManagedBean() {
-        
     }
-    
+
     @PostConstruct
     public void init() {
-        menuModel = new DefaultMenuModel();
         user = sessionBean.getLoggedInUser();
-        
         setOwnEventGroups();
         setAccessEventGroups();
-        
-        DefaultSubMenu ownEventGroupsMenu = new DefaultSubMenu("Omat");
-        
-        if(!ownEventGroups.isEmpty()) {
-            for (EventGroupEntity groupEntity : ownEventGroups) {
-                DefaultSubMenu groupItem = new DefaultSubMenu(groupEntity.getLabel());
-                
-                for(EventEntity eventEntity : groupEntity.getEvents()) {
-                    DefaultSubMenu eventItem = new DefaultSubMenu(eventEntity.getLabel());
-                    
-                    DefaultMenuItem menuItem = new DefaultMenuItem("Uusi observointi");
-                    menuItem.setCommand("#{controlManagedBean.newObservation('m1')}");
-                    
-                    eventItem.addElement(menuItem);
-                    groupItem.addElement(eventItem);
-                }
-                ownEventGroupsMenu.addElement(groupItem);
-            }
-        }
-        
-        DefaultMenuItem newOwnEvent = new DefaultMenuItem("Uusi tapahtuma");
-        ownEventGroupsMenu.addElement(newOwnEvent);
-        
-        menuModel.addElement(ownEventGroupsMenu);
-        
-        DefaultSubMenu accessEventGroupsMenu = new DefaultSubMenu("Käyttöoikeus");
-        
-        if(!accessEventGroups.isEmpty()) {
-            for(EventGroupEntity groupEntity : accessEventGroups) {
-                DefaultSubMenu groupItem = new DefaultSubMenu(groupEntity.getLabel());
-                
-                for(EventEntity eventEntity : groupEntity.getEvents()) {
-                    DefaultSubMenu eventItem = new DefaultSubMenu(eventEntity.getLabel());
-                    
-                    DefaultMenuItem menuItem = new DefaultMenuItem("Uusi observointi");
-                    menuItem.setCommand("#{controlManagedBean.newObservation('m1')}");
-                    
-                    eventItem.addElement(menuItem);
-                    groupItem.addElement(eventItem);
-                }
-                
-                accessEventGroupsMenu.addElement(groupItem);
-            }
-        }
-        
-        DefaultMenuItem newAccessEvent = new DefaultMenuItem("Uusi tapahtuma");
-        accessEventGroupsMenu.addElement(newAccessEvent);
-        
-        menuModel.addElement(accessEventGroupsMenu);
-        
-        DefaultSubMenu publicEventGroupsMenu = new DefaultSubMenu("Yleiset");
-        
-        menuModel.addElement(publicEventGroupsMenu);
+        createMenuModel();
     }
-    
+
     private void setOwnEventGroups() {
         ownEventGroups = eventGroupEJB.findAllForOwner(user);
     }
@@ -152,8 +103,9 @@ public class ControlManagedBean implements Serializable {
     }
 
     private void setPublicEventGroups() {
-        
+
     }
+
     public MenuModel getMenuModel() {
         return menuModel;
     }
@@ -161,9 +113,43 @@ public class ControlManagedBean implements Serializable {
     public void setMenuModel(MenuModel menuModel) {
         this.menuModel = menuModel;
     }
-    
+
     public String newObservation(String identifier) {
         return "newobservation";
     }
-    
+
+    private void createMenuModel() {
+        menuModel = new DefaultMenuModel();
+        createSubMenuModel("Oma", ownEventGroups);
+        createSubMenuModel("Käyttöoikeus", accessEventGroups);
+        createSubMenuModel("Yleiset", publicEventGroups);
+    }
+
+    private void createSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
+        DefaultSubMenu menuEventGroups = new DefaultSubMenu(menuName);
+        if (eventGroups != null && !eventGroups.isEmpty()) {
+            for (EventGroupEntity eventGroup : eventGroups) {
+                DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
+                for (EventEntity event : eventGroup.getEvents()) {
+                    DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
+                    DefaultMenuItem itemNewObservation
+                            = createNewAddMenuItem(messages.getString("con_newObservation"));
+                    String command = "#{controlManagedBean.newObservation('" + event.getId() + "')}";
+                    itemNewObservation.setCommand(command);
+                    subMenuEvent.addElement(itemNewObservation);
+                    subMenuEventGroup.addElement(subMenuEvent);
+                }
+                menuEventGroups.addElement(subMenuEventGroup);
+                menuEventGroups.addElement(createNewAddMenuItem(messages.getString("con_newEvent")));
+            }
+        }
+        menuEventGroups.addElement(createNewAddMenuItem(messages.getString("con_newEventGroup")));
+        menuModel.addElement(menuEventGroups);
+    }
+
+    private DefaultMenuItem createNewAddMenuItem(String value) {
+        DefaultMenuItem menuItem = new DefaultMenuItem(value);
+        menuItem.setIcon("ui-icon-plusthick");
+        return menuItem;
+    }
 }

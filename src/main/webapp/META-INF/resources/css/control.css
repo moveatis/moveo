@@ -3,13 +3,18 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : Mar 15, 2016, 2:16:45 PM
     Author     : jaanjuuj
 */
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 @import url(smartphones/basev2.css);
 @import url(tablets/basev2.css);
+
+#mainPage {
+    max-width: 960px;
+    margin: 0 auto;
+}
 
 html {
     width: 100%;
@@ -46,20 +51,20 @@ nav {
 }
 
 .accessButtons {
-    
+
     width: 9.5em;
     height: 2.0em;
     margin: auto auto auto auto;
     display: block;
     text-align: center;
     padding: 1.0em;
-    color: white; 
+    color: white;
 }
 
 .welcomeContent {
-        margin: auto auto auto auto;
-        padding: 1.0em;
-        display: table;
+    margin: auto auto auto auto;
+    padding: 1.0em;
+    display: table;
 }
 
 .coloredButton {
@@ -72,22 +77,22 @@ nav {
 }
 
 @media screen and (max-width: 800px) {
-    
+
     nav {
         border: none;
         padding-bottom: 0.5em;
         padding-top: 0.0;
-        
+
     }
-        .accessButtons {
+    .accessButtons {
         width: 9.5em;
         height: 2.0em;
-/*        margin: 2.5% auto 2.5% auto;*/
+        /*        margin: 2.5% auto 2.5% auto;*/
         display:table;
         text-align: center;
-        color: white;   
+        color: white;
     }
-    
+
     .welcomeContent {
         width: 96%;
         margin: 1% auto 1% auto;
