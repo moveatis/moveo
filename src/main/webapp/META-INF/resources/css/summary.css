@@ -115,14 +115,6 @@
     text-align: right;
 }
 
-.actions-form {
-    float: right;
-}
-
-.actions-form > .ui-button {
-    width: auto;
-}
-
 .zoomControl {
     float: right;
 }
@@ -133,18 +125,6 @@
 .fa-search-minus {
     cursor: pointer;
     font-size: 1.6em;
-}
-
-.dialog-form > * {
-    margin-bottom: .3em;
-}
-
-select > .placeholder {
-    display: none;
-}
-
-.ui-dialog.coloredButton {
-    max-width: 48em;
 }
 
 .percent {
@@ -173,10 +153,6 @@ select > .placeholder {
     opacity: 1;
 }
 
-.dummyRecord {
-    display: none!important;
-}
-
 /* Responsive */
 @media (max-width:700px){
     .content {
@@ -194,8 +170,5 @@ select > .placeholder {
     .ui-grid.ui-grid-responsive-320 .ui-grid-row > .ui-grid-col-5 {
         float: left;
         width: auto;
-    }
-    .actions-form > .ui-button {
-        width: 100%;
     }
 }

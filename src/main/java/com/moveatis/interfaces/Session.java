@@ -48,6 +48,8 @@ public interface Session {
     public SessionStatus setIdentityProviderUser(IdentifiedUserEntity user);
     public SessionStatus setAnonymityUser();
     public boolean isLoggedIn();
+    public boolean isIdentifiedUser();
+    public boolean isSaveable();
     public SortedSet<Long> getSessionObservationsIds();
     public void setSessionObservations(SortedSet<Long> observationsIds);
     public AbstractUser getLoggedInUser();
