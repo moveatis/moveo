@@ -1,7 +1,6 @@
 
 //
 // TODO:
-// - Send keep-alive signals to backend.
 // - Is there need for Observer?
 // - Rethink CategoryItem.
 // - How and where from should we get categories?
@@ -130,6 +129,11 @@ function Observer(category_sets) {
     
     initialize(this);
     
+    /**
+     * Private method that initializes various things.
+     * @param {type} this_
+     * @returns {undefined}
+     */
     function initialize(this_) {
         $("#pause").hide();
         $("#stop").addClass("disabled");
@@ -266,6 +270,7 @@ function Observer(category_sets) {
             dataType: "text",
             contentType: "application/json",
             cache: false,
+            // TODO: Is JSON.stringify necessary?
             data: JSON.stringify({
                 duration: time,
                 categorySets: category_sets,
@@ -276,6 +281,7 @@ function Observer(category_sets) {
             success: function(data) {
                 console.log("Success: " + data);
                 this_.waiting = false;
+                // TODO: Redirect properly.
                 window.location = "../summary/";
             },
             error: function(xhr, status, error) {
@@ -307,6 +313,25 @@ function Observer(category_sets) {
 }
 
 
+function keepAlive() {
+    $.ajax({
+        url: "../../webapi/records/keepalive",
+        type: "POST",
+        dataType: "text",
+        contentType: "text/plain",
+        cache: false,
+        data: "keep-alive",
+        success: function(data) {
+            console.log("Success: " + data);
+        },
+        error: function(xhr, status, error) {
+            console.log("Error: " + error);
+            // TODO: Error popup?
+        }
+    });
+}
+
+
 $(document).ready(function() {
     var observer = new Observer(category_sets);
     
@@ -320,6 +345,7 @@ $(document).ready(function() {
     });
 
     setInterval(function() { observer.tick(); }, 200);
+    setInterval(keepAlive, 5*60000); // Send keep-alive every 5 minutes.
 });
 
 function getTimeZoneOffset(){

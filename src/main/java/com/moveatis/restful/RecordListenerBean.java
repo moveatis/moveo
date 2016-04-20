@@ -118,10 +118,13 @@ public class RecordListenerBean implements Serializable {
     /*
     * TODO: Needs work - what to do when keep-alive request is commenced?
     */
+    // NOTE: Used by observer view.
+    // TODO: What about other views? What happens if session expires? Redirect to front page?
     @POST
     @Path("keepalive")
     @Produces(MediaType.TEXT_PLAIN)
     public String keepAlive() {
+        LOGGER.debug("keep-alive received");
         return "keep-alive";
     }
     
