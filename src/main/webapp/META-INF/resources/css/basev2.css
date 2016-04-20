@@ -35,6 +35,12 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+/* Use same font family on widgets for consistency
+    (excluding .fa elements) */
+.ui-widget:not(.fa) {
+    font-family: 'Roboto', sans-serif;
+}
+
 /* Sticky footer based on this:
    http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ */
 .wrapper {
