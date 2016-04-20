@@ -68,7 +68,6 @@ public class CategorySelectionManagedBean implements Serializable {
         }
         
         public final void setName(String name) {
-            // TODO: Where/how should we escape/validate everything?
             StringBuilder validName = new StringBuilder();
             for (int i = 0; i < name.length(); ) {
                 int codePoint = name.codePointAt(i);
@@ -80,8 +79,6 @@ public class CategorySelectionManagedBean implements Serializable {
                 i += Character.charCount(codePoint);
             }
             this.name = validName.toString().trim();
-            // this.name = StringEscapeUtils.escapeEcmaScript(name);
-            // this.name = name;
         }
         
         public boolean isSelected() {
@@ -103,6 +100,7 @@ public class CategorySelectionManagedBean implements Serializable {
     public static class CategorySet {
         private String name;
         private List<Category> categories = new ArrayList<>();
+        private List<Category> userCategories = new ArrayList<>();
         
         public String getName() {
             return name;
@@ -124,18 +122,31 @@ public class CategorySelectionManagedBean implements Serializable {
             categories.add(new Category(category));
         }
         
+        public List<Category> getUserCategories() {
+            return userCategories;
+        }
+        
         public void addEmpty() {
-            categories.add(new Category(""));
+            userCategories.add(new Category(""));
         }
         
         public void remove(Category category) {
-            categories.remove(category);
+            userCategories.remove(category);
         }
         
         public boolean allCategoriesHaveUniqueName() {
             for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
                 if (categories.lastIndexOf(category) != i) {
+                    return false;
+                }
+                if (userCategories.lastIndexOf(category) >= 0) {
+                    return false;
+                }
+            }
+            for (int i = 0; i < userCategories.size(); i++) {
+                Category category = userCategories.get(i);
+                if (userCategories.lastIndexOf(category) != i) {
                     return false;
                 }
             }
@@ -149,10 +160,19 @@ public class CategorySelectionManagedBean implements Serializable {
                     return false;
                 }
             }
+            for (int i = 0; i < userCategories.size(); i++) {
+                Category category = userCategories.get(i);
+                if (category.getName().isEmpty()) {
+                    return false;
+                }
+            }
             return true;
         }
         
         public boolean atLeastOneCategorySelected() {
+            if (!userCategories.isEmpty()) {                
+                return true;
+            }
             for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
                 if (category.isSelected()) {
@@ -165,6 +185,15 @@ public class CategorySelectionManagedBean implements Serializable {
         public List<String> getSelectedCategories() {
             List<String> selectedCategories = new ArrayList<>();
             for (Category category : categories) {
+                if (category.isSelected()) {
+                    String categoryName = category.getName();
+                    // TODO: Do we have to check name length and duplicates?
+                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
+                        selectedCategories.add(categoryName);
+                    }
+                }
+            }
+            for (Category category : userCategories) {
                 if (category.isSelected()) {
                     String categoryName = category.getName();
                     if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
