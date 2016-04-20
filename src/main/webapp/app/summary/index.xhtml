@@ -117,61 +117,59 @@
                     </div>
                 </div>
 
-                <div class="ui-fluid">
-                    <p:dialog header="#{msg.sum_mailDialogHeader}"
-                              widgetVar="dlgMail"
-                              position="top"
-                              draggable="false"
-                              resizable="false"
-                              responsive="true"
-                              modal="true"
-                              fitViewport="true"
-                              styleClass="coloredButton">
-                        <h:form styleClass="dialog-form">
-                            <p:inputText id="input-name"
-                                         value="#{summaryBean.observationName}"
-                                         placeholder="#{msg.sum_observationName}"/>
-                            <p:inputText id="input-target"
-                                         value="#{summaryBean.observationTarget}"
-                                         placeholder="#{msg.sum_observationTarget}"/>
-                            <p:inputTextarea id="input-description"
-                                             value="#{summaryBean.observationDescription}"
-                                             placeholder="#{msg.sum_observationDescription}"
-                                             rows="6" cols="33" autoResize="true" />
-                            <h:outputText value="#{msg.sum_giveEmail}"/>
-                            <p:inputText id="input-email"
-                                         placeholder="#{msg.sum_emailAddress}" />
-                            <p:commandButton value="#{msg.sum_sendMail}" icon="ui-icon-check"
-                                             onclick="PF('dlgMail').hide();"
-                                             actionListener="#{buttonView.buttonAction}" />
-                        </h:form>
-                    </p:dialog>
-                    <p:dialog header="#{msg.sum_saveDialogHeader}"
-                              widgetVar="dlgSave"
-                              position="top"
-                              draggable="false"
-                              resizable="false"
-                              responsive="true"
-                              modal="true"
-                              fitViewport="true"
-                              styleClass="coloredButton">
-                        <h:form styleClass="dialog-form">
-                            <p:inputText id="input-name"
-                                         value="#{summaryBean.observationName}"
-                                         placeholder="#{msg.sum_observationName}"/>
-                            <p:inputText id="input-target"
-                                         value="#{summaryBean.observationTarget}"
-                                         placeholder="#{msg.sum_observationTarget}"/>
-                            <p:inputTextarea id="input-description"
-                                             value="#{summaryBean.observationDescription}"
-                                             placeholder="#{msg.sum_observationDescription}"
-                                             rows="6" cols="33" autoResize="true" />
-                            <p:commandButton value="#{msg.sum_save}" icon="ui-icon-check"
-                                             onclick="PF('dlgSave').hide();"
-                                             actionListener="#{buttonView.buttonAction}"/>
-                        </h:form>
-                    </p:dialog>
-                </div>
+                <p:dialog header="#{msg.sum_mailDialogHeader}"
+                          widgetVar="dlgMail"
+                          position="top"
+                          draggable="false"
+                          resizable="false"
+                          responsive="true"
+                          modal="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form styleClass="dialog-form ui-fluid">
+                        <p:inputText id="input-name"
+                                     value="#{summaryBean.observationName}"
+                                     placeholder="#{msg.sum_observationName}"/>
+                        <p:inputText id="input-target"
+                                     value="#{summaryBean.observationTarget}"
+                                     placeholder="#{msg.sum_observationTarget}"/>
+                        <p:inputTextarea id="input-description"
+                                         value="#{summaryBean.observationDescription}"
+                                         placeholder="#{msg.sum_observationDescription}"
+                                         rows="6" cols="33" autoResize="true" />
+                        <h:outputText value="#{msg.sum_giveEmail}"/>
+                        <p:inputText id="input-email"
+                                     placeholder="#{msg.sum_emailAddress}" />
+                        <p:commandButton value="#{msg.sum_sendMail}" icon="ui-icon-check"
+                                         onclick="PF('dlgMail').hide();"
+                                         actionListener="#{buttonView.buttonAction}" />
+                    </h:form>
+                </p:dialog>
+                <p:dialog header="#{msg.sum_saveDialogHeader}"
+                          widgetVar="dlgSave"
+                          position="top"
+                          draggable="false"
+                          resizable="false"
+                          responsive="true"
+                          modal="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form styleClass="dialog-form ui-fluid">
+                        <p:inputText id="input-name"
+                                     value="#{summaryBean.observationName}"
+                                     placeholder="#{msg.sum_observationName}"/>
+                        <p:inputText id="input-target"
+                                     value="#{summaryBean.observationTarget}"
+                                     placeholder="#{msg.sum_observationTarget}"/>
+                        <p:inputTextarea id="input-description"
+                                         value="#{summaryBean.observationDescription}"
+                                         placeholder="#{msg.sum_observationDescription}"
+                                         rows="6" cols="33" autoResize="true" />
+                        <p:commandButton value="#{msg.sum_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgSave').hide();"
+                                         actionListener="#{buttonView.buttonAction}"/>
+                    </h:form>
+                </p:dialog>
 
                 <p:growl id="growl" widgetVar="growlWdgt" severity="info" showDetail="true" sticky="true" escape="false" />
 

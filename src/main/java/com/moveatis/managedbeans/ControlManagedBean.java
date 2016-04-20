@@ -36,7 +36,6 @@ import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -46,7 +45,6 @@ import javax.inject.Inject;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
-import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +52,7 @@ import org.slf4j.LoggerFactory;
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 @Named(value = "controlManagedBean")
 @ViewScoped
@@ -62,11 +61,11 @@ public class ControlManagedBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
 
     private List<EventGroupEntity> ownEventGroups;
-    private List<EventGroupEntity> accessEventGroups;
+    private List<EventGroupEntity> sharedEventGroups;
     private List<EventGroupEntity> publicEventGroups;
 
     private List<String> ownEvents;
-    private List<String> accessEvents;
+    private List<String> sharedEvents;
     private List<String> publicEvents;
 
     private MenuModel menuModel;
@@ -99,7 +98,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     private void setAccessEventGroups() {
-        accessEventGroups = eventGroupEJB.findAllForUser(user);
+        sharedEventGroups = eventGroupEJB.findAllForUser(user);
     }
 
     private void setPublicEventGroups() {
@@ -120,36 +119,50 @@ public class ControlManagedBean implements Serializable {
 
     private void createMenuModel() {
         menuModel = new DefaultMenuModel();
-        createSubMenuModel("Oma", ownEventGroups);
-        createSubMenuModel("Käyttöoikeus", accessEventGroups);
-        createSubMenuModel("Yleiset", publicEventGroups);
+        menuModel.addElement(createSubMenuModel("Omat", ownEventGroups));
+        menuModel.addElement(createSubMenuModel("Jaetut", sharedEventGroups));
+        menuModel.addElement(createSubMenuModel("Julkiset", publicEventGroups));
     }
 
-    private void createSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
+    private DefaultSubMenu createSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
         DefaultSubMenu menuEventGroups = new DefaultSubMenu(menuName);
+
         if (eventGroups != null && !eventGroups.isEmpty()) {
+
             for (EventGroupEntity eventGroup : eventGroups) {
+
                 DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
+
                 for (EventEntity event : eventGroup.getEvents()) {
+
                     DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
-                    DefaultMenuItem itemNewObservation
-                            = createNewAddMenuItem(messages.getString("con_newObservation"));
-                    String command = "#{controlManagedBean.newObservation('" + event.getId() + "')}";
-                    itemNewObservation.setCommand(command);
-                    subMenuEvent.addElement(itemNewObservation);
+                    subMenuEvent.addElement(
+                            createNewAddMenuItem(
+                                    messages.getString("con_newObservation"), "",
+                                    "#{controlManagedBean.newObservation('" + event.getId() + "')}"));
                     subMenuEventGroup.addElement(subMenuEvent);
                 }
+
                 menuEventGroups.addElement(subMenuEventGroup);
-                menuEventGroups.addElement(createNewAddMenuItem(messages.getString("con_newEvent")));
+                menuEventGroups.addElement(
+                        createNewAddMenuItem(
+                                messages.getString("con_newEvent"),
+                                "PF('dlgEvent').show();", ""));
             }
         }
-        menuEventGroups.addElement(createNewAddMenuItem(messages.getString("con_newEventGroup")));
-        menuModel.addElement(menuEventGroups);
+
+        menuEventGroups.addElement(
+                createNewAddMenuItem(
+                        messages.getString("con_newEventGroup"),
+                        "PF('dlgEventGroup').show();", ""));
+
+        return menuEventGroups;
     }
 
-    private DefaultMenuItem createNewAddMenuItem(String value) {
-        DefaultMenuItem menuItem = new DefaultMenuItem(value);
-        menuItem.setIcon("ui-icon-plusthick");
+    private DefaultMenuItem createNewAddMenuItem(String value, String onClick, String command) {
+        DefaultMenuItem menuItem = new DefaultMenuItem(value, "ui-icon-plusthick");
+        menuItem.setOnclick(onClick);
+        menuItem.setCommand(command);
         return menuItem;
     }
 }

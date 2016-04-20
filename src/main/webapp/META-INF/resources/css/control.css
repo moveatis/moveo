@@ -6,97 +6,23 @@ and open the template in the editor.
 /*
     Created on : Mar 15, 2016, 2:16:45 PM
     Author     : jaanjuuj
+    Author     : Juha Moisio
 */
-@import url(https://fonts.googleapis.com/css?family=Roboto);
-@import url(smartphones/basev2.css);
-@import url(tablets/basev2.css);
 
 #mainPage {
     max-width: 960px;
     margin: 0 auto;
 }
 
-html {
-    width: 100%;
-    height: 100%;
-}
-
-body {
-    width: 100%;
-    margin: auto auto auto auto;
-    font-size: 100%;
-    color: #ffffff;
-    background-color: #131D24;
-    background-image: repeating-linear-gradient(
-        45deg,
-        #080b0d,
-        #080b0d 20px,
-        #0a0f13 20px,
-        #0a0f13 40px);
-    background-size: 100%;
-    background-attachment: fixed;
-    font-family: 'Roboto', sans-serif;
-}
-
-nav {
-    float: left;
-    width: 300px;
-    border: none;
-    margin-right: 0.5em;
-    padding-bottom: 1.5em;
-    padding-right: 1.5em;
-    padding-top: 0.5em;
-    padding-left: 0.5em;
-    margin: 1% auto;
-}
-
-.accessButtons {
-
-    width: 9.5em;
-    height: 2.0em;
-    margin: auto auto auto auto;
-    display: block;
-    text-align: center;
-    padding: 1.0em;
-    color: white;
-}
-
-.welcomeContent {
-    margin: auto auto auto auto;
-    padding: 1.0em;
-    display: table;
-}
-
-.coloredButton {
-    background: #ff6600;
-    color: white;
+.ui-panelmenu {
+    font-size: 1.2em;
 }
 
 .ui-panelmenu .ui-menuitem-text {
     color: black;
 }
 
-@media screen and (max-width: 800px) {
-
-    nav {
-        border: none;
-        padding-bottom: 0.5em;
-        padding-top: 0.0;
-
-    }
-    .accessButtons {
-        width: 9.5em;
-        height: 2.0em;
-        /*        margin: 2.5% auto 2.5% auto;*/
-        display:table;
-        text-align: center;
-        color: white;
-    }
-
-    .welcomeContent {
-        width: 96%;
-        margin: 1% auto 1% auto;
-        padding: 0.5em;
-    }
+.ui-panelmenu-header.ui-state-active {
+    background: #C4C4C4 -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0% 0%;
 }
 

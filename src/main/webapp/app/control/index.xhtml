@@ -17,11 +17,63 @@ and open the template in the editor.
 
             <ui:define name="mainpage">
                 <h:outputStylesheet library="css" name="control.css"/>
-                <h1>#{msg.head_controlPage}</h1>
-                <h2>#{msg.con_title}</h2>
+                <h1>#{msg.con_title}</h1>
+                <h2>#{msg.con_title2}</h2>
                 <h:form>
                     <p:panelMenu model="#{controlManagedBean.menuModel}"/>
                 </h:form>
+
+                <p:dialog header="#{msg.con_newEGDlgHeader}"
+                          widgetVar="dlgEventGroup"
+                          position="top"
+                          draggable="false"
+                          resizable="false"
+                          responsive="true"
+                          modal="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form styleClass="dialog-form ui-fluid">
+                        <p:inputText id="input-name-eg"
+                                     value="#{summaryBean.observationName}"
+                                     placeholder="#{msg.con_eventGroupName}"/>
+                        <p:inputTextarea id="input-description-eg"
+                                         value="#{summaryBean.observationDescription}"
+                                         placeholder="#{msg.con_eventGroupDescription}"
+                                         rows="6" cols="33" autoResize="true" />
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgEventGroup').hide();"
+                                         actionListener="#{buttonView.buttonAction}" />
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgEventGroup').hide();"
+                                         actionListener="#{buttonView.buttonAction}" />
+                    </h:form>
+                </p:dialog>
+                <p:dialog header="#{msg.con_newEDlgHeader}"
+                          widgetVar="dlgEvent"
+                          position="top"
+                          draggable="false"
+                          resizable="false"
+                          responsive="true"
+                          modal="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form styleClass="dialog-form ui-fluid">
+                        <p:inputText id="input-name-eg"
+                                     value="#{summaryBean.observationName}"
+                                     placeholder="#{msg.con_eventName}"/>
+                        <p:inputTextarea id="input-description-eg"
+                                         value="#{summaryBean.observationDescription}"
+                                         placeholder="#{msg.con_eventDescription}"
+                                         rows="6" cols="33" autoResize="true" />
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgEvent').hide();"
+                                         actionListener="#{buttonView.buttonAction}" />
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgEvent').hide();"
+                                         actionListener="#{buttonView.buttonAction}" />
+                    </h:form>
+                </p:dialog>
+
             </ui:define>
         </ui:composition>
     </h:body>
