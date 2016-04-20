@@ -36,12 +36,17 @@ import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -67,6 +72,13 @@ public class ControlManagedBean implements Serializable {
     private List<String> ownEvents;
     private List<String> sharedEvents;
     private List<String> publicEvents;
+
+    private String eventGroupName = "";
+    private String eventGroupDescription = "";
+    private String eventName = "";
+    private String eventDescription = "";
+
+    private EventGroupEntity currentEventGroup;
 
     private MenuModel menuModel;
 
@@ -102,7 +114,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     private void setPublicEventGroups() {
-
+        //TODO: get all public event groups
     }
 
     public MenuModel getMenuModel() {
@@ -115,6 +127,10 @@ public class ControlManagedBean implements Serializable {
 
     public String newObservation(String identifier) {
         return "newobservation";
+    }
+
+    public void setCurrentEventGroup(long id) {
+        currentEventGroup = eventGroupEJB.find(id);
     }
 
     private void createMenuModel() {
@@ -134,35 +150,87 @@ public class ControlManagedBean implements Serializable {
                 DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
 
                 for (EventEntity event : eventGroup.getEvents()) {
-
                     DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
                     subMenuEvent.addElement(
-                            createNewAddMenuItem(
-                                    messages.getString("con_newObservation"), "",
-                                    "#{controlManagedBean.newObservation('" + event.getId() + "')}"));
+                            createNewAddMenuItem(messages.getString("con_newObservation"),
+                                    null, "#{controlManagedBean.newObservation('" + event.getId() + "')}"));
                     subMenuEventGroup.addElement(subMenuEvent);
                 }
-
+                subMenuEventGroup.addElement(
+                        createNewAddMenuItem(messages.getString("con_newEvent"),
+                                "PF('dlgEvent').show();", "#{controlManagedBean.setCurrentEventGroup('" + eventGroup.getId() + "')}"));
                 menuEventGroups.addElement(subMenuEventGroup);
-                menuEventGroups.addElement(
-                        createNewAddMenuItem(
-                                messages.getString("con_newEvent"),
-                                "PF('dlgEvent').show();", ""));
             }
         }
-
         menuEventGroups.addElement(
-                createNewAddMenuItem(
-                        messages.getString("con_newEventGroup"),
-                        "PF('dlgEventGroup').show();", ""));
-
+                createNewAddMenuItem(messages.getString("con_newEventGroup"),
+                        "PF('dlgEventGroup').show();", null));
         return menuEventGroups;
     }
 
     private DefaultMenuItem createNewAddMenuItem(String value, String onClick, String command) {
         DefaultMenuItem menuItem = new DefaultMenuItem(value, "ui-icon-plusthick");
-        menuItem.setOnclick(onClick);
-        menuItem.setCommand(command);
+        if (onClick != null) {
+            menuItem.setOnclick(onClick);
+        }
+        if (command != null) {
+            menuItem.setCommand(command);
+        }
         return menuItem;
+    }
+
+    public void createNewEventGroup() {
+        EventGroupEntity eventGroup = new EventGroupEntity();
+        eventGroup.setLabel(eventGroupName);
+        eventGroup.setOwner(user);
+        eventGroupEJB.create(eventGroup);
+        init();
+    }
+
+    public void createNewEvent() {
+        if (currentEventGroup == null) {
+            return;
+        }
+        Date createdDate = Calendar.getInstance().getTime();
+        EventEntity event = new EventEntity();
+        event.setLabel(eventName);
+        event.setDescription(eventDescription);
+        event.setCreator(user);
+        event.setCreated(createdDate);
+        event.setEventGroup(currentEventGroup);
+        //TODO: how to add to event group?
+        init();
+    }
+
+    public String getEventGroupName() {
+        return eventGroupName;
+    }
+
+    public void setEventGroupName(String eventGroupName) {
+        this.eventGroupName = eventGroupName;
+    }
+
+    public String getEventGroupDescription() {
+        return eventGroupDescription;
+    }
+
+    public void setEventGroupDescription(String eventGroupDescription) {
+        this.eventGroupDescription = eventGroupDescription;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 }
