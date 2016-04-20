@@ -305,6 +305,7 @@ public class CategorySelectionManagedBean implements Serializable {
         privateCategorySets.add("Omat toiminnot 1", Arrays.asList(omatToiminnot1));
         String[] omatToiminnot2 = { "Tekee jotain muuta 1", "Tekee jotain muuta 2", "Tekee jotain muuta 3" };
         privateCategorySets.add("Omat toiminnot 2", Arrays.asList(omatToiminnot2));
+        privateCategorySets.add("Muut", new ArrayList<String>());
         
         categorySetsInUse = new CategorySetList();
         for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
