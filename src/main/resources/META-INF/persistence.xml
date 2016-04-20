@@ -31,12 +31,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="LOTAS_PERSISTENCE" transaction-type="JTA">
     <jta-data-source>${datasource}</jta-data-source>
-    <class>com.moveatis.lotas.label.LabelEntity</class>
-    <class>com.moveatis.lotas.roles.SuperUserRoleEntity</class>
-    <class>com.moveatis.identityprovider.IdentityProviderSaltEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="none"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>
