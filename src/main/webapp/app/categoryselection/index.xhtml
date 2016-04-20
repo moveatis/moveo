@@ -50,13 +50,13 @@
                             <div class="category">
                                 <!--<p:selectBooleanCheckbox value="#{category.selected}" id="category-checkbox" styleClass="category-checkbox"/>-->
                                 <!--<p:outputLabel value="#{category.name}" for="category-checkbox" styleClass="category-text"/>-->
-                                <p:selectBooleanCheckbox value="#{category.selected}" itemLabel="#{category.name}" styleClass="category-checkbox"/>
+                                <p:selectBooleanCheckbox value="#{category.selected}" itemLabel="#{category.name}"/>
                             </div>
                             </ui:repeat>
                             <ui:repeat value="#{categorySet.userCategories}" var="category">
                             <div class="category">
-                                <p:inputText value="#{category.name}" id="category-name-input" styleClass="category-text"
-                                             validator="#{validationBean.validateCategoryName}"/>
+                                <p:inputText value="#{category.name}" id="category-name-input" styleClass="category-text"/>
+                                             <!--validator="# {validationBean.validateCategoryName}"/>-->
                                 <p:watermark value="#{msg.cs_categoryName}" for="category-name-input"/>
                                 <p:commandButton icon="fa fa-remove" class="category-remove-button"
                                                  action="#{categorySet.remove(category)}" update="@form"/>

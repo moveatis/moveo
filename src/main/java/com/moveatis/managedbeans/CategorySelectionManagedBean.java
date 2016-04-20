@@ -137,6 +137,9 @@ public class CategorySelectionManagedBean implements Serializable {
         public boolean allCategoriesHaveUniqueName() {
             for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
+                if (category.getName().isEmpty()) {
+                    continue;
+                }
                 if (categories.lastIndexOf(category) != i) {
                     return false;
                 }
@@ -146,6 +149,9 @@ public class CategorySelectionManagedBean implements Serializable {
             }
             for (int i = 0; i < userCategories.size(); i++) {
                 Category category = userCategories.get(i);
+                if (category.getName().isEmpty()) {
+                    continue;
+                }
                 if (userCategories.lastIndexOf(category) != i) {
                     return false;
                 }

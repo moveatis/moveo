@@ -70,12 +70,23 @@ h1 {
     margin-bottom: 0.5em;
 }
 
-.category-checkbox {
+/*.category-checkbox {
+    margin-right: 0.5em;
+}*/
+
+.ui-chkbox-box {
+    vertical-align: middle;
     margin-right: 0.5em;
 }
 
+.category .ui-chkbox-label {
+    vertical-align: middle;
+    font-size: 1.2em;
+    display: inline;
+}
+
 .category-text {
-    width: calc(100% - 90px);
+    width: calc(100% - 70px);
     margin-right: 0.5em;
 }
 
