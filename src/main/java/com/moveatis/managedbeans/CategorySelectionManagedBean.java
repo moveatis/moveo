@@ -137,6 +137,9 @@ public class CategorySelectionManagedBean implements Serializable {
         public boolean allCategoriesHaveUniqueName() {
             for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
+                if (category.getName().isEmpty()) {
+                    continue;
+                }
                 if (categories.lastIndexOf(category) != i) {
                     return false;
                 }
@@ -146,6 +149,9 @@ public class CategorySelectionManagedBean implements Serializable {
             }
             for (int i = 0; i < userCategories.size(); i++) {
                 Category category = userCategories.get(i);
+                if (category.getName().isEmpty()) {
+                    continue;
+                }
                 if (userCategories.lastIndexOf(category) != i) {
                     return false;
                 }
@@ -299,6 +305,7 @@ public class CategorySelectionManagedBean implements Serializable {
         privateCategorySets.add("Omat toiminnot 1", Arrays.asList(omatToiminnot1));
         String[] omatToiminnot2 = { "Tekee jotain muuta 1", "Tekee jotain muuta 2", "Tekee jotain muuta 3" };
         privateCategorySets.add("Omat toiminnot 2", Arrays.asList(omatToiminnot2));
+        privateCategorySets.add("Muut", new ArrayList<String>());
         
         categorySetsInUse = new CategorySetList();
         for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
