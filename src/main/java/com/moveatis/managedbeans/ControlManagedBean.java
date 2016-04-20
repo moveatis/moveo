@@ -36,8 +36,12 @@ import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -73,6 +77,8 @@ public class ControlManagedBean implements Serializable {
     private String eventGroupDescription = "";
     private String eventName = "";
     private String eventDescription = "";
+
+    private EventGroupEntity currentEventGroup;
 
     private MenuModel menuModel;
 
@@ -123,6 +129,10 @@ public class ControlManagedBean implements Serializable {
         return "newobservation";
     }
 
+    public void setCurrentEventGroup(long id) {
+        currentEventGroup = eventGroupEJB.find(id);
+    }
+
     private void createMenuModel() {
         menuModel = new DefaultMenuModel();
         menuModel.addElement(createSubMenuModel("Omat", ownEventGroups));
@@ -148,7 +158,7 @@ public class ControlManagedBean implements Serializable {
                 }
                 subMenuEventGroup.addElement(
                         createNewAddMenuItem(messages.getString("con_newEvent"),
-                                "PF('dlgEvent').show();", null));
+                                "PF('dlgEvent').show();", "#{controlManagedBean.setCurrentEventGroup('" + eventGroup.getId() + "')}"));
                 menuEventGroups.addElement(subMenuEventGroup);
             }
         }
@@ -174,6 +184,21 @@ public class ControlManagedBean implements Serializable {
         eventGroup.setLabel(eventGroupName);
         eventGroup.setOwner(user);
         eventGroupEJB.create(eventGroup);
+        init();
+    }
+
+    public void createNewEvent() {
+        if (currentEventGroup == null) {
+            return;
+        }
+        Date createdDate = Calendar.getInstance().getTime();
+        EventEntity event = new EventEntity();
+        event.setLabel(eventName);
+        event.setDescription(eventDescription);
+        event.setCreator(user);
+        event.setCreated(createdDate);
+        event.setEventGroup(currentEventGroup);
+        //TODO: how to add to event group?
         init();
     }
 

@@ -63,7 +63,8 @@ and open the template in the editor.
                                          rows="6" cols="33" autoResize="true" />
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEvent').hide();"
-                                         actionListener="#{buttonView.buttonAction}" />
+                                         action="#{controlManagedBean.createNewEvent}"
+                                         update=":controlForm:controlMenu"/>
                         <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEvent').hide();" />
                     </h:form>
