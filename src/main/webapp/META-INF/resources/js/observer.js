@@ -1,20 +1,50 @@
+/*
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 //
 // TODO:
-// - Is there need for Observer?
-// - Rethink CategoryItem.
 // - How and where from should we get categories?
-// - Error handling? Message dialog on ajax errors?
 // - Remove/comment out console.log calls in release?
 //
+
+// NOTE: Functions in observer/index.xhtml.
+var CategoryType = getCategoryTypes();
+var msg = getMessages();
 
 
 /*
  * Master clock that can be paused and resumed at will.
  * Individual categories get their time from the master clock.
  */
-function Clock(initial_time) {
-    this.total_time = initial_time; // TODO: No need for initial_time.
+function Clock() {
+    this.total_time = 0;
     this.resume_time = 0;
     this.running = false;
     
@@ -51,6 +81,12 @@ function Clock(initial_time) {
 }
 
 
+/*
+ * Converts milliseconds to a string representing time.
+ * Time format is hh:mm:ss if hh > 0 and mm:ss otherwise.
+ * @param {number} ms Time in milliseconds.
+ * @returns {String} Time string.
+ */
 function timeToString(ms) {
     var t = Math.floor(ms / 1000);
     var s = t % 60;
@@ -66,9 +102,9 @@ function timeToString(ms) {
 
 /*
  * Handles one category button.
- * @param {type} name Name to be displayed on the button.
- * @param {type} type Type of the category (TIME or COUNTED).
- * @param {type} index
+ * @param {String} name Name to be displayed on the button.
+ * @param {number} type Type of the category (TIME or COUNTED).
+ * @param {number} index
  * @returns {CategoryItem}
  */
 function CategoryItem(name, type, index) {
@@ -150,9 +186,7 @@ function CategoryItem(name, type, index) {
  * @returns {Observer}
  */
 function Observer(category_sets) {
-    var initial_time = 0; // TODO: This should be removed entirely.
-//    initial_time = 59*60*1000+50*1000; // TODO: Only for debuggin!
-    this.master_clock = new Clock(initial_time);
+    this.master_clock = new Clock();
     this.categories = [];
     this.records = [];
     this.started = false;
@@ -162,13 +196,12 @@ function Observer(category_sets) {
     
     /**
      * Private method that initializes various things.
-     * @param {type} this_
-     * @returns {undefined}
+     * @param {Observer} this_
      */
     function initialize(this_) {
         $("#pause").hide();
         $("#stop").addClass("disabled");
-        $("#total-time").append(document.createTextNode(timeToString(initial_time)));
+        $("#total-time").append(document.createTextNode(timeToString(0)));
         
         var category_list = $("#category-list");
         
@@ -217,11 +250,6 @@ function Observer(category_sets) {
                 
                 var this_ = this;
                 
-                // TODO: Do we want to tell backend that observation started?
-                // Or should we send start time when observation is stopped?
-                // 
-                // [Sami] I think that telling backend that observation has started
-                // has the benefit of letting us know backend is listening.
                 $.ajax({
                     url: "../../webapi/records/startobservation",
                     type: "POST",
@@ -239,9 +267,8 @@ function Observer(category_sets) {
                         $("#stop").removeClass("disabled");
                     },
                     error: function(xhr, status, error) {
-                        console.log("Error: " + error);
+                        showError(msg.obs_errorCouldntSendStart + " " + error);
                         this_.waiting = false;
-                        // TODO: Error popup?
                     }
                 });
             }
@@ -250,9 +277,8 @@ function Observer(category_sets) {
     
     /**
      * Private method that pauses observation.
-     * @param {type} this_
-     * @param {type} now Time in milliseconds.
-     * @returns {undefined}
+     * @param {Observer} this_
+     * @param {number} now Time in milliseconds.
      */
     function pause(this_, now) {
         if (!this_.master_clock.isPaused()) {
@@ -305,7 +331,6 @@ function Observer(category_sets) {
             // TODO: Is JSON.stringify necessary?
             data: JSON.stringify({
                 duration: time,
-                //categorySets: category_sets,
                 timeZoneOffsetInMs: getTimeZoneOffset(),
                 daylightSavingInMs: getDaylightSaving(),
                 data: this.records
@@ -317,9 +342,8 @@ function Observer(category_sets) {
                 window.location = "../summary/";
             },
             error: function(xhr, status, error) {
-                console.log("Error: " + error);
+                showError(msg.obs_errorCouldntSendData + ": " + error);
                 this_.waiting = false;
-                // TODO: Error popup?
             }
         });
     };
@@ -345,6 +369,9 @@ function Observer(category_sets) {
 }
 
 
+/**
+ * Sends ajax keep-alive signal to backend.
+ */
 function keepAlive() {
     $.ajax({
         url: "../../webapi/records/keepalive",
@@ -357,14 +384,30 @@ function keepAlive() {
             console.log("Success: " + data);
         },
         error: function(xhr, status, error) {
-            console.log("Error: " + error);
-            // TODO: Error popup?
+            // TODO: Get translated error message from msg.
+            showError("Sending keep-alive failed: " + error);
         }
     });
 }
 
 
+/**
+ * Shows error message in a PrimeFaces growl.
+ * @param {String} error_msg
+ */
+function showError(error_msg) {
+    var growl = PF("growlWdgt");
+    growl.removeAll();
+    growl.renderMessage({
+        summary: msg.dialogErrorTitle,
+        detail: error_msg,
+        severity: "error"
+    });
+}
+
+
 $(document).ready(function() {
+    var category_sets = getCategorySets(); // NOTE: Function in observer/index.xhtml.
     var observer = new Observer(category_sets);
     
     $("#play").click(function() { observer.playClick(); });

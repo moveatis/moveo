@@ -11,24 +11,37 @@
 
             <ui:define name="mainpage">
                 <script>
-                    var CategoryType = Object.freeze({
-                        TIMED: 0,
-                        COUNTED: 1
-                    });
-                    var category_sets = [
-                    <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
-                        {name: "#{categorySet.name}", categories: [
-                        <ui:repeat value="#{categorySet.selectedCategories}" var="category">
-                            {name: "#{category}", type: CategoryType.TIMED},
+                    function getMessages() {
+                        return {
+                            dialogErrorTitle: "#{msg.dialogErrorTitle}",
+                            obs_errorCouldntSendStart: "#{msg.obs_errorCouldntSendStart}",
+                            obs_errorCouldntSendData: "#{msg.obs_errorCouldntSendData}"
+                        };
+                    }
+                    function getCategoryTypes() {
+                        return Object.freeze({
+                            TIMED: 0,
+                            COUNTED: 1
+                        });
+                    }
+                    function getCategorySets() {
+                        return [
+                        <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
+                            {name: "#{categorySet.name}", categories: [
+                            <ui:repeat value="#{categorySet.selectedCategories}" var="category">
+                                {name: "#{category}", type: 0},
+                            </ui:repeat>
+                            ]},
                         </ui:repeat>
-                        ]},
-                    </ui:repeat>
-                    ];
+                        ];
+                    }
                 </script>
                 
                 <h:outputStylesheet library="css" name="observer.css"/>
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
                 <h:outputScript library="js" name="observer.js"/>
+                
+                <p:growl id="growl" widgetVar="growlWdgt" showDetail="true" severity="error"/>
                 
                 <div id="content">
                     <div id="total-time" class="no-text-select"></div>
