@@ -29,6 +29,10 @@
  */
 package com.moveatis.managedbeans;
 
+import com.moveatis.category.CategoryEntity;
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.event.EventGroupEntity;
+import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -44,6 +48,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
+import com.moveatis.user.AbstractUser;
+import java.util.Set;
 
 /**
  *
@@ -51,7 +57,7 @@ import com.moveatis.interfaces.Session;
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
 @Named(value = "categorySelectionBean")
-@SessionScoped
+@SessionScoped // TODO: ViewScoped? RequestScoped? Used in index.xhtml and also needs to run init() every time page is loaded!
 public class CategorySelectionManagedBean implements Serializable {
     
     public static class Category {
@@ -270,6 +276,9 @@ public class CategorySelectionManagedBean implements Serializable {
     private Session sessionBean;
     
     @Inject
+    private EventGroup eventGroupEJB;
+    
+    @Inject
     private com.moveatis.interfaces.CategorySet categorySetEJB;
     
     @Inject
@@ -286,6 +295,21 @@ public class CategorySelectionManagedBean implements Serializable {
     
     @PostConstruct
     public void init() {
+//        publicCategorySets = new CategorySetList();
+//        
+//        AbstractUser user = sessionBean.getLoggedInUser();
+//        List<EventGroupEntity> publicEventGroups = eventGroupEJB.findAllForOwner(user);
+//        for (EventGroupEntity eventGroup : publicEventGroups) {
+//            Set<CategorySetEntity> categorySets = eventGroup.getCategoryGroups();
+//            for (CategorySetEntity categorySet : categorySets) {
+//                List<String> categoryNames = new ArrayList<>();
+//                List<CategoryEntity> categories = categorySet.getCategoryEntitys();
+//                for (CategoryEntity category : categories) {
+//                    categoryNames.add(category.getLabel().getLabel());
+//                }
+//                publicCategorySets.add(categorySet.getLabel(), categoryNames);
+//            }
+//        }
         
         publicCategorySets = new CategorySetList();
         String[] opettajanToiminnot = {
