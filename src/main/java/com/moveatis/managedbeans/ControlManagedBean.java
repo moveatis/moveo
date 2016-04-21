@@ -31,6 +31,7 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.interfaces.Event;
 import com.moveatis.interfaces.EventGroup;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
@@ -38,15 +39,12 @@ import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -73,17 +71,18 @@ public class ControlManagedBean implements Serializable {
     private List<String> sharedEvents;
     private List<String> publicEvents;
 
-    private String eventGroupName = "";
-    private String eventGroupDescription = "";
-    private String eventName = "";
-    private String eventDescription = "";
-
-    private EventGroupEntity currentEventGroup;
+    private EventGroupEntity selectedEventGroup;
+    private EventEntity selectedEvent;
+    private EventGroupEntity newEventGroup;
+    private EventEntity newEvent;
 
     private MenuModel menuModel;
 
     @Inject
     private EventGroup eventGroupEJB;
+
+    @Inject
+    private Event eventEJB;
 
     @Inject
     private Session sessionBean;
@@ -95,6 +94,8 @@ public class ControlManagedBean implements Serializable {
     private AbstractUser user;
 
     public ControlManagedBean() {
+        newEvent = new EventEntity();
+        newEventGroup = new EventGroupEntity();
     }
 
     @PostConstruct
@@ -129,10 +130,6 @@ public class ControlManagedBean implements Serializable {
         return "newobservation";
     }
 
-    public void setCurrentEventGroup(long id) {
-        currentEventGroup = eventGroupEJB.find(id);
-    }
-
     private void createMenuModel() {
         menuModel = new DefaultMenuModel();
         menuModel.addElement(createSubMenuModel("Omat", ownEventGroups));
@@ -141,6 +138,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     private DefaultSubMenu createSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
+
         DefaultSubMenu menuEventGroups = new DefaultSubMenu(menuName);
 
         if (eventGroups != null && !eventGroups.isEmpty()) {
@@ -150,87 +148,118 @@ public class ControlManagedBean implements Serializable {
                 DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
 
                 for (EventEntity event : eventGroup.getEvents()) {
+
                     DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
+
                     subMenuEvent.addElement(
-                            createNewAddMenuItem(messages.getString("con_newObservation"),
-                                    null, "#{controlManagedBean.newObservation('" + event.getId() + "')}"));
+                            createMenuItem(messages.getString("con_newObservation"), "fa fa-play",
+                                    null, "#{controlManagedBean.newObservation('" + event.getId() + "')}", null, null));
+
+                    subMenuEventGroup.addElement(
+                            createMenuItem(messages.getString("con_edit"), "fa fa-edit",
+                                    "PF('dlgEditEvent').show();",
+                                    "#{controlManagedBean.setSelectedEvent('" + event.getId() + "')}", ":form-editEvent", "edit-menuItem"));
+
                     subMenuEventGroup.addElement(subMenuEvent);
                 }
+
                 subMenuEventGroup.addElement(
-                        createNewAddMenuItem(messages.getString("con_newEvent"),
-                                "PF('dlgEvent').show();", "#{controlManagedBean.setCurrentEventGroup('" + eventGroup.getId() + "')}"));
+                        createMenuItem(messages.getString("con_newEvent"), "fa fa-plus",
+                                "PF('dlgEvent').show();",
+                                "#{controlManagedBean.setSelectedEventGroup('" + eventGroup.getId() + "')}", null, null));
+
+
+                menuEventGroups.addElement(
+                        createMenuItem(messages.getString("con_edit"), "fa fa-edit",
+                                "PF('dlgEditEventGroup').show();",
+                                "#{controlManagedBean.setSelectedEventGroup('" + eventGroup.getId() + "')}",
+                                ":form-editEventGroup", "edit-menuItem"));
+
                 menuEventGroups.addElement(subMenuEventGroup);
             }
         }
         menuEventGroups.addElement(
-                createNewAddMenuItem(messages.getString("con_newEventGroup"),
-                        "PF('dlgEventGroup').show();", null));
+                createMenuItem(messages.getString("con_newEventGroup"), "fa fa-plus",
+                        "PF('dlgEventGroup').show();", null, null, null));
         return menuEventGroups;
     }
 
-    private DefaultMenuItem createNewAddMenuItem(String value, String onClick, String command) {
-        DefaultMenuItem menuItem = new DefaultMenuItem(value, "ui-icon-plusthick");
+    private DefaultMenuItem createMenuItem(String value, String icon, String onClick, String command, String update, String styleClass) {
+        DefaultMenuItem menuItem = new DefaultMenuItem(value, icon);
         if (onClick != null) {
             menuItem.setOnclick(onClick);
         }
         if (command != null) {
             menuItem.setCommand(command);
         }
+        if (update != null) {
+            menuItem.setUpdate(update);
+        }
+        if (styleClass != null) {
+            menuItem.setStyleClass(styleClass);
+        }
         return menuItem;
     }
 
     public void createNewEventGroup() {
-        EventGroupEntity eventGroup = new EventGroupEntity();
-        eventGroup.setLabel(eventGroupName);
-        eventGroup.setOwner(user);
-        eventGroupEJB.create(eventGroup);
+        Date created = Calendar.getInstance().getTime();
+        newEventGroup.setCreated(created);
+        newEventGroup.setOwner(user);
+        eventGroupEJB.create(newEventGroup);
+        newEventGroup = new EventGroupEntity();
         init();
     }
 
     public void createNewEvent() {
-        if (currentEventGroup == null) {
+        if (selectedEventGroup == null) {
             return;
         }
         Date createdDate = Calendar.getInstance().getTime();
-        EventEntity event = new EventEntity();
-        event.setLabel(eventName);
-        event.setDescription(eventDescription);
-        event.setCreator(user);
-        event.setCreated(createdDate);
-        event.setEventGroup(currentEventGroup);
-        //TODO: how to add to event group?
+        newEvent.setCreator(user);
+        newEvent.setCreated(createdDate);
+        newEvent.setEventGroup(selectedEventGroup);
+        eventEJB.create(newEvent);
+        newEvent = new EventEntity();
         init();
     }
 
-    public String getEventGroupName() {
-        return eventGroupName;
+    public void editEventGroup() {
+        if (selectedEventGroup == null) {
+            return;
+        }
+        eventGroupEJB.edit(selectedEventGroup);
+        init();
     }
 
-    public void setEventGroupName(String eventGroupName) {
-        this.eventGroupName = eventGroupName;
+    public void editEvent() {
+        if (selectedEvent == null) {
+            return;
+        }
+        eventEJB.edit(selectedEvent);
+        init();
     }
 
-    public String getEventGroupDescription() {
-        return eventGroupDescription;
+    public EventGroupEntity getSelectedEventGroup() {
+        return selectedEventGroup;
     }
 
-    public void setEventGroupDescription(String eventGroupDescription) {
-        this.eventGroupDescription = eventGroupDescription;
+    public EventEntity getSelectedEvent() {
+        return selectedEvent;
     }
 
-    public String getEventName() {
-        return eventName;
+    public void setSelectedEventGroup(long id) {
+        selectedEventGroup = eventGroupEJB.find(id);
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setSelectedEvent(long id) {
+        selectedEvent = eventEJB.find(id);
     }
 
-    public String getEventDescription() {
-        return eventDescription;
+    public EventGroupEntity getNewEventGroup() {
+        return newEventGroup;
     }
 
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
+    public EventEntity getNewEvent() {
+        return newEvent;
     }
 }

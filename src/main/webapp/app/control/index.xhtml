@@ -17,12 +17,16 @@ and open the template in the editor.
 
             <ui:define name="mainpage">
                 <h:outputStylesheet library="css" name="control.css"/>
+
                 <h1>#{msg.con_title}</h1>
+
                 <h2>#{msg.con_title2}</h2>
+
                 <h:form id="controlForm">
                     <p:panelMenu id="controlMenu" model="#{controlManagedBean.menuModel}"/>
                 </h:form>
 
+                <!-- Dialogs -->
                 <p:dialog header="#{msg.con_newEGDlgHeader}"
                           widgetVar="dlgEventGroup"
                           position="top"
@@ -32,10 +36,10 @@ and open the template in the editor.
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
                         <p:inputText id="input-name-eg"
-                                     value="#{controlManagedBean.eventGroupName}"
+                                     value="#{controlManagedBean.newEventGroup.label}"
                                      placeholder="#{msg.con_eventGroupName}"/>
                         <p:inputTextarea id="input-description-eg"
-                                         value="#{controlManagedBean.eventGroupDescription}"
+                                         value="#{controlManagedBean.newEventGroup.description}"
                                          placeholder="#{msg.con_eventGroupDescription}"
                                          rows="6" cols="33" autoResize="true" />
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
@@ -46,6 +50,7 @@ and open the template in the editor.
                                          onclick="PF('dlgEventGroup').hide();" />
                     </h:form>
                 </p:dialog>
+
                 <p:dialog header="#{msg.con_newEDlgHeader}"
                           widgetVar="dlgEvent"
                           position="top"
@@ -53,12 +58,12 @@ and open the template in the editor.
                           responsive="true"
                           fitViewport="true"
                           styleClass="coloredButton">
-                    <h:form styleClass="dialog-form ui-fluid">
+                    <h:form id="dialog-newEvent" styleClass="ui-fluid">
                         <p:inputText id="input-name-event"
-                                     value="#{controlManagedBean.eventName}"
+                                     value="#{controlManagedBean.newEvent.label}"
                                      placeholder="#{msg.con_eventName}"/>
                         <p:inputTextarea id="input-description-event"
-                                         value="#{controlManagedBean.eventDescription}"
+                                         value="#{controlManagedBean.newEvent.description}"
                                          placeholder="#{msg.con_eventDescription}"
                                          rows="6" cols="33" autoResize="true" />
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
@@ -70,6 +75,53 @@ and open the template in the editor.
                     </h:form>
                 </p:dialog>
 
+                <p:dialog header="#{msg.con_editEGDlgHeader}"
+                          widgetVar="dlgEditEventGroup"
+                          position="top"
+                          resizable="false"
+                          responsive="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form id="form-editEventGroup" styleClass="ui-fluid">
+                        <p:inputText id="input-name-eg"
+                                     value="#{controlManagedBean.selectedEventGroup.label}"
+                                     placeholder="#{msg.con_eventGroupName}"/>
+                        <p:inputTextarea id="input-description-eg"
+                                         value="#{controlManagedBean.selectedEventGroup.description}"
+                                         placeholder="#{msg.con_eventGroupDescription}"
+                                         rows="6" cols="33" autoResize="true" />
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgEditEventGroup').hide();"
+                                         action="#{controlManagedBean.editEventGroup}"
+                                         update=":controlForm:controlMenu"/>
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgEditEventGroup').hide();" />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog header="#{msg.con_editEDlgHeader}"
+                          widgetVar="dlgEditEvent"
+                          position="top"
+                          resizable="false"
+                          responsive="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form id="form-editEvent" styleClass="ui-fluid">
+                        <p:inputText id="input-name-event"
+                                     value="#{controlManagedBean.selectedEvent.label}"
+                                     placeholder="#{msg.con_eventName}"/>
+                        <p:inputTextarea id="input-description-event"
+                                         value="#{controlManagedBean.selectedEvent.description}"
+                                         placeholder="#{msg.con_eventDescription}"
+                                         rows="6" cols="33" autoResize="true" />
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgEditEvent').hide();"
+                                         action="#{controlManagedBean.editEvent}"
+                                         update=":controlForm:controlMenu"/>
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgEditEvent').hide();" />
+                    </h:form>
+                </p:dialog>
             </ui:define>
         </ui:composition>
     </h:body>

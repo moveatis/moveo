@@ -85,6 +85,7 @@ public class EventGroupEntity implements Serializable {
     private Set<AbstractUser> users;
     
     private String label;
+    private String description;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date created;
@@ -130,6 +131,14 @@ public class EventGroupEntity implements Serializable {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreated() {

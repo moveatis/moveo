@@ -14,15 +14,39 @@ and open the template in the editor.
     margin: 0 auto;
 }
 
+#controlForm {
+    margin-bottom: 3em;
+    max-width: 26em;
+}
+
 .ui-panelmenu {
     font-size: 1.2em;
 }
 
-.ui-panelmenu .ui-menuitem-text {
-    color: black;
+.ui-panelmenu .ui-menuitem-text,
+.ui-panelmenu .ui-menuitem-link {
+    color: #4F4F4F;
 }
 
 .ui-panelmenu-header.ui-state-active {
     background: #C4C4C4 -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0% 0%;
 }
 
+.edit-menuItem {
+    float: right;
+    z-index: 500;
+    position: relative;
+    font-size: 0.7em;
+}
+
+#controlForm .ui-icon.fa {
+    border-radius: 0px;
+    font-size: 0.8em;
+    margin-bottom: .3em;
+    margin-left: .4em;
+}
+
+#controlForm .edit-menuItem .ui-icon.fa {
+    font-size: 1.2em;
+    margin-left: -.2em;
+}
