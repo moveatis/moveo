@@ -109,7 +109,7 @@ body {
     text-overflow: ellipsis;
 }
 
-.category-timer {
+.category-value {
     margin: 0;
     margin-left: 0.3em;
     padding: 0 0.15em;
@@ -160,7 +160,7 @@ body {
     font-size: 5vh;
 }
 
-.category-timer {
+.category-value {
     font-size: 4vh;
     border-radius: 1vh;
 }
@@ -201,7 +201,7 @@ body {
         font-size: calc(480px * 0.05);
     }
 
-    .category-timer {
+    .category-value {
         font-size: calc(480px * 0.04);
         border-radius: calc(480px * 0.01);
     }
@@ -244,7 +244,7 @@ body {
         font-size: calc(240px * 0.05);
     }
 
-    .category-timer {
+    .category-value {
         font-size: calc(240px * 0.04);
         border-radius: calc(240px * 0.01);
     }

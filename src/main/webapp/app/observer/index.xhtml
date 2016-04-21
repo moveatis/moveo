@@ -11,11 +11,15 @@
 
             <ui:define name="mainpage">
                 <script>
+                    var CategoryType = Object.freeze({
+                        TIMED: 0,
+                        COUNTED: 1
+                    });
                     var category_sets = [
                     <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
                         {name: "#{categorySet.name}", categories: [
                         <ui:repeat value="#{categorySet.selectedCategories}" var="category">
-                            "#{category}",
+                            {name: "#{category}", type: CategoryType.TIMED},
                         </ui:repeat>
                         ]},
                     </ui:repeat>

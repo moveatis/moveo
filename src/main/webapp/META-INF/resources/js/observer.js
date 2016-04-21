@@ -64,25 +64,36 @@ function timeToString(ms) {
 }
 
 
-function CategoryItem(name, index) {
+/*
+ * Handles one category button.
+ * @param {type} name Name to be displayed on the button.
+ * @param {type} type Type of the category (TIME or COUNTED).
+ * @param {type} index
+ * @returns {CategoryItem}
+ */
+function CategoryItem(name, type, index) {
     this.li = $(document.createElement("li"));
     this.li.addClass("category-item");
     this.li.attr("id", "category-item_" + index);
-
-    this.timer_div = $(document.createElement("div"));
-    this.timer_div.addClass("category-timer");
-    this.timer_div.append(document.createTextNode(timeToString(0)));
-
-    var name_div = $(document.createElement("div"));
-    name_div.addClass("category-name");
-    name_div.append(document.createTextNode(name));
-
-    this.li.append(this.timer_div);
-    this.li.append(name_div);
+    this.value_div = $(document.createElement("div"));
+    this.value_div.addClass("category-value");
+    this.name_div = $(document.createElement("div"));
+    this.name_div.addClass("category-name");
+    this.name_div.append(document.createTextNode(name));
+    this.li.append(this.value_div);
+    this.li.append(this.name_div);
     
-    this.time = 0;
-    this.start_time = 0;
-    this.down = false;
+    this.type = type;
+    
+    if (this.type === CategoryType.COUNTED) {
+        updateValueDiv(this, "0");
+        this.count = 0;
+    } else {
+        updateValueDiv(this, timeToString(0));
+        this.time = 0;
+        this.start_time = 0;
+        this.down = false;
+    }
     
     this.click = function(master_time) {
         var record;
@@ -103,20 +114,40 @@ function CategoryItem(name, index) {
         return record;
     };
     
+    function updateValueDiv(this_, text) {
+        this_.value_div.empty();
+        this_.value_div.append(document.createTextNode(text));
+    }
+    
     this.updateTimer = function(master_time) {
         var time = this.time;
         if (this.down) {
             time += master_time - this.start_time;
         }
-        var time_str = timeToString(time);
-        this.timer_div.empty();
-        this.timer_div.append(document.createTextNode(time_str));
+        updateValueDiv(this, timeToString(time));
     };
+    
+    if (this.type === CategoryType.COUNTED) {
+        this.click = function(master_time) {
+            this.count += 1;
+            updateValueDiv(this, "" + this.count);
+            
+            this.li.addClass("down");
+            var item = this.li;
+            setTimeout(function() { item.removeClass("down"); }, 50);
+            
+            return {category: name, startTime: master_time, endTime: master_time};
+        };
+        
+        this.updateTimer = function() { };
+    }
 }
 
 
 /*
  * Handles the actual observing.
+ * @param {type} category_sets
+ * @returns {Observer}
  */
 function Observer(category_sets) {
     var initial_time = 0; // TODO: This should be removed entirely.
@@ -154,8 +185,9 @@ function Observer(category_sets) {
                 category_set.addClass("no-text-select");
                 
                 for (var j = 0; j < set.categories.length; j++) {
-                    var category_name = set.categories[j];
-                    var category = new CategoryItem(category_name, index);
+                    var name = set.categories[j].name;
+                    var type = set.categories[j].type;
+                    var category = new CategoryItem(name, type, index);
                     this_.categories.push(category);
                     category_set.append(category.li);
                     
@@ -273,7 +305,7 @@ function Observer(category_sets) {
             // TODO: Is JSON.stringify necessary?
             data: JSON.stringify({
                 duration: time,
-                categorySets: category_sets,
+                //categorySets: category_sets,
                 timeZoneOffsetInMs: getTimeZoneOffset(),
                 daylightSavingInMs: getDaylightSaving(),
                 data: this.records

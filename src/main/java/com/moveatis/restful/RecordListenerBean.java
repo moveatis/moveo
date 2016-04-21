@@ -167,6 +167,7 @@ public class RecordListenerBean implements Serializable {
         
         observationEntity.setCreated(createdTime);
         
+        if (false) { // NOTE: Let's not do this after all...
         try {
             for (int i = 0; i < categorySets.size(); i++) {
                 
@@ -206,6 +207,7 @@ public class RecordListenerBean implements Serializable {
         } catch (Exception e) {
             LOGGER.debug(e.toString());
             return "failed";
+        }
         }
 
         try {
