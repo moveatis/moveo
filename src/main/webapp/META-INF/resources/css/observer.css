@@ -1,15 +1,40 @@
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 /* 
     Created on : Feb 17, 2016, 10:29:25 AM
     Author     : ilkrpaan
 */
 
 body {
-    font-size: 0; /* removes extra space between elements */
+    font-size: 0; /* NOTE: Removes extra space between elements. */
 }
 
 #naviHead, #Footer {
@@ -22,6 +47,10 @@ body {
     padding: 0;
     text-align: center;
     clear: both;
+}
+
+#growl_container {
+    font-size: 1.1rem;
 }
 
 #content {
@@ -61,7 +90,7 @@ body {
     -khtml-user-select: none;    /* Konqueror */
     -moz-user-select: none;      /* Firefox */
     -ms-user-select: none;       /* IE/Edge */
-    /*user-select: none;           /* non-prefixed version, currently
+    user-select: none;           /* non-prefixed version, currently
                                     not supported by any browser */
 }
 
@@ -109,7 +138,7 @@ body {
     text-overflow: ellipsis;
 }
 
-.category-timer {
+.category-value {
     margin: 0;
     margin-left: 0.3em;
     padding: 0 0.15em;
@@ -160,7 +189,7 @@ body {
     font-size: 5vh;
 }
 
-.category-timer {
+.category-value {
     font-size: 4vh;
     border-radius: 1vh;
 }
@@ -201,7 +230,7 @@ body {
         font-size: calc(480px * 0.05);
     }
 
-    .category-timer {
+    .category-value {
         font-size: calc(480px * 0.04);
         border-radius: calc(480px * 0.01);
     }
@@ -244,7 +273,7 @@ body {
         font-size: calc(240px * 0.05);
     }
 
-    .category-timer {
+    .category-value {
         font-size: calc(240px * 0.04);
         border-radius: calc(240px * 0.01);
     }

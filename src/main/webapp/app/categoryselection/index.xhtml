@@ -48,8 +48,6 @@
                             <h2>#{categorySet.name}</h2>
                             <ui:repeat value="#{categorySet.categories}" var="category">
                             <div class="category">
-                                <!--<p:selectBooleanCheckbox value="#{category.selected}" id="category-checkbox" styleClass="category-checkbox"/>-->
-                                <!--<p:outputLabel value="#{category.name}" for="category-checkbox" styleClass="category-text"/>-->
                                 <p:selectBooleanCheckbox value="#{category.selected}" itemLabel="#{category.name}"/>
                             </div>
                             </ui:repeat>
