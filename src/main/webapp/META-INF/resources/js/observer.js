@@ -122,7 +122,7 @@ function CategoryItem(name, type, index) {
     this.type = type;
     
     if (this.type === CategoryType.COUNTED) {
-        updateValueDiv(this, "0");
+        updateValueDiv(this, getCountString(this.count));
         this.count = 0;
     } else {
         updateValueDiv(this, timeToString(0));
@@ -150,11 +150,6 @@ function CategoryItem(name, type, index) {
         return record;
     };
     
-    function updateValueDiv(this_, text) {
-        this_.value_div.empty();
-        this_.value_div.append(document.createTextNode(text));
-    }
-    
     this.updateTimer = function(master_time) {
         var time = this.time;
         if (this.down) {
@@ -166,7 +161,7 @@ function CategoryItem(name, type, index) {
     if (this.type === CategoryType.COUNTED) {
         this.click = function(master_time) {
             this.count += 1;
-            updateValueDiv(this, "" + this.count);
+            updateValueDiv(this, getCountString(this.count));
             
             this.li.addClass("down");
             var item = this.li;
@@ -176,6 +171,15 @@ function CategoryItem(name, type, index) {
         };
         
         this.updateTimer = function() { };
+    }
+    
+    function updateValueDiv(this_, text) {
+        this_.value_div.empty();
+        this_.value_div.append(document.createTextNode(text));
+    }
+    
+    function getCountString(count) {
+        return count + " " + msg.countAbbreviation;
     }
 }
 

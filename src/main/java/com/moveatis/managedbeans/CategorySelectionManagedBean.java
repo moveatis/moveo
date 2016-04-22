@@ -296,7 +296,7 @@ public class CategorySelectionManagedBean implements Serializable {
     @PostConstruct
     public void init() {
 //        publicCategorySets = new CategorySetList();
-//        
+//
 //        AbstractUser user = sessionBean.getLoggedInUser();
 //        List<EventGroupEntity> publicEventGroups = eventGroupEJB.findAllForOwner(user);
 //        for (EventGroupEntity eventGroup : publicEventGroups) {
