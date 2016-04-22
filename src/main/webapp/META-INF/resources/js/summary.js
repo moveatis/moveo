@@ -87,6 +87,11 @@ $(function () {
             hideMessages(timeline, growl);
         }
     });
+
+    $(window).scroll(function () {
+        $("#timelineControls").toggleClass("bottom",
+            isBottomOfDocument($("#Footer").height()));
+    });
 });
 
 /**
@@ -135,11 +140,15 @@ function createRecordRow(record) {
     //       already escaped and user cannot change them later.
     // TODO: set information of category group
     var row = $('<div class="ui-grid-row">');
+    var count = $('<div class="ui-grid-col-3">');
+    var duration = $('<div class="ui-grid-col-3">');
+    count.append('<span>' + record.count + " " + msg.sum_countAbr + "</span>");
+    count.append('<span>' + record.countPercent + "</span>");
+    duration.append('<span>' + convertMsToUnits(record.duration) + "</span>");
+    duration.append('<span>' + record.durationPercent + "</span>");
     row.append('<div class="ui-grid-col-5">' + record.name + "</div>");
-    row.append('<div class="ui-grid-col-1">' + record.count + "</div>");
-    row.append('<div class="ui-grid-col-1">' + record.countPercent + "</div>");
-    row.append('<div class="ui-grid-col-2">' + convertMsToUnits(record.duration) + "</div>");
-    row.append('<div class="ui-grid-col-1">' + record.durationPercent + "</div>");
+    row.append(count);
+    row.append(duration);
     return row;
 }
 
@@ -313,7 +322,7 @@ function convertMsToStr(ms) {
     var m = d % 60;
     d = Math.floor(d / 60);
     var h = d % 60;
-    return [lz(h), lz(m), lz(s)].join(':');
+    return [leadingZero(h), leadingZero(m), leadingZero(s)].join(':');
 }
 
 /*
@@ -350,17 +359,17 @@ function convertMsToUnits(ms) {
     };
 
     if (ms <= 0) {
-        return "0s";
+        return "0 s";
     }
     if (ms < 1000) {
-        return ">1s";
+        return "~1 s";
     }
     if (time.length === 3) {
-        getTimeUnit(0, "h");
-        getTimeUnit(1, "m");
-        getTimeUnit(2, "s");
+        getTimeUnit(0, " h");
+        getTimeUnit(1, " m");
+        getTimeUnit(2, " s");
     } else {
-        return "0s";
+        return "0 s";
     }
     return units.replace(/([h,m,s])(\d)/g, "$1 $2");
 }
@@ -370,7 +379,7 @@ function convertMsToUnits(ms) {
  * @param {number} n - number.
  * @returns {string} - number with possible leading zero.
  */
-function lz(n) {
+function leadingZero(n) {
     return (n < 10 ? "0" + n : n.toString());
 }
 
@@ -427,4 +436,13 @@ function encodeHTML(str) {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;');
+}
+
+/*
+ * Check if scrolled to the bottom of the page.
+ * @param {number} padding - extra padding from bottom to check.
+ * @return {boolean} - true if at bottom otherwise false.
+ */
+function isBottomOfDocument(padding) {
+    return $(window).scrollTop() >= $(document).height() - padding - $(window).height();
 }

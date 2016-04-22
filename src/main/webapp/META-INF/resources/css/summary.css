@@ -41,13 +41,17 @@
 
 #summary-content {
     padding: .1em .5em;
+    position: relative;
+    z-index: 2;
 }
 
 #recordings-details {
     font-size: 1.1em;
     padding: .1em .5em;
-    background-color: rgba(85, 102, 119, 0.4);
+    background-color: #19232A;
     border-radius: 10px 10px 0 0;
+    position: relative;
+    z-index: 2;
 }
 
 #recordings-details .ui-grid-col-5 {
@@ -115,20 +119,43 @@
     text-align: right;
 }
 
-.zoomControl {
-    float: right;
+.ui-grid-col-3 {
+    display: inline-block;
+    min-width: 10em;
 }
-.zoomControl a:hover {
+
+#timelineControls {
+    position: fixed;
+    bottom: 0.3em;
+    z-index: 1;
+    font-size: .76em;
+    -webkit-transition: bottom 1s;
+    transition: bottom .5s;
+    text-align: right;
+    width: 100%;
+    max-width: 960px;
+}
+#timelineControls.bottom {
+    bottom: 3em;
+}
+#timelineControls > div {
+    background: rgba(42, 29, 29, 0.2) none repeat scroll 0% 0%;
+    display: inline-block;
+    padding: 0.3em;
+    border-radius: 0.3em;
+    margin-right: 0.3em;
+}
+#timelineControls a:hover {
     color: #fa4;
 }
-.fa-search-plus,
-.fa-search-minus {
+#timelineControls .fa {
     cursor: pointer;
     font-size: 1.6em;
+    margin-left: .1em;
 }
 
 .percent {
-    font-size: .8em;
+    /*    font-size: .8em;*/
     white-space: nowrap;
     margin-left: .2em;
 }
@@ -139,20 +166,30 @@
 
 /* Responsive */
 @media (max-width:700px){
-    .content {
+    .mobileCentered {
         text-align: center;
     }
 }
-@media (max-width:320px){
-    .ui-grid.ui-grid-responsive-320 .ui-grid-row {
+@media (max-width:480px){
+    .ui-grid.ui-grid-responsive-480 .ui-grid-row {
         display:block;
     }
-    .ui-grid.ui-grid-responsive-320 .ui-grid-row > div {
+    .ui-grid.ui-grid-responsive-480 .ui-grid-row > div {
         width:100%;
         float:none;
     }
-    .ui-grid.ui-grid-responsive-320 .ui-grid-row > .ui-grid-col-5 {
+    .ui-grid.ui-grid-responsive-480 .ui-grid-row > .ui-grid-col-5 {
         float: left;
         width: auto;
+    }
+    .ui-grid.ui-grid-responsive-480 .ui-grid-row:not(.header-row):after {
+        margin-top: .3em;
+    }
+    #recordings-details .ui-grid-col-5 {
+        margin-bottom: .3em;
+    }
+    .ui-grid-row > div:not(:first-child) {
+        text-align: left;
+        margin-left: 2em;
     }
 }

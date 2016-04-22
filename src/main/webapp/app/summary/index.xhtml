@@ -20,11 +20,11 @@
 
                 <div id="summary-content">
 
-                    <h1>#{summaryBean.observationName}</h1>
+                    <h1 class="mobileCentered">#{summaryBean.observationName}</h1>
 
-                    <h2>#{msg.sum_title}</h2>
+                    <h2 class="mobileCentered">#{msg.sum_title}</h2>
 
-                    <div class="inline-bar content">
+                    <div class="inline-bar mobileCentered">
                         <div class="inline-bar align-bar">
                             <div>
                                 <div id="total-records" class="total"></div>
@@ -70,16 +70,14 @@
 
                 <div id="recordings-details" class="ui-fluid">
                     <h3>#{msg.sum_recordings}</h3>
-                    <div class="ui-grid ui-grid-responsive-320">
+                    <div class="ui-grid ui-grid-responsive-480">
                         <div class="ui-grid-row header-row">
                             <div class="ui-grid-col-5">#{msg.sum_category}</div>
-                            <div class="ui-grid-col-2">#{msg.sum_number}</div>
-                            <div class="ui-grid-col-1"/>
-                            <div class="ui-grid-col-2">#{msg.sum_duration}</div>
-                            <div class="ui-grid-col-1"/>
+                            <div class="ui-grid-col-3">#{msg.sum_number}</div>
+                            <div class="ui-grid-col-3">#{msg.sum_duration}</div>
                         </div>
                     </div>
-                    <div id="records" class="ui-grid ui-grid-responsive-320"/>
+                    <div id="records" class="ui-grid ui-grid-responsive-480"/>
                 </div>
 
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
@@ -92,7 +90,7 @@
                              zoomMin="#{summaryBean.zoomMin}"
                              zoomMax="#{summaryBean.zoomMax}"
                              selectable="true"
-                             zoomable="true"
+                             zoomable="false"
                              moveable="true"
                              animate="false"
                              animateZoom="false"
@@ -109,11 +107,12 @@
                              eventMargin="16">
                 </pe:timeline>
 
-                <div class="timelineControls">
-                    <div class="zoomControl">
+                <div id="timelineControls">
+                    <div>
                         <span>#{msg.sum_zoom} </span>
                         <a id="button-zoom-out" class="fa fa-search-minus" title="#{msg.sum_zoomOut}"></a>
                         <a id="button-zoom-in" class="fa fa-search-plus" title="#{msg.sum_zoomIn}"></a>
+                        <a href="#summary-content"><span> Takaisin ylös</span><span class="fa fa-chevron-circle-up"></span></a>
                     </div>
                 </div>
 
@@ -179,7 +178,8 @@
                     sum_total: "#{msg.sum_total}",
                     sum_begin: "#{msg.sum_begin}",
                     sum_end: "#{msg.sum_end}",
-                    sum_duration: "#{msg.sum_duration}"
+                    sum_duration: "#{msg.sum_duration}",
+                    sum_countAbr: "#{msg.sum_countAbr}"
                     };
                     },
                     };
