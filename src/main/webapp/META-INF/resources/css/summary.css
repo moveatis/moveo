@@ -159,7 +159,7 @@
         text-align: center;
     }
 }
-@media (max-width:320px){
+@media (max-width:300px){
     .ui-grid.ui-grid-responsive-320 .ui-grid-row {
         display:block;
     }
