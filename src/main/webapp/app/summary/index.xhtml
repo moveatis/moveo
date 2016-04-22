@@ -120,10 +120,8 @@
                 <p:dialog header="#{msg.sum_mailDialogHeader}"
                           widgetVar="dlgMail"
                           position="top"
-                          draggable="false"
                           resizable="false"
                           responsive="true"
-                          modal="true"
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
@@ -136,7 +134,7 @@
                         <p:inputTextarea id="input-description"
                                          value="#{summaryBean.observationDescription}"
                                          placeholder="#{msg.sum_observationDescription}"
-                                         rows="6" cols="33" autoResize="true" />
+                                         rows="3" cols="16" autoResize="true" />
                         <h:outputText value="#{msg.sum_giveEmail}"/>
                         <p:inputText id="input-email"
                                      placeholder="#{msg.sum_emailAddress}" />
@@ -148,10 +146,8 @@
                 <p:dialog header="#{msg.sum_saveDialogHeader}"
                           widgetVar="dlgSave"
                           position="top"
-                          draggable="false"
                           resizable="false"
                           responsive="true"
-                          modal="true"
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
@@ -164,7 +160,7 @@
                         <p:inputTextarea id="input-description"
                                          value="#{summaryBean.observationDescription}"
                                          placeholder="#{msg.sum_observationDescription}"
-                                         rows="6" cols="33" autoResize="true" />
+                                         rows="3" cols="16" autoResize="true" />
                         <p:commandButton value="#{msg.sum_save}" icon="ui-icon-check"
                                          onclick="PF('dlgSave').hide();"
                                          actionListener="#{buttonView.buttonAction}"/>

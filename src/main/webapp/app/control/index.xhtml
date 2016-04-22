@@ -18,7 +18,7 @@ and open the template in the editor.
             <ui:define name="mainpage">
                 <h:outputStylesheet library="css" name="control.css"/>
 
-                <h1>#{msg.con_title}</h1>
+                <h1>#{msg.con_title} #{sessionBean.loggedIdentifiedUser.firstName}!</h1>
 
                 <h2>#{msg.con_title2}</h2>
 
@@ -41,7 +41,16 @@ and open the template in the editor.
                         <p:inputTextarea id="input-description-eg"
                                          value="#{controlManagedBean.newEventGroup.description}"
                                          placeholder="#{msg.con_eventGroupDescription}"
-                                         rows="6" cols="33" autoResize="true" />
+                                         rows="3" cols="16" autoResize="true" />
+                        <h:outputText value="#{msg.con_eventGroupKeyTitle}"/>
+                        <!--
+                        <p:inputText id="input-key-eg"
+                                     value="#{controlManagedBean.newEventGroup.groupKey.groupKey}"
+                                     placeholder="#{msg.con_eventGroupKey}"/>
+                        -->
+                        <h:outputText value="#{msg.con_eventGroupExpirationTitle}"/>
+                        <p:calendar id="input-expiration-eg"
+                                    placeholder="#{msg.con_eventGroupExpiration}"/>
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEventGroup').hide();"
                                          action="#{controlManagedBean.createNewEventGroup}"
@@ -65,7 +74,7 @@ and open the template in the editor.
                         <p:inputTextarea id="input-description-event"
                                          value="#{controlManagedBean.newEvent.description}"
                                          placeholder="#{msg.con_eventDescription}"
-                                         rows="6" cols="33" autoResize="true" />
+                                         rows="3" cols="16" autoResize="true" />
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEvent').hide();"
                                          action="#{controlManagedBean.createNewEvent}"
@@ -89,7 +98,16 @@ and open the template in the editor.
                         <p:inputTextarea id="input-description-eg"
                                          value="#{controlManagedBean.selectedEventGroup.description}"
                                          placeholder="#{msg.con_eventGroupDescription}"
-                                         rows="6" cols="33" autoResize="true" />
+                                         rows="3" cols="16" autoResize="true" />
+                        <h:outputText value="#{msg.con_eventGroupKeyTitle}"/>
+                        <!--
+                        <p:inputText id="input-key-eg"
+                                     value="#{controlManagedBean.selectedEventGroup.groupKey.groupKey}"
+                                     placeholder="#{msg.con_eventGroupKey}"/>
+                        -->
+                        <h:outputText value="#{msg.con_eventGroupExpirationTitle}"/>
+                        <p:calendar id="input-expiration-eg"
+                                    placeholder="#{msg.con_eventGroupExpiration}"/>
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEditEventGroup').hide();"
                                          action="#{controlManagedBean.editEventGroup}"
@@ -113,7 +131,7 @@ and open the template in the editor.
                         <p:inputTextarea id="input-description-event"
                                          value="#{controlManagedBean.selectedEvent.description}"
                                          placeholder="#{msg.con_eventDescription}"
-                                         rows="6" cols="33" autoResize="true" />
+                                         rows="3" cols="16" autoResize="true" />
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEditEvent').hide();"
                                          action="#{controlManagedBean.editEvent}"

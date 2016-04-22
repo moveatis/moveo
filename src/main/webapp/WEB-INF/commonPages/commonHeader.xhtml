@@ -26,14 +26,14 @@ and open the template in the editor.
                     </p:submenu>
 
 
-                    <p:submenu icon="fa fa-user" rendered="#{sessionBean.identifiedUser}">
+                    <p:submenu icon="fa fa-user" rendered="#{sessionBean.isIdentifiedUser()}">
                         <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="#{msg.head_superuserPage}" icon="fa fa-group" url="/app/superuser/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="#{msg.head_logout}" icon="fa fa-sign-out"
                                     actionListener="#{logoutBean.logOut}"  class="coloredButton"/>
                     </p:submenu>
 
-                    <p:submenu icon="fa fa-lock" rendered="#{!sessionBean.identifiedUser}">
+                    <p:submenu icon="fa fa-lock" rendered="#{!sessionBean.isIdentifiedUser()}">
                         <p:menuitem value="#{msg.head_login}" icon="fa fa-sign-in"  onclick="PF('dlgLogin').show();" class="coloredButton"/>
                     </p:submenu>
 

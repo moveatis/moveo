@@ -81,7 +81,7 @@ public class SessionBean implements Serializable, Session  {
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
 
     public SessionBean() {
-        
+
     }
     
     @Override
@@ -128,7 +128,7 @@ public class SessionBean implements Serializable, Session  {
     public boolean isIdentifiedUser() {
         return userType == UserType.IDENTIFIED_USER;
     }
-    
+
     @Override
     public String toString() {
         return "SessionBean: userType -> " + getUserType() + ", loggedIn -> " + isLoggedIn();
