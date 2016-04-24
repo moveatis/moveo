@@ -31,7 +31,6 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
-import com.moveatis.managedbeans.CategorySelectionManagedBean.CategorySet;
 import com.moveatis.records.RecordEntity;
 import java.util.Date;
 import java.util.List;
@@ -71,8 +70,8 @@ public class SummaryManagedBean {
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
 
-    @Inject
-    private CategorySelectionManagedBean categoryBean; //Managedbeans have Bean in their name by convention
+    //@Inject
+    //private CategorySelectionManagedBean categoryBean; //Managedbeans have Bean in their name by convention
     
     @Inject
     private Session sessionBean;
@@ -223,28 +222,28 @@ public class SummaryManagedBean {
         
         List<RecordEntity> records = observationEJB.findRecords(observationId);
         LOGGER.debug("Records-size ->" + records.size());
-        List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
+        //List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
 
         this.observationDuration = observationEJB.find(observationId).getDuration();
         this.max = new Date(Math.round(this.observationDuration * 1.1)); // timeline max 110% of obs. duration
 
         // Add categories to timeline as timelinegroups
         int categoryNumber = 1;
-        for (CategorySet categorySet : categorySets) {
-            for (String category : categorySet.getSelectedCategories()) {
-                // Add category name inside element with class name
-                // use css style to hide them in timeline
-                // class name is intentionally without quotes, timeline expectional case
-                String numberedLabel = "<span class=categoryNumber>" + categoryNumber + ". </span>"
-                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category) + "</span>";
-                TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
-                timeline.addGroup(timelineGroup);
-                // Add dummy records to show empty categories in timeline
-                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, category, "dummyRecord");
-                timeline.add(timelineEvent);
-                categoryNumber++;
-            }
-        }
+//        for (CategorySet categorySet : categorySets) {
+//            for (String category : categorySet.getSelectedCategories()) {
+//                // Add category name inside element with class name
+//                // use css style to hide them in timeline
+//                // class name is intentionally without quotes, timeline expectional case
+//                String numberedLabel = "<span class=categoryNumber>" + categoryNumber + ". </span>"
+//                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category) + "</span>";
+//                TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
+//                timeline.addGroup(timelineGroup);
+//                // Add dummy records to show empty categories in timeline
+//                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, category, "dummyRecord");
+//                timeline.add(timelineEvent);
+//                categoryNumber++;
+//            }
+//        }
 
         // Add records to timeline as timeline-events
         for (RecordEntity record : records) {

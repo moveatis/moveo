@@ -64,8 +64,10 @@ public class CategoryEntity implements Serializable {
     @ManyToOne(cascade=PERSIST)
     private LabelEntity label;
     
+    private String description;
+    
     @ManyToOne
-    private CategorySetEntity categoryGroup;
+    private CategorySetEntity categorySet;
     
     private Boolean canOverlap;
 
@@ -93,12 +95,12 @@ public class CategoryEntity implements Serializable {
         this.label = label;
     }
 
-    public CategorySetEntity getCategoryGroup() {
-        return categoryGroup;
+    public CategorySetEntity getCategorySet() {
+        return categorySet;
     }
 
-    public void setCategoryGroup(CategorySetEntity categoryGroup) {
-        this.categoryGroup = categoryGroup;
+    public void setCategorySet(CategorySetEntity categorySet) {
+        this.categorySet = categorySet;
     }
 
     public Boolean getCanOverlap() {
@@ -107,6 +109,14 @@ public class CategoryEntity implements Serializable {
 
     public void setCanOverlap(Boolean canOverlap) {
         this.canOverlap = canOverlap;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

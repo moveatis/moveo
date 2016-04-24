@@ -58,7 +58,7 @@ public class TagUserEntity extends AbstractUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @OneToOne
+    @OneToOne(cascade=PERSIST)
     private GroupKeyEntity groupKey;
     
     @Temporal(javax.persistence.TemporalType.DATE)

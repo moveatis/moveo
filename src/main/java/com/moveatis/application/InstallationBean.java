@@ -30,7 +30,6 @@
 
 package com.moveatis.application;
 
-import com.moveatis.devel.InstallUsageTestingEntitiesBean;
 import com.moveatis.enums.ApplicationStatusCode;
 import com.moveatis.interfaces.AnonUser;
 import com.moveatis.interfaces.Application;
@@ -62,9 +61,6 @@ public class InstallationBean implements Serializable {
     private Role roleEJB;
     
     @Inject
-    private InstallUsageTestingEntitiesBean usageTestingBean;
-    
-    @Inject
     private AnonUser anonUserEJB;
     
     @Inject
@@ -82,8 +78,6 @@ public class InstallationBean implements Serializable {
             applicationEntity.setApplicationInstalled(Calendar.getInstance().getTime());
             applicationEntity.setSuperUsers(roleEJB.listSuperusers());
             applicationEJB.create(applicationEntity);
-            
-            usageTestingBean.createUsageTestingEntities();
             
             AnonUserEntity anonEntity = new AnonUserEntity();
             anonEntity.setCreated(Calendar.getInstance().getTime());

@@ -30,6 +30,7 @@
 package com.moveatis.event;
 
 import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.interfaces.AnonUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,6 +38,7 @@ import com.moveatis.interfaces.EventGroup;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.AbstractUser_;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -57,6 +59,9 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
+    
+    @Inject
+    private AnonUser anonUserEJB;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -76,7 +81,15 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 
     @Override
     public List<EventGroupEntity> findAllForUser(AbstractUser user) {
-        
+        return findAllForAbstractUser(user);
+    }
+
+    @Override
+    public List<EventGroupEntity> findAllForPublicUser() {
+        return findAllForAbstractUser(anonUserEJB.find());
+    }
+    
+    private List<EventGroupEntity> findAllForAbstractUser(AbstractUser user) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
    
@@ -92,11 +105,6 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
         LOGGER.debug("Listan koko -> " + query.getResultList().size());
         
         return query.getResultList();
-    }
-
-    @Override
-    public List<EventGroupEntity> findAllForPublicUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

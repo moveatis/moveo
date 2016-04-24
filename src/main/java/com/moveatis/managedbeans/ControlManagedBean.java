@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, sami 
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,25 +29,30 @@
  */
 package com.moveatis.managedbeans;
 
+import com.moveatis.category.CategoryEntity;
+import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.interfaces.Category;
+import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Event;
 import com.moveatis.interfaces.EventGroup;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.event.MenuActionEvent;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuItem;
 import org.primefaces.model.menu.MenuModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,26 +65,27 @@ import org.slf4j.LoggerFactory;
 @Named(value = "controlManagedBean")
 @ViewScoped
 public class ControlManagedBean implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
-
-    private List<EventGroupEntity> ownEventGroups;
-    private List<EventGroupEntity> sharedEventGroups;
-    private List<EventGroupEntity> publicEventGroups;
-
-    private List<String> ownEvents;
-    private List<String> sharedEvents;
-    private List<String> publicEvents;
+    
+    private List<EventGroupEntity> eventGroups;
 
     private EventGroupEntity selectedEventGroup;
     private EventEntity selectedEvent;
-    private EventGroupEntity newEventGroup;
-    private EventEntity newEvent;
+    
+    private CategorySetEntity selectedCategorySet;
+    private CategoryEntity selectedCategory;
 
     private MenuModel menuModel;
 
     @Inject
     private EventGroup eventGroupEJB;
+    @Inject
+    private CategorySet categorySetEJB;
+    @Inject
+    private Category categoryEJB;
 
     @Inject
     private Event eventEJB;
@@ -94,30 +100,16 @@ public class ControlManagedBean implements Serializable {
     private AbstractUser user;
 
     public ControlManagedBean() {
-        newEvent = new EventEntity();
-        newEventGroup = new EventGroupEntity();
+        
     }
 
     @PostConstruct
     public void init() {
         user = sessionBean.getLoggedInUser();
-        setOwnEventGroups();
-        setAccessEventGroups();
+        eventGroups = eventGroupEJB.findAllForOwner(user);
         createMenuModel();
     }
-
-    private void setOwnEventGroups() {
-        ownEventGroups = eventGroupEJB.findAllForOwner(user);
-    }
-
-    private void setAccessEventGroups() {
-        sharedEventGroups = eventGroupEJB.findAllForUser(user);
-    }
-
-    private void setPublicEventGroups() {
-        //TODO: get all public event groups
-    }
-
+    
     public MenuModel getMenuModel() {
         return menuModel;
     }
@@ -126,20 +118,29 @@ public class ControlManagedBean implements Serializable {
         this.menuModel = menuModel;
     }
 
-    public String newObservation(String identifier) {
-        return "newobservation";
+    public void addEventGroup(EventGroupEntity eventGroup) {
+        init();
+    }
+    
+    public void addCategorySet(CategorySetEntity categorySet) {
+        init();
+    }
+    
+    public void addCategory(CategoryEntity categorEntity) {
+        init();
     }
 
     private void createMenuModel() {
         menuModel = new DefaultMenuModel();
-        menuModel.addElement(createSubMenuModel("Omat", ownEventGroups));
-        menuModel.addElement(createSubMenuModel("Jaetut", sharedEventGroups));
-        menuModel.addElement(createSubMenuModel("Julkiset", publicEventGroups));
+        menuModel.addElement(createSubMenuModel("Tapahtumaryhmät", eventGroups));
     }
 
     private DefaultSubMenu createSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
 
         DefaultSubMenu menuEventGroups = new DefaultSubMenu(menuName);
+        menuEventGroups.addElement(
+                createMenuItem(messages.getString("con_newEventGroup"), "fa fa-plus",                        
+                        "PF('dlgEventGroup').show();", null, null,null, null, null));
 
         if (eventGroups != null && !eventGroups.isEmpty()) {
 
@@ -147,44 +148,84 @@ public class ControlManagedBean implements Serializable {
 
                 DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
 
+                for (CategorySetEntity categorySet : eventGroup.getCategorSets()) {
+
+                    DefaultSubMenu subMenuCategorySet = new DefaultSubMenu(categorySet.getLabel());
+
+                    subMenuCategorySet.addElement(
+                            createMenuItem(messages.getString("con_newCategory"), "fa fa-plus",
+                                    "PF('dlgCategory').show();",
+                                    "#{controlManagedBean.setSelectedCategorySet}", 
+                                    "categorySetId", Long.toString(categorySet.getId()),
+                                    null, null
+                            ));
+                    
+                    subMenuEventGroup.addElement(
+                            createMenuItem(messages.getString("con_edit"), "fa fa-edit",
+                                    "PF('dlgEditCategorySet').show();",
+                                    "#{controlManagedBean.setSelectedCategorySet}", 
+                                    "categorySetId",Long.toString(categorySet.getId()),
+                                    ":form-editEvent", "edit-menuItem"
+                            ));
+
+                    subMenuEventGroup.addElement(subMenuCategorySet);
+                    
+                    for(CategoryEntity categoryEntity : categorySet.getCategoryEntitys()) {
+                        
+                        DefaultSubMenu subMenuCategory = new DefaultSubMenu(categoryEntity.getLabel().getLabel());
+                        
+                        subMenuCategorySet.addElement(
+                            createMenuItem(messages.getString("con_edit"), "fa fa-edit",
+                                    "PF('dlgEditCategory').show();",
+                                    "#{controlManagedBean.setSelectedCategory}", 
+                                    "categoryId", Long.toString(categorySet.getId()),
+                                    ":form-editEvent", "edit-menuItem"
+                            ));
+                        
+                        subMenuCategorySet.addElement(subMenuCategory);
+                    }
+                }
                 for (EventEntity event : eventGroup.getEvents()) {
-
                     DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
-
                     subMenuEvent.addElement(
                             createMenuItem(messages.getString("con_newObservation"), "fa fa-play",
-                                    null, "#{controlManagedBean.newObservation('" + event.getId() + "')}", null, null));
-
+                                    null, "#{controlManagedBean.newObservation}", 
+                                    "eventId", Long.toString(event.getId()), 
+                                    null, null));
                     subMenuEventGroup.addElement(
                             createMenuItem(messages.getString("con_edit"), "fa fa-edit",
                                     "PF('dlgEditEvent').show();",
-                                    "#{controlManagedBean.setSelectedEvent('" + event.getId() + "')}", ":form-editEvent", "edit-menuItem"));
-
+                                    "#{controlManagedBean.setSelectedEvent}",
+                                    "eventId", Long.toString(event.getId()),
+                                    ":form-editEvent", "edit-menuItem"));
                     subMenuEventGroup.addElement(subMenuEvent);
                 }
-
                 subMenuEventGroup.addElement(
+                        createMenuItem(messages.getString("con_newCategorySet"), "fa fa-plus",
+                                "PF('dlgCategorySet').show();",
+                                "#{controlManagedBean.setSelectedEventGroup}",
+                                "eventGroupId", Long.toString(eventGroup.getId()),
+                                null, null));
+                 subMenuEventGroup.addElement(
                         createMenuItem(messages.getString("con_newEvent"), "fa fa-plus",
                                 "PF('dlgEvent').show();",
-                                "#{controlManagedBean.setSelectedEventGroup('" + eventGroup.getId() + "')}", null, null));
-
-
+                                "#{controlManagedBean.setSelectedEventGroup}", 
+                                "eventGroupId", Long.toString(eventGroup.getId()),
+                                null, null));
                 menuEventGroups.addElement(
                         createMenuItem(messages.getString("con_edit"), "fa fa-edit",
                                 "PF('dlgEditEventGroup').show();",
-                                "#{controlManagedBean.setSelectedEventGroup('" + eventGroup.getId() + "')}",
+                                "#{controlManagedBean.setSelectedEventGroup}",
+                                "eventGroupId", Long.toString(eventGroup.getId()),
                                 ":form-editEventGroup", "edit-menuItem"));
-
                 menuEventGroups.addElement(subMenuEventGroup);
             }
         }
-        menuEventGroups.addElement(
-                createMenuItem(messages.getString("con_newEventGroup"), "fa fa-plus",
-                        "PF('dlgEventGroup').show();", null, null, null));
         return menuEventGroups;
     }
-
-    private DefaultMenuItem createMenuItem(String value, String icon, String onClick, String command, String update, String styleClass) {
+    
+    private DefaultMenuItem createMenuItem(String value, String icon, String onClick, String command, String parameterName, String parameter,
+            String update, String styleClass) {
         DefaultMenuItem menuItem = new DefaultMenuItem(value, icon);
         if (onClick != null) {
             menuItem.setOnclick(onClick);
@@ -192,34 +233,20 @@ public class ControlManagedBean implements Serializable {
         if (command != null) {
             menuItem.setCommand(command);
         }
+        if (parameterName != null && parameter != null) {
+            menuItem.setParam(parameterName, parameter);
+        }
         if (update != null) {
             menuItem.setUpdate(update);
         }
         if (styleClass != null) {
             menuItem.setStyleClass(styleClass);
         }
+        
         return menuItem;
     }
 
-    public void createNewEventGroup() {
-        Date created = Calendar.getInstance().getTime();
-        newEventGroup.setCreated(created);
-        newEventGroup.setOwner(user);
-        eventGroupEJB.create(newEventGroup);
-        newEventGroup = new EventGroupEntity();
-        init();
-    }
-
     public void createNewEvent() {
-        if (selectedEventGroup == null) {
-            return;
-        }
-        Date createdDate = Calendar.getInstance().getTime();
-        newEvent.setCreator(user);
-        newEvent.setCreated(createdDate);
-        newEvent.setEventGroup(selectedEventGroup);
-        eventEJB.create(newEvent);
-        newEvent = new EventEntity();
         init();
     }
 
@@ -247,19 +274,42 @@ public class ControlManagedBean implements Serializable {
         return selectedEvent;
     }
 
-    public void setSelectedEventGroup(long id) {
+    public CategorySetEntity getSelectedCategorySet() {
+        return selectedCategorySet;
+    }
+
+    public void setSelectedCategorySet(ActionEvent event) {
+        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+        Long id = Long.parseLong(menuItem.getParams().get("categorySetId").get(0));
+        selectedCategorySet = categorySetEJB.find(id);
+    }
+
+    public CategoryEntity getSelectedCategory() {
+        return selectedCategory;
+    }
+
+    public void setSelectedCategory(ActionEvent event) {
+        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+        Long id = Long.parseLong(menuItem.getParams().get("categoryId").get(0));
+        selectedCategory = categoryEJB.find(id);
+    }
+
+    public void setSelectedEventGroup(ActionEvent event) {
+        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+        Long id = Long.parseLong(menuItem.getParams().get("eventGroupId").get(0));
         selectedEventGroup = eventGroupEJB.find(id);
     }
 
-    public void setSelectedEvent(long id) {
+    public void setSelectedEvent(ActionEvent event) {
+        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+        Long id = Long.parseLong(menuItem.getParams().get("eventId").get(0));
         selectedEvent = eventEJB.find(id);
     }
-
-    public EventGroupEntity getNewEventGroup() {
-        return newEventGroup;
-    }
-
-    public EventEntity getNewEvent() {
-        return newEvent;
+    
+    public String newObservation(ActionEvent event) {
+        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+        Long id = Long.parseLong(menuItem.getParams().get("eventId").get(0));
+        sessionBean.setEventEntityForNewObservation(eventEJB.find(id));
+        return "newobservation";
     }
 }

@@ -41,11 +41,11 @@ import javax.ejb.Local;
 @Local(Event.class)
 public interface Event {
 
-    void create(EventEntity sceneEntity);
+    void create(EventEntity eventEntity);
 
-    void edit(EventEntity sceneEntity);
+    void edit(EventEntity eventEntity);
 
-    void remove(EventEntity sceneEntity);
+    void remove(EventEntity eventEntity);
 
     EventEntity find(Object id);
 
@@ -55,9 +55,9 @@ public interface Event {
     
     List<String> getCategories();
     
-    List<EventEntity> findScenesForUser(IdentifiedUserEntity user);
+    List<EventEntity> findEventsForUser(IdentifiedUserEntity user);
     
-    EventEntity getSceneEntity();
+    EventEntity getEventEntity();
     
     int count();
     

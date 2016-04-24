@@ -30,15 +30,18 @@
 
 package com.moveatis.managedbeans;
 
-import com.moveatis.event.EventEntity;
-import com.moveatis.event.EventGroupEntity;
-import com.moveatis.interfaces.Event;
-import com.moveatis.interfaces.Session;
+import com.moveatis.category.CategoryEntity;
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.interfaces.Category;
+import com.moveatis.interfaces.Label;
+import com.moveatis.label.LabelEntity;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,27 +50,27 @@ import org.slf4j.LoggerFactory;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="eventManagedBean")
-@RequestScoped
-public class EventManagedBean {
+@Named(value="categoryManagedBean")
+@ViewScoped
+public class CategoryManagedBean implements Serializable {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventManagedBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryManagedBean.class);
+    
+    private static final long serialVersionUID = 1L;
+    
+    @Inject
+    private Category categoryEJB;
+    @Inject
+    private Label labelEJB;
+    @Inject
+    private ControlManagedBean controlManagedBean;
     
     private String label;
     private String description;
-    private EventEntity eventEntity;
-    
-    @Inject
-    private Event eventEJB;
-    
-    @Inject
-    private Session sessionBean;
-    
-    @Inject
-    private ControlManagedBean controlManagedBean;
+    private Boolean canOverlap = false;
 
-    /** Creates a new instance of EventManagedBean */
-    public EventManagedBean() {
+    /** Creates a new instance of CategoryManagedBean */
+    public CategoryManagedBean() {
         
     }
 
@@ -86,27 +89,46 @@ public class EventManagedBean {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    public void createNewEvent(EventGroupEntity eventGroupEntity) {
-        eventEntity = new EventEntity();
-        eventEntity.setCreated(Calendar.getInstance().getTime());
-        eventEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
-        eventEntity.setDescription(description);
-        eventEntity.setLabel(label);
-        eventEntity.setEventGroup(eventGroupEntity);
-        
-        Set<EventEntity> events;
-        events = eventGroupEntity.getEvents();
-        if(events == null) {
-            events = new TreeSet<>(); //TODO: implement Comparable for custom ordering events?
-        }
-        
-        events.add(eventEntity);
-        eventGroupEntity.setEvents(events);
-        
-        eventEJB.create(eventEntity);
-        
-        controlManagedBean.createNewEvent();
+
+    public Boolean getCanOverlap() {
+        return canOverlap;
     }
 
+    public void setCanOverlap(Boolean canOverlap) {
+        this.canOverlap = canOverlap;
+    }
+
+    public void addCategory(ActionEvent event) {
+        LOGGER.debug("Category added");
+    }
+    
+    public void createNewCategory(CategorySetEntity categorySetEntity) {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        
+        LabelEntity labelEntity = labelEJB.findByLabel(label);
+        if(labelEntity == null) {
+            labelEntity = new LabelEntity();
+            labelEntity.setLabel(label);
+        }
+        
+        categoryEntity.setLabel(labelEntity);
+        categoryEntity.setCategorySet(categorySetEntity);
+        categoryEntity.setCreated(Calendar.getInstance().getTime());
+        categoryEntity.setCanOverlap(canOverlap);
+        categoryEntity.setDescription(description);
+        
+        Set<CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+        if(categories == null) {
+            categories = new TreeSet<>(); //TODO: Comparable to keep ordering, eg. alphabetically?
+        }
+        
+        categories.add(categoryEntity);
+        categorySetEntity.setCategoryEntitys(categories);
+        
+        categoryEJB.create(categoryEntity);
+        
+        LOGGER.debug("createNewCategory, CategorySetEntity id -> " + categorySetEntity.getId());
+        controlManagedBean.addCategory(categoryEntity);
+        
+    }
 }

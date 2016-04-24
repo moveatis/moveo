@@ -67,6 +67,7 @@ public class IdentityProviderLoginBean {
     
     public String doIdentityProviderLogin() {
         IdentityProviderInformationEntity ipInformationEntity = ipBean.findIpEntityByUsername(userName);
+        
         byte[] salt = ipInformationEntity.getSalt();
         int iterations = ipInformationEntity.getIterations();
         byte[] hash = ipInformationEntity.getPasswordHash();

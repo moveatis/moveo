@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, sami 
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,8 +30,23 @@
 
 package com.moveatis.managedbeans;
 
-import javax.inject.Named;
+import com.moveatis.event.EventGroupEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.interfaces.AnonUser;
+import com.moveatis.interfaces.EventGroup;
+import com.moveatis.interfaces.Session;
+import com.moveatis.user.AbstractUser;
+import com.moveatis.user.TagUserEntity;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,18 +55,117 @@ import javax.enterprise.context.RequestScoped;
 @Named(value="eventGroupManagedBean")
 @RequestScoped
 public class EventGroupManagedBean {
-
-    private String name;
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventGroupManagedBean.class);
+    
+    private String eventGroupName;
+    private String eventGroupKey;
+    private String eventGroupDescription;
+    private String visibility;
+    
+    private boolean groupKeySelected;
+    
+    private EventGroupEntity eventGroupEntity;
+    
+    @Inject
+    private EventGroup eventGroupEJB;
+    
+    @Inject
+    private Session sessionBean;
+    
+    @Inject
+    private AnonUser anonUserEJB;
+    
+    @Inject
+    private ControlManagedBean controlManagedBean;
+
     public EventGroupManagedBean() {
         
     }
-
-    public String getName() {
-        return name;
+    
+    @PostConstruct
+    public void init() {
+        this.visibility = "own";
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEventGroupName() {
+        return eventGroupName;
+    }
+
+    public void setEventGroupName(String eventGroupName) {
+        this.eventGroupName = eventGroupName;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        groupKeySelected = visibility.equalsIgnoreCase("groupKey");
+        this.visibility = visibility;
+    }
+
+    public String getEventGroupDescription() {
+        return eventGroupDescription;
+    }
+
+    public void setEventGroupDescription(String eventGroupDescription) {
+        this.eventGroupDescription = eventGroupDescription;
+    }
+
+    public String getEventGroupKey() {
+        return eventGroupKey;
+    }
+
+    public void setEventGroupKey(String eventGroupKey) {
+        this.eventGroupKey = eventGroupKey;
+    }
+
+    public boolean isGroupKeySelected() {
+        return groupKeySelected;
+    }
+
+    public void setGroupKeySelected(boolean groupKeySelected) {
+        this.groupKeySelected = groupKeySelected;
+    }
+    
+    public void addGroupKey() {
+        groupKeySelected = this.visibility.equalsIgnoreCase("groupKey");
+    }
+    
+    
+    public void createNewEventGroup() {
+        Date created = Calendar.getInstance().getTime();
+        
+        eventGroupEntity = new EventGroupEntity();
+        eventGroupEntity.setLabel(eventGroupName);
+        eventGroupEntity.setDescription(eventGroupDescription);
+        eventGroupEntity.setCreated(created);
+        eventGroupEntity.setOwner(sessionBean.getLoggedIdentifiedUser());
+        
+        if(groupKeySelected) {
+            GroupKeyEntity groupKey = new GroupKeyEntity();
+            groupKey.setCreated(created);
+            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
+            groupKey.setGroupKey(eventGroupKey);
+            groupKey.setEventGroup(eventGroupEntity);
+            
+            TagUserEntity tagUser = new TagUserEntity();
+            tagUser.setCreated(created);
+            tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
+            tagUser.setGroupKey(groupKey);
+            
+            groupKey.setTagUser(tagUser);
+            
+            eventGroupEntity.setGroupKey(groupKey);
+            
+        } else if(visibility.equalsIgnoreCase("public")) {
+            Set<AbstractUser> users = new HashSet<>();
+            users.add(anonUserEJB.find());
+            eventGroupEntity.setUsers(users);
+        }
+        
+        eventGroupEJB.create(eventGroupEntity);
+        controlManagedBean.addEventGroup(eventGroupEntity);
     }
 }

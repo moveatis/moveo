@@ -30,13 +30,12 @@
 package com.moveatis.category;
 
 import com.moveatis.event.EventGroupEntity;
-import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
+import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,19 +58,17 @@ public class CategorySetEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany(mappedBy = "categoryGroup", cascade=PERSIST)
-    private List<CategoryEntity> categoryEntitys;
+    @OneToMany(mappedBy = "categorySet", cascade=PERSIST, fetch=EAGER)
+    private Set<CategoryEntity> categoryEntitys;
 
     @ManyToOne
     private IdentifiedUserEntity creator;
-    
-    @OneToMany
-    private Set<AbstractUser> users;
     
     @ManyToOne
     private EventGroupEntity eventGroupEntity;
     
     private String label;
+    private String description;
         
     public Long getId() {
         return id;
@@ -81,28 +78,12 @@ public class CategorySetEntity implements Serializable {
         this.id = id;
     }
 
-    public List<CategoryEntity> getCategoryEntitys() {
+    public Set<CategoryEntity> getCategoryEntitys() {
         return categoryEntitys;
     }
 
-    public void setCategoryEntitys(List<CategoryEntity> categoryEntitys) {
+    public void setCategoryEntitys(Set<CategoryEntity> categoryEntitys) {
         this.categoryEntitys = categoryEntitys;
-    }
-
-    public IdentifiedUserEntity getOwner() {
-        return creator;
-    }
-
-    public void setOwner(IdentifiedUserEntity owner) {
-        this.creator = owner;
-    }
-
-    public Set<AbstractUser> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<AbstractUser> users) {
-        this.users = users;
     }
 
     public IdentifiedUserEntity getCreator() {
@@ -129,6 +110,14 @@ public class CategorySetEntity implements Serializable {
         this.label = label;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -138,15 +127,11 @@ public class CategorySetEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof CategorySetEntity)) {
             return false;
         }
         CategorySetEntity other = (CategorySetEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

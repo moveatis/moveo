@@ -49,7 +49,7 @@ public interface CategorySet {
     CategorySetEntity find(Object id);
 
     List<CategorySetEntity> findAll();
-
+    
     List<CategorySetEntity> findRange(int[] range);
 
     int count();

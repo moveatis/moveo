@@ -30,19 +30,43 @@
 
 package com.moveatis.managedbeans;
 
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.event.EventGroupEntity;
+import com.moveatis.interfaces.CategorySet;
+import com.moveatis.interfaces.Session;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="categorySetManagedBean")
-@RequestScoped
-public class CategorySetManagedBean {
+@ViewScoped
+public class CategorySetManagedBean implements Serializable {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategorySetManagedBean.class);
+    
+    private final static long serialVersionUID = 1L;
     
     private String name;
-    private String groupKey;
+    private String description;
+    
+    @Inject
+    private ControlManagedBean controlManagedBean;
+    @Inject
+    private Session sessionBean;
+    @Inject
+    private CategorySet categorySetEJB;
+    
+    private CategorySetEntity categorySetEntity;
+    
 
     /** Creates a new instance of CategorySetManagedBean */
     public CategorySetManagedBean() {
@@ -57,14 +81,32 @@ public class CategorySetManagedBean {
         this.name = name;
     }
 
-    public String getGroupKey() {
-        return groupKey;
+    public String getDescription() {
+        return description;
     }
 
-    public void setGroupKey(String groupKey) {
-        this.groupKey = groupKey;
+    public void setDescription(String description) {
+        this.description = description;
     }
     
-    
+    public void createNewCategorySet(EventGroupEntity eventGroupEntity) {
+        categorySetEntity = new CategorySetEntity();
+        categorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
+        categorySetEntity.setEventGroupEntity(eventGroupEntity);
+        categorySetEntity.setLabel(name);
+        categorySetEntity.setDescription(description);
 
+        Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorSets();
+
+        if(categorySets == null) {
+            categorySets = new HashSet<>();
+        }
+
+        categorySets.add(categorySetEntity);
+        eventGroupEntity.setCategorSets(categorySets);
+
+        categorySetEJB.create(categorySetEntity);
+
+        controlManagedBean.addCategorySet(categorySetEntity);
+    }
 }

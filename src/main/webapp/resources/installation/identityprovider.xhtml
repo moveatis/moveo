@@ -17,7 +17,7 @@
                         <h:outputLabel value="#{identitymessages.username}" for="username"/>
                     </p>
                     <p>
-                        <h:inputText id="username" value="#{identityProviderBean.username}" style="width: 12em; height: 2em;"/>
+                        <h:inputText id="username" value="#{identityProviderRegistrationBean.username}" style="width: 12em; height: 2em;"/>
                     </p>
                 </h:panelGroup>
                 <h:panelGroup layout="block">
@@ -25,14 +25,14 @@
                         <h:outputLabel value="#{identitymessages.password}" for="password"/>
                     </p>
                     <p>
-                        <h:inputSecret id="password" value="#{identityProviderBean.password}" style="width: 12em; height: 2em;"/>
+                        <h:inputSecret id="password" value="#{identityProviderRegistrationBean.password}" style="width: 12em; height: 2em;"/>
                     </p>
                 </h:panelGroup>
                 <h:panelGroup layout="block">
                     <h:commandButton value="#{identitymessages.register}" style="width: 11em; height: 2em; 
                                      margin: 1.5em auto 0 auto;" 
                                      class="coloredButton" 
-                                     action="#{identityProviderBean.registerSuperUser()}"/>
+                                     action="#{identityProviderRegistrationBean.registerSuperUser()}"/>
                 </h:panelGroup>
             </h:form>
         </h:panelGroup>

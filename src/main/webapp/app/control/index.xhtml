@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml" >
 
-            <ui:define name="pageTitle">Hallinta</ui:define>
+            <ui:define name="pageTitle">- Hallinta</ui:define>
 
             <ui:define name="mainpage">
                 <h:outputStylesheet library="css" name="control.css"/>
@@ -36,27 +32,91 @@ and open the template in the editor.
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
                         <p:inputText id="input-name-eg"
-                                     value="#{controlManagedBean.newEventGroup.label}"
+                                     value="#{eventGroupManagedBean.eventGroupName}"
                                      placeholder="#{msg.con_eventGroupName}"/>
                         <p:inputTextarea id="input-description-eg"
-                                         value="#{controlManagedBean.newEventGroup.description}"
+                                         value="#{eventGroupManagedBean.eventGroupDescription}"
                                          placeholder="#{msg.con_eventGroupDescription}"
                                          rows="3" cols="16" autoResize="true" />
-                        <h:outputText value="#{msg.con_eventGroupKeyTitle}"/>
-                        <!--
-                        <p:inputText id="input-key-eg"
-                                     value="#{controlManagedBean.newEventGroup.groupKey.groupKey}"
-                                     placeholder="#{msg.con_eventGroupKey}"/>
-                        -->
+                        
+                        <p:outputLabel for="visibilityRules" value="Tapahtumaryhmän näkyvyys"/>
+                        <p:selectOneRadio id="visibilityRules" value="#{eventGroupManagedBean.visibility}">
+                            <f:selectItem itemLabel="Vain minulle" itemValue="own"/>
+                            <f:selectItem itemLabel="Ryhmäavaimella" itemValue="groupKey"/>
+                            <f:selectItem itemLabel="Julkinen" itemValue="public"/>
+                            <p:ajax listener="#{eventGroupManagedBean.addGroupKey}" update="groupKeyPanel"/>
+                        </p:selectOneRadio>
+                        
+                        <p:panel id='groupKeyPanel' 
+                                 visible="#{eventGroupManagedBean.groupKeySelected}">
+                            <p:outputLabel for="input-groupkey" value="Anna ryhmäavain"/>
+                            <p:inputText id="input-groupkey"
+                                         value="#{eventGroupManagedBean.eventGroupKey}"
+                                         placeholder="Tapahtumaryhmän avain"/>
+                        </p:panel>
+                        
                         <h:outputText value="#{msg.con_eventGroupExpirationTitle}"/>
                         <p:calendar id="input-expiration-eg"
                                     placeholder="#{msg.con_eventGroupExpiration}"/>
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEventGroup').hide();"
-                                         action="#{controlManagedBean.createNewEventGroup}"
+                                         action="#{eventGroupManagedBean.createNewEventGroup}"
                                          update=":controlForm:controlMenu"/>
                         <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEventGroup').hide();" />
+                    </h:form>
+                </p:dialog>
+                
+                <p:dialog header="#{msg.con_newCSDlgHeader}"
+                          widgetVar="dlgCategorySet"
+                          position="top"
+                          resizable="false"
+                          responsive="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form id="dialog-newCategoryset" styleClass="ui-fluid">
+                        <p:inputText id="input-name-categoryset"
+                                     value="#{categorySetManagedBean.name}"
+                                     placeholder="#{msg.con_categorySetName}"/>
+                        <p:inputTextarea id="input-description-categoryset"
+                                         value="#{categorySetManagedBean.description}"
+                                         placeholder="#{msg.con_categorySetDescription}"
+                                         rows="3" cols="16" autoResize="true" />
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgCategorySet').hide();"
+                                         action="#{categorySetManagedBean.createNewCategorySet(controlManagedBean.getSelectedEventGroup())}"
+                                         update=":controlForm:controlMenu"/>
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgCategorySet').hide();" />
+                    </h:form>
+                </p:dialog>
+                
+                <p:dialog header="#{msg.con_newCDlgHeader}"
+                          widgetVar="dlgCategory"
+                          position="top"
+                          resizable="false"
+                          responsive="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form id="dialog-newCategory" styleClass="ui-fluid">
+                        <p:inputText id="input-name-category"
+                                     value="#{categoryManagedBean.label}"
+                                     placeholder="#{msg.con_categoryName}"/>
+                        <p:inputTextarea id="input-description-category"
+                                         value="#{categoryManagedBean.description}"
+                                         placeholder="#{msg.con_categoryDescription}"
+                                         rows="3" cols="16" autoResize="true" />
+                        <p:outputLabel for="canOverlap" value="Voiko kategoria olla samaan aikaan käynnissä muiden kanssa?"/>
+                        <p:selectOneRadio id="canOverlap" value="#{categoryManagedBean.canOverlap}">
+                            <f:selectItem itemLabel="Kyllä" itemValue="true"/>
+                            <f:selectItem itemLabel="Ei" itemValue="false"/>
+                        </p:selectOneRadio>
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgCategory').hide();"
+                                         action="#{categoryManagedBean.createNewCategory(controlManagedBean.getSelectedCategorySet())}"
+                                         update=":controlForm:controlMenu"/>
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgCategory').hide();" />
                     </h:form>
                 </p:dialog>
 
@@ -69,15 +129,15 @@ and open the template in the editor.
                           styleClass="coloredButton">
                     <h:form id="dialog-newEvent" styleClass="ui-fluid">
                         <p:inputText id="input-name-event"
-                                     value="#{controlManagedBean.newEvent.label}"
+                                     value="#{eventManagedBean.label}"
                                      placeholder="#{msg.con_eventName}"/>
                         <p:inputTextarea id="input-description-event"
-                                         value="#{controlManagedBean.newEvent.description}"
+                                         value="#{eventManagedBean.description}"
                                          placeholder="#{msg.con_eventDescription}"
                                          rows="3" cols="16" autoResize="true" />
                         <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEvent').hide();"
-                                         action="#{controlManagedBean.createNewEvent}"
+                                         action="#{eventManagedBean.createNewEvent(controlManagedBean.getSelectedEventGroup())}"
                                          update=":controlForm:controlMenu"/>
                         <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEvent').hide();" />
@@ -117,6 +177,55 @@ and open the template in the editor.
                     </h:form>
                 </p:dialog>
 
+                <p:dialog header="#{msg.con_editCSDlgHeader}"
+                          widgetVar="dlgEditCategorySet"
+                          position="top"
+                          resizable="false"
+                          responsive="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form id="form-editCategorySet" styleClass="ui-fluid">
+                        <p:inputText id="input-name-event"
+                                     value=""
+                                     placeholder="#{msg.con_categorySetName}"/>
+                        <p:inputTextarea id="input-description-event"
+                                         value=""
+                                         placeholder="#{msg.con_categorySetDescription}"
+                                         rows="3" cols="16" autoResize="true" />
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgEditCategorySet').hide();"
+                                         action="#{controlManagedBean.editEvent}"
+                                         update=":controlForm:controlMenu"/>
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgEditCategorySet').hide();" />
+                    </h:form>
+                </p:dialog>
+                
+                <!-- TODO: Edit Category lacks canOverlap -option -->
+                <p:dialog header="#{msg.con_editCDlgHeader}"
+                          widgetVar="dlgEditCategory"
+                          position="top"
+                          resizable="false"
+                          responsive="true"
+                          fitViewport="true"
+                          styleClass="coloredButton">
+                    <h:form id="form-editCategory" styleClass="ui-fluid">
+                        <p:inputText id="input-name-category"
+                                     value="#{controlManagedBean.selectedCategory.label.label}"
+                                     placeholder="#{msg.con_eventName}"/>
+                        <p:inputTextarea id="input-description-category"
+                                         value="#{controlManagedBean.selectedCategory.description}"
+                                         placeholder="#{msg.con_eventDescription}"
+                                         rows="3" cols="16" autoResize="true" />
+                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                                         onclick="PF('dlgEditEvent').hide();"
+                                         action="#{controlManagedBean.editEvent}"
+                                         update=":controlForm:controlMenu"/>
+                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgEditEvent').hide();" />
+                    </h:form>
+                </p:dialog>
+                
                 <p:dialog header="#{msg.con_editEDlgHeader}"
                           widgetVar="dlgEditEvent"
                           position="top"

@@ -27,37 +27,38 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.interfaces;
+package com.moveatis.helpers;
 
-import com.moveatis.enums.SessionStatus;
-import com.moveatis.event.EventEntity;
-import com.moveatis.user.AbstractUser;
-import com.moveatis.user.IdentifiedUserEntity;
-import com.moveatis.user.TagUserEntity;
-import java.util.SortedSet;
-import java.util.TimeZone;
-import javax.ejb.Local;
+import com.moveatis.category.CategoryEntity;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Local(Session.class)
-public interface Session {
-    
-    public SessionStatus setTagUser(TagUserEntity tagUser);
-    public SessionStatus setIdentityProviderUser(IdentifiedUserEntity user);
-    public SessionStatus setAnonymityUser();
-    public boolean isLoggedIn();
-    public boolean isIdentifiedUser();
-    public boolean isSaveable();
-    public SortedSet<Long> getSessionObservationsIds();
-    public void setSessionObservations(SortedSet<Long> observationsIds);
-    public AbstractUser getLoggedInUser();
-    public IdentifiedUserEntity getLoggedIdentifiedUser();
-    public TimeZone getSessionTimeZone();
-    public void setSessionTimeZone(TimeZone timeZone);
-    public void setEventEntityForNewObservation(EventEntity eventEntity);
-    public EventEntity getEventEntityForNewObservation();
 
+
+public class SelectedCategoryHelper {
+    
+    private Boolean selected;
+    private CategoryEntity categoryEntity;
+
+    public SelectedCategoryHelper() {
+        
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
+    }
+
+    public CategoryEntity getCategoryEntity() {
+        return categoryEntity;
+    }
+
+    public void setCategoryEntity(CategoryEntity categoryEntity) {
+        this.categoryEntity = categoryEntity;
+    }
 }

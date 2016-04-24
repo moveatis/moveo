@@ -34,6 +34,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.interfaces.CategorySet;
+import java.util.List;
 
 /**
  *

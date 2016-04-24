@@ -49,7 +49,7 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
     
-    private EventEntity sceneEntity;
+    private EventEntity eventEntity;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -74,16 +74,16 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
     }
 
     @Override
-    public EventEntity getSceneEntity() {
-        if(this.sceneEntity == null) {
+    public EventEntity getEventEntity() {
+        if(this.eventEntity == null) {
             
         }
         
-        return this.sceneEntity;
+        return this.eventEntity;
     }
 
     @Override
-    public List<EventEntity> findScenesForUser(IdentifiedUserEntity user) {
+    public List<EventEntity> findEventsForUser(IdentifiedUserEntity user) {
         TypedQuery<EventEntity> query = em.createNamedQuery("SceneEntity.findByUser", EventEntity.class);
         query.setParameter("owner", user);
         return query.getResultList();

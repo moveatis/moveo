@@ -60,6 +60,10 @@ public class LabelBean extends AbstractBean<LabelEntity> implements Label {
     public LabelEntity findByLabel(String label) {
         TypedQuery<LabelEntity> query = em.createNamedQuery("findByLabel", LabelEntity.class);
         query.setParameter("label", label);
-        return query.getSingleResult();
+        if(query.getResultList().size() > 0) {
+            return query.getSingleResult();
+        } else {
+            return null;
+        }
     }
 }

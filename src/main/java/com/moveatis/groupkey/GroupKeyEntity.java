@@ -31,8 +31,10 @@ package com.moveatis.groupkey;
 
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.IdentifiedUserEntity;
+import com.moveatis.user.TagUserEntity;
 import java.io.Serializable;
 import java.util.Date;
+import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,6 +69,9 @@ public class GroupKeyEntity implements Serializable {
     
     @OneToOne
     private EventGroupEntity eventGroup;
+    
+    @OneToOne(cascade=PERSIST)
+    private TagUserEntity tagUser;
     
     @Column(unique=true)
     private String groupKey;
@@ -135,6 +140,14 @@ public class GroupKeyEntity implements Serializable {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public TagUserEntity getTagUser() {
+        return tagUser;
+    }
+
+    public void setTagUser(TagUserEntity tagUser) {
+        this.tagUser = tagUser;
     }
 
     @Override

@@ -49,7 +49,7 @@ import javax.inject.Inject;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="identityProviderBean")
+@Named(value="identityProviderRegistrationBean")
 @RequestScoped
 public class IdentityProviderRegistrationBean implements IdentityProvider, Serializable {
     

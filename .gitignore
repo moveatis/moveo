@@ -30,6 +30,7 @@ nb-configuration.xml
 .metadata/
 .project
 .settings/
+.classpath
 
 # Maven files and folders
 target/
