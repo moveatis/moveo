@@ -20,7 +20,7 @@
 
                 <div id="summary-content">
 
-                    <h1 class="mobileCentered">#{summaryBean.observationName}</h1>
+                    <h1 class="mobileCentered">#{summaryBean.observation.name}</h1>
 
                     <h2 class="mobileCentered">#{msg.sum_title}</h2>
 
@@ -107,7 +107,7 @@
                              eventMargin="16">
                 </pe:timeline>
 
-                <div id="timelineControls">
+                <div id="timelineControls" class="bottom">
                     <div>
                         <span>#{msg.sum_zoom} </span>
                         <a id="button-zoom-out" class="fa fa-search-minus" title="#{msg.sum_zoomOut}"></a>
@@ -124,24 +124,40 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
-                        <p:inputText id="input-name"
-                                     value="#{summaryBean.observationName}"
-                                     placeholder="#{msg.sum_observationName}"/>
+                        <h:outputLabel for="input-name" value="#{msg.sum_observationName}" />
+                        <p:inputText id="input-name" required="true" requiredMessage="Ei saa olla tyhjä."
+                                     value="#{summaryBean.observation.name}"
+                                     placeholder="#{msg.sum_name}"
+                                     validator="#{validationBean.validateShortString}"/>
+                        <p:message for="input-name" />
+
+                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
                         <p:inputText id="input-target"
-                                     value="#{summaryBean.observationTarget}"
-                                     placeholder="#{msg.sum_observationTarget}"/>
+                                     value="#{summaryBean.observation.target}"
+                                     placeholder="#{msg.sum_target}"
+                                     validator="#{validationBean.validateShortString}"/>
+                        <p:message for="input-target" />
+
+                        <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
                         <p:inputTextarea id="input-description"
-                                         value="#{summaryBean.observationDescription}"
-                                         placeholder="#{msg.sum_observationDescription}"
+                                         value="#{summaryBean.observation.description}"
+                                         placeholder="#{msg.sum_description}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
-                        <h:outputText value="#{msg.sum_giveEmail}"/>
-                        <p:inputText id="input-email"
+                        <p:message for="input-description" />
+
+                        <h:outputLabel for="input-email" value="#{msg.sum_giveEmail}" />
+                        <p:inputText id="input-email" required="true" requiredMessage="Ei saa olla tyhjä."
+                                     value="#{validationBean.email}"
                                      placeholder="#{msg.sum_emailAddress}" />
+                        <p:message for="input-email" />
+
                         <p:commandButton value="#{msg.sum_sendMail}" icon="ui-icon-check"
-                                         onclick="PF('dlgMail').hide();"
-                                         actionListener="#{buttonView.buttonAction}" />
+                                         action="#{summaryBean.mailCurrentObservation}"
+                                         update="@form"/>
                     </h:form>
                 </p:dialog>
+
                 <p:dialog header="#{msg.sum_saveDialogHeader}"
                           widgetVar="dlgSave"
                           position="top"
@@ -150,19 +166,31 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
-                        <p:inputText id="input-name"
-                                     value="#{summaryBean.observationName}"
-                                     placeholder="#{msg.sum_observationName}"/>
+                        <h:outputLabel for="input-name" value="#{msg.sum_observationName}" />
+                        <p:inputText id="input-name" required="true" requiredMessage="Ei saa olla tyhjä."
+                                     value="#{summaryBean.observation.name}"
+                                     placeholder="#{msg.sum_name}"
+                                     validator="#{validationBean.validateShortString}"/>
+                        <p:message for="input-name" />
+
+                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
                         <p:inputText id="input-target"
-                                     value="#{summaryBean.observationTarget}"
-                                     placeholder="#{msg.sum_observationTarget}"/>
+                                     value="#{summaryBean.observation.target}"
+                                     placeholder="#{msg.sum_target}"
+                                     validator="#{validationBean.validateShortString}"/>
+                        <p:message for="input-target" />
+
+                        <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
                         <p:inputTextarea id="input-description"
-                                         value="#{summaryBean.observationDescription}"
-                                         placeholder="#{msg.sum_observationDescription}"
+                                         value="#{summaryBean.observation.description}"
+                                         placeholder="#{msg.sum_description}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
+                        <p:message for="input-description" />
+
                         <p:commandButton value="#{msg.sum_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgSave').hide();"
-                                         actionListener="#{buttonView.buttonAction}"/>
+                                         action="#{summaryBean.saveCurrentObservation}"
+                                         update="@form"/>
                     </h:form>
                 </p:dialog>
 
@@ -171,7 +199,7 @@
                 <h:outputScript>
                     var SummaryIndex = {
                     getObservationDuration: function () {
-                    return #{summaryBean.observationDuration};
+                    return #{summaryBean.observation.duration};
                     },
                     getMessages: function (){
                     return msg = {

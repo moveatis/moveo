@@ -171,11 +171,18 @@ a:hover {text-decoration: none; color: white;}
 .ui-dialog-content {
     overflow-y: auto;
     max-height: calc(100vh - 65px);
-    max-width: 38em;
+    max-width: 24em;
 }
 
 .ui-dialog-content > form > * {
     margin-bottom: .3em;
+}
+
+.ui-dialog-content > form > .ui-button {
+    display: inline-block;
+    width: auto;
+    float: right;
+    margin-top: .6em;
 }
 
 .ui-growl .ui-growl-icon-close {

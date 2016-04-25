@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
-    <Scope Scope="Project"/>
+    <Scope Scope="Project">
+        <Node id="index.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="app/categoryselection/index.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="jsontest.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="app/categoryselection/alternative.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="backendtesting.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="app/superuser/index.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="app/control/index.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="app/*" x="150" y="750" zoom="true"/>
+        <Node id="#{" x="400" y="600" zoom="true"/>
+        <Node id="app/summary/index.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="app/observer/index.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="resources/installation/identityprovider.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="app/settings/index.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="install.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="app/info/index.xhtml" x="650" y="450" zoom="true"/>
+    </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>
