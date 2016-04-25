@@ -12,11 +12,11 @@
                     <h:form>
                         <h:panelGroup>
                             <div class="accessButtons" style="min-height: 200px;">
-                                <p:commandButton value="Kurssiavain" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px"
+                                <p:commandButton value="#{msg.fp_tagUserButton}" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px"
                                                  class="coloredButton"/>
-                                <p:commandButton value="JYU-tunnukset" onclick="PF('dlgLogin').show();" style="width: 200px; margin-top: 15px"
+                                <p:commandButton value="#{msg.fp_identifiedUserButton}" onclick="PF('dlgLogin').show();" style="width: 200px; margin-top: 15px"
                                                  class="coloredButton" />
-                                <p:commandButton value="Julkinen" style="width: 200px; margin-top: 15px"
+                                <p:commandButton value="#{msg.fp_anonUserButton}" style="width: 200px; margin-top: 15px"
                                                  class="coloredButton" action="#{loginBean.doAnonymityLogin()}"/>
                             </div>
                         </h:panelGroup>
