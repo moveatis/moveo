@@ -70,7 +70,7 @@ public class EventGroupEntity implements Serializable {
     private Long id;
     
     @OneToMany(mappedBy = "eventGroupEntity", cascade=PERSIST, fetch=EAGER)
-    private Set<CategorySetEntity> categorSets;
+    private Set<CategorySetEntity> categorySets;
     
     @OneToMany(mappedBy = "eventGroup", cascade=PERSIST, fetch=EAGER)
     private Set<EventEntity> events;
@@ -117,12 +117,12 @@ public class EventGroupEntity implements Serializable {
         this.users = users;
     }
 
-    public Set<CategorySetEntity> getCategorSets() {
-        return categorSets;
+    public Set<CategorySetEntity> getCategorySets() {
+        return categorySets;
     }
 
-    public void setCategorSets(Set<CategorySetEntity> categorSets) {
-        this.categorSets = categorSets;
+    public void setCategorSets(Set<CategorySetEntity> categorySets) {
+        this.categorySets = categorySets;
     }
 
     public String getLabel() {

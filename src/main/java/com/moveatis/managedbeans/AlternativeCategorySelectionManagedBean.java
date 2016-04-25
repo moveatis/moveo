@@ -99,7 +99,7 @@ public class AlternativeCategorySelectionManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         selectedEvent = sessionBean.getEventEntityForNewObservation();
-        Set<CategorySetEntity> eventGroupCategorySets = selectedEvent.getEventGroup().getCategorSets();
+        Set<CategorySetEntity> eventGroupCategorySets = selectedEvent.getEventGroup().getCategorySets();
         eventGroupCategorySetsMap = new TreeMap<>();
         for(CategorySetEntity categorySetEntity : eventGroupCategorySets) {
             eventGroupCategorySetsMap.put(categorySetEntity.getLabel(), categorySetEntity.getId());

@@ -96,7 +96,7 @@ public class CategorySetManagedBean implements Serializable {
         categorySetEntity.setLabel(name);
         categorySetEntity.setDescription(description);
 
-        Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorSets();
+        Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
 
         if(categorySets == null) {
             categorySets = new HashSet<>();
