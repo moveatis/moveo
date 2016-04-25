@@ -40,11 +40,13 @@ import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -183,5 +185,15 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public EventEntity getEventEntityForNewObservation() {
         return this.eventEntityForNewObservation;
+    }
+    
+    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    
+    public Locale getLocale() {
+        return locale;
+    }
+    
+    public void setLocale(String lang) {
+        locale = new Locale(lang);
     }
 }

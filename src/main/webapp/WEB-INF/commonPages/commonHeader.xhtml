@@ -40,8 +40,8 @@ and open the template in the editor.
                     <p:submenu icon="fa fa-cogs">
                         <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/app/info/index.xhtml" class="coloredButton"/>
                         <p:submenu label="#{msg.head_langSet}" icon="fa fa-language" class="coloredButton">
-                            <p:menuitem value="#{msg.head_langFi}" icon="fa fa-flag-o" class="coloredButton" />
-                            <p:menuitem value="#{msg.head_langEn}" icon="fa fa-flag-checkered" class="coloredButton"/>
+                            <p:menuitem value="#{msg.head_langFi}" icon="fa fa-flag-o" class="coloredButton" actionListener="#{sessionBean.setLocale('fi')}" ajax="false" />
+                            <p:menuitem value="#{msg.head_langEn}" icon="fa fa-flag-checkered" class="coloredButton" actionListener="#{sessionBean.setLocale('en')}" ajax="false" />
                         </p:submenu>
                         <p:menuitem value="#{msg.head_resetObs}" icon="fa fa-eraser" url="/index.xhtml" class="coloredButton"/>
                         <p:menuitem value="#{msg.head_backToCatEd}" icon="fa fa-edit" url="/index.xhtml" class="coloredButton"/>
