@@ -87,11 +87,13 @@ $(function () {
             hideMessages(timeline, growl);
         }
     });
-
-    $(window).scroll(function () {
+      
+    $(window).on('scroll resize', function () {
         $("#timelineControls").toggleClass("bottom",
-            isBottomOfDocument($("#Footer").height()));
+                isBottomOfDocument($("#Footer").height()));
     });
+    $("#timelineControls").toggleClass("bottom",
+            isBottomOfDocument($("#Footer").height()));
 });
 
 /**

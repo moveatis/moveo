@@ -31,6 +31,7 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
+import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import java.util.Date;
 import java.util.List;
@@ -39,9 +40,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
-import org.primefaces.extensions.model.timeline.TimelineGroup;
 import org.primefaces.extensions.model.timeline.TimelineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,10 +61,8 @@ public class SummaryManagedBean {
     private final long zoomMin;
     private final long zoomMax;
     private Date max;
-    private String observationName;
-    private String observationDescription;
-    private String observationTarget;
-    private long observationDuration;
+
+    private ObservationEntity observation;
 
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
@@ -75,6 +72,9 @@ public class SummaryManagedBean {
     
     @Inject
     private Session sessionBean;
+
+    @Inject
+    private ValidationManagedBean validationBean;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
@@ -87,7 +87,6 @@ public class SummaryManagedBean {
         this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
-        this.observationName = "";
     }
 
     /**
@@ -153,50 +152,12 @@ public class SummaryManagedBean {
         return zoomMax;
     }
 
-    /**
-     * Get observation name.
-     *
-     * @return String
-     */
-    public String getObservationName() {
-        return observationName;
+    public ObservationEntity getObservation() {
+        return observation;
     }
 
-    /**
-     * Set observation name.
-     * @param name observation name
-     */
-    public void setObservationName(String name) {
-        this.observationName = name;
-    }
-
-    /**
-     * Get observation target
-     *
-     * @return String
-     */
-    public String getObservationTarget() {
-        //return observationBean.getTarget();
-        return "";
-    }
-
-    /**
-     * Get observation description
-     *
-     * @return String
-     */
-    public String getObservationDescription() {
-        //return observationBean.getDescription();
-        return "";
-    }
-
-    /**
-     * Get observation duration
-     *
-     * @return long
-     */
-    public long getObservationDuration() {
-        return observationDuration;
+    public void setObservation(ObservationEntity observation) {
+        this.observation = observation;
     }
 
     /**
@@ -218,14 +179,13 @@ public class SummaryManagedBean {
         */
         Long observationId = observations.last();
 
-        setObservationName(observationEJB.find(observationId).getName());
-        
+        observation = observationEJB.find(observationId);
+
         List<RecordEntity> records = observationEJB.findRecords(observationId);
         LOGGER.debug("Records-size ->" + records.size());
         //List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
 
-        this.observationDuration = observationEJB.find(observationId).getDuration();
-        this.max = new Date(Math.round(this.observationDuration * 1.1)); // timeline max 110% of obs. duration
+        this.max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
 
         // Add categories to timeline as timelinegroups
         int categoryNumber = 1;
@@ -254,5 +214,13 @@ public class SummaryManagedBean {
                     new Date(endTime), false, category);
             timeline.add(timelineEvent);
         }
+    }
+
+    public void saveCurrentObservation() {
+        observationEJB.edit(observation);
+    }
+
+    public void mailCurrentObservation() {
+        // 
     }
 }

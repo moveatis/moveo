@@ -30,6 +30,7 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.interfaces.MessageBundle;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -38,6 +39,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import org.hibernate.validator.constraints.Email;
 
 /**
  * Bean that validates user input.
@@ -49,6 +51,17 @@ public class ValidationManagedBean {
     
     @Inject @MessageBundle
     private transient ResourceBundle messages;
+
+    @Email
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     /**
      * Creates a new instance of ValidationManagedBean
@@ -92,5 +105,22 @@ public class ValidationManagedBean {
             i += Character.charCount(codePoint);
         }
     }
-    
+
+    public void validateShortString(FacesContext context, UIComponent component, Object value) {
+        validateStringForJsAndHtml(context, component, value);
+        validateStringMaxLength((String) value, 64);
+    }
+
+    public void validateLongString(FacesContext context, UIComponent component, Object value) {
+        validateStringForJsAndHtml(context, component, value);
+        validateStringMaxLength((String) value, 256);
+    }
+
+    private void validateStringMaxLength(String str, int maxLength) {
+        if (str.length() > maxLength) {
+            String error = MessageFormat.format(messages.getString("validate_lengthExceeded"), maxLength);
+            throwError(error);
+        }
+    }
+
 }

@@ -129,7 +129,7 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public boolean isIdentifiedUser() {
-        return userType == UserType.IDENTIFIED_USER;
+        return isLoggedIn() && userType == UserType.IDENTIFIED_USER;
     }
 
     @Override
@@ -147,7 +147,7 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public boolean isSaveable() {
-        return this.sessionObservations != null;
+        return this.sessionObservations != null && !this.sessionObservations.isEmpty();
     }
 
     @Override

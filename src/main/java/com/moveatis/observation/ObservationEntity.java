@@ -76,9 +76,10 @@ public class ObservationEntity implements Serializable {
     private List<RecordEntity> records;
     
     private long duration;
-    
+
     private String description;
     private String name;
+    private String target;
     
     public Long getId() {
         return id;
@@ -152,6 +153,14 @@ public class ObservationEntity implements Serializable {
         this.name = name;
     }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -172,5 +181,5 @@ public class ObservationEntity implements Serializable {
     public String toString() {
         return "com.moveatis.lotas.observation.ObservationEntity[ id=" + id + " ]";
     }
-    
+
 }
