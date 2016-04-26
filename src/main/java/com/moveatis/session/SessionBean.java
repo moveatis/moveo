@@ -196,4 +196,11 @@ public class SessionBean implements Serializable, Session  {
     public void setLocale(String lang) {
         locale = new Locale(lang);
     }
+    
+    public boolean isResetObsAvailable() {
+        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+        boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
+        LOGGER.debug("isResetObsAvailable(): " + viewId + " -> " + result);
+        return result;
+    }
 }
