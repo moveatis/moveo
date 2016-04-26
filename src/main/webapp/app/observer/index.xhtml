@@ -30,7 +30,7 @@
                         <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
                             {name: "#{categorySet.name}", categories: [
                             <ui:repeat value="#{categorySet.selectedCategories}" var="category">
-                                {name: "#{category}", type: 0},
+                                { name: "#{category.name}", type: #{category.type}, id: #{category.id} },
                             </ui:repeat>
                             ]},
                         </ui:repeat>
