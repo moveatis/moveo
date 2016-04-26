@@ -203,4 +203,11 @@ public class SessionBean implements Serializable, Session  {
         LOGGER.debug("isResetObsAvailable(): " + viewId + " -> " + result);
         return result;
     }
+    
+    public boolean isBackToCatEdAvailable() {
+        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+        boolean result = (viewId.equals("/app/observer/index.xhtml"));
+        LOGGER.debug("isBackToCatEdAvailable(): " + viewId + " -> " + result);
+        return result;
+    }
 }
