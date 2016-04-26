@@ -61,12 +61,24 @@ import java.util.Set;
 public class CategorySelectionManagedBean implements Serializable {
     
     public static class Category {
+        private long id;
+        private long type;
         private String name;
         private boolean selected;
         
         public Category(String name) {
+            id = 10; // TODO: Fixme!
+            type = 0;
             setName(name);
-            this.selected = true;
+            selected = true;
+        }
+        
+        public long getId() {
+            return id;
+        }
+        
+        public long getType() {
+            return type;
         }
         
         public String getName() {
@@ -194,24 +206,37 @@ public class CategorySelectionManagedBean implements Serializable {
             return false;
         }
         
-        public List<String> getSelectedCategories() {
-            List<String> selectedCategories = new ArrayList<>();
+//        public List<String> getSelectedCategories() {
+//            List<String> selectedCategories = new ArrayList<>();
+//            for (Category category : categories) {
+//                if (category.isSelected()) {
+//                    String categoryName = category.getName();
+//                    // TODO: Do we have to check name length and duplicates?
+//                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
+//                        selectedCategories.add(categoryName);
+//                    }
+//                }
+//            }
+//            for (Category category : userCategories) {
+//                if (category.isSelected()) {
+//                    String categoryName = category.getName();
+//                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
+//                        selectedCategories.add(categoryName);
+//                    }
+//                }
+//            }
+//            return selectedCategories;
+//        }
+        
+        public List<Category> getSelectedCategories() {
+            List<Category> selectedCategories = new ArrayList<>();
             for (Category category : categories) {
                 if (category.isSelected()) {
-                    String categoryName = category.getName();
-                    // TODO: Do we have to check name length and duplicates?
-                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
-                        selectedCategories.add(categoryName);
-                    }
+                    selectedCategories.add(category);
                 }
             }
             for (Category category : userCategories) {
-                if (category.isSelected()) {
-                    String categoryName = category.getName();
-                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
-                        selectedCategories.add(categoryName);
-                    }
-                }
+                selectedCategories.add(category);
             }
             return selectedCategories;
         }
