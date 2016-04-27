@@ -84,9 +84,12 @@ public class SessionBean implements Serializable, Session  {
     private boolean saveable = false;
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
+    private Locale locale;
 
     public SessionBean() {
-
+        if (FacesContext.getCurrentInstance() != null) {
+            this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        }
     }
     
     @Override
@@ -186,9 +189,7 @@ public class SessionBean implements Serializable, Session  {
     public EventEntity getEventEntityForNewObservation() {
         return this.eventEntityForNewObservation;
     }
-    
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-    
+
     public Locale getLocale() {
         return locale;
     }
