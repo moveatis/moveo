@@ -86,7 +86,10 @@ nav {
 
 .naviHeader {
     height: 28px;
-    background-color: #ff6600;
+    background: #ff6600;
+    background: #ff6600 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    background: #ff6600 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
+    background: #ff6600 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
     background-size: 100%;
     text-align: center;
     border: 0;
@@ -176,7 +179,8 @@ a:hover {text-decoration: none; color: white;}
     margin-bottom: .3em;
 }
 
-.ui-dialog-content > form > .ui-button {
+.ui-dialog-content > form > .cancel-button,
+.ui-dialog-content > form > .save-button {
     display: inline-block;
     width: auto;
     float: right;
