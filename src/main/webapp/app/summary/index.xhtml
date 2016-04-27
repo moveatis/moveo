@@ -73,7 +73,7 @@
                     <div class="ui-grid ui-grid-responsive-480">
                         <div class="ui-grid-row header-row">
                             <div class="ui-grid-col-5">#{msg.sum_category}</div>
-                            <div class="ui-grid-col-3">#{msg.sum_number}</div>
+                            <div class="ui-grid-col-3">#{msg.sum_count}</div>
                             <div class="ui-grid-col-3">#{msg.sum_duration}</div>
                         </div>
                     </div>
@@ -116,49 +116,7 @@
                     </div>
                 </div>
 
-                <p:dialog header="#{msg.sum_mailDialogHeader}"
-                          widgetVar="dlgMail"
-                          position="top"
-                          resizable="false"
-                          responsive="true"
-                          fitViewport="true"
-                          styleClass="coloredButton">
-                    <h:form styleClass="dialog-form ui-fluid">
-                        <h:outputLabel for="input-name" value="#{msg.sum_observationName}" />
-                        <p:inputText id="input-name" required="true" requiredMessage="Ei saa olla tyhjä."
-                                     value="#{summaryBean.observation.name}"
-                                     placeholder="#{msg.sum_name}"
-                                     validator="#{validationBean.validateShortString}"/>
-                        <p:message for="input-name" />
-
-                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
-                        <p:inputText id="input-target"
-                                     value="#{summaryBean.observation.target}"
-                                     placeholder="#{msg.sum_target}"
-                                     validator="#{validationBean.validateShortString}"/>
-                        <p:message for="input-target" />
-
-                        <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
-                        <p:inputTextarea id="input-description"
-                                         value="#{summaryBean.observation.description}"
-                                         placeholder="#{msg.sum_description}"
-                                         validator="#{validationBean.validateLongString}"
-                                         rows="3" cols="16" autoResize="true" />
-                        <p:message for="input-description" />
-
-                        <h:outputLabel for="input-email" value="#{msg.sum_giveEmail}" />
-                        <p:inputText id="input-email" required="true" requiredMessage="Ei saa olla tyhjä."
-                                     value="#{validationBean.email}"
-                                     placeholder="#{msg.sum_emailAddress}" />
-                        <p:message for="input-email" />
-
-                        <p:commandButton value="#{msg.sum_sendMail}" icon="ui-icon-check"
-                                         action="#{summaryBean.mailCurrentObservation}"
-                                         update="@form"/>
-                    </h:form>
-                </p:dialog>
-
-                <p:dialog header="#{msg.sum_saveDialogHeader}"
+                <p:dialog header="#{msg.dlg_saveDialogHeader}"
                           widgetVar="dlgSave"
                           position="top"
                           resizable="false"
@@ -166,31 +124,50 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
+                        <p:selectOneButton id="select-save"  value="#{summaryBean.saveOption}">
+                            <p:ajax update="@form" />
+                            <f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail" />
+                            <f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save" />
+                            <f:selectItem itemLabel="#{msg.dlg_downloadOption}" itemValue="download" />
+                        </p:selectOneButton>
+
                         <h:outputLabel for="input-name" value="#{msg.sum_observationName}" />
                         <p:inputText id="input-name" required="true" requiredMessage="Ei saa olla tyhjä."
                                      value="#{summaryBean.observation.name}"
-                                     placeholder="#{msg.sum_name}"
                                      validator="#{validationBean.validateShortString}"/>
                         <p:message for="input-name" />
 
                         <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
                         <p:inputText id="input-target"
                                      value="#{summaryBean.observation.target}"
-                                     placeholder="#{msg.sum_target}"
                                      validator="#{validationBean.validateShortString}"/>
                         <p:message for="input-target" />
 
                         <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
                         <p:inputTextarea id="input-description"
                                          value="#{summaryBean.observation.description}"
-                                         placeholder="#{msg.sum_description}"
                                          validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
                         <p:message for="input-description" />
 
-                        <p:commandButton value="#{msg.sum_save}" icon="ui-icon-check"
+                        <p:panel rendered="#{summaryBean.sendOptionSelected()}" styleClass="coloredButton">
+                            <h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
+                            <p:inputText id="input-email" required="true" requiredMessage="Ei saa olla tyhjä."
+                                         value="#{validationBean.email}" />
+                            <p:message for="input-email" />
+                        </p:panel>
+
+                        <p:commandButton class="save-button" value="#{msg.dlg_send}" icon="ui-icon-check"
+                                         action="#{summaryBean.sendCurrentObservation}"
+                                         update="@form" rendered="#{summaryBean.sendOptionSelected()}"/>
+                        <p:commandButton class="save-button" value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{summaryBean.saveCurrentObservation}"
-                                         update="@form"/>
+                                         update="@form" rendered="#{summaryBean.saveOptionSelected()}"/>
+                        <p:commandButton class="save-button" value="#{msg.dlg_download}" icon="ui-icon-check"
+                                         action="#{summaryBean.downloadCurrentObservation}"
+                                         update="@form" rendered="#{summaryBean.downloadOptionSelected()}"/>
+                        <p:commandButton class="cancel-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgSave').hide();"/>
                     </h:form>
                 </p:dialog>
 

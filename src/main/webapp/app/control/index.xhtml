@@ -38,7 +38,7 @@
                                          value="#{eventGroupManagedBean.eventGroupDescription}"
                                          placeholder="#{msg.con_eventGroupDescription}"
                                          rows="3" cols="16" autoResize="true" />
-                        
+
                         <p:outputLabel for="visibilityRules" value="Tapahtumaryhmän näkyvyys"/>
                         <p:selectOneRadio id="visibilityRules" value="#{eventGroupManagedBean.visibility}">
                             <f:selectItem itemLabel="Vain minulle" itemValue="own"/>
@@ -46,27 +46,27 @@
                             <f:selectItem itemLabel="Julkinen" itemValue="public"/>
                             <p:ajax listener="#{eventGroupManagedBean.addGroupKey}" update="groupKeyPanel"/>
                         </p:selectOneRadio>
-                        
-                        <p:panel id='groupKeyPanel' 
+
+                        <p:panel id='groupKeyPanel'
                                  visible="#{eventGroupManagedBean.groupKeySelected}">
                             <p:outputLabel for="input-groupkey" value="Anna ryhmäavain"/>
                             <p:inputText id="input-groupkey"
                                          value="#{eventGroupManagedBean.eventGroupKey}"
                                          placeholder="Tapahtumaryhmän avain"/>
                         </p:panel>
-                        
+
                         <h:outputText value="#{msg.con_eventGroupExpirationTitle}"/>
                         <p:calendar id="input-expiration-eg"
                                     placeholder="#{msg.con_eventGroupExpiration}"/>
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEventGroup').hide();"
                                          action="#{eventGroupManagedBean.createNewEventGroup}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEventGroup').hide();" />
                     </h:form>
                 </p:dialog>
-                
+
                 <p:dialog header="#{msg.con_newCSDlgHeader}"
                           widgetVar="dlgCategorySet"
                           position="top"
@@ -82,15 +82,15 @@
                                          value="#{categorySetManagedBean.description}"
                                          placeholder="#{msg.con_categorySetDescription}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgCategorySet').hide();"
                                          action="#{categorySetManagedBean.createNewCategorySet(controlManagedBean.getSelectedEventGroup())}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgCategorySet').hide();" />
                     </h:form>
                 </p:dialog>
-                
+
                 <p:dialog header="#{msg.con_newCDlgHeader}"
                           widgetVar="dlgCategory"
                           position="top"
@@ -111,11 +111,11 @@
                             <f:selectItem itemLabel="Kyllä" itemValue="true"/>
                             <f:selectItem itemLabel="Ei" itemValue="false"/>
                         </p:selectOneRadio>
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgCategory').hide();"
                                          action="#{categoryManagedBean.createNewCategory(controlManagedBean.getSelectedCategorySet())}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgCategory').hide();" />
                     </h:form>
                 </p:dialog>
@@ -135,11 +135,11 @@
                                          value="#{eventManagedBean.description}"
                                          placeholder="#{msg.con_eventDescription}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEvent').hide();"
                                          action="#{eventManagedBean.createNewEvent(controlManagedBean.getSelectedEventGroup())}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEvent').hide();" />
                     </h:form>
                 </p:dialog>
@@ -168,11 +168,11 @@
                         <h:outputText value="#{msg.con_eventGroupExpirationTitle}"/>
                         <p:calendar id="input-expiration-eg"
                                     placeholder="#{msg.con_eventGroupExpiration}"/>
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEditEventGroup').hide();"
                                          action="#{controlManagedBean.editEventGroup}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEditEventGroup').hide();" />
                     </h:form>
                 </p:dialog>
@@ -192,15 +192,15 @@
                                          value=""
                                          placeholder="#{msg.con_categorySetDescription}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEditCategorySet').hide();"
                                          action="#{controlManagedBean.editEvent}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEditCategorySet').hide();" />
                     </h:form>
                 </p:dialog>
-                
+
                 <!-- TODO: Edit Category lacks canOverlap -option -->
                 <p:dialog header="#{msg.con_editCDlgHeader}"
                           widgetVar="dlgEditCategory"
@@ -217,15 +217,15 @@
                                          value="#{controlManagedBean.selectedCategory.description}"
                                          placeholder="#{msg.con_eventDescription}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEditEvent').hide();"
                                          action="#{controlManagedBean.editEvent}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEditEvent').hide();" />
                     </h:form>
                 </p:dialog>
-                
+
                 <p:dialog header="#{msg.con_editEDlgHeader}"
                           widgetVar="dlgEditEvent"
                           position="top"
@@ -241,11 +241,11 @@
                                          value="#{controlManagedBean.selectedEvent.description}"
                                          placeholder="#{msg.con_eventDescription}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.con_save}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          onclick="PF('dlgEditEvent').hide();"
                                          action="#{controlManagedBean.editEvent}"
                                          update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.con_cancel}" icon="ui-icon-close"
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgEditEvent').hide();" />
                     </h:form>
                 </p:dialog>

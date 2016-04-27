@@ -21,10 +21,8 @@ and open the template in the editor.
                     </f:facet>
 
                     <p:submenu icon="fa fa-floppy-o" rendered="#{sessionBean.saveable}">
-                        <p:menuitem value="#{msg.head_save}" icon="fa fa-cloud-upload" url="#" class="coloredButton" onclick="PF('dlgSave').show();"/>
-                        <p:menuitem value="#{msg.head_send}" icon="fa fa-envelope" url="#" class="coloredButton" onclick="PF('dlgMail').show();"/>
+                        <p:menuitem value="#{msg.dlg_save}" icon="fa fa-floppy-o" url="#" class="coloredButton" onclick="PF('dlgSave').show();"/>
                     </p:submenu>
-
 
                     <p:submenu icon="fa fa-user" rendered="#{sessionBean.isIdentifiedUser()}">
                         <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml" class="coloredButton"/>
@@ -53,7 +51,7 @@ and open the template in the editor.
 
             <p:dialog header="#{msg.head_loginTitle}" widgetVar="dlgLogin" minHeight="80" position="top"
                       draggable="false" resizable="false" responsive="true" modal="true" fitViewport="true"
-                      class="coloredButton" rendered="#{!sessionBean.identifiedUser}">
+                      class="coloredButton">
                 <h:form class="ui-fluid">
                     <p:inputText id="userName" autocomplete="off" value="#{identityProviderLoginBean.userName}" placeholder="#{msg.head_userName}" required="true"/>
                     <p:password id="password" autocomplete="off" value="#{identityProviderLoginBean.password}" placeholder="#{msg.head_password}" required="true"/>
