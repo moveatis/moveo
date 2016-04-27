@@ -164,6 +164,10 @@
     display: none!important;
 }
 
+.ui-button > .fa {
+    border-radius: 0;
+}
+
 /* Responsive */
 @media (max-width:700px){
     .mobileCentered {

@@ -64,6 +64,8 @@ public class SummaryManagedBean {
 
     private ObservationEntity observation;
 
+    private String saveOption;
+
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
 
@@ -87,6 +89,7 @@ public class SummaryManagedBean {
         this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
+        this.saveOption = "mail";
     }
 
     /**
@@ -160,6 +163,14 @@ public class SummaryManagedBean {
         this.observation = observation;
     }
 
+    public String getSaveOption() {
+        return saveOption;
+    }
+
+    public void setSaveOption(String saveOption) {
+        this.saveOption = saveOption;
+    }
+
     /**
      * Create timeline model. Add category groups as timeline event groups and
      * records as timeline events.
@@ -220,7 +231,23 @@ public class SummaryManagedBean {
         observationEJB.edit(observation);
     }
 
-    public void mailCurrentObservation() {
+    public void sendCurrentObservation() {
         // 
+    }
+
+    public void downloadCurrentObservation() {
+        //
+    }
+
+    public boolean sendOptionSelected() {
+        return this.saveOption.equals("mail");
+    }
+
+    public boolean saveOptionSelected() {
+        return this.saveOption.equals("save");
+    }
+
+    public boolean downloadOptionSelected() {
+        return this.saveOption.equals("download");
     }
 }
