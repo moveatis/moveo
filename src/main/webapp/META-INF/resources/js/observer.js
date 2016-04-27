@@ -101,6 +101,16 @@ function timeToString(ms) {
 
 
 /*
+ * Returns count string with abbreviation, e.g. "13 ct.".
+ * @param {type} count
+ * @returns {String} Count string.
+ */
+function countToString(count) {
+    return count + " " + msg.countAbbreviation;
+}
+
+
+/*
  * Handles one category button.
  * @param {String} name Name to be displayed on the button.
  * @param {number} type Type of the category (TIME or COUNTED).
@@ -122,7 +132,7 @@ function CategoryItem(name, type, index) {
     this.type = type;
     
     if (this.type === CategoryType.COUNTED) {
-        updateValueDiv(this, getCountString(this.count));
+        updateValueDiv(this, countToString(0));
         this.count = 0;
     } else {
         updateValueDiv(this, timeToString(0));
@@ -159,9 +169,13 @@ function CategoryItem(name, type, index) {
     };
     
     if (this.type === CategoryType.COUNTED) {
-        this.click = function(master_time) {
+        this.click = function(master_time, paused) {
+            // TODO: Handle paused situation in observer? What about timed
+            // categories? Can they be clicked when the master clock is paused?
+            if (paused) return;
+            
             this.count += 1;
-            updateValueDiv(this, getCountString(this.count));
+            updateValueDiv(this, countToString(this.count));
             
             this.li.addClass("down");
             var item = this.li;
@@ -176,10 +190,6 @@ function CategoryItem(name, type, index) {
     function updateValueDiv(this_, text) {
         this_.value_div.empty();
         this_.value_div.append(document.createTextNode(text));
-    }
-    
-    function getCountString(count) {
-        return count + " " + msg.countAbbreviation;
     }
 }
 
@@ -235,16 +245,25 @@ function Observer(category_sets) {
             }
         }
     }
-
-    this.addRecord = function(record) {
+    
+    /*
+     * Adds record to the records list if it's not undefined.
+     * Used by categoryClick() and stopClick().
+     * @param {type} record Record or undefined if there is nothing to add.
+     */
+    this.addRecord = function(record) { // TODO: Private?
         if (record !== undefined) {
             this.records.push(record);
         }
     };
     
+    /*
+     * Event handler that starts or continues observing.
+     * Sends ajax notification to backend when observing is first started.
+     */
     this.playClick = function() {
         if (this.master_clock.isPaused()) {
-            if (this.started) {
+            if (this.started) { // TODO: Don't if, instead change playClick?
                 this.master_clock.resume(Date.now());
                 $("#play").hide();
                 $("#pause").show();
@@ -262,7 +281,6 @@ function Observer(category_sets) {
                     cache: false,
                     data: "start observation",
                     success: function(data) {
-                        console.log("Success: " + data);
                         this_.master_clock.resume(Date.now());
                         this_.started = true;
                         this_.waiting = false;
@@ -281,6 +299,7 @@ function Observer(category_sets) {
     
     /**
      * Private method that pauses observation.
+     * Used by pauseClick() and stopClick().
      * @param {Observer} this_
      * @param {number} now Time in milliseconds.
      */
@@ -292,10 +311,21 @@ function Observer(category_sets) {
         }
     }
     
+    /*
+     * Event handler that pauses the observing.
+     */
     this.pauseClick = function() {
         pause(this, Date.now());
     };
     
+    /*
+     * Event handler that stops the observing.
+     * Disables play, pause, and category buttons.
+     * If some categories were still on, stops them
+     * and creates records accordingly.
+     * Sends records to backend with ajax and
+     * redirect to summary page (on success).
+     */
     this.stopClick = function() {
         if (!this.started || this.waiting) return;
         this.waiting = true;
@@ -322,8 +352,6 @@ function Observer(category_sets) {
             }
         }
         
-        console.log("Sending observation data to server...");
-        
         var this_ = this;
         
         $.ajax({
@@ -332,7 +360,6 @@ function Observer(category_sets) {
             dataType: "text",
             contentType: "application/json",
             cache: false,
-            // TODO: Is JSON.stringify necessary?
             data: JSON.stringify({
                 duration: time,
                 timeZoneOffsetInMs: getTimeZoneOffset(),
@@ -340,7 +367,6 @@ function Observer(category_sets) {
                 data: this.records
             }),
             success: function(data) {
-                console.log("Success: " + data);
                 this_.waiting = false;
                 // TODO: Redirect properly.
                 window.location = "../summary/";
@@ -352,12 +378,20 @@ function Observer(category_sets) {
         });
     };
     
+    /*
+     * Delegates handling of category button click to the correct category.
+     * Adds (possible) record returned by the category.
+     * @param {type} index Index of the category.
+     */
     this.categoryClick = function(index) {
         var category = this.categories[index];
         var time = this.master_clock.getElapsedTime(Date.now());
-        this.addRecord(category.click(time));
+        this.addRecord(category.click(time, this.master_clock.isPaused()));
     };
     
+    /*
+     * Updates master clock and all categories based on it.
+     */
     this.tick = function() {
         var time = this.master_clock.getElapsedTime(Date.now());
         
@@ -385,11 +419,10 @@ function keepAlive() {
         cache: false,
         data: "keep-alive",
         success: function(data) {
-            console.log("Success: " + data);
+            //console.log("Success: " + data);
         },
         error: function(xhr, status, error) {
-            // TODO: Get translated error message from msg.
-            showError("Sending keep-alive failed: " + error);
+            showError(msg.obs_errorKeepAliveFailed + ": " + error);
         }
     });
 }
@@ -410,6 +443,11 @@ function showError(error_msg) {
 }
 
 
+/*
+ * This function is ran when the document is ready.
+ * Creates observer, binds event handlers, and sets two intervals:
+ * one that updates the observer and one that sends keep alive to backend.
+ */
 $(document).ready(function() {
     var category_sets = getCategorySets(); // NOTE: Function in observer/index.xhtml.
     var observer = new Observer(category_sets);
@@ -426,6 +464,7 @@ $(document).ready(function() {
     setInterval(function() { observer.tick(); }, 200);
     setInterval(keepAlive, 5*60000); // Send keep-alive every 5 minutes.
 });
+
 
 function getTimeZoneOffset(){
     return -1 * 60 * 1000 * new Date().getTimezoneOffset();
