@@ -101,7 +101,7 @@ nav {
     border-radius: 0;
     width: auto;
     height: auto;
-    padding: 0 0.7em;
+    padding: 0 0.8em;
     font-size: 120%;
 }
 
@@ -120,6 +120,11 @@ nav {
 
 .ui-menu .ui-menu-parent .ui-icon-triangle-1-e {
     display: none;
+}
+
+ul.ui-menu-child {
+    white-space: nowrap;
+    width: 260px!important;
 }
 
 .naviButtons {
