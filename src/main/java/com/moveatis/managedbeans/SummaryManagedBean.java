@@ -242,8 +242,13 @@ public class SummaryManagedBean {
     }
 
     public void saveCurrentObservation() {
-        // TODO: check if observation is in database and to edit or create accordingly
-        observationEJB.edit(observation);
+        if (observationEJB.find(observation.getId()) != null) {
+            // Edit existing observation
+            observationEJB.edit(observation);
+        } else {
+            // Save as a new observation
+            observationEJB.create(observation);
+        }
     }
 
     public void sendCurrentObservation() {
