@@ -21,29 +21,29 @@ and open the template in the editor.
                     </f:facet>
 
                     <p:submenu icon="fa fa-floppy-o" rendered="#{sessionBean.saveable}">
-                        <p:menuitem value="#{msg.dlg_save}" icon="fa fa-floppy-o" url="#" class="coloredButton" onclick="PF('dlgSave').show();"/>
+                        <p:menuitem value="#{msg.dlg_save}" icon="fa fa-floppy-o" url="#" onclick="PF('dlgSave').show();"/>
                     </p:submenu>
 
                     <p:submenu icon="fa fa-user" rendered="#{sessionBean.isIdentifiedUser()}">
-                        <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="#{msg.head_superuserPage}" icon="fa fa-group" url="/app/superuser/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml"/>
+                        <p:menuitem value="#{msg.head_superuserPage}" icon="fa fa-group" url="/app/superuser/index.xhtml"/>
                         <p:menuitem value="#{msg.head_logout}" icon="fa fa-sign-out"
-                                    actionListener="#{logoutBean.logOut}"  class="coloredButton"/>
+                                    actionListener="#{logoutBean.logOut}" />
                     </p:submenu>
 
                     <p:submenu icon="fa fa-lock" rendered="#{!sessionBean.isIdentifiedUser()}">
-                        <p:menuitem value="#{msg.head_login}" icon="fa fa-sign-in"  onclick="PF('dlgLogin').show();" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_login}" icon="fa fa-sign-in"  onclick="PF('dlgLogin').show();"/>
                     </p:submenu>
 
                     <p:submenu icon="fa fa-cogs">
-                        <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/app/info/index.xhtml" class="coloredButton"/>
-                        <p:submenu label="#{msg.head_langSet}" icon="fa fa-language" class="coloredButton">
-                            <p:menuitem value="#{msg.head_langFi}" icon="fa fa-flag-o" class="coloredButton" actionListener="#{sessionBean.setLocale('fi')}" ajax="false" />
-                            <p:menuitem value="#{msg.head_langEn}" icon="fa fa-flag-checkered" class="coloredButton" actionListener="#{sessionBean.setLocale('en')}" ajax="false" />
+                        <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/app/info/index.xhtml"/>
+                        <p:submenu label="#{msg.head_langSet}" icon="fa fa-language">
+                            <p:menuitem value="#{msg.head_langFi}" icon="fa fa-flag-o" actionListener="#{sessionBean.setLocale('fi')}" ajax="false" />
+                            <p:menuitem value="#{msg.head_langEn}" icon="fa fa-flag-checkered" actionListener="#{sessionBean.setLocale('en')}" ajax="false" />
                         </p:submenu>
-                        <p:menuitem value="#{msg.head_resetObs}" rendered="#{sessionBean.isResetObsAvailable()}" icon="fa fa-eraser" url="/app/observer/index.xhtml" class="coloredButton" />
-                        <p:menuitem value="#{msg.head_backToCatEd}" rendered="#{sessionBean.isBackToCatEdAvailable()}" icon="fa fa-edit" url="/app/categoryselection/index.xhtml" class="coloredButton"/>
-                        <p:menuitem value="#{msg.head_toFrontPage}" icon="fa fa-rotate-left" url="/index.xhtml" class="coloredButton"/>
+                        <p:menuitem value="#{msg.head_resetObs}" rendered="#{sessionBean.isResetObsAvailable()}" icon="fa fa-eraser" url="/app/observer/index.xhtml" />
+                        <p:menuitem value="#{msg.head_backToCatEd}" rendered="#{sessionBean.isBackToCatEdAvailable()}" icon="fa fa-edit" url="/app/categoryselection/index.xhtml"/>
+                        <p:menuitem value="#{msg.head_toFrontPage}" icon="fa fa-rotate-left" url="/index.xhtml"/>
 
                     </p:submenu>
                 </p:menubar>
