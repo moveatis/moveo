@@ -66,7 +66,11 @@ public class SummaryManagedBean {
 
     private ObservationEntity observation;
 
-    private String saveOption;
+    private String selectedOption;
+    private final String MAIL_OPTION;
+    private final String SAVE_OPTION;
+    private final String DOWNLOAD_OPTION;
+
 
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
@@ -91,7 +95,10 @@ public class SummaryManagedBean {
         this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
-        this.saveOption = "save";
+        this.DOWNLOAD_OPTION = "download";
+        this.SAVE_OPTION = "save";
+        this.MAIL_OPTION = "mail";
+        this.selectedOption = "";
     }
 
     /**
@@ -100,6 +107,7 @@ public class SummaryManagedBean {
     @PostConstruct
     protected void initialize() {
         createTimeline();
+        setDefaultSaveOption();
     }
 
     /**
@@ -165,12 +173,12 @@ public class SummaryManagedBean {
         this.observation = observation;
     }
 
-    public String getSaveOption() {
-        return saveOption;
+    public String getSelectedOption() {
+        return selectedOption;
     }
 
-    public void setSaveOption(String saveOption) {
-        this.saveOption = saveOption;
+    public void setSelectedOption(String selectedOption) {
+        this.selectedOption = selectedOption;
     }
 
     /**
@@ -234,6 +242,7 @@ public class SummaryManagedBean {
     }
 
     public void saveCurrentObservation() {
+        // TODO: check if observation is in database and to edit or create accordingly
         observationEJB.edit(observation);
     }
 
@@ -246,18 +255,30 @@ public class SummaryManagedBean {
     }
 
     public void saveOptionChangeListener(ValueChangeEvent event) {
-        this.saveOption = (String) event.getNewValue();
+        this.selectedOption = (String) event.getNewValue();
     }
 
-    public boolean sendOptionSelected() {
-        return this.saveOption.equals("mail");
+    public boolean sendOptionAllowed() {
+        return this.selectedOption.equals(MAIL_OPTION) && sessionBean.isIdentifiedUser();
     }
 
-    public boolean saveOptionSelected() {
-        return this.saveOption.equals("save");
+    public boolean saveOptionAllowed() {
+        return this.selectedOption.equals(SAVE_OPTION) && sessionBean.isIdentifiedUser();
     }
 
-    public boolean downloadOptionSelected() {
-        return this.saveOption.equals("download");
+    public boolean downloadOptionAllowed() {
+        return this.selectedOption.equals(DOWNLOAD_OPTION) && sessionBean.isLoggedIn();
+    }
+
+    public boolean isSaveOptionAllowed() {
+        return downloadOptionAllowed() || saveOptionAllowed() || sendOptionAllowed();
+    }
+
+    private void setDefaultSaveOption() {
+        if (sessionBean.isIdentifiedUser()) {
+            this.selectedOption = MAIL_OPTION;
+        } else {
+            this.selectedOption = DOWNLOAD_OPTION;
+        }
     }
 }

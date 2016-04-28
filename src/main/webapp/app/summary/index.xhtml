@@ -124,48 +124,58 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
-                        <p:selectOneButton id="select-save" valueChangeListener="#{summaryBean.saveOptionChangeListener}" value="#{summaryBean.saveOption}">
+
+                        <p:selectOneButton id="select-save" valueChangeListener="#{summaryBean.saveOptionChangeListener}" value="#{summaryBean.selectedOption}">
                             <p:ajax update="@form" />
                             <f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail" />
                             <f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save" />
                             <f:selectItem itemLabel="#{msg.dlg_downloadOption}" itemValue="download" />
                         </p:selectOneButton>
 
-                        <h:outputLabel for="input-name" value="#{msg.sum_observationName}" />
-                        <p:message for="input-name" />
-                        <p:inputText id="input-name" required="true" requiredMessage="Ei saa olla tyhjä."
-                                     value="#{summaryBean.observation.name}"
-                                     validator="#{validationBean.validateShortString}"/>
+                        <p:outputPanel styleClass="login-panel" rendered="#{!summaryBean.saveOptionAllowed}">
+                            <p:outputLabel value="#{msg.dlg_onlyForRegistered}"/>
+                            <p:commandButton value="#{msg.head_login}" icon="fa fa-sign-in" onclick="PF('dlgLogin').show();"/>
+                        </p:outputPanel>
 
-                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
-                        <p:message for="input-target" />
-                        <p:inputText id="input-target"
-                                     value="#{summaryBean.observation.target}"
-                                     validator="#{validationBean.validateShortString}"/>
+                        <p:outputPanel rendered="#{summaryBean.saveOptionAllowed}">
+                            <h:outputLabel for="input-name" value="#{msg.sum_observationName}" />
+                            <p:message for="input-name" />
+                            <p:inputText id="input-name" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                         value="#{summaryBean.observation.name}"
+                                         validator="#{validationBean.validateShortString}"/>
 
-                        <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
-                        <p:message for="input-description" />
-                        <p:inputTextarea id="input-description"
-                                         value="#{summaryBean.observation.description}"
-                                         validator="#{validationBean.validateLongString}"
-                                         rows="3" cols="16" autoResize="true" />
+                            <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
+                            <p:message for="input-target" />
+                            <p:inputText id="input-target"
+                                         value="#{summaryBean.observation.target}"
+                                         validator="#{validationBean.validateShortString}"/>
 
-                        <p:panel rendered="#{summaryBean.sendOptionSelected()}" styleClass="coloredButton">
-                            <h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
-                            <p:message for="input-email" />
-                            <p:inputText id="input-email" required="true" requiredMessage="Ei saa olla tyhjä."
-                                         value="#{validationBean.email}" />
-                        </p:panel>
+                            <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
+                            <p:message for="input-description" />
+                            <p:inputTextarea id="input-description"
+                                             value="#{summaryBean.observation.description}"
+                                             validator="#{validationBean.validateLongString}"
+                                             rows="3" cols="16" autoResize="true" />
+
+                            <p:panel rendered="#{summaryBean.sendOptionAllowed()}" styleClass="coloredButton">
+                                <h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
+                                <p:message for="input-email" />
+                                <p:inputText id="input-email" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                             value="#{validationBean.email}" />
+                            </p:panel>
+                        </p:outputPanel>
+
 
                         <p:commandButton class="save-button" value="#{msg.dlg_send}" icon="ui-icon-check"
                                          action="#{summaryBean.sendCurrentObservation}" validateClient="true"
-                                         update="@form" rendered="#{summaryBean.sendOptionSelected()}"/>
+                                         update="@form" rendered="#{summaryBean.sendOptionAllowed()}"/>
                         <p:commandButton class="save-button" value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{summaryBean.saveCurrentObservation}" validateClient="true"
-                                         update="@form" rendered="#{summaryBean.saveOptionSelected()}"/>
+                                         update="@form" rendered="#{summaryBean.saveOptionAllowed()}"/>
                         <p:commandButton class="save-button" value="#{msg.dlg_download}" icon="ui-icon-check"
                                          action="#{summaryBean.downloadCurrentObservation}" validateClient="true"
-                                         update="@form" rendered="#{summaryBean.downloadOptionSelected()}"/>
+                                         update="@form" rendered="#{summaryBean.downloadOptionAllowed()}"/>
+
                         <p:commandButton class="cancel-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>
                     </h:form>
