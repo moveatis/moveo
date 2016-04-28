@@ -181,8 +181,7 @@ a:hover {text-decoration: none; color: white;}
     max-width: 24em;
 }
 
-.ui-dialog-content > form > * {
-    margin-top: .2em;
+.ui-dialog-content > form > input {
     margin-bottom: .3em;
 }
 
