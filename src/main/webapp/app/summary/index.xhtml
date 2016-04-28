@@ -40,7 +40,7 @@
                                 <div>
                                     <p:inputMask id="input-timeframeStart" value="00:00:00"
                                                  mask="99:99:99" autocomplete="false"
-                                                 size="6" placeholder="hh:mm:ss"
+                                                 size="8" placeholder="hh:mm:ss"
                                                  title="#{msg.sum_timeFrameTitle}">
                                         <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                                         <p:clientValidator event="keyup"/>
@@ -54,7 +54,7 @@
                                 <div>
                                     <p:inputMask id="input-timeframeEnd"
                                                  mask="99:99:99" autocomplete="false"
-                                                 size="6" placeholder="hh:mm:ss"
+                                                 size="8" placeholder="hh:mm:ss"
                                                  title="#{msg.sum_timeFrameTitle}">
                                         <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                                         <p:clientValidator event="keyup"/>

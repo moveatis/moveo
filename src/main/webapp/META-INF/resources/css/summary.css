@@ -177,6 +177,11 @@
     margin: 3em;
 }
 
+#input-timeframeStart,
+#input-timeframeEnd {
+    text-align: center;
+}
+
 /* Responsive */
 @media (max-width:700px){
     .mobileCentered {
