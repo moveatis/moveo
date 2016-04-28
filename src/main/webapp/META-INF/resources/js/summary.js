@@ -94,6 +94,13 @@ $(function () {
     });
     $("#timelineControls").toggleClass("bottom",
             isBottomOfDocument($("#Footer").height()));
+    
+    $("#saveForm").submit(function (){
+       $(window).unbind("beforeunload"); 
+    });
+    $(window).bind("beforeunload", function () {
+        return msg.dlg_confirmLeave;
+    }); 
 });
 
 /**

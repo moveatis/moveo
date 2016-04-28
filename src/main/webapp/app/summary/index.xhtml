@@ -123,7 +123,7 @@
                           responsive="true"
                           fitViewport="true"
                           styleClass="coloredButton">
-                    <h:form styleClass="dialog-form ui-fluid">
+                    <h:form id="saveForm" styleClass="dialog-form ui-fluid">
 
                         <p:selectOneButton id="select-save" valueChangeListener="#{summaryBean.saveOptionChangeListener}" value="#{summaryBean.selectedOption}">
                             <p:ajax update="@form" />
@@ -194,7 +194,8 @@
                     sum_begin: "#{msg.sum_begin}",
                     sum_end: "#{msg.sum_end}",
                     sum_duration: "#{msg.sum_duration}",
-                    sum_countAbr: "#{msg.sum_countAbr}"
+                    sum_countAbr: "#{msg.sum_countAbr}",
+                    dlg_confirmLeave: "#{msg.dlg_confirmLeave}"
                     };
                     },
                     };
