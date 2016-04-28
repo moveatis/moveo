@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.SortedSet;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
@@ -90,7 +91,7 @@ public class SummaryManagedBean {
         this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
-        this.saveOption = "mail";
+        this.saveOption = "save";
     }
 
     /**
@@ -237,11 +238,15 @@ public class SummaryManagedBean {
     }
 
     public void sendCurrentObservation() {
-        // 
+        // TODO: call mail backing bean
     }
 
     public void downloadCurrentObservation() {
-        //
+        // TODO: call file download backing bean
+    }
+
+    public void saveOptionChangeListener(ValueChangeEvent event) {
+        this.saveOption = (String) event.getNewValue();
     }
 
     public boolean sendOptionSelected() {
