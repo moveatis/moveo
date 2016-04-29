@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.SortedSet;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -247,7 +248,7 @@ public class SummaryManagedBean {
         }
     }
 
-    public void saveCurrentObservation() {
+    public void saveCurrentObservation(ActionEvent event) {
         if (observationEJB.find(observation.getId()) != null) {
             // Edit existing observation
             observationEJB.edit(observation);
@@ -257,11 +258,11 @@ public class SummaryManagedBean {
         }
     }
 
-    public void sendCurrentObservation() {
+    public void sendCurrentObservation(ActionEvent event) {
         // TODO: call mail backing bean
     }
 
-    public void downloadCurrentObservation() {
+    public void downloadCurrentObservation(ActionEvent event) {
         // TODO: call file download backing bean
     }
 
