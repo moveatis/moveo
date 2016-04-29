@@ -63,6 +63,7 @@ public class SummaryManagedBean {
     private final long zoomMin;
     private final long zoomMax;
     private Date max;
+    private Date duration;
 
     private ObservationEntity observation;
 
@@ -138,6 +139,10 @@ public class SummaryManagedBean {
         return max;
     }
 
+    public Date getDuration() {
+        return duration;
+    }
+
     /**
      * Get timeline start date.
      *
@@ -210,7 +215,8 @@ public class SummaryManagedBean {
         LOGGER.debug("Records-size ->" + records.size());
         //List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
 
-        this.max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
+        duration = new Date(observation.getDuration());
+        max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
 
         // Add categories to timeline as timelinegroups
         int categoryNumber = 1;
