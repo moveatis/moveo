@@ -147,6 +147,7 @@ ul.ui-menu-child {
     background: #ff6600;
     color: white!important;
     font-size: 100%!important;
+    text-shadow: none;
 }
 
 /* Naviheader styles menu */
