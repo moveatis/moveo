@@ -66,8 +66,10 @@ public class CategorySelectionManagedBean implements Serializable {
         private String name;
         private boolean selected;
         
+        private static long nextId = 1; // Can ids start from 0?
+        
         public Category(String name) {
-            id = 10; // TODO: Fixme!
+            id = nextId++;
             type = 0;
             setName(name);
             selected = true;

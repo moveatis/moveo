@@ -44,7 +44,9 @@ import java.io.StringReader;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TimeZone;
@@ -165,6 +167,9 @@ public class RecordListenerBean implements Serializable {
         observationEntity.setDuration(duration.longValue());
         
         observationEntity.setCreated(createdTime);
+        
+        // TODO: Fix! This is only temporary solution!
+        Map<Long, CategoryEntity> categoriesById = new HashMap<>();
 
         try {
             for (int i = 0; i < array.size(); i++) {
@@ -174,14 +179,33 @@ public class RecordListenerBean implements Serializable {
                 * Wont work yet
                 */
                 //record.setCategory(categoryEJB.find(object.getJsonNumber("categoryId").longValue()));
-                CategoryEntity categoryEntity = new CategoryEntity();
-                LabelEntity labelEntity = new LabelEntity();
-                labelEntity.setLabel(object.getJsonString("category").getString());
+//                CategoryEntity categoryEntity = new CategoryEntity();
+//                LabelEntity labelEntity = new LabelEntity();
+//                labelEntity.setLabel(object.getJsonString("category").getString());
+//                
+//                categoryEntity.setLabel(labelEntity);
+//                
+//                labelEJB.create(labelEntity);
+//                categoryEJB.create(categoryEntity);
+//                
+//                record.setCategory(categoryEntity);
                 
-                categoryEntity.setLabel(labelEntity);
+                // TODO: Get category from database or add to temporary categories that can be saved to database later if needed.
+                Long id = object.getJsonNumber("id").longValue();
+                CategoryEntity categoryEntity = categoriesById.get(id);
                 
-                labelEJB.create(labelEntity);
-                categoryEJB.create(categoryEntity);
+                if (categoryEntity == null) {
+                    categoryEntity = new CategoryEntity();
+                    LabelEntity labelEntity = new LabelEntity();
+                    labelEntity.setLabel(object.getJsonString("category").getString());
+
+                    categoryEntity.setLabel(labelEntity);
+
+                    labelEJB.create(labelEntity);
+                    categoryEJB.create(categoryEntity);
+                    
+                    categoriesById.put(id, categoryEntity);
+                }
                 
                 record.setCategory(categoryEntity);
                 

@@ -117,7 +117,7 @@ function countToString(count) {
  * @param {number} index
  * @returns {CategoryItem}
  */
-function CategoryItem(name, type, index) {
+function CategoryItem(name, type, id, index) {
     this.li = $(document.createElement("li"));
     this.li.addClass("category-item");
     this.li.attr("id", "category-item_" + index);
@@ -130,6 +130,7 @@ function CategoryItem(name, type, index) {
     this.li.append(this.name_div);
     
     this.type = type;
+    this.id = id;
     
     if (this.type === CategoryType.COUNTED) {
         updateValueDiv(this, countToString(0));
@@ -148,7 +149,7 @@ function CategoryItem(name, type, index) {
             this.li.removeClass("down");
             if (master_time > this.start_time) {
                 this.time += master_time - this.start_time;
-                record = {category: name, startTime: this.start_time, endTime: master_time};
+                record = {id: this.id, category: name, startTime: this.start_time, endTime: master_time};
             }
             this.down = false;
         } else {
@@ -181,7 +182,7 @@ function CategoryItem(name, type, index) {
             var item = this.li;
             setTimeout(function() { item.removeClass("down"); }, 50);
             
-            return {category: name, startTime: master_time, endTime: master_time};
+            return {id: this.id, category: name, startTime: master_time, endTime: master_time};
         };
         
         this.updateTimer = function() { };
@@ -232,9 +233,8 @@ function Observer(category_sets) {
                 category_set.addClass("no-text-select");
                 
                 for (var j = 0; j < set.categories.length; j++) {
-                    var name = set.categories[j].name;
-                    var type = set.categories[j].type;
-                    var category = new CategoryItem(name, type, index);
+                    var cat = set.categories[j];
+                    var category = new CategoryItem(cat.name, cat.type, cat.id, index);
                     this_.categories.push(category);
                     category_set.append(category.li);
                     
