@@ -60,7 +60,7 @@ $(function () {
     $("#total-records").text(getRecordsInTimeframe(timeline.items, timeframe).length);
     $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
     updateRecordsTable(timeline, timeframe);
-    
+
     // Set time select listeners and restore original dates that get reseted on event bind.
     var startDate = startTimeWdgt.getDate();
     var endDate = endTimeWdgt.getDate();
@@ -105,13 +105,9 @@ $(function () {
     $("#timelineControls").toggleClass("bottom",
             isBottomOfDocument($("#Footer").height()));
 
-    $("#saveForm").submit(function () {
-        $(window).unbind("beforeunload");
-    });
-
-    $(window).bind("beforeunload", function () {
+    window.onbeforeunload = function () {
         return msg.dlg_confirmLeave;
-    });
+    };
 });
 
 /**

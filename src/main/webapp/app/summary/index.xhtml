@@ -127,11 +127,11 @@
                           styleClass="coloredButton">
                     <h:form id="saveForm" styleClass="dialog-form ui-fluid">
 
-                        <p:selectOneButton id="select-save" valueChangeListener="#{summaryBean.saveOptionChangeListener}" value="#{summaryBean.selectedOption}">
-                            <p:ajax update="@form" />
-                            <f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail" />
-                            <f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save" />
-                            <f:selectItem itemLabel="#{msg.dlg_downloadOption}" itemValue="download" />
+                        <p:selectOneButton styleClass="fa" id="select-save" valueChangeListener="#{summaryBean.saveOptionChangeListener}" value="#{summaryBean.selectedOption}">
+                            <p:ajax update="@form"/>
+                            <f:selectItem itemLabel="&#xf003;" itemDescription="#{msg.dlg_mailOption}" itemValue="mail" />
+                            <f:selectItem itemLabel="&#xf0c7;" itemDescription="#{msg.dlg_saveOption}" itemValue="save" />
+                            <f:selectItem itemLabel="&#xf019;" itemDescription="#{msg.dlg_downloadOption}" itemValue="download" />
                         </p:selectOneButton>
 
                         <p:outputPanel styleClass="login-panel" rendered="#{!summaryBean.saveOptionAllowed}">
@@ -167,16 +167,18 @@
                             </p:panel>
                         </p:outputPanel>
 
-
                         <p:commandButton class="save-button" value="#{msg.dlg_send}" icon="ui-icon-check"
-                                         action="#{summaryBean.sendCurrentObservation}" validateClient="true"
-                                         update="@form" rendered="#{summaryBean.sendOptionAllowed()}"/>
+                                         actionListener="#{summaryBean.sendCurrentObservation}" validateClient="true"
+                                         rendered="#{summaryBean.sendOptionAllowed()}"
+                                         process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
                         <p:commandButton class="save-button" value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         action="#{summaryBean.saveCurrentObservation}" validateClient="true"
-                                         update="@form" rendered="#{summaryBean.saveOptionAllowed()}"/>
+                                         actionListener="#{summaryBean.saveCurrentObservation}" validateClient="true"
+                                         rendered="#{summaryBean.saveOptionAllowed()}"
+                                         process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
                         <p:commandButton class="save-button" value="#{msg.dlg_download}" icon="ui-icon-check"
-                                         action="#{summaryBean.downloadCurrentObservation}" validateClient="true"
-                                         update="@form" rendered="#{summaryBean.downloadOptionAllowed()}"/>
+                                         actionListener="#{summaryBean.downloadCurrentObservation}" validateClient="true"
+                                         rendered="#{summaryBean.downloadOptionAllowed()}"
+                                         process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
 
                         <p:commandButton class="cancel-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>

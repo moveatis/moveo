@@ -36,7 +36,7 @@ and open the template in the editor.
                     </p:submenu>
 
                     <p:submenu icon="fa fa-cogs">
-                        <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/app/info/index.xhtml"/>
+                        <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/info/index.xhtml"/>
                         <p:submenu label="#{msg.head_langSet}" icon="fa fa-language">
                             <p:menuitem value="#{msg.head_langFi}" icon="fa fa-flag-o" actionListener="#{sessionBean.setLocale('fi')}" ajax="false" />
                             <p:menuitem value="#{msg.head_langEn}" icon="fa fa-flag-checkered" actionListener="#{sessionBean.setLocale('en')}" ajax="false" />
@@ -55,7 +55,7 @@ and open the template in the editor.
                 <h:form class="ui-fluid">
                     <p:inputText id="userName" autocomplete="off" value="#{identityProviderLoginBean.userName}" placeholder="#{msg.head_userName}" required="true"/>
                     <p:password id="password" autocomplete="off" value="#{identityProviderLoginBean.password}" placeholder="#{msg.head_password}" required="true"/>
-                    <p:commandButton icon="ui-icon-check" value="#{msg.head_login}" action="#{identityProviderLoginBean.doIdentityProviderLogin()}" onclick="PF('dlgLogin').hide();"/>
+                    <p:commandButton icon="ui-icon-check" value="#{msg.head_login}" action="#{identityProviderLoginBean.doIdentityProviderLogin()}" onclick="PF('dlgLogin').hide(); window.onbeforeunload = null;"/>
                 </h:form>
             </p:dialog>
         </ui:composition>
