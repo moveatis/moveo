@@ -10,41 +10,47 @@
 
             <ui:define name="mainpage">
                 <div>
-                <form>
-                    <h:panelGroup  styleClass="textContentArea">
-                        <p><h3>#{msg.inf_userGuide}</h3></p>
-                        <p>
-                            <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
-                                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-                                          ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-                                          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-                                          deserunt mollit anim id est laborum."/>
-                        </p>
-                        <p>
-                            <h:outputText value="Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo 
-                                          pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh 
-                                          euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. 
-                                          Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. 
-                                          Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, 
-                                          aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl 
-                                          adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. 
-                                          Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, 
-                                          feugiat in, orci. In hac habitasse platea dictumst."/>
-                        </p>
-                        <p><br></br></p>
-                        <p><h3>#{msg.inf_credits}</h3></p>
-                        <p>
-                            <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
-                                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-                                          ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-                                          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-                                          deserunt mollit anim id est laborum."/>
-                        </p>
-                    </h:panelGroup>
-                </form>
-            </div>
+                    <form>
+                        <h:panelGroup  styleClass="textContentArea">
+                            <div>
+                                <p>
+                                    <h:outputLink value="#whatIs">
+                                        <h:outputText value="-> #{msg.inf_whatIs}"/>
+                                    </h:outputLink>
+                                </p>
+                                <p>
+                                    <h:outputLink value="#userGuide">
+                                        <h:outputText value="-> #{msg.inf_userGuide}"/>
+                                    </h:outputLink>
+                                </p>
+                                <p>
+                                    <h:outputLink value="#team">
+                                        <h:outputText value="-> #{msg.inf_credits}"/>
+                                    </h:outputLink>
+                                    <p><br></br></p>
+                                </p>
+                            </div>
+                            <div id="whatIs">
+                                <p><h3>#{msg.inf_whatIs}</h3></p>
+                                <h:outputText escape="false" value="#{msg.inf_whatIsText}"/>
+                                <p><br></br></p>
+                            </div>
+
+                            <div id="userGuide">
+                                <p><h3>#{msg.inf_userGuide}</h3></p>
+                                <h:outputText escape="false" value="#{msg.inf_userGuideText}"/>
+                                <p><br></br></p>
+                            </div>
+
+                            <div id="team">
+                                <p><h3>#{msg.inf_credits}</h3></p>
+                                <h:outputText escape="false" value="#{msg.inf_creditsText}"/>
+                            </div>
+                        </h:panelGroup>
+                    </form>
+                </div>
             </ui:define>
-            
+
         </ui:composition>
     </h:body>
 </html>
