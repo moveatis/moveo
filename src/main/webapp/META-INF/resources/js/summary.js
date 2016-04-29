@@ -49,21 +49,31 @@ var ESCAPE_KEY = 27;
 $(function () {
     var timeline = PF("timelineWdgt").getInstance();
     var growl = PF("growlWdgt");
+    var startTimeWdgt = PF("startTimeWdgt");
+    var endTimeWdgt = PF("endTimeWdgt");
     var timeframe = timeline.getVisibleChartRange();
+    var startTimePicker = $("#startTime_input");
+    var endTimePicker = $("#endTime_input");
 
     timeline.options.showCurrentTime = false; // NOTE: setting this did not work from JSF
 
     $("#total-records").text(getRecordsInTimeframe(timeline.items, timeframe).length);
     $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
-    $("#input-timeframeEnd").val(convertMsToStr(OBSERVATION_DURATION));
     updateRecordsTable(timeline, timeframe);
 
-    $("#input-timeframeStart").keyup(function () {
-        updateTimelineTimeframe(timeline, $(this));
+    // Set time select listeners and restore original dates that get reseted on event bind.
+    var startDate = startTimeWdgt.getDate();
+    var endDate = endTimeWdgt.getDate();
+    startTimePicker.timepicker("option", "onSelect", function (startTime) {
+        var error = updateTimelineTimeframe(timeline, startTime, endTimePicker.val());
+        startTimePicker.toggleClass("ui-state-error", error);
     });
-    $("#input-timeframeEnd").keyup(function () {
-        updateTimelineTimeframe(timeline, $(this));
+    endTimePicker.timepicker("option", "onSelect", function (endTime) {
+        var error = updateTimelineTimeframe(timeline, startTimePicker.val(), endTime);
+        endTimePicker.toggleClass("ui-state-error", error);
     });
+    startTimeWdgt.setDate(startDate);
+    endTimeWdgt.setDate(endDate);
 
     $("#button-zoom-in").click(function () {
         timeline.zoom(0.2, TIMELINE_BEGIN);
@@ -87,13 +97,17 @@ $(function () {
             hideMessages(timeline, growl);
         }
     });
-      
+
     $(window).on('scroll resize', function () {
         $("#timelineControls").toggleClass("bottom",
                 isBottomOfDocument($("#Footer").height()));
     });
     $("#timelineControls").toggleClass("bottom",
             isBottomOfDocument($("#Footer").height()));
+
+    window.onbeforeunload = function () {
+        return msg.dlg_confirmLeave;
+    };
 });
 
 /**
@@ -155,39 +169,38 @@ function createRecordRow(record) {
 }
 
 /*
- * Updates timeline's time frame to match the start and end time of the time frame inputs.
+ * Updates timeline's time frame to the given start and end times.
  * @param {object} timeline - The timeline component.
- * @param {object} input - jquery object of the input element.
+ * @param {string} strStart - time frame start in hh:mm:ss format
+ * @param {string} strEnd - time frame end in hh:mm:ss format
+ * @returns {boolean} - returns true on errors, false if updated successfully.
  */
-function updateTimelineTimeframe(timeline, input) {
-    var inputStart = $("#input-timeframeStart");
-    var inputEnd = $("#input-timeframeEnd");
+function updateTimelineTimeframe(timeline, strStart, strEnd) {
+    var msStart = convertStrToMs(strStart);
+    var msEnd = convertStrToMs(strEnd);
 
-    if (!inputStart.hasClass("ui-state-error") && !inputEnd.hasClass("ui-state-error")) {
-        var msStart = convertStrToMs(inputStart.val());
-        var msEnd = convertStrToMs(inputEnd.val());
-
-        // check validity of time frame
-        if (msStart >= msEnd || convertStrToMs(input.val()) > OBSERVATION_DURATION) {
-            input.addClass("ui-state-error");
-            return;
-        }
-
-        if (msStart) {
-            timeline.options.min = new Date(TIMELINE_BEGIN.getTime() + msStart);
-        } else {
-            timeline.options.min = TIMELINE_BEGIN;
-        }
-
-        if (msEnd) {
-            timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + msEnd);
-        } else {
-            timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + OBSERVATION_DURATION * 1.1);
-        }
-
-        timeline.setVisibleChartRangeAuto();
-        updateRecordsTable(timeline, timeline.getVisibleChartRange());
+    // check the validity of time frame
+    if (msStart >= msEnd
+            || msStart > OBSERVATION_DURATION
+            || msEnd > OBSERVATION_DURATION) {
+        return true;
     }
+
+    if (msStart) {
+        timeline.options.min = new Date(TIMELINE_BEGIN.getTime() + msStart);
+    } else {
+        timeline.options.min = TIMELINE_BEGIN;
+    }
+
+    if (msEnd) {
+        timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + msEnd);
+    } else {
+        timeline.options.max = new Date(TIMELINE_BEGIN.getTime() + OBSERVATION_DURATION * 1.1);
+    }
+
+    timeline.setVisibleChartRangeAuto();
+    updateRecordsTable(timeline, timeline.getVisibleChartRange());
+    return false;
 }
 
 /*

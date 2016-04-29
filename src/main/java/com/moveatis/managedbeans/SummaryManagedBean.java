@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.SortedSet;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -63,10 +64,15 @@ public class SummaryManagedBean {
     private final long zoomMin;
     private final long zoomMax;
     private Date max;
+    private Date duration;
 
     private ObservationEntity observation;
 
-    private String saveOption;
+    private String selectedOption;
+    private final String MAIL_OPTION;
+    private final String SAVE_OPTION;
+    private final String DOWNLOAD_OPTION;
+
 
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
@@ -91,7 +97,10 @@ public class SummaryManagedBean {
         this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
-        this.saveOption = "save";
+        this.DOWNLOAD_OPTION = "download";
+        this.SAVE_OPTION = "save";
+        this.MAIL_OPTION = "mail";
+        this.selectedOption = "";
     }
 
     /**
@@ -100,6 +109,7 @@ public class SummaryManagedBean {
     @PostConstruct
     protected void initialize() {
         createTimeline();
+        setDefaultSaveOption();
     }
 
     /**
@@ -128,6 +138,10 @@ public class SummaryManagedBean {
      */
     public Date getMax() {
         return max;
+    }
+
+    public Date getDuration() {
+        return duration;
     }
 
     /**
@@ -165,12 +179,12 @@ public class SummaryManagedBean {
         this.observation = observation;
     }
 
-    public String getSaveOption() {
-        return saveOption;
+    public String getSelectedOption() {
+        return selectedOption;
     }
 
-    public void setSaveOption(String saveOption) {
-        this.saveOption = saveOption;
+    public void setSelectedOption(String selectedOption) {
+        this.selectedOption = selectedOption;
     }
 
     /**
@@ -202,7 +216,8 @@ public class SummaryManagedBean {
         LOGGER.debug("Records-size ->" + records.size());
         //List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
 
-        this.max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
+        duration = new Date(observation.getDuration());
+        max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
 
         // Add categories to timeline as timelinegroups
         int categoryNumber = 1;
@@ -233,31 +248,49 @@ public class SummaryManagedBean {
         }
     }
 
-    public void saveCurrentObservation() {
-        observationEJB.edit(observation);
+    public void saveCurrentObservation(ActionEvent event) {
+        if (observationEJB.find(observation.getId()) != null) {
+            // Edit existing observation
+            observationEJB.edit(observation);
+        } else {
+            // Save as a new observation
+            observationEJB.create(observation);
+        }
     }
 
-    public void sendCurrentObservation() {
+    public void sendCurrentObservation(ActionEvent event) {
         // TODO: call mail backing bean
     }
 
-    public void downloadCurrentObservation() {
+    public void downloadCurrentObservation(ActionEvent event) {
         // TODO: call file download backing bean
     }
 
     public void saveOptionChangeListener(ValueChangeEvent event) {
-        this.saveOption = (String) event.getNewValue();
+        this.selectedOption = (String) event.getNewValue();
     }
 
-    public boolean sendOptionSelected() {
-        return this.saveOption.equals("mail");
+    public boolean sendOptionAllowed() {
+        return this.selectedOption.equals(MAIL_OPTION) && sessionBean.isIdentifiedUser();
     }
 
-    public boolean saveOptionSelected() {
-        return this.saveOption.equals("save");
+    public boolean saveOptionAllowed() {
+        return this.selectedOption.equals(SAVE_OPTION) && sessionBean.isIdentifiedUser();
     }
 
-    public boolean downloadOptionSelected() {
-        return this.saveOption.equals("download");
+    public boolean downloadOptionAllowed() {
+        return this.selectedOption.equals(DOWNLOAD_OPTION) && sessionBean.isLoggedIn();
+    }
+
+    public boolean isSaveOptionAllowed() {
+        return downloadOptionAllowed() || saveOptionAllowed() || sendOptionAllowed();
+    }
+
+    private void setDefaultSaveOption() {
+        if (sessionBean.isIdentifiedUser()) {
+            this.selectedOption = MAIL_OPTION;
+        } else {
+            this.selectedOption = DOWNLOAD_OPTION;
+        }
     }
 }

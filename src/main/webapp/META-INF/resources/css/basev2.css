@@ -181,8 +181,7 @@ a:hover {text-decoration: none; color: white;}
     max-width: 24em;
 }
 
-.ui-dialog-content > form > * {
-    margin-top: .2em;
+.ui-dialog-content > form input {
     margin-bottom: .3em;
 }
 
@@ -190,8 +189,8 @@ a:hover {text-decoration: none; color: white;}
     border-width: 2px;
 }
 
-.ui-dialog-content > form > .cancel-button,
-.ui-dialog-content > form > .save-button {
+.ui-dialog-content > form .cancel-button,
+.ui-dialog-content > form .save-button {
     display: inline-block;
     width: auto;
     float: right;
