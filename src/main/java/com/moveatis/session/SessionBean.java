@@ -33,8 +33,10 @@ import com.moveatis.enums.SessionStatus;
 import com.moveatis.enums.UserType;
 import com.moveatis.event.EventEntity;
 import com.moveatis.interfaces.Application;
+import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
 import com.moveatis.interfaces.User;
+import com.moveatis.observation.ObservationEntity;
 import com.moveatis.timezone.TimeZoneInformation;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
@@ -47,6 +49,7 @@ import java.util.TreeSet;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +70,9 @@ public class SessionBean implements Serializable, Session  {
     
     @EJB
     private User userEJB;
+    
+    @Inject
+    private Observation observationEJB;
 
     private UserType userType;
     private String tag;
@@ -210,5 +216,15 @@ public class SessionBean implements Serializable, Session  {
         boolean result = (viewId.equals("/app/observer/index.xhtml"));
         LOGGER.debug("isBackToCatEdAvailable(): " + viewId + " -> " + result);
         return result;
+    }
+    
+    @Override
+    public ObservationEntity getLastObservation() {
+        if (sessionObservations == null || sessionObservations.isEmpty()) {
+            return null;
+        }
+        
+        Long observationId = sessionObservations.last();
+        return observationEJB.find(observationId);
     }
 }

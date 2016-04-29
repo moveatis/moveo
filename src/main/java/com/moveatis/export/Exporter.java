@@ -29,18 +29,19 @@
  */
 package com.moveatis.export;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import com.moveatis.interfaces.Session;
+import com.moveatis.observation.ObservationEntity;
 import java.io.IOException;
 import java.io.OutputStream;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -48,6 +49,11 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/exporter")
 public class Exporter extends HttpServlet {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSVFileBuilder.class);
+    
+    @Inject
+    private Session sessionBean;
     
     private final String fileName = "testi.csv";
     
@@ -59,25 +65,23 @@ public class Exporter extends HttpServlet {
         
         OutputStream outputStream = response.getOutputStream();
         
-        try (FileInputStream inputStream = new FileInputStream(constructFile(fileName))) {
-            byte[] buffer = new byte[4096];
-            int length;
-            
-            while((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
+//        SessionBean sessionBean = (SessionBean)session.getAttribute("sessionBean");
+        
+        if (sessionBean == null) {
+            LOGGER.debug("session bean is null!");
+            return;
         }
+        
+        ObservationEntity obs = sessionBean.getLastObservation();
+
+        if (obs == null) {
+            LOGGER.debug("observation is null!");
+            return;
+        }
+        
+        CSVFileBuilder csv = new CSVFileBuilder();
+        csv.buildCSV(outputStream, obs, ",");
         outputStream.flush();
-    }
-    
-    private File constructFile(String fileName) throws IOException {
-        File f = new File(fileName);
-        
-        try (FileWriter fw = new FileWriter(f); BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write("Diipa,Daapa,Duupa,Wuupa,Wuu");
-        }
-        
-        return f;
     }
 
     /**

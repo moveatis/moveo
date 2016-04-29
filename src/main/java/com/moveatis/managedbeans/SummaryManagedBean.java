@@ -29,7 +29,6 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
 import com.moveatis.observation.ObservationEntity;
@@ -207,15 +206,6 @@ public class SummaryManagedBean {
         Long observationId = observations.last();
 
         observation = observationEJB.find(observationId);
-        
-        //
-        //
-        // TODO: This is only for testing csv builder. Remove.
-        CSVFileBuilder csv = new CSVFileBuilder();
-        csv.printCSV(observation);
-        //
-        //
-        //
 
         List<RecordEntity> records = observationEJB.findRecords(observationId);
         LOGGER.debug("Records-size ->" + records.size());

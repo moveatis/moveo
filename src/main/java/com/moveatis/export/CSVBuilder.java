@@ -29,56 +29,64 @@
  */
 package com.moveatis.export;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 /**
  *
  * @author ilkrpaan
  */
 public class CSVBuilder {
-    private StringBuilder sb;
+    private OutputStreamWriter out;
     private String sep;
     private boolean atLineBegin;
 
-    public CSVBuilder(String separator) {
-        sb = new StringBuilder();
+    public CSVBuilder(OutputStream output, String separator) {
+        out = new OutputStreamWriter(output);
         sep = separator;
         atLineBegin = true;
     }
 
-    private void addSep() {
-        if (atLineBegin)
-            atLineBegin = false;
-        else
-            sb.append(sep);
-    }
-
-    public CSVBuilder add(long value) {
-        addSep();
-        sb.append(value);
+    public CSVBuilder add(Long value) throws IOException {
+        writeSep();
+        write(value.toString());
         return this;
     }
     
-    public CSVBuilder addPercent(long value) {
-        add(value);
-        sb.append("%");
+    public CSVBuilder addPercent(Long value) throws IOException {
+        writeSep();
+        write(value + "%");
         return this;
     }
 
-    public CSVBuilder add(String value) {
-        addSep();
-        sb.append('"');
+    public CSVBuilder add(String value) throws IOException {
+        writeSep();
         if (value != null)
-            sb.append(value.replace("\"", "\"\""));
-        sb.append('"');
+            write('"' + value.replace("\"", "\"\"") + '"');
+        else
+            write("\"\"");
         return this;
     }
 
-    public CSVBuilder newLine() {
-        sb.append("\n"); // TODO: System.lineSeparator() or user's system line separator?
+    public CSVBuilder newLine() throws IOException {
+        write("\n"); // TODO: System.lineSeparator() or user's system line separator?
         atLineBegin = true;
         return this;
     }
+    
+    public void close() throws IOException {
+        out.close();
+    }
+    
+    private void write(String s) throws IOException {
+        out.write(s);
+    }
 
-    public String getCSV() {
-        return sb.toString();
+    private void writeSep() throws IOException {
+        if (atLineBegin)
+            atLineBegin = false;
+        else
+            write(sep);
     }
 }

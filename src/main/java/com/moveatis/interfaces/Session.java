@@ -31,6 +31,7 @@ package com.moveatis.interfaces;
 
 import com.moveatis.enums.SessionStatus;
 import com.moveatis.event.EventEntity;
+import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
@@ -59,5 +60,7 @@ public interface Session {
     public void setSessionTimeZone(TimeZone timeZone);
     public void setEventEntityForNewObservation(EventEntity eventEntity);
     public EventEntity getEventEntityForNewObservation();
+    
+    public ObservationEntity getLastObservation();
 
 }

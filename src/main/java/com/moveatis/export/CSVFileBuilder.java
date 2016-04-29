@@ -30,9 +30,10 @@
 package com.moveatis.export;
 
 import com.moveatis.category.CategoryEntity;
-import com.moveatis.label.LabelEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -55,23 +56,14 @@ public class CSVFileBuilder {
         
     }
     
-    public void printDummyCSV() {
-        printCSV(dummyObservation());
-    }
-    
-    public void printCSV(ObservationEntity obs) {
-        CSVBuilder csv = buildCSV(obs, ",");
-        LOGGER.debug("csv:\n" + csv.getCSV());
-    }
-    
-    private CSVBuilder buildCSV(ObservationEntity obs, String separator) {
+    public void buildCSV(OutputStream out, ObservationEntity obs, String separator) throws IOException {
         
         Long obsDuration = obs.getDuration();
         Map<CategoryEntity, CountAndDuration> countsAndDurations =
                 computeCountsAndDurations(obs);
         List<RecordEntity> records = obs.getRecords();
         
-        CSVBuilder csv = new CSVBuilder(separator);
+        CSVBuilder csv = new CSVBuilder(out, separator);
         
         csv.add("Attribute").add("Value").newLine();
         
@@ -104,7 +96,7 @@ public class CSVFileBuilder {
             csv.add(category).add(startTime).add(endTime).add(endTime - startTime).newLine();
         }
         
-        return csv;
+        csv.close();
     }
     
     private Map<CategoryEntity, CountAndDuration> computeCountsAndDurations(ObservationEntity obs) {
@@ -149,54 +141,5 @@ public class CSVFileBuilder {
     private class CountAndDuration {
         public long count = 0;
         public long duration = 0;
-    }
-    
-    
-    //
-    // Dummy data
-    //
-    
-    private CategoryEntity dummyCategory(String name, long id) {
-        LabelEntity label = new LabelEntity();
-        label.setLabel(name);
-        CategoryEntity category = new CategoryEntity();
-        category.setId(id);
-        category.setLabel(label);
-        return category;
-    }
-    
-    private RecordEntity dummyRecord(CategoryEntity category, long startTime, long endTime) {
-        RecordEntity record = new RecordEntity();
-        record.setCategory(category);
-        record.setStartTime(startTime);
-        record.setEndTime(endTime);
-        return record;
-    }
-    
-    private long seconds(long s) {
-        return s * 1000;
-    }
-    
-    private ObservationEntity dummyObservation() {
-        CategoryEntity organizing = dummyCategory("Organizing", 1);
-        CategoryEntity givesInstructions = dummyCategory("Gives instructions", 2);
-        CategoryEntity observes = dummyCategory("Observes", 6);
-        CategoryEntity givesFeedback = dummyCategory("Gives feedback", 5);
-        
-        ObservationEntity obs = new ObservationEntity();
-        
-        obs.setName("Dummy Observation");
-        obs.setTarget("John");
-        obs.setDescription("Observed John teaching other students.");
-        obs.setDuration(seconds(245));
-        
-        obs.addRecord(dummyRecord(organizing, seconds(5), seconds(27)));
-        obs.addRecord(dummyRecord(givesInstructions, seconds(30), seconds(66)));
-        obs.addRecord(dummyRecord(observes, seconds(66), seconds(134)));
-        obs.addRecord(dummyRecord(givesFeedback, seconds(135), seconds(143)));
-        obs.addRecord(dummyRecord(observes, seconds(145), seconds(186)));
-        obs.addRecord(dummyRecord(givesFeedback, seconds(189), seconds(241)));
-        
-        return obs;
     }
 }
