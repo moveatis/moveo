@@ -66,7 +66,8 @@ public class CSVBuilder {
     public CSVBuilder add(String value) {
         addSep();
         sb.append('"');
-        sb.append(value.replace("\"", "\"\""));
+        if (value != null)
+            sb.append(value.replace("\"", "\"\""));
         sb.append('"');
         return this;
     }

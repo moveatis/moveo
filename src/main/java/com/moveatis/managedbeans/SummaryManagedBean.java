@@ -207,14 +207,19 @@ public class SummaryManagedBean {
 
         observation = observationEJB.find(observationId);
         
+        //
+        //
+        // TODO: This is only for testing csv builder. Remove.
         CSVFileBuilder csv = new CSVFileBuilder();
-//        csv.printCSV(observation); // Doesn't work... maybe records etc. need to be get from EJB?
-        csv.printDummyCSV(); // Print some dummy csv data.
+        csv.printCSV(observation);
+        //
+        //
+        //
 
         List<RecordEntity> records = observationEJB.findRecords(observationId);
         LOGGER.debug("Records-size ->" + records.size());
         //List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
-
+        
         duration = new Date(observation.getDuration());
         max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
 

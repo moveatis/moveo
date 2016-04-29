@@ -48,6 +48,9 @@ public class CSVFileBuilder {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(CSVFileBuilder.class);
     
+    private long totalCount;
+    private long totalDuration;
+    
     public CSVFileBuilder() {
         
     }
@@ -76,16 +79,17 @@ public class CSVFileBuilder {
         csv.add("target").add(obs.getTarget()).newLine();
         csv.add("description").add(obs.getDescription()).newLine();
         csv.add("duration (ms)").add(obsDuration).newLine();
+        csv.add("records").add(totalCount).newLine();
         
         csv.newLine();
         
-        csv.add("Category").add("Count").add("Count %").add("Duration").add("Duration %").newLine();
+        csv.add("Category").add("Count").add("Count %").add("Duration (ms)").add("Duration %").newLine();
         
         for (Map.Entry<CategoryEntity, CountAndDuration> entry : countsAndDurations.entrySet()) {
             String category = entry.getKey().getLabel().getLabel();
             CountAndDuration cnd = entry.getValue();
-            long countPercent = 0; // TODO: Compute.
-            long durationPercent = (long)(cnd.duration * 100.0 / obsDuration);
+            long countPercent = (long)(cnd.count * 100.0 / totalCount + 0.5);
+            long durationPercent = (long)(cnd.duration * 100.0 / obsDuration + 0.5);
             csv.add(category).add(cnd.count).addPercent(countPercent).add(cnd.duration).addPercent(durationPercent).newLine();
         }
         
@@ -119,6 +123,9 @@ public class CSVFileBuilder {
         
         List<RecordEntity> records = obs.getRecords();
         
+        totalCount = 0;
+        totalDuration = 0; // NOTE: Not used anywhere.
+        
         for (RecordEntity record : records) {
             CategoryEntity category = record.getCategory();
             Long deltaTime = record.getEndTime() - record.getStartTime();
@@ -131,6 +138,9 @@ public class CSVFileBuilder {
             
             cnd.count += 1;
             cnd.duration += deltaTime;
+            
+            totalCount += 1;
+            totalDuration += deltaTime;
         }
         
         return countsAndDurations;
