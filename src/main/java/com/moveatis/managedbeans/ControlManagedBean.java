@@ -161,7 +161,7 @@ public class ControlManagedBean implements Serializable {
                             ));
                     
                     subMenuEventGroup.addElement(
-                            createMenuItem(messages.getString("con_edit"), "fa fa-edit",
+                            createMenuItem(messages.getString("dlg_edit"), "fa fa-edit",
                                     "PF('dlgEditCategorySet').show();",
                                     "#{controlManagedBean.setSelectedCategorySet}", 
                                     "categorySetId",Long.toString(categorySet.getId()),
@@ -175,8 +175,8 @@ public class ControlManagedBean implements Serializable {
                         DefaultSubMenu subMenuCategory = new DefaultSubMenu(categoryEntity.getLabel().getLabel());
                         
                         subMenuCategorySet.addElement(
-                            createMenuItem(messages.getString("con_edit"), "fa fa-edit",
-                                    "PF('dlgEditCategory').show();",
+                                createMenuItem(messages.getString("dlg_edit"), "fa fa-edit",
+                                        "PF('dlgEditCategory').show();",
                                     "#{controlManagedBean.setSelectedCategory}", 
                                     "categoryId", Long.toString(categorySet.getId()),
                                     ":form-editEvent", "edit-menuItem"
@@ -193,7 +193,7 @@ public class ControlManagedBean implements Serializable {
                                     "eventId", Long.toString(event.getId()), 
                                     null, null));
                     subMenuEventGroup.addElement(
-                            createMenuItem(messages.getString("con_edit"), "fa fa-edit",
+                            createMenuItem(messages.getString("dlg_edit"), "fa fa-edit",
                                     "PF('dlgEditEvent').show();",
                                     "#{controlManagedBean.setSelectedEvent}",
                                     "eventId", Long.toString(event.getId()),
@@ -213,7 +213,7 @@ public class ControlManagedBean implements Serializable {
                                 "eventGroupId", Long.toString(eventGroup.getId()),
                                 null, null));
                 menuEventGroups.addElement(
-                        createMenuItem(messages.getString("con_edit"), "fa fa-edit",
+                        createMenuItem(messages.getString("dlg_edit"), "fa fa-edit",
                                 "PF('dlgEditEventGroup').show();",
                                 "#{controlManagedBean.setSelectedEventGroup}",
                                 "eventGroupId", Long.toString(eventGroup.getId()),
