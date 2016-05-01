@@ -51,6 +51,8 @@ public interface Session {
     public SessionStatus setAnonymityUser();
     public boolean isLoggedIn();
     public boolean isIdentifiedUser();
+    public boolean isAnonymityUser();
+    public boolean isTagUser();
     public boolean isSaveable();
     public SortedSet<Long> getSessionObservationsIds();
     public void setSessionObservations(SortedSet<Long> observationsIds);
@@ -60,7 +62,9 @@ public interface Session {
     public void setSessionTimeZone(TimeZone timeZone);
     public void setEventEntityForNewObservation(EventEntity eventEntity);
     public EventEntity getEventEntityForNewObservation();
-    
+    public Boolean getIsEventEntityForObservationSet();
+    public Boolean getIsLocalhost();
+    public void setReturnUri(String uri);
+    public String getReturnUri();
     public ObservationEntity getLastObservation();
-
 }

@@ -37,8 +37,8 @@ import com.moveatis.interfaces.Label;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -106,10 +106,12 @@ public class CategoryManagedBean implements Serializable {
         CategoryEntity categoryEntity = new CategoryEntity();
         
         LabelEntity labelEntity = labelEJB.findByLabel(label);
+        
         if(labelEntity == null) {
             labelEntity = new LabelEntity();
             labelEntity.setLabel(label);
-        }
+            labelEJB.create(labelEntity);
+        } 
         
         categoryEntity.setLabel(labelEntity);
         categoryEntity.setCategorySet(categorySetEntity);
@@ -117,12 +119,16 @@ public class CategoryManagedBean implements Serializable {
         categoryEntity.setCanOverlap(canOverlap);
         categoryEntity.setDescription(description);
         
-        Set<CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+        Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+        
         if(categories == null) {
-            categories = new TreeSet<>(); //TODO: Comparable to keep ordering, eg. alphabetically?
+            categories = new TreeMap<>(); 
         }
         
-        categories.add(categoryEntity);
+        Integer orderNumber = categories.size();
+        
+        categories.put(orderNumber, categoryEntity);
+        categoryEntity.setOrderNumber(orderNumber);
         categorySetEntity.setCategoryEntitys(categories);
         
         categoryEJB.create(categoryEntity);

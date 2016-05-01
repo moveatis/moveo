@@ -30,20 +30,13 @@
 
 package com.moveatis.identityprovider;
 
-import com.moveatis.application.InstallationBean;
-import com.moveatis.enums.ApplicationStatusCode;
-import com.moveatis.helpers.PasswordHashGenerator;
-import com.moveatis.interfaces.Role;
-import com.moveatis.interfaces.Session;
-import com.moveatis.interfaces.User;
 import com.moveatis.user.IdentifiedUserEntity;
+import java.io.IOException;
 import java.io.Serializable;
-import java.security.SecureRandom;
-import java.util.Calendar;
-import java.util.Random;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
-import javax.inject.Inject;
 
 /**
  *
@@ -54,94 +47,25 @@ import javax.inject.Inject;
 public class IdentityProviderRegistrationBean implements IdentityProvider, Serializable {
     
     private static final long serialVersionUID = 1L;
-    
-    private String username;
-    private String password;
 
+    private static final String REDIRECT_SECURE_URI="https://moveatis.sport.jyu.fi/secure";
+    
     private IdentifiedUserEntity userEntity;
     private IdentityProviderInformationEntity identityProviderInformationEntity;
-    
-    @Inject
-    private Role roleBean;
-    
-    @Inject
-    private User userBean;
-    
-    @Inject
-    private InstallationBean installationBean;
-    
-    @Inject
-    private Session sessionEJB;
+
     
     public IdentityProviderRegistrationBean() {
             
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
     
-    public String registerSuperUser() {
+    public void registerSuperUser(ActionEvent actionEvent) {
         
-        userEntity = new IdentifiedUserEntity();
-        identityProviderInformationEntity = new IdentityProviderInformationEntity();
-        identityProviderInformationEntity = setPasswordHash(identityProviderInformationEntity);
-        identityProviderInformationEntity.setUsername(username);
-        
-        userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
-        
-        userEntity.setCreated(Calendar.getInstance().getTime());
-        identityProviderInformationEntity.setUserEntity(userEntity);
-        userBean.create(userEntity);
-        roleBean.addSuperuserRoleToUser(userEntity);
-        
-        sessionEJB.setIdentityProviderUser(userEntity);
-        
-        if(installationBean.createApplication() == ApplicationStatusCode.INSTALLATION_OK) {
-            return "success";
-        } else {
-            return "failed";
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(REDIRECT_SECURE_URI);
+        } catch (IOException ex) {
+            
         }
     }
-    
-    private IdentityProviderInformationEntity setPasswordHash(IdentityProviderInformationEntity entity) {
-        entity.setIterations(generateIterations());
-        byte[] salt = generateSalt();
-        entity.setSalt(salt);
-        
-        byte[] passwordHash = hashPassword(password.toCharArray(), entity.getSalt(), entity.getIterations());
-        entity.setPasswordHash(passwordHash);
-
-        return entity;
-    }
-    
-    private byte[] generateSalt() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] salt = new byte[48];
-        secureRandom.nextBytes(salt);
-        return salt;
-    }
-    
-    private int generateIterations() {
-        Random random = new Random();
-        return random.nextInt(16) + 5;
-    }
-    
-    private byte[] hashPassword( final char[] password, final byte[] salt, final int iterations) {
-        return PasswordHashGenerator.hashPassword(password, salt, iterations);
-   }
 
     @Override
     public IdentifiedUserEntity getIdentifiedUserEntity() {

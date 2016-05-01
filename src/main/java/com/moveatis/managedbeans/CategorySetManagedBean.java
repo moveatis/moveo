@@ -35,8 +35,8 @@ import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Session;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -99,7 +99,7 @@ public class CategorySetManagedBean implements Serializable {
         Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
 
         if(categorySets == null) {
-            categorySets = new HashSet<>();
+            categorySets = new TreeSet<>();
         }
 
         categorySets.add(categorySetEntity);

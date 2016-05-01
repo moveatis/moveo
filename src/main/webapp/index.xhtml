@@ -14,8 +14,8 @@
                             <div class="accessButtons" style="min-height: 200px;">
                                 <p:commandButton value="#{msg.fp_tagUserButton}" onclick="PF('dlg1').show();" style="width: 200px; margin-top: 15px"
                                                  class="coloredButton"/>
-                                <p:commandButton value="#{msg.fp_identifiedUserButton}" onclick="PF('dlgLogin').show();" style="width: 200px; margin-top: 15px"
-                                                 class="coloredButton" />
+                                <p:commandButton value="#{msg.fp_identifiedUserButton}" style="width: 200px; margin-top: 15px"
+                                                 class="coloredButton" actionListener="#{loginBean.doIdentityLogin}" />
                                 <p:commandButton value="#{msg.fp_anonUserButton}" style="width: 200px; margin-top: 15px"
                                                  class="coloredButton" action="#{loginBean.doAnonymityLogin()}"/>
                             </div>
@@ -50,10 +50,11 @@
                     </p>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{!applicationManagedBean.installed}" style="margin-top: 10em;">
-                    <h:outputText value="#{msg.installationHelp} "/>
-                    <h:outputLink value="install.xhtml" style="text-decoration: underline;">
-                        <h:outputText value="#{msg.installationLink}"/>
-                    </h:outputLink>
+                    <h:form>
+                        <h:outputText value="#{msg.installationHelp} "/>
+                        <h:commandLink value="#{msg.installationLink}" style="text-decoration: underline;"
+                                       action="#{applicationManagedBean.doInstall}"/>
+                    </h:form>
                 </h:panelGroup>
             </ui:define>
         </ui:composition>

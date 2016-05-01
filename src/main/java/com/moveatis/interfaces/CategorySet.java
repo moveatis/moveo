@@ -31,6 +31,7 @@ package com.moveatis.interfaces;
 
 import com.moveatis.category.CategorySetEntity;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Local;
 
 /**
@@ -51,6 +52,8 @@ public interface CategorySet {
     List<CategorySetEntity> findAll();
     
     List<CategorySetEntity> findRange(int[] range);
+    
+    Set<CategorySetEntity> findPublicCatagorySets();
 
     int count();
     

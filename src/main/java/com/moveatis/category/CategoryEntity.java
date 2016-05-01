@@ -32,8 +32,8 @@ package com.moveatis.category;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
 import java.util.Date;
-import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
+import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,13 +61,15 @@ public class CategoryEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date created;
     
-    @ManyToOne(cascade=PERSIST)
+    @ManyToOne(fetch=EAGER)
     private LabelEntity label;
     
     private String description;
     
     @ManyToOne
     private CategorySetEntity categorySet;
+    
+    private Integer orderNumber;
     
     private Boolean canOverlap;
 
@@ -86,7 +88,7 @@ public class CategoryEntity implements Serializable {
     public void setCreated(Date created) {
         this.created = created;
     }
-
+    
     public LabelEntity getLabel() {
         return label;
     }
@@ -117,6 +119,14 @@ public class CategoryEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     @Override

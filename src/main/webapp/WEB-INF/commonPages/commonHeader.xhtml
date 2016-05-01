@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html
     xmlns="http://www.w3.org/1999/xhtml"
@@ -32,7 +27,10 @@ and open the template in the editor.
                     </p:submenu>
 
                     <p:submenu icon="fa fa-lock" rendered="#{!sessionBean.isIdentifiedUser()}">
-                        <p:menuitem value="#{msg.head_login}" icon="fa fa-sign-in"  onclick="PF('dlgLogin').show();"/>
+                        <p:menuitem value="#{msg.head_login}" icon="fa fa-sign-in"
+                                    actionListener="#{loginBean.doIdentityLogin}">
+                            <f:param name="view" value="#{view.viewId}"/>
+                        </p:menuitem>
                     </p:submenu>
 
                     <p:submenu icon="fa fa-cogs">
@@ -48,16 +46,6 @@ and open the template in the editor.
                     </p:submenu>
                 </p:menubar>
             </h:form>
-
-            <p:dialog header="#{msg.head_loginTitle}" widgetVar="dlgLogin" minHeight="80" position="top"
-                      draggable="false" resizable="false" responsive="true" modal="true" fitViewport="true"
-                      class="coloredButton">
-                <h:form class="ui-fluid">
-                    <p:inputText id="userName" autocomplete="off" value="#{identityProviderLoginBean.userName}" placeholder="#{msg.head_userName}" required="true"/>
-                    <p:password id="password" autocomplete="off" value="#{identityProviderLoginBean.password}" placeholder="#{msg.head_password}" required="true"/>
-                    <p:commandButton icon="ui-icon-check" value="#{msg.head_login}" action="#{identityProviderLoginBean.doIdentityProviderLogin()}" onclick="PF('dlgLogin').hide(); window.onbeforeunload = null;"/>
-                </h:form>
-            </p:dialog>
         </ui:composition>
     </body>
 </html>

@@ -33,14 +33,20 @@ import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.GroupKey;
 import com.moveatis.interfaces.Session;
 import com.moveatis.interfaces.TagUser;
-import com.moveatis.session.SessionBean;
 import com.moveatis.user.TagUserEntity;
+import java.io.IOException;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.primefaces.component.menuitem.UIMenuItem;
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +60,10 @@ import org.slf4j.LoggerFactory;
 public class LoginManagedBean {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginManagedBean.class);
+    private static final String REDIRECT_SECURE_URI = "https://moveatis.sport.jyu.fi/secure";
+    private static final String LOCALHOST_REDIRECT_SECURE_URI = "http://localhost:8080/lotas/jyutesting/";
+    private static final String DEFAULT_URI = "https://moveatis.sport.jyu.fi/lotas";
+    private static final String LOCALHOST_DEFAULT_URI = "http://localhost:8080/lotas";
     
     @ManagedProperty("#{msg}")
     private ResourceBundle messages;
@@ -116,13 +126,39 @@ public class LoginManagedBean {
         sessionBean.setAnonymityUser();
         return "anonymityuser";
     }
-
-    public Session getSessionBean() {
-        return sessionBean;
-    }
-
-    public void setSessionBean(SessionBean sessionBean) {
-        this.sessionBean = sessionBean;
+    
+    public void doIdentityLogin(ActionEvent actionEvent) {
+        
+        String secureRedirectUri, defaultUri;
+        
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if(session == null) {
+            LOGGER.debug("Sessio oli null");
+        } else {
+            LOGGER.debug("Sessio ei ollut null");
+        }
+        
+        if(((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+                .getRequestURL().toString().contains("localhost")) {
+            secureRedirectUri = LOCALHOST_REDIRECT_SECURE_URI;
+            defaultUri = LOCALHOST_DEFAULT_URI;
+        } else {
+            secureRedirectUri = REDIRECT_SECURE_URI;
+            defaultUri = DEFAULT_URI;
+        }
+        try {
+            Object source = actionEvent.getSource();
+            if(source instanceof UIMenuItem) {
+                // Clicked in menu so we need to redirect to page where user clicked login
+                Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+                sessionBean.setReturnUri(defaultUri + params.get("view"));
+                LOGGER.debug("Return uri set to -> " + sessionBean.getReturnUri());
+            }
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect(secureRedirectUri);
+        } catch (IOException ex) {
+            LOGGER.debug("Virhe -> " + ex.toString());
+        }
     }
 
     public ResourceBundle getMessages() {

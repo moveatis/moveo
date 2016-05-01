@@ -170,7 +170,7 @@ public class ControlManagedBean implements Serializable {
 
                     subMenuEventGroup.addElement(subMenuCategorySet);
                     
-                    for(CategoryEntity categoryEntity : categorySet.getCategoryEntitys()) {
+                    for(CategoryEntity categoryEntity : categorySet.getCategoryEntitys().values()) {
                         
                         DefaultSubMenu subMenuCategory = new DefaultSubMenu(categoryEntity.getLabel().getLabel());
                         

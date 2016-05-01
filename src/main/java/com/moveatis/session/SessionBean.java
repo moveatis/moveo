@@ -46,11 +46,14 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,6 +91,11 @@ public class SessionBean implements Serializable, Session  {
     private boolean loggedIn = false;
     private boolean identifiedUser = false;
     private boolean saveable = false;
+    
+    private Boolean isLocalhost;
+    private Boolean eventEntityForObservationSet;
+    
+    private String returnUri;
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
     private Locale locale;
@@ -189,6 +197,8 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public void setEventEntityForNewObservation(EventEntity eventEntity) {
         this.eventEntityForNewObservation = eventEntity;
+        this.eventEntityForObservationSet = true;
+        LOGGER.debug("eventEntity set");
     }
 
     @Override
@@ -207,15 +217,50 @@ public class SessionBean implements Serializable, Session  {
     public boolean isResetObsAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
-        LOGGER.debug("isResetObsAvailable(): " + viewId + " -> " + result);
+        //LOGGER.debug("isResetObsAvailable(): " + viewId + " -> " + result);
         return result;
     }
     
     public boolean isBackToCatEdAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml"));
-        LOGGER.debug("isBackToCatEdAvailable(): " + viewId + " -> " + result);
+        //LOGGER.debug("isBackToCatEdAvailable(): " + viewId + " -> " + result);
         return result;
+    }
+
+    @Override
+    public Boolean getIsLocalhost() {
+        isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+                .getRequestURL().toString().contains("localhost");
+        return isLocalhost;
+    }
+
+    @Override
+    public String getReturnUri() {
+        return returnUri;
+    }
+
+    @Override
+    public void setReturnUri(String returnUri) {
+        this.returnUri = returnUri;
+    }
+    
+    @Override
+    public boolean isAnonymityUser() {
+        return userType == UserType.ANONYMITY_USER;
+    }
+
+    @Override
+    public boolean isTagUser() {
+        return userType == UserType.TAG_USER;
+    }
+
+    @Override
+    public Boolean getIsEventEntityForObservationSet() {
+        if(this.eventEntityForObservationSet != null) {
+            LOGGER.debug("this.eventEntityForObservationSet -> " + Boolean.toString(this.eventEntityForObservationSet));
+        } 
+        return this.eventEntityForObservationSet;
     }
     
     @Override

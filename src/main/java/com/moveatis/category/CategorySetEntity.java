@@ -32,14 +32,17 @@ package com.moveatis.category;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Map;
 import static javax.persistence.CascadeType.PERSIST;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -48,7 +51,7 @@ import javax.persistence.Table;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="CATEGORYGROUP")
+@Table(name="CATEGORYSET")
 public class CategorySetEntity implements Serializable {
 
     
@@ -58,8 +61,11 @@ public class CategorySetEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany(mappedBy = "categorySet", cascade=PERSIST, fetch=EAGER)
-    private Set<CategoryEntity> categoryEntitys;
+    @OneToMany(mappedBy="categorySet", cascade=PERSIST, fetch=EAGER, targetEntity=CategoryEntity.class)
+    @CollectionTable(name="CATEGORYENTITIES")
+    @MapKey(name="orderNumber")
+    @Column(name="CATEGORYENTITY_ORDERNUMBER")
+    private Map<Integer, CategoryEntity> categoryEntitys;
 
     @ManyToOne
     private IdentifiedUserEntity creator;
@@ -78,11 +84,11 @@ public class CategorySetEntity implements Serializable {
         this.id = id;
     }
 
-    public Set<CategoryEntity> getCategoryEntitys() {
+    public Map<Integer, CategoryEntity> getCategoryEntitys() {
         return categoryEntitys;
     }
 
-    public void setCategoryEntitys(Set<CategoryEntity> categoryEntitys) {
+    public void setCategoryEntitys(Map<Integer, CategoryEntity> categoryEntitys) {
         this.categoryEntitys = categoryEntitys;
     }
 

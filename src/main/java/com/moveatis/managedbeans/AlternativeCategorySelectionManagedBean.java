@@ -29,8 +29,10 @@
  */
 package com.moveatis.managedbeans;
 
+import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
+import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Event;
@@ -83,12 +85,23 @@ public class AlternativeCategorySelectionManagedBean implements Serializable {
     @Inject @MessageBundle 
     private transient ResourceBundle messages;  
     
-    private Long selectedEventCategorySetId;
-    private EventEntity selectedEvent;
-    private Map<String, Long> eventGroupCategorySetsMap;
-    private Map<Long, Boolean> selectedCategories;
     
-    private Set<CategorySetEntity> categorySetsInUse;
+    private Long selectedOwnEventCategorySetId;
+    
+    private EventEntity selectedEvent;
+    
+    private Map<String, Long> selectedEventGroupCategorySetsMap;
+    private Map<String, Long> ownEventGroupCategorySetsMap;
+    
+    private Map<Long, Boolean> selectedOwnCategories;
+    private Map<Long, Boolean> selectedEventCategories;
+    
+    private Set<CategorySetEntity> ownCategorySetsInUse;
+    
+    private Boolean showSelectedHelpText = false;
+    private Boolean notReadyForObservation = true;
+    private String eventGroupName;
+    private String eventName;
     
     /**
      * Creates a new instance of AlternativeCategoryManagedBean
@@ -99,48 +112,54 @@ public class AlternativeCategorySelectionManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         selectedEvent = sessionBean.getEventEntityForNewObservation();
-        Set<CategorySetEntity> eventGroupCategorySets = selectedEvent.getEventGroup().getCategorySets();
-        eventGroupCategorySetsMap = new TreeMap<>();
-        for(CategorySetEntity categorySetEntity : eventGroupCategorySets) {
-            eventGroupCategorySetsMap.put(categorySetEntity.getLabel(), categorySetEntity.getId());
+        if(selectedEvent != null) {
+            Set<CategorySetEntity> publicCategorySets = categorySetEJB.findPublicCatagorySets();
+
+            Set<CategorySetEntity> eventGroupCategorySets = selectedEvent.getEventGroup().getCategorySets();
+            selectedEventGroupCategorySetsMap = fillMap(eventGroupCategorySets);
+
+            this.eventGroupName = selectedEvent.getEventGroup().getLabel();
+            this.eventName = selectedEvent.getLabel();
         }
     }
-
-    public Long getSelectedEventCategorySetId() {
-        return selectedEventCategorySetId;
+    
+    public String getEventGroupName() {
+        return this.eventGroupName;
     }
 
-    public void setSelectedEventCategorySetId(Long selectedEventCategorySetId) {
-        this.selectedEventCategorySetId = selectedEventCategorySetId;
-        LOGGER.debug("selectedEventCategorySetId -> " + selectedEventCategorySetId);
+    public void setEventGroupName(String eventGroupName) {
+        this.eventGroupName = eventGroupName;
     }
 
-    public Map<String, Long> getEventGroupCategorySetsMap() {
-        return eventGroupCategorySetsMap;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setEventGroupCategorySetsMap(Map<String, Long> eventGroupCategorySetsMap) {
-        this.eventGroupCategorySetsMap = eventGroupCategorySetsMap;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
-    public List<CategorySetEntity> getCategorySetsInUse() {
-        if(categorySetsInUse == null) {
-            return new ArrayList<>();
-        } else {
-            return new ArrayList<>(categorySetsInUse);
-        }
+    public Long getSelectedOwnEventCategorySetId() {
+        return selectedOwnEventCategorySetId;
     }
 
-    public void setCategorySetsInUse(Set<CategorySetEntity> categorySetsInUse) {
-        this.categorySetsInUse = categorySetsInUse;
+    public void setSelectedOwnEventCategorySetId(Long selectedOwnEventCategorySetId) {
+        this.selectedOwnEventCategorySetId = selectedOwnEventCategorySetId;
+    }
+    public Map<String, Long> getOwnEventGroupCategorySetsMap() {
+        return ownEventGroupCategorySetsMap;
     }
 
-    public Map<Long, Boolean> getSelectedCategories() {
-        return selectedCategories;
+    public void setOwnEventGroupCategorySetsMap(Map<String, Long> ownEventGroupCategorySetsMap) {
+        this.ownEventGroupCategorySetsMap = ownEventGroupCategorySetsMap;
     }
 
-    public void setSelectedCategories(Map<Long, Boolean> selectedCategories) {
-        this.selectedCategories = selectedCategories;
+    public Set<CategorySetEntity> getOwnCategorySetsInUse() {
+        return ownCategorySetsInUse;
+    }
+
+    public void setOwnCategorySetsInUse(Set<CategorySetEntity> ownCategorySetsInUse) {
+        this.ownCategorySetsInUse = ownCategorySetsInUse;
     }
     
     private void addErrorMessage(String message) {
@@ -152,20 +171,78 @@ public class AlternativeCategorySelectionManagedBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, messages.getString("dialogWarningTitle"), message));
     }
+
+    public Map<String, Long> getSelectedEventGroupCategorySetsMap() {
+        return selectedEventGroupCategorySetsMap;
+    }
+
+    public void setSelectedEventGroupCategorySetsMap(Map<String, Long> selectedEventGroupCategorySetsMap) {
+        this.selectedEventGroupCategorySetsMap = selectedEventGroupCategorySetsMap;
+    }
+
+    public Map<Long, Boolean> getSelectedOwnCategories() {
+        return selectedOwnCategories;
+    }
+
+    public void setSelectedOwnCategories(Map<Long, Boolean> selectedOwnCategories) {
+        this.selectedOwnCategories = selectedOwnCategories;
+    }
+
+    public Map<Long, Boolean> getSelectedEventCategories() {
+        return selectedEventCategories;
+    }
+
+    public void setSelectedEventCategories(Map<Long, Boolean> selectedEventCategories) {
+        this.selectedEventCategories = selectedEventCategories;
+    }
     
-    public void addCategorySet() {
-        if(categorySetsInUse == null) {
-            categorySetsInUse = new HashSet<>();
+    public void addOwnCategorySet() {
+        if(ownCategorySetsInUse == null) {
+            ownCategorySetsInUse = new HashSet<>();
         }
-        categorySetsInUse.add(categorySetEJB.find(selectedEventCategorySetId));
-        LOGGER.debug("Added -> " + selectedEventCategorySetId + ", set size -> " + categorySetsInUse.size());
+        ownCategorySetsInUse.add(categorySetEJB.find(selectedOwnEventCategorySetId));
+        showSelectedHelpText = true;
+        notReadyForObservation = false;
+        
     }
     
     public String ready() {
         return "success";
     }
     
-    public void removeCategorySet() {
-        
+    public void removeCategorySet(CategorySetEntity categorySetEntity) {
+        LOGGER.debug("CategorySet removed, id -> " + categorySetEntity);
+
     }
+    
+    public void removeCategory(CategoryEntity categoryEntity) {
+        LOGGER.debug("Category removed, id -> " + categoryEntity);
+    }
+
+    public Boolean getShowSelectedHelpText() {
+        return showSelectedHelpText;
+    }
+
+    public void setShowSelectedHelpText(Boolean showSelectedHelpText) {
+        this.showSelectedHelpText = showSelectedHelpText;
+    }
+
+    public Boolean getNotReadyForObservation() {
+        return notReadyForObservation;
+    }
+
+    public void setNotReadyForObservation(Boolean notReadyForObservation) {
+        this.notReadyForObservation = notReadyForObservation;
+    }
+    
+    private Map<String, Long> fillMap(Set<CategorySetEntity> categorySets) {
+        Map<String, Long> map = new TreeMap<>();
+        
+        for(CategorySetEntity categorySetEntity : categorySets) {
+            map.put(categorySetEntity.getLabel(), categorySetEntity.getId());
+        }
+        
+        return map;
+    }
+    
 }

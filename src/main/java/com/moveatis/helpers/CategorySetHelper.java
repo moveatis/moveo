@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -27,45 +27,31 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.managedbeans;
 
-import com.moveatis.interfaces.Application;
-import com.moveatis.interfaces.Session;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.inject.Inject;
+package com.moveatis.helpers;
+
+import com.moveatis.category.CategorySetEntity;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@ManagedBean(name="applicationManagedBean")
-@RequestScoped
-public class ApplicationManagedBean {
-
-    @Inject
-    private Application applicationEJB;
+public class CategorySetHelper {
     
-    @Inject
-    private Session sessionBean;
     
-    public ApplicationManagedBean() {
+    public CategorySetHelper() {
         
     }
-
-    public Boolean getInstalled() {
-        return applicationEJB.checkInstalled();
-    }
     
-    public String doInstall() {
-        if(applicationEJB.checkInstalled()) {
-            return "index?faces-redirect=true";
-        } else {
-            if(sessionBean.getIsLocalhost()) {
-                return "jyutesting/index.xhtml?faces-redirect=true";
-            } else {
-                return "install?faces-redirect=true";
-            }
+    public static Map<String, Long> fillCategorySetMap(Set<CategorySetEntity> categorySet) {
+        Map<String, Long> map = new TreeMap<>();
+        
+        for(CategorySetEntity categorySetEntity : categorySet) {
+            map.put(categorySetEntity.getLabel(), categorySetEntity.getId());
         }
+        return map;
     }
 }

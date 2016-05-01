@@ -48,7 +48,7 @@ import javax.persistence.Temporal;
 @NamedQueries({
         @NamedQuery(
             name="findUserByName",
-            query="SELECT user FROM IdentifiedUserEntity user WHERE user.firstName=:firstName AND user.lastName=:lastName"
+            query="SELECT user FROM IdentifiedUserEntity user WHERE user.givenName=:givenName"
         )
 })
 @Table(name="IDENTIFIED_USER")
@@ -59,31 +59,30 @@ public class IdentifiedUserEntity extends AbstractUser implements Serializable {
     @OneToOne(mappedBy = "userEntity", cascade=PERSIST)
     private IdentityProviderInformationEntity identityProviderInformation;
     
-    private String firstName;
-    private String lastName;
+    private String givenName;
     private String email;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date created;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date removed;
+
+    public IdentityProviderInformationEntity getIdentityProviderInformation() {
+        return identityProviderInformation;
+    }
+
+    public void setIdentityProviderInformation(IdentityProviderInformationEntity identityProviderInformation) {
+        this.identityProviderInformation = identityProviderInformation;
+    }
+
+    public String getGivenName() {
+        return givenName;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
     
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public Date getCreated() {
         return created;
     }

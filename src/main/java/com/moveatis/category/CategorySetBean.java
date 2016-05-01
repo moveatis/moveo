@@ -29,12 +29,28 @@
  */
 package com.moveatis.category;
 
+import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.interfaces.AnonUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.interfaces.CategorySet;
+import com.moveatis.interfaces.EventGroup;
+import com.moveatis.user.AbstractUser;
+import com.moveatis.user.AbstractUser_;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.inject.Inject;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -42,9 +58,17 @@ import java.util.List;
  */
 @Stateless
 public class CategorySetBean extends AbstractBean<CategorySetEntity> implements CategorySet {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategorySetBean.class);
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
+    
+    @Inject
+    private AnonUser anonUserEJB;
+    
+    @Inject
+    private EventGroup eventGroupEJB;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -53,5 +77,19 @@ public class CategorySetBean extends AbstractBean<CategorySetEntity> implements 
 
     public CategorySetBean() {
         super(CategorySetEntity.class);
+    }
+
+    @Override
+    public Set<CategorySetEntity> findPublicCatagorySets() {
+        
+        List<EventGroupEntity> publicEventGroups = eventGroupEJB.findAllForPublicUser();
+        Set<CategorySetEntity> publicCategorySets = new HashSet<>();
+        
+        for(EventGroupEntity eventGroupEntity : publicEventGroups) {
+            Set<CategorySetEntity> eventGroupCategorySets = eventGroupEntity.getCategorySets();
+            publicCategorySets.addAll(eventGroupCategorySets);
+        }
+        
+        return publicCategorySets;
     }
 }

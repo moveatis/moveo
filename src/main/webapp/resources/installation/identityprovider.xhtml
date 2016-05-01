@@ -12,28 +12,10 @@
     <cc:implementation>
         <h:panelGroup layout="block" style="width: 25em; margin: 5em auto 0 auto;">
             <h:form style="margin: 0 auto 0 auto; align-content: center;">
-                <h:panelGroup layout="block">
-                    <p>
-                        <h:outputLabel value="#{identitymessages.username}" for="username"/>
-                    </p>
-                    <p>
-                        <h:inputText id="username" value="#{identityProviderRegistrationBean.username}" style="width: 12em; height: 2em;"/>
-                    </p>
-                </h:panelGroup>
-                <h:panelGroup layout="block">
-                    <p>
-                        <h:outputLabel value="#{identitymessages.password}" for="password"/>
-                    </p>
-                    <p>
-                        <h:inputSecret id="password" value="#{identityProviderRegistrationBean.password}" style="width: 12em; height: 2em;"/>
-                    </p>
-                </h:panelGroup>
-                <h:panelGroup layout="block">
-                    <h:commandButton value="#{identitymessages.register}" style="width: 11em; height: 2em; 
+                <h:commandButton value="#{identitymessages.register}" style="width: 11em; height: 2em; 
                                      margin: 1.5em auto 0 auto;" 
                                      class="coloredButton" 
-                                     action="#{identityProviderRegistrationBean.registerSuperUser()}"/>
-                </h:panelGroup>
+                                     actionListener="#{identityProviderRegistrationBean.registerSuperUser}"/>
             </h:form>
         </h:panelGroup>
 

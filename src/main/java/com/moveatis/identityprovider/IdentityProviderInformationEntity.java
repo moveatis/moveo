@@ -48,11 +48,6 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries({
         @NamedQuery(
-            name="findUserEntity",
-            query="SELECT entity FROM IdentityProviderInformationEntity entity WHERE "
-                    + "entity.username=:username AND entity.passwordHash=:passwordhash"
-        ),
-        @NamedQuery(
             name="findIdentityProviderEntityByUsername",
             query="SELECT entity FROM IdentityProviderInformationEntity entity WHERE "
                     + "entity.username=:username"
@@ -71,9 +66,7 @@ public class IdentityProviderInformationEntity implements IdentityProvider, Seri
     private Long id;
     
     private String username;
-    private byte[] passwordHash;
-    private byte[] salt;
-    private int iterations;
+    private String affiliation;
     
     public IdentityProviderInformationEntity() {
         
@@ -104,28 +97,11 @@ public class IdentityProviderInformationEntity implements IdentityProvider, Seri
         this.username = username;
     }
 
-    public byte[] getPasswordHash() {
-        return passwordHash;
+    public String getAffiliation() {
+        return affiliation;
     }
 
-    public void setPasswordHash(byte[] passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setAffiliation(String affiliation) {
+        this.affiliation = affiliation;
     }
-
-    public byte[] getSalt() {
-        return salt;
-    }
-
-    public void setSalt(byte[] salt) {
-        this.salt = salt;
-    }
-
-    public int getIterations() {
-        return iterations;
-    }
-
-    public void setIterations(int iterations) {
-        this.iterations = iterations;
-    }
-
 }

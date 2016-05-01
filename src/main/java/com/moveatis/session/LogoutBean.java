@@ -48,6 +48,9 @@ import org.slf4j.LoggerFactory;
 public class LogoutBean {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(LogoutBean.class);
+    private static final String SHIBBOLETH_LOGOUT_URI = 
+            "https://moveatis.sport.jyu.fi/Shibboleth.sso/Logout?return="
+            + "https%3A%2F%2Fmoveatis.sport.jyu.fi%2Flotas";
 
     public LogoutBean() {
         
@@ -56,7 +59,8 @@ public class LogoutBean {
     public void logOut(ActionEvent event) throws IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.invalidateSession();
-        context.redirect(context.getRequestContextPath() + "/index.xhtml");
+                
+        context.redirect(SHIBBOLETH_LOGOUT_URI);
     }
 
 }

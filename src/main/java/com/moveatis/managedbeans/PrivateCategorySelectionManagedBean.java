@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -27,76 +27,26 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.identityprovider;
 
-import com.moveatis.helpers.PasswordHashGenerator;
-import com.moveatis.interfaces.Session;
-import com.moveatis.user.IdentifiedUserEntity;
-import java.util.Arrays;
+package com.moveatis.managedbeans;
+
+import java.io.Serializable;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
+@Named(value="privateCategorySelectionManagedBean")
+@ViewScoped
+public class PrivateCategorySelectionManagedBean implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
-
-@Named(value = "identityProviderLoginBean")
-@RequestScoped
-public class IdentityProviderLoginBean {
-    
-    private String userName;
-    private String password;
-    
-    private IdentifiedUserEntity userEntity;
-    
-    @Inject
-    private Session sessionBean;
-    
-    @Inject
-    private IdentityProviderBean ipBean;
-
-    /**
-     * Creates a new instance of IdentityProviderLoginBean
-     */
-    public IdentityProviderLoginBean() {
+    /** Creates a new instance of PrivateCategorySelectionManagedBean */
+    public PrivateCategorySelectionManagedBean() {
         
     }
-    
-    public String doIdentityProviderLogin() {
-        IdentityProviderInformationEntity ipInformationEntity = ipBean.findIpEntityByUsername(userName);
-        
-        byte[] salt = ipInformationEntity.getSalt();
-        int iterations = ipInformationEntity.getIterations();
-        byte[] hash = ipInformationEntity.getPasswordHash();
-        
-        byte[] suppliedPasswordHash = PasswordHashGenerator.hashPassword(password.toCharArray(), salt, iterations);
-        
-        if(Arrays.equals(suppliedPasswordHash, hash)) {
-            userEntity = ipInformationEntity.getIdentifiedUserEntity();
-            sessionBean.setIdentityProviderUser(userEntity);
-            return "useridentified";
-        }
-        
-        return "failed";
-    }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
 }

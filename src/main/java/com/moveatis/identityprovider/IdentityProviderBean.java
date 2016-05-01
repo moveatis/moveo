@@ -32,6 +32,7 @@ package com.moveatis.identityprovider;
 import com.moveatis.interfaces.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -57,7 +58,12 @@ public class IdentityProviderBean extends AbstractBean<IdentityProviderInformati
     public IdentityProviderInformationEntity findIpEntityByUsername(String userName) {
         TypedQuery<IdentityProviderInformationEntity> query = 
                 em.createNamedQuery("findIdentityProviderEntityByUsername", IdentityProviderInformationEntity.class);
-        return query.setParameter("username", userName).getSingleResult();
+        try {
+            IdentityProviderInformationEntity entity = query.setParameter("username", userName).getSingleResult();
+            return entity;
+        } catch (NoResultException noResult) {
+            return null;
+        }
     }
 
 }
