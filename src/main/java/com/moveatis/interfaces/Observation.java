@@ -31,6 +31,7 @@ package com.moveatis.interfaces;
 
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
+import com.moveatis.user.AbstractUser;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -50,6 +51,8 @@ public interface Observation {
     ObservationEntity find(Object id);
 
     List<ObservationEntity> findAll();
+
+    List<ObservationEntity> findAllByObserver(AbstractUser observer);
 
     List<ObservationEntity> findRange(int[] range);
     
