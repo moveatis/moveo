@@ -243,21 +243,23 @@ public class SummaryManagedBean {
         }
     }
 
-    public void saveCurrentObservation(ActionEvent event) {
+    public void saveCurrentObservation() {
         if (observationEJB.find(observation.getId()) != null) {
             // Edit existing observation
+            observation.setObserver(sessionBean.getLoggedInUser());
             observationEJB.edit(observation);
         } else {
             // Save as a new observation
+            observation.setObserver(sessionBean.getLoggedInUser());
             observationEJB.create(observation);
         }
     }
 
-    public void sendCurrentObservation(ActionEvent event) {
+    public void sendCurrentObservation() {
         // TODO: call mail backing bean
     }
 
-    public void downloadCurrentObservation(ActionEvent event) {
+    public void downloadCurrentObservation() {
         // TODO: call file download backing bean
     }
 

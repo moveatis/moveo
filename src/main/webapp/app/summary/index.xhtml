@@ -168,15 +168,14 @@
                         </p:outputPanel>
 
                         <p:commandButton class="form-button" value="#{msg.dlg_send}" icon="ui-icon-check"
-                                         actionListener="#{summaryBean.sendCurrentObservation}" validateClient="true"
+                                         action="#{summaryBean.sendCurrentObservation}" validateClient="true"
                                          rendered="#{summaryBean.sendOptionAllowed()}"
                                          process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
                         <p:commandButton class="form-button" value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         actionListener="#{summaryBean.saveCurrentObservation}" validateClient="true"
-                                         rendered="#{summaryBean.saveOptionAllowed()}"
+                                         action="#{summaryBean.saveCurrentObservation}" validateClient="true"
                                          process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
                         <p:commandButton class="form-button" value="#{msg.dlg_download}" icon="ui-icon-check"
-                                         actionListener="#{summaryBean.downloadCurrentObservation}" validateClient="true"
+                                         action="#{summaryBean.downloadCurrentObservation}" validateClient="true"
                                          rendered="#{summaryBean.downloadOptionAllowed()}"
                                          process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
 
