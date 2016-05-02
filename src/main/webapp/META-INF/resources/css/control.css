@@ -12,11 +12,12 @@ and open the template in the editor.
 #mainPage {
     max-width: 960px;
     margin: 0 auto;
+    margin-bottom: 3em;
 }
 
-#controlForm {
-    margin-bottom: 3em;
-    max-width: 26em;
+#mainPage > form {
+    margin-bottom: 2em;
+    max-width: 36em;
 }
 
 .ui-panelmenu {
@@ -32,13 +33,6 @@ and open the template in the editor.
     background: #C4C4C4 -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0% 0%;
 }
 
-.edit-menuItem {
-    float: right;
-    z-index: 500;
-    position: relative;
-    font-size: 0.7em;
-}
-
 #controlForm .ui-icon.fa {
     border-radius: 0px;
     font-size: 0.8em;
@@ -46,7 +40,10 @@ and open the template in the editor.
     margin-left: .4em;
 }
 
-#controlForm .edit-menuItem .ui-icon.fa {
-    font-size: 1.2em;
-    margin-left: -.2em;
+@media screen and (max-width: 800px) {
+
+    #mainPage > form {
+        margin: auto;
+    }
+
 }

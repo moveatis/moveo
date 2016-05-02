@@ -44,6 +44,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -53,7 +55,13 @@ import javax.persistence.TemporalType;
  *
  * @author Sami Kallio <phinaliumz at outlook.>
  */
-@Table(name="OBSERVATION")
+@Table(name = "OBSERVATION")
+@NamedQueries({
+    @NamedQuery(
+            name = "findByObserver",
+            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer"
+    )
+})
 @Entity
 public class ObservationEntity implements Serializable {
 
