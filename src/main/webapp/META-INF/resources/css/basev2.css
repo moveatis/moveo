@@ -256,6 +256,10 @@ a:hover {text-decoration: none; color: white;}
     float: right;
 }
 
+.ui-confirmdialog-no {
+    float: right;
+}
+
 .ui-growl .ui-growl-icon-close {
     display: block !important;
     background-color: white;

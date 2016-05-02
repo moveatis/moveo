@@ -79,7 +79,8 @@ public class ControlManagedBean implements Serializable {
     private CategorySetEntity selectedCategorySet;
     private CategoryEntity selectedCategory;
 
-    private MenuModel menuModel;
+    private MenuModel controlMenuModel;
+    private MenuModel observationsMenuModel;
 
     @Inject
     private EventGroup eventGroupEJB;
@@ -108,15 +109,24 @@ public class ControlManagedBean implements Serializable {
     public void init() {
         user = sessionBean.getLoggedInUser();
         eventGroups = eventGroupEJB.findAllForOwner(user);
-        createMenuModel();
+        createControlMenuModel();
+        createObservationsMenuModel();
     }
 
-    public MenuModel getMenuModel() {
-        return menuModel;
+    public MenuModel getControlMenuModel() {
+        return controlMenuModel;
     }
 
-    public void setMenuModel(MenuModel menuModel) {
-        this.menuModel = menuModel;
+    public void setControlMenuModel(MenuModel controlMenuModel) {
+        this.controlMenuModel = controlMenuModel;
+    }
+
+    public MenuModel getObservationsMenuModel() {
+        return observationsMenuModel;
+    }
+
+    public void setObservationsMenuModel(MenuModel observationsMenuModel) {
+        this.observationsMenuModel = observationsMenuModel;
     }
 
     public void addEventGroup(EventGroupEntity eventGroup) {
@@ -131,12 +141,16 @@ public class ControlManagedBean implements Serializable {
         init();
     }
 
-    private void createMenuModel() {
-        menuModel = new DefaultMenuModel();
-        menuModel.addElement(createSubMenuModel("Tapahtumaryhmät", eventGroups));
+    private void createObservationsMenuModel() {
+        observationsMenuModel = new DefaultMenuModel();
     }
 
-    private DefaultSubMenu createSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
+    private void createControlMenuModel() {
+        controlMenuModel = new DefaultMenuModel();
+        controlMenuModel.addElement(createControlSubMenuModel("Tapahtumaryhmät", eventGroups));
+    }
+
+    private DefaultSubMenu createControlSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
 
         DefaultSubMenu menuEventGroups = new DefaultSubMenu(menuName);
         menuEventGroups.addElement(

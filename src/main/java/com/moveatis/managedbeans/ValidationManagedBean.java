@@ -97,8 +97,8 @@ public class ValidationManagedBean {
         String s = (String)value;
         for (int i = 0; i < s.length(); ) {
             int codePoint = s.codePointAt(i);
-            if (!Character.isLetterOrDigit(codePoint) &&
-                (codePoint != " ".codePointAt(0))) {
+            if (!Character.isLetterOrDigit(codePoint)
+                    && (codePoint != " ".codePointAt(0))) {
                 // TODO: Proper message!
                 throwError("Vain kirjaimet, numerot ja välilyönnit ovat sallittuja.");
             }
