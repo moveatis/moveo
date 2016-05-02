@@ -33,11 +33,11 @@ import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -46,6 +46,7 @@ import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javax.faces.view.ViewScoped;
 
 /**
  * Class for Summary page managed bean. Responsive for creating summary page
@@ -54,8 +55,8 @@ import org.slf4j.LoggerFactory;
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 @Named(value = "summaryBean")
-@RequestScoped
-public class SummaryManagedBean {
+@ViewScoped
+public class SummaryManagedBean implements Serializable {
     
     private TimelineModel timeline;
     private final Date min;
