@@ -41,6 +41,7 @@ import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -65,16 +66,16 @@ import org.slf4j.LoggerFactory;
 @Named(value = "controlManagedBean")
 @ViewScoped
 public class ControlManagedBean implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
-    
+
     private List<EventGroupEntity> eventGroups;
 
     private EventGroupEntity selectedEventGroup;
     private EventEntity selectedEvent;
-    
+
     private CategorySetEntity selectedCategorySet;
     private CategoryEntity selectedCategory;
 
@@ -100,7 +101,7 @@ public class ControlManagedBean implements Serializable {
     private AbstractUser user;
 
     public ControlManagedBean() {
-        
+
     }
 
     @PostConstruct
@@ -109,7 +110,7 @@ public class ControlManagedBean implements Serializable {
         eventGroups = eventGroupEJB.findAllForOwner(user);
         createMenuModel();
     }
-    
+
     public MenuModel getMenuModel() {
         return menuModel;
     }
@@ -121,11 +122,11 @@ public class ControlManagedBean implements Serializable {
     public void addEventGroup(EventGroupEntity eventGroup) {
         init();
     }
-    
+
     public void addCategorySet(CategorySetEntity categorySet) {
         init();
     }
-    
+
     public void addCategory(CategoryEntity categorEntity) {
         init();
     }
@@ -139,12 +140,17 @@ public class ControlManagedBean implements Serializable {
 
         DefaultSubMenu menuEventGroups = new DefaultSubMenu(menuName);
         menuEventGroups.addElement(
-                createMenuItem(messages.getString("con_newEventGroup"), "fa fa-plus",                        
-                        "PF('dlgEventGroup').show();", null, null,null, null, null));
+                createMenuItem(messages.getString("con_newEventGroup"), "fa fa-plus",
+                        "PF('dlgEventGroup').show();", null, null, null, null, null));
 
         if (eventGroups != null && !eventGroups.isEmpty()) {
 
             for (EventGroupEntity eventGroup : eventGroups) {
+
+                // Skip removed event groups
+                if (eventGroup.getRemoved() != null) {
+                    continue;
+                }
 
                 DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
 
@@ -155,42 +161,48 @@ public class ControlManagedBean implements Serializable {
                     subMenuCategorySet.addElement(
                             createMenuItem(messages.getString("con_newCategory"), "fa fa-plus",
                                     "PF('dlgCategory').show();",
-                                    "#{controlManagedBean.setSelectedCategorySet}", 
+                                    "#{controlManagedBean.setSelectedCategorySet}",
                                     "categorySetId", Long.toString(categorySet.getId()),
                                     null, null
                             ));
-                    
+
                     subMenuEventGroup.addElement(
                             createMenuItem(messages.getString("dlg_edit"), "fa fa-edit",
                                     "PF('dlgEditCategorySet').show();",
-                                    "#{controlManagedBean.setSelectedCategorySet}", 
-                                    "categorySetId",Long.toString(categorySet.getId()),
-                                    ":form-editEvent", "edit-menuItem"
+                                    "#{controlManagedBean.setSelectedCategorySet}",
+                                    "categorySetId", Long.toString(categorySet.getId()),
+                                    ":form-editCategorySet", "edit-menuItem"
                             ));
 
                     subMenuEventGroup.addElement(subMenuCategorySet);
-                    
-                    for(CategoryEntity categoryEntity : categorySet.getCategoryEntitys().values()) {
-                        
-                        DefaultSubMenu subMenuCategory = new DefaultSubMenu(categoryEntity.getLabel().getLabel());
-                        
+
+                    for (CategoryEntity categoryEntity : categorySet.getCategoryEntitys().values()) {
+
+                        DefaultMenuItem subMenuCategory = new DefaultMenuItem(categoryEntity.getLabel().getLabel());
+
                         subMenuCategorySet.addElement(
                                 createMenuItem(messages.getString("dlg_edit"), "fa fa-edit",
                                         "PF('dlgEditCategory').show();",
-                                    "#{controlManagedBean.setSelectedCategory}", 
-                                    "categoryId", Long.toString(categorySet.getId()),
-                                    ":form-editEvent", "edit-menuItem"
-                            ));
-                        
+                                        "#{controlManagedBean.setSelectedCategory}",
+                                        "categoryId", Long.toString(categoryEntity.getId()),
+                                        ":form-editCategory", "edit-menuItem"
+                                ));
+
                         subMenuCategorySet.addElement(subMenuCategory);
                     }
                 }
                 for (EventEntity event : eventGroup.getEvents()) {
+
+                    // Skip removed events
+                    if (event.getRemoved() != null) {
+                        continue;
+                    }
+
                     DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
                     subMenuEvent.addElement(
                             createMenuItem(messages.getString("con_newObservation"), "fa fa-play",
-                                    null, "#{controlManagedBean.newObservation}", 
-                                    "eventId", Long.toString(event.getId()), 
+                                    null, "#{controlManagedBean.newObservation}",
+                                    "eventId", Long.toString(event.getId()),
                                     null, null));
                     subMenuEventGroup.addElement(
                             createMenuItem(messages.getString("dlg_edit"), "fa fa-edit",
@@ -206,10 +218,10 @@ public class ControlManagedBean implements Serializable {
                                 "#{controlManagedBean.setSelectedEventGroup}",
                                 "eventGroupId", Long.toString(eventGroup.getId()),
                                 null, null));
-                 subMenuEventGroup.addElement(
+                subMenuEventGroup.addElement(
                         createMenuItem(messages.getString("con_newEvent"), "fa fa-plus",
                                 "PF('dlgEvent').show();",
-                                "#{controlManagedBean.setSelectedEventGroup}", 
+                                "#{controlManagedBean.setSelectedEventGroup}",
                                 "eventGroupId", Long.toString(eventGroup.getId()),
                                 null, null));
                 menuEventGroups.addElement(
@@ -223,7 +235,7 @@ public class ControlManagedBean implements Serializable {
         }
         return menuEventGroups;
     }
-    
+
     private DefaultMenuItem createMenuItem(String value, String icon, String onClick, String command, String parameterName, String parameter,
             String update, String styleClass) {
         DefaultMenuItem menuItem = new DefaultMenuItem(value, icon);
@@ -242,7 +254,7 @@ public class ControlManagedBean implements Serializable {
         if (styleClass != null) {
             menuItem.setStyleClass(styleClass);
         }
-        
+
         return menuItem;
     }
 
@@ -266,6 +278,22 @@ public class ControlManagedBean implements Serializable {
         init();
     }
 
+    public void editCategorySet() {
+        if (selectedCategorySet == null) {
+            return;
+        }
+        categorySetEJB.edit(selectedCategorySet);
+        init();
+    }
+
+    public void editCategory() {
+        if (selectedCategory == null) {
+            return;
+        }
+        categoryEJB.edit(selectedCategory);
+        init();
+    }
+
     public EventGroupEntity getSelectedEventGroup() {
         return selectedEventGroup;
     }
@@ -278,14 +306,14 @@ public class ControlManagedBean implements Serializable {
         return selectedCategorySet;
     }
 
+    public CategoryEntity getSelectedCategory() {
+        return selectedCategory;
+    }
+
     public void setSelectedCategorySet(ActionEvent event) {
         MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
         Long id = Long.parseLong(menuItem.getParams().get("categorySetId").get(0));
         selectedCategorySet = categorySetEJB.find(id);
-    }
-
-    public CategoryEntity getSelectedCategory() {
-        return selectedCategory;
     }
 
     public void setSelectedCategory(ActionEvent event) {
@@ -305,11 +333,38 @@ public class ControlManagedBean implements Serializable {
         Long id = Long.parseLong(menuItem.getParams().get("eventId").get(0));
         selectedEvent = eventEJB.find(id);
     }
-    
+
     public String newObservation(ActionEvent event) {
         MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
         Long id = Long.parseLong(menuItem.getParams().get("eventId").get(0));
         sessionBean.setEventEntityForNewObservation(eventEJB.find(id));
         return "newobservation";
+    }
+
+    public void removeEventGroup() {
+        selectedEventGroup.setRemoved(new Date());
+        eventGroupEJB.edit(selectedEventGroup);
+        init();
+    }
+
+    public void removeEvent() {
+        selectedEvent.setRemoved(new Date());
+        eventEJB.edit(selectedEvent);
+        init();
+    }
+
+    public void removeCategorySet() {
+        // Will this remove category set completely?
+        categorySetEJB.remove(selectedCategorySet);
+        init();
+    }
+
+    public void removeCategory() {
+        // Will this remove category set completely?
+        categoryEJB.remove(selectedCategory);
+        init();
+    }
+
+    public void removeObservation() {
     }
 }

@@ -226,12 +226,34 @@ a:hover {text-decoration: none; color: white;}
     border-width: 2px;
 }
 
-.ui-dialog-content > form .cancel-button,
-.ui-dialog-content > form .save-button {
+.ui-dialog-content > form .form-button {
     display: inline-block;
     width: auto;
     float: right;
     margin-top: .6em;
+}
+
+.ui-dialog-content > form .remove-button {
+    margin: 0px 0px 0.3em;
+    color: black;
+    background: rgb(245, 0, 0) none repeat scroll 0% 0%;
+    border: 2px dashed rgb(51, 51, 51);
+    text-shadow: none;
+    outline: medium none;
+    margin-bottom: .3em;
+    font-size: 0.85em;
+    font-weight: normal;
+    box-shadow: none;
+}
+
+.ui-dialog-content > form .remove-button:hover {
+    color: white;
+}
+
+.ui-dialog-footer {
+    background: transparent none repeat scroll 0% 0%;
+    border: medium none;
+    float: right;
 }
 
 .ui-growl .ui-growl-icon-close {
