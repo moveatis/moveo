@@ -31,10 +31,12 @@ package com.moveatis.interfaces;
 
 import com.moveatis.enums.SessionStatus;
 import com.moveatis.event.EventEntity;
+import com.moveatis.managedbeans.CategorySelectionManagedBean;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import javax.ejb.Local;
@@ -67,4 +69,6 @@ public interface Session {
     public void setReturnUri(String uri);
     public String getReturnUri();
     public ObservationEntity getLastObservation();
+    public void setCategorySetsInUse(List<CategorySelectionManagedBean.CategorySet> categorySets);
+    public List<CategorySelectionManagedBean.CategorySet> getCategorySetsInUse();
 }

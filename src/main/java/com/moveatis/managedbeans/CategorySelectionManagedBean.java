@@ -34,10 +34,8 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -49,7 +47,9 @@ import org.slf4j.LoggerFactory;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
+import java.util.Map;
 import java.util.Set;
+import javax.faces.view.ViewScoped;
 
 /**
  *
@@ -57,34 +57,55 @@ import java.util.Set;
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
 @Named(value = "categorySelectionBean")
-@SessionScoped // TODO: ViewScoped? RequestScoped? Used in index.xhtml and also needs to run init() every time page is loaded!
+@ViewScoped
 public class CategorySelectionManagedBean implements Serializable {
     
     public static class Category {
-        private long id;
-        private long type;
+        private Long id;
+        private Long type;
         private String name;
-        private boolean selected;
+        private Boolean inDatabase;
         
-        private static long nextId = 1; // Can ids start from 0?
-        
-        public Category(String name) {
-            id = nextId++;
-            type = 0;
-            setName(name);
-            selected = true;
+        public Category() {
+            this.id = 0l;
+            this.type = 0l;
+            this.name = "";
+            this.inDatabase = false;
         }
         
-        public long getId() {
+        public Category(Long id, String name) {
+            this.id = id;
+            this.type = 0l;
+            this.name = name;
+            this.inDatabase = true;
+        }
+        
+        public Category(Category other) {
+            this.id = other.id;
+            this.type = other.type;
+            this.name = other.name;
+            this.inDatabase = other.inDatabase;
+            // NOTE: inDatabase should always be true when cloning other category!
+        }
+        
+        public Long getId() {
             return id;
         }
         
-        public long getType() {
+        public void setId(long id) {
+            this.id = id;
+        }
+        
+        public Long getType() {
             return type;
         }
         
         public String getName() {
              return name;
+        }
+        
+        public Boolean isInDatabase() {
+            return inDatabase;
         }
         
         public final void setName(String name) {
@@ -99,14 +120,7 @@ public class CategorySelectionManagedBean implements Serializable {
                 i += Character.charCount(codePoint);
             }
             this.name = validName.toString().trim();
-        }
-        
-        public boolean isSelected() {
-            return selected;
-        }
-        
-        public void setSelected(boolean selected) {
-            this.selected = selected;
+            inDatabase = false; // If the name is edited, it's not anymore in the database.
         }
 
         @Override
@@ -118,129 +132,38 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     public static class CategorySet {
+        private Long id;
         private String name;
-        private List<Category> categories = new ArrayList<>();
-        private List<Category> userCategories = new ArrayList<>();
+        private List<Category> categories;
+        
+        public CategorySet(Long id, String name) {
+            this.id = id;
+            this.name = name;
+            this.categories = new ArrayList<>();
+        }
+        
+        public Long getId() {
+            return id;
+        }
         
         public String getName() {
             return name;
-        }
-        
-        public void setName(String name) {
-            this.name = name;
         }
         
         public List<Category> getCategories() {
             return categories;
         }
         
-        public void setCategories(List<Category> categories) {
-            this.categories = categories;
-        }
-        
-        public void add(String category) {
-            categories.add(new Category(category));
-        }
-        
-        public List<Category> getUserCategories() {
-            return userCategories;
+        public void add(Category category) {
+            categories.add(category);
         }
         
         public void addEmpty() {
-            userCategories.add(new Category(""));
+            categories.add(new Category());
         }
         
         public void remove(Category category) {
-            userCategories.remove(category);
-        }
-        
-        public boolean allCategoriesHaveUniqueName() {
-            for (int i = 0; i < categories.size(); i++) {
-                Category category = categories.get(i);
-                if (category.getName().isEmpty()) {
-                    continue;
-                }
-                if (categories.lastIndexOf(category) != i) {
-                    return false;
-                }
-                if (userCategories.lastIndexOf(category) >= 0) {
-                    return false;
-                }
-            }
-            for (int i = 0; i < userCategories.size(); i++) {
-                Category category = userCategories.get(i);
-                if (category.getName().isEmpty()) {
-                    continue;
-                }
-                if (userCategories.lastIndexOf(category) != i) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        
-        public boolean allCategoriesHaveNonEmptyName() {
-            for (int i = 0; i < categories.size(); i++) {
-                Category category = categories.get(i);
-                if (category.getName().isEmpty()) {
-                    return false;
-                }
-            }
-            for (int i = 0; i < userCategories.size(); i++) {
-                Category category = userCategories.get(i);
-                if (category.getName().isEmpty()) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        
-        public boolean atLeastOneCategorySelected() {
-            if (!userCategories.isEmpty()) {                
-                return true;
-            }
-            for (int i = 0; i < categories.size(); i++) {
-                Category category = categories.get(i);
-                if (category.isSelected()) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-//        public List<String> getSelectedCategories() {
-//            List<String> selectedCategories = new ArrayList<>();
-//            for (Category category : categories) {
-//                if (category.isSelected()) {
-//                    String categoryName = category.getName();
-//                    // TODO: Do we have to check name length and duplicates?
-//                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
-//                        selectedCategories.add(categoryName);
-//                    }
-//                }
-//            }
-//            for (Category category : userCategories) {
-//                if (category.isSelected()) {
-//                    String categoryName = category.getName();
-//                    if (categoryName.length() > 0 && selectedCategories.indexOf(categoryName) < 0) {
-//                        selectedCategories.add(categoryName);
-//                    }
-//                }
-//            }
-//            return selectedCategories;
-//        }
-        
-        public List<Category> getSelectedCategories() {
-            List<Category> selectedCategories = new ArrayList<>();
-            for (Category category : categories) {
-                if (category.isSelected()) {
-                    selectedCategories.add(category);
-                }
-            }
-            for (Category category : userCategories) {
-                selectedCategories.add(category);
-            }
-            return selectedCategories;
+            categories.remove(category);
         }
     }
     
@@ -255,28 +178,21 @@ public class CategorySelectionManagedBean implements Serializable {
             this.categorySets = categorySets;
         }
         
-        public void add(String name, List<String> categories) {
-            CategorySet categorySet = new CategorySet();
-            categorySet.setName(name);
-            for (String category : categories) {
-                categorySet.add(category);
-            }
+        public void add(CategorySet categorySet) {
             categorySets.add(categorySet);
         }
         
         public void addClone(CategorySet categorySet) {
-            CategorySet cloned = new CategorySet();
-            cloned.setName(categorySet.getName());
+            CategorySet cloned = new CategorySet(categorySet.getId(), categorySet.getName());
             for (Category category : categorySet.getCategories()) {
-                cloned.add(category.getName());
+                cloned.add(new Category(category));
             }
             categorySets.add(cloned);
         }
         
-        // TODO: Find by id? index? what?
-        public CategorySet find(String name) {
+        public CategorySet find(Long id) {
             for (CategorySet categorySet : categorySets) {
-                if (categorySet.getName().equals(name)) {
+                if (categorySet.getId().equals(id)) {
                     return categorySet;
                 }
             }
@@ -292,8 +208,8 @@ public class CategorySelectionManagedBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySelectionManagedBean.class);
     private static final long serialVersionUID = 1L;
     
-    private String selectedPublicCategorySet;
-    private String selectedPrivateCategorySet;
+    private Long selectedPublicCategorySet;
+    private Long selectedPrivateCategorySet;
     
     private CategorySetList publicCategorySets;
     private CategorySetList privateCategorySets;
@@ -320,64 +236,63 @@ public class CategorySelectionManagedBean implements Serializable {
     public CategorySelectionManagedBean() {
     }
     
-    @PostConstruct
-    public void init() {
-//        publicCategorySets = new CategorySetList();
-//
-//        AbstractUser user = sessionBean.getLoggedInUser();
-//        List<EventGroupEntity> publicEventGroups = eventGroupEJB.findAllForOwner(user);
-//        for (EventGroupEntity eventGroup : publicEventGroups) {
-//            Set<CategorySetEntity> categorySets = eventGroup.getCategoryGroups();
-//            for (CategorySetEntity categorySet : categorySets) {
-//                List<String> categoryNames = new ArrayList<>();
-//                List<CategoryEntity> categories = categorySet.getCategoryEntitys();
-//                for (CategoryEntity category : categories) {
-//                    categoryNames.add(category.getLabel().getLabel());
-//                }
-//                publicCategorySets.add(categorySet.getLabel(), categoryNames);
-//            }
-//        }
-        
-        publicCategorySets = new CategorySetList();
-        String[] opettajanToiminnot = {
-            "Järjestelyt",
-            "Tehtävän selitys",
-            "Ohjaus",
-            "Palautteen anto",
-            "Tarkkailu",
-            "Muu toiminta"
-        };
-        publicCategorySets.add("Opettajan toiminnot", Arrays.asList(opettajanToiminnot));
-        String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
-        publicCategorySets.add("Oppilaan toiminnot", Arrays.asList(oppilaanToiminnot));
-        
-        privateCategorySets = new CategorySetList();
-        String[] omatToiminnot1 = { "Tekee jotain 1", "Tekee jotain 2", "Tekee jotain 3" };
-        privateCategorySets.add("Omat toiminnot 1", Arrays.asList(omatToiminnot1));
-        String[] omatToiminnot2 = { "Tekee jotain muuta 1", "Tekee jotain muuta 2", "Tekee jotain muuta 3" };
-        privateCategorySets.add("Omat toiminnot 2", Arrays.asList(omatToiminnot2));
-        privateCategorySets.add("Muut", new ArrayList<String>());
-        
-        categorySetsInUse = new CategorySetList();
-        for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
-            categorySetsInUse.addClone(categorySet);
+    private static void addAllCategorySetsFromEventGroups(CategorySetList addTo, List<EventGroupEntity> eventGroups) {
+        for (EventGroupEntity eventGroup : eventGroups) {
+            Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
+            for (CategorySetEntity categorySetEntity : categorySets) {
+                CategorySet categorySet = new CategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
+                Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+                for (CategoryEntity category : categories.values()) {
+                    categorySet.add(new Category(category.getId(), category.getLabel().getLabel()));
+                }
+                addTo.add(categorySet);
+            }
         }
-        categorySetsInUse.add("Muut", new ArrayList<String>());
     }
     
-    public String getSelectedPublicCategorySet() {
+    @PostConstruct
+    public void init() {
+        publicCategorySets = new CategorySetList();
+        privateCategorySets = new CategorySetList();
+        categorySetsInUse = new CategorySetList();
+        
+        addAllCategorySetsFromEventGroups(publicCategorySets, eventGroupEJB.findAllForPublicUser());
+
+        if (sessionBean.isIdentifiedUser()) {
+            AbstractUser user = sessionBean.getLoggedInUser();
+            addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
+        }
+        
+//        publicCategorySets = new CategorySetList();
+//        String[] opettajanToiminnot = {
+//            "Järjestelyt",
+//            "Tehtävän selitys",
+//            "Ohjaus",
+//            "Palautteen anto",
+//            "Tarkkailu",
+//            "Muu toiminta"
+//        };
+//        String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
+        
+//        for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
+//            categorySetsInUse.addClone(categorySet);
+//        }
+//        categorySetsInUse.add("Muut", new ArrayList<String>());
+    }
+    
+    public Long getSelectedPublicCategorySet() {
         return selectedPublicCategorySet;
     }
     
-    public void setSelectedPublicCategorySet(String selectedPublicCategorySet) {
+    public void setSelectedPublicCategorySet(Long selectedPublicCategorySet) {
         this.selectedPublicCategorySet = selectedPublicCategorySet;
     }
     
-    public String getSelectedPrivateCategorySet() {
+    public Long getSelectedPrivateCategorySet() {
         return selectedPrivateCategorySet;
     }
     
-    public void setSelectedPrivateCategorySet(String selectedPrivateCategorySet) {
+    public void setSelectedPrivateCategorySet(Long selectedPrivateCategorySet) {
         this.selectedPrivateCategorySet = selectedPrivateCategorySet;
     }
     
@@ -413,38 +328,59 @@ public class CategorySelectionManagedBean implements Serializable {
         categorySetsInUse.remove(categorySet);
     }
     
-    private void addErrorMessage(String message) {
+    private void showErrorMessage(String message) {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
-    }
-    
-    private void addWarningMessage(String message) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, messages.getString("dialogWarningTitle"), message));
     }
     
     public String checkCategories() {
         boolean atLeastOneCategorySelected = false;
         
+        List<Category> notInDatabase = new ArrayList<>();
+        long greatestId = 0;
+        
         for (CategorySet categorySet : categorySetsInUse.getCategorySets()) {
-            if (!categorySet.allCategoriesHaveUniqueName()) {
-                addErrorMessage(messages.getString("cs_errorNotUniqueCategories"));
-                return "";
-            }
-            if (!categorySet.allCategoriesHaveNonEmptyName()) {
-                addWarningMessage(messages.getString("cs_warningEmptyCategories"));
-                return ""; // TODO: Show confirmation or something and let user continue.
-            }
-            if (categorySet.atLeastOneCategorySelected()) {
+            
+            List<Category> categories = categorySet.getCategories();
+            if (!categories.isEmpty()) {
                 atLeastOneCategorySelected = true;
+            }
+            
+            for (int i = 0; i < categories.size(); i++) {
+                Category category = categories.get(i);
+                
+                if (category.getName().isEmpty()) {
+                    showErrorMessage(messages.getString("cs_warningEmptyCategories"));
+                    return ""; // TODO: Show confirmation or something and let user continue.
+                }
+                
+                if (categories.lastIndexOf(category) != i) {
+                    showErrorMessage(messages.getString("cs_errorNotUniqueCategories"));
+                    return "";
+                }
+                
+                if (category.isInDatabase()) {
+                    long id = category.getId();
+                    if (id > greatestId) {
+                        greatestId = id;
+                    }
+                } else {
+                    notInDatabase.add(category);
+                }
             }
         }
         
         if (!atLeastOneCategorySelected) {
-            addErrorMessage(messages.getString("cs_errorNoneSelected"));
+            showErrorMessage(messages.getString("cs_errorNoneSelected"));
             return "";
         }
         
+        for (Category category : notInDatabase) {
+            category.setId(greatestId + 1);
+            greatestId += 1;
+        }
+        
+        sessionBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
         return "categoriesok";
     }
 }

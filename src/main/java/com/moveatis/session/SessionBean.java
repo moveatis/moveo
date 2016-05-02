@@ -36,12 +36,14 @@ import com.moveatis.interfaces.Application;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
 import com.moveatis.interfaces.User;
+import com.moveatis.managedbeans.CategorySelectionManagedBean;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.timezone.TimeZoneInformation;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
@@ -99,6 +101,8 @@ public class SessionBean implements Serializable, Session  {
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
     private Locale locale;
+    
+    private List<CategorySelectionManagedBean.CategorySet> categorySetsInUse;
 
     public SessionBean() {
         if (FacesContext.getCurrentInstance() != null) {
@@ -217,14 +221,12 @@ public class SessionBean implements Serializable, Session  {
     public boolean isResetObsAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
-        //LOGGER.debug("isResetObsAvailable(): " + viewId + " -> " + result);
         return result;
     }
     
     public boolean isBackToCatEdAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml"));
-        //LOGGER.debug("isBackToCatEdAvailable(): " + viewId + " -> " + result);
         return result;
     }
 
@@ -271,5 +273,15 @@ public class SessionBean implements Serializable, Session  {
         
         Long observationId = sessionObservations.last();
         return observationEJB.find(observationId);
+    }
+    
+    @Override
+    public void setCategorySetsInUse(List<CategorySelectionManagedBean.CategorySet> categorySets) {
+        categorySetsInUse = categorySets;
+    }
+    
+    @Override
+    public List<CategorySelectionManagedBean.CategorySet> getCategorySetsInUse() {
+        return categorySetsInUse;
     }
 }

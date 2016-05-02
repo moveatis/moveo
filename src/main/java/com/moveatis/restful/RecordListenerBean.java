@@ -36,6 +36,7 @@ import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Record;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
+import com.moveatis.managedbeans.CategorySelectionManagedBean;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.timezone.TimeZoneInformation;
@@ -168,8 +169,33 @@ public class RecordListenerBean implements Serializable {
         
         observationEntity.setCreated(createdTime);
         
-        // TODO: Fix! This is only temporary solution!
+        
+        /*
+            Add categories to database if they are not already in database,
+            and add the categories to a map by id for later use.
+        */
         Map<Long, CategoryEntity> categoriesById = new HashMap<>();
+        
+        for (CategorySelectionManagedBean.CategorySet categorySet : sessionBean.getCategorySetsInUse()) {
+            for (CategorySelectionManagedBean.Category category : categorySet.getCategories()) {
+                
+                CategoryEntity categoryEntity;
+                
+                if (category.isInDatabase()) {
+                    categoryEntity = categoryEJB.find(category.getId());
+                } else {
+                    categoryEntity = new CategoryEntity();
+                    LabelEntity labelEntity = new LabelEntity();
+                    labelEntity.setLabel(category.getName());
+                    categoryEntity.setLabel(labelEntity);
+
+                    labelEJB.create(labelEntity);
+                    categoryEJB.create(categoryEntity);
+                }
+                
+                categoriesById.put(category.getId(), categoryEntity);
+            }
+        }
 
         try {
             for (int i = 0; i < array.size(); i++) {
@@ -179,32 +205,13 @@ public class RecordListenerBean implements Serializable {
                 * Wont work yet
                 */
                 //record.setCategory(categoryEJB.find(object.getJsonNumber("categoryId").longValue()));
-//                CategoryEntity categoryEntity = new CategoryEntity();
-//                LabelEntity labelEntity = new LabelEntity();
-//                labelEntity.setLabel(object.getJsonString("category").getString());
-//                
-//                categoryEntity.setLabel(labelEntity);
-//                
-//                labelEJB.create(labelEntity);
-//                categoryEJB.create(categoryEntity);
-//                
-//                record.setCategory(categoryEntity);
                 
-                // TODO: Get category from database or add to temporary categories that can be saved to database later if needed.
                 Long id = object.getJsonNumber("id").longValue();
                 CategoryEntity categoryEntity = categoriesById.get(id);
                 
                 if (categoryEntity == null) {
-                    categoryEntity = new CategoryEntity();
-                    LabelEntity labelEntity = new LabelEntity();
-                    labelEntity.setLabel(object.getJsonString("category").getString());
-
-                    categoryEntity.setLabel(labelEntity);
-
-                    labelEJB.create(labelEntity);
-                    categoryEJB.create(categoryEntity);
-                    
-                    categoriesById.put(id, categoryEntity);
+                    LOGGER.debug("Received a record with unknown id!");
+                    continue;
                 }
                 
                 record.setCategory(categoryEntity);
