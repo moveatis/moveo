@@ -147,11 +147,6 @@ public class SessionBean implements Serializable, Session  {
     }
 
     @Override
-    public boolean isIdentifiedUser() {
-        return isLoggedIn() && userType == UserType.IDENTIFIED_USER;
-    }
-
-    @Override
     public String toString() {
         return "SessionBean: userType -> " + getUserType() + ", loggedIn -> " + isLoggedIn();
     }
@@ -253,6 +248,11 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public boolean isTagUser() {
         return userType == UserType.TAG_USER;
+    }
+
+    @Override
+    public boolean isIdentifiedUser() {
+        return userType == UserType.IDENTIFIED_USER;
     }
 
     @Override
