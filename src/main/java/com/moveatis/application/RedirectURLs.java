@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -28,52 +28,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.moveatis.identityprovider;
-
-import com.moveatis.application.RedirectURLs;
-import com.moveatis.user.IdentifiedUserEntity;
-import java.io.IOException;
-import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.inject.Named;
+package com.moveatis.application;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="identityProviderRegistrationBean")
-@RequestScoped
-public class IdentityProviderRegistrationBean implements IdentityProvider, Serializable {
-    
-    private static final long serialVersionUID = 1L;
-    private IdentifiedUserEntity userEntity;
-    private IdentityProviderInformationEntity identityProviderInformationEntity;
+public class RedirectURLs {
 
+    public static final String HOME_URI = "https://moveatis.sport.jyu.fi";
+    public static final String SHIBBOLETH_REDIRECT_SECURE_URI = "https://moveatis.sport.jyu.fi/lotas/secure";
+    public static final String LOCALHOST_REDIRECT_SECURE_URI = "http://localhost:8080/lotas/jyutesting/";
+    public static final String LOCALHOST_HOME_URI = "http://localhost:8080/lotas";
+    public static final String SHIBBOLET_LOGOUT_URL = 
+            "https://moveatis.sport.jyu.fi/lotas/secure/Shibboleth.sso/Logout?return="
+            + "https%3A%2F%2Fmoveatis.sport.jyu.fi";
     
-    public IdentityProviderRegistrationBean() {
-            
-    }
+    public static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/app/control/";
     
-    public void registerSuperUser(ActionEvent actionEvent) {
+    public RedirectURLs() {
         
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect(RedirectURLs.SHIBBOLETH_REDIRECT_SECURE_URI);
-        } catch (IOException ex) {
-            
-        }
     }
-
-    @Override
-    public IdentifiedUserEntity getIdentifiedUserEntity() {
-        userEntity = new IdentifiedUserEntity();
-        identityProviderInformationEntity = new IdentityProviderInformationEntity();
-        
-        userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
-        identityProviderInformationEntity.setUserEntity(userEntity);
-        
-        return userEntity;
-    }
-
 }

@@ -30,6 +30,7 @@
 package com.moveatis.servlet;
 
 import com.moveatis.application.InstallationBean;
+import com.moveatis.application.RedirectURLs;
 import com.moveatis.enums.ApplicationStatusCode;
 import com.moveatis.identityprovider.IdentityProviderBean;
 import com.moveatis.identityprovider.IdentityProviderInformationEntity;
@@ -53,13 +54,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@WebServlet(name = "JyuIdentityServlet", urlPatterns = {"/jyu"})
+@WebServlet(name = "JyuIdentityServlet", urlPatterns = {"/lotas/secure"})
 public class JyuIdentityServlet extends HttpServlet {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(JyuIdentityServlet.class);
-    private static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/lotas/app/control/";
-    private static final String HOME_URI = "https://moveatis.sport.jyu.fi/lotas";
-    private static final String ERROR_URI = "https://moveatis.sport.jyu.fi/lotas/errorhandler";
     
     private IdentifiedUserEntity userEntity;
     
@@ -98,7 +96,7 @@ public class JyuIdentityServlet extends HttpServlet {
             if(ipInformationEntity != null) {
                 userEntity = ipInformationEntity.getIdentifiedUserEntity();
                 sessionBean.setIdentityProviderUser(userEntity);
-                response.sendRedirect(CONTROL_PAGE_URI);
+                response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
                 
             } else {
                 /*
@@ -130,7 +128,7 @@ public class JyuIdentityServlet extends HttpServlet {
                     
                     if(installationEJB.createApplication() == ApplicationStatusCode.INSTALLATION_OK) {
                         LOGGER.debug("Sovellus asennettu, siirretään control-sivulle");
-                        response.sendRedirect(CONTROL_PAGE_URI);
+                        response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
                     } else {
                         response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
                     }
@@ -138,7 +136,7 @@ public class JyuIdentityServlet extends HttpServlet {
             }
         } else {
             LOGGER.debug("eppn, displayName or affiliation was null");
-            response.sendRedirect(HOME_URI);
+            response.sendRedirect(RedirectURLs.HOME_URI);
         }
     }
 

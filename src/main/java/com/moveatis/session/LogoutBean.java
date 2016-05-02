@@ -30,6 +30,7 @@
 
 package com.moveatis.session;
 
+import com.moveatis.application.RedirectURLs;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -48,9 +49,6 @@ import org.slf4j.LoggerFactory;
 public class LogoutBean {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(LogoutBean.class);
-    private static final String SHIBBOLETH_LOGOUT_URI = 
-            "https://moveatis.sport.jyu.fi/Shibboleth.sso/Logout?return="
-            + "https%3A%2F%2Fmoveatis.sport.jyu.fi%2Flotas";
 
     public LogoutBean() {
         
@@ -60,7 +58,7 @@ public class LogoutBean {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.invalidateSession();
                 
-        context.redirect(SHIBBOLETH_LOGOUT_URI);
+        context.redirect(RedirectURLs.SHIBBOLET_LOGOUT_URL);
     }
 
 }

@@ -31,6 +31,7 @@ package com.moveatis.observation;
 
 import com.moveatis.devel.ObservationFileOperations;
 import com.moveatis.enums.UserType;
+import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.AbstractBean;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -44,7 +45,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.moveatis.repository.RepositoryDescriptorBean;
 import com.moveatis.session.SessionBean;
+import com.moveatis.user.AbstractUser;
 import java.util.List;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -81,7 +84,14 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     public ObservationBean() {
         super(ObservationEntity.class);
     }
-    
+
+    @Override
+    public List<ObservationEntity> findAllByObserver(AbstractUser observer) {
+        TypedQuery<ObservationEntity> query = em.createNamedQuery("findByObserver", ObservationEntity.class);
+        query.setParameter("observer", observer);
+        return query.getResultList();
+    }
+
     @Override
     public void create(ObservationEntity observationEntity) {
         if(sessionBean.getUserType() == UserType.ANONYMITY_USER || sessionBean.getUserType() == UserType.TAG_USER ) {

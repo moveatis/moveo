@@ -14,16 +14,21 @@
             <ui:define name="mainpage">
                 <h:outputStylesheet library="css" name="control.css"/>
 
-                <h1>#{msg.con_title} #{sessionBean.loggedIdentifiedUser.givenName}!</h1>
+                <h1>#{msg.con_welcome} #{sessionBean.loggedIdentifiedUser.givenName}!</h1>
 
-                <h2>#{msg.con_title2}</h2>
+                <h2>#{msg.con_observationsTitle}</h2>
+                <h:form id="observationsForm">
+                    <p:panelMenu id="observationsMenu" model="#{controlManagedBean.observationsMenuModel}"/>
+                </h:form>
+
+                <h2>#{msg.con_controlMenuTitle}</h2>
 
                 <h:form id="controlForm">
-                    <p:panelMenu id="controlMenu" model="#{controlManagedBean.menuModel}"/>
+                    <p:panelMenu id="controlMenu" model="#{controlManagedBean.controlMenuModel}"/>
                 </h:form>
 
                 <!-- Dialogs -->
-                <p:dialog header="#{msg.con_newEGDlgHeader}"
+                <p:dialog header="#{msg.con_newEventGroupDialog}"
                           widgetVar="dlgEventGroup"
                           position="top"
                           resizable="false"
@@ -31,12 +36,20 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form styleClass="dialog-form ui-fluid">
-                        <p:inputText id="input-name-eg"
+
+                        <p:focus for="input-name-eg"/>
+
+                        <h:outputLabel for="input-name-eg" value="#{msg.con_eventGroupName}" />
+                        <p:message for="input-name-eg" />
+                        <p:inputText id="input-name-eg" required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{eventGroupManagedBean.eventGroupName}"
-                                     placeholder="#{msg.con_eventGroupName}"/>
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-eg" value="#{msg.con_eventGroupDescription}" />
+                        <p:message for="input-description-eg" />
                         <p:inputTextarea id="input-description-eg"
                                          value="#{eventGroupManagedBean.eventGroupDescription}"
-                                         placeholder="#{msg.con_eventGroupDescription}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
 
                         <p:outputLabel for="visibilityRules" value="Tapahtumaryhmän näkyvyys"/>
@@ -55,19 +68,22 @@
                                          placeholder="Tapahtumaryhmän avain"/>
                         </p:panel>
 
-                        <h:outputText value="#{msg.con_eventGroupExpirationTitle}"/>
+                        <h:outputLabel value="#{msg.con_eventGroupExpirationTitle}"/>
+                        <p:message for="input-expiration-eg" />
                         <p:calendar id="input-expiration-eg"
                                     placeholder="#{msg.con_eventGroupExpiration}"/>
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgEventGroup').hide();"
+
+                        <p:commandButton value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgEventGroup').hide();"
                                          action="#{eventGroupManagedBean.createNewEventGroup}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+
+                        <p:commandButton value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgEventGroup').hide();" />
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="#{msg.con_newCSDlgHeader}"
+                <p:dialog header="#{msg.con_newCategorySetDialog}"
                           widgetVar="dlgCategorySet"
                           position="top"
                           resizable="false"
@@ -75,23 +91,34 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form id="dialog-newCategoryset" styleClass="ui-fluid">
-                        <p:inputText id="input-name-categoryset"
+
+                        <p:focus for="input-name-categoryset"/>
+
+                        <h:outputLabel for="input-name-categoryset" value="#{msg.con_categorySetName}" />
+                        <p:message for="input-name-categoryset" />
+                        <p:inputText id="input-name-categoryset" required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{categorySetManagedBean.name}"
-                                     placeholder="#{msg.con_categorySetName}"/>
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-categoryset" value="#{msg.con_categorySetDescription}" />
+                        <p:message for="input-description-categoryset" />
                         <p:inputTextarea id="input-description-categoryset"
                                          value="#{categorySetManagedBean.description}"
-                                         placeholder="#{msg.con_categorySetDescription}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgCategorySet').hide();"
+
+                        <p:commandButton value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgCategorySet').hide();"
                                          action="#{categorySetManagedBean.createNewCategorySet(controlManagedBean.getSelectedEventGroup())}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+
+                        <p:commandButton value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgCategorySet').hide();" />
+
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="#{msg.con_newCDlgHeader}"
+                <p:dialog header="#{msg.con_newCategoryDialog}"
                           widgetVar="dlgCategory"
                           position="top"
                           resizable="false"
@@ -99,28 +126,38 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form id="dialog-newCategory" styleClass="ui-fluid">
-                        <p:inputText id="input-name-category"
+                        <p:focus for="input-name-category"/>
+
+                        <h:outputLabel for="input-name-category" value="#{msg.con_categoryName}" />
+                        <p:message for="input-name-category" />
+                        <p:inputText id="input-name-category" required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{categoryManagedBean.label}"
-                                     placeholder="#{msg.con_categoryName}"/>
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-category" value="#{msg.con_categoryDescription}" />
+                        <p:message for="input-description-category" />
                         <p:inputTextarea id="input-description-category"
                                          value="#{categoryManagedBean.description}"
-                                         placeholder="#{msg.con_categoryDescription}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
+
                         <p:outputLabel for="canOverlap" value="Voiko kategoria olla samaan aikaan käynnissä muiden kanssa?"/>
                         <p:selectOneRadio id="canOverlap" value="#{categoryManagedBean.canOverlap}">
                             <f:selectItem itemLabel="Kyllä" itemValue="true"/>
                             <f:selectItem itemLabel="Ei" itemValue="false"/>
                         </p:selectOneRadio>
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgCategory').hide();"
+
+                        <p:commandButton value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgCategory').hide();"
                                          action="#{categoryManagedBean.createNewCategory(controlManagedBean.getSelectedCategorySet())}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+
+                        <p:commandButton value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgCategory').hide();" />
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="#{msg.con_newEDlgHeader}"
+                <p:dialog header="#{msg.con_newEventDialog}"
                           widgetVar="dlgEvent"
                           position="top"
                           resizable="false"
@@ -128,23 +165,32 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form id="dialog-newEvent" styleClass="ui-fluid">
-                        <p:inputText id="input-name-event"
+
+                        <p:focus for="input-name-event"/>
+
+                        <h:outputLabel for="input-name-event" value="#{msg.con_eventName}" />
+                        <p:message for="input-name-event" />
+                        <p:inputText id="input-name-event" required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{eventManagedBean.label}"
-                                     placeholder="#{msg.con_eventName}"/>
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-event" value="#{msg.con_eventDescription}" />
+                        <p:message for="input-description-event" />
                         <p:inputTextarea id="input-description-event"
                                          value="#{eventManagedBean.description}"
-                                         placeholder="#{msg.con_eventDescription}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgEvent').hide();"
+
+                        <p:commandButton value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgEvent').hide();"
                                          action="#{eventManagedBean.createNewEvent(controlManagedBean.getSelectedEventGroup())}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+                        <p:commandButton value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgEvent').hide();" />
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="#{msg.con_editEGDlgHeader}"
+                <p:dialog header="#{msg.con_editEventGroupDialog}"
                           widgetVar="dlgEditEventGroup"
                           position="top"
                           resizable="false"
@@ -152,32 +198,61 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form id="form-editEventGroup" styleClass="ui-fluid">
-                        <p:inputText id="input-name-eg"
+
+                        <p:focus for="input-name-eg"/>
+                        <p:defaultCommand target="save" />
+
+                        <p:commandButton value="#{msg.dlg_remove}" styleClass="form-button remove-button" icon="fa fa-trash"
+                                         action="#{controlManagedBean.removeEventGroup}"
+                                         onsuccess="PF('dlgEditEventGroup').hide();"
+                                         update=":controlForm:controlMenu">
+                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                       message="#{msg.dlg_confirmRemoveMessage} #{controlManagedBean.selectedEventGroup.label}. #{msg.dlg_confirmMessage}" />
+                        </p:commandButton>
+
+                        <h:outputLabel for="input-name-eg" value="#{msg.con_eventGroupName}" />
+                        <p:message for="input-name-eg" />
+                        <p:inputText id="input-name-eg" required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{controlManagedBean.selectedEventGroup.label}"
-                                     placeholder="#{msg.con_eventGroupName}"/>
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-eg" value="#{msg.con_eventGroupDescription}" />
+                        <p:message for="input-description-eg" />
                         <p:inputTextarea id="input-description-eg"
                                          value="#{controlManagedBean.selectedEventGroup.description}"
-                                         placeholder="#{msg.con_eventGroupDescription}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
-                        <h:outputText value="#{msg.con_eventGroupKeyTitle}"/>
-                        <!--
-                        <p:inputText id="input-key-eg"
-                                     value="#{controlManagedBean.selectedEventGroup.groupKey.groupKey}"
-                                     placeholder="#{msg.con_eventGroupKey}"/>
-                        -->
-                        <h:outputText value="#{msg.con_eventGroupExpirationTitle}"/>
+
+
+                        <p:outputLabel for="visibilityRules" value="Tapahtumaryhmän näkyvyys"/>
+                        <p:selectOneRadio id="visibilityRules" value="#{eventGroupManagedBean.visibility}">
+                            <f:selectItem itemLabel="Vain minulle" itemValue="own"/>
+                            <f:selectItem itemLabel="Ryhmäavaimella" itemValue="groupKey"/>
+                            <f:selectItem itemLabel="Julkinen" itemValue="public"/>
+                            <p:ajax listener="#{eventGroupManagedBean.addGroupKey}" update="groupKeyPanel"/>
+                        </p:selectOneRadio>
+
+                        <p:panel id='groupKeyPanel'
+                                 visible="#{eventGroupManagedBean.groupKeySelected}">
+                            <p:outputLabel for="input-groupkey" value="Anna ryhmäavain"/>
+                            <p:inputText id="input-groupkey"
+                                         value="#{eventGroupManagedBean.eventGroupKey}"
+                                         placeholder="Tapahtumaryhmän avain"/>
+                        </p:panel>
+
+                        <h:outputLabel value="#{msg.con_eventGroupExpirationTitle}"/>
                         <p:calendar id="input-expiration-eg"
                                     placeholder="#{msg.con_eventGroupExpiration}"/>
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgEditEventGroup').hide();"
+                        <p:commandButton id="save" value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgEditEventGroup').hide();"
                                          action="#{controlManagedBean.editEventGroup}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+                        <p:commandButton value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgEditEventGroup').hide();" />
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="#{msg.con_editCSDlgHeader}"
+                <p:dialog header="#{msg.con_editCategorySetDialog}"
                           widgetVar="dlgEditCategorySet"
                           position="top"
                           resizable="false"
@@ -185,24 +260,42 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form id="form-editCategorySet" styleClass="ui-fluid">
-                        <p:inputText id="input-name-event"
-                                     value=""
-                                     placeholder="#{msg.con_categorySetName}"/>
-                        <p:inputTextarea id="input-description-event"
-                                         value=""
-                                         placeholder="#{msg.con_categorySetDescription}"
+
+                        <p:focus for="input-name-categoryset"/>
+                        <p:defaultCommand target="save" />
+
+                        <p:commandButton value="#{msg.dlg_remove}" styleClass="form-button remove-button" icon="fa fa-trash"
+                                         action="#{controlManagedBean.removeCategorySet()}"
+                                         onsuccess="PF('dlgEditCategorySet').hide();"
+                                         update=":controlForm:controlMenu">
+                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                       message="#{msg.dlg_confirmRemoveMessage} #{controlManagedBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}" />
+                        </p:commandButton>
+
+                        <h:outputLabel for="input-name-categoryset" value="#{msg.con_categorySetName}" />
+                        <p:message for="input-name-categoryset" />
+                        <p:inputText id="input-name-categoryset" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                     value="#{controlManagedBean.selectedCategorySet.label}"
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-categoryset" value="#{msg.con_categorySetDescription}" />
+                        <p:message for="input-description-categoryset" />
+                        <p:inputTextarea id="input-description-categoryset"
+                                         value="#{controlManagedBean.selectedCategorySet.description}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgEditCategorySet').hide();"
-                                         action="#{controlManagedBean.editEvent}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+
+                        <p:commandButton id="save" value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgEditCategorySet').hide();"
+                                         action="#{controlManagedBean.editCategorySet}"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+                        <p:commandButton id="cancel" value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgEditCategorySet').hide();" />
                     </h:form>
                 </p:dialog>
 
                 <!-- TODO: Edit Category lacks canOverlap -option -->
-                <p:dialog header="#{msg.con_editCDlgHeader}"
+                <p:dialog header="#{msg.con_editCategoryDialog}"
                           widgetVar="dlgEditCategory"
                           position="top"
                           resizable="false"
@@ -210,23 +303,47 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form id="form-editCategory" styleClass="ui-fluid">
-                        <p:inputText id="input-name-category"
-                                     value="#{controlManagedBean.selectedCategory.label.label}"
-                                     placeholder="#{msg.con_eventName}"/>
+
+                        <p:focus for="input-name-category"/>
+                        <p:defaultCommand target="save" />
+
+                        <p:commandButton value="#{msg.dlg_remove}" styleClass="form-button remove-button" icon="fa fa-trash"
+                                         action="#{controlManagedBean.removeCategory()}"
+                                         onsuccess="PF('dlgEditCategory').hide();"
+                                         update=":controlForm:controlMenu">
+                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                       message="#{msg.dlg_confirmRemoveMessage} #{controlManagedBean.selectedCategory.label.label}. #{msg.dlg_confirmMessage}" />
+                        </p:commandButton>
+
+                        <h:outputLabel for="input-name-category" value="#{msg.con_categoryName}" />
+                        <p:message for="input-name-category" />
+                        <p:inputText id="input-name-category" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                     value=""
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-category" value="#{msg.con_categoryDescription}" />
+                        <p:message for="input-description-category" />
                         <p:inputTextarea id="input-description-category"
-                                         value="#{controlManagedBean.selectedCategory.description}"
-                                         placeholder="#{msg.con_eventDescription}"
+                                         value=""
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgEditEvent').hide();"
-                                         action="#{controlManagedBean.editEvent}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+
+                        <p:outputLabel for="canOverlap" value="Voiko kategoria olla samaan aikaan käynnissä muiden kanssa?"/>
+                        <p:selectOneRadio id="canOverlap" value="">
+                            <f:selectItem itemLabel="Kyllä" itemValue="true"/>
+                            <f:selectItem itemLabel="Ei" itemValue="false"/>
+                        </p:selectOneRadio>
+
+                        <p:commandButton id="save" value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgEditEvent').hide();"
+                                         action="#{controlManagedBean.editCategory()}"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+                        <p:commandButton value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgEditEvent').hide();" />
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="#{msg.con_editEDlgHeader}"
+                <p:dialog header="#{msg.con_editEventDialog}"
                           widgetVar="dlgEditEvent"
                           position="top"
                           resizable="false"
@@ -234,21 +351,45 @@
                           fitViewport="true"
                           styleClass="coloredButton">
                     <h:form id="form-editEvent" styleClass="ui-fluid">
-                        <p:inputText id="input-name-event"
+
+                        <p:focus for="input-name-event"/>
+                        <p:defaultCommand target="save" />
+
+                        <p:commandButton value="#{msg.dlg_remove}" styleClass="form-button remove-button" icon="fa fa-trash"
+                                         action="#{controlManagedBean.removeEvent()}"
+                                         onsuccess="PF('dlgEditEvent').hide();"
+                                         update=":controlForm:controlMenu">
+                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                       message="#{msg.dlg_confirmRemoveMessage} #{controlManagedBean.selectedEvent.label}. #{msg.dlg_confirmMessage}" />
+                        </p:commandButton>
+
+                        <h:outputLabel for="input-name-event" value="#{msg.con_eventName}" />
+                        <p:message for="input-name-event" />
+                        <p:inputText id="input-name-event" required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{controlManagedBean.selectedEvent.label}"
-                                     placeholder="#{msg.con_eventName}"/>
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-description-event" value="#{msg.con_eventDescription}" />
+                        <p:message for="input-description-event" />
                         <p:inputTextarea id="input-description-event"
                                          value="#{controlManagedBean.selectedEvent.description}"
-                                         placeholder="#{msg.con_eventDescription}"
+                                         validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         onclick="PF('dlgEditEvent').hide();"
+
+                        <p:commandButton id="save" value="#{msg.dlg_save}" styleClass="form-button" icon="ui-icon-check"
+                                         onsuccess="PF('dlgEditEvent').hide();"
                                          action="#{controlManagedBean.editEvent}"
-                                         update=":controlForm:controlMenu"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         update="@form :controlForm:controlMenu" process="@form" validateClient="true"/>
+                        <p:commandButton value="#{msg.dlg_cancel}" styleClass="form-button" icon="ui-icon-close"
                                          onclick="PF('dlgEditEvent').hide();" />
                     </h:form>
                 </p:dialog>
+
+                <p:confirmDialog global="true" closable="false" styleClass="coloredButton">
+                    <p:commandButton value="#{msg.dlg_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="#{msg.dlg_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                </p:confirmDialog>
+
             </ui:define>
         </ui:composition>
     </h:body>

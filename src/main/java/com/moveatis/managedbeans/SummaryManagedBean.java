@@ -38,7 +38,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
 import javax.annotation.PostConstruct;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -244,22 +243,27 @@ public class SummaryManagedBean implements Serializable {
         }
     }
 
-    public void saveCurrentObservation(ActionEvent event) {
-        if (observationEJB.find(observation.getId()) != null) {
-            // Edit existing observation
-            observationEJB.edit(observation);
-        } else {
-            // Save as a new observation
-            observationEJB.create(observation);
+    public void saveCurrentObservation() {
+        switch (this.selectedOption) {
+            case "save":
+                if (observationEJB.find(observation.getId()) != null) {
+                    // Edit existing observation
+                    observation.setObserver(sessionBean.getLoggedInUser());
+                    observationEJB.edit(observation);
+                } else {
+                    // Save as a new observation
+                    observation.setObserver(sessionBean.getLoggedInUser());
+                    observationEJB.create(observation);
+                }
+                break;
+            case "send":
+                // TODO: call mail backing bean
+                break;
+            case "download":
+                // TODO: call file download backing bean
+                break;
         }
-    }
 
-    public void sendCurrentObservation(ActionEvent event) {
-        // TODO: call mail backing bean
-    }
-
-    public void downloadCurrentObservation(ActionEvent event) {
-        // TODO: call file download backing bean
     }
 
     public void saveOptionChangeListener(ValueChangeEvent event) {

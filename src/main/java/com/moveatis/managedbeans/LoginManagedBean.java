@@ -29,6 +29,7 @@
  */
 package com.moveatis.managedbeans;
 
+import com.moveatis.application.RedirectURLs;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.GroupKey;
 import com.moveatis.interfaces.Session;
@@ -60,10 +61,6 @@ import org.slf4j.LoggerFactory;
 public class LoginManagedBean {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginManagedBean.class);
-    private static final String REDIRECT_SECURE_URI = "https://moveatis.sport.jyu.fi/secure";
-    private static final String LOCALHOST_REDIRECT_SECURE_URI = "http://localhost:8080/lotas/jyutesting/";
-    private static final String DEFAULT_URI = "https://moveatis.sport.jyu.fi/lotas";
-    private static final String LOCALHOST_DEFAULT_URI = "http://localhost:8080/lotas";
     
     @ManagedProperty("#{msg}")
     private ResourceBundle messages;
@@ -140,11 +137,11 @@ public class LoginManagedBean {
         
         if(((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
                 .getRequestURL().toString().contains("localhost")) {
-            secureRedirectUri = LOCALHOST_REDIRECT_SECURE_URI;
-            defaultUri = LOCALHOST_DEFAULT_URI;
+            secureRedirectUri = RedirectURLs.LOCALHOST_REDIRECT_SECURE_URI;
+            defaultUri = RedirectURLs.LOCALHOST_HOME_URI;
         } else {
-            secureRedirectUri = REDIRECT_SECURE_URI;
-            defaultUri = DEFAULT_URI;
+            secureRedirectUri = RedirectURLs.SHIBBOLETH_REDIRECT_SECURE_URI;
+            defaultUri = RedirectURLs.HOME_URI;
         }
         try {
             Object source = actionEvent.getSource();
