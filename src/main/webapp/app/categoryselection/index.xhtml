@@ -17,6 +17,10 @@
                     <h:form>
                         <p:growl id="growl" showDetail="true"/>
                         
+                        <h:panelGroup layout="block" rendered="#{categorySelectionBean.eventGroupNotNull}">
+                            <h1>#{categorySelectionBean.eventGroupName}</h1>
+                        </h:panelGroup>
+                        
                         
                         <h1>#{msg.cs_heading}</h1>
                         
@@ -52,7 +56,7 @@
                                              action="#{categorySelectionBean.addPublicCategorySet}" update="@form"/>
                         </h:panelGroup>
                         
-                        <h:panelGroup layout="block" styleClass="category-set-list-last" rendered="#{sessionBean.identifiedUser}">
+                        <h:panelGroup layout="block" styleClass="category-set-list" rendered="#{sessionBean.identifiedUser}">
                             <p:outputLabel for="private-category-sets" value="#{msg.cs_privateCategorySets}:" styleClass="category-set-list-label"/>
                             <p:selectOneMenu id="private-category-sets" value="#{categorySelectionBean.selectedPrivateCategorySet}" styleClass="category-set-list-select">
                                 <f:selectItems value="#{categorySelectionBean.privateCategorySets}" var="categorySet"
@@ -60,6 +64,16 @@
                             </p:selectOneMenu>
                             <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
                                              action="#{categorySelectionBean.addPrivateCategorySet}" update="@form"/>
+                        </h:panelGroup>
+                        
+                        <h:panelGroup layout="block" styleClass="category-set-list-last" rendered="#{categorySelectionBean.eventGroupNotNull}">
+                            <p:outputLabel for="default-category-sets" value="#{msg.cs_defaultCategorySets}:" styleClass="category-set-list-label"/>
+                            <p:selectOneMenu id="default-category-sets" value="#{categorySelectionBean.selectedDefaultCategorySet}" styleClass="category-set-list-select">
+                                <f:selectItems value="#{categorySelectionBean.defaultCategorySets}" var="categorySet"
+                                               itemLabel="#{categorySet.name}" itemValue="#{categorySet.id}"/>
+                            </p:selectOneMenu>
+                            <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
+                                             action="#{categorySelectionBean.addDefaultCategorySet}" update="@form"/>
                         </h:panelGroup>
                         
                         

@@ -73,7 +73,7 @@ public class TagUserEntity extends AbstractUser implements Serializable {
     
     private String label;
     
-    public GroupKeyEntity geGroupKey() {
+    public GroupKeyEntity getGroupKey() {
         return groupKey;
     }
 

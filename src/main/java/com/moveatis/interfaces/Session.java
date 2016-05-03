@@ -31,6 +31,7 @@ package com.moveatis.interfaces;
 
 import com.moveatis.enums.SessionStatus;
 import com.moveatis.event.EventEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.managedbeans.CategorySelectionManagedBean;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
@@ -60,12 +61,13 @@ public interface Session {
     public void setSessionObservations(SortedSet<Long> observationsIds);
     public AbstractUser getLoggedInUser();
     public IdentifiedUserEntity getLoggedIdentifiedUser();
+    public GroupKeyEntity getGroupKey();
     public TimeZone getSessionTimeZone();
     public void setSessionTimeZone(TimeZone timeZone);
     public void setEventEntityForNewObservation(EventEntity eventEntity);
     public EventEntity getEventEntityForNewObservation();
-    public Boolean getIsEventEntityForObservationSet();
-    public Boolean getIsLocalhost();
+    public boolean getIsEventEntityForObservationSet();
+    public boolean getIsLocalhost();
     public void setReturnUri(String uri);
     public String getReturnUri();
     public ObservationEntity getLastObservation();
