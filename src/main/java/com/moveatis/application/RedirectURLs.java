@@ -41,7 +41,7 @@ public class RedirectURLs {
     public static final String LOCALHOST_REDIRECT_SECURE_URI = "http://localhost:8080/lotas/jyutesting/";
     public static final String LOCALHOST_HOME_URI = "http://localhost:8080/lotas";
     public static final String SHIBBOLET_LOGOUT_URL = 
-            "https://moveatis.sport.jyu.fi/lotas/secure/Shibboleth.sso/Logout?return="
+            "https://moveatis.sport.jyu.fi/Shibboleth.sso/Logout?return="
             + "https%3A%2F%2Fmoveatis.sport.jyu.fi";
     
     public static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/app/control/";

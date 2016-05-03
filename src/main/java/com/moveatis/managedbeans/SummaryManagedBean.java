@@ -29,15 +29,20 @@
  */
 package com.moveatis.managedbeans;
 
+import com.moveatis.category.CategoryEntity;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
+import com.moveatis.managedbeans.CategorySelectionManagedBean.Category;
+import com.moveatis.managedbeans.CategorySelectionManagedBean.CategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
 import javax.annotation.PostConstruct;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,6 +51,8 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.faces.view.ViewScoped;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.primefaces.extensions.model.timeline.TimelineGroup;
 
 /**
  * Class for Summary page managed bean. Responsive for creating summary page
@@ -214,56 +221,54 @@ public class SummaryManagedBean implements Serializable {
         duration = new Date(observation.getDuration());
         max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
 
-        // Add categories to timeline as timelinegroups
+        // Add categories to timeline as timeline groups
         int categoryNumber = 1;
-//        for (CategorySet categorySet : categorySets) {
-//            for (String category : categorySet.getSelectedCategories()) {
-//                // Add category name inside element with class name
-//                // use css style to hide them in timeline
-//                // class name is intentionally without quotes, timeline expectional case
-//                String numberedLabel = "<span class=categoryNumber>" + categoryNumber + ". </span>"
-//                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category) + "</span>";
-//                TimelineGroup timelineGroup = new TimelineGroup(category, numberedLabel);
-//                timeline.addGroup(timelineGroup);
-//                // Add dummy records to show empty categories in timeline
-//                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, category, "dummyRecord");
-//                timeline.add(timelineEvent);
-//                categoryNumber++;
-//            }
-//        }
+        for (CategorySet categorySet : sessionBean.getCategorySetsInUse()) {
+            for (Category category : categorySet.getCategories()) {
+                // Add category name inside element with class name
+                // use css style to hide them in timeline
+                // class name is intentionally without quotes, timeline expectional case
+                String numberedLabel
+                        = "<span class=categoryNumber>" + categoryNumber + ". </span>"
+                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category.getName()) + "</span>"
+                        + "<span class=categorySet>" + categorySet.getName() + "</span>";
+                String groupID = category.getId().toString();
+                TimelineGroup timelineGroup = new TimelineGroup(groupID, numberedLabel);
+                timeline.addGroup(timelineGroup);
+                // Add dummy records to show empty categories in timeline
+                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, groupID, "dummyRecord");
+                timeline.add(timelineEvent);
+                categoryNumber++;
+            }
+        }
 
         // Add records to timeline as timeline-events
         for (RecordEntity record : records) {
-            String category = record.getCategory().getLabel().getLabel();
+            CategoryEntity category = record.getCategory();
             long startTime = record.getStartTime();
             long endTime = record.getEndTime();
             TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
-                    new Date(endTime), false, category);
+                    new Date(endTime), false, category.getId().toString());
             timeline.add(timelineEvent);
         }
     }
 
     public void saveCurrentObservation() {
-        switch (this.selectedOption) {
-            case "save":
-                if (observationEJB.find(observation.getId()) != null) {
-                    // Edit existing observation
-                    observation.setObserver(sessionBean.getLoggedInUser()); // TODO: Should this be identified user?
-                    observationEJB.edit(observation);
-                } else {
-                    // Save as a new observation
-                    observation.setObserver(sessionBean.getLoggedInUser()); // TODO: Should this be identified user?
-                    observationEJB.create(observation);
-                }
-                break;
-            case "send":
-                // TODO: call mail backing bean
-                break;
-            case "download":
-                // TODO: call file download backing bean
-                break;
+        if (observationEJB.find(observation.getId()) != null) {
+            // Edit existing observation
+            observationEJB.edit(observation);
+        } else {
+            // Save as a new observation
+            observationEJB.create(observation);
         }
+    }
 
+    public void sendCurrentObservation() {
+        // TODO: call mail backing bean
+    }
+
+    public void downloadCurrentObservation() {
+        // TODO: call file download backing bean
     }
 
     public void saveOptionChangeListener(ValueChangeEvent event) {

@@ -235,7 +235,7 @@ public class CategorySelectionManagedBean implements Serializable {
     private EventGroup eventGroupEJB;
 
     @Inject @MessageBundle //created MessageBundle to allow resourcebundle injection to CDI beans
-    private transient ResourceBundle messages;  //RequestBundle is not serializable (this bean is @SessionScoped) so it needs to be transient
+    private transient ResourceBundle messages;  //RequestBundle is not serializable 
     
     /**
      * Creates a new instance of CategoryManagedBean
@@ -285,17 +285,6 @@ public class CategorySelectionManagedBean implements Serializable {
             IdentifiedUserEntity user = sessionBean.getLoggedIdentifiedUser();
             addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
         }
-        
-//        String[] opettajanToiminnot = {
-//            "Järjestelyt",
-//            "Tehtävän selitys",
-//            "Ohjaus",
-//            "Palautteen anto",
-//            "Tarkkailu",
-//            "Muu toiminta"
-//        };
-//        String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
-//        Muut
         
         categorySetsInUse = new CategorySetList();
         List<CategorySet> categorySets = sessionBean.getCategorySetsInUse();
