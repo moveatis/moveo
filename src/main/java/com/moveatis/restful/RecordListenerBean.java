@@ -183,8 +183,10 @@ public class RecordListenerBean implements Serializable {
                 Long categoryId = category.getId();
                 
                 if (category.isInDatabase()) {
-                    categoryEntity = categoryEJB.find(category.getId());
+                    categoryEntity = categoryEJB.find(categoryId);
                 } else {
+                    LOGGER.debug("Adding new category to database: " + category.getName());
+                    
                     categoryEntity = new CategoryEntity();
                     LabelEntity labelEntity = new LabelEntity();
                     labelEntity.setLabel(category.getName());
@@ -193,7 +195,12 @@ public class RecordListenerBean implements Serializable {
                     labelEJB.create(labelEntity);
                     categoryEJB.create(categoryEntity);
                     
+                    // TODO: If user comes back to observer with browser's back button,
+                    //       the observer page won't be rebuilt => category buttons have wrong ids
+                    //       for previously added new categories! How to fix?
+                    // NOTE: Works well with "reset observation" button.
                     category.setId(categoryEntity.getId());
+                    category.setInDatabase(true);
                 }
                 
                 categoriesById.put(categoryId, categoryEntity);
@@ -209,7 +216,7 @@ public class RecordListenerBean implements Serializable {
                 CategoryEntity categoryEntity = categoriesById.get(id);
                 
                 if (categoryEntity == null) {
-                    LOGGER.debug("Received a record with unknown id!");
+                    LOGGER.debug("Received a record with unknown id! Skipping...");
                     continue;
                 }
                 

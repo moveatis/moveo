@@ -63,10 +63,10 @@ import javax.faces.view.ViewScoped;
 public class CategorySelectionManagedBean implements Serializable {
     
     public static class Category {
-        private Long id;
-        private Long type;
+        private long id;
+        private long type;
         private String name;
-        private Boolean inDatabase;
+        private boolean inDatabase;
         
         public Category() {
             this.id = 0l;
@@ -106,23 +106,30 @@ public class CategorySelectionManagedBean implements Serializable {
              return name;
         }
         
+        public final void setName(String name) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < name.length(); ) {
+                int codePoint = name.codePointAt(i);
+                if (Character.isLetterOrDigit(codePoint)) {
+                    sb.appendCodePoint(codePoint);
+                } else if (Character.isSpaceChar(codePoint)) {
+                    sb.append(' ');
+                }
+                i += Character.charCount(codePoint);
+            }
+            String validName = sb.toString().trim();
+            if (!this.name.equals(validName)) {
+                this.name = validName;
+                inDatabase = false; // If the name is edited, it's not anymore in the database.
+            }
+        }
+        
         public Boolean isInDatabase() {
             return inDatabase;
         }
         
-        public final void setName(String name) {
-            StringBuilder validName = new StringBuilder();
-            for (int i = 0; i < name.length(); ) {
-                int codePoint = name.codePointAt(i);
-                if (Character.isLetterOrDigit(codePoint)) {
-                    validName.appendCodePoint(codePoint);
-                } else if (Character.isSpaceChar(codePoint)) {
-                    validName.append(' ');
-                }
-                i += Character.charCount(codePoint);
-            }
-            this.name = validName.toString().trim();
-            inDatabase = false; // If the name is edited, it's not anymore in the database.
+        public void setInDatabase(boolean inDatabase) {
+            this.inDatabase = inDatabase;
         }
 
         @Override
@@ -221,28 +228,11 @@ public class CategorySelectionManagedBean implements Serializable {
     
     private EventGroupEntity eventGroup;
     
-    public boolean isEventGroupNotNull() {
-        return (eventGroup != null);
-    }
-    
-    public String getEventGroupName() {
-        if (isEventGroupNotNull())
-            return eventGroup.getLabel();
-        LOGGER.debug("Cannot get event group name: event group is null! (This should never happen!)");
-        return "";
-    }
-    
     @Inject
     private Session sessionBean;
     
     @Inject
     private EventGroup eventGroupEJB;
-    
-    @Inject
-    private com.moveatis.interfaces.CategorySet categorySetEJB;
-    
-    @Inject
-    private com.moveatis.interfaces.Category categoryEJB;
 
     @Inject @MessageBundle //created MessageBundle to allow resourcebundle injection to CDI beans
     private transient ResourceBundle messages;  //RequestBundle is not serializable (this bean is @SessionScoped) so it needs to be transient
@@ -356,6 +346,17 @@ public class CategorySelectionManagedBean implements Serializable {
     
     public List<CategorySet> getCategorySetsInUse() {
         return categorySetsInUse.getCategorySets();
+    }
+    
+    public boolean isEventGroupNotNull() {
+        return (eventGroup != null);
+    }
+    
+    public String getEventGroupName() {
+        if (isEventGroupNotNull())
+            return eventGroup.getLabel();
+        LOGGER.debug("Cannot get event group name: event group is null! (This should never happen!)");
+        return "";
     }
     
     public void addDefaultCategorySet() {

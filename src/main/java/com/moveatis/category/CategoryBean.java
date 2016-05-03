@@ -55,12 +55,12 @@ public class CategoryBean extends AbstractBean<CategoryEntity> implements Catego
         super(CategoryEntity.class);
     }
 
-    @Override
-    public CategoryEntity find(String label) {
-        TypedQuery<CategoryEntity> query = em.createNamedQuery("Category.findByLabel", CategoryEntity.class);
-        query.setParameter("label", label);
-        
-        return query.getSingleResult();
-    }
+//    @Override
+//    public CategoryEntity find(String label) {
+//        TypedQuery<CategoryEntity> query = em.createNamedQuery("Category.findByLabel", CategoryEntity.class);
+//        query.setParameter("label", label);
+//        
+//        return query.getSingleResult();
+//    }
 }
     

@@ -248,11 +248,11 @@ public class SummaryManagedBean implements Serializable {
             case "save":
                 if (observationEJB.find(observation.getId()) != null) {
                     // Edit existing observation
-                    observation.setObserver(sessionBean.getLoggedInUser());
+                    observation.setObserver(sessionBean.getLoggedInUser()); // TODO: Should this be identified user?
                     observationEJB.edit(observation);
                 } else {
                     // Save as a new observation
-                    observation.setObserver(sessionBean.getLoggedInUser());
+                    observation.setObserver(sessionBean.getLoggedInUser()); // TODO: Should this be identified user?
                     observationEJB.create(observation);
                 }
                 break;

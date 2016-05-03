@@ -98,7 +98,7 @@ public class SessionBean implements Serializable, Session  {
         } else {
             LOGGER.debug("Cannot get locale: Faces context is null!");
             LOGGER.debug("Using locale 'en'.");
-            setLocale("en");
+            locale = new Locale("en");
         }
     }
     
@@ -213,11 +213,11 @@ public class SessionBean implements Serializable, Session  {
         return this.eventEntityForNewObservation;
     }
 
-    public final Locale getLocale() {
+    public Locale getLocale() {
         return locale;
     }
     
-    public final void setLocale(String lang) {
+    public void setLocale(String lang) {
         locale = new Locale(lang);
     }
     
