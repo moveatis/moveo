@@ -276,8 +276,6 @@ public class CategorySelectionManagedBean implements Serializable {
         eventGroup = null;
         
         publicCategorySets = new CategorySetList();
-        categorySetsInUse = new CategorySetList();
-        
         addAllCategorySetsFromEventGroups(publicCategorySets, eventGroupEJB.findAllForPublicUser());
         
         if (sessionBean.isTagUser()) {
@@ -309,7 +307,11 @@ public class CategorySelectionManagedBean implements Serializable {
 //        String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
 //        Muut
         
-        if (defaultCategorySets != null) {
+        categorySetsInUse = new CategorySetList();
+        List<CategorySet> categorySets = sessionBean.getCategorySetsInUse();
+        if (categorySets != null) {
+            categorySetsInUse.setCategorySets(categorySets);
+        } else if (defaultCategorySets != null) {
             for(CategorySet categorySet : defaultCategorySets.getCategorySets()) {
                 categorySetsInUse.addClone(categorySet);
             }

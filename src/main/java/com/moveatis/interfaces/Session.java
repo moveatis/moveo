@@ -67,7 +67,7 @@ public interface Session {
     public void setEventEntityForNewObservation(EventEntity eventEntity);
     public EventEntity getEventEntityForNewObservation();
     public boolean getIsEventEntityForObservationSet();
-    public Boolean getIsLocalhost();
+    public boolean getIsLocalhost();
     public void setReturnUri(String uri);
     public String getReturnUri();
     public ObservationEntity getLastObservation();

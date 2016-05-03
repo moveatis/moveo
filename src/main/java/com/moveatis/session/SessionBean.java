@@ -49,8 +49,6 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -73,41 +71,34 @@ public class SessionBean implements Serializable, Session  {
     
     @EJB
     private Application applicationEJB;
-    
     @EJB
     private User userEJB;
-    
     @Inject
     private Observation observationEJB;
 
+    private boolean loggedIn = false;
     private UserType userType;
-    private String tag;
-    
-    private SortedSet<Long> sessionObservations;
-    
-    private EventEntity eventEntityForNewObservation;
-    
     private IdentifiedUserEntity userEntity;
     private TagUserEntity tagEntity;
     private AbstractUser abstractUser;
     
-    private boolean loggedIn = false;
-    private boolean identifiedUser = false;
-    private boolean saveable = false;
-    
-    private Boolean isLocalhost;
-    private boolean eventEntityForObservationSet;
+    private SortedSet<Long> sessionObservations;
+    private EventEntity eventEntityForNewObservation;
+    private List<CategorySelectionManagedBean.CategorySet> categorySetsInUse;
     
     private String returnUri;
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
     private Locale locale;
     
-    private List<CategorySelectionManagedBean.CategorySet> categorySetsInUse;
 
     public SessionBean() {
         if (FacesContext.getCurrentInstance() != null) {
             this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        } else {
+            LOGGER.debug("Cannot get locale: Faces context is null!");
+            LOGGER.debug("Using locale 'en'.");
+            setLocale("en");
         }
     }
     
@@ -117,16 +108,24 @@ public class SessionBean implements Serializable, Session  {
         this.userEntity = user;
         this.abstractUser = user;
         this.loggedIn = true;
+        
+        // Make sure we don't modify earlier categories.
+        this.categorySetsInUse = null;
+        this.eventEntityForNewObservation = null;
+        
         return SessionStatus.USER_OK;
     }
     
     @Override
     public SessionStatus setAnonymityUser() {
-        
         userType = UserType.ANONYMITY_USER;
         this.loggedIn = true;
-        return SessionStatus.USER_OK;
         
+        // Make sure we don't modify earlier categories.
+        this.categorySetsInUse = null;
+        this.eventEntityForNewObservation = null;
+        
+        return SessionStatus.USER_OK;
     }
     
     @Override
@@ -138,6 +137,10 @@ public class SessionBean implements Serializable, Session  {
         this.loggedIn = true;
         this.tagEntity = tagUser;
         this.abstractUser = tagUser;
+        
+        // Make sure we don't modify earlier categories.
+        this.categorySetsInUse = null;
+        this.eventEntityForNewObservation = null;
         
         return SessionStatus.TAG_OK;
     }
@@ -202,7 +205,6 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public void setEventEntityForNewObservation(EventEntity eventEntity) {
         this.eventEntityForNewObservation = eventEntity;
-        this.eventEntityForObservationSet = true;
         LOGGER.debug("eventEntity set");
     }
 
@@ -232,8 +234,8 @@ public class SessionBean implements Serializable, Session  {
     }
 
     @Override
-    public Boolean getIsLocalhost() {
-        isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+    public boolean getIsLocalhost() {
+        boolean isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
                 .getRequestURL().toString().contains("localhost");
         return isLocalhost;
     }
@@ -265,7 +267,7 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public boolean getIsEventEntityForObservationSet() {
-        return this.eventEntityForObservationSet;
+        return (eventEntityForNewObservation != null);
     }
     
     @Override

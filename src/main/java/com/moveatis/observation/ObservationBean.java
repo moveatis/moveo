@@ -94,12 +94,12 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 
     @Override
     public void create(ObservationEntity observationEntity) {
-        if(sessionBean.getUserType() == UserType.ANONYMITY_USER || sessionBean.getUserType() == UserType.TAG_USER ) {
+        if (sessionBean.isIdentifiedUser()) {
+            super.create(observationEntity);
+        } else if(sessionBean.isAnonymityUser() || sessionBean.isTagUser()) {
             /*
             * TODO: Create observationentity to repository, not database
             */
-            super.create(observationEntity);
-        } else if(sessionBean.getUserType() == UserType.IDENTIFIED_USER) {
             super.create(observationEntity);
         }
     }
