@@ -67,10 +67,16 @@ $(function () {
     startTimePicker.timepicker("option", "onSelect", function (startTime) {
         var error = updateTimelineTimeframe(timeline, startTime, endTimePicker.val());
         startTimePicker.toggleClass("ui-state-error", error);
+        if (error && convertStrToMs(startTime) > OBSERVATION_DURATION ){
+            startTimeWdgt.setDate(endDate);
+        }
     });
     endTimePicker.timepicker("option", "onSelect", function (endTime) {
         var error = updateTimelineTimeframe(timeline, startTimePicker.val(), endTime);
         endTimePicker.toggleClass("ui-state-error", error);
+        if (error && convertStrToMs(endTime) > OBSERVATION_DURATION ) {
+            endTimeWdgt.setDate(endDate);
+        }
     });
     startTimeWdgt.setDate(startDate);
     endTimeWdgt.setDate(endDate);
@@ -169,7 +175,7 @@ function createRecordRow(record) {
     row.append('<div class="ui-grid-col-5">' + record.name + "</div>");
     row.append(count);
     row.append(duration);
-    if(record.addGap) {
+    if (record.addGap) {
         row.addClass("gapBefore");
     }
     return row;
@@ -467,4 +473,8 @@ function encodeHTML(str) {
  */
 function isBottomOfDocument(padding) {
     return $(window).scrollTop() >= $(document).height() - padding - $(window).height();
+}
+
+function getTimeZoneOffset(){
+    return -1 * 60 * 1000 * new Date().getTimezoneOffset();
 }

@@ -205,6 +205,10 @@
     padding: .1em;
 }
 
+.ui-timepicker-div .ui-slider {
+    margin-left:1em;
+}
+
 /* Responsive */
 @media (max-width:700px){
     .mobileCentered {
