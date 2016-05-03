@@ -33,6 +33,7 @@ import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -218,6 +219,19 @@ public class CategorySelectionManagedBean implements Serializable {
     private CategorySetList privateCategorySets;
     private CategorySetList categorySetsInUse;
     
+    private EventGroupEntity eventGroup;
+    
+    public boolean isEventGroupNotNull() {
+        return (eventGroup != null);
+    }
+    
+    public String getEventGroupName() {
+        if (isEventGroupNotNull())
+            return eventGroup.getLabel();
+        LOGGER.debug("Cannot get event group name: event group is null! (This should never happen!)");
+        return "";
+    }
+    
     @Inject
     private Session sessionBean;
     
@@ -259,20 +273,23 @@ public class CategorySelectionManagedBean implements Serializable {
     
     @PostConstruct
     public void init() {
+        eventGroup = null;
+        
         publicCategorySets = new CategorySetList();
         categorySetsInUse = new CategorySetList();
         
         addAllCategorySetsFromEventGroups(publicCategorySets, eventGroupEJB.findAllForPublicUser());
         
-//        if (cameWithGroupKey) {
-//            defaultCategorySets = new CategorySetList();
-//            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroupEJB.findWitGroupKey(key));
-//        } else
-
-        if (sessionBean.getIsEventEntityForObservationSet()) {
+        if (sessionBean.isTagUser()) {
+            defaultCategorySets = new CategorySetList();
+            GroupKeyEntity groupKey = sessionBean.getGroupKey();
+            eventGroup = groupKey.getEventGroup();
+            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
+        } else if (sessionBean.getIsEventEntityForObservationSet()) {
             defaultCategorySets = new CategorySetList();
             EventEntity event = sessionBean.getEventEntityForNewObservation();
-            addAllCategorySetsFromEventGroup(defaultCategorySets, event.getEventGroup());
+            eventGroup = event.getEventGroup();
+            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
         }
 
         if (sessionBean.isIdentifiedUser()) {
@@ -341,7 +358,7 @@ public class CategorySelectionManagedBean implements Serializable {
     
     public void addDefaultCategorySet() {
         if (categorySetsInUse.find(selectedDefaultCategorySet) == null) {
-            CategorySet categorySet = publicCategorySets.find(selectedDefaultCategorySet);
+            CategorySet categorySet = defaultCategorySets.find(selectedDefaultCategorySet);
             if (categorySet != null) categorySetsInUse.addClone(categorySet);
             else LOGGER.debug("Selected default category set not found!");
         }

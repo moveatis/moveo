@@ -32,6 +32,7 @@ package com.moveatis.session;
 import com.moveatis.enums.SessionStatus;
 import com.moveatis.enums.UserType;
 import com.moveatis.event.EventEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Application;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
@@ -191,6 +192,11 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public IdentifiedUserEntity getLoggedIdentifiedUser() {
         return this.userEntity;
+    }
+    
+    @Override
+    public GroupKeyEntity getGroupKey() {
+        return this.tagEntity.getGroupKey();
     }
 
     @Override
