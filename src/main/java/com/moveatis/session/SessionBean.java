@@ -139,7 +139,7 @@ public class SessionBean implements Serializable, Session  {
         this.tagEntity = tagUser;
         this.abstractUser = tagUser;
         
-        return SessionStatus.TAG_NOT_FOUND;
+        return SessionStatus.TAG_OK;
     }
 
     public UserType getUserType() {
