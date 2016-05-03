@@ -32,22 +32,7 @@
                 </nav>
 
                 <h:panelGroup styleClass="welcomeContent" rendered="#{applicationManagedBean.installed}">
-                    <!--                    <h:graphicImage library="images" name="jy_teksti_oikealla_540.png" width="100"/>-->
-                    <p>
-                        <h:outputText value="Moveatis. Jyväskylän Yliopiston Liikuntakasvatuksen laitos."/>
-                    </p>
-                    <p>
-                        <h:outputText value="Valitse jokin seuraavista käyttötavoista:"/>
-                    </p>
-                    <p>
-                        <h:outputText value="- Käyttö kurssiavaimella: sisältää pohjatiedot."/>
-                    </p>
-                    <p>
-                        <h:outputText value="- Käyttö JYU-tunnuksilla: täydet toiminnallisuudet."/>
-                    </p>
-                    <p>
-                        <h:outputText value="- Julkinen käyttö: ei tallennusmahdollisuutta."/>
-                    </p>
+                    <h:outputText escape="false" value="#{msg.fp_infoText}"/>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{!applicationManagedBean.installed}" style="margin-top: 10em;">
                     <h:form>
