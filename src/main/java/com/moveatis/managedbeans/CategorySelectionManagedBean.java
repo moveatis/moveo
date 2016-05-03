@@ -433,6 +433,7 @@ public class CategorySelectionManagedBean implements Serializable {
             return "";
         }
         
+        // Make category ids unique in this observation.
         for (Category category : notInDatabase) {
             category.setId(greatestId + 1);
             greatestId += 1;

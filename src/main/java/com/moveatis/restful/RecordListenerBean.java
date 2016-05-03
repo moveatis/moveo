@@ -180,6 +180,7 @@ public class RecordListenerBean implements Serializable {
             for (CategorySelectionManagedBean.Category category : categorySet.getCategories()) {
                 
                 CategoryEntity categoryEntity;
+                Long categoryId = category.getId();
                 
                 if (category.isInDatabase()) {
                     categoryEntity = categoryEJB.find(category.getId());
@@ -191,9 +192,11 @@ public class RecordListenerBean implements Serializable {
 
                     labelEJB.create(labelEntity);
                     categoryEJB.create(categoryEntity);
+                    
+                    category.setId(categoryEntity.getId());
                 }
                 
-                categoriesById.put(category.getId(), categoryEntity);
+                categoriesById.put(categoryId, categoryEntity);
             }
         }
 

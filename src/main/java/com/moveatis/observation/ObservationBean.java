@@ -30,8 +30,6 @@
 package com.moveatis.observation;
 
 import com.moveatis.devel.ObservationFileOperations;
-import com.moveatis.enums.UserType;
-import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.AbstractBean;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
