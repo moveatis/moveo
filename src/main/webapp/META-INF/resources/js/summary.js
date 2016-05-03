@@ -122,17 +122,21 @@ function updateRecordsTable(timeline, timeframe) {
     var recordsTotalCount = getRecordsInTimeframe(timeline.items, timeframe).length;
     recordsTable.empty();
 
+    var oldCategorySet;
     $.each(categories, function (category, categoryRecords) {
         var records = getRecordsInTimeframe(categoryRecords, timeframe);
         var duration = getDurationOfRecords(records, timeframe);
+        var newCategorySet = category.match("<span class=categorySet>(.*)</span>")[1];
         var recordRow = createRecordRow({
             name: category,
             count: records.length,
             duration: duration,
+            addGap: oldCategorySet !== newCategorySet,
             countPercent: spanPercentOf(records.length, recordsTotalCount),
             durationPercent: spanPercentOf(duration, timeframeDuration)
         });
         recordsTable.append(recordRow);
+        oldCategorySet = newCategorySet;
     });
     var summaryRow = createRecordRow({
         name: msg.sum_total,
@@ -165,6 +169,9 @@ function createRecordRow(record) {
     row.append('<div class="ui-grid-col-5">' + record.name + "</div>");
     row.append(count);
     row.append(duration);
+    if(record.addGap) {
+        row.addClass("gapBefore");
+    }
     return row;
 }
 

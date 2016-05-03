@@ -168,9 +168,19 @@
                             </p:panel>
                         </p:outputPanel>
 
+                        <p:commandButton class="form-button" value="#{msg.dlg_send}" icon="ui-icon-check"
+                                         action="#{summaryBean.sendCurrentObservation}" validateClient="true"
+                                         rendered="#{summaryBean.sendOptionAllowed()}"
+                                         process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
                         <p:commandButton class="form-button" value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{summaryBean.saveCurrentObservation}" validateClient="true"
                                          process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
+                        <p:commandButton class="form-button" value="#{msg.dlg_download}" icon="ui-icon-check"
+                                         action="#{summaryBean.downloadCurrentObservation}" validateClient="true"
+                                         rendered="#{summaryBean.downloadOptionAllowed()}"
+                                         process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
+
+
                         <p:commandButton class="form-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>
                     </h:form>

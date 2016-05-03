@@ -168,13 +168,22 @@
     border-radius: 0;
 }
 
+.categorySet {
+    display: none!important;
+}
+
+#records .gapBefore {
+    margin-top: 1em;
+    border-top: 2px solid #567;
+}
+
 #select-save {
     margin-top: .1em;
     margin-bottom: .6em;
 }
 
 .login-panel {
-    margin: 3em;
+    margin: 2em;
 }
 
 #startTime_input,
@@ -188,7 +197,7 @@
 }
 
 #saveDialog {
-    margin-top: 1em;
+    margin-top: 3em;
     max-width: 19em;
 }
 
