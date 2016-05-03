@@ -119,7 +119,6 @@ public class LoginManagedBean {
     }
     
     public String doAnonymityLogin() {
-        
         sessionBean.setAnonymityUser();
         return "anonymityuser";
     }

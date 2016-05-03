@@ -113,7 +113,7 @@ public class AlternativeCategorySelectionManagedBean implements Serializable {
     public void init() {
         selectedEvent = sessionBean.getEventEntityForNewObservation();
         if(selectedEvent != null) {
-            Set<CategorySetEntity> publicCategorySets = categorySetEJB.findPublicCatagorySets();
+            Set<CategorySetEntity> publicCategorySets = categorySetEJB.findPublicCategorySets();
 
             Set<CategorySetEntity> eventGroupCategorySets = selectedEvent.getEventGroup().getCategorySets();
             selectedEventGroupCategorySetsMap = fillMap(eventGroupCategorySets);

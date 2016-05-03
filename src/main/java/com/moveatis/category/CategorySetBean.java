@@ -80,7 +80,7 @@ public class CategorySetBean extends AbstractBean<CategorySetEntity> implements 
     }
 
     @Override
-    public Set<CategorySetEntity> findPublicCatagorySets() {
+    public Set<CategorySetEntity> findPublicCategorySets() {
         
         List<EventGroupEntity> publicEventGroups = eventGroupEJB.findAllForPublicUser();
         Set<CategorySetEntity> publicCategorySets = new HashSet<>();

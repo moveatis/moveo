@@ -77,7 +77,7 @@ public class SessionBean implements Serializable, Session  {
     private Observation observationEJB;
 
     private boolean loggedIn = false;
-    private UserType userType;
+    private UserType userType; // TODO(ilari): Is this needed?
     private IdentifiedUserEntity userEntity;
     private TagUserEntity tagEntity;
     private AbstractUser abstractUser;
@@ -213,11 +213,11 @@ public class SessionBean implements Serializable, Session  {
         return this.eventEntityForNewObservation;
     }
 
-    public Locale getLocale() {
+    public final Locale getLocale() {
         return locale;
     }
     
-    public void setLocale(String lang) {
+    public final void setLocale(String lang) {
         locale = new Locale(lang);
     }
     
@@ -262,7 +262,8 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public boolean isIdentifiedUser() {
-        return userType == UserType.IDENTIFIED_USER;
+        return userEntity != null;
+//        return userType == UserType.IDENTIFIED_USER;
     }
 
     @Override

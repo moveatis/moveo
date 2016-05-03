@@ -86,7 +86,7 @@ public class PublicCategorySelectionManagedBean implements Serializable {
 
     public Map<String, Long> getPublicCategorySetsMap() {
         if(publicCategorySetsMap == null) {
-            Set<CategorySetEntity> publicCategorySets = categorySetEJB.findPublicCatagorySets();
+            Set<CategorySetEntity> publicCategorySets = categorySetEJB.findPublicCategorySets();
             publicCategorySetsMap = CategorySetHelper.fillCategorySetMap(publicCategorySets);
         }
         return publicCategorySetsMap;

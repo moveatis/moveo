@@ -48,7 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
-import com.moveatis.user.AbstractUser;
+import com.moveatis.user.IdentifiedUserEntity;
 import java.util.Map;
 import java.util.Set;
 import javax.faces.view.ViewScoped;
@@ -292,7 +292,7 @@ public class CategorySelectionManagedBean implements Serializable {
 
         if (sessionBean.isIdentifiedUser()) {
             privateCategorySets = new CategorySetList();
-            AbstractUser user = sessionBean.getLoggedInUser();
+            IdentifiedUserEntity user = sessionBean.getLoggedIdentifiedUser();
             addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
         }
         
