@@ -247,13 +247,14 @@ function Observer(category_sets) {
     }
     
     /*
+     * Private method.
      * Adds record to the records list if it's not undefined.
      * Used by categoryClick() and stopClick().
      * @param {type} record Record or undefined if there is nothing to add.
      */
-    this.addRecord = function(record) { // TODO: Private?
+    function addRecord(this_, record) {
         if (record !== undefined) {
-            this.records.push(record);
+            this_.records.push(record);
         }
     };
     
@@ -262,39 +263,38 @@ function Observer(category_sets) {
      * Sends ajax notification to backend when observing is first started.
      */
     this.playClick = function() {
-        if (this.master_clock.isPaused()) {
-            if (this.started) { // TODO: Don't if, instead change playClick?
-                this.master_clock.resume(Date.now());
-                $("#play").hide();
-                $("#pause").show();
-            } else {
-                if (this.waiting) return;
-                this.waiting = true;
-                
-                var this_ = this;
-                
-                $.ajax({
-                    url: "../../webapi/records/startobservation",
-                    type: "POST",
-                    dataType: "text",
-                    contentType: "text/plain",
-                    cache: false,
-                    data: "start observation",
-                    success: function(data) {
-                        this_.master_clock.resume(Date.now());
-                        this_.started = true;
-                        this_.waiting = false;
+        if (this.waiting) return;
+        this.waiting = true;
+
+        var this_ = this;
+
+        $.ajax({
+            url: "../../webapi/records/startobservation",
+            type: "POST",
+            dataType: "text",
+            contentType: "text/plain",
+            cache: false,
+            data: "start observation",
+            success: function(data) {
+                this_.master_clock.resume(Date.now());
+                this_.started = true;
+                this_.waiting = false;
+                this_.playClick = function() {
+                    if (this.master_clock.isPaused()) {
+                        this.master_clock.resume(Date.now());
                         $("#play").hide();
                         $("#pause").show();
-                        $("#stop").removeClass("disabled");
-                    },
-                    error: function(xhr, status, error) {
-                        showError(msg.obs_errorCouldntSendStart + " " + error);
-                        this_.waiting = false;
                     }
-                });
+                };
+                $("#play").hide();
+                $("#pause").show();
+                $("#stop").removeClass("disabled");
+            },
+            error: function(xhr, status, error) {
+                showError(msg.obs_errorCouldntSendStart + " " + error);
+                this_.waiting = false;
             }
-        }
+        });
     };
     
     /**
@@ -348,7 +348,7 @@ function Observer(category_sets) {
             category.li.off("click");
             category.li.addClass("disabled");
             if (category.down) {
-                this.addRecord(category.click(time));
+                addRecord(this, category.click(time));
             }
         }
         
@@ -386,7 +386,7 @@ function Observer(category_sets) {
     this.categoryClick = function(index) {
         var category = this.categories[index];
         var time = this.master_clock.getElapsedTime(Date.now());
-        this.addRecord(category.click(time, this.master_clock.isPaused()));
+        addRecord(this, category.click(time, this.master_clock.isPaused()));
     };
     
     /*

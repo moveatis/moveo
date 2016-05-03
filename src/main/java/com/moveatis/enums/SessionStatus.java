@@ -29,6 +29,8 @@
  */
 package com.moveatis.enums;
 
+// TODO(ilari): No need for SessionStatus enum.
+
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>

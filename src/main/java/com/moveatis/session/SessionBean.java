@@ -32,6 +32,7 @@ package com.moveatis.session;
 import com.moveatis.enums.SessionStatus;
 import com.moveatis.enums.UserType;
 import com.moveatis.event.EventEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Application;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
@@ -48,8 +49,6 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -72,41 +71,34 @@ public class SessionBean implements Serializable, Session  {
     
     @EJB
     private Application applicationEJB;
-    
     @EJB
     private User userEJB;
-    
     @Inject
     private Observation observationEJB;
 
-    private UserType userType;
-    private String tag;
-    
-    private SortedSet<Long> sessionObservations;
-    
-    private EventEntity eventEntityForNewObservation;
-    
+    private boolean loggedIn = false;
+    private UserType userType; // TODO(ilari): Is this needed?
     private IdentifiedUserEntity userEntity;
     private TagUserEntity tagEntity;
     private AbstractUser abstractUser;
     
-    private boolean loggedIn = false;
-    private boolean identifiedUser = false;
-    private boolean saveable = false;
-    
-    private Boolean isLocalhost;
-    private Boolean eventEntityForObservationSet;
+    private SortedSet<Long> sessionObservations;
+    private EventEntity eventEntityForNewObservation;
+    private List<CategorySelectionManagedBean.CategorySet> categorySetsInUse;
     
     private String returnUri;
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
     private Locale locale;
     
-    private List<CategorySelectionManagedBean.CategorySet> categorySetsInUse;
 
     public SessionBean() {
         if (FacesContext.getCurrentInstance() != null) {
             this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        } else {
+            LOGGER.debug("Cannot get locale: Faces context is null!");
+            LOGGER.debug("Using locale 'en'.");
+            locale = new Locale("en");
         }
     }
     
@@ -116,16 +108,24 @@ public class SessionBean implements Serializable, Session  {
         this.userEntity = user;
         this.abstractUser = user;
         this.loggedIn = true;
+        
+        // Make sure we don't modify earlier categories.
+        this.categorySetsInUse = null;
+        this.eventEntityForNewObservation = null;
+        
         return SessionStatus.USER_OK;
     }
     
     @Override
     public SessionStatus setAnonymityUser() {
-        
         userType = UserType.ANONYMITY_USER;
         this.loggedIn = true;
-        return SessionStatus.USER_OK;
         
+        // Make sure we don't modify earlier categories.
+        this.categorySetsInUse = null;
+        this.eventEntityForNewObservation = null;
+        
+        return SessionStatus.USER_OK;
     }
     
     @Override
@@ -138,7 +138,11 @@ public class SessionBean implements Serializable, Session  {
         this.tagEntity = tagUser;
         this.abstractUser = tagUser;
         
-        return SessionStatus.TAG_NOT_FOUND;
+        // Make sure we don't modify earlier categories.
+        this.categorySetsInUse = null;
+        this.eventEntityForNewObservation = null;
+        
+        return SessionStatus.TAG_OK;
     }
 
     public UserType getUserType() {
@@ -192,11 +196,15 @@ public class SessionBean implements Serializable, Session  {
     public IdentifiedUserEntity getLoggedIdentifiedUser() {
         return this.userEntity;
     }
+    
+    @Override
+    public GroupKeyEntity getGroupKey() {
+        return this.tagEntity.getGroupKey();
+    }
 
     @Override
     public void setEventEntityForNewObservation(EventEntity eventEntity) {
         this.eventEntityForNewObservation = eventEntity;
-        this.eventEntityForObservationSet = true;
         LOGGER.debug("eventEntity set");
     }
 
@@ -226,8 +234,8 @@ public class SessionBean implements Serializable, Session  {
     }
 
     @Override
-    public Boolean getIsLocalhost() {
-        isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+    public boolean getIsLocalhost() {
+        boolean isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
                 .getRequestURL().toString().contains("localhost");
         return isLocalhost;
     }
@@ -254,15 +262,13 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public boolean isIdentifiedUser() {
-        return userType == UserType.IDENTIFIED_USER;
+        return userEntity != null;
+//        return userType == UserType.IDENTIFIED_USER;
     }
 
     @Override
-    public Boolean getIsEventEntityForObservationSet() {
-        if(this.eventEntityForObservationSet != null) {
-            LOGGER.debug("this.eventEntityForObservationSet -> " + Boolean.toString(this.eventEntityForObservationSet));
-        } 
-        return this.eventEntityForObservationSet;
+    public boolean getIsEventEntityForObservationSet() {
+        return (eventEntityForNewObservation != null);
     }
     
     @Override

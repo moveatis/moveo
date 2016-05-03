@@ -31,7 +31,9 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
+import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -46,7 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
-import com.moveatis.user.AbstractUser;
+import com.moveatis.user.IdentifiedUserEntity;
 import java.util.Map;
 import java.util.Set;
 import javax.faces.view.ViewScoped;
@@ -61,10 +63,10 @@ import javax.faces.view.ViewScoped;
 public class CategorySelectionManagedBean implements Serializable {
     
     public static class Category {
-        private Long id;
-        private Long type;
+        private long id;
+        private long type;
         private String name;
-        private Boolean inDatabase;
+        private boolean inDatabase;
         
         public Category() {
             this.id = 0l;
@@ -104,23 +106,30 @@ public class CategorySelectionManagedBean implements Serializable {
              return name;
         }
         
+        public final void setName(String name) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < name.length(); ) {
+                int codePoint = name.codePointAt(i);
+                if (Character.isLetterOrDigit(codePoint)) {
+                    sb.appendCodePoint(codePoint);
+                } else if (Character.isSpaceChar(codePoint)) {
+                    sb.append(' ');
+                }
+                i += Character.charCount(codePoint);
+            }
+            String validName = sb.toString().trim();
+            if (!this.name.equals(validName)) {
+                this.name = validName;
+                inDatabase = false; // If the name is edited, it's not anymore in the database.
+            }
+        }
+        
         public Boolean isInDatabase() {
             return inDatabase;
         }
         
-        public final void setName(String name) {
-            StringBuilder validName = new StringBuilder();
-            for (int i = 0; i < name.length(); ) {
-                int codePoint = name.codePointAt(i);
-                if (Character.isLetterOrDigit(codePoint)) {
-                    validName.appendCodePoint(codePoint);
-                } else if (Character.isSpaceChar(codePoint)) {
-                    validName.append(' ');
-                }
-                i += Character.charCount(codePoint);
-            }
-            this.name = validName.toString().trim();
-            inDatabase = false; // If the name is edited, it's not anymore in the database.
+        public void setInDatabase(boolean inDatabase) {
+            this.inDatabase = inDatabase;
         }
 
         @Override
@@ -208,27 +217,25 @@ public class CategorySelectionManagedBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySelectionManagedBean.class);
     private static final long serialVersionUID = 1L;
     
+    private Long selectedDefaultCategorySet;
     private Long selectedPublicCategorySet;
     private Long selectedPrivateCategorySet;
     
+    private CategorySetList defaultCategorySets; // From group key or event that was selected in control page.
     private CategorySetList publicCategorySets;
     private CategorySetList privateCategorySets;
     private CategorySetList categorySetsInUse;
+    
+    private EventGroupEntity eventGroup;
     
     @Inject
     private Session sessionBean;
     
     @Inject
     private EventGroup eventGroupEJB;
-    
-    @Inject
-    private com.moveatis.interfaces.CategorySet categorySetEJB;
-    
-    @Inject
-    private com.moveatis.interfaces.Category categoryEJB;
 
     @Inject @MessageBundle //created MessageBundle to allow resourcebundle injection to CDI beans
-    private transient ResourceBundle messages;  //RequestBundle is not serializable (this bean is @SessionScoped) so it needs to be transient
+    private transient ResourceBundle messages;  //RequestBundle is not serializable 
     
     /**
      * Creates a new instance of CategoryManagedBean
@@ -236,48 +243,66 @@ public class CategorySelectionManagedBean implements Serializable {
     public CategorySelectionManagedBean() {
     }
     
+    private static void addAllCategorySetsFromEventGroup(CategorySetList addTo, EventGroupEntity eventGroup) {
+        Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
+        for (CategorySetEntity categorySetEntity : categorySets) {
+            CategorySet categorySet = new CategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
+            Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+            for (CategoryEntity category : categories.values()) {
+                categorySet.add(new Category(category.getId(), category.getLabel().getLabel()));
+            }
+            addTo.add(categorySet);
+        }
+    }
+    
     private static void addAllCategorySetsFromEventGroups(CategorySetList addTo, List<EventGroupEntity> eventGroups) {
         for (EventGroupEntity eventGroup : eventGroups) {
-            Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
-            for (CategorySetEntity categorySetEntity : categorySets) {
-                CategorySet categorySet = new CategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
-                Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
-                for (CategoryEntity category : categories.values()) {
-                    categorySet.add(new Category(category.getId(), category.getLabel().getLabel()));
-                }
-                addTo.add(categorySet);
-            }
+            addAllCategorySetsFromEventGroup(addTo, eventGroup);
         }
     }
     
     @PostConstruct
     public void init() {
-        publicCategorySets = new CategorySetList();
-        privateCategorySets = new CategorySetList();
-        categorySetsInUse = new CategorySetList();
+        eventGroup = null;
         
+        publicCategorySets = new CategorySetList();
         addAllCategorySetsFromEventGroups(publicCategorySets, eventGroupEJB.findAllForPublicUser());
+        
+        if (sessionBean.isTagUser()) {
+            defaultCategorySets = new CategorySetList();
+            GroupKeyEntity groupKey = sessionBean.getGroupKey();
+            eventGroup = groupKey.getEventGroup();
+            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
+        } else if (sessionBean.getIsEventEntityForObservationSet()) {
+            defaultCategorySets = new CategorySetList();
+            EventEntity event = sessionBean.getEventEntityForNewObservation();
+            eventGroup = event.getEventGroup();
+            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
+        }
 
         if (sessionBean.isIdentifiedUser()) {
-            AbstractUser user = sessionBean.getLoggedInUser();
+            privateCategorySets = new CategorySetList();
+            IdentifiedUserEntity user = sessionBean.getLoggedIdentifiedUser();
             addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
         }
         
-//        publicCategorySets = new CategorySetList();
-//        String[] opettajanToiminnot = {
-//            "Järjestelyt",
-//            "Tehtävän selitys",
-//            "Ohjaus",
-//            "Palautteen anto",
-//            "Tarkkailu",
-//            "Muu toiminta"
-//        };
-//        String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
-        
-//        for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
-//            categorySetsInUse.addClone(categorySet);
-//        }
-//        categorySetsInUse.add("Muut", new ArrayList<String>());
+        categorySetsInUse = new CategorySetList();
+        List<CategorySet> categorySets = sessionBean.getCategorySetsInUse();
+        if (categorySets != null) {
+            categorySetsInUse.setCategorySets(categorySets);
+        } else if (defaultCategorySets != null) {
+            for(CategorySet categorySet : defaultCategorySets.getCategorySets()) {
+                categorySetsInUse.addClone(categorySet);
+            }
+        }
+    }
+    
+    public Long getSelectedDefaultCategorySet() {
+        return selectedDefaultCategorySet;
+    }
+    
+    public void setSelectedDefaultCategorySet(Long selectedDefaultCategorySet) {
+        this.selectedDefaultCategorySet = selectedDefaultCategorySet;
     }
     
     public Long getSelectedPublicCategorySet() {
@@ -296,6 +321,10 @@ public class CategorySelectionManagedBean implements Serializable {
         this.selectedPrivateCategorySet = selectedPrivateCategorySet;
     }
     
+    public List<CategorySet> getDefaultCategorySets() {
+        return defaultCategorySets.getCategorySets();
+    }
+    
     public List<CategorySet> getPublicCategorySets() {
         return publicCategorySets.getCategorySets();
     }
@@ -306,6 +335,25 @@ public class CategorySelectionManagedBean implements Serializable {
     
     public List<CategorySet> getCategorySetsInUse() {
         return categorySetsInUse.getCategorySets();
+    }
+    
+    public boolean isEventGroupNotNull() {
+        return (eventGroup != null);
+    }
+    
+    public String getEventGroupName() {
+        if (isEventGroupNotNull())
+            return eventGroup.getLabel();
+        LOGGER.debug("Cannot get event group name: event group is null! (This should never happen!)");
+        return "";
+    }
+    
+    public void addDefaultCategorySet() {
+        if (categorySetsInUse.find(selectedDefaultCategorySet) == null) {
+            CategorySet categorySet = defaultCategorySets.find(selectedDefaultCategorySet);
+            if (categorySet != null) categorySetsInUse.addClone(categorySet);
+            else LOGGER.debug("Selected default category set not found!");
+        }
     }
     
     public void addPublicCategorySet() {
@@ -375,6 +423,7 @@ public class CategorySelectionManagedBean implements Serializable {
             return "";
         }
         
+        // Make category ids unique in this observation.
         for (Category category : notInDatabase) {
             category.setId(greatestId + 1);
             greatestId += 1;

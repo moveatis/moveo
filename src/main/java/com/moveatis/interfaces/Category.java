@@ -48,7 +48,7 @@ public interface Category {
 
     CategoryEntity find(Object id);
     
-    CategoryEntity find(String label);
+//    CategoryEntity find(String label); // TODO: This conflicts with find-by-id for some reason. Is this needed?
 
     List<CategoryEntity> findAll();
 

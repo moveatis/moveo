@@ -53,7 +53,7 @@ public interface CategorySet {
     
     List<CategorySetEntity> findRange(int[] range);
     
-    Set<CategorySetEntity> findPublicCatagorySets();
+    Set<CategorySetEntity> findPublicCategorySets();
 
     int count();
     

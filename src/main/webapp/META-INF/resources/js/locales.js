@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -27,26 +27,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/* global PrimeFaces */
 
-package com.moveatis.managedbeans;
-
-import java.io.Serializable;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-
-/**
- *
- * @author Sami Kallio <phinaliumz at outlook.com>
- */
-@Named(value="privateCategorySelectionManagedBean")
-@ViewScoped
-public class PrivateCategorySelectionManagedBean implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
-
-    /** Creates a new instance of PrivateCategorySelectionManagedBean */
-    public PrivateCategorySelectionManagedBean() {
+PrimeFaces.locales['fi'] = {
+    closeText: 'Sulje',
+    prevText: 'Edellinen',
+    nextText: 'Seuraava',
+    monthNames: ['tammikuu', 'helmikuu', 'maaliskuu', 'huhtikuu', 'toukokuu', 'kesäkuu', 'heinäkuu', 'elokuu', 'syyskuu', 'lokakuu', 'marraskuu', 'joulukuu'],
+    monthNamesShort: ['tammi', 'helmi', 'maalis', 'huhti', 'touko', 'kesä', 'heinä', 'elo', 'syys', 'loka', 'marras', 'joulu'],
+    dayNames: ['sunnuntai', 'maanantai', 'tiistai', 'keskiviikko', 'torstai', 'perjantai', 'lauantai'],
+    dayNamesShort: ['su', 'ma', 'ti', 'ke', 'to', 'pe', 'la'],
+    dayNamesMin: ['su', 'ma', 'ti', 'ke', 'to', 'pe', 'la'],
+    weekHeader: 'Viikko',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+    timeOnlyTitle: 'Valitse aika',
+    timeText: 'Aika',
+    hourText: 'Tunnit',
+    minuteText: 'Minuutit',
+    secondText: 'Sekunnit',
+    currentText: 'Tämä päivä',
+    ampm: false,
+    month: 'kuukausi',
+    week: 'viikko',
+    day: 'päivä',
+    allDayText: 'Koko päivä'
+};
         
-    }
-
-}
