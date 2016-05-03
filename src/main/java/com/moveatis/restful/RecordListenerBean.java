@@ -201,10 +201,6 @@ public class RecordListenerBean implements Serializable {
             for (int i = 0; i < array.size(); i++) {
                 JsonObject object = array.getJsonObject(i);
                 RecordEntity record = new RecordEntity();
-                /*
-                * Wont work yet
-                */
-                //record.setCategory(categoryEJB.find(object.getJsonNumber("categoryId").longValue()));
                 
                 Long id = object.getJsonNumber("id").longValue();
                 CategoryEntity categoryEntity = categoriesById.get(id);

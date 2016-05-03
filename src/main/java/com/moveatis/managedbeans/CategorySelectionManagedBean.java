@@ -31,6 +31,7 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
+import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
@@ -208,9 +209,11 @@ public class CategorySelectionManagedBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySelectionManagedBean.class);
     private static final long serialVersionUID = 1L;
     
+    private Long selectedDefaultCategorySet;
     private Long selectedPublicCategorySet;
     private Long selectedPrivateCategorySet;
     
+    private CategorySetList defaultCategorySets; // From group key or event that was selected in control page.
     private CategorySetList publicCategorySets;
     private CategorySetList privateCategorySets;
     private CategorySetList categorySetsInUse;
@@ -236,34 +239,48 @@ public class CategorySelectionManagedBean implements Serializable {
     public CategorySelectionManagedBean() {
     }
     
+    private static void addAllCategorySetsFromEventGroup(CategorySetList addTo, EventGroupEntity eventGroup) {
+        Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
+        for (CategorySetEntity categorySetEntity : categorySets) {
+            CategorySet categorySet = new CategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
+            Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+            for (CategoryEntity category : categories.values()) {
+                categorySet.add(new Category(category.getId(), category.getLabel().getLabel()));
+            }
+            addTo.add(categorySet);
+        }
+    }
+    
     private static void addAllCategorySetsFromEventGroups(CategorySetList addTo, List<EventGroupEntity> eventGroups) {
         for (EventGroupEntity eventGroup : eventGroups) {
-            Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
-            for (CategorySetEntity categorySetEntity : categorySets) {
-                CategorySet categorySet = new CategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
-                Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
-                for (CategoryEntity category : categories.values()) {
-                    categorySet.add(new Category(category.getId(), category.getLabel().getLabel()));
-                }
-                addTo.add(categorySet);
-            }
+            addAllCategorySetsFromEventGroup(addTo, eventGroup);
         }
     }
     
     @PostConstruct
     public void init() {
         publicCategorySets = new CategorySetList();
-        privateCategorySets = new CategorySetList();
         categorySetsInUse = new CategorySetList();
         
         addAllCategorySetsFromEventGroups(publicCategorySets, eventGroupEJB.findAllForPublicUser());
+        
+//        if (cameWithGroupKey) {
+//            defaultCategorySets = new CategorySetList();
+//            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroupEJB.findWitGroupKey(key));
+//        } else
+
+        if (sessionBean.getIsEventEntityForObservationSet()) {
+            defaultCategorySets = new CategorySetList();
+            EventEntity event = sessionBean.getEventEntityForNewObservation();
+            addAllCategorySetsFromEventGroup(defaultCategorySets, event.getEventGroup());
+        }
 
         if (sessionBean.isIdentifiedUser()) {
+            privateCategorySets = new CategorySetList();
             AbstractUser user = sessionBean.getLoggedInUser();
             addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
         }
         
-//        publicCategorySets = new CategorySetList();
 //        String[] opettajanToiminnot = {
 //            "Järjestelyt",
 //            "Tehtävän selitys",
@@ -273,11 +290,21 @@ public class CategorySelectionManagedBean implements Serializable {
 //            "Muu toiminta"
 //        };
 //        String[] oppilaanToiminnot = { "Oppilas suorittaa tehtävää" };
+//        Muut
         
-//        for(CategorySet categorySet : publicCategorySets.getCategorySets()) {
-//            categorySetsInUse.addClone(categorySet);
-//        }
-//        categorySetsInUse.add("Muut", new ArrayList<String>());
+        if (defaultCategorySets != null) {
+            for(CategorySet categorySet : defaultCategorySets.getCategorySets()) {
+                categorySetsInUse.addClone(categorySet);
+            }
+        }
+    }
+    
+    public Long getSelectedDefaultCategorySet() {
+        return selectedDefaultCategorySet;
+    }
+    
+    public void setSelectedDefaultCategorySet(Long selectedDefaultCategorySet) {
+        this.selectedDefaultCategorySet = selectedDefaultCategorySet;
     }
     
     public Long getSelectedPublicCategorySet() {
@@ -296,6 +323,10 @@ public class CategorySelectionManagedBean implements Serializable {
         this.selectedPrivateCategorySet = selectedPrivateCategorySet;
     }
     
+    public List<CategorySet> getDefaultCategorySets() {
+        return defaultCategorySets.getCategorySets();
+    }
+    
     public List<CategorySet> getPublicCategorySets() {
         return publicCategorySets.getCategorySets();
     }
@@ -306,6 +337,14 @@ public class CategorySelectionManagedBean implements Serializable {
     
     public List<CategorySet> getCategorySetsInUse() {
         return categorySetsInUse.getCategorySets();
+    }
+    
+    public void addDefaultCategorySet() {
+        if (categorySetsInUse.find(selectedDefaultCategorySet) == null) {
+            CategorySet categorySet = publicCategorySets.find(selectedDefaultCategorySet);
+            if (categorySet != null) categorySetsInUse.addClone(categorySet);
+            else LOGGER.debug("Selected default category set not found!");
+        }
     }
     
     public void addPublicCategorySet() {

@@ -95,7 +95,7 @@ public class SessionBean implements Serializable, Session  {
     private boolean saveable = false;
     
     private Boolean isLocalhost;
-    private Boolean eventEntityForObservationSet;
+    private boolean eventEntityForObservationSet;
     
     private String returnUri;
 
@@ -258,10 +258,7 @@ public class SessionBean implements Serializable, Session  {
     }
 
     @Override
-    public Boolean getIsEventEntityForObservationSet() {
-        if(this.eventEntityForObservationSet != null) {
-            LOGGER.debug("this.eventEntityForObservationSet -> " + Boolean.toString(this.eventEntityForObservationSet));
-        } 
+    public boolean getIsEventEntityForObservationSet() {
         return this.eventEntityForObservationSet;
     }
     

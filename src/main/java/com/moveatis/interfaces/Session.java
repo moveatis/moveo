@@ -64,7 +64,7 @@ public interface Session {
     public void setSessionTimeZone(TimeZone timeZone);
     public void setEventEntityForNewObservation(EventEntity eventEntity);
     public EventEntity getEventEntityForNewObservation();
-    public Boolean getIsEventEntityForObservationSet();
+    public boolean getIsEventEntityForObservationSet();
     public Boolean getIsLocalhost();
     public void setReturnUri(String uri);
     public String getReturnUri();
