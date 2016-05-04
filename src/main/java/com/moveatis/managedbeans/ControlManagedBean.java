@@ -113,7 +113,7 @@ public class ControlManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        user = sessionBean.getLoggedInUser(); // TODO: Should this be identified user?
+        user = sessionBean.getLoggedIdentifiedUser();
         eventGroups = eventGroupEJB.findAllForOwner(user);
         observations = observationEJB.findAllByObserver(user);
         createControlMenuModel();

@@ -232,6 +232,12 @@ public class SessionBean implements Serializable, Session  {
         boolean result = (viewId.equals("/app/observer/index.xhtml"));
         return result;
     }
+    
+    public boolean isToFrontPageAvailable() {
+        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+        boolean result = !(viewId.equals("/index.xhtml"));
+        return result;
+    }
 
     @Override
     public boolean getIsLocalhost() {

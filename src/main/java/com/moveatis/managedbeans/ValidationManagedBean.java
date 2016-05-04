@@ -29,6 +29,7 @@
  */
 package com.moveatis.managedbeans;
 
+import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.MessageBundle;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -73,36 +74,13 @@ public class ValidationManagedBean {
         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
     }
     
-    public void validateCategoryName(FacesContext context, UIComponent component, Object value) {
-        // TODO: Maybe check only categories that have been selected?
-        // NOTE: Validation causes problems when one tries to e.g.
-        // delete invalid category or add new category when invalid categories are present!
-        validateStringForJsAndHtml(context, component, value);
-        
-        // TODO: User should be allowed to continue even if some categories are empty!
-        // Confirmation dialog(?) ==> Maybe validation isn't the right place for this...
-        validateNotEmpty(context, component, value);
-    }
-    
-    // NOTE: Some ui components have "required" attribute which does something similar.
-    public void validateNotEmpty(FacesContext context, UIComponent component, Object value) {
-        String s = ((String)value).trim();
-        if (s == null || s.isEmpty()) {
-            // TODO: Proper message!
-            throwError("Kategoria pitää nimetä.");
-        }
-    }
-    
     public void validateStringForJsAndHtml(FacesContext context, UIComponent component, Object value) {
         String s = (String)value;
-        for (int i = 0; i < s.length(); ) {
-            int codePoint = s.codePointAt(i);
-            if (!Character.isLetterOrDigit(codePoint)
-                    && (codePoint != " ".codePointAt(0))) {
-                // TODO: Proper message!
-                throwError("Vain kirjaimet, numerot ja välilyönnit ovat sallittuja.");
-            }
-            i += Character.charCount(codePoint);
+        String valid = Validation.validateForJsAndHtml(s);
+        if (!s.equals(valid)) {
+//            String error = MessageFormat.format(messages.getString("validate_invalidChars"), invalidChars);
+            String error = messages.getString("validate_invalidChars");
+            throwError(error);
         }
     }
 

@@ -34,6 +34,7 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -107,20 +108,11 @@ public class CategorySelectionManagedBean implements Serializable {
         }
         
         public final void setName(String name) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < name.length(); ) {
-                int codePoint = name.codePointAt(i);
-                if (Character.isLetterOrDigit(codePoint)) {
-                    sb.appendCodePoint(codePoint);
-                } else if (Character.isSpaceChar(codePoint)) {
-                    sb.append(' ');
-                }
-                i += Character.charCount(codePoint);
-            }
-            String validName = sb.toString().trim();
+            String validName = Validation.validateForJsAndHtml(name).trim();
             if (!this.name.equals(validName)) {
                 this.name = validName;
-                inDatabase = false; // If the name is edited, it's not anymore in the database.
+                // If the name is edited, it's not anymore in the database.
+                this.inDatabase = false;
             }
         }
         
@@ -217,6 +209,8 @@ public class CategorySelectionManagedBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySelectionManagedBean.class);
     private static final long serialVersionUID = 1L;
     
+    private String newCategorySetName;
+    
     private Long selectedDefaultCategorySet;
     private Long selectedPublicCategorySet;
     private Long selectedPrivateCategorySet;
@@ -255,35 +249,43 @@ public class CategorySelectionManagedBean implements Serializable {
         }
     }
     
-    private static void addAllCategorySetsFromEventGroups(CategorySetList addTo, List<EventGroupEntity> eventGroups) {
+    private static CategorySetList getAllCategorySetsFromEventGroup(EventGroupEntity eventGroup) {
+        CategorySetList categorySets = new CategorySetList();
+        addAllCategorySetsFromEventGroup(categorySets, eventGroup);
+        if (categorySets.getCategorySets().isEmpty())
+            return null;
+        return categorySets;
+    }
+    
+    private static CategorySetList getAllCategorySetsFromEventGroups(List<EventGroupEntity> eventGroups) {
+        CategorySetList categorySets = new CategorySetList();
         for (EventGroupEntity eventGroup : eventGroups) {
-            addAllCategorySetsFromEventGroup(addTo, eventGroup);
+            addAllCategorySetsFromEventGroup(categorySets, eventGroup);
         }
+        if (categorySets.getCategorySets().isEmpty())
+            return null;
+        return categorySets;
     }
     
     @PostConstruct
     public void init() {
         eventGroup = null;
         
-        publicCategorySets = new CategorySetList();
-        addAllCategorySetsFromEventGroups(publicCategorySets, eventGroupEJB.findAllForPublicUser());
+        publicCategorySets = getAllCategorySetsFromEventGroups(eventGroupEJB.findAllForPublicUser());
         
         if (sessionBean.isTagUser()) {
-            defaultCategorySets = new CategorySetList();
             GroupKeyEntity groupKey = sessionBean.getGroupKey();
             eventGroup = groupKey.getEventGroup();
-            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
+            defaultCategorySets = getAllCategorySetsFromEventGroup(eventGroup);
         } else if (sessionBean.getIsEventEntityForObservationSet()) {
-            defaultCategorySets = new CategorySetList();
             EventEntity event = sessionBean.getEventEntityForNewObservation();
             eventGroup = event.getEventGroup();
-            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
+            defaultCategorySets = getAllCategorySetsFromEventGroup(eventGroup);
         }
 
         if (sessionBean.isIdentifiedUser()) {
-            privateCategorySets = new CategorySetList();
             IdentifiedUserEntity user = sessionBean.getLoggedIdentifiedUser();
-            addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
+            privateCategorySets = getAllCategorySetsFromEventGroups(eventGroupEJB.findAllForOwner(user));
         }
         
         categorySetsInUse = new CategorySetList();
@@ -295,6 +297,14 @@ public class CategorySelectionManagedBean implements Serializable {
                 categorySetsInUse.addClone(categorySet);
             }
         }
+    }
+    
+    public String getNewCategorySetName() {
+        return newCategorySetName;
+    }
+    
+    public void setNewCategorySetName(String newCategorySetName) {
+        this.newCategorySetName = newCategorySetName;
     }
     
     public Long getSelectedDefaultCategorySet() {
@@ -346,6 +356,26 @@ public class CategorySelectionManagedBean implements Serializable {
             return eventGroup.getLabel();
         LOGGER.debug("Cannot get event group name: event group is null! (This should never happen!)");
         return "";
+    }
+    
+    public boolean isDefaultCategorySetsNotNull() {
+        return (defaultCategorySets != null);
+    }
+    
+    public boolean isPublicCategorySetsNotNull() {
+        return (publicCategorySets != null);
+    }
+    
+    public boolean isPrivateCategorySetsNotNull() {
+        return (privateCategorySets != null);
+    }
+    
+    public void addNewCategorySet() {
+        if (!newCategorySetName.isEmpty()) {
+            CategorySet categorySet = new CategorySet(-1l, newCategorySetName); // TODO: id?
+            categorySetsInUse.add(categorySet);
+            newCategorySetName = "";
+        }
     }
     
     public void addDefaultCategorySet() {
