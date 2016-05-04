@@ -59,7 +59,7 @@ public interface Session {
     public boolean isSaveable();
     public SortedSet<Long> getSessionObservationsIds();
     public void setSessionObservations(SortedSet<Long> observationsIds);
-    public AbstractUser getLoggedInUser(); // TODO(ilari): Not needed.
+    public AbstractUser getLoggedInUser();
     public IdentifiedUserEntity getLoggedIdentifiedUser();
     public GroupKeyEntity getGroupKey();
     public TimeZone getSessionTimeZone();

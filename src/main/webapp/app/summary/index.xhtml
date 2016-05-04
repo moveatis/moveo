@@ -179,7 +179,8 @@
                         <p:commandButton class="form-button" value="#{msg.dlg_download}" icon="ui-icon-check"
                                          action="#{summaryBean.downloadCurrentObservation}" validateClient="true"
                                          rendered="#{summaryBean.downloadOptionAllowed()}"
-                                         process="@form" update="@form" onsuccess="window.onbeforeunload = null;" />
+                                         process="@form" update="@form" onsuccess="window.onbeforeunload = null;"
+                                         ajax="false" />
 
 
                         <p:commandButton class="form-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"

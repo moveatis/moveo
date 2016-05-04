@@ -22,7 +22,7 @@
                         </h:panelGroup>
                         
                         
-                        <h1>#{msg.cs_heading}</h1>
+                        <h2>#{msg.cs_heading}</h2>
                         
                         <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet">
                         <div class="category-set">
@@ -44,9 +44,18 @@
                         </ui:repeat>
                         
                         
-                        <h1>#{msg.cs_addCategorySets}</h1>
+                        <h2>#{msg.cs_addCategorySets}</h2>
                         
                         <h:panelGroup layout="block" styleClass="category-set-list">
+                            <p:outputLabel for="new-category-set" value="#{msg.cs_newCategorySet}:" styleClass="category-set-list-label"/>
+                            <p:inputText value="#{categorySelectionBean.newCategorySetName}" id="new-category-set" styleClass="category-set-list-input" />
+                            <p:watermark value="#{msg.cs_categorySetName}" for="new-category-set" />
+                            <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
+                                             action="#{categorySelectionBean.addNewCategorySet}" update="@form"/>
+                        </h:panelGroup>
+                        
+                        <!--<h:panelGroup layout="block" styleClass="category-set-list" rendered="# {categorySelectionBean.publicCategorySetsNotNull}">-->
+                        <h:panelGroup layout="block" styleClass="category-set-list" rendered="false">
                             <p:outputLabel for="public-category-sets" value="#{msg.cs_publicCategorySets}:" styleClass="category-set-list-label"/>
                             <p:selectOneMenu id="public-category-sets" value="#{categorySelectionBean.selectedPublicCategorySet}" styleClass="category-set-list-select">
                                 <f:selectItems value="#{categorySelectionBean.publicCategorySets}" var="categorySet"
@@ -56,7 +65,7 @@
                                              action="#{categorySelectionBean.addPublicCategorySet}" update="@form"/>
                         </h:panelGroup>
                         
-                        <h:panelGroup layout="block" styleClass="category-set-list" rendered="#{sessionBean.identifiedUser}">
+                        <h:panelGroup layout="block" styleClass="category-set-list" rendered="#{categorySelectionBean.privateCategorySetsNotNull}">
                             <p:outputLabel for="private-category-sets" value="#{msg.cs_privateCategorySets}:" styleClass="category-set-list-label"/>
                             <p:selectOneMenu id="private-category-sets" value="#{categorySelectionBean.selectedPrivateCategorySet}" styleClass="category-set-list-select">
                                 <f:selectItems value="#{categorySelectionBean.privateCategorySets}" var="categorySet"
@@ -66,7 +75,7 @@
                                              action="#{categorySelectionBean.addPrivateCategorySet}" update="@form"/>
                         </h:panelGroup>
                         
-                        <h:panelGroup layout="block" styleClass="category-set-list-last" rendered="#{categorySelectionBean.eventGroupNotNull}">
+                        <h:panelGroup layout="block" styleClass="category-set-list-last" rendered="#{categorySelectionBean.defaultCategorySetsNotNull}">
                             <p:outputLabel for="default-category-sets" value="#{msg.cs_defaultCategorySets}:" styleClass="category-set-list-label"/>
                             <p:selectOneMenu id="default-category-sets" value="#{categorySelectionBean.selectedDefaultCategorySet}" styleClass="category-set-list-select">
                                 <f:selectItems value="#{categorySelectionBean.defaultCategorySets}" var="categorySet"
