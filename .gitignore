@@ -12,6 +12,7 @@ deployments/
 # Java class files
 *.class
 *.war
+lib/
 
 # Netbeans files
 nbproject/private
