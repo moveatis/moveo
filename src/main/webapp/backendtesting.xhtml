@@ -13,13 +13,29 @@
         </h:panelGroup>
         <h:panelGroup>
             <p>
-                <h:outputText value="Tunnuksesi on -> #{devIdentityManagedBean.jyuTunnus}"/>
-            </p>
-            <p>
-                <h:outputText value="Nimesi on -> #{devIdentityManagedBean.displayName}"/>
-            </p>
-            <p>
-                <h:outputText value="Affilitaasiosi on -> #{devIdentityManagedBean.affiliation}"/>
+                Sähköpostin lähetystestausta varten.
+                <h:panelGroup rendered="#{sessionBean.identifiedUser}">
+                    <h:form>
+                        <p>
+                            <h:outputLabel for="to" value="Vastaanottaja"/>
+                            <h:inputText id="to" value="#{mailerManagedBean.recipient}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel for="subject" value="Aihe"/>
+                            <h:inputText id="subject" value="#{mailerManagedBean.subject}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel for="text" value="Viesti"/>
+                            <h:inputText id="text" value="#{mailerManagedBean.text}"/>
+                        </p>
+                        <p>
+                            <h:commandButton value="Lähetä" actionListener="#{mailerManagedBean.sendEmail}"/>
+                        </p>
+                        <p>
+                            <h:messages />
+                        </p>
+                    </h:form>
+                </h:panelGroup>
             </p>
         </h:panelGroup>
     </h:body>

@@ -46,7 +46,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.primefaces.component.menuitem.UIMenuItem;
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
@@ -77,9 +76,6 @@ public class LoginManagedBean {
     private String loginOutcome;
     private String tag;
     
-    private String userName;
-    private String password;
-
     /**
      * Creates a new instance of Login
      */
@@ -127,13 +123,6 @@ public class LoginManagedBean {
         
         String secureRedirectUri, defaultUri;
         
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        if(session == null) {
-            LOGGER.debug("Sessio oli null");
-        } else {
-            LOGGER.debug("Sessio ei ollut null");
-        }
-        
         if(((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
                 .getRequestURL().toString().contains("localhost")) {
             secureRedirectUri = RedirectURLs.LOCALHOST_REDIRECT_SECURE_URI;
@@ -148,12 +137,11 @@ public class LoginManagedBean {
                 // Clicked in menu so we need to redirect to page where user clicked login
                 Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
                 sessionBean.setReturnUri(defaultUri + params.get("view"));
-                LOGGER.debug("Return uri set to -> " + sessionBean.getReturnUri());
             }
             
             FacesContext.getCurrentInstance().getExternalContext().redirect(secureRedirectUri);
         } catch (IOException ex) {
-            LOGGER.debug("Virhe -> " + ex.toString());
+            LOGGER.error("Virhe -> " + ex.toString());
         }
     }
 

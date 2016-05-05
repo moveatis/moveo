@@ -40,7 +40,6 @@ import com.moveatis.interfaces.Session;
 import com.moveatis.interfaces.User;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.IOException;
-import java.util.Calendar;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -113,7 +112,6 @@ public class JyuIdentityServlet extends HttpServlet {
                 userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
                 userEntity.setGivenName(displayName);
 
-                userEntity.setCreated(Calendar.getInstance().getTime());
                 identityProviderInformationEntity.setUserEntity(userEntity);
 
                 userEJB.create(userEntity);

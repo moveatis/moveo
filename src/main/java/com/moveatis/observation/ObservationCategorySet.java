@@ -28,30 +28,50 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.moveatis.helpers;
+package com.moveatis.observation;
 
-import com.moveatis.category.CategorySetEntity;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
-public class CategorySetHelper {
+public class ObservationCategorySet {
     
-    
-    public CategorySetHelper() {
+    private Long id;
+    private String name;
+    private List<ObservationCategory> categories;
         
+    public ObservationCategorySet(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.categories = new ArrayList<>();
     }
-    
-    public static Map<String, Long> fillCategorySetMap(Set<CategorySetEntity> categorySet) {
-        Map<String, Long> map = new TreeMap<>();
-        
-        for(CategorySetEntity categorySetEntity : categorySet) {
-            map.put(categorySetEntity.getLabel(), categorySetEntity.getId());
-        }
-        return map;
+
+    public Long getId() {
+        return id;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<ObservationCategory> getCategories() {
+        return categories;
+    }
+
+    public void add(ObservationCategory category) {
+        categories.add(category);
+    }
+
+    public void addEmpty() {
+        categories.add(new ObservationCategory());
+    }
+
+    public void remove(ObservationCategory category) {
+        categories.remove(category);
+    }
+
 }

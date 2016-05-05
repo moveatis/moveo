@@ -30,6 +30,7 @@
 
 package com.moveatis.roles;
 
+import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.Date;
@@ -49,24 +50,12 @@ import javax.persistence.Temporal;
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="ROLE_TYPE")
-public abstract class AbstractRole implements Serializable {
+public abstract class AbstractRole extends BaseEntity implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     protected Date startDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     protected Date endDate;
-
-    public Long getId() {
-        return this.id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Date getStartDate() {
         return startDate;

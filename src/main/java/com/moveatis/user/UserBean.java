@@ -29,13 +29,11 @@
  */
 package com.moveatis.user;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.moveatis.interfaces.User;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

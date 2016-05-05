@@ -29,7 +29,7 @@
  */
 package com.moveatis.records;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.Record;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

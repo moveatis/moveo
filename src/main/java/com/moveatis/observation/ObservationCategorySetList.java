@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -28,37 +28,55 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.moveatis.helpers;
+package com.moveatis.observation;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
-public class PasswordHashGenerator {
+public class ObservationCategorySetList {
     
-    private static final int KEY_LENGTH = 256;
-    
-    public PasswordHashGenerator() {
+    private List<ObservationCategorySet> categorySets = new ArrayList<>();
+
+    public ObservationCategorySetList() {
         
     }
     
-    public static byte[] hashPassword( final char[] password, final byte[] salt, final int iterations) {
-       try {
-           SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA1" );
-           PBEKeySpec spec = new PBEKeySpec( password, salt, iterations, KEY_LENGTH );
-           SecretKey key = skf.generateSecret( spec );
-           byte[] res = key.getEncoded( );
-           return res;
- 
-       } catch( NoSuchAlgorithmException | InvalidKeySpecException e ) {
-           throw new RuntimeException( e );
-       }
-   }
+    public List<ObservationCategorySet> getCategorySets() {
+        return categorySets;
+    }
+
+    public void setCategorySets(List<ObservationCategorySet> categorySets) {
+        this.categorySets = categorySets;
+    }
+
+    public void add(ObservationCategorySet categorySet) {
+        categorySets.add(categorySet);
+    }
+
+    public void addClone(ObservationCategorySet categorySet) {
+        ObservationCategorySet cloned = new ObservationCategorySet(categorySet.getId(), categorySet.getName());
+        for (ObservationCategory category : categorySet.getCategories()) {
+            cloned.add(new ObservationCategory(category));
+        }
+        categorySets.add(cloned);
+    }
+
+    public ObservationCategorySet find(Long id) {
+        for (ObservationCategorySet categorySet : categorySets) {
+            if (categorySet.getId().equals(id)) {
+                return categorySet;
+            }
+        }
+        return null;
+    }
+
+    public void remove(ObservationCategorySet categorySet) {
+        categorySets.remove(categorySet);
+    }
 
 }

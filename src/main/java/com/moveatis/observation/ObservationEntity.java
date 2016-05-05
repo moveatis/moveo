@@ -29,27 +29,22 @@
  */
 package com.moveatis.observation;
 
+import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.category.CategorySetEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -63,13 +58,9 @@ import javax.persistence.TemporalType;
     )
 })
 @Entity
-public class ObservationEntity implements Serializable {
+public class ObservationEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     
     @ManyToOne
     private AbstractUser observer;
@@ -77,8 +68,8 @@ public class ObservationEntity implements Serializable {
     @ManyToOne
     private EventEntity event;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
+    @OneToMany
+    private Set<CategorySetEntity> categorySets;
     
     @OneToMany(mappedBy = "observation", fetch=FetchType.EAGER)
     private List<RecordEntity> records;
@@ -88,15 +79,25 @@ public class ObservationEntity implements Serializable {
     private String description;
     private String name;
     private String target;
-    
+
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
+    public Set<CategorySetEntity> getCategorySets() {
+        return categorySets;
+    }
+
+    public void setCategorySets(Set<CategorySetEntity> categorySets) {
+        this.categorySets = categorySets;
+    }
+    
     public List<RecordEntity> getRecords() {
         return records;
     }
@@ -127,14 +128,6 @@ public class ObservationEntity implements Serializable {
         }
         getRecords().add(record);
         record.setObservation(this);
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public long getDuration() {

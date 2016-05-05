@@ -38,6 +38,7 @@ import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
 import com.moveatis.interfaces.User;
 import com.moveatis.managedbeans.CategorySelectionManagedBean;
+import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.timezone.TimeZoneInformation;
 import com.moveatis.user.AbstractUser;
@@ -49,6 +50,7 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -84,7 +86,7 @@ public class SessionBean implements Serializable, Session  {
     
     private SortedSet<Long> sessionObservations;
     private EventEntity eventEntityForNewObservation;
-    private List<CategorySelectionManagedBean.CategorySet> categorySetsInUse;
+    private List<ObservationCategorySet> categorySetsInUse;
     
     private String returnUri;
 
@@ -93,6 +95,11 @@ public class SessionBean implements Serializable, Session  {
     
 
     public SessionBean() {
+        
+    }
+    
+    @PostConstruct
+    public void init() {
         if (FacesContext.getCurrentInstance() != null) {
             this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
         } else {
@@ -288,12 +295,12 @@ public class SessionBean implements Serializable, Session  {
     }
     
     @Override
-    public void setCategorySetsInUse(List<CategorySelectionManagedBean.CategorySet> categorySets) {
+    public void setCategorySetsInUse(List<ObservationCategorySet> categorySets) {
         categorySetsInUse = categorySets;
     }
     
     @Override
-    public List<CategorySelectionManagedBean.CategorySet> getCategorySetsInUse() {
+    public List<ObservationCategorySet> getCategorySetsInUse() {
         return categorySetsInUse;
     }
 }

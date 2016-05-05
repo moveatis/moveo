@@ -29,7 +29,7 @@
  */
 package com.moveatis.category;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.Category;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

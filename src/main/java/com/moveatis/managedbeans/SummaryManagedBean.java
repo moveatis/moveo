@@ -33,21 +33,18 @@ import com.moveatis.category.CategoryEntity;
 import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
-import com.moveatis.managedbeans.CategorySelectionManagedBean.Category;
-import com.moveatis.managedbeans.CategorySelectionManagedBean.CategorySet;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.SortedSet;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -233,8 +230,8 @@ public class SummaryManagedBean implements Serializable {
 
         // Add categories to timeline as timeline groups
         int categoryNumber = 1;
-        for (CategorySet categorySet : sessionBean.getCategorySetsInUse()) {
-            for (Category category : categorySet.getCategories()) {
+        for (ObservationCategorySet categorySet : sessionBean.getCategorySetsInUse()) {
+            for (ObservationCategory category : categorySet.getCategories()) {
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
                 // class name is intentionally without quotes, timeline expectional case

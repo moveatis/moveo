@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -27,38 +27,83 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.helpers;
 
-import com.moveatis.category.CategoryEntity;
+package com.moveatis.observation;
+
+import com.moveatis.helpers.Validation;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
-
-
-public class SelectedCategoryHelper {
+public class ObservationCategory {
     
-    private Boolean selected;
-    private CategoryEntity categoryEntity;
+    private long id;
+    private long type;
+    private String name;
+    private boolean inDatabase;
 
-    public SelectedCategoryHelper() {
-        
+    public ObservationCategory() {
+        this.id = 0l;
+        this.type = 0l;
+        this.name = "";
+        this.inDatabase = false;
     }
 
-    public Boolean getSelected() {
-        return selected;
+    public ObservationCategory(Long id, String name) {
+        this.id = id;
+        this.type = 0l;
+        this.name = name;
+        this.inDatabase = true;
     }
 
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
+    public ObservationCategory(ObservationCategory other) {
+        this.id = other.id;
+        this.type = other.type;
+        this.name = other.name;
+        this.inDatabase = other.inDatabase;
+        // NOTE: inDatabase should always be true when cloning other category!
     }
 
-    public CategoryEntity getCategoryEntity() {
-        return categoryEntity;
+    public Long getId() {
+        return id;
     }
 
-    public void setCategoryEntity(CategoryEntity categoryEntity) {
-        this.categoryEntity = categoryEntity;
+    public void setId(long id) {
+        this.id = id;
     }
+
+    public Long getType() {
+        return type;
+    }
+
+    public String getName() {
+         return name;
+    }
+
+    public final void setName(String name) {
+        String validName = Validation.validateForJsAndHtml(name).trim();
+        if (!this.name.equals(validName)) {
+            this.name = validName;
+            // If the name is edited, it's not anymore in the database.
+            this.inDatabase = false;
+        }
+    }
+
+    public Boolean isInDatabase() {
+        return inDatabase;
+    }
+
+    public void setInDatabase(boolean inDatabase) {
+        this.inDatabase = inDatabase;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        ObservationCategory category = (ObservationCategory)o;
+        return name.equals(category.name);
+    }
+
 }

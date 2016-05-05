@@ -27,8 +27,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.interfaces;
+package com.moveatis.abstracts;
 
+import com.moveatis.timezone.TimeZoneInformation;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -40,8 +42,10 @@ import javax.persistence.criteria.Root;
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @param <T> 
+ * 
  */
-public abstract class AbstractBean<T> {
+public abstract class AbstractBean<T extends BaseEntity> {
 
     private Class<T> entityClass;
 
@@ -60,11 +64,26 @@ public abstract class AbstractBean<T> {
     }
 
     public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        entity.setRemoved();
+        getEntityManager().merge(entity);
     }
 
     public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+        T entity = (T)getEntityManager().find(entityClass, id);
+        
+        if(entity.getRemoved() != null) {
+            Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
+            Calendar entityCalendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
+            entityCalendar.setTime(entity.getRemoved());
+            
+            if(entityCalendar.before(calendar)) {
+                return entity;
+            } else {
+                return null;
+            }
+        } else {
+            return entity;
+        }
     }
 
     public List<T> findAll() {

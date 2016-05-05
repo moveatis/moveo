@@ -30,7 +30,7 @@
 package com.moveatis.user;
 
 import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.TagUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

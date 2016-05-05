@@ -29,11 +29,9 @@
  
 package com.moveatis.label;
 
+import com.moveatis.abstracts.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -47,23 +45,11 @@ import javax.persistence.Table;
 @NamedQueries(
         @NamedQuery(name="findByLabel", query="SELECT l FROM LabelEntity l WHERE l.label = :label")
 )
-public class LabelEntity implements Serializable {
+public class LabelEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
     private String label;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public int hashCode() {

@@ -28,7 +28,7 @@
  */
 package com.moveatis.label;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.Label;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

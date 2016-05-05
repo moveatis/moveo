@@ -61,11 +61,6 @@ public class IdentifiedUserEntity extends AbstractUser implements Serializable {
     
     private String givenName;
     private String email;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date removed;
 
     public IdentityProviderInformationEntity getIdentityProviderInformation() {
         return identityProviderInformation;
@@ -81,22 +76,6 @@ public class IdentifiedUserEntity extends AbstractUser implements Serializable {
 
     public void setGivenName(String givenName) {
         this.givenName = givenName;
-    }
-    
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(Date removed) {
-        this.removed = removed;
     }
 
     public IdentityProviderInformationEntity getIdentityProviderInformationEntity() {

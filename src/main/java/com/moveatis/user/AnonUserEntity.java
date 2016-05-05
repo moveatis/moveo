@@ -30,11 +30,9 @@
 package com.moveatis.user;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -46,32 +44,10 @@ public class AnonUserEntity extends AbstractUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date removed;
-    
     @ManyToOne
     private IdentifiedUserEntity creator;
     
     private String label;
-    
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(Date removed) {
-        this.removed = removed;
-    }
 
     public IdentifiedUserEntity getCreator() {
         return creator;

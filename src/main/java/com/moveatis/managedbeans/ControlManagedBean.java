@@ -40,11 +40,9 @@ import com.moveatis.interfaces.EventGroup;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
-import com.moveatis.observation.ObservationBean;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -136,7 +134,7 @@ public class ControlManagedBean implements Serializable {
         this.observationsMenuModel = observationsMenuModel;
     }
 
-    public void addEventGroup(EventGroupEntity eventGroup) {
+    public void addEventGroup() {
         init();
     }
 
@@ -175,11 +173,6 @@ public class ControlManagedBean implements Serializable {
         if (eventGroups != null && !eventGroups.isEmpty()) {
 
             for (EventGroupEntity eventGroup : eventGroups) {
-
-                // Skip removed event groups
-                if (eventGroup.getRemoved() != null) {
-                    continue;
-                }
 
                 DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
                 subMenuEventGroup.addElement(
@@ -244,27 +237,23 @@ public class ControlManagedBean implements Serializable {
                                 null, null));
                 subMenuEventGroup.addElement(subMenuEvents);
 
-                for (EventEntity event : eventGroup.getEvents()) {
+                // EventGroups have just one Event now (agreed on meeting 5.5.2016
+                EventEntity event = eventGroup.getEvent();
 
-                    // Skip removed events
-                    if (event.getRemoved() != null) {
-                        continue;
-                    }
-
-                    DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
-                    subMenuEvent.addElement(
-                            createMenuItem(messages.getString("con_newObservation"), "fa fa-play",
-                                    null, "#{controlManagedBean.newObservation}",
-                                    "eventId", Long.toString(event.getId()),
-                                    null, null));
-                    subMenuEvent.addElement(
-                            createMenuItem(messages.getString("con_editEvent"), "fa fa-edit",
-                                    "PF('dlgEditEvent').show();",
-                                    "#{controlManagedBean.setSelectedEvent}",
-                                    "eventId", Long.toString(event.getId()),
-                                    ":form-editEvent", "edit-menuItem"));
-                    subMenuEvents.addElement(subMenuEvent);
-                }
+                DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
+                subMenuEvent.addElement(
+                        createMenuItem(messages.getString("con_newObservation"), "fa fa-play",
+                                null, "#{controlManagedBean.newObservation}",
+                                "eventId", Long.toString(event.getId()),
+                                null, null));
+//                subMenuEvent.addElement(
+//                        createMenuItem(messages.getString("con_editEvent"), "fa fa-edit",
+//                                "PF('dlgEditEvent').show();",
+//                                "#{controlManagedBean.setSelectedEvent}",
+//                                "eventId", Long.toString(event.getId()),
+//                                ":form-editEvent", "edit-menuItem"));
+                subMenuEvents.addElement(subMenuEvent);
+                
                 menuEventGroups.addElement(subMenuEventGroup);
             }
         }
@@ -377,19 +366,19 @@ public class ControlManagedBean implements Serializable {
     }
 
     public void removeEventGroup() {
-        selectedEventGroup.setRemoved(new Date());
-        eventGroupEJB.edit(selectedEventGroup);
+        eventGroupEJB.remove(selectedEventGroup);
         init();
     }
 
     public void removeEvent() {
-        selectedEvent.setRemoved(new Date());
-        eventEJB.edit(selectedEvent);
+        eventEJB.remove(selectedEvent);
         init();
     }
 
     public void removeCategorySet() {
         // Will this remove category set completely?
+        // Sami: No, EJBs now use AbstractBean remove-method, which just
+        // sets the removed date to current date
         categorySetEJB.remove(selectedCategorySet);
         init();
     }

@@ -29,22 +29,18 @@
  */
 package com.moveatis.event;
 
+import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -55,46 +51,30 @@ import javax.persistence.TemporalType;
 @NamedQueries(
         @NamedQuery(name="EventEntity.findByCreator", query="SELECT event FROM EventEntity event WHERE event.creator = :user")
 )
-public class EventEntity implements Serializable {
+public class EventEntity extends BaseEntity implements Serializable {
 
-    @ManyToOne
+    @OneToOne
     private EventGroupEntity eventGroup;
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
+
     @ManyToOne
     private AbstractUser creator;
-        
-    @Temporal(TemporalType.DATE)
-    private Date created;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date removed;
-    
     @OneToMany(mappedBy = "event")
     private Set<ObservationEntity> observations;
     
     private String description;
     private String label;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public EventGroupEntity getEventGroup() {
@@ -111,14 +91,6 @@ public class EventEntity implements Serializable {
 
     public void setCreator(AbstractUser creator) {
         this.creator = creator;
-    }
-
-    public Date getRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(Date removed) {
-        this.removed = removed;
     }
 
     public String getDescription() {

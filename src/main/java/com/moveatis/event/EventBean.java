@@ -29,7 +29,7 @@
  */
 package com.moveatis.event;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

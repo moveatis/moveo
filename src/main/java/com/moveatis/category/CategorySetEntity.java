@@ -29,6 +29,7 @@
  */
 package com.moveatis.category;
 
+import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
@@ -38,9 +39,6 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
@@ -52,15 +50,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="CATEGORYSET")
-public class CategorySetEntity implements Serializable {
-
+public class CategorySetEntity extends BaseEntity implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
+
     @OneToMany(mappedBy="categorySet", cascade=PERSIST, fetch=EAGER, targetEntity=CategoryEntity.class)
     @CollectionTable(name="CATEGORYENTITIES")
     @MapKey(name="orderNumber")
@@ -75,11 +68,13 @@ public class CategorySetEntity implements Serializable {
     
     private String label;
     private String description;
-        
+
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

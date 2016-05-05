@@ -29,14 +29,12 @@
  */
 package com.moveatis.category;
 
+import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -50,16 +48,9 @@ import javax.persistence.TemporalType;
 @Table(name="CATEGORY")
 @Entity
 @NamedQuery(name="Category.findByLabel", query="SELECT category FROM CategoryEntity category WHERE category.label = :label")
-public class CategoryEntity implements Serializable {
+public class CategoryEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-   
-    @Temporal(TemporalType.DATE)
-    private Date created;
     
     @ManyToOne(fetch=EAGER)
     private LabelEntity label;
@@ -73,22 +64,16 @@ public class CategoryEntity implements Serializable {
     
     private Boolean canOverlap;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-    
     public LabelEntity getLabel() {
         return label;
     }

@@ -30,7 +30,7 @@
 package com.moveatis.observation;
 
 import com.moveatis.devel.ObservationFileOperations;
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

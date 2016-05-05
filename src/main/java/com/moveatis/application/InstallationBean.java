@@ -80,7 +80,6 @@ public class InstallationBean implements Serializable {
             applicationEJB.create(applicationEntity);
             
             AnonUserEntity anonEntity = new AnonUserEntity();
-            anonEntity.setCreated(Calendar.getInstance().getTime());
             anonEntity.setCreator(sessionEJB.getLoggedIdentifiedUser());
             anonUserEJB.create(anonEntity);
 
