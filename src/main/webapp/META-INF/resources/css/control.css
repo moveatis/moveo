@@ -15,29 +15,19 @@ and open the template in the editor.
     margin-bottom: 3em;
 }
 
+/* Fix unselectable editable cells */
+.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
+    pointer-events: none;
+}
+
+.has-key {
+    color: yellow;
+}
+
+
 #mainPage > form {
     margin-bottom: 2em;
     max-width: 36em;
-}
-
-.ui-panelmenu {
-    font-size: 1.2em;
-}
-
-.ui-panelmenu .ui-menuitem-text,
-.ui-panelmenu .ui-menuitem-link {
-    color: #4F4F4F;
-}
-
-.ui-panelmenu-header.ui-state-active {
-    background: #C4C4C4 -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0% 0%;
-}
-
-#controlForm .ui-icon.fa {
-    border-radius: 0px;
-    font-size: 0.8em;
-    margin-bottom: .3em;
-    margin-left: .4em;
 }
 
 @media screen and (max-width: 800px) {

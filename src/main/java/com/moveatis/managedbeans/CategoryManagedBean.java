@@ -131,7 +131,7 @@ public class CategoryManagedBean implements Serializable {
         
         categoryEJB.create(categoryEntity);
         
-        controlManagedBean.addCategory(categoryEntity);
+        //controlManagedBean.addCategory(categoryEntity);
         
     }
 }

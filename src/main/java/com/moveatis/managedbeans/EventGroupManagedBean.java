@@ -132,6 +132,16 @@ public class EventGroupManagedBean {
         groupKeySelected = this.visibility.equalsIgnoreCase("groupKey");
     }
     
+    public void addGroupKey(EventGroupEntity eventGroup) {
+        if(eventGroupKey != null) {
+            GroupKeyEntity groupKey = new GroupKeyEntity();
+            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
+            groupKey.setGroupKey(eventGroupKey);
+            groupKey.setEventGroup(eventGroup);
+            eventGroup.setGroupKey(groupKey);
+            eventGroupEJB.edit(eventGroup);
+        }
+    }
     
     public void createNewEventGroup() {
         
@@ -173,6 +183,6 @@ public class EventGroupManagedBean {
         eventGroupEntity.setEvent(eventEntity);
         eventGroupEJB.create(eventGroupEntity);
         
-        controlManagedBean.addEventGroup();
+        //controlManagedBean.addEventGroup();
     }
 }

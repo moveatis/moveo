@@ -99,7 +99,7 @@ public class EventManagedBean {
         
         eventEJB.create(eventEntity);
         
-        controlManagedBean.createNewEvent();
+        //controlManagedBean.createNewEvent();
     }
 
 }

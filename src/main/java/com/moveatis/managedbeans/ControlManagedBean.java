@@ -31,18 +31,21 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
-import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Event;
 import com.moveatis.interfaces.EventGroup;
+import com.moveatis.interfaces.GroupKey;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
+import com.moveatis.label.LabelEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -50,12 +53,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.event.MenuActionEvent;
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-import org.primefaces.model.menu.MenuItem;
-import org.primefaces.model.menu.MenuModel;
+import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,37 +62,35 @@ import org.slf4j.LoggerFactory;
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
-@Named(value = "controlManagedBean")
+@Named(value = "controlBean")
 @ViewScoped
 public class ControlManagedBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
+    
+    // TODO: temporal solution for category types
+    private List<String> categoryTypes;
 
     private List<EventGroupEntity> eventGroups;
+    private List<CategoryEntity> categories;
     private List<ObservationEntity> observations;
 
     private EventGroupEntity selectedEventGroup;
-    private EventEntity selectedEvent;
-
     private CategorySetEntity selectedCategorySet;
     private CategoryEntity selectedCategory;
 
-    private MenuModel controlMenuModel;
-    private MenuModel observationsMenuModel;
-
     @Inject
     private EventGroup eventGroupEJB;
+    @Inject
+    private Event eventEJB;
     @Inject
     private CategorySet categorySetEJB;
     @Inject
     private Category categoryEJB;
     @Inject
     private Observation observationEJB;
-
-    @Inject
-    private Event eventEJB;
 
     @Inject
     private Session sessionBean;
@@ -106,289 +102,123 @@ public class ControlManagedBean implements Serializable {
     private AbstractUser user;
 
     public ControlManagedBean() {
-
+        categoryTypes = new LinkedList<>();
+        categoryTypes.add("Kertakategoria");
+        categoryTypes.add("Aikajännekategoria");
     }
 
     @PostConstruct
     public void init() {
         user = sessionBean.getLoggedIdentifiedUser();
         eventGroups = eventGroupEJB.findAllForOwner(user);
-        observations = observationEJB.findAllByObserver(user);
-        createControlMenuModel();
-        createObservationsMenuModel();
+//        observations = observationEJB.findAllByObserver(user);
+//        createControlMenuModel();
+//        createObservationsMenuModel();
     }
 
-    public MenuModel getControlMenuModel() {
-        return controlMenuModel;
+    public void createNewEventGroup(ActionEvent event) {
+        EventGroupEntity eventGroup = new EventGroupEntity();
+        eventGroup.setLabel("uusi tapahtuma");
+        eventGroup.setOwner(user);
+        eventGroupEJB.create(eventGroup);
+        eventGroups.add(eventGroup);
     }
-
-    public void setControlMenuModel(MenuModel controlMenuModel) {
-        this.controlMenuModel = controlMenuModel;
-    }
-
-    public MenuModel getObservationsMenuModel() {
-        return observationsMenuModel;
-    }
-
-    public void setObservationsMenuModel(MenuModel observationsMenuModel) {
-        this.observationsMenuModel = observationsMenuModel;
-    }
-
-    public void addEventGroup() {
-        init();
-    }
-
-    public void addCategorySet(CategorySetEntity categorySet) {
-        init();
-    }
-
-    public void addCategory(CategoryEntity categorEntity) {
-        init();
-    }
-
-    private void createObservationsMenuModel() {
-        observationsMenuModel = new DefaultMenuModel();
-        DefaultSubMenu menuObservations = new DefaultSubMenu(messages.getString("con_observations"));
-
-        if (observations != null && !observations.isEmpty()) {
-            for (ObservationEntity observation : observations) {
-                menuObservations.addElement(new DefaultMenuItem(observation.getName()));
-            }
-        }
-        observationsMenuModel.addElement(menuObservations);
-    }
-
-    private void createControlMenuModel() {
-        controlMenuModel = new DefaultMenuModel();
-        controlMenuModel.addElement(createControlSubMenuModel(messages.getString("con_eventGroups"), eventGroups));
-    }
-
-    private DefaultSubMenu createControlSubMenuModel(String menuName, List<EventGroupEntity> eventGroups) {
-
-        DefaultSubMenu menuEventGroups = new DefaultSubMenu(menuName);
-        menuEventGroups.addElement(
-                createMenuItem(messages.getString("con_newEventGroup"), "fa fa-plus",
-                        "PF('dlgEventGroup').show();", null, null, null, null, null));
-
-        if (eventGroups != null && !eventGroups.isEmpty()) {
-
-            for (EventGroupEntity eventGroup : eventGroups) {
-
-                DefaultSubMenu subMenuEventGroup = new DefaultSubMenu(eventGroup.getLabel());
-                subMenuEventGroup.addElement(
-                        createMenuItem(messages.getString("con_editEventGroup"), "fa fa-edit",
-                                "PF('dlgEditEventGroup').show();",
-                                "#{controlManagedBean.setSelectedEventGroup}",
-                                "eventGroupId", Long.toString(eventGroup.getId()),
-                                ":form-editEventGroup", "edit-menuItem"));
-
-                DefaultSubMenu subMenuCategorySets = new DefaultSubMenu("Kategoriaryhmät");
-                subMenuCategorySets.addElement(
-                        createMenuItem(messages.getString("con_newCategorySet"), "fa fa-plus",
-                                "PF('dlgCategorySet').show();",
-                                "#{controlManagedBean.setSelectedEventGroup}",
-                                "eventGroupId", Long.toString(eventGroup.getId()),
-                                null, null));
-                subMenuEventGroup.addElement(subMenuCategorySets);
-
-                for (CategorySetEntity categorySet : eventGroup.getCategorySets()) {
-
-                    DefaultSubMenu subMenuCategorySet = new DefaultSubMenu(categorySet.getLabel());
-
-                    subMenuCategorySet.addElement(
-                            createMenuItem(messages.getString("con_newCategory"), "fa fa-plus",
-                                    "PF('dlgCategory').show();",
-                                    "#{controlManagedBean.setSelectedCategorySet}",
-                                    "categorySetId", Long.toString(categorySet.getId()),
-                                    null, null
-                            ));
-                    subMenuCategorySet.addElement(
-                            createMenuItem(messages.getString("con_editCategorySet"), "fa fa-edit",
-                                    "PF('dlgEditCategorySet').show();",
-                                    "#{controlManagedBean.setSelectedCategorySet}",
-                                    "categorySetId", Long.toString(categorySet.getId()),
-                                    ":form-editCategorySet", "edit-menuItem"
-                            ));
-
-                    subMenuCategorySets.addElement(subMenuCategorySet);
-
-                    for (CategoryEntity categoryEntity : categorySet.getCategoryEntitys().values()) {
-
-                        DefaultSubMenu subMenuCategory = new DefaultSubMenu(categoryEntity.getLabel().getLabel());
-                        subMenuCategory.addElement(
-                                createMenuItem(messages.getString("con_editCategory"), "fa fa-edit",
-                                        "PF('dlgEditCategory').show();",
-                                        "#{controlManagedBean.setSelectedCategory}",
-                                        "categoryId", Long.toString(categoryEntity.getId()),
-                                        ":form-editCategory", "edit-menuItem"
-                                ));
-
-                        subMenuCategorySet.addElement(subMenuCategory);
-
-                    }
-                }
-
-                DefaultSubMenu subMenuEvents = new DefaultSubMenu("Tapahtumat");
-                subMenuEvents.addElement(
-                        createMenuItem(messages.getString("con_newEvent"), "fa fa-plus",
-                                "PF('dlgEvent').show();",
-                                "#{controlManagedBean.setSelectedEventGroup}",
-                                "eventGroupId", Long.toString(eventGroup.getId()),
-                                null, null));
-                subMenuEventGroup.addElement(subMenuEvents);
-
-                // EventGroups have just one Event now (agreed on meeting 5.5.2016
-                EventEntity event = eventGroup.getEvent();
-
-                DefaultSubMenu subMenuEvent = new DefaultSubMenu(event.getLabel());
-                subMenuEvent.addElement(
-                        createMenuItem(messages.getString("con_newObservation"), "fa fa-play",
-                                null, "#{controlManagedBean.newObservation}",
-                                "eventId", Long.toString(event.getId()),
-                                null, null));
-//                subMenuEvent.addElement(
-//                        createMenuItem(messages.getString("con_editEvent"), "fa fa-edit",
-//                                "PF('dlgEditEvent').show();",
-//                                "#{controlManagedBean.setSelectedEvent}",
-//                                "eventId", Long.toString(event.getId()),
-//                                ":form-editEvent", "edit-menuItem"));
-                subMenuEvents.addElement(subMenuEvent);
-                
-                menuEventGroups.addElement(subMenuEventGroup);
-            }
-        }
-        return menuEventGroups;
-    }
-
-    private DefaultMenuItem createMenuItem(String value, String icon, String onClick, String command, String parameterName, String parameter,
-            String update, String styleClass) {
-        DefaultMenuItem menuItem = new DefaultMenuItem(value, icon);
-        if (onClick != null) {
-            menuItem.setOnclick(onClick);
-        }
-        if (command != null) {
-            menuItem.setCommand(command);
-        }
-        if (parameterName != null && parameter != null) {
-            menuItem.setParam(parameterName, parameter);
-        }
-        if (update != null) {
-            menuItem.setUpdate(update);
-        }
-        if (styleClass != null) {
-            menuItem.setStyleClass(styleClass);
-        }
-
-        return menuItem;
-    }
-
-    public void createNewEvent() {
-        init();
-    }
-
-    public void editEventGroup() {
-        if (selectedEventGroup == null) {
-            return;
-        }
+    
+    public void createNewCategorySet() {
+        CategorySetEntity categorySet = new CategorySetEntity();
+        categorySet.setLabel("uusi kategoriaryhmä");
+        selectedEventGroup.getCategorySets().add(categorySet);
         eventGroupEJB.edit(selectedEventGroup);
-        init();
     }
-
-    public void editEvent() {
-        if (selectedEvent == null) {
-            return;
-        }
-        eventEJB.edit(selectedEvent);
-        init();
-    }
-
-    public void editCategorySet() {
-        if (selectedCategorySet == null) {
-            return;
-        }
+    
+    public void createNewCategory() {
+        CategoryEntity category = new CategoryEntity();
+        LabelEntity label = new LabelEntity();
+        label.setLabel("uusi kategoria");
+        category.setLabel(label);
+        category.setCategorySet(selectedCategorySet);
         categorySetEJB.edit(selectedCategorySet);
-        init();
     }
 
-    public void editCategory() {
-        if (selectedCategory == null) {
-            return;
-        }
-        categoryEJB.edit(selectedCategory);
-        init();
+    public void onEditEventGroup(RowEditEvent event) {
+        EventGroupEntity eventGroup = (EventGroupEntity) event.getObject();
+        eventGroupEJB.edit(eventGroup);
+    }
+
+    public List<EventGroupEntity> getEventGroups() {
+        return eventGroups;
+    }
+
+    public void setEventGroups(List<EventGroupEntity> eventGroups) {
+        this.eventGroups = eventGroups;
     }
 
     public EventGroupEntity getSelectedEventGroup() {
         return selectedEventGroup;
     }
 
-    public EventEntity getSelectedEvent() {
-        return selectedEvent;
+    public void setSelectedEventGroup(EventGroupEntity selectedEventGroup) {
+        this.selectedEventGroup = selectedEventGroup;
+    }
+
+    public void setSelectedEventGroup(long id) {
+        this.selectedEventGroup = eventGroupEJB.find(id);
+    }
+
+    public List<CategoryEntity> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryEntity> categories) {
+        this.categories = categories;
     }
 
     public CategorySetEntity getSelectedCategorySet() {
         return selectedCategorySet;
     }
 
+    public void setSelectedCategorySet(CategorySetEntity selectedCategorySet) {
+        this.selectedCategorySet = selectedCategorySet;
+    }
+    
     public CategoryEntity getSelectedCategory() {
         return selectedCategory;
     }
 
-    public void setSelectedCategorySet(ActionEvent event) {
-        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
-        Long id = Long.parseLong(menuItem.getParams().get("categorySetId").get(0));
-        selectedCategorySet = categorySetEJB.find(id);
+    public void setSelectedCategory(CategoryEntity selectedCategory) {
+        this.selectedCategory = selectedCategory;
     }
 
-    public void setSelectedCategory(ActionEvent event) {
-        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
-        Long id = Long.parseLong(menuItem.getParams().get("categoryId").get(0));
-        selectedCategory = categoryEJB.find(id);
+    public List<String> getCategoryTypes() {
+        return categoryTypes;
     }
 
-    public void setSelectedEventGroup(ActionEvent event) {
-        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
-        Long id = Long.parseLong(menuItem.getParams().get("eventGroupId").get(0));
-        selectedEventGroup = eventGroupEJB.find(id);
+    public void setCategoryTypes(List<String> categoryTypes) {
+        this.categoryTypes = categoryTypes;
     }
+    
+    
 
-    public void setSelectedEvent(ActionEvent event) {
-        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
-        Long id = Long.parseLong(menuItem.getParams().get("eventId").get(0));
-        selectedEvent = eventEJB.find(id);
-    }
-
-    public String newObservation(ActionEvent event) {
-        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
-        Long id = Long.parseLong(menuItem.getParams().get("eventId").get(0));
-        sessionBean.setEventEntityForNewObservation(eventEJB.find(id));
+    public String newObservation() {
+        sessionBean.setEventEntityForNewObservation(selectedEventGroup.getEvent());
         return "newobservation";
     }
 
     public void removeEventGroup() {
         eventGroupEJB.remove(selectedEventGroup);
-        init();
-    }
-
-    public void removeEvent() {
-        eventEJB.remove(selectedEvent);
-        init();
+        eventGroups.remove(selectedEventGroup);
     }
 
     public void removeCategorySet() {
-        // Will this remove category set completely?
-        // Sami: No, EJBs now use AbstractBean remove-method, which just
-        // sets the removed date to current date
         categorySetEJB.remove(selectedCategorySet);
-        init();
     }
 
     public void removeCategory() {
-        // Will this remove category set completely?
         categoryEJB.remove(selectedCategory);
-        init();
+        categories.remove(selectedCategory);
     }
 
     public void removeObservation() {
+        //observationEJB
     }
 }
