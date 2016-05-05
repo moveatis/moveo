@@ -28,7 +28,7 @@
  */
 package com.moveatis.groupkey;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.GroupKey;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -29,7 +29,7 @@
  */
 package com.moveatis.user;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.AnonUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

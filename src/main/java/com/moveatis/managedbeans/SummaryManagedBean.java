@@ -30,19 +30,21 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.category.CategoryEntity;
+import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
-import com.moveatis.managedbeans.CategorySelectionManagedBean.Category;
-import com.moveatis.managedbeans.CategorySelectionManagedBean.CategorySet;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.SortedSet;
 import javax.annotation.PostConstruct;
-import javax.faces.event.ActionEvent;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -200,31 +202,36 @@ public class SummaryManagedBean implements Serializable {
     private void createTimeline() {
         timeline = new TimelineModel();
 
-        SortedSet<Long> observations = sessionBean.getSessionObservationsIds();
+//        SortedSet<Long> observations = sessionBean.getSessionObservationsIds();
+//        
+//        if(observations.isEmpty()) {
+//            return;
+//        }
+//        
+//        /*
+//        * TODO: SortedSet offers first-method to return first element in the set
+//        * What if there are more observations?
+//        */
+//        Long observationId = observations.last();
+//
+//        observation = observationEJB.find(observationId);
+//
+//        List<RecordEntity> records = observationEJB.findRecords(observationId);
+//        LOGGER.debug("Records-size ->" + records.size());
         
-        if(observations.isEmpty()) {
-            return;
-        }
-        
-        /*
-        * TODO: SortedSet offers first-method to return first element in the set
-        * What if there are more observations?
-        */
-        Long observationId = observations.last();
-
-        observation = observationEJB.find(observationId);
-
-        List<RecordEntity> records = observationEJB.findRecords(observationId);
-        LOGGER.debug("Records-size ->" + records.size());
-        //List<CategorySet> categorySets = categoryBean.getCategorySetsInUse();
+        // TODO: Do it like this instead of the commented section above?
+        // BEGIN
+        observation = sessionBean.getLastObservation();
+        List<RecordEntity> records = observation.getRecords();
+        // END
         
         duration = new Date(observation.getDuration());
         max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
 
         // Add categories to timeline as timeline groups
         int categoryNumber = 1;
-        for (CategorySet categorySet : sessionBean.getCategorySetsInUse()) {
-            for (Category category : categorySet.getCategories()) {
+        for (ObservationCategorySet categorySet : sessionBean.getCategorySetsInUse()) {
+            for (ObservationCategory category : categorySet.getCategories()) {
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
                 // class name is intentionally without quotes, timeline expectional case
@@ -266,9 +273,42 @@ public class SummaryManagedBean implements Serializable {
     public void sendCurrentObservation() {
         // TODO: call mail backing bean
     }
+    
+    private static String convertToFilename(String s) {
+        if (s == null || s.isEmpty())
+            return "unnamed";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if ('a' <= c && c <= 'z' ||
+                'A' <= c && c <= 'Z' ||
+                '0' <= c && c <= '9' ||
+                '-' == c || c == '_') {
+                sb.append(c);
+            } else {
+                sb.append('_');
+            }
+        }
+        return sb.toString();
+    }
 
-    public void downloadCurrentObservation() {
-        // TODO: call file download backing bean
+    public void downloadCurrentObservation() throws IOException {
+        String fileName = convertToFilename(observation.getName()) + ".csv";
+        
+        FacesContext facesCtx = FacesContext.getCurrentInstance();
+        ExternalContext externalCtx = facesCtx.getExternalContext();
+        
+        externalCtx.responseReset();
+        externalCtx.setResponseContentType("text/plain");
+        externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+        
+        OutputStream outputStream = externalCtx.getResponseOutputStream();
+        
+        CSVFileBuilder csv = new CSVFileBuilder();
+        csv.buildCSV(outputStream, observation, ",");
+        outputStream.flush();
+        
+        facesCtx.responseComplete();
     }
 
     public void saveOptionChangeListener(ValueChangeEvent event) {

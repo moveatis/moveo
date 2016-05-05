@@ -57,7 +57,7 @@ public class MailerBean implements Mailer {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MailerBean.class);
     
     private static final String MAILHOST = "localhost";
-    private static final String FROM = "lotas@jyu.fi";
+    private static final String FROM = "donotreply@moveatis.sport.jyu.fi";
     
     private static final String CHARSET = "UTF-8";
     

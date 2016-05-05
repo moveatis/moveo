@@ -30,12 +30,10 @@
 
 package com.moveatis.user;
 
+import com.moveatis.abstracts.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
@@ -46,20 +44,18 @@ import javax.persistence.InheritanceType;
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="USER_TYPE")
-public abstract class AbstractUser implements Serializable {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
+public abstract class AbstractUser extends BaseEntity implements Serializable {
 
+    @Override
     public Long getId() {
-        return this.id;
+        return id;
     }
-    
+
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

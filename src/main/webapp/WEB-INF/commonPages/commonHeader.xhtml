@@ -12,6 +12,7 @@
             <h:form>
                 <p:menubar styleClass="naviHeader" autoDisplay="false" >
                     <f:facet name="options">
+<!--                        <h:graphicImage library="images" name="Moveatis_logo1.png" height="30px" styleClass="facetLeft"/>-->
                         <h:outputText value="Moveatis" styleClass="facetLeft"/>
                     </f:facet>
 
@@ -26,13 +27,6 @@
                                     actionListener="#{logoutBean.logOut}" />
                     </p:submenu>
 
-                    <p:submenu icon="fa fa-lock" rendered="#{!sessionBean.isIdentifiedUser()}">
-                        <p:menuitem value="#{msg.head_login}" icon="fa fa-sign-in"
-                                    actionListener="#{loginBean.doIdentityLogin}">
-                            <f:param name="view" value="#{view.viewId}"/>
-                        </p:menuitem>
-                    </p:submenu>
-
                     <p:submenu icon="fa fa-cogs">
                         <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/info/index.xhtml"/>
                         <p:submenu label="#{msg.head_langSet}" icon="fa fa-language">
@@ -41,7 +35,7 @@
                         </p:submenu>
                         <p:menuitem value="#{msg.head_resetObs}" rendered="#{sessionBean.isResetObsAvailable()}" icon="fa fa-eraser" url="/app/observer/index.xhtml" />
                         <p:menuitem value="#{msg.head_backToCatEd}" rendered="#{sessionBean.isBackToCatEdAvailable()}" icon="fa fa-edit" url="/app/categoryselection/index.xhtml"/>
-                        <p:menuitem value="#{msg.head_toFrontPage}" icon="fa fa-rotate-left" url="/index.xhtml"/>
+                        <p:menuitem value="#{msg.head_toFrontPage}" rendered="#{sessionBean.isToFrontPageAvailable()}" icon="fa fa-rotate-left" url="/index.xhtml"/>
 
                     </p:submenu>
                 </p:menubar>

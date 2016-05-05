@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.devel;
+package com.moveatis.mail;
 
 import com.moveatis.enums.MailStatus;
 import com.moveatis.export.FileBuilder;
@@ -44,15 +44,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * MailerManagedBean
- * testing for sending mail in development.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="mailerManagedBean")
 @RequestScoped
-public class DevelMailerManagedBean {
+public class MailerManagedBean {
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DevelMailerManagedBean.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MailerManagedBean.class);
     
     @Inject
     private Mailer mailerEJB;
@@ -62,7 +61,7 @@ public class DevelMailerManagedBean {
     private String text;
     private String fileName;
 
-    public DevelMailerManagedBean() {
+    public MailerManagedBean() {
         
     }
 

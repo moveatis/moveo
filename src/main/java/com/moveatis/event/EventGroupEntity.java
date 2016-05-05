@@ -29,25 +29,21 @@
  */
 package com.moveatis.event;
 
+import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -57,23 +53,20 @@ import javax.persistence.Temporal;
 @NamedQueries({
         @NamedQuery(
             name="findEventGroupByOwner",
-            query="SELECT eventGroup FROM EventGroupEntity eventGroup WHERE eventGroup.owner=:ownerEntity"
+            query="SELECT eventGroup FROM EventGroupEntity eventGroup WHERE eventGroup.owner=:ownerEntity "
+                    + "AND eventGroup.removed IS NULL"
         )
 })
 @Table(name="EVENTGROUP")
-public class EventGroupEntity implements Serializable {
+public class EventGroupEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     
     @OneToMany(mappedBy = "eventGroupEntity", cascade=PERSIST, fetch=EAGER)
     private Set<CategorySetEntity> categorySets;
     
-    @OneToMany(mappedBy = "eventGroup", cascade=PERSIST, fetch=EAGER)
-    private Set<EventEntity> events;
+    @OneToOne(mappedBy = "eventGroup", cascade=PERSIST)
+    private EventEntity event;
     
     @OneToOne(cascade=PERSIST)
     private GroupKeyEntity groupKey;
@@ -86,17 +79,13 @@ public class EventGroupEntity implements Serializable {
     
     private String label;
     private String description;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date removed;
-    
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -141,28 +130,12 @@ public class EventGroupEntity implements Serializable {
         this.description = description;
     }
 
-    public Date getCreated() {
-        return created;
+    public EventEntity getEvent() {
+        return event;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(Date removed) {
-        this.removed = removed;
-    }
-
-    public Set<EventEntity> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<EventEntity> events) {
-        this.events = events;
+    public void setEvent(EventEntity event) {
+        this.event = event;
     }
 
     public GroupKeyEntity getGroupKey() {

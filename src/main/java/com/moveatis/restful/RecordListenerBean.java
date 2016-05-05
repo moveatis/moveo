@@ -36,7 +36,8 @@ import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Record;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
-import com.moveatis.managedbeans.CategorySelectionManagedBean;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.timezone.TimeZoneInformation;
@@ -167,8 +168,6 @@ public class RecordListenerBean implements Serializable {
                 + " - " + dateFormat.format(createdTime));
         observationEntity.setDuration(duration.longValue());
         
-        observationEntity.setCreated(createdTime);
-        
         
         /*
             Add categories to database if they are not already in database,
@@ -176,8 +175,8 @@ public class RecordListenerBean implements Serializable {
         */
         Map<Long, CategoryEntity> categoriesById = new HashMap<>();
         
-        for (CategorySelectionManagedBean.CategorySet categorySet : sessionBean.getCategorySetsInUse()) {
-            for (CategorySelectionManagedBean.Category category : categorySet.getCategories()) {
+        for (ObservationCategorySet categorySet : sessionBean.getCategorySetsInUse()) {
+            for (ObservationCategory category : categorySet.getCategories()) {
                 
                 CategoryEntity categoryEntity;
                 Long categoryId = category.getId();

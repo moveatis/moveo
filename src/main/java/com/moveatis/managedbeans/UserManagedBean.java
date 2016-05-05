@@ -29,9 +29,12 @@
  */
 package com.moveatis.managedbeans;
 
+import com.moveatis.observation.ObservationCategorySet;
+import com.moveatis.observation.ObservationEntity;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -43,10 +46,14 @@ public class UserManagedBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    private ObservationEntity observationEntity;
+    private List<ObservationCategorySet> categorySetsInUse;
+    
     /**
      * Creates a new instance of UserManagedBean
      */
     public UserManagedBean() {
+        
     }
     
 }

@@ -27,38 +27,31 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.moveatis.helpers;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 /**
  *
- * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author ilkrpaan
  */
-public class PasswordHashGenerator {
-    
-    private static final int KEY_LENGTH = 256;
-    
-    public PasswordHashGenerator() {
-        
-    }
-    
-    public static byte[] hashPassword( final char[] password, final byte[] salt, final int iterations) {
-       try {
-           SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA1" );
-           PBEKeySpec spec = new PBEKeySpec( password, salt, iterations, KEY_LENGTH );
-           SecretKey key = skf.generateSecret( spec );
-           byte[] res = key.getEncoded( );
-           return res;
- 
-       } catch( NoSuchAlgorithmException | InvalidKeySpecException e ) {
-           throw new RuntimeException( e );
-       }
-   }
+public class Validation {
 
+    public static String validateForJsAndHtml(String s) {
+        // TODO: Allow some other chars? Don't allow some of these?
+        //       Maybe only blacklist characters shown here:
+        //       http://benv.ca/2012/10/02/you-are-probably-misusing-DOM-text-methods/
+        String validChars = " ,.-;:_!?*/+()[]{}|=#";
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < s.length(); ) {
+            int codePoint = s.codePointAt(i);
+            if (Character.isLetterOrDigit(codePoint) ||
+                (validChars.indexOf(codePoint) >= 0)) {
+                sb.appendCodePoint(codePoint);
+            }
+            i += Character.charCount(codePoint);
+        }
+
+        return sb.toString();
+    }
 }

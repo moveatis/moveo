@@ -29,6 +29,7 @@
  */
 package com.moveatis.groupkey;
 
+import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
@@ -59,13 +60,9 @@ import javax.persistence.Temporal;
         )
 })
 @Table(name="GROUPKEY")
-public class GroupKeyEntity implements Serializable {
+public class GroupKeyEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     
     @OneToOne
     private EventGroupEntity eventGroup;
@@ -76,23 +73,11 @@ public class GroupKeyEntity implements Serializable {
     @Column(unique=true)
     private String groupKey;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date removed;
-    
     @ManyToOne
     private IdentifiedUserEntity creator;
     
     private String label;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public EventGroupEntity getEventGroup() {
         return eventGroup;
@@ -109,23 +94,7 @@ public class GroupKeyEntity implements Serializable {
     public void setGroupKey(String groupKey) {
         this.groupKey = groupKey;
     }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(Date removed) {
-        this.removed = removed;
-    }
-
+    
     public IdentifiedUserEntity getCreator() {
         return creator;
     }

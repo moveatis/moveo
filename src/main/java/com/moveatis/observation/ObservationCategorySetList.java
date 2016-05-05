@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -27,63 +27,56 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.export;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Serializable;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.moveatis.observation;
 
-// TODO(ilari): No need for this anymore.
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
-@ManagedBean(name="fileExporter")
-@ViewScoped
-public class FileExporter implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileExporter.class);
+public class ObservationCategorySetList {
+    
+    private List<ObservationCategorySet> categorySets = new ArrayList<>();
 
-    private StreamedContent file;
-    private final String fileName = "testi.csv";
-
-    /**
-     * Creates a new instance of FileExporter
-     */
-    public FileExporter() {
-        this.prepare();
+    public ObservationCategorySetList() {
+        
     }
     
-    public final void prepare() {
-        try {
-            LOGGER.debug("Tiedostoa rakennetaan");
-            FileInputStream inputStream = new FileInputStream(constructFile(fileName));
-            file = new DefaultStreamedContent(inputStream, "text/plain", fileName);  
-        } catch (FileNotFoundException ex) {
-            LOGGER.debug(ex.toString());
-        } catch (IOException ex) {
-            LOGGER.debug(ex.toString());
+    public List<ObservationCategorySet> getCategorySets() {
+        return categorySets;
+    }
+
+    public void setCategorySets(List<ObservationCategorySet> categorySets) {
+        this.categorySets = categorySets;
+    }
+
+    public void add(ObservationCategorySet categorySet) {
+        categorySets.add(categorySet);
+    }
+
+    public void addClone(ObservationCategorySet categorySet) {
+        ObservationCategorySet cloned = new ObservationCategorySet(categorySet.getId(), categorySet.getName());
+        for (ObservationCategory category : categorySet.getCategories()) {
+            cloned.add(new ObservationCategory(category));
         }
+        categorySets.add(cloned);
     }
-    
-    public StreamedContent getFile() {
-        LOGGER.debug("Tiedostoa pyydetty");
-        LOGGER.debug("File -> " + file.toString());
-        return file;
+
+    public ObservationCategorySet find(Long id) {
+        for (ObservationCategorySet categorySet : categorySets) {
+            if (categorySet.getId().equals(id)) {
+                return categorySet;
+            }
+        }
+        return null;
     }
-    
-    private File constructFile(String fileName) throws IOException { return new FileBuilder().constructFile(fileName); }
-    
+
+    public void remove(ObservationCategorySet categorySet) {
+        categorySets.remove(categorySet);
+    }
+
 }

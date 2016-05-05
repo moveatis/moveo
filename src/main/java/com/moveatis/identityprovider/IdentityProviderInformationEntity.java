@@ -30,12 +30,10 @@
  
 package com.moveatis.identityprovider;
 
+import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -54,17 +52,13 @@ import javax.persistence.Table;
         )
 })
 @Table(name="IDENTITY_PROVIDER_INFORMATION")
-public class IdentityProviderInformationEntity implements IdentityProvider, Serializable {
+public class IdentityProviderInformationEntity extends BaseEntity implements IdentityProvider, Serializable {
     
     private static final long serialVersionUID = 1L;
 
     @OneToOne
     private IdentifiedUserEntity userEntity;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
+
     private String username;
     private String affiliation;
     
@@ -80,15 +74,7 @@ public class IdentityProviderInformationEntity implements IdentityProvider, Seri
     public IdentifiedUserEntity getIdentifiedUserEntity() {
         return this.userEntity;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
     public String getUsername() {
         return username;
     }

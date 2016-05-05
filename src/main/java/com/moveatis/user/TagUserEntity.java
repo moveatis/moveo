@@ -61,12 +61,6 @@ public class TagUserEntity extends AbstractUser implements Serializable {
     @OneToOne(cascade=PERSIST)
     private GroupKeyEntity groupKey;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date removed;
-    
     @ManyToOne
     @JoinColumn(name="CREATOR_ID")
     private IdentifiedUserEntity creator;
@@ -79,22 +73,6 @@ public class TagUserEntity extends AbstractUser implements Serializable {
 
     public void setGroupKey(GroupKeyEntity groupKey) {
         this.groupKey = groupKey;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(Date removed) {
-        this.removed = removed;
     }
 
     public IdentifiedUserEntity getCreator() {

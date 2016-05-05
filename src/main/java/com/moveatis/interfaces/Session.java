@@ -32,7 +32,7 @@ package com.moveatis.interfaces;
 import com.moveatis.enums.SessionStatus;
 import com.moveatis.event.EventEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.managedbeans.CategorySelectionManagedBean;
+import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
@@ -59,7 +59,7 @@ public interface Session {
     public boolean isSaveable();
     public SortedSet<Long> getSessionObservationsIds();
     public void setSessionObservations(SortedSet<Long> observationsIds);
-    public AbstractUser getLoggedInUser(); // TODO(ilari): Not needed.
+    public AbstractUser getLoggedInUser();
     public IdentifiedUserEntity getLoggedIdentifiedUser();
     public GroupKeyEntity getGroupKey();
     public TimeZone getSessionTimeZone();
@@ -71,6 +71,6 @@ public interface Session {
     public void setReturnUri(String uri);
     public String getReturnUri();
     public ObservationEntity getLastObservation();
-    public void setCategorySetsInUse(List<CategorySelectionManagedBean.CategorySet> categorySets);
-    public List<CategorySelectionManagedBean.CategorySet> getCategorySetsInUse();
+    public void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
+    public List<ObservationCategorySet> getCategorySetsInUse();
 }

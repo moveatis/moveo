@@ -29,7 +29,7 @@
  */
 package com.moveatis.roles;
 
-import com.moveatis.interfaces.AbstractBean;
+import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.Role;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.util.Collections;

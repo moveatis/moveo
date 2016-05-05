@@ -34,6 +34,7 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -48,6 +49,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
+import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.util.Map;
 import java.util.Set;
@@ -62,169 +66,19 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class CategorySelectionManagedBean implements Serializable {
     
-    public static class Category {
-        private long id;
-        private long type;
-        private String name;
-        private boolean inDatabase;
-        
-        public Category() {
-            this.id = 0l;
-            this.type = 0l;
-            this.name = "";
-            this.inDatabase = false;
-        }
-        
-        public Category(Long id, String name) {
-            this.id = id;
-            this.type = 0l;
-            this.name = name;
-            this.inDatabase = true;
-        }
-        
-        public Category(Category other) {
-            this.id = other.id;
-            this.type = other.type;
-            this.name = other.name;
-            this.inDatabase = other.inDatabase;
-            // NOTE: inDatabase should always be true when cloning other category!
-        }
-        
-        public Long getId() {
-            return id;
-        }
-        
-        public void setId(long id) {
-            this.id = id;
-        }
-        
-        public Long getType() {
-            return type;
-        }
-        
-        public String getName() {
-             return name;
-        }
-        
-        public final void setName(String name) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < name.length(); ) {
-                int codePoint = name.codePointAt(i);
-                if (Character.isLetterOrDigit(codePoint)) {
-                    sb.appendCodePoint(codePoint);
-                } else if (Character.isSpaceChar(codePoint)) {
-                    sb.append(' ');
-                }
-                i += Character.charCount(codePoint);
-            }
-            String validName = sb.toString().trim();
-            if (!this.name.equals(validName)) {
-                this.name = validName;
-                inDatabase = false; // If the name is edited, it's not anymore in the database.
-            }
-        }
-        
-        public Boolean isInDatabase() {
-            return inDatabase;
-        }
-        
-        public void setInDatabase(boolean inDatabase) {
-            this.inDatabase = inDatabase;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == null) return false;
-            Category category = (Category)o;
-            return name.equals(category.name);
-        }
-    }
-    
-    public static class CategorySet {
-        private Long id;
-        private String name;
-        private List<Category> categories;
-        
-        public CategorySet(Long id, String name) {
-            this.id = id;
-            this.name = name;
-            this.categories = new ArrayList<>();
-        }
-        
-        public Long getId() {
-            return id;
-        }
-        
-        public String getName() {
-            return name;
-        }
-        
-        public List<Category> getCategories() {
-            return categories;
-        }
-        
-        public void add(Category category) {
-            categories.add(category);
-        }
-        
-        public void addEmpty() {
-            categories.add(new Category());
-        }
-        
-        public void remove(Category category) {
-            categories.remove(category);
-        }
-    }
-    
-    public static class CategorySetList {
-        private List<CategorySet> categorySets = new ArrayList<>();
-        
-        public List<CategorySet> getCategorySets() {
-            return categorySets;
-        }
-        
-        public void setCategorySets(List<CategorySet> categorySets) {
-            this.categorySets = categorySets;
-        }
-        
-        public void add(CategorySet categorySet) {
-            categorySets.add(categorySet);
-        }
-        
-        public void addClone(CategorySet categorySet) {
-            CategorySet cloned = new CategorySet(categorySet.getId(), categorySet.getName());
-            for (Category category : categorySet.getCategories()) {
-                cloned.add(new Category(category));
-            }
-            categorySets.add(cloned);
-        }
-        
-        public CategorySet find(Long id) {
-            for (CategorySet categorySet : categorySets) {
-                if (categorySet.getId().equals(id)) {
-                    return categorySet;
-                }
-            }
-            return null;
-        }
-        
-        public void remove(CategorySet categorySet) {
-            categorySets.remove(categorySet);
-        }
-    }
-    
-
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySelectionManagedBean.class);
     private static final long serialVersionUID = 1L;
+    
+    private String newCategorySetName;
     
     private Long selectedDefaultCategorySet;
     private Long selectedPublicCategorySet;
     private Long selectedPrivateCategorySet;
     
-    private CategorySetList defaultCategorySets; // From group key or event that was selected in control page.
-    private CategorySetList publicCategorySets;
-    private CategorySetList privateCategorySets;
-    private CategorySetList categorySetsInUse;
+    private ObservationCategorySetList defaultCategorySets; // From group key or event that was selected in control page.
+    private ObservationCategorySetList publicCategorySets;
+    private ObservationCategorySetList privateCategorySets;
+    private ObservationCategorySetList categorySetsInUse;
     
     private EventGroupEntity eventGroup;
     
@@ -243,58 +97,74 @@ public class CategorySelectionManagedBean implements Serializable {
     public CategorySelectionManagedBean() {
     }
     
-    private static void addAllCategorySetsFromEventGroup(CategorySetList addTo, EventGroupEntity eventGroup) {
+    private void addAllCategorySetsFromEventGroup(ObservationCategorySetList addTo, EventGroupEntity eventGroup) {
         Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
         for (CategorySetEntity categorySetEntity : categorySets) {
-            CategorySet categorySet = new CategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
+            ObservationCategorySet categorySet = new ObservationCategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
             Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
             for (CategoryEntity category : categories.values()) {
-                categorySet.add(new Category(category.getId(), category.getLabel().getLabel()));
+                categorySet.add(new ObservationCategory(category.getId(), category.getLabel().getLabel()));
             }
             addTo.add(categorySet);
         }
     }
     
-    private static void addAllCategorySetsFromEventGroups(CategorySetList addTo, List<EventGroupEntity> eventGroups) {
+    private ObservationCategorySetList getAllCategorySetsFromEventGroup(EventGroupEntity eventGroup) {
+        ObservationCategorySetList categorySets = new ObservationCategorySetList();
+        addAllCategorySetsFromEventGroup(categorySets, eventGroup);
+        if (categorySets.getCategorySets().isEmpty())
+            return null;
+        return categorySets;
+    }
+    
+    private ObservationCategorySetList getAllCategorySetsFromEventGroups(List<EventGroupEntity> eventGroups) {
+        ObservationCategorySetList categorySets = new ObservationCategorySetList();
         for (EventGroupEntity eventGroup : eventGroups) {
-            addAllCategorySetsFromEventGroup(addTo, eventGroup);
+            addAllCategorySetsFromEventGroup(categorySets, eventGroup);
         }
+        if (categorySets.getCategorySets().isEmpty())
+            return null;
+        return categorySets;
     }
     
     @PostConstruct
     public void init() {
         eventGroup = null;
         
-        publicCategorySets = new CategorySetList();
-        addAllCategorySetsFromEventGroups(publicCategorySets, eventGroupEJB.findAllForPublicUser());
+        publicCategorySets = getAllCategorySetsFromEventGroups(eventGroupEJB.findAllForPublicUser());
         
         if (sessionBean.isTagUser()) {
-            defaultCategorySets = new CategorySetList();
             GroupKeyEntity groupKey = sessionBean.getGroupKey();
             eventGroup = groupKey.getEventGroup();
-            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
+            defaultCategorySets = getAllCategorySetsFromEventGroup(eventGroup);
         } else if (sessionBean.getIsEventEntityForObservationSet()) {
-            defaultCategorySets = new CategorySetList();
             EventEntity event = sessionBean.getEventEntityForNewObservation();
             eventGroup = event.getEventGroup();
-            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
+            defaultCategorySets = getAllCategorySetsFromEventGroup(eventGroup);
         }
 
         if (sessionBean.isIdentifiedUser()) {
-            privateCategorySets = new CategorySetList();
             IdentifiedUserEntity user = sessionBean.getLoggedIdentifiedUser();
-            addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
+            privateCategorySets = getAllCategorySetsFromEventGroups(eventGroupEJB.findAllForOwner(user));
         }
         
-        categorySetsInUse = new CategorySetList();
-        List<CategorySet> categorySets = sessionBean.getCategorySetsInUse();
+        categorySetsInUse = new ObservationCategorySetList();
+        List<ObservationCategorySet> categorySets = sessionBean.getCategorySetsInUse();
         if (categorySets != null) {
             categorySetsInUse.setCategorySets(categorySets);
         } else if (defaultCategorySets != null) {
-            for(CategorySet categorySet : defaultCategorySets.getCategorySets()) {
+            for(ObservationCategorySet categorySet : defaultCategorySets.getCategorySets()) {
                 categorySetsInUse.addClone(categorySet);
             }
         }
+    }
+    
+    public String getNewCategorySetName() {
+        return newCategorySetName;
+    }
+    
+    public void setNewCategorySetName(String newCategorySetName) {
+        this.newCategorySetName = newCategorySetName;
     }
     
     public Long getSelectedDefaultCategorySet() {
@@ -321,19 +191,19 @@ public class CategorySelectionManagedBean implements Serializable {
         this.selectedPrivateCategorySet = selectedPrivateCategorySet;
     }
     
-    public List<CategorySet> getDefaultCategorySets() {
+    public List<ObservationCategorySet> getDefaultCategorySets() {
         return defaultCategorySets.getCategorySets();
     }
     
-    public List<CategorySet> getPublicCategorySets() {
+    public List<ObservationCategorySet> getPublicCategorySets() {
         return publicCategorySets.getCategorySets();
     }
     
-    public List<CategorySet> getPrivateCategorySets() {
+    public List<ObservationCategorySet> getPrivateCategorySets() {
         return privateCategorySets.getCategorySets();
     }
     
-    public List<CategorySet> getCategorySetsInUse() {
+    public List<ObservationCategorySet> getCategorySetsInUse() {
         return categorySetsInUse.getCategorySets();
     }
     
@@ -348,9 +218,29 @@ public class CategorySelectionManagedBean implements Serializable {
         return "";
     }
     
+    public boolean isDefaultCategorySetsNotNull() {
+        return (defaultCategorySets != null);
+    }
+    
+    public boolean isPublicCategorySetsNotNull() {
+        return (publicCategorySets != null);
+    }
+    
+    public boolean isPrivateCategorySetsNotNull() {
+        return (privateCategorySets != null);
+    }
+    
+    public void addNewCategorySet() {
+        if (!newCategorySetName.isEmpty()) {
+            ObservationCategorySet categorySet = new ObservationCategorySet(-1l, newCategorySetName); // TODO: id?
+            categorySetsInUse.add(categorySet);
+            newCategorySetName = "";
+        }
+    }
+    
     public void addDefaultCategorySet() {
         if (categorySetsInUse.find(selectedDefaultCategorySet) == null) {
-            CategorySet categorySet = defaultCategorySets.find(selectedDefaultCategorySet);
+            ObservationCategorySet categorySet = defaultCategorySets.find(selectedDefaultCategorySet);
             if (categorySet != null) categorySetsInUse.addClone(categorySet);
             else LOGGER.debug("Selected default category set not found!");
         }
@@ -358,7 +248,7 @@ public class CategorySelectionManagedBean implements Serializable {
     
     public void addPublicCategorySet() {
         if (categorySetsInUse.find(selectedPublicCategorySet) == null) {
-            CategorySet categorySet = publicCategorySets.find(selectedPublicCategorySet);
+            ObservationCategorySet categorySet = publicCategorySets.find(selectedPublicCategorySet);
             if (categorySet != null) categorySetsInUse.addClone(categorySet);
             else LOGGER.debug("Selected public category set not found!");
         }
@@ -366,13 +256,13 @@ public class CategorySelectionManagedBean implements Serializable {
     
     public void addPrivateCategorySet() {
         if (categorySetsInUse.find(selectedPrivateCategorySet) == null) {
-            CategorySet categorySet = privateCategorySets.find(selectedPrivateCategorySet);
+            ObservationCategorySet categorySet = privateCategorySets.find(selectedPrivateCategorySet);
             if (categorySet != null) categorySetsInUse.addClone(categorySet);
             else LOGGER.debug("Selected private category set not found!");
         }
     }
     
-    public void removeCategorySet(CategorySet categorySet) {
+    public void removeCategorySet(ObservationCategorySet categorySet) {
         categorySetsInUse.remove(categorySet);
     }
     
@@ -384,18 +274,18 @@ public class CategorySelectionManagedBean implements Serializable {
     public String checkCategories() {
         boolean atLeastOneCategorySelected = false;
         
-        List<Category> notInDatabase = new ArrayList<>();
+        List<ObservationCategory> notInDatabase = new ArrayList<>();
         long greatestId = 0;
         
-        for (CategorySet categorySet : categorySetsInUse.getCategorySets()) {
+        for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
             
-            List<Category> categories = categorySet.getCategories();
+            List<ObservationCategory> categories = categorySet.getCategories();
             if (!categories.isEmpty()) {
                 atLeastOneCategorySelected = true;
             }
             
             for (int i = 0; i < categories.size(); i++) {
-                Category category = categories.get(i);
+                ObservationCategory category = categories.get(i);
                 
                 if (category.getName().isEmpty()) {
                     showErrorMessage(messages.getString("cs_warningEmptyCategories"));
@@ -424,7 +314,7 @@ public class CategorySelectionManagedBean implements Serializable {
         }
         
         // Make category ids unique in this observation.
-        for (Category category : notInDatabase) {
+        for (ObservationCategory category : notInDatabase) {
             category.setId(greatestId + 1);
             greatestId += 1;
         }

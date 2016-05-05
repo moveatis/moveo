@@ -36,7 +36,6 @@ import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.Label;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.faces.event.ActionEvent;
@@ -115,7 +114,6 @@ public class CategoryManagedBean implements Serializable {
         
         categoryEntity.setLabel(labelEntity);
         categoryEntity.setCategorySet(categorySetEntity);
-        categoryEntity.setCreated(Calendar.getInstance().getTime());
         categoryEntity.setCanOverlap(canOverlap);
         categoryEntity.setDescription(description);
         
@@ -133,7 +131,6 @@ public class CategoryManagedBean implements Serializable {
         
         categoryEJB.create(categoryEntity);
         
-        LOGGER.debug("createNewCategory, CategorySetEntity id -> " + categorySetEntity.getId());
         controlManagedBean.addCategory(categoryEntity);
         
     }

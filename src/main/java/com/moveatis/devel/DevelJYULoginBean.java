@@ -41,8 +41,6 @@ import com.moveatis.interfaces.User;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -80,12 +78,8 @@ public class DevelJYULoginBean {
     /** Creates a new instance of DevelJYULoginBean */
     public DevelJYULoginBean() {
         
-        if(((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
-                .getRequestURL().toString().contains("localhost")) {
-            isLocalhost = true;
-        } else {
-            isLocalhost = false;
-        }
+        isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+                .getRequestURL().toString().contains("localhost");
     }
 
     public String getUsername() {
@@ -148,7 +142,6 @@ public class DevelJYULoginBean {
         userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
         userEntity.setGivenName(givenName);
         
-        userEntity.setCreated(Calendar.getInstance().getTime());
         identityProviderInformationEntity.setUserEntity(userEntity);
         
         userEJB.create(userEntity);
@@ -172,7 +165,6 @@ public class DevelJYULoginBean {
         userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
         userEntity.setGivenName(givenName);
         
-        userEntity.setCreated(Calendar.getInstance().getTime());
         identityProviderInformationEntity.setUserEntity(userEntity);
         
         userEJB.create(userEntity);

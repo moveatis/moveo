@@ -30,6 +30,7 @@
 
 package com.moveatis.managedbeans;
 
+import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.AnonUser;
@@ -37,8 +38,6 @@ import com.moveatis.interfaces.EventGroup;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.TagUserEntity;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -135,23 +134,19 @@ public class EventGroupManagedBean {
     
     
     public void createNewEventGroup() {
-        Date created = Calendar.getInstance().getTime();
         
         eventGroupEntity = new EventGroupEntity();
         eventGroupEntity.setLabel(eventGroupName);
         eventGroupEntity.setDescription(eventGroupDescription);
-        eventGroupEntity.setCreated(created);
         eventGroupEntity.setOwner(sessionBean.getLoggedIdentifiedUser());
         
         if(groupKeySelected) {
             GroupKeyEntity groupKey = new GroupKeyEntity();
-            groupKey.setCreated(created);
             groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
             groupKey.setGroupKey(eventGroupKey);
             groupKey.setEventGroup(eventGroupEntity);
             
             TagUserEntity tagUser = new TagUserEntity();
-            tagUser.setCreated(created);
             tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
             tagUser.setGroupKey(groupKey);
             
@@ -165,7 +160,19 @@ public class EventGroupManagedBean {
             eventGroupEntity.setUsers(users);
         }
         
+        /* 
+        * As agreed on meeting 5.5.2016, eventGroup will be renamed in the UI as "event",
+        * while eventgroups and events in the code stay the same. 
+        */
+        
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
+        eventEntity.setLabel("DEFAULT");
+        eventEntity.setEventGroup(eventGroupEntity);
+        
+        eventGroupEntity.setEvent(eventEntity);
         eventGroupEJB.create(eventGroupEntity);
-        controlManagedBean.addEventGroup(eventGroupEntity);
+        
+        controlManagedBean.addEventGroup();
     }
 }

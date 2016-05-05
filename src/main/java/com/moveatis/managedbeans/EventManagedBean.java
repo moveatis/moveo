@@ -88,21 +88,14 @@ public class EventManagedBean {
     }
     
     public void createNewEvent(EventGroupEntity eventGroupEntity) {
+        
         eventEntity = new EventEntity();
-        eventEntity.setCreated(Calendar.getInstance().getTime());
         eventEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
         eventEntity.setDescription(description);
         eventEntity.setLabel(label);
         eventEntity.setEventGroup(eventGroupEntity);
         
-        Set<EventEntity> events;
-        events = eventGroupEntity.getEvents();
-        if(events == null) {
-            events = new TreeSet<>(); //TODO: implement Comparable for custom ordering events?
-        }
-        
-        events.add(eventEntity);
-        eventGroupEntity.setEvents(events);
+        eventGroupEntity.setEvent(eventEntity);
         
         eventEJB.create(eventEntity);
         
