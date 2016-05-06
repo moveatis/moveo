@@ -32,14 +32,11 @@ package com.moveatis.category;
 import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -61,8 +58,8 @@ public class CategoryEntity extends BaseEntity implements Serializable {
     private CategorySetEntity categorySet;
     
     private Integer orderNumber;
-    
     private Boolean canOverlap;
+    private CategoryType categoryType;
 
     @Override
     public Long getId() {
@@ -112,6 +109,14 @@ public class CategoryEntity extends BaseEntity implements Serializable {
 
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public CategoryType getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(CategoryType categoryType) {
+        this.categoryType = categoryType;
     }
 
     @Override
