@@ -1,5 +1,5 @@
-/* 
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+/*
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,40 +27,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.category;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.interfaces.Category;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+package com.moveatis.category;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Stateless
-public class CategoryBean extends AbstractBean<CategoryEntity> implements Category {
+public enum CategoryType {
+    CATEGORYTYPE_TIME, CATEGORYTYPE_NUMBER;
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public CategoryBean() {
-        super(CategoryEntity.class);
-    }
-
-    @Override
-    public CategoryEntity findByLabel(String label) {
-        TypedQuery<CategoryEntity> query = em.createNamedQuery("Category.findByLabel", CategoryEntity.class);
-        query.setParameter("label", label);
-        
-        return query.getSingleResult();
-    }
 }
-    
