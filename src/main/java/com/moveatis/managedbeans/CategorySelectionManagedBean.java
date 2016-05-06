@@ -231,6 +231,7 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     public void addNewCategorySet() {
+        // TODO: Validate name!
         if (!newCategorySetName.isEmpty()) {
             ObservationCategorySet categorySet = new ObservationCategorySet(-1l, newCategorySetName); // TODO: id?
             categorySetsInUse.add(categorySet);
