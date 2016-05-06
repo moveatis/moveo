@@ -45,6 +45,7 @@ import com.moveatis.label.LabelEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -69,7 +70,7 @@ public class ControlManagedBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
-    
+
     // TODO: temporal solution for category types
     private List<String> categoryTypes;
 
@@ -80,6 +81,8 @@ public class ControlManagedBean implements Serializable {
     private EventGroupEntity selectedEventGroup;
     private CategorySetEntity selectedCategorySet;
     private CategoryEntity selectedCategory;
+    
+    private boolean creatingNewEventGroup = false;
 
     @Inject
     private EventGroup eventGroupEJB;
@@ -116,21 +119,26 @@ public class ControlManagedBean implements Serializable {
 //        createObservationsMenuModel();
     }
 
-    public void createNewEventGroup(ActionEvent event) {
-        EventGroupEntity eventGroup = new EventGroupEntity();
-        eventGroup.setLabel("uusi tapahtuma");
-        eventGroup.setOwner(user);
-        eventGroupEJB.create(eventGroup);
-        eventGroups.add(eventGroup);
+    public boolean isCreatingNewEventGroup() {
+        return creatingNewEventGroup;
+    }
+
+    public void setCreatingNewEventGroup(boolean creatingNewEventGroup) {
+        this.creatingNewEventGroup = creatingNewEventGroup;
     }
     
+    public boolean hasGroupKey(EventGroupEntity eventGroup) {
+        return eventGroup != null && eventGroup.getGroupKey() != null;
+    }
+    
+
     public void createNewCategorySet() {
         CategorySetEntity categorySet = new CategorySetEntity();
         categorySet.setLabel("uusi kategoriaryhmä");
         selectedEventGroup.getCategorySets().add(categorySet);
         eventGroupEJB.edit(selectedEventGroup);
     }
-    
+
     public void createNewCategory() {
         CategoryEntity category = new CategoryEntity();
         LabelEntity label = new LabelEntity();
@@ -180,7 +188,7 @@ public class ControlManagedBean implements Serializable {
     public void setSelectedCategorySet(CategorySetEntity selectedCategorySet) {
         this.selectedCategorySet = selectedCategorySet;
     }
-    
+
     public CategoryEntity getSelectedCategory() {
         return selectedCategory;
     }
@@ -196,8 +204,6 @@ public class ControlManagedBean implements Serializable {
     public void setCategoryTypes(List<String> categoryTypes) {
         this.categoryTypes = categoryTypes;
     }
-    
-    
 
     public String newObservation() {
         sessionBean.setEventEntityForNewObservation(selectedEventGroup.getEvent());
@@ -220,5 +226,9 @@ public class ControlManagedBean implements Serializable {
 
     public void removeObservation() {
         //observationEJB
+    }
+    
+    public void addEventGroup(EventGroupEntity eventGroup) {
+        eventGroups.add(eventGroup);
     }
 }

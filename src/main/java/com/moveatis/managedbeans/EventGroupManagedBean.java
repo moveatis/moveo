@@ -27,7 +27,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.moveatis.managedbeans;
 
 import com.moveatis.event.EventEntity;
@@ -35,6 +34,7 @@ import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.AnonUser;
 import com.moveatis.interfaces.EventGroup;
+import com.moveatis.interfaces.GroupKey;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.TagUserEntity;
@@ -51,37 +51,40 @@ import org.slf4j.LoggerFactory;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="eventGroupManagedBean")
+@Named(value = "eventGroupManagedBean")
 @RequestScoped
 public class EventGroupManagedBean {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(EventGroupManagedBean.class);
-    
+
     private String eventGroupName;
     private String eventGroupKey;
     private String eventGroupDescription;
     private String visibility;
-    
+
     private boolean groupKeySelected;
-    
+
     private EventGroupEntity eventGroupEntity;
-    
+
     @Inject
     private EventGroup eventGroupEJB;
-    
+
+    @Inject
+    private GroupKey groupKeyEJB;
+
     @Inject
     private Session sessionBean;
-    
+
     @Inject
     private AnonUser anonUserEJB;
-    
+
     @Inject
     private ControlManagedBean controlManagedBean;
 
     public EventGroupManagedBean() {
-        
+
     }
-    
+
     @PostConstruct
     public void init() {
         this.visibility = "own";
@@ -127,62 +130,86 @@ public class EventGroupManagedBean {
     public void setGroupKeySelected(boolean groupKeySelected) {
         this.groupKeySelected = groupKeySelected;
     }
-    
+
     public void addGroupKey() {
         groupKeySelected = this.visibility.equalsIgnoreCase("groupKey");
     }
-    
+
     public void addGroupKey(EventGroupEntity eventGroup) {
-        if(eventGroupKey != null) {
+        if (eventGroupKey != null) {
             GroupKeyEntity groupKey = new GroupKeyEntity();
             groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
             groupKey.setGroupKey(eventGroupKey);
             groupKey.setEventGroup(eventGroup);
             eventGroup.setGroupKey(groupKey);
+            groupKeyEJB.create(groupKey);
             eventGroupEJB.edit(eventGroup);
+            controlManagedBean.init();
         }
     }
-    
+
+    public void editGroupKey(EventGroupEntity eventGroup, String newGroupKey) {
+        if (newGroupKey != null) {
+            GroupKeyEntity groupKey = eventGroup.getGroupKey();
+            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
+            groupKey.setGroupKey(newGroupKey);
+            groupKey.setEventGroup(eventGroup);
+            eventGroup.setGroupKey(groupKey);
+            groupKeyEJB.edit(groupKey);
+            controlManagedBean.init();
+        }
+    }
+
+    public void removeGroupKey(EventGroupEntity eventGroup) {
+        // TODO: remove group key completely:
+        GroupKeyEntity groupKey = eventGroup.getGroupKey();
+        groupKey.setGroupKey(null);
+        eventGroup.setGroupKey(null);
+        groupKeyEJB.remove(groupKey);
+        groupKeyEJB.edit(groupKey);
+        eventGroupEJB.edit(eventGroup);
+        controlManagedBean.init();
+    }
+
     public void createNewEventGroup() {
-        
+
         eventGroupEntity = new EventGroupEntity();
         eventGroupEntity.setLabel(eventGroupName);
         eventGroupEntity.setDescription(eventGroupDescription);
         eventGroupEntity.setOwner(sessionBean.getLoggedIdentifiedUser());
-        
-        if(groupKeySelected) {
-            GroupKeyEntity groupKey = new GroupKeyEntity();
-            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
-            groupKey.setGroupKey(eventGroupKey);
-            groupKey.setEventGroup(eventGroupEntity);
-            
-            TagUserEntity tagUser = new TagUserEntity();
-            tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
-            tagUser.setGroupKey(groupKey);
-            
-            groupKey.setTagUser(tagUser);
-            
-            eventGroupEntity.setGroupKey(groupKey);
-            
-        } else if(visibility.equalsIgnoreCase("public")) {
-            Set<AbstractUser> users = new HashSet<>();
-            users.add(anonUserEJB.find());
-            eventGroupEntity.setUsers(users);
-        }
-        
+
+//        if(groupKeySelected) {
+//            GroupKeyEntity groupKey = new GroupKeyEntity();
+//            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
+//            groupKey.setGroupKey(eventGroupKey);
+//            groupKey.setEventGroup(eventGroupEntity);
+//            
+//            TagUserEntity tagUser = new TagUserEntity();
+//            tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
+//            tagUser.setGroupKey(groupKey);
+//            
+//            groupKey.setTagUser(tagUser);
+//            
+//            eventGroupEntity.setGroupKey(groupKey);
+//            
+//        } else if(visibility.equalsIgnoreCase("public")) {
+//            Set<AbstractUser> users = new HashSet<>();
+//            users.add(anonUserEJB.find());
+//            eventGroupEntity.setUsers(users);
+//        }
         /* 
         * As agreed on meeting 5.5.2016, eventGroup will be renamed in the UI as "event",
         * while eventgroups and events in the code stay the same. 
-        */
-        
+         */
         EventEntity eventEntity = new EventEntity();
         eventEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
         eventEntity.setLabel("DEFAULT");
         eventEntity.setEventGroup(eventGroupEntity);
-        
+
         eventGroupEntity.setEvent(eventEntity);
         eventGroupEJB.create(eventGroupEntity);
-        
-        //controlManagedBean.addEventGroup();
+
+        controlManagedBean.addEventGroup(eventGroupEntity);
+        controlManagedBean.setCreatingNewEventGroup(false);
     }
 }
