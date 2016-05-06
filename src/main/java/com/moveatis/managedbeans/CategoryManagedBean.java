@@ -27,7 +27,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.moveatis.managedbeans;
 
 import com.moveatis.category.CategoryEntity;
@@ -49,28 +48,30 @@ import org.slf4j.LoggerFactory;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="categoryManagedBean")
+@Named(value = "categoryManagedBean")
 @ViewScoped
 public class CategoryManagedBean implements Serializable {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryManagedBean.class);
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Inject
     private Category categoryEJB;
     @Inject
     private Label labelEJB;
     @Inject
     private ControlManagedBean controlManagedBean;
-    
+
     private String label;
     private String description;
     private Boolean canOverlap = false;
 
-    /** Creates a new instance of CategoryManagedBean */
+    /**
+     * Creates a new instance of CategoryManagedBean
+     */
     public CategoryManagedBean() {
-        
+
     }
 
     public String getLabel() {
@@ -100,38 +101,37 @@ public class CategoryManagedBean implements Serializable {
     public void addCategory(ActionEvent event) {
         LOGGER.debug("Category added");
     }
-    
+
     public void createNewCategory(CategorySetEntity categorySetEntity) {
         CategoryEntity categoryEntity = new CategoryEntity();
-        
+
         LabelEntity labelEntity = labelEJB.findByLabel(label);
-        
-        if(labelEntity == null) {
+
+        if (labelEntity == null) {
             labelEntity = new LabelEntity();
             labelEntity.setLabel(label);
             labelEJB.create(labelEntity);
-        } 
-        
+        }
+
         categoryEntity.setLabel(labelEntity);
         categoryEntity.setCategorySet(categorySetEntity);
         categoryEntity.setCanOverlap(canOverlap);
         categoryEntity.setDescription(description);
-        
+
         Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
-        
-        if(categories == null) {
-            categories = new TreeMap<>(); 
+
+        if (categories == null) {
+            categories = new TreeMap<>();
         }
-        
+
         Integer orderNumber = categories.size();
-        
+
         categories.put(orderNumber, categoryEntity);
         categoryEntity.setOrderNumber(orderNumber);
         categorySetEntity.setCategoryEntitys(categories);
-        
+
         categoryEJB.create(categoryEntity);
-        
+
         //controlManagedBean.addCategory(categoryEntity);
-        
     }
 }

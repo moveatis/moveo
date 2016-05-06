@@ -27,14 +27,20 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.moveatis.managedbeans;
 
+import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
+import com.moveatis.interfaces.Label;
 import com.moveatis.interfaces.Session;
+import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.inject.Named;
@@ -47,30 +53,35 @@ import org.slf4j.LoggerFactory;
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="categorySetManagedBean")
+@Named(value = "categorySetManagedBean")
 @ViewScoped
 public class CategorySetManagedBean implements Serializable {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySetManagedBean.class);
-    
+
     private final static long serialVersionUID = 1L;
-    
+
     private String name;
     private String description;
-    
+
     @Inject
     private ControlManagedBean controlManagedBean;
     @Inject
     private Session sessionBean;
     @Inject
     private CategorySet categorySetEJB;
-    
-    private CategorySetEntity categorySetEntity;
-    
+    @Inject
+    private Category categoryEJB;
+    @Inject
+    private Label labelEJB;
 
-    /** Creates a new instance of CategorySetManagedBean */
+    private CategorySetEntity categorySetEntity;
+
+    /**
+     * Creates a new instance of CategorySetManagedBean
+     */
     public CategorySetManagedBean() {
-        
+
     }
 
     public String getName() {
@@ -88,7 +99,7 @@ public class CategorySetManagedBean implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public void createNewCategorySet(EventGroupEntity eventGroupEntity) {
         categorySetEntity = new CategorySetEntity();
         categorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
@@ -98,7 +109,7 @@ public class CategorySetManagedBean implements Serializable {
 
         Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
 
-        if(categorySets == null) {
+        if (categorySets == null) {
             categorySets = new TreeSet<>();
         }
 
@@ -108,5 +119,63 @@ public class CategorySetManagedBean implements Serializable {
         categorySetEJB.create(categorySetEntity);
 
         //controlManagedBean.addCategorySet(categorySetEntity);
+    }
+
+    public void createNewCategorySet(EventGroupEntity eventGroupEntity,
+            CategorySetEntity categorySetEntity, List<CategoryEntity> categories) {
+
+        Map<Integer, CategoryEntity> categoriesOrdered = categorySetEntity.getCategoryEntitys();
+        List<CategoryEntity> unordered = new ArrayList<>();
+
+        for (CategoryEntity categoryEntity : categories) {
+            String label = categoryEntity.getLabel().getLabel();
+            LabelEntity labelEntity = labelEJB.findByLabel(label);
+
+            if (labelEntity == null) {
+                labelEntity = new LabelEntity();
+                labelEntity.setLabel(label);
+                labelEJB.create(labelEntity);
+            }
+
+            categoryEntity.setLabel(labelEntity);
+            categoryEntity.setCategorySet(categorySetEntity);
+
+            if (categoryEntity.getOrderNumber() == null) {
+                unordered.add(categoryEntity);
+            } else {
+                categoriesOrdered.put(categoryEntity.getOrderNumber(), categoryEntity);
+            }
+
+            if (categoryEntity.getId() == null) {
+                categoryEJB.create(categoryEntity);
+            } else {
+                categoryEJB.edit(categoryEntity);
+            }
+        }
+
+        for (CategoryEntity categoryEntity : unordered) {
+            categoryEntity.setOrderNumber(categoriesOrdered.size());
+            categoriesOrdered.put(categoriesOrdered.size(), categoryEntity);
+            categoryEJB.edit(categoryEntity);
+        }
+
+        categorySetEntity.setCategoryEntitys(categoriesOrdered);
+        categorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
+        categorySetEntity.setEventGroupEntity(eventGroupEntity);
+
+        Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
+
+        if (categorySets == null) {
+            categorySets = new TreeSet<>();
+        }
+
+        categorySets.add(categorySetEntity);
+        eventGroupEntity.setCategorSets(categorySets);
+        
+        if (categorySetEntity.getId() == null) {
+            categorySetEJB.create(categorySetEntity);
+        } else {
+            categorySetEJB.edit(categorySetEntity);
+        }
     }
 }

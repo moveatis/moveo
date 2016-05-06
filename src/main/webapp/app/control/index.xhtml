@@ -16,6 +16,7 @@
                 <h:outputScript library="js" name="control.js"/>
 
                 <h1>#{msg.con_welcome} #{sessionBean.loggedIdentifiedUser.givenName}!</h1>
+
                 <h2>Valitse tapahtuma</h2>
 
                 <h:form id="eventGroupsForm">
@@ -23,7 +24,7 @@
                                  selectionMode="single" selection="#{controlBean.selectedEventGroup}" rowKey="#{eventGroup.id}"
                                  editable="true" styleClass="eventGroupsTable"
                                  emptyMessage="Ei tapahtumia. Lisää uusi tapahtuma."
-                                 sortBy="#{eventGroup.id}">
+                                 sortBy="#{eventGroup.id}" reflow="true">
 
                         <p:ajax event="rowEdit" listener="#{controlBean.onEditEventGroup}"/>
                         <p:ajax event="rowSelect" update="commandButtons"/>
@@ -35,23 +36,28 @@
 
                         <p:column headerText="Nimi" styleClass="column-name">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{eventGroup.label}"/></f:facet>
-                                <f:facet name="input"><p:inputText value="#{eventGroup.label}"/></f:facet>
+                                <f:facet name="output">
+                                    <h:outputText value="#{eventGroup.label}" title="#{eventGroup.description}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:message for="input-name-eg" />
+                                    <p:inputText id="input-name-eg" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                                 placeholder="#{msg.con_eventName}" styleClass="input-name"
+                                                 value="#{eventGroup.label}"
+                                                 validator="#{validationBean.validateShortString}"/>
+                                    <p:message for="input-description-eg" />
+                                    <p:inputTextarea id="input-description-eg" styleClass="input-description"
+                                                     placeholder="#{msg.con_eventDescription}"
+                                                     value="#{eventGroup.description}"
+                                                     validator="#{validationBean.validateLongString}"
+                                                     rows="2" cols="10" autoResize="true" />
+                                </f:facet>
                             </p:cellEditor>
                         </p:column>
-
-                        <!--
-                        <p:column headerText="Kuvaus">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="# {eventGroup.description}"/></f:facet>
-                                <f:facet name="input"><p:inputText value="# {eventGroup.description}"/></f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                        -->
 
                         <p:column headerText="Kategoriaryhmät" styleClass="column-category-groups">
                             <p:dataList value="#{eventGroup.categorySets}" var="categorySet" emptyMessage="">
-                                <p:commandLink value="#{categorySet.label}"/>
+                                <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"/>
                             </p:dataList> 
                         </p:column>
 
@@ -103,9 +109,9 @@
                                      update="newEventGroupPanel" />
                     <p:commandButton value="Lisää kategoriaryhmä" icon="fa fa-list"
                                      disabled="#{empty controlBean.selectedEventGroup}"
-                                     action="#{controlBean.createNewCategorySet}"
-                                     onclick="PF('dlgCategoryGroup').show()"
-                                     update=":eventGroupsForm:eventGroupsTable"/>
+                                     action="#{controlBean.addNewCategorySet}"
+                                     onclick="PF('dlgCategorySet').show()"
+                                     update=":categorySetForm"/>
                     <p:commandButton value="Poista tapahtuma" icon="fa fa-trash"
                                      action="#{controlBean.removeEventGroup}"
                                      disabled="#{empty controlBean.selectedEventGroup}"
@@ -115,7 +121,9 @@
                     </p:commandButton>
                     <br/>
                     <br/>
-                    <p:commandButton value="Aloita tapahtuman observointi" action="#{controlBean.newObservation}" disabled="#{empty controlBean.selectedEventGroup}"/>
+                    <p:commandButton value="Aloita tapahtuman observointi" icon="fa fa-caret-square-o-right"
+                                     action="#{controlBean.newObservation}"
+                                     disabled="#{empty controlBean.selectedEventGroup}"/>
                 </h:form>
 
                 <p:confirmDialog global="true" closable="false" styleClass="coloredButton">
@@ -131,6 +139,7 @@
                         <p:inputText autocomplete="off" value="#{eventGroupManagedBean.eventGroupKey}"/>
                         <p:commandButton value="Aseta avain" icon="ui-icon-check" onclick="PF('dlgNewKey').hide();"
                                          action="#{eventGroupManagedBean.addGroupKey(controlBean.selectedEventGroup)}"
+                                         oncomplete="PF('growlWdgt').renderMessage({ summary: 'Avain asetettu', severity: 'info'});"
                                          update=":eventGroupsForm:eventGroupsTable" process="@form" validateClient="true"/>
                     </h:form>
                 </p:dialog>
@@ -143,56 +152,80 @@
                         <p:inputText id="input-group-key" autocomplete="off" value="#{controlBean.selectedEventGroup.groupKey.groupKey}"/>
                         <p:commandButton value="Vaihda avain" icon="ui-icon-check" onclick="PF('dlgEditKey').hide();"
                                          action="#{eventGroupManagedBean.editGroupKey(controlBean.selectedEventGroup, controlBean.selectedEventGroup.groupKey.groupKey)}"
+                                         oncomplete="PF('growlWdgt').renderMessage({ summary: 'Avain vaihdettu', severity: 'info'});"
                                          update=":eventGroupsForm:eventGroupsTable" process="@form" validateClient="true"/>
                     </h:form>
                     <p:commandButton value="Poista avain" icon="ui-icon-trash" onclick="PF('dlgEditKey').hide();"
                                      action="#{eventGroupManagedBean.removeGroupKey(controlBean.selectedEventGroup)}"
+                                     oncomplete="PF('growlWdgt').renderMessage({ summary: 'Avain poistettu', severity: 'info'});"
                                      update=":eventGroupsForm:eventGroupsTable"/>
                 </p:dialog>
 
-                <p:dialog header="Kategoriaryhmä" widgetVar="dlgCategoryGroup"
-                          position="center" resizable="false" responsive="true"
+                <p:dialog header="Kategoriaryhmä" widgetVar="dlgCategorySet"
+                          position="top" resizable="false" responsive="true"
                           modal="true" fitViewport="true" class="coloredButton">
-                    <h:form>
-                        <p:inputText value="#{controlBean.selectedCategorySet.label}"/>
-                        <p:dataTable id="categorySetTable" var="category" value="#{controlBean.selectedCategorySet.categories}"
-                                     selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.id}"
-                                     editable="true">
-                            <p:column headerText="Nimi">
+                    <h:form id="categorySetForm" styleClass="ui-fluid">
+                        <h:outputLabel for="input-name-categoryset" value="#{msg.con_categorySetName}" />
+                        <p:message for="input-name-categoryset" />
+                        <p:inputText id="input-name-categoryset" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                     placeholder="#{msg.con_categorySetName}"
+                                     value="#{controlBean.selectedCategorySet.label}"
+                                     validator="#{validationBean.validateShortString}"/>
+                        <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
+                                     selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
+                                     editable="true" reflow="true" draggableRows="true" styleClass="categories-table"
+                                     sortBy="#{category.orderNumber}" emptyMessage="Ei kategorioita.">
+
+                            <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>
+                            <p:ajax event="rowUnselect" update=":categorySetForm:categoryRemoveButton"/>
+
+                            <p:column headerText="Kategoria">
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{category.label}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{category.label}"/></f:facet>
+                                    <f:facet name="output"><h:outputText value="#{category.label.label}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{category.label.label}"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
-                            <p:column headerText="Kategoriatyyppi">
+                            <p:column headerText="Tyyppi">
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{category.type}" /></f:facet>
+                                    <f:facet name="output"><h:outputText value="#{msg['con_' += category.categoryType]}" /></f:facet>
                                     <f:facet name="input">
-                                        <h:selectOneMenu value="#{category.type}">
-                                            <f:selectItems value="#{controlBean.categoryTypes}" var="type" itemLabel="#{type}" itemValue="#{type}"/>
+                                        <h:selectOneMenu value="#{category.categoryType}">
+                                            <f:selectItems value="#{controlBean.categoryTypes}" var="type"
+                                                           itemValue="#{type}" itemLabel="#{msg['con_' += type]}" />
                                         </h:selectOneMenu>
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
+                            <p:column styleClass="row-editor">
+                                <p:rowEditor styleClass="fa"/>
+                            </p:column>
                         </p:dataTable>
-
-                        <p:outputPanel id="catDlgCommandButtons">
-                            <p:commandButton value="Lisää kategoria" update="categorySetTable" actionListener="#{controlBean.createNewCategory}" />
-                            <p:commandButton value="Poista kategoria" update="categorySetTable" action="#{controlBean.removeCategory}" disabled="#{empty controlBean.selectedCategory}"/>
-                            <br/>
-                            <br/>
-                            <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                             onsuccess="PF('dlgCategorySet').hide();"
-                                             process="@form" validateClient="true"/>
-                            <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
-                                             onclick="PF('dlgCategorySet').hide();" />
-                            <p:commandButton value="Poista kategoriaryhmä" update=":eventGroupsForm:eventGroupsTable" action="#{controlBean.removeCategorySet}" onsuccess="PF('dlgCategoryGroup').hide();">
-                                <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-                                           message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
-                            </p:commandButton>
-                        </p:outputPanel>
+                        <p:commandButton value="Lisää kategoria" icon="fa fa-plus"
+                                         action="#{controlBean.addNewCategory}"
+                                         update="categoriesTable"
+                                         oncomplete="jQuery('.categories-table .ui-datatable-data tr').last().find('span.ui-icon-pencil').each(function(){jQuery(this).click();}); jQuery('.categories-table .ui-row-editing input').focus();"/>
+                        <p:commandButton value="Poista kategoria" icon="fa fa-trash"
+                                         id="categoryRemoveButton"
+                                         action="#{controlBean.removeCategory}"
+                                         update="categoriesTable @this"
+                                         disabled="#{empty controlBean.selectedCategory}"/>
+                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+                                         action="#{controlBean.saveCategorySet}"
+                                         update=":eventGroupsForm:eventGroupsTable :categorySetForm"
+                                         validateClient="true"/>
+                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                         onclick="PF('dlgCategorySet').hide();" />
+                        <p:commandButton value="Poista kategoriaryhmä" icon="fa fa-trash"
+                                         action="#{controlBean.removeCategorySet}"
+                                         onsuccess="PF('dlgCategorySet').hide();"
+                                         update=":eventGroupsForm:eventGroupsTable">
+                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                       message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
+                        </p:commandButton>
                     </h:form>
                 </p:dialog>
+
+                <p:growl id="growl" showDetail="false" widgetVar="growlWdgt" severity="info"/> 
 
             </ui:define>
         </ui:composition>
