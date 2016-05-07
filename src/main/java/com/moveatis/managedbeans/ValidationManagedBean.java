@@ -30,6 +30,7 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.helpers.Validation;
+import com.moveatis.interfaces.GroupKey;
 import com.moveatis.interfaces.MessageBundle;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -52,6 +53,9 @@ public class ValidationManagedBean {
     
     @Inject @MessageBundle
     private transient ResourceBundle messages;
+    
+    @Inject
+    private GroupKey groupKeyEJB;
 
     @Email
     private String email;
@@ -84,6 +88,16 @@ public class ValidationManagedBean {
         }
     }
 
+    public void validateGroupKey(FacesContext context, UIComponent component, Object value) {
+        validateStringForJsAndHtml(context, component, value);
+        validateStringMinLength((String) value, 4);
+        validateStringMaxLength((String) value, 64);
+        if(groupKeyEJB.findByKey((String) value) != null) {
+            String error = messages.getString("validate_groupKeyReserved");
+            throwError(error);
+        }
+    }
+    
     public void validateShortString(FacesContext context, UIComponent component, Object value) {
         validateStringForJsAndHtml(context, component, value);
         validateStringMaxLength((String) value, 64);
@@ -96,7 +110,14 @@ public class ValidationManagedBean {
 
     private void validateStringMaxLength(String str, int maxLength) {
         if (str.length() > maxLength) {
-            String error = MessageFormat.format(messages.getString("validate_lengthExceeded"), maxLength);
+            String error = MessageFormat.format(messages.getString("validate_maxLength"), maxLength);
+            throwError(error);
+        }
+    }
+    
+    private void validateStringMinLength(String str, int minLength) {
+        if (str.length() < minLength) {
+            String error = MessageFormat.format(messages.getString("validate_minLength"), minLength);
             throwError(error);
         }
     }

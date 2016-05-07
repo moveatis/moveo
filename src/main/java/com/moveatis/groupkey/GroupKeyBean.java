@@ -30,6 +30,7 @@ package com.moveatis.groupkey;
 
 import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.GroupKey;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -65,6 +66,11 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
     public GroupKeyEntity findByKey(String key) {
         TypedQuery<GroupKeyEntity> query = em.createNamedQuery("findKey", GroupKeyEntity.class);
         query.setParameter("key", key);
-        return query.getSingleResult();
+        List<GroupKeyEntity> result = query.getResultList();
+        if(result.isEmpty()) {
+            return null; // more proper return value for empty result?
+        } else {
+            return result.get(0);
+        }
     }
 }

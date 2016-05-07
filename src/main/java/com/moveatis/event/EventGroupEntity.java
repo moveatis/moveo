@@ -34,6 +34,7 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
@@ -51,32 +52,32 @@ import javax.persistence.Table;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(
-            name="findEventGroupByOwner",
-            query="SELECT eventGroup FROM EventGroupEntity eventGroup WHERE eventGroup.owner=:ownerEntity "
-                    + "AND eventGroup.removed IS NULL"
-        )
+    @NamedQuery(
+            name = "findEventGroupByOwner",
+            query = "SELECT eventGroup FROM EventGroupEntity eventGroup WHERE eventGroup.owner=:ownerEntity "
+            + "AND eventGroup.removed IS NULL"
+    )
 })
-@Table(name="EVENTGROUP")
+@Table(name = "EVENTGROUP")
 public class EventGroupEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @OneToMany(mappedBy = "eventGroupEntity", cascade=PERSIST, fetch=EAGER)
+
+    @OneToMany(mappedBy = "eventGroupEntity", cascade = PERSIST, fetch = EAGER)
     private Set<CategorySetEntity> categorySets;
-    
-    @OneToOne(mappedBy = "eventGroup", cascade=PERSIST)
+
+    @OneToOne(mappedBy = "eventGroup", cascade = PERSIST)
     private EventEntity event;
-    
-    @OneToOne(cascade=PERSIST)
+
+    @OneToOne(cascade = PERSIST)
     private GroupKeyEntity groupKey;
-    
+
     @ManyToOne
     private AbstractUser owner;
-    
+
     @OneToMany
     private Set<AbstractUser> users;
-    
+
     private String label;
     private String description;
 
@@ -152,7 +153,7 @@ public class EventGroupEntity extends BaseEntity implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof EventGroupEntity)) {
@@ -166,5 +167,5 @@ public class EventGroupEntity extends BaseEntity implements Serializable {
     public String toString() {
         return "com.moveatis.lotas.scene.EventGroupEntity[ id=" + id + " ]";
     }
-    
+
 }

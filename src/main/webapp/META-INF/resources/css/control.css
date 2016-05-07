@@ -24,13 +24,14 @@ and open the template in the editor.
 
 
 /* Fix unselectable editable cells */
-.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
-    pointer-events: none;
-}
 
 #mainPage a.edit-key {
     color: gold;
     text-shadow: 1px 1px 1px rgb(51, 51, 51);
+}
+
+.key-dialog {
+    max-width: 12em;
 }
 
 a.new-key {
@@ -110,10 +111,13 @@ a.new-key {
     color:red;
 }
 
+.categorySets {
+    pointer-events: none;
+}
+
 .categorySets .ui-datalist-content {
     background: none;
     border: none;
-    pointer-events: none;
 }
 
 .categorySets ul {
@@ -147,6 +151,12 @@ a.new-key {
 .ui-state-highlight .categorySets ul > li > a:hover {
     color: white;
     text-shadow: 1px 1px 1px grey;
+}
+
+.ui-sortable-helper {
+    z-index: 2000!important;
+    font-size: 0.9em!important;
+    opacity:0.4;
 }
 
 @media screen and (max-width: 800px) {

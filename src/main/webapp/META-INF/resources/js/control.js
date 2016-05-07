@@ -28,8 +28,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-function editNewEvent() {
-    $('.ui-datatable-data tr').last().find('span.ui-icon-pencil').each(function () {
-        $(this).click();
-    });
+/* global PrimeFaces, PF */
+
+function onDialogSuccess(args, dialogWidgetVar, message) {
+    if (args && !args.validationFailed) {
+        PF(dialogWidgetVar).hide();
+        if (message) {
+            PF('growlWdgt').renderMessage({summary: message, severity: 'info'});
+        }
+    }
 }

@@ -51,6 +51,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,10 +161,6 @@ public class ControlManagedBean implements Serializable {
         this.selectedEventGroup = selectedEventGroup;
     }
 
-    public void setSelectedEventGroup(long id) {
-        this.selectedEventGroup = eventGroupEJB.find(id);
-    }
-
     public List<CategoryEntity> getCategories() {
         return categories;
     }
@@ -178,12 +175,6 @@ public class ControlManagedBean implements Serializable {
 
     public void setSelectedCategorySet(CategorySetEntity selectedCategorySet) {
         this.selectedCategorySet = selectedCategorySet;
-        this.selectedEventGroup = this.selectedCategorySet.getEventGroupEntity();
-        categories = new ArrayList<>(selectedCategorySet.getCategoryEntitys().values());
-    }
-    
-    public void setSelectedCategorySet(long id) {
-        this.selectedCategorySet = categorySetEJB.find(id);
         this.selectedEventGroup = this.selectedCategorySet.getEventGroupEntity();
         categories = new ArrayList<>(selectedCategorySet.getCategoryEntitys().values());
     }
@@ -213,16 +204,35 @@ public class ControlManagedBean implements Serializable {
 
     public void removeCategorySet() {
         categorySetEJB.remove(selectedCategorySet);
+        selectedEventGroup.getCategorySets().remove(selectedCategorySet);
+        eventGroupEJB.edit(selectedEventGroup);
         selectedCategorySet = null;
         selectedCategory = null;
     }
 
     public void removeCategory() {
-        for (CategoryEntity category : categories.subList(selectedCategory.getOrderNumber(), categories.size())) {
-            category.setOrderNumber(category.getOrderNumber() - 1);
+        int index = selectedCategory.getOrderNumber();
+        categories.remove(index);
+        int i = 0;
+        for (CategoryEntity category : categories) {
+            category.setOrderNumber(i);
+            i++;
         }
-        categories.remove(selectedCategory);
-        selectedCategory = null;
+        if (categories.isEmpty()) {
+            selectedCategory = null;
+        } else if (index > 0) {
+            selectedCategory = categories.get(index - 1);
+        } else {
+            selectedCategory = categories.get(0);
+        }
+    }
+
+    public void onCategoryReorder(ReorderEvent event) {
+        int i = 0;
+        for (CategoryEntity category : categories) {
+            category.setOrderNumber(i);
+            i++;
+        }
     }
 
     public void removeObservation() {
