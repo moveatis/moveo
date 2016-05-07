@@ -178,6 +178,14 @@ public class ControlManagedBean implements Serializable {
 
     public void setSelectedCategorySet(CategorySetEntity selectedCategorySet) {
         this.selectedCategorySet = selectedCategorySet;
+        this.selectedEventGroup = this.selectedCategorySet.getEventGroupEntity();
+        categories = new ArrayList<>(selectedCategorySet.getCategoryEntitys().values());
+    }
+    
+    public void setSelectedCategorySet(long id) {
+        this.selectedCategorySet = categorySetEJB.find(id);
+        this.selectedEventGroup = this.selectedCategorySet.getEventGroupEntity();
+        categories = new ArrayList<>(selectedCategorySet.getCategoryEntitys().values());
     }
 
     public CategoryEntity getSelectedCategory() {
@@ -205,6 +213,7 @@ public class ControlManagedBean implements Serializable {
 
     public void removeCategorySet() {
         categorySetEJB.remove(selectedCategorySet);
+        selectedCategorySet = null;
         selectedCategory = null;
     }
 
@@ -227,6 +236,7 @@ public class ControlManagedBean implements Serializable {
     public void saveCategorySet() {
         if (selectedEventGroup != null && selectedCategorySet != null) {
             categorySetBean.createNewCategorySet(selectedEventGroup, selectedCategorySet, categories);
+            this.init();
         }
     }
 }

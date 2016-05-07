@@ -56,8 +56,13 @@
                         </p:column>
 
                         <p:column headerText="Kategoriaryhmät" styleClass="column-category-groups">
-                            <p:dataList value="#{eventGroup.categorySets}" var="categorySet" emptyMessage="">
-                                <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"/>
+                            <p:dataList value="#{eventGroup.categorySets}" var="categorySet"
+                                        emptyMessage="Ei kategoriaryhmiä." styleClass="categorySets"
+                                        lazy="true" itemType="none">
+                                <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"
+                                               action="#{controlBean.setSelectedCategorySet(categorySet.id)}"
+                                               onclick="PF('dlgCategorySet').show()"
+                                               update=":categorySetForm"/>
                             </p:dataList> 
                         </p:column>
 
@@ -133,7 +138,7 @@
 
 
                 <p:dialog header="Aseta kurssiavain tapahtumalle" widgetVar="dlgNewKey"
-                          position="center" resizable="false" responsive="true"
+                          position="top" resizable="false" responsive="true" styleClass="ui-fluid"
                           modal="true" fitViewport="true" class="coloredButton">
                     <h:form>
                         <p:inputText autocomplete="off" value="#{eventGroupManagedBean.eventGroupKey}"/>
@@ -146,7 +151,7 @@
 
 
                 <p:dialog header="Vaihda tapahtuman kurssiavain" widgetVar="dlgEditKey"
-                          position="center" resizable="false" responsive="true"
+                          position="top" resizable="false" responsive="true" styleClass="ui-fluid"
                           modal="true" fitViewport="true" class="coloredButton">
                     <h:form id="editKeyForm">
                         <p:inputText id="input-group-key" autocomplete="off" value="#{controlBean.selectedEventGroup.groupKey.groupKey}"/>
@@ -164,7 +169,7 @@
                 <p:dialog header="Kategoriaryhmä" widgetVar="dlgCategorySet"
                           position="top" resizable="false" responsive="true"
                           modal="true" fitViewport="true" class="coloredButton">
-                    <h:form id="categorySetForm" styleClass="ui-fluid">
+                    <h:form id="categorySetForm">
                         <h:outputLabel for="input-name-categoryset" value="#{msg.con_categorySetName}" />
                         <p:message for="input-name-categoryset" />
                         <p:inputText id="input-name-categoryset" required="true" requiredMessage="#{msg.dlg_notEmpty}"
@@ -209,16 +214,19 @@
                                          action="#{controlBean.removeCategory}"
                                          update="categoriesTable @this"
                                          disabled="#{empty controlBean.selectedCategory}"/>
+                        <br/>
+                        <br/>
                         <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{controlBean.saveCategorySet}"
-                                         update=":eventGroupsForm:eventGroupsTable :categorySetForm"
+                                         update="@(.categorySets)"
+                                         onsuccess="PF('dlgCategorySet').hide();"
                                          validateClient="true"/>
                         <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgCategorySet').hide();" />
-                        <p:commandButton value="Poista kategoriaryhmä" icon="fa fa-trash"
+                        <p:commandButton value="Poista" icon="fa fa-trash"
                                          action="#{controlBean.removeCategorySet}"
                                          onsuccess="PF('dlgCategorySet').hide();"
-                                         update=":eventGroupsForm:eventGroupsTable">
+                                         update="@(.categorySets)">
                             <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
                                        message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
                         </p:commandButton>

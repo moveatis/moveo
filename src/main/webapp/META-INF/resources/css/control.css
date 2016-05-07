@@ -14,6 +14,10 @@ and open the template in the editor.
     margin-bottom: 3em;
 }
 
+#mainPage > form {
+    max-width: 40em;
+}
+
 .eventGroupsTable thead {
     display:none!important;
 }
@@ -100,11 +104,50 @@ a.new-key {
 .new-eventgroup-form .fa-check {
     color:green;
 }
+
 .row-editor .ui-icon-close:before,
 #newEventGroupPanel .fa-close {
     color:red;
 }
 
+.categorySets .ui-datalist-content {
+    background: none;
+    border: none;
+    pointer-events: none;
+}
+
+.categorySets ul {
+    padding: 0;
+    margin: 0;
+}
+
+.categorySets ul > li {
+    display: inline-block;
+    padding: .2em;
+    background: #2D363F;
+    border-radius: 5px;
+    margin: .2em;
+    border: 1px solid rgba(79, 79, 79, .4);
+    pointer-events: auto;
+    font-size: .9em;
+    box-shadow: 1px 1px 1px grey;
+}
+
+.categorySets ul > li:hover {
+    box-shadow: none;
+}
+
+.categorySets ul > li > a,
+.ui-state-highlight .categorySets ul > li > a {
+    color: white;
+    text-shadow: 1px 1px 1px rgb(51, 51, 51);
+}
+
+.categorySets ul > li > a:hover,
+.ui-state-highlight .categorySets ul > li > a:hover {
+    color: white;
+    text-shadow: 1px 1px 1px grey;
+}
 
 @media screen and (max-width: 800px) {
 

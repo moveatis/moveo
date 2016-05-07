@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -127,6 +128,10 @@ public class CategorySetManagedBean implements Serializable {
         Map<Integer, CategoryEntity> categoriesOrdered = categorySetEntity.getCategoryEntitys();
         List<CategoryEntity> unordered = new ArrayList<>();
 
+        if (categoriesOrdered == null) {
+            categoriesOrdered = new TreeMap<>();
+        }
+        
         for (CategoryEntity categoryEntity : categories) {
             String label = categoryEntity.getLabel().getLabel();
             LabelEntity labelEntity = labelEJB.findByLabel(label);
