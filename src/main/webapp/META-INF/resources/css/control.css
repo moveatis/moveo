@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : Juha Moisio
 */
 
+h1 {
+    font-size: 1.4em;
+}
+
 #mainPage {
     max-width: 960px;
     margin: 0 auto;
@@ -21,9 +25,6 @@ and open the template in the editor.
 .eventGroupsTable thead {
     display:none!important;
 }
-
-
-/* Fix unselectable editable cells */
 
 #mainPage a.edit-key {
     color: gold;
@@ -159,10 +160,94 @@ a.new-key {
     opacity:0.4;
 }
 
+.row-toggler-mobile {
+    display: none;
+}
+
+.start-button {
+    font-size: 1.2em;
+}
+
+.ui-growl {
+    z-index: 2000!important;
+}
+
+.categories-table {
+    margin-top: .5em;
+}
+
+#categorySetForm .ui-column-title {
+    font-size: .8em;
+    color: #777;
+}
+
+#categorySetForm .ui-state-highlight .ui-column-title {
+    color: white;
+}
+
+
 @media screen and (max-width: 800px) {
 
     #mainPage > form {
         margin: auto;
     }
 
+}
+
+@media screen and (max-width: 640px) {
+
+    .row-toggler-mobile {
+        display: block;
+        font-size: 0.9em;
+    }
+
+    .row-toggler-mobile span:before {
+        font-family: FontAwesome;
+        margin-right: .3em;
+    }
+
+    .row-toggler-mobile span:first-child:before {
+        content:"\f138";
+    }
+
+    .row-toggler-mobile span:last-child:before {
+        content:"\f13a";
+    }
+
+    .column-name {
+        margin-top: .6em;
+        font-size: 1.3em;
+    }
+
+    #eventGroupsForm .row-editor,
+    #eventGroupsForm .column-group-keys {
+       display: inline-block;
+       float: none;
+       width: auto;
+    }
+
+    #eventGroupsForm .ui-column-title,
+    #eventGroupsForm .row-toggler {
+        display: none;
+    }
+
+    #categorySetForm .ui-cell-editing .ui-column-title,
+    #categorySetForm .ui-cell-editing .ui-cell-editor-input {
+        margin-left: .4em;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    #commandButtons button {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .categorySetCommandButtons > button {
+        width: 100%;
+        text-align: left;
+    }
 }

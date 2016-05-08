@@ -63,11 +63,11 @@
                                                action="#{controlBean.setSelectedCategorySet(categorySet)}"
                                                onclick="PF('dlgCategorySet').show()"
                                                update=":categorySetForm"/>
-                            </p:dataList> 
+                            </p:dataList>
                         </p:column>
 
                         <p:column headerText="Avain" styleClass="column-group-keys">
-                            <p:commandLink styleClass="fa fa-key new-key" 
+                            <p:commandLink styleClass="fa fa-key new-key"
                                            action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                            rendered="#{!controlBean.hasGroupKey(eventGroup)}"
                                            onclick="PF('dlgNewKey').show();"
@@ -81,6 +81,11 @@
 
                         <p:column styleClass="row-editor">
                             <p:rowEditor styleClass="fa"/>
+                        </p:column>
+
+
+                        <p:column styleClass="row-toggler-mobile">
+                            <p:rowToggler expandLabel="Näytä observoinnit" collapseLabel="Piilota observoinnit"/>
                         </p:column>
 
                         <p:rowExpansion>
@@ -134,7 +139,7 @@
                     <br/>
                     <br/>
                     <p:commandButton value="Aloita tapahtuman observointi" icon="fa fa-caret-square-o-right"
-                                     action="#{controlBean.newObservation}"
+                                     action="#{controlBean.newObservation}" styleClass="start-button"
                                      disabled="#{empty controlBean.selectedEventGroup}"/>
                 </h:form>
 
@@ -207,14 +212,20 @@
                             <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>
                             <p:ajax event="rowUnselect" update=":categorySetForm:categoryRemoveButton"/>
                             <p:ajax event="rowReorder" listener="#{controlBean.onCategoryReorder}" />
-                            
+
                             <p:column headerText="Kategoria">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText class="output-name" value="#{category.label.label}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{category.label.label}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:message for="input-name-category" />
+                                        <p:inputText id="input-name-category"
+                                            required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                            value="#{category.label.label}"
+                                            validator="#{validationBean.validateShortString}"/>
+                                    </f:facet>
                                 </p:cellEditor>
                             </p:column>
-                            <p:column headerText="Kategoriatyyppi">
+                            <p:column headerText="Tyyppi">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{msg['con_' += category.categoryType]}" /></f:facet>
                                     <f:facet name="input">
@@ -226,37 +237,39 @@
                                 </p:cellEditor>
                             </p:column>
                         </p:dataTable>
-                        <p:commandButton value="Lisää kategoria" icon="fa fa-plus"
-                                         action="#{controlBean.addNewCategory}"
-                                         onclick="$(document).click();"
-                                         oncomplete="$('.categories-table tr').last().find('.output-name').click();"
-                                         update="categoriesTable"/>
-                        <p:commandButton value="Poista kategoria" icon="fa fa-minus"
-                                         id="categoryRemoveButton"
-                                         action="#{controlBean.removeCategory}"
-                                         update="categoriesTable @this"
-                                         disabled="#{empty controlBean.selectedCategory}"/>
-                        <br/>
-                        <br/>
-                        <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-                                         action="#{controlBean.saveCategorySet}"
-                                         onclick="$(document).click();"
-                                         oncomplete="onDialogSuccess(args, 'dlgCategorySet', 'Kategoriaryhmä tallennettu')"
-                                         update=":eventGroupsForm:eventGroupsTable @form" validateClient="true"/>
-                        <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
-                                         onclick="PF('dlgCategorySet').hide();" />
-                        <p:commandButton value="Poista" icon="fa fa-trash"
-                                         action="#{controlBean.removeCategorySet}"
-                                         oncomplete="onDialogSuccess(args, 'dlgCategorySet', 'Kategoriaryhmä poistettu')"
-                                         update=":eventGroupsForm:eventGroupsTable">
-                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-                                       message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
-                        </p:commandButton>
+                        <div class="categorySetCommandButtons">
+                            <p:commandButton value="Lisää kategoria" icon="fa fa-plus"
+                                             action="#{controlBean.addNewCategory}"
+                                             onclick="$(document).click();"
+                                             oncomplete="$('.categories-table tr').last().find('.output-name').click();"
+                                             update="categoriesTable"/>
+                            <p:commandButton value="Poista kategoria" icon="fa fa-minus"
+                                             id="categoryRemoveButton"
+                                             action="#{controlBean.removeCategory}"
+                                             update="categoriesTable @this"
+                                             disabled="#{empty controlBean.selectedCategory}"/>
+                            <br/>
+                            <br/>
+                            <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+                                             action="#{controlBean.saveCategorySet}"
+                                             onclick="$(document).click();"
+                                             oncomplete="onDialogSuccess(args, 'dlgCategorySet', 'Kategoriaryhmä tallennettu')"
+                                             update=":eventGroupsForm:eventGroupsTable @form" validateClient="true"/>
+                            <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                             onclick="PF('dlgCategorySet').hide();" />
+                            <p:commandButton value="Poista" icon="fa fa-trash"
+                                             action="#{controlBean.removeCategorySet}"
+                                             oncomplete="onDialogSuccess(args, 'dlgCategorySet', 'Kategoriaryhmä poistettu')"
+                                             update=":eventGroupsForm:eventGroupsTable">
+                                <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                           message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
+                            </p:commandButton>
+                        </div>
                     </h:form>
                 </p:dialog>
 
-                <p:growl id="validationErrorGrowl" showDetail="true" severity="error"/> 
-                <p:growl showDetail="false" widgetVar="growlWdgt" severity="info"/> 
+                <p:growl id="validationErrorGrowl" showDetail="true" severity="error" life="3000"/>
+                <p:growl showDetail="false" widgetVar="growlWdgt" severity="info" life="3000"/>
 
             </ui:define>
         </ui:composition>
