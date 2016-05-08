@@ -41,7 +41,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -90,6 +92,8 @@ public class SummaryManagedBean implements Serializable {
     
     @Inject
     private Session sessionBean;
+    @Inject
+    private ObservationManagedBean observationManagedBean;
 
     @Inject
     private ValidationManagedBean validationBean;
@@ -221,7 +225,7 @@ public class SummaryManagedBean implements Serializable {
         
         // TODO: Do it like this instead of the commented section above?
         // BEGIN
-        observation = sessionBean.getLastObservation();
+        observation = observationManagedBean.getObservationEntity();
         List<RecordEntity> records = observation.getRecords();
         // END
         
@@ -230,7 +234,7 @@ public class SummaryManagedBean implements Serializable {
 
         // Add categories to timeline as timeline groups
         int categoryNumber = 1;
-        for (ObservationCategorySet categorySet : sessionBean.getCategorySetsInUse()) {
+        for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
             for (ObservationCategory category : categorySet.getCategories()) {
                 // Add category name inside element with class name
                 // use css style to hide them in timeline
@@ -239,7 +243,7 @@ public class SummaryManagedBean implements Serializable {
                         = "<span class=categoryNumber>" + categoryNumber + ". </span>"
                         + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category.getName()) + "</span>"
                         + "<span class=categorySet>" + categorySet.getName() + "</span>";
-                String groupID = category.getId().toString();
+                String groupID = Long.toString(category.getTag());
                 TimelineGroup timelineGroup = new TimelineGroup(groupID, numberedLabel);
                 timeline.addGroup(timelineGroup);
                 // Add dummy records to show empty categories in timeline
@@ -251,23 +255,17 @@ public class SummaryManagedBean implements Serializable {
 
         // Add records to timeline as timeline-events
         for (RecordEntity record : records) {
-            CategoryEntity category = record.getCategory();
+            ObservationCategory category = record.getCategory();
             long startTime = record.getStartTime();
             long endTime = record.getEndTime();
             TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
-                    new Date(endTime), false, category.getId().toString());
+                    new Date(endTime), false, Long.toString(category.getTag()));
             timeline.add(timelineEvent);
         }
     }
 
     public void saveCurrentObservation() {
-        if (observationEJB.find(observation.getId()) != null) {
-            // Edit existing observation
-            observationEJB.edit(observation);
-        } else {
-            // Save as a new observation
-            observationEJB.create(observation);
-        }
+        observationManagedBean.saveObservationToDatabase();
     }
 
     public void sendCurrentObservation() {

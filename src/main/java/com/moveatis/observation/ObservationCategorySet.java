@@ -30,6 +30,7 @@
 
 package com.moveatis.observation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +39,13 @@ import java.util.List;
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
-public class ObservationCategorySet {
+public class ObservationCategorySet implements Serializable {
     
-    private Long id;
-    private String name;
-    private List<ObservationCategory> categories;
+    private static final long serialVersionUID = 1L;
+    
+    private final Long id;
+    private final String name;
+    private final List<ObservationCategory> categories;
         
     public ObservationCategorySet(Long id, String name) {
         this.id = id;
@@ -61,17 +64,29 @@ public class ObservationCategorySet {
     public List<ObservationCategory> getCategories() {
         return categories;
     }
+    
+    public void add(Long tag, String name) {
+        ObservationCategory category = new ObservationCategory();
+        category.setName(name);
+        category.setTag(tag);
+        categories.add(category);
+    }
 
     public void add(ObservationCategory category) {
         categories.add(category);
     }
-
+    
     public void addEmpty() {
-        categories.add(new ObservationCategory());
+        ObservationCategory category = new ObservationCategory();
+        category.setTag(-1L);
+        categories.add(category);
     }
 
     public void remove(ObservationCategory category) {
         categories.remove(category);
     }
-
+    
+    private Long findNextTag() {
+        return (long)categories.size();
+    }
 }

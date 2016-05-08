@@ -70,7 +70,6 @@ public interface Session {
     public boolean getIsLocalhost();
     public void setReturnUri(String uri);
     public String getReturnUri();
-    public ObservationEntity getLastObservation();
     public void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
     public List<ObservationCategorySet> getCategorySetsInUse();
 }

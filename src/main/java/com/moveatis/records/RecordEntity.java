@@ -31,6 +31,7 @@ package com.moveatis.records;
 
 import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.category.CategoryEntity;
+import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import java.io.File;
 import java.io.Serializable;
@@ -48,8 +49,7 @@ public class RecordEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @ManyToOne
-    private CategoryEntity category;
+    private ObservationCategory category;
     
     private Long startTime;
     private Long endTime;
@@ -68,11 +68,11 @@ public class RecordEntity extends BaseEntity implements Serializable {
         this.observation = observation;
     }
 
-    public CategoryEntity getCategory() {
+    public ObservationCategory getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryEntity category) {
+    public void setObservationCategory(ObservationCategory category) {
         this.category = category;
     }
 

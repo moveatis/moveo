@@ -38,6 +38,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -68,10 +71,10 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     @ManyToOne
     private EventEntity event;
     
-    @OneToMany
-    private Set<CategorySetEntity> categorySets;
+    @ElementCollection
+    private Set<ObservationCategorySet> observationCategorySets;
     
-    @OneToMany(mappedBy = "observation", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "observation", fetch=FetchType.EAGER, cascade=ALL)
     private List<RecordEntity> records;
     
     private long duration;
@@ -79,6 +82,7 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     private String description;
     private String name;
     private String target;
+    private Boolean userWantsToSaveToDatabase;
 
     @Override
     public Long getId() {
@@ -88,14 +92,6 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     @Override
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Set<CategorySetEntity> getCategorySets() {
-        return categorySets;
-    }
-
-    public void setCategorySets(Set<CategorySetEntity> categorySets) {
-        this.categorySets = categorySets;
     }
     
     public List<RecordEntity> getRecords() {
@@ -160,6 +156,22 @@ public class ObservationEntity extends BaseEntity implements Serializable {
 
     public void setTarget(String target) {
         this.target = target;
+    }
+
+    public Set<ObservationCategorySet> getObservationCategorySets() {
+        return observationCategorySets;
+    }
+
+    public void setObservationCategorySets(Set<ObservationCategorySet> observationCategorySets) {
+        this.observationCategorySets = observationCategorySets;
+    }
+
+    public Boolean getUserWantsToSaveToDatabase() {
+        return userWantsToSaveToDatabase;
+    }
+
+    public void setUserWantsToSaveToDatabase(Boolean userWantsToSaveToDatabase) {
+        this.userWantsToSaveToDatabase = userWantsToSaveToDatabase;
     }
 
     @Override

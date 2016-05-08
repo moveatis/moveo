@@ -30,6 +30,8 @@
 package com.moveatis.event;
 
 import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.category.CategorySetEntity_;
 import com.moveatis.interfaces.AnonUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -38,6 +40,7 @@ import com.moveatis.interfaces.EventGroup;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.AbstractUser_;
 import java.util.List;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -102,9 +105,27 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
         
         TypedQuery<EventGroupEntity> query = em.createQuery(cq);
         
-        LOGGER.debug("Listan koko -> " + query.getResultList().size());
-        
         return query.getResultList();
     }
-    
+
+    @Override
+    public void removeCategorySetEntityFromEventGroups(CategorySetEntity categorySetEntity) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
+        
+        Root<EventGroupEntity> groupRoot = cq.from(EventGroupEntity.class);
+        SetJoin<EventGroupEntity, CategorySetEntity> categoryJoin = groupRoot.join(EventGroupEntity_.categorySets);
+        Predicate p = cb.equal(categoryJoin.get(CategorySetEntity_.id), categorySetEntity.getId());
+        
+        cq.select(groupRoot).where(p);
+        TypedQuery<EventGroupEntity> query = em.createQuery(cq);
+        List<EventGroupEntity> eventGroups = query.getResultList();
+        if(!eventGroups.isEmpty()) {
+            for(EventGroupEntity eventGroup : eventGroups) {
+                Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
+                categorySets.remove(categorySetEntity);
+                eventGroup.setCategorySets(categorySets);
+            }
+        }
+    }
 }

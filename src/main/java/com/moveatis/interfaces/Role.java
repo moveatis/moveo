@@ -44,5 +44,6 @@ public interface Role {
     void addSuperuserRoleToUser(IdentifiedUserEntity user, Date startDate, Date endDate);
     void removeSuperuserRoleFromUser(IdentifiedUserEntity user);
     List<SuperUserRoleEntity> listSuperusers();
+    boolean checkIfUserIsSuperUser(IdentifiedUserEntity user);
     
 }

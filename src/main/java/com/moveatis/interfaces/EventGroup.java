@@ -29,6 +29,7 @@
  */
 package com.moveatis.interfaces;
 
+import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.AbstractUser;
 import java.util.List;
@@ -58,6 +59,8 @@ public interface EventGroup {
     List<EventGroupEntity> findAllForPublicUser();
 
     List<EventGroupEntity> findRange(int[] range);
+    
+    void removeCategorySetEntityFromEventGroups(CategorySetEntity categorySetEntity);
 
     int count();
     

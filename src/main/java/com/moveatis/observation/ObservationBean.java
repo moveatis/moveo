@@ -29,7 +29,6 @@
  */
 package com.moveatis.observation;
 
-import com.moveatis.devel.ObservationFileOperations;
 import com.moveatis.abstracts.AbstractBean;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -57,11 +56,6 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     private static final Logger LOGGER = LoggerFactory.getLogger(ObservationBean.class);
     
     private static final long serialVersionUID = 1L;
-    
-    /*
-    * For development phase we use local file, not database
-    */
-    private ObservationFileOperations develFileOperations;
     
     @Inject
     private SessionBean sessionBean;
@@ -107,5 +101,10 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         observationEntity = em.find(ObservationEntity.class, id);
         LOGGER.debug("observation-entity records size ->" + observationEntity.getRecords().size());
         return observationEntity.getRecords();
+    }
+
+    @Override
+    public void removeUnsavedObservation(ObservationEntity observationEntity) {
+        em.remove(em.merge(observationEntity));
     }
 }

@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.HashSet;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -111,11 +111,11 @@ public class CategorySetManagedBean implements Serializable {
         Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
 
         if (categorySets == null) {
-            categorySets = new TreeSet<>();
+            categorySets = new HashSet<>();
         }
 
         categorySets.add(categorySetEntity);
-        eventGroupEntity.setCategorSets(categorySets);
+        eventGroupEntity.setCategorySets(categorySets);
 
         categorySetEJB.create(categorySetEntity);
 
@@ -126,6 +126,9 @@ public class CategorySetManagedBean implements Serializable {
             CategorySetEntity categorySetEntity, List<CategoryEntity> categories) {
 
         Map<Integer, CategoryEntity> categoriesOrdered = categorySetEntity.getCategoryEntitys();
+        if(categoriesOrdered == null) {
+            categoriesOrdered = new TreeMap<>();
+        }
         List<CategoryEntity> unordered = new ArrayList<>();
 
         if (categoriesOrdered == null) {
@@ -151,11 +154,9 @@ public class CategorySetManagedBean implements Serializable {
                 categoriesOrdered.put(categoryEntity.getOrderNumber(), categoryEntity);
             }
 
-            if (categoryEntity.getId() == null) {
-                categoryEJB.create(categoryEntity);
-            } else {
+            if (categoryEntity.getId() != null) {
                 categoryEJB.edit(categoryEntity);
-            }
+            } 
         }
 
         for (CategoryEntity categoryEntity : unordered) {
@@ -171,11 +172,11 @@ public class CategorySetManagedBean implements Serializable {
         Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
 
         if (categorySets == null) {
-            categorySets = new TreeSet<>();
+            categorySets = new HashSet<>();
         }
 
         categorySets.add(categorySetEntity);
-        eventGroupEntity.setCategorSets(categorySets);
+        eventGroupEntity.setCategorySets(categorySets);
         
         if (categorySetEntity.getId() == null) {
             categorySetEJB.create(categorySetEntity);

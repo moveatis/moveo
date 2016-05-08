@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
@@ -30,47 +30,50 @@
 package com.moveatis.filters;
 
 import com.moveatis.interfaces.Session;
+import com.moveatis.user.IdentifiedUserEntity;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
- * 
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = {"/app/*"})
-public class LoginFilter implements Filter {
-    
-    private static final boolean DEBUG = true;
+@WebFilter(filterName = "ControlFilter", urlPatterns = {"/app/control/*"})
+public class ControlFilter implements Filter {
+
+    // The filter configuration object we are associated with.  If
+    // this value is null, this filter instance is not currently
+    // configured. 
     private FilterConfig filterConfig = null;
-    private ServletContext context = null;
     
     @Inject
     private Session sessionBean;
     
-    public LoginFilter() {
+    public ControlFilter() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
-        
+
     }    
     
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
-    
+
     }
 
     /**
@@ -88,17 +91,28 @@ public class LoginFilter implements Filter {
             throws IOException, ServletException {
         
         doBeforeProcessing(request, response);
-
-        if(!sessionBean.isLoggedIn()) {
-            ((HttpServletResponse)response).sendRedirect("/" + context.getContextPath() + "/index.xhtml");
+        
+        if(sessionBean.getLoggedInUser() instanceof IdentifiedUserEntity) {
+            
+        } else {
+            
+            Locale locale = ((HttpServletRequest)request).getLocale();
+            ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+            
+            ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_FORBIDDEN);
+            ((HttpServletResponse)response).sendError(HttpServletResponse.SC_FORBIDDEN, messages.getString("filter.forbidden"));
             return;
         }
         
         Throwable problem = null;
         try {
             chain.doFilter(request, response);
-        } catch (IOException | ServletException t) {
+        } catch (Throwable t) {
+            // If an exception is thrown somewhere down the filter chain,
+            // we still want to execute our after processing, and then
+            // rethrow the problem after that.
             problem = t;
+            t.printStackTrace();
         }
         
         doAfterProcessing(request, response);
@@ -118,7 +132,6 @@ public class LoginFilter implements Filter {
 
     /**
      * Return the filter configuration object for this filter.
-     * @return 
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
@@ -136,7 +149,6 @@ public class LoginFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    @Override
     public void destroy() {        
     }
 
@@ -147,23 +159,19 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (DEBUG) {                
-                log("LoginFilter:Initializing filter");
-                this.context = filterConfig.getServletContext();
-            }
+ 
         }
     }
 
     /**
      * Return a String representation of this object.
-     * @return 
      */
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("LoginFilter()");
+            return ("ControlFilter()");
         }
-        StringBuilder sb = new StringBuilder("LoginFilter(");
+        StringBuilder sb = new StringBuilder("ControlFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
@@ -190,9 +198,9 @@ public class LoginFilter implements Filter {
             }
         } else {
             try {
-                try (PrintStream ps = new PrintStream(response.getOutputStream())) {
-                    t.printStackTrace(ps);
-                }
+                PrintStream ps = new PrintStream(response.getOutputStream());
+                t.printStackTrace(ps);
+                ps.close();
                 response.getOutputStream().close();
             } catch (Exception ex) {
             }

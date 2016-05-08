@@ -111,7 +111,7 @@ public class EventGroupEntity extends BaseEntity implements Serializable {
         return categorySets;
     }
 
-    public void setCategorSets(Set<CategorySetEntity> categorySets) {
+    public void setCategorySets(Set<CategorySetEntity> categorySets) {
         this.categorySets = categorySets;
     }
 

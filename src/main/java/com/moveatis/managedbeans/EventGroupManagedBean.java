@@ -136,33 +136,43 @@ public class EventGroupManagedBean {
     }
 
     public void addGroupKey(EventGroupEntity eventGroup) {
+        
+        LOGGER.debug("eventGroupKey -> " + eventGroupKey);
+        
         if (eventGroupKey != null) {
+            
             GroupKeyEntity groupKey = new GroupKeyEntity();
             groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
             groupKey.setGroupKey(eventGroupKey);
             groupKey.setEventGroup(eventGroup);
             eventGroup.setGroupKey(groupKey);
             
-            TagUserEntity tagUser = new TagUserEntity();
-            tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
-            tagUser.setGroupKey(groupKey);
-            
-            groupKey.setTagUser(tagUser);
-            
+            TagUserEntity tagUserEntity = new TagUserEntity();
+            tagUserEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
+            tagUserEntity.setLabel(eventGroupKey);
+            tagUserEntity.setGroupKey(groupKey);
+            groupKey.setTagUser(tagUserEntity);
+
             groupKeyEJB.create(groupKey);
+            
             eventGroupEJB.edit(eventGroup);
+            
             controlManagedBean.init();
         }
     }
 
     public void editGroupKey(EventGroupEntity eventGroup, String newGroupKey) {
         if (newGroupKey != null) {
-            GroupKeyEntity groupKey = eventGroup.getGroupKey();
-            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
-            groupKey.setGroupKey(newGroupKey);
-            groupKey.setEventGroup(eventGroup);
-            eventGroup.setGroupKey(groupKey);
-            groupKeyEJB.edit(groupKey);
+            GroupKeyEntity groupKeyEntity = eventGroup.getGroupKey();
+            groupKeyEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
+            groupKeyEntity.setGroupKey(newGroupKey);
+            groupKeyEntity.setEventGroup(eventGroup);
+            eventGroup.setGroupKey(groupKeyEntity);
+            
+            TagUserEntity tagUserEntity = groupKeyEntity.getTagUser();
+            tagUserEntity.setGroupKey(groupKeyEntity);
+            
+            groupKeyEJB.edit(groupKeyEntity);
             controlManagedBean.init();
         }
     }

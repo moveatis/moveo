@@ -33,13 +33,9 @@ import com.moveatis.enums.SessionStatus;
 import com.moveatis.enums.UserType;
 import com.moveatis.event.EventEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.interfaces.Application;
-import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
-import com.moveatis.interfaces.User;
-import com.moveatis.managedbeans.CategorySelectionManagedBean;
+import com.moveatis.managedbeans.ObservationManagedBean;
 import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.observation.ObservationEntity;
 import com.moveatis.timezone.TimeZoneInformation;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
@@ -51,7 +47,6 @@ import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -71,12 +66,8 @@ public class SessionBean implements Serializable, Session  {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
     
-    @EJB
-    private Application applicationEJB;
-    @EJB
-    private User userEJB;
     @Inject
-    private Observation observationEJB;
+    private ObservationManagedBean observationManagedBean;
 
     private boolean loggedIn = false;
     private UserType userType; // TODO(ilari): Is this needed?
@@ -85,8 +76,6 @@ public class SessionBean implements Serializable, Session  {
     private AbstractUser abstractUser;
     
     private SortedSet<Long> sessionObservations;
-    private EventEntity eventEntityForNewObservation;
-    private List<ObservationCategorySet> categorySetsInUse;
     
     private String returnUri;
 
@@ -114,24 +103,14 @@ public class SessionBean implements Serializable, Session  {
         userType = UserType.IDENTIFIED_USER;
         this.userEntity = user;
         this.abstractUser = user;
-        this.loggedIn = true;
-        
-        // Make sure we don't modify earlier categories.
-        this.categorySetsInUse = null;
-        this.eventEntityForNewObservation = null;
-        
+        commonSettingsForLoggedInUsers();
         return SessionStatus.USER_OK;
     }
     
     @Override
     public SessionStatus setAnonymityUser() {
         userType = UserType.ANONYMITY_USER;
-        this.loggedIn = true;
-        
-        // Make sure we don't modify earlier categories.
-        this.categorySetsInUse = null;
-        this.eventEntityForNewObservation = null;
-        
+        commonSettingsForLoggedInUsers();
         return SessionStatus.USER_OK;
     }
     
@@ -141,15 +120,16 @@ public class SessionBean implements Serializable, Session  {
             return SessionStatus.TAG_NOT_FOUND;
         }
         userType = UserType.TAG_USER;
-        this.loggedIn = true;
         this.tagEntity = tagUser;
         this.abstractUser = tagUser;
-        
-        // Make sure we don't modify earlier categories.
-        this.categorySetsInUse = null;
-        this.eventEntityForNewObservation = null;
-        
+        commonSettingsForLoggedInUsers();
         return SessionStatus.TAG_OK;
+    }
+    
+    private void commonSettingsForLoggedInUsers() {
+        this.loggedIn = true;
+        // Make sure we don't modify earlier categories.
+        observationManagedBean.resetCategorySetsInUse();
     }
 
     public UserType getUserType() {
@@ -176,7 +156,7 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public boolean isSaveable() {
-        return this.sessionObservations != null && !this.sessionObservations.isEmpty();
+        return observationManagedBean.getObservationEntity() != null;
     }
 
     @Override
@@ -211,13 +191,13 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public void setEventEntityForNewObservation(EventEntity eventEntity) {
-        this.eventEntityForNewObservation = eventEntity;
+        observationManagedBean.setEventEntity(eventEntity);
         LOGGER.debug("eventEntity set");
     }
 
     @Override
     public EventEntity getEventEntityForNewObservation() {
-        return this.eventEntityForNewObservation;
+        return observationManagedBean.getEventEntity();
     }
 
     public Locale getLocale() {
@@ -281,26 +261,16 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public boolean getIsEventEntityForObservationSet() {
-        return (eventEntityForNewObservation != null);
-    }
-    
-    @Override
-    public ObservationEntity getLastObservation() {
-        if (sessionObservations == null || sessionObservations.isEmpty()) {
-            return null;
-        }
-        
-        Long observationId = sessionObservations.last();
-        return observationEJB.find(observationId);
+        return (observationManagedBean.getEventEntity() != null);
     }
     
     @Override
     public void setCategorySetsInUse(List<ObservationCategorySet> categorySets) {
-        categorySetsInUse = categorySets;
+        observationManagedBean.setCategorySetsInUse(categorySets);
     }
     
     @Override
     public List<ObservationCategorySet> getCategorySetsInUse() {
-        return categorySetsInUse;
+        return observationManagedBean.getCategorySetsInUse();
     }
 }

@@ -34,6 +34,7 @@ import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.TagUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -60,6 +61,11 @@ public class TagUserBean extends AbstractBean<TagUserEntity> implements TagUser 
     public TagUserEntity findByKey(GroupKeyEntity groupkey) {
         TypedQuery<TagUserEntity> query = em.createNamedQuery("findTagUserByTag", TagUserEntity.class);
         query.setParameter("groupKey", groupkey);
-        return query.getSingleResult();
+        try {
+            TagUserEntity tagUserEntity = query.getSingleResult();
+            return tagUserEntity;
+        } catch(NoResultException nre) {
+            return null;
+        }
     }
 }

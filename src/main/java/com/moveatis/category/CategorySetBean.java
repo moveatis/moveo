@@ -70,6 +70,12 @@ public class CategorySetBean extends AbstractBean<CategorySetEntity> implements 
     public CategorySetBean() {
         super(CategorySetEntity.class);
     }
+    
+    @Override
+    public void remove(CategorySetEntity categorySetEntity) {
+        super.remove(categorySetEntity);
+        eventGroupEJB.removeCategorySetEntityFromEventGroups(categorySetEntity);
+    }
 
     @Override
     public Set<CategorySetEntity> findPublicCategorySets() {

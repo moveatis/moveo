@@ -30,52 +30,60 @@
 
 package com.moveatis.observation;
 
+import com.moveatis.category.CategoryType;
 import com.moveatis.helpers.Validation;
+import java.io.Serializable;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
-public class ObservationCategory {
+public class ObservationCategory implements Serializable {
     
-    private long id;
-    private long type;
+    private static final long serialVersionUID = 1L;
+    
+    private final CategoryType type;
+    private Long tag;
     private String name;
-    private boolean inDatabase;
 
     public ObservationCategory() {
-        this.id = 0l;
-        this.type = 0l;
+        this.type = CategoryType.TIMED;
         this.name = "";
-        this.inDatabase = false;
     }
 
-    public ObservationCategory(Long id, String name) {
-        this.id = id;
-        this.type = 0l;
+    public ObservationCategory(Long tag, String name) {
+        this.type = CategoryType.TIMED;
         this.name = name;
-        this.inDatabase = true;
+        this.tag = tag;
     }
 
     public ObservationCategory(ObservationCategory other) {
-        this.id = other.id;
         this.type = other.type;
         this.name = other.name;
-        this.inDatabase = other.inDatabase;
-        // NOTE: inDatabase should always be true when cloning other category!
+        this.tag = other.tag;
+    }
+    
+    public ObservationCategory(CategoryType categoryType, Long tag, String name) {
+        this.type = categoryType;
+        this.tag = tag;
+        this.name = name;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Long getType() {
+    public CategoryType getType() {
         return type;
+    }
+
+    public int getTypeAsInt() {
+        return type.ordinal();
+    }
+    
+    public Long getTag() {
+        return tag;
+    }
+
+    public void setTag(Long tag) {
+        this.tag = tag;
     }
 
     public String getName() {
@@ -86,24 +94,6 @@ public class ObservationCategory {
         String validName = Validation.validateForJsAndHtml(name).trim();
         if (!this.name.equals(validName)) {
             this.name = validName;
-            // If the name is edited, it's not anymore in the database.
-            this.inDatabase = false;
         }
     }
-
-    public Boolean isInDatabase() {
-        return inDatabase;
-    }
-
-    public void setInDatabase(boolean inDatabase) {
-        this.inDatabase = inDatabase;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) return false;
-        ObservationCategory category = (ObservationCategory)o;
-        return name.equals(category.name);
-    }
-
 }

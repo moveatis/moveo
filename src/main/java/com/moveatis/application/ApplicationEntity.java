@@ -40,6 +40,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -52,6 +53,7 @@ public class ApplicationEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Date applicationInstalled;
     
     @OneToMany

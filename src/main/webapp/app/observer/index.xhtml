@@ -10,7 +10,7 @@
             <ui:define name="pageTitle">#{msg.obs_title}</ui:define>
 
             <ui:define name="mainpage">
-                <script>
+                <script type="text/javascript">
                     function getMessages() {
                         return {
                             dialogErrorTitle: "#{msg.dialogErrorTitle}",
@@ -28,14 +28,15 @@
                     }
                     function getCategorySets() {
                         return [
-                        <ui:repeat value="#{sessionBean.categorySetsInUse}" var="categorySet">
+                        <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
                             {name: "#{categorySet.name}", categories: [
                             <ui:repeat value="#{categorySet.categories}" var="category">
-                                { name: "#{category.name}", type: #{category.type}, id: #{category.id} },
+                                { name: "#{category.name}", type: #{category.getTypeAsInt()}, id: #{category.tag} },
                             </ui:repeat>
                             ]},
                         </ui:repeat>
                         ];
+                        
                     }
                 </script>
                 

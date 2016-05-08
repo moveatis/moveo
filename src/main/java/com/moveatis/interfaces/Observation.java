@@ -47,6 +47,8 @@ public interface Observation {
     void edit(ObservationEntity observationEntity);
 
     void remove(ObservationEntity observationEntity);
+    
+    void removeUnsavedObservation(ObservationEntity observationEntity);
 
     ObservationEntity find(Object id);
 

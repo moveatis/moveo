@@ -35,6 +35,7 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -49,6 +50,7 @@ public class LabelEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    @NotNull
     private String label;
 
     @Override

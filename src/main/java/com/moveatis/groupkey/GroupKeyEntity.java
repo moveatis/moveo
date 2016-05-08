@@ -34,19 +34,16 @@ import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
 import java.io.Serializable;
-import java.util.Date;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -67,10 +64,11 @@ public class GroupKeyEntity extends BaseEntity implements Serializable {
     @OneToOne
     private EventGroupEntity eventGroup;
     
-    @OneToOne(cascade=PERSIST)
+    @OneToOne(cascade={PERSIST, MERGE})
     private TagUserEntity tagUser;
     
     @Column(unique=true)
+    @NotNull
     private String groupKey;
     
     @ManyToOne

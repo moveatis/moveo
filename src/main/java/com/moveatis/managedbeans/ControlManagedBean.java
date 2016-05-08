@@ -48,8 +48,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.inject.Inject;
 import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
@@ -132,7 +132,7 @@ public class ControlManagedBean implements Serializable {
         LabelEntity label = new LabelEntity();
         category.setOrderNumber(categories.size());
         category.setLabel(label);
-        category.setCategoryType(CategoryType.CATEGORYTYPE_DURATION);
+        category.setCategoryType(CategoryType.TIMED);
         categories.add(category);
         selectedCategory = category;
     }

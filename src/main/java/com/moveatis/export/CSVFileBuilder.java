@@ -30,6 +30,7 @@
 package com.moveatis.export;
 
 import com.moveatis.category.CategoryEntity;
+import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class CSVFileBuilder {
     public void buildCSV(OutputStream out, ObservationEntity obs, String separator) throws IOException {
         
         Long obsDuration = obs.getDuration();
-        Map<CategoryEntity, CountAndDuration> countsAndDurations =
+        Map<ObservationCategory, CountAndDuration> countsAndDurations =
                 computeCountsAndDurations(obs);
         List<RecordEntity> records = obs.getRecords();
         
@@ -77,8 +78,8 @@ public class CSVFileBuilder {
         
         csv.add("Category").add("Count").add("Count %").add("Duration (ms)").add("Duration %").newLine();
         
-        for (Map.Entry<CategoryEntity, CountAndDuration> entry : countsAndDurations.entrySet()) {
-            String category = entry.getKey().getLabel().getLabel();
+        for (Map.Entry<ObservationCategory, CountAndDuration> entry : countsAndDurations.entrySet()) {
+            String category = entry.getKey().getName();
             CountAndDuration cnd = entry.getValue();
             long countPercent = (long)(cnd.count * 100.0 / totalCount + 0.5);
             long durationPercent = (long)(cnd.duration * 100.0 / obsDuration + 0.5);
@@ -90,7 +91,7 @@ public class CSVFileBuilder {
         csv.add("Category").add("Start time (ms)").add("End time (ms)").add("Duration (ms)").newLine();
         
         for (RecordEntity record : records) {
-            String category = record.getCategory().getLabel().getLabel();
+            String category = record.getCategory().getName();
             Long startTime = record.getStartTime();
             Long endTime = record.getEndTime();
             csv.add(category).add(startTime).add(endTime).add(endTime - startTime).newLine();
@@ -99,16 +100,16 @@ public class CSVFileBuilder {
         csv.close();
     }
     
-    private Map<CategoryEntity, CountAndDuration> computeCountsAndDurations(ObservationEntity obs) {
+    private Map<ObservationCategory, CountAndDuration> computeCountsAndDurations(ObservationEntity obs) {
         
         // TODO: Categories should be in the same order as when the
         // observation was conducted.
         // Observation should contain this info, but does not yet.
-        Map<CategoryEntity, CountAndDuration> countsAndDurations = new TreeMap<>(
-                new Comparator<CategoryEntity>() {
+        Map<ObservationCategory, CountAndDuration> countsAndDurations = new TreeMap<>(
+                new Comparator<ObservationCategory>() {
                     @Override
-                    public int compare(CategoryEntity c1, CategoryEntity c2) {
-                        return c1.getId().compareTo(c2.getId());
+                    public int compare(ObservationCategory c1, ObservationCategory c2) {
+                        return c1.getTag().compareTo(c2.getTag());
                     }
                 }
         );
@@ -119,7 +120,7 @@ public class CSVFileBuilder {
         totalDuration = 0; // NOTE: Not used anywhere.
         
         for (RecordEntity record : records) {
-            CategoryEntity category = record.getCategory();
+            ObservationCategory category = record.getCategory();
             Long deltaTime = record.getEndTime() - record.getStartTime();
             
             CountAndDuration cnd = countsAndDurations.get(category);

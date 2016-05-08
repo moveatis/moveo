@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
@@ -109,5 +110,23 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
     
     public List<? extends AbstractRole> listRoleUsers(AbstractRole role) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public boolean checkIfUserIsSuperUser(IdentifiedUserEntity user) {
+        
+        TypedQuery typedQuery = em.createNamedQuery("findSuperUserRoleByUser", SuperUserRoleEntity.class);
+        typedQuery.setParameter("userEntity", user);
+        
+        try {
+            SuperUserRoleEntity role = (SuperUserRoleEntity)typedQuery.getSingleResult();
+            if(role == null) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (NoResultException nre) {
+            return false;
+        }
     }
 }

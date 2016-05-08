@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -24,6 +25,7 @@ public abstract class BaseEntity {
     protected Long id;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date created;
     
     @Temporal(TemporalType.TIMESTAMP)

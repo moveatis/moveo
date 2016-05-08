@@ -36,6 +36,7 @@ import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Record;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
+import com.moveatis.managedbeans.ObservationManagedBean;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
@@ -50,7 +51,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.SortedSet;
 import java.util.TimeZone;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -89,6 +89,8 @@ public class RecordListenerBean implements Serializable {
     
     @Inject
     private Session sessionBean;
+    @Inject
+    private ObservationManagedBean observationManagedBean;
     
     private ResourceBundle messages;
     
@@ -108,7 +110,7 @@ public class RecordListenerBean implements Serializable {
     }
     
     /*
-    * Do we actually need this at all?
+    * Used to create the observation entity in observationManagedBean
     */
     @POST
     @Path("startobservation")
@@ -116,6 +118,7 @@ public class RecordListenerBean implements Serializable {
     @Produces(MediaType.TEXT_PLAIN)
     public String startObservation(String data) {
         LOGGER.debug(data);
+        observationManagedBean.startObservation();
         return "success";
     }
     
@@ -162,47 +165,15 @@ public class RecordListenerBean implements Serializable {
                 DateFormat.SHORT, locale);
         dateFormat.setTimeZone(timeZone);
         
-
-        observationEntity = new ObservationEntity();
-        observationEntity.setName(messages.getString("obs_title")
+        observationManagedBean.setObservationName(messages.getString("obs_title")
                 + " - " + dateFormat.format(createdTime));
-        observationEntity.setDuration(duration.longValue());
-        
-        
-        /*
-            Add categories to database if they are not already in database,
-            and add the categories to a map by id for later use.
-        */
-        Map<Long, CategoryEntity> categoriesById = new HashMap<>();
-        
-        for (ObservationCategorySet categorySet : sessionBean.getCategorySetsInUse()) {
-            for (ObservationCategory category : categorySet.getCategories()) {
-                
-                CategoryEntity categoryEntity;
-                Long categoryId = category.getId();
-                
-                if (category.isInDatabase()) {
-                    categoryEntity = categoryEJB.find(categoryId);
-                } else {
-                    LOGGER.debug("Adding new category to database: " + category.getName());
-                    
-                    categoryEntity = new CategoryEntity();
-                    LabelEntity labelEntity = new LabelEntity();
-                    labelEntity.setLabel(category.getName());
-                    categoryEntity.setLabel(labelEntity);
+        observationManagedBean.setObservationDuration(duration.longValue());
 
-                    labelEJB.create(labelEntity);
-                    categoryEJB.create(categoryEntity);
-                    
-                    // TODO: If user comes back to observer with browser's back button,
-                    //       the observer page won't be rebuilt => category buttons have wrong ids
-                    //       for previously added new categories! How to fix?
-                    // NOTE: Works well with "reset observation" button.
-                    category.setId(categoryEntity.getId());
-                    category.setInDatabase(true);
-                }
-                
-                categoriesById.put(categoryId, categoryEntity);
+        Map<Long, ObservationCategory> categoriesById = new HashMap<>();
+        
+        for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
+            for (ObservationCategory category : categorySet.getCategories()) {
+                categoriesById.put(category.getTag(), category);
             }
         }
 
@@ -212,32 +183,22 @@ public class RecordListenerBean implements Serializable {
                 RecordEntity record = new RecordEntity();
                 
                 Long id = object.getJsonNumber("id").longValue();
-                CategoryEntity categoryEntity = categoriesById.get(id);
+                ObservationCategory category = categoriesById.get(id);
                 
-                if (categoryEntity == null) {
-                    LOGGER.debug("Received a record with unknown id! Skipping...");
-                    continue;
-                }
-                
-                record.setCategory(categoryEntity);
+                record.setObservationCategory(category);
                 
                 record.setStartTime(object.getJsonNumber("startTime").longValue());
                 record.setEndTime(object.getJsonNumber("endTime").longValue());
 
-                recordEJB.create(record);
-                observationEntity.addRecord(record);
+                observationManagedBean.addRecord(record);
             }
         } catch(Exception e) {
             LOGGER.debug(e.toString());
             return "failed";
         }
         
-        observationEJB.create(observationEntity);
-        
-        SortedSet<Long> observations = sessionBean.getSessionObservationsIds();
-        observations.add(observationEntity.getId());
-        sessionBean.setSessionObservations(observations);
-        
+        observationManagedBean.saveObservation();
+
         return "success";
     }
 }

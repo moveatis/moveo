@@ -28,47 +28,146 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.moveatis.managedbeans;
+import com.moveatis.event.EventEntity;
 import com.moveatis.interfaces.Observation;
+import com.moveatis.interfaces.Session;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
+import com.moveatis.observation.ObservationEntity;
+import com.moveatis.records.RecordEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "observationBean")
-@ViewScoped
+@SessionScoped
 public class ObservationManagedBean implements Serializable {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagedBean.class);
     
     private static final long serialVersionUID = 1L;
     
+    private ObservationEntity observationEntity;
+    private List<ObservationCategorySet> categorySetsInUse;
+    private EventEntity eventEntity;
+    
     @EJB
     private Observation observationEJB;
+    @Inject
+    private Session sessionBean;
     
-    private List<String> types;
-
-    public List<String> getTypes() {
-        return types;
-    }
-    
-    public String createNewObservation() {
-        return "success";
-    }
-    
-    public void CategorizedVariableActivated(String category) {
-        
-    }
-    
-    public void CategorizedVariableDisabled(String category) {
-        
-    }
+    private Long nextTag;
 
     public ObservationManagedBean() {
         
     }
     
+    @PostConstruct
+    public void init() {
+        nextTag = 0L;
+    }
     
+    @PreDestroy
+    public void destroy() {
+        if(!observationEntity.getUserWantsToSaveToDatabase()) {
+            observationEJB.removeUnsavedObservation(observationEntity);
+        }
+    }
+    
+    public void resetCategorySetsInUse() {
+        this.categorySetsInUse = null;
+    }
+    
+    public void setEventEntity(EventEntity eventEntity) {
+        this.eventEntity = eventEntity;
+    }
+    
+    public EventEntity getEventEntity() {
+        return this.eventEntity;
+    }
+    
+    public void startObservation() {
+        this.observationEntity = new ObservationEntity();
+        this.observationEntity.setEvent(eventEntity);
+    }
+
+    public ObservationEntity getObservationEntity() {
+        return observationEntity;
+    }
+
+    public void setObservationEntity(ObservationEntity observationEntity) {
+        this.observationEntity = observationEntity;
+    }
+
+    public List<ObservationCategorySet> getCategorySetsInUse() {
+        return categorySetsInUse;
+    }
+
+    public void setCategorySetsInUse(List<ObservationCategorySet> categorySetsInUse) {
+        
+        for(ObservationCategorySet observationCategorySet : categorySetsInUse) {
+            for(ObservationCategory observationCategory : observationCategorySet.getCategories()) {
+                if(observationCategory.getTag().equals(-1L)) {
+                    observationCategory.setTag(getNextTag());
+                }
+            }
+        }
+        this.categorySetsInUse = categorySetsInUse;
+    }
+
+    public Long getNextTag() {
+        LOGGER.debug("getNextTag -> " + nextTag);
+        return nextTag++;
+    }
+    
+    public void setObservationName(String name) {
+        this.observationEntity.setName(name);
+    }
+    
+    public void setObservationDuration(long duration) {
+        this.observationEntity.setDuration(duration);
+    }
+    
+    public void addRecord(RecordEntity record) {
+        List<RecordEntity> records = observationEntity.getRecords();
+        record.setObservation(observationEntity);
+        record.setVoiceComment(null);
+        
+        if(records == null) {
+            records = new ArrayList<>();
+        }
+        
+        records.add(record);
+        observationEntity.setRecords(records);
+    }
+    
+    public void saveObservation() {
+        observationEntity.setObserver(sessionBean.getLoggedInUser());
+        /*
+        * Client wanted that user has the ability to persist observation into 
+        * database when he/she wants to. Since it was easier to build business logic
+        * by creating the observationEntity when observation is done, the boolean flag
+        * "userWantsToSaveToDatabase was added. This flag is true if user wants to save
+        * the observation to database. If its false, we need remove this observation later.
+        */
+        observationEntity.setUserWantsToSaveToDatabase(false); 
+        observationEJB.create(observationEntity);
+    }
+    
+    public void saveObservationToDatabase() {
+        observationEntity.setUserWantsToSaveToDatabase(true);
+        observationEJB.edit(observationEntity);
+    }
 }

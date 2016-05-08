@@ -53,8 +53,10 @@ import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -87,9 +89,14 @@ public class CategorySelectionManagedBean implements Serializable {
     
     @Inject
     private EventGroup eventGroupEJB;
+    
+    @Inject
+    private ObservationManagedBean observationManagedBean;
 
     @Inject @MessageBundle //created MessageBundle to allow resourcebundle injection to CDI beans
     private transient ResourceBundle messages;  //RequestBundle is not serializable 
+    
+    private Long addedCategorySetTag = 0L;
     
     /**
      * Creates a new instance of CategoryManagedBean
@@ -98,13 +105,17 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     private void addAllCategorySetsFromEventGroup(ObservationCategorySetList addTo, EventGroupEntity eventGroup) {
+        
         Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
+        
         for (CategorySetEntity categorySetEntity : categorySets) {
             ObservationCategorySet categorySet = new ObservationCategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
+            
             Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
             for (CategoryEntity category : categories.values()) {
-                categorySet.add(new ObservationCategory(category.getId(), category.getLabel().getLabel()));
+                categorySet.add(observationManagedBean.getNextTag(), category.getLabel().getLabel());
             }
+            
             addTo.add(categorySet);
         }
     }
@@ -149,6 +160,7 @@ public class CategorySelectionManagedBean implements Serializable {
         }
         
         categorySetsInUse = new ObservationCategorySetList();
+        
         List<ObservationCategorySet> categorySets = sessionBean.getCategorySetsInUse();
         if (categorySets != null) {
             categorySetsInUse.setCategorySets(categorySets);
@@ -233,7 +245,7 @@ public class CategorySelectionManagedBean implements Serializable {
     public void addNewCategorySet() {
         // TODO: Validate name!
         if (!newCategorySetName.isEmpty()) {
-            ObservationCategorySet categorySet = new ObservationCategorySet(-1l, newCategorySetName); // TODO: id?
+            ObservationCategorySet categorySet = new ObservationCategorySet(addedCategorySetTag++, newCategorySetName);
             categorySetsInUse.add(categorySet);
             newCategorySetName = "";
         }
@@ -275,36 +287,24 @@ public class CategorySelectionManagedBean implements Serializable {
     public String checkCategories() {
         boolean atLeastOneCategorySelected = false;
         
-        List<ObservationCategory> notInDatabase = new ArrayList<>();
-        long greatestId = 0;
-        
         for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
             
             List<ObservationCategory> categories = categorySet.getCategories();
+            
+            if(hasDuplicate(categories)) {
+                showErrorMessage(messages.getString("cs_errorNotUniqueCategories"));
+                return "";
+            }
+            
             if (!categories.isEmpty()) {
                 atLeastOneCategorySelected = true;
             }
             
-            for (int i = 0; i < categories.size(); i++) {
-                ObservationCategory category = categories.get(i);
+            for (ObservationCategory category : categories) {
                 
                 if (category.getName().isEmpty()) {
                     showErrorMessage(messages.getString("cs_warningEmptyCategories"));
                     return ""; // TODO: Show confirmation or something and let user continue.
-                }
-                
-                if (categories.lastIndexOf(category) != i) {
-                    showErrorMessage(messages.getString("cs_errorNotUniqueCategories"));
-                    return "";
-                }
-                
-                if (category.isInDatabase()) {
-                    long id = category.getId();
-                    if (id > greatestId) {
-                        greatestId = id;
-                    }
-                } else {
-                    notInDatabase.add(category);
                 }
             }
         }
@@ -314,13 +314,18 @@ public class CategorySelectionManagedBean implements Serializable {
             return "";
         }
         
-        // Make category ids unique in this observation.
-        for (ObservationCategory category : notInDatabase) {
-            category.setId(greatestId + 1);
-            greatestId += 1;
+        observationManagedBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
+        return "categoriesok";
+    }
+    
+    private static <T> boolean hasDuplicate(List<T> all) {
+        Set<T> set = new HashSet<>();
+        for(T each : all) {
+            if(!set.add(each)) {
+                return true;
+            }
         }
         
-        sessionBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
-        return "categoriesok";
+        return false;
     }
 }
