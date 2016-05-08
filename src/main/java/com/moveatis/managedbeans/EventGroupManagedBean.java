@@ -142,6 +142,13 @@ public class EventGroupManagedBean {
             groupKey.setGroupKey(eventGroupKey);
             groupKey.setEventGroup(eventGroup);
             eventGroup.setGroupKey(groupKey);
+            
+            TagUserEntity tagUser = new TagUserEntity();
+            tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
+            tagUser.setGroupKey(groupKey);
+            
+            groupKey.setTagUser(tagUser);
+            
             groupKeyEJB.create(groupKey);
             eventGroupEJB.edit(eventGroup);
             controlManagedBean.init();
@@ -161,7 +168,7 @@ public class EventGroupManagedBean {
     }
 
     public void removeGroupKey(EventGroupEntity eventGroup) {
-        // TODO: remove group key completely:
+        // TODO: how should group key be removed?
         GroupKeyEntity groupKey = eventGroup.getGroupKey();
         groupKey.setGroupKey(null);
         eventGroup.setGroupKey(null);
@@ -178,25 +185,25 @@ public class EventGroupManagedBean {
         eventGroupEntity.setDescription(eventGroupDescription);
         eventGroupEntity.setOwner(sessionBean.getLoggedIdentifiedUser());
 
-//        if(groupKeySelected) {
-//            GroupKeyEntity groupKey = new GroupKeyEntity();
-//            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
-//            groupKey.setGroupKey(eventGroupKey);
-//            groupKey.setEventGroup(eventGroupEntity);
-//            
-//            TagUserEntity tagUser = new TagUserEntity();
-//            tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
-//            tagUser.setGroupKey(groupKey);
-//            
-//            groupKey.setTagUser(tagUser);
-//            
-//            eventGroupEntity.setGroupKey(groupKey);
-//            
-//        } else if(visibility.equalsIgnoreCase("public")) {
-//            Set<AbstractUser> users = new HashSet<>();
-//            users.add(anonUserEJB.find());
-//            eventGroupEntity.setUsers(users);
-//        }
+        if(groupKeySelected) {
+            GroupKeyEntity groupKey = new GroupKeyEntity();
+            groupKey.setCreator(sessionBean.getLoggedIdentifiedUser());
+            groupKey.setGroupKey(eventGroupKey);
+            groupKey.setEventGroup(eventGroupEntity);
+            
+            TagUserEntity tagUser = new TagUserEntity();
+            tagUser.setCreator(sessionBean.getLoggedIdentifiedUser());
+            tagUser.setGroupKey(groupKey);
+            
+            groupKey.setTagUser(tagUser);
+            
+            eventGroupEntity.setGroupKey(groupKey);
+            
+        } else if(visibility.equalsIgnoreCase("public")) {
+            Set<AbstractUser> users = new HashSet<>();
+            users.add(anonUserEJB.find());
+            eventGroupEntity.setUsers(users);
+        }
         /* 
         * As agreed on meeting 5.5.2016, eventGroup will be renamed in the UI as "event",
         * while eventgroups and events in the code stay the same. 

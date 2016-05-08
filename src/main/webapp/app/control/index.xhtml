@@ -89,14 +89,12 @@
                         </p:column>
 
                         <p:rowExpansion>
-                            <!--
-                            <p:dataList value="# {eventGroup.event.observations}" var="observation">
+                            <p:dataList value="#{eventGroup.event.observations}" var="observation">
                                 <f:facet name="header">
                                     Observoinnit
                                 </f:facet>
-                                <h:outputText value="# {observation.label}"/>
+                                <h:outputText value="#{observation.label}"/>
                             </p:dataList>
-                            -->
                         </p:rowExpansion>
                     </p:dataTable>
                 </h:form>

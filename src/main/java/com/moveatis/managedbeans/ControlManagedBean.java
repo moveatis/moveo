@@ -108,9 +108,6 @@ public class ControlManagedBean implements Serializable {
     public void init() {
         user = sessionBean.getLoggedIdentifiedUser();
         eventGroups = eventGroupEJB.findAllForOwner(user);
-//        observations = observationEJB.findAllByObserver(user);
-//        createControlMenuModel();
-//        createObservationsMenuModel();
     }
 
     public boolean isCreatingNewEventGroup() {
@@ -204,8 +201,8 @@ public class ControlManagedBean implements Serializable {
 
     public void removeCategorySet() {
         categorySetEJB.remove(selectedCategorySet);
-        selectedEventGroup.getCategorySets().remove(selectedCategorySet);
-        eventGroupEJB.edit(selectedEventGroup);
+//        selectedEventGroup.getCategorySets().remove(selectedCategorySet);
+//        eventGroupEJB.edit(selectedEventGroup);
         selectedCategorySet = null;
         selectedCategory = null;
     }
