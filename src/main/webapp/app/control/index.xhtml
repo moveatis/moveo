@@ -89,12 +89,14 @@
                         </p:column>
 
                         <p:rowExpansion>
-                            <p:dataList value="#{eventGroup.event.observations}" var="observation">
+                            <!--
+                            <p:dataList value="# {eventGroup.event.observations}" var="observation">
                                 <f:facet name="header">
                                     Observoinnit
                                 </f:facet>
-                                <h:outputText value="#{observation.label}"/>
+                                <h:outputText value="# {observation.label}"/>
                             </p:dataList>
+                            -->
                         </p:rowExpansion>
                     </p:dataTable>
                 </h:form>
@@ -112,10 +114,8 @@
                                        update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel" process="@form"
                                        validateClient="true"/>
                     </h:form>
-                    <h:form>
-                        <p:commandLink class="fa fa-close" rendered="#{controlBean.creatingNewEventGroup}"
-                                       action="#{controlBean.setCreatingNewEventGroup(false)}" update="newEventGroupPanel"/>
-                    </h:form>
+                    <p:commandLink class="fa fa-close" rendered="#{controlBean.creatingNewEventGroup}"
+                                   action="#{controlBean.setCreatingNewEventGroup(false)}" update="newEventGroupPanel"/>
                 </h:panelGroup>
 
                 <h:form id="commandButtons">
@@ -217,9 +217,9 @@
                                     <f:facet name="input">
                                         <p:message for="input-name-category" />
                                         <p:inputText id="input-name-category"
-                                            required="true" requiredMessage="#{msg.dlg_notEmpty}"
-                                            value="#{category.label.label}"
-                                            validator="#{validationBean.validateShortString}"/>
+                                                     required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                                     value="#{category.label.label}"
+                                                     validator="#{validationBean.validateShortString}"/>
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -240,11 +240,11 @@
                                              action="#{controlBean.addNewCategory}"
                                              onclick="$(document).click();"
                                              oncomplete="$('.categories-table tr').last().find('.output-name').click();"
-                                             update="categoriesTable"/>
+                                             update="@form" validateClient="true"/>
                             <p:commandButton value="Poista kategoria" icon="fa fa-minus"
                                              id="categoryRemoveButton"
                                              action="#{controlBean.removeCategory}"
-                                             update="categoriesTable @this"
+                                             update="@form"
                                              disabled="#{empty controlBean.selectedCategory}"/>
                             <br/>
                             <br/>

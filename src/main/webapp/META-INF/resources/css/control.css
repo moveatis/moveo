@@ -188,6 +188,10 @@ a.new-key {
 
 @media screen and (max-width: 800px) {
 
+    #mainPage {
+        max-width: 40em;
+    }
+    
     #mainPage > form {
         margin: auto;
     }
