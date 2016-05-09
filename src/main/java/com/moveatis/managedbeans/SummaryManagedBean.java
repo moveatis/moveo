@@ -29,7 +29,6 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.category.CategoryEntity;
 import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
@@ -41,9 +40,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -242,7 +239,7 @@ public class SummaryManagedBean implements Serializable {
                 String numberedLabel
                         = "<span class=categoryNumber>" + categoryNumber + ". </span>"
                         + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category.getName()) + "</span>"
-                        + "<span class=categorySet>" + categorySet.getName() + "</span>";
+                        + "<span class=categorySet>" + StringEscapeUtils.escapeHtml4(categorySet.getName()) + "</span>";
                 String groupID = Long.toString(category.getTag());
                 TimelineGroup timelineGroup = new TimelineGroup(groupID, numberedLabel);
                 timeline.addGroup(timelineGroup);
