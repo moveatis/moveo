@@ -131,10 +131,6 @@ public class CategorySetManagedBean implements Serializable {
         }
         List<CategoryEntity> unordered = new ArrayList<>();
 
-        if (categoriesOrdered == null) {
-            categoriesOrdered = new TreeMap<>();
-        }
-        
         for (CategoryEntity categoryEntity : categories) {
             String label = categoryEntity.getLabel().getLabel();
             LabelEntity labelEntity = labelEJB.findByLabel(label);
@@ -154,9 +150,12 @@ public class CategorySetManagedBean implements Serializable {
                 categoriesOrdered.put(categoryEntity.getOrderNumber(), categoryEntity);
             }
 
-            if (categoryEntity.getId() != null) {
+            // Create category if it is not in data base (id null?)
+            if (categoryEntity.getId() == null) {
+                categoryEJB.create(categoryEntity);
+            } else {
                 categoryEJB.edit(categoryEntity);
-            } 
+            }
         }
 
         for (CategoryEntity categoryEntity : unordered) {

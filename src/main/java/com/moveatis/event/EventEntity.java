@@ -35,6 +35,7 @@ import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -61,7 +62,7 @@ public class EventEntity extends BaseEntity implements Serializable {
     @ManyToOne
     private AbstractUser creator;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     private Set<ObservationEntity> observations;
     
     private String description;

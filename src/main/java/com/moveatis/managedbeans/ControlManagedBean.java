@@ -44,9 +44,12 @@ import com.moveatis.label.LabelEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -108,6 +111,13 @@ public class ControlManagedBean implements Serializable {
     public void init() {
         user = sessionBean.getLoggedIdentifiedUser();
         eventGroups = eventGroupEJB.findAllForOwner(user);
+    }
+
+    public Set<ObservationEntity> getObservations(EventGroupEntity eventGroup) {
+        if (eventGroup != null && eventGroup.getEvent() != null) {
+            return eventGroup.getEvent().getObservations();
+        }
+        return new TreeSet<>();
     }
 
     public boolean isCreatingNewEventGroup() {
