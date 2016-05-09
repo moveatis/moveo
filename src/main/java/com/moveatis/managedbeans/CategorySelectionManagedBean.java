@@ -34,11 +34,9 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -56,7 +54,6 @@ import com.moveatis.user.IdentifiedUserEntity;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -113,7 +110,7 @@ public class CategorySelectionManagedBean implements Serializable {
             
             Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
             for (CategoryEntity category : categories.values()) {
-                categorySet.add(observationManagedBean.getNextTag(), category.getLabel().getLabel());
+                categorySet.add(category.getCategoryType(), observationManagedBean.getNextTag(), category.getLabel().getLabel());
             }
             
             addTo.add(categorySet);
@@ -130,8 +127,8 @@ public class CategorySelectionManagedBean implements Serializable {
     
     private ObservationCategorySetList getAllCategorySetsFromEventGroups(List<EventGroupEntity> eventGroups) {
         ObservationCategorySetList categorySets = new ObservationCategorySetList();
-        for (EventGroupEntity eventGroup : eventGroups) {
-            addAllCategorySetsFromEventGroup(categorySets, eventGroup);
+        for (EventGroupEntity eventGroup_ : eventGroups) {
+            addAllCategorySetsFromEventGroup(categorySets, eventGroup_);
         }
         if (categorySets.getCategorySets().isEmpty())
             return null;
