@@ -39,6 +39,7 @@ import com.moveatis.records.RecordEntity;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -75,11 +76,11 @@ public class SummaryManagedBean implements Serializable {
 
     private ObservationEntity observation;
 
-    private String selectedOption;
-    private final String MAIL_OPTION;
-    private final String SAVE_OPTION;
-    private final String DOWNLOAD_OPTION;
+    private List<String> selectedSaveOptions;
 
+    private static final String MAIL_OPTION = "mail";
+    private static final String SAVE_OPTION = "save";
+    private static final String DOWNLOAD_OPTION = "download";
 
     @Inject
     private Observation observationEJB; //EJB-beans have EJB in their name by convention
@@ -106,10 +107,7 @@ public class SummaryManagedBean implements Serializable {
         this.max = new Date(0);
         this.zoomMin = 10 * 1000;
         this.zoomMax = 24 * 60 * 60 * 1000;
-        this.DOWNLOAD_OPTION = "download";
-        this.SAVE_OPTION = "save";
-        this.MAIL_OPTION = "mail";
-        this.selectedOption = "";
+        this.selectedSaveOptions = new ArrayList<>();
     }
 
     /**
@@ -118,7 +116,6 @@ public class SummaryManagedBean implements Serializable {
     @PostConstruct
     protected void initialize() {
         createTimeline();
-        setDefaultSaveOption();
     }
 
     /**
@@ -188,12 +185,16 @@ public class SummaryManagedBean implements Serializable {
         this.observation = observation;
     }
 
-    public String getSelectedOption() {
-        return selectedOption;
+    public List<String> getSelectedSaveOptions() {
+        return selectedSaveOptions;
     }
 
-    public void setSelectedOption(String selectedOption) {
-        this.selectedOption = selectedOption;
+    public void setSelectedSaveOptions(List<String> selectedSaveOptions) {
+        this.selectedSaveOptions = selectedSaveOptions;
+    }
+
+    public boolean getMailOptionChecked() {
+        return selectedSaveOptions.contains(MAIL_OPTION);
     }
 
     /**
@@ -265,7 +266,7 @@ public class SummaryManagedBean implements Serializable {
         observationManagedBean.saveObservationToDatabase();
     }
 
-    public void sendCurrentObservation() {
+    public void mailCurrentObservation() {
         // TODO: call mail backing bean
     }
     
@@ -306,31 +307,19 @@ public class SummaryManagedBean implements Serializable {
         facesCtx.responseComplete();
     }
 
-    public void saveOptionChangeListener(ValueChangeEvent event) {
-        this.selectedOption = (String) event.getNewValue();
-    }
-
-    public boolean sendOptionAllowed() {
-        return this.selectedOption.equals(MAIL_OPTION) && sessionBean.isIdentifiedUser();
-    }
-
-    public boolean saveOptionAllowed() {
-        return this.selectedOption.equals(SAVE_OPTION) && sessionBean.isIdentifiedUser();
-    }
-
-    public boolean downloadOptionAllowed() {
-        return this.selectedOption.equals(DOWNLOAD_OPTION) && sessionBean.isLoggedIn();
-    }
-
-    public boolean isSaveOptionAllowed() {
-        return downloadOptionAllowed() || saveOptionAllowed() || sendOptionAllowed();
-    }
-
-    private void setDefaultSaveOption() {
-        if (sessionBean.isIdentifiedUser()) {
-            this.selectedOption = MAIL_OPTION;
-        } else {
-            this.selectedOption = DOWNLOAD_OPTION;
+    public void saveObservation() {
+        if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
+            try {
+                downloadCurrentObservation();
+            } catch (IOException e) {
+                //TODO: show error message
+            }
+        }
+        if (selectedSaveOptions.contains(MAIL_OPTION)) {
+            mailCurrentObservation();
+        }
+        if (selectedSaveOptions.contains(SAVE_OPTION)) {
+            saveCurrentObservation();
         }
     }
 }

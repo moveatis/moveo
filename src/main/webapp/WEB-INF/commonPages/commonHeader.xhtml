@@ -12,13 +12,8 @@
             <h:form>
                 <p:menubar styleClass="naviHeader" autoDisplay="false" >
                     <f:facet name="options">
-<!--                        <h:graphicImage library="images" name="Moveatis_logo1.png" height="30px" styleClass="facetLeft"/>-->
                         <h:outputText value="Moveatis" styleClass="facetLeft"/>
                     </f:facet>
-
-                    <p:submenu icon="fa fa-floppy-o" rendered="#{sessionBean.saveable}">
-                        <p:menuitem value="#{msg.dlg_save}" icon="fa fa-floppy-o" url="#" onclick="PF('dlgSave').show();"/>
-                    </p:submenu>
 
                     <p:submenu icon="fa fa-user" rendered="#{sessionBean.isIdentifiedUser()}">
                         <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml"/>
