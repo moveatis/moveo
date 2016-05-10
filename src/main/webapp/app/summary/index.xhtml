@@ -47,7 +47,8 @@
                                                 pattern="HH:mm:ss" timeOnly="true" mask="true"
                                                 locale="#{sessionBean.locale}"
                                                 value="#{summaryBean.min}"
-                                                title="#{msg.sum_timeFrameTitle}">
+                                                title="#{msg.sum_timeFrameTitle}"
+                                                timeZone="#{timeBean.serverTimeZone}">
                                         <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                                         <p:clientValidator event="keyup"/>
                                     </p:calendar>
@@ -62,7 +63,8 @@
                                                 pattern="HH:mm:ss" timeOnly="true" mask="true"
                                                 locale="#{sessionBean.locale}"
                                                 value="#{summaryBean.duration}"
-                                                title="#{msg.sum_timeFrameTitle}">
+                                                title="#{msg.sum_timeFrameTitle}"
+                                                timeZone="#{timeBean.serverTimeZone}">
                                         <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                                         <p:clientValidator event="keyup"/>
                                     </p:calendar>
