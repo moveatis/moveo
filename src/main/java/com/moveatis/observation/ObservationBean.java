@@ -30,6 +30,8 @@
 package com.moveatis.observation;
 
 import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.event.EventEntity;
+import com.moveatis.interfaces.Event;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -62,6 +64,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     
     @EJB
     private RepositoryDescriptorBean repositoryBean;
+    @EJB
+    private Event eventEJB;
     
     private ObservationEntity observationEntity;
 
@@ -101,6 +105,14 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         observationEntity = em.find(ObservationEntity.class, id);
         LOGGER.debug("observation-entity records size ->" + observationEntity.getRecords().size());
         return observationEntity.getRecords();
+    }
+    
+    @Override
+    public void remove(ObservationEntity observationEntity) {
+        super.remove(observationEntity);
+        eventEJB.removeObservation(observationEntity);
+        observationEntity.setEvent(null);
+        super.edit(observationEntity);
     }
 
     @Override

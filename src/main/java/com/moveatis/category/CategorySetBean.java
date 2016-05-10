@@ -75,6 +75,8 @@ public class CategorySetBean extends AbstractBean<CategorySetEntity> implements 
     public void remove(CategorySetEntity categorySetEntity) {
         super.remove(categorySetEntity);
         eventGroupEJB.removeCategorySetEntityFromEventGroups(categorySetEntity);
+        categorySetEntity.setEventGroupEntity(null);
+        super.edit(categorySetEntity);
     }
 
     @Override

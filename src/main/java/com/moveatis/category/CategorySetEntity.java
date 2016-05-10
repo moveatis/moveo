@@ -34,6 +34,7 @@ import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.Map;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -54,7 +55,7 @@ public class CategorySetEntity extends BaseEntity implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy="categorySet", cascade=PERSIST, fetch=EAGER, targetEntity=CategoryEntity.class)
+    @OneToMany(mappedBy="categorySet", cascade={PERSIST, MERGE}, fetch=EAGER, targetEntity=CategoryEntity.class)
     @CollectionTable(name="CATEGORYENTITIES")
     @MapKey(name="orderNumber")
     @Column(name="CATEGORYENTITY_ORDERNUMBER")

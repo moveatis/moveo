@@ -145,6 +145,14 @@ public class ControlManagedBean implements Serializable {
         LabelEntity label = new LabelEntity();
         category.setOrderNumber(categories.size());
         category.setLabel(label);
+        
+        List<CategoryEntity> labelCategoryEntities = label.getCategoryEntities();
+        if(labelCategoryEntities == null) {
+            labelCategoryEntities = new ArrayList<>();
+        }
+        labelCategoryEntities.add(category);
+        label.setCategoryEntities(labelCategoryEntities);
+        
         category.setCategoryType(CategoryType.TIMED);
         categories.add(category);
         selectedCategory = category;
@@ -263,6 +271,7 @@ public class ControlManagedBean implements Serializable {
         if (selectedObservation != null) {
             observationEJB.remove(selectedObservation);
             selectedObservation = null;
+            this.init();
         }
     }
 

@@ -30,6 +30,8 @@
 package com.moveatis.event;
 
 import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.category.CategorySetEntity_;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -38,6 +40,15 @@ import com.moveatis.user.IdentifiedUserEntity;
 import javax.ejb.Stateful;
 import javax.persistence.TypedQuery;
 import com.moveatis.interfaces.Event;
+import com.moveatis.observation.ObservationEntity;
+import com.moveatis.observation.ObservationEntity_;
+import java.util.Set;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
 /**
  *
@@ -61,32 +72,38 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
     }
 
     @Override
-    public List<String> getCategories() {
-        //this is just dummy data for now
-        ArrayList<String> categories = new ArrayList<>();
-        
-        for(int i = 0; i < 10; i++) {
-            categories.add("Testi " + (i + 1));
-
-        }
-        
-        return categories;
-    }
-
-    @Override
-    public EventEntity getEventEntity() {
-        if(this.eventEntity == null) {
-            
-        }
-        
-        return this.eventEntity;
-    }
-
-    @Override
     public List<EventEntity> findEventsForUser(IdentifiedUserEntity user) {
         TypedQuery<EventEntity> query = em.createNamedQuery("SceneEntity.findByUser", EventEntity.class);
         query.setParameter("owner", user);
         return query.getResultList();
+    }
+
+    @Override
+    public EventEntity getEventEntity() {
+        return eventEntity;
+    }
+
+    @Override
+    public void removeObservation(ObservationEntity observationEntity) {
+        
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<EventEntity> cq = cb.createQuery(EventEntity.class);
+        
+        Root<EventEntity> groupRoot = cq.from(EventEntity.class);
+        SetJoin<EventEntity, ObservationEntity> observationJoin = groupRoot.join(EventEntity_.observations);
+        Predicate p = cb.equal(observationJoin.get(ObservationEntity_.id), observationEntity.getId());
+        
+        cq.select(groupRoot).where(p);
+        TypedQuery<EventEntity> query = em.createQuery(cq);
+        try {
+            EventEntity event = query.getSingleResult();
+            Set<ObservationEntity> observationSets = event.getObservations();
+            observationSets.remove(observationEntity);
+            event.setObservations(observationSets);
+            super.edit(event);
+        } catch(NoResultException nre) {
+            
+        }
     }
     
 }

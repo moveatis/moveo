@@ -114,7 +114,7 @@ public class CategorySelectionManagedBean implements Serializable {
             
             Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
             for (CategoryEntity category : categories.values()) {
-                categorySet.add(category.getCategoryType(), observationManagedBean.getNextTag(), category.getLabel().getLabel());
+                categorySet.add(category.getCategoryType(), observationManagedBean.getNextTag(), category.getLabel().getText());
             }
             
             addTo.add(categorySet);

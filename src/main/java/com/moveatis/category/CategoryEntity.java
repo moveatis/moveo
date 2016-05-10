@@ -32,6 +32,8 @@ package com.moveatis.category;
 import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToOne;
@@ -49,7 +51,7 @@ public class CategoryEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @ManyToOne(fetch=EAGER)
+    @ManyToOne(fetch=EAGER, cascade={PERSIST, MERGE})
     private LabelEntity label;
     
     private String description;

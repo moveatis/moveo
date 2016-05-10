@@ -30,6 +30,7 @@
 package com.moveatis.interfaces;
 
 import com.moveatis.event.EventEntity;
+import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -53,7 +54,7 @@ public interface Event {
 
     List<EventEntity> findRange(int[] range);
     
-    List<String> getCategories();
+    void removeObservation(ObservationEntity observationEntity);
     
     List<EventEntity> findEventsForUser(IdentifiedUserEntity user);
     

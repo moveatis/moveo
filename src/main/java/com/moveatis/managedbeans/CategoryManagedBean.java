@@ -109,7 +109,7 @@ public class CategoryManagedBean implements Serializable {
 
         if (labelEntity == null) {
             labelEntity = new LabelEntity();
-            labelEntity.setLabel(label);
+            labelEntity.setText(label);
             labelEJB.create(labelEntity);
         }
 

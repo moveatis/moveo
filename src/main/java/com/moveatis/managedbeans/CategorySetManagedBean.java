@@ -132,29 +132,30 @@ public class CategorySetManagedBean implements Serializable {
         List<CategoryEntity> unordered = new ArrayList<>();
 
         for (CategoryEntity categoryEntity : categories) {
-            String label = categoryEntity.getLabel().getLabel();
+            String label = categoryEntity.getLabel().getText();
             LabelEntity labelEntity = labelEJB.findByLabel(label);
 
             if (labelEntity == null) {
                 labelEntity = new LabelEntity();
-                labelEntity.setLabel(label);
-                labelEJB.create(labelEntity);
+                labelEntity.setText(label);
+                
             }
 
             categoryEntity.setLabel(labelEntity);
+            
+            List<CategoryEntity> labelCategoryList = labelEntity.getCategoryEntities();
+            if(labelCategoryList == null) {
+                labelCategoryList = new ArrayList<>();
+            }
+            labelCategoryList.add(categoryEntity);
+            labelEntity.setCategoryEntities(labelCategoryList);
+            
             categoryEntity.setCategorySet(categorySetEntity);
 
             if (categoryEntity.getOrderNumber() == null) {
                 unordered.add(categoryEntity);
             } else {
                 categoriesOrdered.put(categoryEntity.getOrderNumber(), categoryEntity);
-            }
-
-            // Create category if it is not in data base (id null?)
-            if (categoryEntity.getId() == null) {
-                categoryEJB.create(categoryEntity);
-            } else {
-                categoryEJB.edit(categoryEntity);
             }
         }
 

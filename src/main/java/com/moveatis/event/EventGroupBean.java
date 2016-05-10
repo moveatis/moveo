@@ -125,6 +125,7 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
                 Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
                 categorySets.remove(categorySetEntity);
                 eventGroup.setCategorySets(categorySets);
+                super.edit(eventGroup);
             }
         }
     }

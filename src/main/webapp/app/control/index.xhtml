@@ -281,11 +281,11 @@
                             <p:message for="input-name-category" />
                             <p:column headerText="Kategoria">
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText class="output-name" value="#{category.label.label}"/></f:facet>
+                                    <f:facet name="output"><h:outputText class="output-name" value="#{category.label.text}"/></f:facet>
                                     <f:facet name="input">
                                         <p:inputText id="input-name-category"
                                                      required="true" requiredMessage="#{msg.dlg_notEmpty}"
-                                                     value="#{category.label.label}"
+                                                     value="#{category.label.text}"
                                                      validator="#{validationBean.validateShortString}"/>
                                     </f:facet>
                                 </p:cellEditor>

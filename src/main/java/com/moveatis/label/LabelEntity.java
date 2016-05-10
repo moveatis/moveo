@@ -30,10 +30,14 @@
 package com.moveatis.label;
 
 import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.category.CategoryEntity;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
+import static javax.persistence.FetchType.EAGER;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -44,14 +48,17 @@ import javax.validation.constraints.NotNull;
 @Table(name="LABEL")
 @Entity
 @NamedQueries(
-        @NamedQuery(name="findByLabel", query="SELECT l FROM LabelEntity l WHERE l.label = :label")
+        @NamedQuery(name="findByText", query="SELECT l FROM LabelEntity l WHERE l.text = :text")
 )
 public class LabelEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    @OneToMany(mappedBy = "label", orphanRemoval=true, fetch=EAGER)
+    private List<CategoryEntity> categoryEntities;
+    
     @NotNull
-    private String label;
+    private String text;
 
     @Override
     public int hashCode() {
@@ -60,12 +67,20 @@ public class LabelEntity extends BaseEntity implements Serializable {
         return hash;
     }
 
-    public String getLabel() {
-        return label;
+    public String getText() {
+        return text;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<CategoryEntity> getCategoryEntities() {
+        return categoryEntities;
+    }
+
+    public void setCategoryEntities(List<CategoryEntity> categoryEntities) {
+        this.categoryEntities = categoryEntities;
     }
 
     @Override
