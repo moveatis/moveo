@@ -30,6 +30,7 @@
 
 package com.moveatis.observation;
 
+import com.moveatis.category.CategoryType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,9 @@ public class ObservationCategorySet implements Serializable {
         return categories;
     }
     
-    public void add(Long tag, String name) {
+    public void add(CategoryType type, Long tag, String name) {
         ObservationCategory category = new ObservationCategory();
+        category.setType(type);
         category.setName(name);
         category.setTag(tag);
         categories.add(category);

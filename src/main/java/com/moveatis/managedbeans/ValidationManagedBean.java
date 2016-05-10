@@ -45,7 +45,7 @@ import org.hibernate.validator.constraints.Email;
 
 /**
  * Bean that validates user input.
- * @author ilkrpaan
+ * @author Ilari Paananen
  */
 @Named(value = "validationBean")
 @RequestScoped

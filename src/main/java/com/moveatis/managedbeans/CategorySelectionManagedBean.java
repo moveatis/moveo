@@ -38,7 +38,6 @@ import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -56,7 +55,6 @@ import com.moveatis.user.IdentifiedUserEntity;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -108,12 +106,14 @@ public class CategorySelectionManagedBean implements Serializable {
         
         Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
         
+        if (categorySets == null) return;
+        
         for (CategorySetEntity categorySetEntity : categorySets) {
             ObservationCategorySet categorySet = new ObservationCategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
             
             Map<Integer, CategoryEntity> categories = categorySetEntity.getCategoryEntitys();
             for (CategoryEntity category : categories.values()) {
-                categorySet.add(observationManagedBean.getNextTag(), category.getLabel().getLabel());
+                categorySet.add(category.getCategoryType(), observationManagedBean.getNextTag(), category.getLabel().getLabel());
             }
             
             addTo.add(categorySet);
@@ -130,8 +130,8 @@ public class CategorySelectionManagedBean implements Serializable {
     
     private ObservationCategorySetList getAllCategorySetsFromEventGroups(List<EventGroupEntity> eventGroups) {
         ObservationCategorySetList categorySets = new ObservationCategorySetList();
-        for (EventGroupEntity eventGroup : eventGroups) {
-            addAllCategorySetsFromEventGroup(categorySets, eventGroup);
+        for (EventGroupEntity eventGroup_ : eventGroups) {
+            addAllCategorySetsFromEventGroup(categorySets, eventGroup_);
         }
         if (categorySets.getCategorySets().isEmpty())
             return null;
@@ -243,9 +243,9 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     public void addNewCategorySet() {
-        // TODO: Validate name!
-        if (!newCategorySetName.isEmpty()) {
-            ObservationCategorySet categorySet = new ObservationCategorySet(addedCategorySetTag++, newCategorySetName);
+        String name = Validation.validateForJsAndHtml(newCategorySetName);
+        if (!name.isEmpty()) {
+            ObservationCategorySet categorySet = new ObservationCategorySet(addedCategorySetTag++, name);
             categorySetsInUse.add(categorySet);
             newCategorySetName = "";
         }

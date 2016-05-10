@@ -31,7 +31,7 @@ package com.moveatis.helpers;
 
 /**
  *
- * @author ilkrpaan
+ * @author Ilari Paananen
  */
 public class Validation {
 

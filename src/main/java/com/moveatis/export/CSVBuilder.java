@@ -32,57 +32,100 @@ package com.moveatis.export;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
- *
- * @author ilkrpaan
+ * Builds csv formatted data to OutputStream.
+ * @author Ilari Paananen
  */
 public class CSVBuilder {
     private OutputStreamWriter out;
     private String sep;
     private boolean atLineBegin;
 
+    /**
+     * Constructs builder with given stream and separator.
+     * @param output Stream to output csv data to.
+     * @param separator Separator to use between fields.
+     */
     public CSVBuilder(OutputStream output, String separator) {
         out = new OutputStreamWriter(output);
         sep = separator;
         atLineBegin = true;
     }
 
+    /**
+     * Adds a long field to stream.
+     * @param value Field value.
+     * @return This for convenience.
+     * @throws IOException 
+     */
     public CSVBuilder add(Long value) throws IOException {
         writeSep();
         write(value.toString());
         return this;
     }
     
+    /**
+     * Adds a long field followed by percent character (%).
+     * @param value Field value.
+     * @return This for convenience.
+     * @throws IOException 
+     */
     public CSVBuilder addPercent(Long value) throws IOException {
         writeSep();
         write(value + "%");
         return this;
     }
 
+    /**
+     * Escapes string field and adds it to the stream.
+     * @param value Field value.
+     * @return This for convenience.
+     * @throws IOException 
+     */
     public CSVBuilder add(String value) throws IOException {
         writeSep();
         if (value != null)
-            write('"' + value.replace("\"", "\"\"") + '"');
+            write("\"" + StringEscapeUtils.escapeCsv(value) + "\"");
         else
             write("\"\"");
         return this;
     }
 
+    /**
+     * Adds a csv new line.
+     * @return This for convenience.
+     * @throws IOException 
+     */
     public CSVBuilder newLine() throws IOException {
-        write("\n"); // TODO: System.lineSeparator() or user's system line separator?
+        write("\r\n");
         atLineBegin = true;
         return this;
     }
     
+    /**
+     * Closes the writer that uses the OutputStream given in constructor.
+     * @throws IOException 
+     */
     public void close() throws IOException {
         out.close();
     }
     
+    /**
+     * Writes a string to the output stream. Makes it easier to replace member
+     * OutputStreamWriter with something else if needed.
+     * @param s String to write.
+     * @throws IOException 
+     */
     private void write(String s) throws IOException {
         out.write(s);
     }
 
+    /**
+     * Writes separator if we aren't at the begin of a line.
+     * @throws IOException 
+     */
     private void writeSep() throws IOException {
         if (atLineBegin)
             atLineBegin = false;

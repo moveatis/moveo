@@ -92,7 +92,7 @@ public class ControlFilter implements Filter {
         
         doBeforeProcessing(request, response);
         
-        if(sessionBean.getLoggedInUser() instanceof IdentifiedUserEntity) {
+        if(sessionBean.isIdentifiedUser()) {
             
         } else {
             

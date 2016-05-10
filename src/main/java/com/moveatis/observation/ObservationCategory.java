@@ -43,7 +43,7 @@ public class ObservationCategory implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private final CategoryType type;
+    private CategoryType type;
     private Long tag;
     private String name;
 
@@ -52,30 +52,31 @@ public class ObservationCategory implements Serializable {
         this.name = "";
     }
 
-    public ObservationCategory(Long tag, String name) {
-        this.type = CategoryType.TIMED;
-        this.name = name;
-        this.tag = tag;
-    }
-
     public ObservationCategory(ObservationCategory other) {
         this.type = other.type;
         this.name = other.name;
         this.tag = other.tag;
     }
-    
-    public ObservationCategory(CategoryType categoryType, Long tag, String name) {
-        this.type = categoryType;
-        this.tag = tag;
-        this.name = name;
-    }
 
     public CategoryType getType() {
         return type;
     }
+    
+    public void setType(CategoryType type) {
+        this.type = type;
+    }
 
     public int getTypeAsInt() {
         return type.ordinal();
+    }
+    
+    public boolean getTypeAsBoolean() {
+        return (type == CategoryType.COUNTED);
+    }
+    
+    public void setTypeAsBoolean(boolean value) {
+        if (value)  type = CategoryType.COUNTED;
+        else        type = CategoryType.TIMED;
     }
     
     public Long getTag() {

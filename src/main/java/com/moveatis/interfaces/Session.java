@@ -33,7 +33,6 @@ import com.moveatis.enums.SessionStatus;
 import com.moveatis.event.EventEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;

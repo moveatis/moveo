@@ -80,7 +80,7 @@ public class SessionBean implements Serializable, Session  {
     private String returnUri;
 
     private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
-    private Locale locale;
+    private Locale locale; // Locale switching based on BalusC's example: http://stackoverflow.com/a/4830669
     
 
     public SessionBean() {
@@ -110,7 +110,12 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public SessionStatus setAnonymityUser() {
         userType = UserType.ANONYMITY_USER;
+        // TODO: Doesn't set abstractUser. Is this ok?
         commonSettingsForLoggedInUsers();
+        // If user wants to observe without selecting existing event group
+        // (in control view or with a group key), we should reset the event.
+        // TODO: Is null ok?
+        observationManagedBean.setEventEntity(null);
         return SessionStatus.USER_OK;
     }
     
@@ -132,10 +137,6 @@ public class SessionBean implements Serializable, Session  {
         observationManagedBean.resetCategorySetsInUse();
     }
 
-    public UserType getUserType() {
-        return userType;
-    }
-
     @Override
     public boolean isLoggedIn() {
         return loggedIn;
@@ -143,7 +144,7 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public String toString() {
-        return "SessionBean: userType -> " + getUserType() + ", loggedIn -> " + isLoggedIn();
+        return "SessionBean: userType -> " + userType + ", loggedIn -> " + isLoggedIn();
     }
 
     @Override
