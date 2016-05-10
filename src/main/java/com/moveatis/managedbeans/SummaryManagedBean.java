@@ -203,29 +203,9 @@ public class SummaryManagedBean implements Serializable {
      */
     private void createTimeline() {
         timeline = new TimelineModel();
-
-//        SortedSet<Long> observations = sessionBean.getSessionObservationsIds();
-//        
-//        if(observations.isEmpty()) {
-//            return;
-//        }
-//        
-//        /*
-//        * TODO: SortedSet offers first-method to return first element in the set
-//        * What if there are more observations?
-//        */
-//        Long observationId = observations.last();
-//
-//        observation = observationEJB.find(observationId);
-//
-//        List<RecordEntity> records = observationEJB.findRecords(observationId);
-//        LOGGER.debug("Records-size ->" + records.size());
         
-        // TODO: Do it like this instead of the commented section above?
-        // BEGIN
         observation = observationManagedBean.getObservationEntity();
         List<RecordEntity> records = observation.getRecords();
-        // END
         
         duration = new Date(observation.getDuration());
         max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration

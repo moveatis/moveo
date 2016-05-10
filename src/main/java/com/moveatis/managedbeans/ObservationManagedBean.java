@@ -101,6 +101,11 @@ public class ObservationManagedBean implements Serializable {
     public void startObservation() {
         this.observationEntity = new ObservationEntity();
         this.observationEntity.setEvent(eventEntity);
+        // Summary view doesn't break if no records are added.
+        // TODO: Should observer not let user continue, if there are no records?
+        if(observationEntity.getRecords() == null) {
+            observationEntity.setRecords(new ArrayList<RecordEntity>());
+        }
     }
 
     public ObservationEntity getObservationEntity() {

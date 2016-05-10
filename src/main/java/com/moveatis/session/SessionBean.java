@@ -207,6 +207,10 @@ public class SessionBean implements Serializable, Session  {
     
     public void setLocale(String lang) {
         locale = new Locale(lang);
+        // Maybe this fixes the locale-not-changing bug on the server.
+        if (FacesContext.getCurrentInstance() != null) {
+            FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+        }
     }
     
     public boolean isResetObsAvailable() {
