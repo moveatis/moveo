@@ -132,45 +132,74 @@ function CategoryItem(name, type, id, index) {
     this.type = type;
     this.id = id;
     
-    if (this.type === CategoryType.COUNTED) {
-        updateValueDiv(this, countToString(0));
-        this.count = 0;
-    } else {
-        updateValueDiv(this, timeToString(0));
-        this.time = 0;
-        this.start_time = 0;
-        this.down = false;
+    // Used if type is COUNTED.
+    this.count = 0;
+    
+    // Used if type is TIMED.
+    this.time = 0;
+    this.start_time = 0;
+    this.down = false;
+    
+    
+    if (this.type === CategoryType.TIMED)
+        initTimedCategory(this);
+    else
+        initCountedCategory(this);
+    
+    
+    /**
+     * Private method that replaces value_div's content with given text.
+     * @param {type} this_
+     * @param {type} text Text to replace value_div's content with.
+     */
+    function updateValueDiv(this_, text) {
+        this_.value_div.empty();
+        this_.value_div.append(document.createTextNode(text));
     }
     
-    this.click = function(master_time) {
-        var record;
+    /**
+     * Private method that initializes this to behave as a timed category.
+     * @param {type} this_
+     */
+    function initTimedCategory(this_) {
+        updateValueDiv(this_, timeToString(0));
         
-        if (this.down) {
-            this.li.removeClass("down");
-            if (master_time > this.start_time) {
-                this.time += master_time - this.start_time;
-                record = {id: this.id, category: name, startTime: this.start_time, endTime: master_time};
+        this_.click = function(master_time) {
+            var record;
+
+            if (this.down) {
+                this.li.removeClass("down");
+                if (master_time > this.start_time) {
+                    this.time += master_time - this.start_time;
+                    record = {id: this.id, category: name, startTime: this.start_time, endTime: master_time};
+                }
+                this.down = false;
+            } else {
+                this.li.addClass("down");
+                this.start_time = master_time;
+                this.down = true;
             }
-            this.down = false;
-        } else {
-            this.li.addClass("down");
-            this.start_time = master_time;
-            this.down = true;
-        }
+
+            return record;
+        };
+    
+        this_.updateTimer = function(master_time) {
+            var time = this.time;
+            if (this.down) {
+                time += master_time - this.start_time;
+            }
+            updateValueDiv(this, timeToString(time));
+        };
+    }
+    
+    /**
+     * Private method that initializes this to behave as a counted category.
+     * @param {type} this_
+     */
+    function initCountedCategory(this_) {
+        updateValueDiv(this_, countToString(0));
         
-        return record;
-    };
-    
-    this.updateTimer = function(master_time) {
-        var time = this.time;
-        if (this.down) {
-            time += master_time - this.start_time;
-        }
-        updateValueDiv(this, timeToString(time));
-    };
-    
-    if (this.type === CategoryType.COUNTED) {
-        this.click = function(master_time, paused) {
+        this_.click = function(master_time, paused) {
             // TODO: Handle paused situation in observer? What about timed
             // categories? Can they be clicked when the master clock is paused?
             if (paused) return;
@@ -185,12 +214,7 @@ function CategoryItem(name, type, id, index) {
             return {id: this.id, category: name, startTime: master_time, endTime: master_time};
         };
         
-        this.updateTimer = function() { };
-    }
-    
-    function updateValueDiv(this_, text) {
-        this_.value_div.empty();
-        this_.value_div.append(document.createTextNode(text));
+        this_.updateTimer = function() { };
     }
 }
 
@@ -256,7 +280,7 @@ function Observer(category_sets) {
         if (record !== undefined) {
             this_.records.push(record);
         }
-    };
+    }
     
     /*
      * Event handler that starts or continues observing.

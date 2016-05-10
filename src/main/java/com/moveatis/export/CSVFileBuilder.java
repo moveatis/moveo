@@ -29,7 +29,6 @@
  */
 package com.moveatis.export;
 
-import com.moveatis.category.CategoryEntity;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
@@ -43,8 +42,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * @author ilkrpaan
+ * Builds csv file from an observation.
+ * @author Ilari Paananen
  */
 public class CSVFileBuilder {
     
@@ -53,15 +52,25 @@ public class CSVFileBuilder {
     private long totalCount;
     private long totalDuration;
     
+    /**
+     * Empty constructor.
+     */
     public CSVFileBuilder() {
         
     }
     
+    /**
+     * Builds csv file from observation and writes it to the output stream.
+     * @param out Stream to write the csv data.
+     * @param obs Observation to build.
+     * @param separator Separator used in between csv fields.
+     * @throws IOException 
+     */
     public void buildCSV(OutputStream out, ObservationEntity obs, String separator) throws IOException {
         
         Long obsDuration = obs.getDuration();
-        Map<ObservationCategory, CountAndDuration> countsAndDurations =
-                computeCountsAndDurations(obs);
+        Map<ObservationCategory, CategorySummaryItem> summaryItems =
+                computeCategorySummaryItems(obs);
         List<RecordEntity> records = obs.getRecords();
         
         CSVBuilder csv = new CSVBuilder(out, separator);
@@ -78,12 +87,12 @@ public class CSVFileBuilder {
         
         csv.add("Category").add("Count").add("Count %").add("Duration (ms)").add("Duration %").newLine();
         
-        for (Map.Entry<ObservationCategory, CountAndDuration> entry : countsAndDurations.entrySet()) {
+        for (Map.Entry<ObservationCategory, CategorySummaryItem> entry : summaryItems.entrySet()) {
             String category = entry.getKey().getName();
-            CountAndDuration cnd = entry.getValue();
-            long countPercent = (long)(cnd.count * 100.0 / totalCount + 0.5);
-            long durationPercent = (long)(cnd.duration * 100.0 / obsDuration + 0.5);
-            csv.add(category).add(cnd.count).addPercent(countPercent).add(cnd.duration).addPercent(durationPercent).newLine();
+            CategorySummaryItem item = entry.getValue();
+            long countPercent = (long)(item.count * 100.0 / totalCount + 0.5);
+            long durationPercent = (long)(item.duration * 100.0 / obsDuration + 0.5);
+            csv.add(category).add(item.count).addPercent(countPercent).add(item.duration).addPercent(durationPercent).newLine();
         }
         
         csv.newLine();
@@ -100,12 +109,17 @@ public class CSVFileBuilder {
         csv.close();
     }
     
-    private Map<ObservationCategory, CountAndDuration> computeCountsAndDurations(ObservationEntity obs) {
+    /**
+     * Computes category summary items from observation.
+     * @param obs Observation
+     * @return Summary items mapped by category.
+     */
+    private Map<ObservationCategory, CategorySummaryItem> computeCategorySummaryItems(ObservationEntity obs) {
         
         // TODO: Categories should be in the same order as when the
         // observation was conducted.
         // Observation should contain this info, but does not yet.
-        Map<ObservationCategory, CountAndDuration> countsAndDurations = new TreeMap<>(
+        Map<ObservationCategory, CategorySummaryItem> summaryItems = new TreeMap<>(
                 new Comparator<ObservationCategory>() {
                     @Override
                     public int compare(ObservationCategory c1, ObservationCategory c2) {
@@ -123,23 +137,26 @@ public class CSVFileBuilder {
             ObservationCategory category = record.getCategory();
             Long deltaTime = record.getEndTime() - record.getStartTime();
             
-            CountAndDuration cnd = countsAndDurations.get(category);
-            if (cnd == null) {
-                cnd = new CountAndDuration();
-                countsAndDurations.put(category, cnd);
+            CategorySummaryItem item = summaryItems.get(category);
+            if (item == null) {
+                item = new CategorySummaryItem();
+                summaryItems.put(category, item);
             }
             
-            cnd.count += 1;
-            cnd.duration += deltaTime;
+            item.count++;
+            item.duration += deltaTime;
             
-            totalCount += 1;
+            totalCount++;
             totalDuration += deltaTime;
         }
         
-        return countsAndDurations;
+        return summaryItems;
     }
     
-    private class CountAndDuration {
+    /**
+     * Private class for category summary info.
+     */
+    private static class CategorySummaryItem {
         public long count = 0;
         public long duration = 0;
     }

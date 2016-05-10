@@ -273,19 +273,7 @@ public class SummaryManagedBean implements Serializable {
     private static String convertToFilename(String s) {
         if (s == null || s.isEmpty())
             return "unnamed";
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if ('a' <= c && c <= 'z' ||
-                'A' <= c && c <= 'Z' ||
-                '0' <= c && c <= '9' ||
-                '-' == c || c == '_') {
-                sb.append(c);
-            } else {
-                sb.append('_');
-            }
-        }
-        return sb.toString();
+        return s.replaceAll("[^a-zA-Z0-9_]", "_");
     }
 
     public void downloadCurrentObservation() throws IOException {
