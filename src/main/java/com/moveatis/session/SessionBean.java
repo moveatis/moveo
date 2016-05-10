@@ -137,10 +137,6 @@ public class SessionBean implements Serializable, Session  {
         observationManagedBean.resetCategorySetsInUse();
     }
 
-    public UserType getUserType() {
-        return userType; // TODO: Is this needed? Only used in toString() method.
-    }
-
     @Override
     public boolean isLoggedIn() {
         return loggedIn;
@@ -148,7 +144,7 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public String toString() {
-        return "SessionBean: userType -> " + getUserType() + ", loggedIn -> " + isLoggedIn();
+        return "SessionBean: userType -> " + userType + ", loggedIn -> " + isLoggedIn();
     }
 
     @Override
