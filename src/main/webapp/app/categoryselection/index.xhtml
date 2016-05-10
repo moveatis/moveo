@@ -20,7 +20,7 @@
 
                     <h2>#{msg.cs_heading}</h2>
                     
-                    <p>Muutokset eivät ole pysyviä....</p>
+                    <p>#{msg.cs_helpText}</p>
                         
                     <h:form>
                         <p:growl id="growl" showDetail="true"/>
@@ -35,7 +35,7 @@
                             
                             <ui:repeat value="#{categorySet.categories}" var="category" varStatus="status">
                             <div id="#{status.last?'focused-category':''}" class="category">
-                                <p:selectBooleanButton value="#{category.typeAsBoolean}" onLabel="Kerta" offLabel="Kesto" styleClass="category-type-button"/>
+                                <p:selectBooleanButton value="#{category.typeAsBoolean}" onLabel="#{msg.cs_countedCategory}" offLabel="#{msg.cs_timedCategory}" styleClass="category-type-button"/>
                                 <p:inputText value="#{category.name}" id="category-name-input" styleClass="category-text"/>
                                 <p:watermark value="#{msg.cs_categoryName}" for="category-name-input"/>
                                 <p:commandButton icon="fa fa-remove" class="category-remove-button"

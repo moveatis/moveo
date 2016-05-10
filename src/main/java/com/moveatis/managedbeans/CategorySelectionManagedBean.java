@@ -34,6 +34,7 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -242,9 +243,9 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     public void addNewCategorySet() {
-        // TODO: Validate name!
-        if (!newCategorySetName.isEmpty()) {
-            ObservationCategorySet categorySet = new ObservationCategorySet(addedCategorySetTag++, newCategorySetName);
+        String name = Validation.validateForJsAndHtml(newCategorySetName);
+        if (!name.isEmpty()) {
+            ObservationCategorySet categorySet = new ObservationCategorySet(addedCategorySetTag++, name);
             categorySetsInUse.add(categorySet);
             newCategorySetName = "";
         }
