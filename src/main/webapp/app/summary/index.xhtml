@@ -47,7 +47,8 @@
                                                 pattern="HH:mm:ss" timeOnly="true" mask="true"
                                                 locale="#{sessionBean.locale}"
                                                 value="#{summaryBean.min}"
-                                                title="#{msg.sum_timeFrameTitle}">
+                                                title="#{msg.sum_timeFrameTitle}"
+                                                timeZone="#{timeBean.serverTimeZone}">
                                         <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                                         <p:clientValidator event="keyup"/>
                                     </p:calendar>
@@ -62,7 +63,8 @@
                                                 pattern="HH:mm:ss" timeOnly="true" mask="true"
                                                 locale="#{sessionBean.locale}"
                                                 value="#{summaryBean.duration}"
-                                                title="#{msg.sum_timeFrameTitle}">
+                                                title="#{msg.sum_timeFrameTitle}"
+                                                timeZone="#{timeBean.serverTimeZone}">
                                         <f:validateRegex pattern="(^$|^__:__:__$|^(\d+:)?(\d+:)?\d+$)" />
                                         <p:clientValidator event="keyup"/>
                                     </p:calendar>
@@ -126,7 +128,7 @@
                 <p:dialog header="#{msg.dlg_saveDialogHeader}"
                           id="saveDialog"
                           widgetVar="dlgSave"
-                          position="center"
+                          position="top"
                           resizable="false"
                           responsive="true"
                           fitViewport="true"
@@ -134,7 +136,7 @@
                     <h:form id="saveForm" styleClass="dialog-form ui-fluid">
 
                         <p:selectManyCheckbox id="basic" value="#{summaryBean.selectedSaveOptions}" columns="1" required="true"  requiredMessage="" layout="grid">
-                            <p:ajax update="mailInputPanel" />
+                            <p:ajax update="input-email" />
                             <f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
                                           itemDisabled="#{!sessionBean.identifiedUser}"/>
                             <f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
@@ -149,12 +151,6 @@
                                      value="#{summaryBean.observation.name}"
                                      validator="#{validationBean.validateShortString}"/>
 
-                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
-                        <p:message for="input-target" />
-                        <p:inputText id="input-target"
-                                     value="#{summaryBean.observation.target}"
-                                     validator="#{validationBean.validateShortString}"/>
-
                         <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
                         <p:message for="input-description" />
                         <p:inputTextarea id="input-description"
@@ -162,17 +158,21 @@
                                          validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
 
-                        <p:panel id="mailInputPanel" rendered="#{summaryBean.mailOptionChecked}" styleClass="coloredButton">
-                            <h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
-                            <p:message for="input-email" />
-                            <p:inputText id="input-email" required="true" requiredMessage="#{msg.dlg_notEmpty}"
-                                         value="#{validationBean.email}" />
-                        </p:panel>
+                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
+                        <p:message for="input-target" />
+                        <p:inputText id="input-target"
+                                     value="#{summaryBean.observation.target}"
+                                     validator="#{validationBean.validateShortString}"/>
+
+                        <h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
+                        <p:message for="input-email" />
+                        <p:inputText id="input-email" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                     value="#{validationBean.email}" disabled="#{!summaryBean.mailOptionChecked}"/>
 
                         <p:commandButton class="form-button" value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{summaryBean.saveObservation}"
-                                         oncomplete="window.onbeforeunload = null;"
-                                         update="@form" validateClient="true"/>
+                                         onclick="window.onbeforeunload = null;"
+                                         ajax="false" validateClient="true"/>
                         <p:commandButton class="form-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>
                     </h:form>

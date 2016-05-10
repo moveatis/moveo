@@ -30,7 +30,6 @@
 package com.moveatis.observation;
 
 import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.category.CategorySetEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.user.AbstractUser;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -64,19 +62,19 @@ import javax.persistence.Table;
 public class ObservationEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @ManyToOne
     private AbstractUser observer;
-    
+
     @ManyToOne
     private EventEntity event;
-    
-    @ElementCollection
+
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<ObservationCategorySet> observationCategorySets;
-    
-    @OneToMany(mappedBy = "observation", fetch=FetchType.EAGER, cascade=ALL)
+
+    @OneToMany(mappedBy = "observation", fetch = FetchType.EAGER, cascade = ALL)
     private List<RecordEntity> records;
-    
+
     private long duration;
 
     private String description;
@@ -93,7 +91,7 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public List<RecordEntity> getRecords() {
         return records;
     }
@@ -117,9 +115,9 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     public void setRecords(List<RecordEntity> records) {
         this.records = records;
     }
-    
+
     public void addRecord(RecordEntity record) {
-        if(this.getRecords() == null) {
+        if (this.getRecords() == null) {
             this.records = new ArrayList<>();
         }
         getRecords().add(record);

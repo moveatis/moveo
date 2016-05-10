@@ -211,13 +211,32 @@ a.new-key {
     table-layout: auto;
 }
 
-.ui-widget:not(.fa) {
+#mainPage .ui-widget:not(.fa) {
     font-size: 100%;
 }
 .categories-table .ui-cell-editor-input > input {
     display: inline-block;
     max-width: 90%;
     margin: 0.3em 1%;
+}
+
+#observationDetail .ui-panelgrid-cell.label {
+    width: 7em;
+}
+
+#observationDetail .ui-inplace-display {
+    color: black;
+}
+
+#observationFormCommands {
+    font-size: .9em;
+}
+
+a.link-observation:link,
+a.link-observation:visited,
+a.link-observation:active,
+a.link-observation:hover {
+    color: #4f4f4f;
 }
 
 @media screen and (max-width: 800px) {
