@@ -89,16 +89,83 @@
                         </p:column>
 
                         <p:rowExpansion>
-                            <!-- TODO: Causing error org.hibernate.LazyInitializationException: could not initialize proxy - no Session -->
-                            <p:dataList value="#{controlBean.getObservations(eventGroup)}" var="observation">
+                            <p:dataList value="#{controlBean.getObservations(eventGroup)}" var="observation" emptyMessage="Ei observointeja." >
                                 <f:facet name="header">
                                     Observoinnit
                                 </f:facet>
-                                <h:outputText value="#{observation.name}"/>
+                                <p:commandLink update=":observationDetail" oncomplete="PF('dlgObservation').show()"
+                                               title="Näytä observoinnin tiedot" styleClass="link-observation">
+                                    <f:setPropertyActionListener value="#{observation}" target="#{controlBean.selectedObservation}" />
+                                    <h:outputText value="#{observation.name}"/>
+                                </p:commandLink>
                             </p:dataList>
                         </p:rowExpansion>
                     </p:dataTable>
                 </h:form>
+
+                <p:dialog header="Observoinnin tiedot" widgetVar="dlgObservation"
+                          position="top" resizable="false" responsive="true"
+                          modal="true" fitViewport="true" styleClass="coloredButton observation-dialog">
+                    <h:form id="observationDetail">
+                        <p:panelGrid layout="grid" columns="2" rendered="#{not empty controlBean.selectedObservation}" columnClasses="label,value">
+
+                            <h:outputText value="Nimi:" />
+                            <p:outputPanel>
+                                <p:message for="input-name-observation" />
+                                <p:inplace id="input-name-observation" editor="true"
+                                           saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+                                    <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
+                                    <p:inputText required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                                 value="#{controlBean.selectedObservation.name}"
+                                                 validator="#{validationBean.validateShortString}"/>
+                                </p:inplace>
+                            </p:outputPanel>
+
+                            <h:outputText value="Kuvaus:" />
+                            <p:outputPanel>
+                                <p:message for="input-description-observation" />
+                                <p:inplace id="input-description-observation" emptyLabel="Lisää kuvaus" editor="true"
+                                           saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+                                    <p:inputTextarea value="#{controlBean.selectedObservation.description}"
+                                                     validator="#{validationBean.validateLongString}"
+                                                     rows="2" cols="16" autoResize="true" />
+                                </p:inplace>
+                            </p:outputPanel>
+
+                            <h:outputText value="Observoija:" />
+                            <h:outputText value="#{controlBean.getObserverName()}" />
+
+                            <h:outputText value="Kohde:" />
+                            <p:outputPanel>
+                                <p:message for="input-target-observation" />
+                                <p:inplace id="input-target-observation" emptyLabel="Lisää kohde" editor="true"
+                                           saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+                                    <p:inputText value="#{controlBean.selectedObservation.target}"
+                                                 validator="#{validationBean.validateShortString}"/>
+                                </p:inplace>
+                            </p:outputPanel>
+
+                            <h:outputText value="Kesto:" />
+                            <h:outputText value="#{controlBean.selectedObservation.duration}" />
+
+                            <h:outputText value="Kirjauksia:" />
+                            <h:outputText value="#{controlBean.selectedObservation.records.size()}" />
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form id="observationFormCommands">
+                        <p:commandButton value="Siirry yhteenvetoon" icon="fa fa-bar-chart"
+                                         action="#{controlBean.showObservationInSummaryPage()}"/>
+                        <p:commandButton value="Poista" icon="fa fa-trash"
+                                         action="#{controlBean.removeObservation}"
+                                         oncomplete="onDialogSuccess(args, 'dlgObservation', 'Observointi poistettu')"
+                                         update=":eventGroupsForm:eventGroupsTable">
+                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                       message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedObservation.name}. #{msg.dlg_confirmMessage}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Sulje" icon="ui-icon-close"
+                                         onclick="PF('dlgObservation').hide();" />
+                    </h:form>
+                </p:dialog>
 
                 <h:panelGroup id="newEventGroupPanel">
                     <h:form rendered="#{controlBean.creatingNewEventGroup}" styleClass="new-eventgroup-form">

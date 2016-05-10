@@ -43,8 +43,8 @@ import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
+import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
-import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -79,6 +79,7 @@ public class ControlManagedBean implements Serializable {
     private EventGroupEntity selectedEventGroup;
     private CategorySetEntity selectedCategorySet;
     private CategoryEntity selectedCategory;
+    private ObservationEntity selectedObservation;
 
     private boolean creatingNewEventGroup = false;
 
@@ -97,6 +98,8 @@ public class ControlManagedBean implements Serializable {
 
     @Inject
     private Session sessionBean;
+    @Inject
+    private ObservationManagedBean observationBean;
 
     @Inject
     @MessageBundle
@@ -194,8 +197,26 @@ public class ControlManagedBean implements Serializable {
         this.selectedCategory = selectedCategory;
     }
 
+    public ObservationEntity getSelectedObservation() {
+        return selectedObservation;
+    }
+
+    public void setSelectedObservation(ObservationEntity selectedObservation) {
+        this.selectedObservation = selectedObservation;
+    }
+
     public CategoryType[] getCategoryTypes() {
         return CategoryType.values();
+    }
+
+    public String getObserverName() {
+        if (selectedObservation == null) {
+            return "";
+        } else if (selectedObservation.getObserver() instanceof IdentifiedUserEntity) {
+            return ((IdentifiedUserEntity) selectedObservation.getObserver()).getGivenName();
+        } else {
+            return "Julkinen käyttäjä";
+        }
     }
 
     public String newObservation() {
@@ -204,33 +225,44 @@ public class ControlManagedBean implements Serializable {
     }
 
     public void removeEventGroup() {
-        eventGroupEJB.remove(selectedEventGroup);
-        eventGroups.remove(selectedEventGroup);
-        selectedEventGroup = null;
+        if (selectedEventGroup != null) {
+            eventGroupEJB.remove(selectedEventGroup);
+            eventGroups.remove(selectedEventGroup);
+            selectedEventGroup = null;
+        }
     }
 
     public void removeCategorySet() {
-        categorySetEJB.remove(selectedCategorySet);
-//        selectedEventGroup.getCategorySets().remove(selectedCategorySet);
-//        eventGroupEJB.edit(selectedEventGroup);
-        selectedCategorySet = null;
-        selectedCategory = null;
+        if (selectedCategorySet != null) {
+            categorySetEJB.remove(selectedCategorySet);
+            selectedCategorySet = null;
+            selectedCategory = null;
+        }
     }
 
     public void removeCategory() {
-        int index = selectedCategory.getOrderNumber();
-        categories.remove(index);
-        int i = 0;
-        for (CategoryEntity category : categories) {
-            category.setOrderNumber(i);
-            i++;
+        if (selectedCategory != null) {
+            int index = selectedCategory.getOrderNumber();
+            categories.remove(index);
+            int i = 0;
+            for (CategoryEntity category : categories) {
+                category.setOrderNumber(i);
+                i++;
+            }
+            if (categories.isEmpty()) {
+                selectedCategory = null;
+            } else if (index > 0) {
+                selectedCategory = categories.get(index - 1);
+            } else {
+                selectedCategory = categories.get(0);
+            }
         }
-        if (categories.isEmpty()) {
-            selectedCategory = null;
-        } else if (index > 0) {
-            selectedCategory = categories.get(index - 1);
-        } else {
-            selectedCategory = categories.get(0);
+    }
+
+    public void removeObservation() {
+        if (selectedObservation != null) {
+            observationEJB.remove(selectedObservation);
+            selectedObservation = null;
         }
     }
 
@@ -242,8 +274,10 @@ public class ControlManagedBean implements Serializable {
         }
     }
 
-    public void removeObservation() {
-        //observationEJB
+    public void onEditObservation() {
+        if (selectedObservation != null) {
+            observationEJB.edit(selectedObservation);
+        }
     }
 
     public void addEventGroup(EventGroupEntity eventGroup) {
@@ -255,5 +289,11 @@ public class ControlManagedBean implements Serializable {
             categorySetBean.createNewCategorySet(selectedEventGroup, selectedCategorySet, categories);
             this.init();
         }
+    }
+
+    public String showObservationInSummaryPage() {
+        observationBean.setObservationEntity(selectedObservation);
+        observationBean.setCategorySetsInUse(new ArrayList<>(selectedObservation.getObservationCategorySets()));
+        return "summary";
     }
 }

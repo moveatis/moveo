@@ -149,18 +149,18 @@
                                      value="#{summaryBean.observation.name}"
                                      validator="#{validationBean.validateShortString}"/>
 
-                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
-                        <p:message for="input-target" />
-                        <p:inputText id="input-target"
-                                     value="#{summaryBean.observation.target}"
-                                     validator="#{validationBean.validateShortString}"/>
-
                         <h:outputLabel for="input-description" value="#{msg.sum_observationDescription}" />
                         <p:message for="input-description" />
                         <p:inputTextarea id="input-description"
                                          value="#{summaryBean.observation.description}"
                                          validator="#{validationBean.validateLongString}"
                                          rows="3" cols="16" autoResize="true" />
+
+                        <h:outputLabel for="input-target" value="#{msg.sum_observationTarget}" />
+                        <p:message for="input-target" />
+                        <p:inputText id="input-target"
+                                     value="#{summaryBean.observation.target}"
+                                     validator="#{validationBean.validateShortString}"/>
 
                         <p:panel id="mailInputPanel" rendered="#{summaryBean.mailOptionChecked}" styleClass="coloredButton">
                             <h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
@@ -172,7 +172,7 @@
                         <p:commandButton class="form-button" value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{summaryBean.saveObservation}"
                                          oncomplete="window.onbeforeunload = null;"
-                                         update="@form" validateClient="true"/>
+                                         ajax="false" validateClient="true"/>
                         <p:commandButton class="form-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>
                     </h:form>
