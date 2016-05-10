@@ -77,4 +77,9 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
         return groupKeyEntity;
 
     }
+
+    @Override
+    public void removePermanently(GroupKeyEntity groupKeyEntity) {
+        em.remove(em.merge(groupKeyEntity));
+    }
 }
