@@ -36,6 +36,7 @@ import com.moveatis.user.TagUserEntity;
 import java.io.Serializable;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -64,7 +65,7 @@ public class GroupKeyEntity extends BaseEntity implements Serializable {
     @OneToOne
     private EventGroupEntity eventGroup;
     
-    @OneToOne(cascade={PERSIST, MERGE})
+    @OneToOne(cascade={PERSIST, MERGE, REMOVE})
     private TagUserEntity tagUser;
     
     @Column(unique=true)

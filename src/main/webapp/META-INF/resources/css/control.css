@@ -42,7 +42,7 @@ a.new-key {
 .column-group-keys,
 .row-editor,
 .row-toggler,
-.fa-check,
+.fa-check-square-o,
 .fa-close  {
     font-size: 1.6em;
 }
@@ -79,7 +79,7 @@ a.new-key {
 }
 
 .new-eventgroup-form .input-name {
-    margin-right: 1em;
+    margin-right: .5em;
 }
 
 .column-group-keys .ui-icon,
@@ -99,16 +99,30 @@ a.new-key {
     content:"\f00d";
 }
 .row-editor .ui-icon-check:before {
-    content:"\f00c";
+    content:"\f046";
 }
 
 .row-editor .ui-icon-check:before,
-.new-eventgroup-form .fa-check {
-    color:green;
+.new-eventgroup-form .fa-check-square-o {
+    margin-right: .1em;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .row-editor .ui-icon-close:before,
 #newEventGroupPanel .fa-close {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -4px;
+}
+
+.row-editor .ui-icon-check:hover,
+.new-eventgroup-form .fa-check-square-o:hover {
+    color: green;
+}
+
+.row-editor .ui-icon-close:hover,
+#newEventGroupPanel .fa-close:hover {
     color:red;
 }
 
@@ -164,7 +178,7 @@ a.new-key {
     display: none;
 }
 
-.start-button {
+#mainPage .start-button {
     font-size: 1.2em;
 }
 
@@ -185,13 +199,33 @@ a.new-key {
     color: white;
 }
 
+#categorySetForm .ui-row-editor > .ui-icon-close {
+    display:none!important;
+}
+
+.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
+    pointer-events: none;
+}
+
+#eventGroupsForm .ui-datatable table {
+    table-layout: auto;
+}
+
+.ui-widget:not(.fa) {
+    font-size: 100%;
+}
+.categories-table .ui-cell-editor-input > input {
+    display: inline-block;
+    max-width: 90%;
+    margin: 0.3em 1%;
+}
 
 @media screen and (max-width: 800px) {
 
     #mainPage {
         max-width: 40em;
     }
-    
+
     #mainPage > form {
         margin: auto;
     }
@@ -225,9 +259,9 @@ a.new-key {
 
     #eventGroupsForm .row-editor,
     #eventGroupsForm .column-group-keys {
-       display: inline-block;
-       float: none;
-       width: auto;
+        display: inline-block;
+        float: none;
+        width: auto;
     }
 
     #eventGroupsForm .ui-column-title,

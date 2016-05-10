@@ -89,14 +89,13 @@
                         </p:column>
 
                         <p:rowExpansion>
-                            <!--
-                            <p:dataList value="# {eventGroup.event.observations}" var="observation">
+                            <!-- TODO: Causing error org.hibernate.LazyInitializationException: could not initialize proxy - no Session -->
+                            <p:dataList value="#{controlBean.getObservations(eventGroup)}" var="observation">
                                 <f:facet name="header">
                                     Observoinnit
                                 </f:facet>
-                                <h:outputText value="# {observation.label}"/>
+                                <h:outputText value="#{observation.name}"/>
                             </p:dataList>
-                            -->
                         </p:rowExpansion>
                     </p:dataTable>
                 </h:form>
@@ -109,7 +108,7 @@
                                      value="#{eventGroupManagedBean.eventGroupName}" styleClass="input-name"
                                      placeholder="#{msg.con_eventName}"
                                      validator="#{validationBean.validateShortString}"/>
-                        <p:commandLink class="fa fa-check"
+                        <p:commandLink class="fa fa-check-square-o"
                                        action="#{eventGroupManagedBean.createNewEventGroup}"
                                        update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel" process="@form"
                                        validateClient="true"/>
@@ -202,20 +201,21 @@
                                              validator="#{validationBean.validateLongString}"
                                              rows="2" cols="16" autoResize="true" />
                         </div>
+
                         <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
                                      selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
-                                     editable="true" editMode="cell" reflow="true" draggableRows="true" styleClass="categories-table"
+                                     editable="true" editMode="row" reflow="true" draggableRows="true" styleClass="categories-table"
                                      sortBy="#{category.orderNumber}" emptyMessage="Ei kategorioita.">
 
                             <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>
                             <p:ajax event="rowUnselect" update=":categorySetForm:categoryRemoveButton"/>
                             <p:ajax event="rowReorder" listener="#{controlBean.onCategoryReorder}" />
 
+                            <p:message for="input-name-category" />
                             <p:column headerText="Kategoria">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText class="output-name" value="#{category.label.label}"/></f:facet>
                                     <f:facet name="input">
-                                        <p:message for="input-name-category" />
                                         <p:inputText id="input-name-category"
                                                      required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                                      value="#{category.label.label}"
@@ -234,29 +234,35 @@
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
+
+                            <p:column styleClass="row-editor">
+                                <p:rowEditor styleClass="fa"/>
+                            </p:column>
+
                         </p:dataTable>
                         <div class="categorySetCommandButtons">
                             <p:commandButton value="Lisää kategoria" icon="fa fa-plus"
                                              action="#{controlBean.addNewCategory}"
-                                             onclick="$(document).click();"
-                                             oncomplete="$('.categories-table tr').last().find('.output-name').click();"
-                                             update="@form" validateClient="true"/>
+                                             onclick="submitDataTableEditInputs('.categories-table')"
+                                             oncomplete="focusDataTableEditInput('.categories-table');"
+                                             update="categoriesTable" validateClient="true"/>
                             <p:commandButton value="Poista kategoria" icon="fa fa-minus"
                                              id="categoryRemoveButton"
                                              action="#{controlBean.removeCategory}"
-                                             update="@form"
+                                             update="categoriesTable"
                                              disabled="#{empty controlBean.selectedCategory}"/>
                             <br/>
                             <br/>
                             <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                              action="#{controlBean.saveCategorySet}"
-                                             onclick="$(document).click();"
+                                             onclick="submitDataTableEditInputs('.categories-table')"
                                              oncomplete="onDialogSuccess(args, 'dlgCategorySet', 'Kategoriaryhmä tallennettu')"
                                              update=":eventGroupsForm:eventGroupsTable @form" validateClient="true"/>
                             <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                              onclick="PF('dlgCategorySet').hide();" />
                             <p:commandButton value="Poista" icon="fa fa-trash"
                                              action="#{controlBean.removeCategorySet}"
+                                             rendered="#{!empty controlBean.selectedCategorySet.id}"
                                              oncomplete="onDialogSuccess(args, 'dlgCategorySet', 'Kategoriaryhmä poistettu')"
                                              update=":eventGroupsForm:eventGroupsTable">
                                 <p:confirm header="#{msg.dlg_confirmRemoveDialog}"

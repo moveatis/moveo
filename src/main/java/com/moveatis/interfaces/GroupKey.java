@@ -39,11 +39,13 @@ import javax.ejb.Local;
 @Local(GroupKey.class)
 public interface GroupKey {
     
-    void create(GroupKeyEntity sceneEntity);
+    void create(GroupKeyEntity groupKeyEntity);
 
-    void edit(GroupKeyEntity sceneEntity);
+    void edit(GroupKeyEntity groupKeyEntity);
 
-    void remove(GroupKeyEntity sceneEntity);
+    void remove(GroupKeyEntity groupKeyEntity);
+    
+    void removePermanently(GroupKeyEntity groupKeyEntity);
     
     GroupKeyEntity find(Object id);
     
