@@ -200,8 +200,6 @@ function CategoryItem(name, type, id, index) {
         updateValueDiv(this_, countToString(0));
         
         this_.click = function(master_time, paused) {
-            // TODO: Handle paused situation in observer? What about timed
-            // categories? Can they be clicked when the master clock is paused?
             if (paused) return;
             
             this.count += 1;
@@ -238,6 +236,7 @@ function Observer(category_sets) {
      * @param {Observer} this_
      */
     function initialize(this_) {
+        $("#continue").hide();
         $("#pause").hide();
         $("#stop").addClass("disabled");
         $("#total-time").append(document.createTextNode(timeToString(0)));
@@ -254,7 +253,6 @@ function Observer(category_sets) {
                 var category_set = $(document.createElement("ul"));
                 category_set.attr("id", set.name);
                 category_set.addClass("category-set");
-                category_set.addClass("no-text-select");
                 
                 for (var j = 0; j < set.categories.length; j++) {
                     var cat = set.categories[j];
@@ -268,6 +266,8 @@ function Observer(category_sets) {
                 category_list.append(category_set);
             }
         }
+        
+        $(".category-item").addClass("disabled");
     }
     
     /*
@@ -286,7 +286,7 @@ function Observer(category_sets) {
      * Event handler that starts or continues observing.
      * Sends ajax notification to backend when observing is first started.
      */
-    this.playClick = function() {
+    this.startClick = function() {
         if (this.waiting) return;
         this.waiting = true;
 
@@ -303,16 +303,12 @@ function Observer(category_sets) {
                 this_.master_clock.resume(Date.now());
                 this_.started = true;
                 this_.waiting = false;
-                this_.playClick = function() {
-                    if (this.master_clock.isPaused()) {
-                        this.master_clock.resume(Date.now());
-                        $("#play").hide();
-                        $("#pause").show();
-                    }
-                };
-                $("#play").hide();
+                var start_button = $("#start");
+                start_button.off("click");
+                start_button.hide();
                 $("#pause").show();
                 $("#stop").removeClass("disabled");
+                $(".category-item").removeClass("disabled");
             },
             error: function(xhr, status, error) {
                 showError(msg.obs_errorCouldntSendStart + " " + error);
@@ -321,17 +317,11 @@ function Observer(category_sets) {
         });
     };
     
-    /**
-     * Private method that pauses observation.
-     * Used by pauseClick() and stopClick().
-     * @param {Observer} this_
-     * @param {number} now Time in milliseconds.
-     */
-    function pause(this_, now) {
-        if (!this_.master_clock.isPaused()) {
-            this_.master_clock.pause(now);
-            $("#pause").hide();
-            $("#play").show();
+    this.continueClick = function () {
+        if (this.master_clock.isPaused()) {
+            this.master_clock.resume(Date.now());
+            $("#continue").hide();
+            $("#pause").show();
         }
     }
     
@@ -339,12 +329,16 @@ function Observer(category_sets) {
      * Event handler that pauses the observing.
      */
     this.pauseClick = function() {
-        pause(this, Date.now());
+        if (!this.master_clock.isPaused()) {
+            this.master_clock.pause(Date.now());
+            $("#pause").hide();
+            $("#continue").show();
+        }
     };
     
     /*
      * Event handler that stops the observing.
-     * Disables play, pause, and category buttons.
+     * Disables continue, pause, and category buttons.
      * If some categories were still on, stops them
      * and creates records accordingly.
      * Sends records to backend with ajax and
@@ -356,12 +350,14 @@ function Observer(category_sets) {
         
         var now = Date.now();
         
-        pause(this, now);
+        if (!this.master_clock.isPaused()) {
+            this.master_clock.pause(now);
+        }
         
-        var play_button = $("#play");
+        var continue_button = $("#continue");
         var pause_button = $("#pause");
-        play_button.off("click");
-        play_button.addClass("disabled");
+        continue_button.off("click");
+        continue_button.addClass("disabled");
         pause_button.off("click");
         pause_button.addClass("disabled");
         
@@ -476,14 +472,17 @@ $(document).ready(function() {
     var category_sets = getCategorySets(); // NOTE: Function in observer/index.xhtml.
     var observer = new Observer(category_sets);
     
-    $("#play").click(function() { observer.playClick(); });
+    $("#start").click(function() {
+        observer.startClick();
+        $(".category-item").click(function() {
+            var id = $(this).attr("id");
+            var index = parseInt(id.split("_")[1]);
+            observer.categoryClick(index);
+        });
+    });
+    $("#continue").click(function() { observer.continueClick(); });
     $("#pause").click(function() { observer.pauseClick(); });
     $("#stop").click(function() { observer.stopClick(); });
-    $(".category-item").click(function() {
-        var id = $(this).attr("id");
-        var index = parseInt(id.split("_")[1]);
-        observer.categoryClick(index);
-    });
 
     setInterval(function() { observer.tick(); }, 200);
     setInterval(keepAlive, 5*60000); // Send keep-alive every 5 minutes.

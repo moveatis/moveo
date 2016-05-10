@@ -46,12 +46,13 @@
                 
                 <p:growl id="growl" widgetVar="growlWdgt" showDetail="true" severity="error"/>
                 
-                <div id="content">
-                    <div id="total-time" class="no-text-select"></div>
+                <div id="content" class="no-text-select">
+                    <div id="total-time"></div>
                     <div id="controls">
-                        <div id="play" class="fa fa-play"></div>
-                        <div id="pause" class="fa fa-pause"></div>
-                        <div id="stop" class="fa fa-stop"></div>
+                        <div id="start"><span class="fa fa-play"></span> #{msg.obs_start}</div>
+                        <div id="continue"><span class="fa fa-play"></span> #{msg.obs_continue}</div>
+                        <div id="pause"><span class="fa fa-pause"></span> #{msg.obs_pause}</div>
+                        <div id="stop"><span class="fa fa-stop"></span> #{msg.obs_stop}</div>
                     </div>
                     <div id="category-list"></div>
                 </div>

@@ -66,19 +66,22 @@ body {
     cursor: default;
 }
 
-#play, #pause, #stop {
+#controls {
+    white-space: nowrap;
+}
+
+#start, #continue, #pause, #stop {
     display: inline-block;
+    width: 5em;
+    margin: 0 0.2em;
+    padding: 0.2em 0;
     background-color: #567;
     background: linear-gradient(0deg, #345, #567);
     cursor: pointer;
 }
 
-#play.disabled, #pause.disabled, #stop.disabled {
+#start.disabled, #continue.disabled, #pause.disabled, #stop.disabled, .category-item.disabled {
     color: #345;
-    cursor: default;
-}
-
-.disabled {
     cursor: default;
 }
 
@@ -148,6 +151,10 @@ body {
     background-color: #345;
 }
 
+.category-item.disabled > .category-value {
+    color: #567;
+}
+
 /*
 
     TODO: Use browser specific calc?
@@ -164,12 +171,9 @@ body {
     height: calc((100vh - 70px) * 0.15);
 }
 
-#play, #pause, #stop {
-    width: 12vh;
-    margin: 0 2vh;
-    padding: 1vh;
+#start, #continue, #pause, #stop {
     border-radius: 1vh;
-    font-size: 8vh;
+    font-size: 6vh;
 }
 
 .category-set {
@@ -205,12 +209,9 @@ body {
         height: calc((480px - 70px) * 0.15);
     }
 
-    #play, #pause, #stop {
-        width: calc(480px * 0.12);
-        margin: 0 calc(480px * 0.02);
-        padding: calc(480px * 0.01);
+    #start, #continue, #pause, #stop {
         border-radius: calc(480px * 0.01);
-        font-size: calc(480px * 0.08);
+        font-size: calc(480px * 0.06);
     }
 
     .category-set {
@@ -248,12 +249,9 @@ body {
         height: calc((240px - 70px) * 0.15);
     }
 
-    #play, #pause, #stop {
-        width: calc(240px * 0.12);
-        margin: 0 calc(240px * 0.02);
-        padding: calc(240px * 0.01);
+    #start, #continue, #pause, #stop {
         border-radius: calc(240px * 0.01);
-        font-size: calc(240px * 0.08);
+        font-size: calc(240px * 0.06);
     }
 
     .category-set {
