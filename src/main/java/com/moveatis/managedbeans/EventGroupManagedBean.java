@@ -178,13 +178,10 @@ public class EventGroupManagedBean {
     }
 
     public void removeGroupKey(EventGroupEntity eventGroup) {
-        // TODO: how should group key be removed?
         GroupKeyEntity groupKey = eventGroup.getGroupKey();
-        groupKey.setGroupKey(null);
         eventGroup.setGroupKey(null);
-        groupKeyEJB.remove(groupKey);
-        groupKeyEJB.edit(groupKey);
         eventGroupEJB.edit(eventGroup);
+        groupKeyEJB.removePermanently(groupKey);
         controlManagedBean.init();
     }
 
