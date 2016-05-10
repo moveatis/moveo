@@ -105,6 +105,8 @@ public class CategorySelectionManagedBean implements Serializable {
         
         Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
         
+        if (categorySets == null) return;
+        
         for (CategorySetEntity categorySetEntity : categorySets) {
             ObservationCategorySet categorySet = new ObservationCategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
             

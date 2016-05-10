@@ -61,13 +61,22 @@ public class ObservationCategory implements Serializable {
     public CategoryType getType() {
         return type;
     }
+    
+    public void setType(CategoryType type) {
+        this.type = type;
+    }
 
     public int getTypeAsInt() {
         return type.ordinal();
     }
     
-    public void setType(CategoryType type) {
-        this.type = type;
+    public boolean getTypeAsBoolean() {
+        return (type == CategoryType.COUNTED);
+    }
+    
+    public void setTypeAsBoolean(boolean value) {
+        if (value)  type = CategoryType.COUNTED;
+        else        type = CategoryType.TIMED;
     }
     
     public Long getTag() {

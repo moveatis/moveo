@@ -66,6 +66,7 @@
 
 .category {
     margin-bottom: 0.5em;
+    white-space: nowrap;
 }
 
 .ui-chkbox-box {
@@ -79,12 +80,24 @@
     display: inline;
 }
 
+.category-type-button {
+    text-align: center;
+    width: 4em;
+    margin-right: 0.5em;
+}
+
+.category-type-button .ui-button-text {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .category-text {
-    width: calc(100% - 70px);
+    width: calc(100% - 7em - 13px);
     margin-right: 0.5em;
 }
 
 .category-remove-button {
+    width: 2em;
 }
 
 .category .ui-message-error {
