@@ -17,7 +17,6 @@
 
                     <p:submenu icon="fa fa-user" rendered="#{sessionBean.isIdentifiedUser()}">
                         <p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap" url="/app/control/index.xhtml"/>
-                        <p:menuitem value="#{msg.head_superuserPage}" icon="fa fa-group" url="/app/superuser/index.xhtml"/>
                         <p:menuitem value="#{msg.head_logout}" icon="fa fa-sign-out"
                                     actionListener="#{logoutBean.logOut}" />
                     </p:submenu>
