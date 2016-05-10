@@ -52,6 +52,7 @@ import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -318,14 +319,26 @@ public class CategorySelectionManagedBean implements Serializable {
         return "categoriesok";
     }
     
-    private static <T> boolean hasDuplicate(List<T> all) {
-        Set<T> set = new HashSet<>();
-        for(T each : all) {
-            if(!set.add(each)) {
+    private static <T> boolean hasDuplicate(List<ObservationCategory> categories) {
+        Set<String> set = new HashSet<>();
+        for (ObservationCategory category : categories) {
+            String name = category.getName();
+            if (!name.isEmpty() && !set.add(category.getName())) {
                 return true;
             }
         }
-        
         return false;
     }
+    
+    // TODO: Doesn't work as intended.
+//    private static <T> boolean hasDuplicate(List<T> all) {
+//        Set<T> set = new HashSet<>();
+//        for(T each : all) {
+//            if(!set.add(each)) {
+//                return true;
+//            }
+//        }
+//        
+//        return false;
+//    }
 }
