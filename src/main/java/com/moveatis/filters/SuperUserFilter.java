@@ -93,8 +93,8 @@ public class SuperUserFilter implements Filter {
 
         doBeforeProcessing(request, response);
         
-        if(sessionBean.getLoggedInUser() instanceof IdentifiedUserEntity) {
-            if(roleBean.checkIfUserIsSuperUser((IdentifiedUserEntity)sessionBean.getLoggedInUser())) {
+        if(sessionBean.isIdentifiedUser()) {
+            if(roleBean.checkIfUserIsSuperUser(sessionBean.getLoggedIdentifiedUser())) {
                 
             } else {
                 Locale locale = ((HttpServletRequest)request).getLocale();
