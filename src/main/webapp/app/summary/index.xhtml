@@ -171,7 +171,7 @@
 
                         <p:commandButton class="form-button" value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{summaryBean.saveObservation}"
-                                         oncomplete="window.onbeforeunload = null;"
+                                         onclick="window.onbeforeunload = null;"
                                          ajax="false" validateClient="true"/>
                         <p:commandButton class="form-button" value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>

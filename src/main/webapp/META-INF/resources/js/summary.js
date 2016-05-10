@@ -67,14 +67,14 @@ $(function () {
     startTimePicker.timepicker("option", "onSelect", function (startTime) {
         var error = updateTimelineTimeframe(timeline, startTime, endTimePicker.val());
         startTimePicker.toggleClass("ui-state-error", error);
-        if (error && convertStrToMs(startTime) > OBSERVATION_DURATION ){
+        if (error && convertStrToMs(startTime) > OBSERVATION_DURATION) {
             startTimeWdgt.setDate(endDate);
         }
     });
     endTimePicker.timepicker("option", "onSelect", function (endTime) {
         var error = updateTimelineTimeframe(timeline, startTimePicker.val(), endTime);
         endTimePicker.toggleClass("ui-state-error", error);
-        if (error && convertStrToMs(endTime) > OBSERVATION_DURATION ) {
+        if (error && convertStrToMs(endTime) > OBSERVATION_DURATION) {
             endTimeWdgt.setDate(endDate);
         }
     });
@@ -111,9 +111,12 @@ $(function () {
     $("#timelineControls").toggleClass("bottom",
             isBottomOfDocument($("#Footer").height()));
 
-    window.onbeforeunload = function () {
-        return msg.dlg_confirmLeave;
-    };
+    /* Ask confirmation before leaving unsaved observation data */
+    /*
+     window.onbeforeunload = function () {
+     return msg.dlg_confirmLeave;
+     };
+     */
 });
 
 /**
@@ -475,6 +478,6 @@ function isBottomOfDocument(padding) {
     return $(window).scrollTop() >= $(document).height() - padding - $(window).height();
 }
 
-function getTimeZoneOffset(){
+function getTimeZoneOffset() {
     return -1 * 60 * 1000 * new Date().getTimezoneOffset();
 }
