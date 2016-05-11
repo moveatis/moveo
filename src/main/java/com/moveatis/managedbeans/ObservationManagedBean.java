@@ -81,8 +81,10 @@ public class ObservationManagedBean implements Serializable {
     
     @PreDestroy
     public void destroy() {
-        if(!observationEntity.getUserWantsToSaveToDatabase()) {
-            observationEJB.removeUnsavedObservation(observationEntity);
+        if(observationEntity != null) {
+            if(!observationEntity.getUserWantsToSaveToDatabase()) {
+                observationEJB.removeUnsavedObservation(observationEntity);
+            }
         }
     }
     

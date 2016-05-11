@@ -13,32 +13,31 @@
     </h:head>
 
     <h:body>
-        <f:view locale="#{sessionBean.locale}">
-            <div class="wrapper">
-                <div id="naviHead">
-                    <ui:insert name="header">
-                        <ui:include src="commonPages/commonHeader.xhtml"/>
-                    </ui:insert>
-
-                </div>
-
-                <div id="mainPage">
-                    <ui:insert name="mainpage">
-                        Main content
-                    </ui:insert>
-
-                </div>
-
-                <div class="push"></div>
-            </div>
-
-            <div id="Footer">
-                <ui:insert name="footer" >
-                    <ui:include src="commonPages/commonFooter.xhtml"/>
+        <f:view locale="#{userManagedBean.locale}"/>
+        <div class="wrapper">
+            <div id="naviHead">
+                <ui:insert name="header">
+                    <ui:include src="commonPages/commonHeader.xhtml"/>
                 </ui:insert>
 
             </div>
-        </f:view>
+
+            <div id="mainPage">
+                <ui:insert name="mainpage">
+                    Main content
+                </ui:insert>
+
+            </div>
+
+            <div class="push"></div>
+        </div>
+
+        <div id="Footer">
+            <ui:insert name="footer" >
+                <ui:include src="commonPages/commonFooter.xhtml"/>
+            </ui:insert>
+
+        </div>
     </h:body>
 </html>
 

@@ -32,21 +32,109 @@ package com.moveatis.managedbeans;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.TimeZone;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 /**
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value = "userBean")
+@Named(value = "userManagedBean")
 @SessionScoped
 public class UserManagedBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    private Locale locale;
+    private TimeZone timeZone;
+    private String languageString;
+    private String optionLanguageString;
+
     /**
      * Creates a new instance of UserManagedBean
      */
     public UserManagedBean() {
         
+    }
+
+    public Locale getLocale() {
+        if(this.locale == null) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            this.locale = context.getViewRoot().getLocale();
+            this.languageString = this.locale.getLanguage();
+        }
+        return this.locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getViewRoot().setLocale(this.locale);
+        this.languageString = this.locale.getLanguage();
+    }
+    
+    public void setLocale(String language) {
+        
+        Locale newLocale = null;
+        
+        if(language.equalsIgnoreCase("fi")) {
+            newLocale = new Locale("fi", "FI");
+        } else if(language.equalsIgnoreCase("en")) {
+            newLocale = new Locale("en");
+        }
+        
+        if(newLocale != null) {
+            this.setLocale(newLocale);
+        }
+    }
+    
+    public void changeLocale(ActionEvent event) {
+        Locale finnishLocale = new Locale("fi", "FI");
+        Locale defaultLocale = new Locale("en");
+        
+        if(this.locale.getLanguage().equals(finnishLocale.getLanguage())) {
+            this.setLocale(defaultLocale);
+            this.setLanguageString(defaultLocale.getLanguage());
+            this.setOptionLanguageString(finnishLocale.getLanguage());
+        } else {
+            this.setLocale(finnishLocale);
+            this.setLanguageString(finnishLocale.getLanguage());
+            this.setOptionLanguageString(defaultLocale.getLanguage());
+        }
+        
+    }
+
+    public String getLanguageString() {
+        return languageString;
+    }
+
+    public void setLanguageString(String languageString) {
+        this.languageString = languageString;
+    }
+
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public String getOptionLanguageString() {
+        Locale finnishLocale = new Locale("fi", "FI");
+        
+        if(this.languageString.equals(finnishLocale.getLanguage())) {
+            this.optionLanguageString = "English";
+        } else {
+            this.optionLanguageString = "Suomi";
+        }
+        
+        return optionLanguageString;
+    }
+
+    public void setOptionLanguageString(String optionLanguageString) {
+        this.optionLanguageString = optionLanguageString;
     }
 }

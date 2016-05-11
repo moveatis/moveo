@@ -87,17 +87,6 @@ public class SessionBean implements Serializable, Session  {
         
     }
     
-    @PostConstruct
-    public void init() {
-        if (FacesContext.getCurrentInstance() != null) {
-            this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-        } else {
-            LOGGER.debug("Cannot get locale: Faces context is null!");
-            LOGGER.debug("Using locale 'en'.");
-            locale = new Locale("en");
-        }
-    }
-    
     @Override
     public SessionStatus setIdentityProviderUser(IdentifiedUserEntity user) {
         userType = UserType.IDENTIFIED_USER;
@@ -201,18 +190,6 @@ public class SessionBean implements Serializable, Session  {
         return observationManagedBean.getEventEntity();
     }
 
-    public Locale getLocale() {
-        return locale;
-    }
-    
-    public void setLocale(String lang) {
-        locale = new Locale(lang);
-        // Maybe this fixes the locale-not-changing bug on the server.
-        if (FacesContext.getCurrentInstance() != null) {
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-        }
-    }
-    
     public boolean isResetObsAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));

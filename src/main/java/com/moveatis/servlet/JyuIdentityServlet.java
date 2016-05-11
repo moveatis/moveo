@@ -130,6 +130,8 @@ public class JyuIdentityServlet extends HttpServlet {
                     } else {
                         response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
                     }
+                } else {
+                    response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
                 }
             }
         } else {
