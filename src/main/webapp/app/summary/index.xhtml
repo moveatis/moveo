@@ -165,9 +165,11 @@
                                      validator="#{validationBean.validateShortString}"/>
 
                         <h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
-                        <p:message for="input-email" />
                         <p:inputText id="input-email" required="true" requiredMessage="#{msg.dlg_notEmpty}"
-                                     value="#{validationBean.email}" disabled="#{!summaryBean.mailOptionChecked}"/>
+                                     value="#{summaryBean.recipientEmail}" disabled="#{!summaryBean.mailOptionChecked}">
+                            <f:validator validatorId="emailValidator"/>
+                        </p:inputText>
+                        <p:message for="input-email"/>
 
                         <p:commandButton class="form-button" value="#{msg.dlg_save}" icon="ui-icon-check"
                                          action="#{summaryBean.saveObservation}"

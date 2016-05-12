@@ -30,22 +30,29 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.export.CSVFileBuilder;
+import com.moveatis.interfaces.Mailer;
+import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
@@ -73,6 +80,7 @@ public class SummaryManagedBean implements Serializable {
     private final long zoomMax;
     private Date max;
     private Date duration;
+    private String recipientEmail;
 
     private ObservationEntity observation;
 
@@ -92,6 +100,8 @@ public class SummaryManagedBean implements Serializable {
     private Session sessionBean;
     @Inject
     private ObservationManagedBean observationManagedBean;
+    @Inject
+    private Mailer mailerEJB;
 
     @Inject
     private ValidationManagedBean validationBean;
@@ -177,6 +187,14 @@ public class SummaryManagedBean implements Serializable {
         return zoomMax;
     }
 
+    public String getRecipientEmail() {
+        return recipientEmail;
+    }
+
+    public void setRecipientEmail(String recipientEmail) {
+        this.recipientEmail = recipientEmail;
+    }
+
     public ObservationEntity getObservation() {
         return observation;
     }
@@ -247,7 +265,21 @@ public class SummaryManagedBean implements Serializable {
     }
 
     public void mailCurrentObservation() {
-        // TODO: call mail backing bean
+        CSVFileBuilder csv = new CSVFileBuilder();
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
+        try {
+            File f = File.createTempFile("observationdata", ".csv");
+            FileOutputStream fos = new FileOutputStream(f);
+            csv.buildCSV(fos, observation, ",");
+            fos.flush();
+            String[] recipients = {recipientEmail};
+            File[] files = {f};
+            mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), 
+                bundle.getString("sum_message"), files);
+        } catch (IOException ex) {
+            LOGGER.error("Väliaikaisen tiedoston luonti epäonnistui", ex);
+        }
     }
     
     private static String convertToFilename(String s) {
