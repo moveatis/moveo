@@ -10,6 +10,13 @@ and open the template in the editor.
 
 /* Custom styles for the Timeline component. */
 
+#timeline {
+    clear: both;
+    margin-bottom: 3em;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
 #timeline .timeline-event {
     color: #AEAEAE;
     background: #F82;
@@ -68,11 +75,10 @@ and open the template in the editor.
     color: #4F4F4F;
 }
 
-#timeline {
-    clear: both;
-    margin-bottom: 3em;
+#timeline .timeline-groups-text,
+#timeline .timeline-axis {
+    font-family: Arial,sans-serif;
 }
-
 .dummyRecord {
     display: none!important;
 }

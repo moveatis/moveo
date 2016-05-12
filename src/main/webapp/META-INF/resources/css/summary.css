@@ -69,6 +69,11 @@
     font-family: Arial,sans-serif;
 }
 
+.header-row {
+    margin-bottom: -1.3em;
+    font-size: 1em;
+}
+
 #recordings-details .categoryNumber {
     padding-right: 10px;
     width: 1em;
@@ -86,16 +91,19 @@
     font-size: 2em;
 }
 
-.timeframe > div {
-    margin-top: .3em;
+.timeframe > span:first-child {
+    margin-right: .3em;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
-.align-bar {
-    margin: auto 1%;
+.ui-fluid .timeframe .ui-calendar,
+.ui-fluid .timeframe .ui-calendar input {
+    width: auto;
 }
+
 .align-bar > div {
     text-align: center;
-    margin: .3em .5em;
 }
 
 .ui-grid {
@@ -119,6 +127,10 @@
     text-align: right;
 }
 
+.summary-row > div:not(:first-child) {
+    white-space: pre;
+}
+
 .ui-grid-col-3 {
     display: inline-block;
     min-width: 10em;
@@ -135,8 +147,12 @@
     width: 100%;
     max-width: 960px;
 }
+#Footer {
+    z-index: 2;
+    position: relative;
+}
 #timelineControls.bottom {
-    bottom: 3em;
+    /*bottom: 3em;*/
 }
 #timelineControls > div {
     background: rgba(42, 29, 29, 0.2) none repeat scroll 0% 0%;
@@ -155,9 +171,7 @@
 }
 
 .percent {
-    /*    font-size: .8em;*/
-    white-space: nowrap;
-    margin-left: .2em;
+    white-space: pre;
 }
 
 .ui-growl .categoryNumber {
@@ -213,6 +227,13 @@
     .mobileCentered {
         text-align: center;
     }
+    .inline-bar .timeframe {
+        display: block;
+    }
+    .timeframe > span:first-child {
+        min-width: 5em;
+        display: inline-block;
+    }
 }
 #saveDialog .ui-selectonebutton .ui-buttonset.ui-buttonset-3 .ui-button {
     width: 33%;
@@ -237,7 +258,7 @@
         margin-bottom: .3em;
     }
     .ui-grid-row > div:not(:first-child) {
-        text-align: left;
+        text-align: right;
         margin-left: 2em;
     }
 }

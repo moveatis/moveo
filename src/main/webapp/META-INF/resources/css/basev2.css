@@ -150,6 +150,46 @@ ul.ui-menu-child {
     text-shadow: none;
 }
 
+/* Dialog style */
+.coloredDialog {
+    background: #19232A!important;
+    color: white;
+    border: none;
+}
+
+.coloredDialog .ui-dialog-titlebar {
+    background:#ff6600 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    background:#ff6600 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
+    background:#ff6600 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    color: white;
+    text-shadow: none;
+    font-weight: normal;
+}
+
+.coloredDialog .ui-widget-content:not(.ui-panelgrid-content) {
+    color: white;
+}
+
+.coloredDialog .ui-fluid .ui-button {
+    width: auto;
+}
+
+.coloredDialog form > input,
+.coloredDialog form > textarea,
+.coloredDialog form > table  {
+    margin-bottom: 0.8em;
+}
+
+.ui-dialog-content {
+    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+    max-width: 24em;
+}
+
+.ui-dialog-content .ui-state-error {
+    border-width: 2px;
+}
+
 /* Naviheader styles menu */
 .naviHeader.ui-menu, .naviHeader.ui-menu .ui-menu-child{
     background:#ff6600 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
@@ -211,45 +251,6 @@ a:visited {text-decoration: none; color: white;}
 a:active {text-decoration: none; color: white;}
 a:hover {text-decoration: none; color: white;}
 
-
-.ui-dialog-content {
-    overflow-y: auto;
-    max-height: calc(100vh - 65px);
-    max-width: 24em;
-}
-
-.ui-dialog-content > form input {
-    margin-bottom: .3em;
-}
-
-.ui-dialog-content .ui-state-error {
-    border-width: 2px;
-}
-
-.ui-dialog-content > form .form-button {
-    display: inline-block;
-    width: auto;
-    float: right;
-    margin-top: .6em;
-}
-
-.ui-dialog-content > form .remove-button {
-    margin: 0px 0px 0.3em;
-    color: black;
-    background: rgb(245, 0, 0) none repeat scroll 0% 0%;
-    border: 2px dashed rgb(51, 51, 51);
-    text-shadow: none;
-    outline: medium none;
-    margin-bottom: .3em;
-    font-size: 0.85em;
-    font-weight: normal;
-    box-shadow: none;
-}
-
-.ui-dialog-content > form .remove-button:hover {
-    color: white;
-}
-
 .ui-dialog-footer {
     background: transparent none repeat scroll 0% 0%;
     border: medium none;
@@ -279,18 +280,18 @@ a:hover {text-decoration: none; color: white;}
 @media screen and (max-width: 800px) {
 
     nav {
-        padding-top: 0.5em;
+        padding-top: 1.0em;
         width: 96%;
         margin: 1% auto 1% auto;
         border: none;
-        padding-bottom: 0.5em;
+        padding-bottom: 0em;
 
     }
 
     .welcomeContent {
         width: 96%;
         margin: 1% auto 1% auto;
-        padding: 0.5em;
+        padding: 0em;
     }
 
     .textContentArea {
@@ -322,7 +323,7 @@ a:hover {text-decoration: none; color: white;}
         /*        margin: 2.5% auto 2.5% auto;*/
         display:table;
         text-align: center;
-        padding: 1.0em;
+        padding: 0.2em;
         color: white;
     }
 

@@ -55,10 +55,8 @@ $(function () {
     var startTimePicker = $("#startTime_input");
     var endTimePicker = $("#endTime_input");
 
-    timeline.options.showCurrentTime = false; // NOTE: setting this did not work from JSF
+    timeline.options.showCurrentTime = false; // NOTE: setting this did not work from Summary Bean.
 
-    $("#total-records").text(getRecordsInTimeframe(timeline.items, timeframe).length);
-    $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
     updateRecordsTable(timeline, timeframe);
 
     // Set time select listeners and restore original dates that get reseted on event bind.
@@ -81,13 +79,6 @@ $(function () {
     startTimeWdgt.setDate(startDate);
     endTimeWdgt.setDate(endDate);
 
-    $("#button-zoom-in").click(function () {
-        timeline.zoom(0.2, TIMELINE_BEGIN);
-    });
-    $("#button-zoom-out").click(function () {
-        timeline.zoom(-0.2);
-    });
-
     links.events.addListener(timeline, "select", function () {
         showRecordDetails(timeline, growl);
     });
@@ -104,12 +95,23 @@ $(function () {
         }
     });
 
-    $(window).on('scroll resize', function () {
-        $("#timelineControls").toggleClass("bottom",
-                isBottomOfDocument($("#Footer").height()));
-    });
-    $("#timelineControls").toggleClass("bottom",
-            isBottomOfDocument($("#Footer").height()));
+    /* Disabled */
+    /*
+     $("#total-records").text(getRecordsInTimeframe(timeline.items, timeframe).length);
+     $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
+     $("#button-zoom-in").click(function () {
+     timeline.zoom(0.2, TIMELINE_BEGIN);
+     });
+     $("#button-zoom-out").click(function () {
+     timeline.zoom(-0.2);
+     });
+     $(window).on('scroll resize', function () {
+     $("#timelineControls").toggleClass("bottom",
+     isBottomOfDocument($("#Footer").height()));
+     });
+     $("#timelineControls").toggleClass("bottom",
+     isBottomOfDocument($("#Footer").height()));
+     */
 
     /* Ask confirmation before leaving unsaved observation data */
     /*
@@ -151,8 +153,8 @@ function updateRecordsTable(timeline, timeframe) {
         name: msg.sum_total,
         count: recordsTotalCount,
         duration: timeframeDuration,
-        countPercent: "",
-        durationPercent: ""
+        countPercent: "           ",
+        durationPercent: "           "
     });
     summaryRow.addClass("summary-row");
     recordsTable.append(summaryRow);
@@ -164,14 +166,13 @@ function updateRecordsTable(timeline, timeframe) {
  *  Data form: {name, count, countPercentage, duration, durationPercentage}
  * @returns {object} - jquery object containing the record row element.
  */
-function createRecordRow(record) {
+function createRecordRow(record, colcount) {
     // TODO: escape XSS; Is it required? Values are from backing bean and are
     //       already escaped and user cannot change them later.
-    // TODO: set information of category group
     var row = $('<div class="ui-grid-row">');
     var count = $('<div class="ui-grid-col-3">');
     var duration = $('<div class="ui-grid-col-3">');
-    count.append('<span>' + record.count + " " + msg.sum_countAbr + "</span>");
+    count.append('<span>' + record.count + "</span>");
     count.append('<span>' + record.countPercent + "</span>");
     duration.append('<span>' + convertMsToUnits(record.duration) + "</span>");
     duration.append('<span>' + record.durationPercent + "</span>");
@@ -353,7 +354,7 @@ function convertMsToStr(ms) {
     var m = d % 60;
     d = Math.floor(d / 60);
     var h = d % 60;
-    return [leadingZero(h), leadingZero(m), leadingZero(s)].join(':');
+    return [h, m, s].map(leadingZero).join(':');
 }
 
 /*
@@ -402,7 +403,7 @@ function convertMsToUnits(ms) {
     } else {
         return "0 s";
     }
-    return units.replace(/([h,m,s])(\d)/g, "$1 $2");
+    return units.replace(/([hms])(\d)/g, "$1 $2");
 }
 
 /*
@@ -434,7 +435,15 @@ function percentOf(a, b) {
  * @returns {string} - percent as span element string.
  */
 function spanPercentOf(a, b) {
-    return '<span class="percent"> (' + percentOf(a, b) + " %)</span>";
+    var percent = percentOf(a, b);
+    var str = " (" + percent.toString() + "%)";
+    if (percent < 10) {
+        str = "  " + str;
+    }
+    if (percent < 100) {
+        str = "  " + str;
+    }
+    return '<span class="percent">' + str + "</span>";
 }
 
 /*
@@ -476,8 +485,4 @@ function encodeHTML(str) {
  */
 function isBottomOfDocument(padding) {
     return $(window).scrollTop() >= $(document).height() - padding - $(window).height();
-}
-
-function getTimeZoneOffset() {
-    return -1 * 60 * 1000 * new Date().getTimezoneOffset();
 }
