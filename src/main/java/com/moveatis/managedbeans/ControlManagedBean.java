@@ -245,6 +245,8 @@ public class ControlManagedBean implements Serializable {
             categorySetEJB.remove(selectedCategorySet);
             selectedCategorySet = null;
             selectedCategory = null;
+            // refetch eventgroups, maybe other way to update it?
+            init();
         }
     }
 
