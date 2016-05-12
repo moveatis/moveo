@@ -30,9 +30,6 @@
 package com.moveatis.event;
 
 import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.category.CategorySetEntity;
-import com.moveatis.category.CategorySetEntity_;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
