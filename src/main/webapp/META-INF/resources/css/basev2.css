@@ -279,18 +279,18 @@ a:hover {text-decoration: none; color: white;}
 @media screen and (max-width: 800px) {
 
     nav {
-        padding-top: 0.5em;
+        padding-top: 1.0em;
         width: 96%;
         margin: 1% auto 1% auto;
         border: none;
-        padding-bottom: 0.5em;
+        padding-bottom: 0em;
 
     }
 
     .welcomeContent {
         width: 96%;
         margin: 1% auto 1% auto;
-        padding: 0.5em;
+        padding: 0em;
     }
 
     .textContentArea {
@@ -322,7 +322,7 @@ a:hover {text-decoration: none; color: white;}
         /*        margin: 2.5% auto 2.5% auto;*/
         display:table;
         text-align: center;
-        padding: 1.0em;
+        padding: 0.2em;
         color: white;
     }
 
