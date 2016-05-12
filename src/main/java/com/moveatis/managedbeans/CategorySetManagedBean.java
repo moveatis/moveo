@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -125,6 +126,10 @@ public class CategorySetManagedBean implements Serializable {
     public void createNewCategorySet(EventGroupEntity eventGroupEntity,
             CategorySetEntity categorySetEntity, List<CategoryEntity> categories) {
 
+        if (categorySetEntity.getId() == null) {
+            categorySetEJB.create(categorySetEntity);
+        }
+
         Map<Integer, CategoryEntity> categoriesOrdered = categorySetEntity.getCategoryEntitys();
         if(categoriesOrdered == null) {
             categoriesOrdered = new TreeMap<>();
@@ -142,7 +147,14 @@ public class CategorySetManagedBean implements Serializable {
             }
 
             categoryEntity.setLabel(labelEntity);
+            List<CategoryEntity> labelCategories = labelEntity.getCategoryEntities();
             
+            if (labelCategories == null) {
+                labelCategories = new LinkedList<>();
+            }
+            labelCategories.add(categoryEntity);
+            labelEntity.setCategoryEntities(labelCategories);
+
             List<CategoryEntity> labelCategoryList = labelEntity.getCategoryEntities();
             if(labelCategoryList == null) {
                 labelCategoryList = new ArrayList<>();
@@ -177,11 +189,7 @@ public class CategorySetManagedBean implements Serializable {
 
         categorySets.add(categorySetEntity);
         eventGroupEntity.setCategorySets(categorySets);
-        
-        if (categorySetEntity.getId() == null) {
-            categorySetEJB.create(categorySetEntity);
-        } else {
-            categorySetEJB.edit(categorySetEntity);
-        }
+
+        categorySetEJB.edit(categorySetEntity);
     }
 }
