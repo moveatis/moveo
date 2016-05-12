@@ -271,7 +271,7 @@
 
                         <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
                                      selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
-                                     editable="true" editMode="row" reflow="true" draggableRows="true" styleClass="categories-table"
+                                     editable="true" editMode="row" reflow="true" draggableRows="false" styleClass="categories-table"
                                      sortBy="#{category.orderNumber}" emptyMessage="Ei kategorioita.">
 
                             <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>
