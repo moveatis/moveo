@@ -157,7 +157,7 @@ public class EventGroupManagedBean {
             
             eventGroupEJB.edit(eventGroup);
             
-            controlManagedBean.init();
+            controlManagedBean.fetchEventGroups();
         }
     }
 
@@ -173,7 +173,7 @@ public class EventGroupManagedBean {
             tagUserEntity.setGroupKey(groupKeyEntity);
             
             groupKeyEJB.edit(groupKeyEntity);
-            controlManagedBean.init();
+            controlManagedBean.fetchEventGroups();
         }
     }
 
@@ -182,7 +182,7 @@ public class EventGroupManagedBean {
         eventGroup.setGroupKey(null);
         eventGroupEJB.edit(eventGroup);
         groupKeyEJB.removePermanently(groupKey);
-        controlManagedBean.init();
+        controlManagedBean.fetchEventGroups();
     }
 
     public void createNewEventGroup() {

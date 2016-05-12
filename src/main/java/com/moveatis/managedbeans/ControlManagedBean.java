@@ -70,8 +70,7 @@ public class ControlManagedBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
-
+    //private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
     private List<EventGroupEntity> eventGroups;
     private List<CategoryEntity> categories;
     private List<ObservationEntity> observations;
@@ -112,6 +111,10 @@ public class ControlManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        fetchEventGroups();
+    }
+
+    protected void fetchEventGroups() {
         user = sessionBean.getLoggedIdentifiedUser();
         eventGroups = eventGroupEJB.findAllForOwner(user);
     }
@@ -145,14 +148,14 @@ public class ControlManagedBean implements Serializable {
         LabelEntity label = new LabelEntity();
         category.setOrderNumber(categories.size());
         category.setLabel(label);
-        
+
         List<CategoryEntity> labelCategoryEntities = label.getCategoryEntities();
-        if(labelCategoryEntities == null) {
+        if (labelCategoryEntities == null) {
             labelCategoryEntities = new ArrayList<>();
         }
         labelCategoryEntities.add(category);
         label.setCategoryEntities(labelCategoryEntities);
-        
+
         category.setCategoryType(CategoryType.TIMED);
         categories.add(category);
         selectedCategory = category;
@@ -245,6 +248,8 @@ public class ControlManagedBean implements Serializable {
             categorySetEJB.remove(selectedCategorySet);
             selectedCategorySet = null;
             selectedCategory = null;
+            // refetch eventgroups, maybe other way to update it?
+            fetchEventGroups();
         }
     }
 
@@ -271,7 +276,7 @@ public class ControlManagedBean implements Serializable {
         if (selectedObservation != null) {
             observationEJB.remove(selectedObservation);
             selectedObservation = null;
-            this.init();
+            fetchEventGroups();
         }
     }
 
@@ -296,7 +301,7 @@ public class ControlManagedBean implements Serializable {
     public void saveCategorySet() {
         if (selectedEventGroup != null && selectedCategorySet != null) {
             categorySetBean.createNewCategorySet(selectedEventGroup, selectedCategorySet, categories);
-            this.init();
+            fetchEventGroups();
         }
     }
 

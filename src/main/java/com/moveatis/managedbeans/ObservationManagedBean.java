@@ -37,7 +37,9 @@ import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -175,6 +177,7 @@ public class ObservationManagedBean implements Serializable {
     
     public void saveObservationToDatabase() {
         observationEntity.setUserWantsToSaveToDatabase(true);
+        observationEntity.setObservationCategorySets(new HashSet<>(getCategorySetsInUse()));
         observationEJB.edit(observationEntity);
     }
 }

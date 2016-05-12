@@ -105,7 +105,7 @@
 
                 <p:dialog header="Observoinnin tiedot" widgetVar="dlgObservation"
                           position="top" resizable="false" responsive="true"
-                          modal="true" fitViewport="true" styleClass="coloredButton observation-dialog">
+                          modal="true" fitViewport="true" styleClass="coloredDialog observation-dialog">
                     <h:form id="observationDetail">
                         <p:panelGrid layout="grid" columns="2" rendered="#{not empty controlBean.selectedObservation}" columnClasses="label,value">
 
@@ -126,6 +126,7 @@
                                 <p:message for="input-description-observation" />
                                 <p:inplace id="input-description-observation" emptyLabel="Lisää kuvaus" editor="true"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+                                    <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
                                     <p:inputTextarea value="#{controlBean.selectedObservation.description}"
                                                      validator="#{validationBean.validateLongString}"
                                                      rows="2" cols="16" autoResize="true" />
@@ -140,6 +141,7 @@
                                 <p:message for="input-target-observation" />
                                 <p:inplace id="input-target-observation" emptyLabel="Lisää kohde" editor="true"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+                                    <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
                                     <p:inputText value="#{controlBean.selectedObservation.target}"
                                                  validator="#{validationBean.validateShortString}"/>
                                 </p:inplace>
@@ -215,7 +217,7 @@
 
                 <p:dialog header="Aseta kurssiavain" widgetVar="dlgNewKey"
                           position="top" resizable="false" responsive="true"
-                          modal="true" fitViewport="true" styleClass="coloredButton key-dialog ui-fluid">
+                          modal="true" fitViewport="true" styleClass="coloredDialog key-dialog ui-fluid">
                     <h:form id="newKeyForm">
                         <p:inputText id="input-new-groupkey" autocomplete="off"
                                      required="true" requiredMessage="#{msg.dlg_notEmpty}"
@@ -231,7 +233,7 @@
 
                 <p:dialog header="Vaihda kurssiavain" widgetVar="dlgEditKey"
                           position="top" resizable="false" responsive="true"
-                          modal="true" fitViewport="true" styleClass="coloredButton key-dialog ui-fluid">
+                          modal="true" fitViewport="true" styleClass="coloredDialog key-dialog ui-fluid">
                     <h:form id="editKeyForm">
                         <p:inputText id="input-edit-groupkey" autocomplete="off"
                                      required="true" requiredMessage="#{msg.dlg_notEmpty}"
@@ -252,7 +254,7 @@
 
                 <p:dialog header="Kategoriaryhmä" widgetVar="dlgCategorySet"
                           position="top" resizable="false" responsive="true"
-                          modal="true" fitViewport="true" class="coloredButton">
+                          modal="true" fitViewport="true" class="coloredDialog">
                     <h:form id="categorySetForm">
                         <div class="ui-fluid">
                             <p:message for="input-name-categoryset" />
@@ -271,7 +273,7 @@
 
                         <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
                                      selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
-                                     editable="true" editMode="row" reflow="true" draggableRows="true" styleClass="categories-table"
+                                     editable="true" editMode="row" reflow="true" draggableRows="false" styleClass="categories-table"
                                      sortBy="#{category.orderNumber}" emptyMessage="Ei kategorioita.">
 
                             <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>

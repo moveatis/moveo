@@ -211,9 +211,19 @@ a.new-key {
     table-layout: auto;
 }
 
-#mainPage .ui-widget:not(.fa) {
+#newEventGroupPanel {
+    display: inline-block;
+    margin-top: 1em;
+}
+
+#commandButtons {
+    margin-top: 1em;
+}
+
+#commandButtons > button:not(:last-of-type) {
     font-size: 100%;
 }
+
 .categories-table .ui-cell-editor-input > input {
     display: inline-block;
     max-width: 90%;
