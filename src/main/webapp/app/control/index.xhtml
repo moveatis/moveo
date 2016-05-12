@@ -126,6 +126,7 @@
                                 <p:message for="input-description-observation" />
                                 <p:inplace id="input-description-observation" emptyLabel="Lisää kuvaus" editor="true"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+                                    <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
                                     <p:inputTextarea value="#{controlBean.selectedObservation.description}"
                                                      validator="#{validationBean.validateLongString}"
                                                      rows="2" cols="16" autoResize="true" />
@@ -140,6 +141,7 @@
                                 <p:message for="input-target-observation" />
                                 <p:inplace id="input-target-observation" emptyLabel="Lisää kohde" editor="true"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+                                    <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
                                     <p:inputText value="#{controlBean.selectedObservation.target}"
                                                  validator="#{validationBean.validateShortString}"/>
                                 </p:inplace>
