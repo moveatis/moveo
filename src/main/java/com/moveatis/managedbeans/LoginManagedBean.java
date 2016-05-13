@@ -109,6 +109,7 @@ public class LoginManagedBean {
         } else {
             sessionBean.setTagUser(tagUserEntity);
             this.loginOutcome = "tagUser";
+            return "taguser";
         }
         
         return "";

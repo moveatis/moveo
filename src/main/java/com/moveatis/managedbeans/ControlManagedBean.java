@@ -56,8 +56,6 @@ import javax.inject.Named;
 import javax.inject.Inject;
 import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -146,6 +144,7 @@ public class ControlManagedBean implements Serializable {
     public void addNewCategory() {
         CategoryEntity category = new CategoryEntity();
         LabelEntity label = new LabelEntity();
+        label.setText(messages.getString("con_newCategoryLabel"));
         category.setOrderNumber(categories.size());
         category.setLabel(label);
 

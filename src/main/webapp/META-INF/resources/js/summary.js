@@ -69,10 +69,24 @@ $(function () {
             startTimeWdgt.setDate(endDate);
         }
     });
+    startTimePicker.keyup(function () {
+        var error = updateTimelineTimeframe(timeline, startTimePicker.val(), endTimePicker.val());
+        $(this).toggleClass("ui-state-error", error);
+        if (error && convertStrToMs(startTimePicker.val()) > OBSERVATION_DURATION) {
+            startTimeWdgt.setDate(endDate);
+        }
+    });
     endTimePicker.timepicker("option", "onSelect", function (endTime) {
         var error = updateTimelineTimeframe(timeline, startTimePicker.val(), endTime);
         endTimePicker.toggleClass("ui-state-error", error);
         if (error && convertStrToMs(endTime) > OBSERVATION_DURATION) {
+            endTimeWdgt.setDate(endDate);
+        }
+    });
+    endTimePicker.keyup(function () {
+        var error = updateTimelineTimeframe(timeline, startTimePicker.val(), endTimePicker.val());
+        $(this).toggleClass("ui-state-error", error);
+        if (error && convertStrToMs(endTimePicker.val()) > OBSERVATION_DURATION) {
             endTimeWdgt.setDate(endDate);
         }
     });
