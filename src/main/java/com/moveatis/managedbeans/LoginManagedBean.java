@@ -111,7 +111,7 @@ public class LoginManagedBean {
             this.loginOutcome = "tagUser";
         }
         
-        return "";
+        return "taguser";
     }
     
     public String doAnonymityLogin() {
