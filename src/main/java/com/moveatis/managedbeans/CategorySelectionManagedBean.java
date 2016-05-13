@@ -52,14 +52,13 @@ import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.faces.view.ViewScoped;
 
 /**
- *
+ * Bean that serves category selection view.
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
@@ -73,11 +72,9 @@ public class CategorySelectionManagedBean implements Serializable {
     private String newCategorySetName;
     
     private Long selectedDefaultCategorySet;
-    private Long selectedPublicCategorySet;
     private Long selectedPrivateCategorySet;
     
     private ObservationCategorySetList defaultCategorySets; // From group key or event that was selected in control page.
-    private ObservationCategorySetList publicCategorySets;
     private ObservationCategorySetList privateCategorySets;
     private ObservationCategorySetList categorySetsInUse;
     
@@ -85,13 +82,12 @@ public class CategorySelectionManagedBean implements Serializable {
     
     @Inject
     private Session sessionBean;
-    
     @Inject
     private EventGroup eventGroupEJB;
-    
     @Inject
     private ObservationManagedBean observationManagedBean;
 
+    // TODO: Messages aren't updated to match language selection. Get ResourceBundle some other way?
     @Inject @MessageBundle //created MessageBundle to allow resourcebundle injection to CDI beans
     private transient ResourceBundle messages;  //RequestBundle is not serializable 
     
@@ -103,6 +99,9 @@ public class CategorySelectionManagedBean implements Serializable {
     public CategorySelectionManagedBean() {
     }
     
+    /**
+     * Adds all category sets from given event group to given observation category set list.
+     */
     private void addAllCategorySetsFromEventGroup(ObservationCategorySetList addTo, EventGroupEntity eventGroup) {
         
         Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
@@ -121,128 +120,134 @@ public class CategorySelectionManagedBean implements Serializable {
         }
     }
     
-    private ObservationCategorySetList getAllCategorySetsFromEventGroup(EventGroupEntity eventGroup) {
-        ObservationCategorySetList categorySets = new ObservationCategorySetList();
-        addAllCategorySetsFromEventGroup(categorySets, eventGroup);
-        if (categorySets.getCategorySets().isEmpty())
-            return null;
-        return categorySets;
-    }
-    
-    private ObservationCategorySetList getAllCategorySetsFromEventGroups(List<EventGroupEntity> eventGroups) {
-        ObservationCategorySetList categorySets = new ObservationCategorySetList();
+    /**
+     * Adds all category sets from all the given event groups and puts them in a category set list.
+     */
+    private void addAllCategorySetsFromEventGroups(ObservationCategorySetList categorySets, List<EventGroupEntity> eventGroups) {
         for (EventGroupEntity eventGroup_ : eventGroups) {
             addAllCategorySetsFromEventGroup(categorySets, eventGroup_);
         }
-        if (categorySets.getCategorySets().isEmpty())
-            return null;
-        return categorySets;
     }
     
+    /**
+     * Initializes properly all members needed for category selection.
+     */
     @PostConstruct
     public void init() {
         eventGroup = null;
-        
-        publicCategorySets = getAllCategorySetsFromEventGroups(eventGroupEJB.findAllForPublicUser());
+        defaultCategorySets = new ObservationCategorySetList();
+        privateCategorySets = new ObservationCategorySetList();
+        categorySetsInUse = new ObservationCategorySetList();
         
         if (sessionBean.isTagUser()) {
             GroupKeyEntity groupKey = sessionBean.getGroupKey();
             eventGroup = groupKey.getEventGroup();
-            defaultCategorySets = getAllCategorySetsFromEventGroup(eventGroup);
+            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
         } else if (sessionBean.getIsEventEntityForObservationSet()) {
             EventEntity event = sessionBean.getEventEntityForNewObservation();
             eventGroup = event.getEventGroup();
-            defaultCategorySets = getAllCategorySetsFromEventGroup(eventGroup);
+            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
         }
 
         if (sessionBean.isIdentifiedUser()) {
             IdentifiedUserEntity user = sessionBean.getLoggedIdentifiedUser();
-            privateCategorySets = getAllCategorySetsFromEventGroups(eventGroupEJB.findAllForOwner(user));
+            addAllCategorySetsFromEventGroups(privateCategorySets, eventGroupEJB.findAllForOwner(user));
         }
-        
-        categorySetsInUse = new ObservationCategorySetList();
         
         List<ObservationCategorySet> categorySets = sessionBean.getCategorySetsInUse();
         if (categorySets != null) {
             categorySetsInUse.setCategorySets(categorySets);
-        } else if (defaultCategorySets != null) {
+        } else {
             for(ObservationCategorySet categorySet : defaultCategorySets.getCategorySets()) {
                 categorySetsInUse.addClone(categorySet);
             }
         }
     }
     
+    /**
+     * Getter for new category set name.
+     * @return New category set name.
+     */
     public String getNewCategorySetName() {
         return newCategorySetName;
     }
     
+    /**
+     * Setter for new category set name.
+     * @param newCategorySetName New name.
+     */
     public void setNewCategorySetName(String newCategorySetName) {
         this.newCategorySetName = newCategorySetName;
     }
     
+    /**
+     * Getter for selected default category set.
+     * @return Selected default category set's id.
+     */
     public Long getSelectedDefaultCategorySet() {
         return selectedDefaultCategorySet;
     }
     
+    /**
+     * Setter for selected default category set.
+     * @param selectedDefaultCategorySet Category set's id.
+     */
     public void setSelectedDefaultCategorySet(Long selectedDefaultCategorySet) {
         this.selectedDefaultCategorySet = selectedDefaultCategorySet;
     }
     
-    public Long getSelectedPublicCategorySet() {
-        return selectedPublicCategorySet;
-    }
-    
-    public void setSelectedPublicCategorySet(Long selectedPublicCategorySet) {
-        this.selectedPublicCategorySet = selectedPublicCategorySet;
-    }
-    
+    /**
+     * Getter for selected private category set.
+     * @return Selected private category set's id.
+     */
     public Long getSelectedPrivateCategorySet() {
         return selectedPrivateCategorySet;
     }
     
+    
+    /**
+     * Setter for selected private category set.
+     * @param selectedPrivateCategorySet Category set's id.
+     */
     public void setSelectedPrivateCategorySet(Long selectedPrivateCategorySet) {
         this.selectedPrivateCategorySet = selectedPrivateCategorySet;
     }
     
+    /**
+     * Getter for default category sets.
+     * @return List of default category sets.
+     */
     public List<ObservationCategorySet> getDefaultCategorySets() {
         return defaultCategorySets.getCategorySets();
     }
     
-    public List<ObservationCategorySet> getPublicCategorySets() {
-        return publicCategorySets.getCategorySets();
-    }
-    
+    /**
+     * Getter for private category sets.
+     * @return List of private category sets.
+     */
     public List<ObservationCategorySet> getPrivateCategorySets() {
         return privateCategorySets.getCategorySets();
     }
     
+    /**
+     * Getter for category sets in use.
+     * @return List of category sets in use.
+     */
     public List<ObservationCategorySet> getCategorySetsInUse() {
         return categorySetsInUse.getCategorySets();
     }
     
-    public boolean isEventGroupNotNull() {
-        return (eventGroup != null);
+    /**
+     * Getter for event group.
+     * @return Event group.
+     */
+    public EventGroupEntity getEventGroup() {
+        return eventGroup;
     }
     
-    public String getEventGroupName() {
-        if (isEventGroupNotNull())
-            return eventGroup.getLabel();
-        LOGGER.debug("Cannot get event group name: event group is null! (This should never happen!)");
-        return "";
-    }
-    
-    public boolean isDefaultCategorySetsNotNull() {
-        return (defaultCategorySets != null);
-    }
-    
-    public boolean isPublicCategorySetsNotNull() {
-        return (publicCategorySets != null);
-    }
-    
-    public boolean isPrivateCategorySetsNotNull() {
-        return (privateCategorySets != null);
-    }
-    
+    /**
+     * Adds new category set for observation if newCategorySetName isn't empty.
+     */
     public void addNewCategorySet() {
         String name = Validation.validateForJsAndHtml(newCategorySetName);
         if (!name.isEmpty()) {
@@ -252,6 +257,9 @@ public class CategorySelectionManagedBean implements Serializable {
         }
     }
     
+    /**
+     * Adds selected default category set for observation.
+     */
     public void addDefaultCategorySet() {
         if (categorySetsInUse.find(selectedDefaultCategorySet) == null) {
             ObservationCategorySet categorySet = defaultCategorySets.find(selectedDefaultCategorySet);
@@ -260,14 +268,9 @@ public class CategorySelectionManagedBean implements Serializable {
         }
     }
     
-    public void addPublicCategorySet() {
-        if (categorySetsInUse.find(selectedPublicCategorySet) == null) {
-            ObservationCategorySet categorySet = publicCategorySets.find(selectedPublicCategorySet);
-            if (categorySet != null) categorySetsInUse.addClone(categorySet);
-            else LOGGER.debug("Selected public category set not found!");
-        }
-    }
-    
+    /**
+     * Adds selected private category set for observation.
+     */
     public void addPrivateCategorySet() {
         if (categorySetsInUse.find(selectedPrivateCategorySet) == null) {
             ObservationCategorySet categorySet = privateCategorySets.find(selectedPrivateCategorySet);
@@ -276,15 +279,40 @@ public class CategorySelectionManagedBean implements Serializable {
         }
     }
     
+    /**
+     * Removes given category set from observation.
+     * @param categorySet Category set to remove from observation.
+     */
     public void removeCategorySet(ObservationCategorySet categorySet) {
         categorySetsInUse.remove(categorySet);
     }
     
+    public boolean isAtLeastOneCategorySelected() {
+        for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
+            if (!categorySet.getCategories().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Shows given error message in primefaces message popup.
+     * @param message Error message to show.
+     */
     private void showErrorMessage(String message) {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
     }
     
+    /**
+     * Checks that categories in use are ok.
+     * Categories in same category set should have different names.
+     * Categories shouldn't have empty names.
+     * At least one category should be selected for observation.
+     * Shows an error message if categories aren't ok.
+     * @return "categoriesok" if categories were ok, otherwise "".
+     */
     public String checkCategories() {
         boolean atLeastOneCategorySelected = false;
         
@@ -319,7 +347,12 @@ public class CategorySelectionManagedBean implements Serializable {
         return "categoriesok";
     }
     
-    private static <T> boolean hasDuplicate(List<ObservationCategory> categories) {
+    /**
+     * Checks if given categories contain duplicate names.
+     * @param categories List of categories to check.
+     * @return True if categories contain duplicates, otherwise false.
+     */
+    private static boolean hasDuplicate(List<ObservationCategory> categories) {
         Set<String> set = new HashSet<>();
         for (ObservationCategory category : categories) {
             String name = category.getName();
@@ -329,16 +362,4 @@ public class CategorySelectionManagedBean implements Serializable {
         }
         return false;
     }
-    
-    // TODO: Doesn't work as intended.
-//    private static <T> boolean hasDuplicate(List<T> all) {
-//        Set<T> set = new HashSet<>();
-//        for(T each : all) {
-//            if(!set.add(each)) {
-//                return true;
-//            }
-//        }
-//        
-//        return false;
-//    }
 }
