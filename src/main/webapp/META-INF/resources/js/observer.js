@@ -238,7 +238,7 @@ function Observer(category_sets) {
     function initialize(this_) {
         $("#continue").hide();
         $("#pause").hide();
-        $("#stop").addClass("disabled");
+        $("#stop").hide();
         $("#total-time").append(document.createTextNode(timeToString(0)));
         
         var category_list = $("#category-list");
@@ -307,7 +307,8 @@ function Observer(category_sets) {
                 start_button.off("click");
                 start_button.hide();
                 $("#pause").show();
-                $("#stop").removeClass("disabled");
+                $("#stop-disabled").hide();
+                $("#stop").show();
                 $(".category-item").removeClass("disabled");
             },
             error: function(xhr, status, error) {
@@ -463,6 +464,9 @@ function showError(error_msg) {
 }
 
 
+var stopObservation = function () {}
+
+
 /*
  * This function is ran when the document is ready.
  * Creates observer, binds event handlers, and sets two intervals:
@@ -482,7 +486,7 @@ $(document).ready(function() {
     });
     $("#continue").click(function() { observer.continueClick(); });
     $("#pause").click(function() { observer.pauseClick(); });
-    $("#stop").click(function() { observer.stopClick(); });
+    stopObservation = function() { observer.stopClick(); };
 
     setInterval(function() { observer.tick(); }, 200);
     setInterval(keepAlive, 5*60000); // Send keep-alive every 5 minutes.

@@ -29,6 +29,12 @@
                         
                     <h:form id="form">
                         <p:growl id="growl" showDetail="true"/>
+                        
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="#{msg.dialogConfirmYes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{msg.dialogConfirmNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                        
                     
                         <h:outputText value="#{msg.cs_helpText}" rendered="#{empty categorySelectionBean.categorySetsInUse}"/>
                         
@@ -36,7 +42,9 @@
                         <h:panelGroup id="category-set" styleClass="category-set category-set-#{status.index}">
                             
                             <p:commandLink styleClass="fa fa-remove category-set-remove-button"
-                                           action="#{categorySelectionBean.removeCategorySet(categorySet)}" update="@form"/>
+                                           action="#{categorySelectionBean.removeCategorySet(categorySet)}" update="@form">
+                                <p:confirm header="#{msg.dialogConfirmTitle}" message="#{msg.cs_confirmRemoveCategorySet}" icon="ui-icon-alert"/>
+                            </p:commandLink>
                             
                             <h2>#{categorySet.name}</h2>
                             

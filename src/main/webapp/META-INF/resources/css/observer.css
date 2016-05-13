@@ -70,7 +70,7 @@ body {
     white-space: nowrap;
 }
 
-#start, #continue, #pause, #stop {
+.control-button {
     display: inline-block;
     width: 5em;
     margin: 0 0.2em;
@@ -78,11 +78,6 @@ body {
     background-color: #567;
     background: linear-gradient(0deg, #345, #567);
     cursor: pointer;
-}
-
-#start.disabled, #continue.disabled, #pause.disabled, #stop.disabled, .category-item.disabled {
-    color: #345;
-    cursor: default;
 }
 
 .no-text-select {
@@ -96,7 +91,6 @@ body {
     user-select: none;           /* non-prefixed version, currently
                                     not supported by any browser */
 }
-
 
 #category-list {
     max-width: 100%;
@@ -151,6 +145,11 @@ body {
     background-color: #345;
 }
 
+.disabled {
+    color: #345;
+    cursor: default;
+}
+
 .category-item.disabled > .category-value {
     color: #567;
 }
@@ -171,7 +170,7 @@ body {
     height: calc((100vh - 70px) * 0.15);
 }
 
-#start, #continue, #pause, #stop {
+.control-button {
     border-radius: 1vh;
     font-size: 6vh;
 }
@@ -209,7 +208,7 @@ body {
         height: calc((480px - 70px) * 0.15);
     }
 
-    #start, #continue, #pause, #stop {
+    .control-button {
         border-radius: calc(480px * 0.01);
         font-size: calc(480px * 0.06);
     }
@@ -249,7 +248,7 @@ body {
         height: calc((240px - 70px) * 0.15);
     }
 
-    #start, #continue, #pause, #stop {
+    .control-button {
         border-radius: calc(240px * 0.01);
         font-size: calc(240px * 0.06);
     }
