@@ -31,6 +31,7 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.interfaces.Mailer;
+import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
 import com.moveatis.observation.ObservationCategory;
@@ -47,6 +48,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -86,6 +88,8 @@ public class SummaryManagedBean implements Serializable {
     private static final String SAVE_OPTION = "save";
     private static final String DOWNLOAD_OPTION = "download";
 
+    private boolean observationSaved = false;
+
     @Inject
     private Observation observationEJB;
 
@@ -98,6 +102,10 @@ public class SummaryManagedBean implements Serializable {
 
     @Inject
     private ValidationManagedBean validationBean;
+
+    @Inject
+    @MessageBundle
+    private transient ResourceBundle messages;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
@@ -166,8 +174,17 @@ public class SummaryManagedBean implements Serializable {
         }
     }
 
+    public void showObservationSavedMessage() {
+        if (observationSaved) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("sum_observationSaved"), ""));
+            observationSaved = false;
+        }
+    }
+
     public void saveCurrentObservation() {
         observationManagedBean.saveObservationToDatabase();
+        observationSaved = true;
     }
 
     public void mailCurrentObservation() {
@@ -186,6 +203,7 @@ public class SummaryManagedBean implements Serializable {
         } catch (IOException ex) {
             LOGGER.error("Väliaikaisen tiedoston luonti epäonnistui", ex);
         }
+        observationSaved = true;
     }
 
     private static String convertToFilename(String s) {
@@ -212,6 +230,8 @@ public class SummaryManagedBean implements Serializable {
         outputStream.flush();
 
         facesCtx.responseComplete();
+
+        observationSaved = true;
     }
 
     public void doSelectedSaveOperation() {
@@ -318,5 +338,13 @@ public class SummaryManagedBean implements Serializable {
 
     public boolean getMailOptionChecked() {
         return selectedSaveOptions.contains(MAIL_OPTION);
+    }
+
+    public boolean isObservationSaved() {
+        return observationSaved;
+    }
+
+    public void setObservationSaved(boolean observationSaved) {
+        this.observationSaved = observationSaved;
     }
 }
