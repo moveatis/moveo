@@ -23,13 +23,11 @@
                     
                     <p:submenu icon="fa fa-cogs">
                         <p:menuitem value="#{msg.head_info}" icon="fa fa-info" url="/info/index.xhtml"/>
+                        <p:menuitem value="#{userManagedBean.optionLanguageString}" icon="fa fa-flag-o"
+                                    actionListener="#{userManagedBean.changeLocale}" ajax="false" />
                         <p:menuitem value="#{msg.head_resetObs}" rendered="#{sessionBean.isResetObsAvailable()}" icon="fa fa-eraser" url="/app/observer/index.xhtml" />
                         <p:menuitem value="#{msg.head_backToCatEd}" rendered="#{sessionBean.isBackToCatEdAvailable()}" icon="fa fa-edit" url="/app/categoryselection/index.xhtml"/>
                         <p:menuitem value="#{msg.head_toFrontPage}" rendered="#{sessionBean.isToFrontPageAvailable()}" icon="fa fa-rotate-left" url="/index.xhtml"/>
-                    </p:submenu>
-                    <p:submenu label="#{userManagedBean.languageString}">
-                        <p:menuitem value="#{userManagedBean.optionLanguageString}" 
-                                    actionListener="#{userManagedBean.changeLocale}" ajax="false" />
                     </p:submenu>
                 </p:menubar>
             </h:form>
