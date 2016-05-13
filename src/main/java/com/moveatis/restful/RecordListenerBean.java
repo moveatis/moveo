@@ -37,6 +37,7 @@ import com.moveatis.interfaces.Record;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import com.moveatis.managedbeans.ObservationManagedBean;
+import com.moveatis.managedbeans.UserManagedBean;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
@@ -91,6 +92,8 @@ public class RecordListenerBean implements Serializable {
     private Session sessionBean;
     @Inject
     private ObservationManagedBean observationManagedBean;
+    @Inject
+    private UserManagedBean userManagedBean;
     
     private ResourceBundle messages;
     
@@ -140,7 +143,7 @@ public class RecordListenerBean implements Serializable {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String addObservationData(String data) {
-        Locale locale = httpRequest.getLocale();
+        Locale locale = userManagedBean.getLocale();
         messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
         StringReader stringReader = new StringReader(data);
         
