@@ -234,11 +234,10 @@ public class ControlManagedBean implements Serializable {
         return "newobservation";
     }
 
-    public void removeEventGroup() {
-        if (selectedEventGroup != null) {
-            eventGroupEJB.remove(selectedEventGroup);
-            eventGroups.remove(selectedEventGroup);
-            selectedEventGroup = null;
+    public void removeEventGroup(EventGroupEntity eventGroup) {
+        if (eventGroup != null) {
+            eventGroupEJB.remove(eventGroup);
+            eventGroups.remove(eventGroup);
         }
     }
 

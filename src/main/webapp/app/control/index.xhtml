@@ -62,7 +62,7 @@
                                 <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"
                                                action="#{controlBean.setSelectedCategorySet(categorySet)}"
                                                onclick="PF('dlgCategorySet').show()"
-                                               update=":categorySetForm"/>
+                                               update=":categorySetForm :eventGroupsForm:eventGroupsTable"/>
                             </p:dataList>
                         </p:column>
 
@@ -71,18 +71,26 @@
                                            action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                            rendered="#{!controlBean.hasGroupKey(eventGroup)}"
                                            onclick="PF('dlgNewKey').show();"
-                                           update=":newKeyForm"/>
+                                           update=":newKeyForm :eventGroupsForm:eventGroupsTable"/>
                             <p:commandLink class="fa fa-key edit-key"
                                            action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                            rendered="#{controlBean.hasGroupKey(eventGroup)}"
                                            onclick="PF('dlgEditKey').show();"
-                                           update=":editKeyForm"/>
+                                           update=":editKeyForm :eventGroupsForm:eventGroupsTable"/>
                         </p:column>
 
                         <p:column styleClass="row-editor">
                             <p:rowEditor styleClass="fa"/>
                         </p:column>
 
+                        <p:column styleClass="column-remove">
+                            <p:commandLink styleClass="fa fa-trash"
+                                           action="#{controlBean.removeEventGroup(eventGroup)}"
+                                           update=":eventGroupsForm:eventGroupsTable">
+                                <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                           message="#{msg.dlg_confirmRemoveMessage} #{eventGroup.label}. #{msg.dlg_confirmMessage}" />
+                            </p:commandLink>
+                        </p:column>
 
                         <p:column styleClass="row-toggler-mobile">
                             <p:rowToggler expandLabel="Näytä observoinnit" collapseLabel="Piilota observoinnit"/>
@@ -195,13 +203,6 @@
                                      action="#{controlBean.addNewCategorySet}"
                                      onclick="PF('dlgCategorySet').show()"
                                      update=":categorySetForm"/>
-                    <p:commandButton value="Poista tapahtuma" icon="fa fa-trash"
-                                     action="#{controlBean.removeEventGroup}"
-                                     disabled="#{empty controlBean.selectedEventGroup}"
-                                     update=":eventGroupsForm:eventGroupsTable">
-                        <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-                                   message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedEventGroup.label}. #{msg.dlg_confirmMessage}" />
-                    </p:commandButton>
                     <br/>
                     <br/>
                     <p:commandButton value="Aloita tapahtuman observointi" icon="fa fa-caret-square-o-right"
@@ -257,16 +258,16 @@
                           modal="true" fitViewport="true" class="coloredDialog">
                     <h:form id="categorySetForm">
                         <div class="ui-fluid">
+                            <h:outputLabel for="input-name-categoryset" value="#{msg.con_categorySetName}" />
                             <p:message for="input-name-categoryset" />
                             <p:inputText id="input-name-categoryset" required="true" requiredMessage="#{msg.dlg_notEmpty}"
-                                         placeholder="#{msg.con_categorySetName}"
                                          value="#{controlBean.selectedCategorySet.label}"
                                          validator="#{validationBean.validateShortString}"/>
 
+                            <h:outputLabel for="input-description-categoryset" value="#{msg.con_categorySetDescription}" />
                             <p:message for="input-description-categoryset" />
                             <p:inputTextarea id="input-description-categoryset"
                                              value="#{controlBean.selectedCategorySet.description}"
-                                             placeholder="#{msg.con_categorySetDescription}"
                                              validator="#{validationBean.validateLongString}"
                                              rows="2" cols="16" autoResize="true" />
                         </div>
