@@ -327,6 +327,9 @@ public class CategorySelectionManagedBean implements Serializable {
             
             if (!categories.isEmpty()) {
                 atLeastOneCategorySelected = true;
+            } else {
+                showErrorMessage(messages.getString("cs_warningEmptyCategorySets"));
+                return ""; // TODO: Show confirmation or something and let user continue.
             }
             
             for (ObservationCategory category : categories) {
