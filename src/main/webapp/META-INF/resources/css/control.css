@@ -43,6 +43,7 @@ a.new-key {
 .row-editor,
 .row-toggler,
 .fa-check-square-o,
+.ui-widget.fa-trash,
 .fa-close  {
     font-size: 1.6em;
 }
@@ -52,10 +53,8 @@ a.new-key {
     width: 1em;
 }
 
-.row-editor {
-    width: 2em;
-}
-
+.row-editor,
+.column-remove,
 .column-group-keys {
     width: 1em;
 }
@@ -92,6 +91,14 @@ a.new-key {
     border-radius: 0;
 }
 
+.column-remove > .ui-commandlink {
+    display: none;
+}
+
+.ui-row-editing .column-remove > .ui-commandlink {
+    display: block;
+}
+
 .row-editor .ui-icon-pencil:before {
     content:"\f040";
 }
@@ -122,6 +129,7 @@ a.new-key {
 }
 
 .row-editor .ui-icon-close:hover,
+.ui-widget.fa-trash:hover,
 #newEventGroupPanel .fa-close:hover {
     color:red;
 }
@@ -156,14 +164,14 @@ a.new-key {
     box-shadow: none;
 }
 
-.categorySets ul > li > a,
-.ui-state-highlight .categorySets ul > li > a {
+.categorySets ul > li > a.ui-commandlink,
+.ui-state-highlight .categorySets ul > li > a.ui-commandlink {
     color: white;
     text-shadow: 1px 1px 1px rgb(51, 51, 51);
 }
 
-.categorySets ul > li > a:hover,
-.ui-state-highlight .categorySets ul > li > a:hover {
+.categorySets ul > li > a.ui-commandlink:hover,
+.ui-state-highlight .categorySets ul > li > a.ui-commandlink:hover {
     color: white;
     text-shadow: 1px 1px 1px grey;
 }
@@ -204,7 +212,7 @@ a.new-key {
 }
 
 .ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
-    pointer-events: none;
+    /*    pointer-events: none;*/
 }
 
 #eventGroupsForm .ui-datatable table {
@@ -242,11 +250,31 @@ a.new-key {
     font-size: .9em;
 }
 
-a.link-observation:link,
-a.link-observation:visited,
-a.link-observation:active,
-a.link-observation:hover {
+a.ui-commandlink:link,
+a.ui-commandlink:visited,
+a.ui-commandlink:active,
+a.ui-commandlink:hover {
     color: #4f4f4f;
+}
+
+.ui-selectonemenu,
+.ui-inputfield {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.ui-selectonemenu {
+    padding-right: 0;
+}
+
+.ui-datatable-empty-message {
+    color: white;
+    border-color: transparent;
+    background: #131D24;
+}
+
+.row-editor .ui-icon-close {
+    display: none!important;
 }
 
 @media screen and (max-width: 800px) {
@@ -287,6 +315,7 @@ a.link-observation:hover {
     }
 
     #eventGroupsForm .row-editor,
+    #eventGroupsForm .column-remove,
     #eventGroupsForm .column-group-keys {
         display: inline-block;
         float: none;

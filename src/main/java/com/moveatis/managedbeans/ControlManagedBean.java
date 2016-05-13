@@ -56,8 +56,6 @@ import javax.inject.Named;
 import javax.inject.Inject;
 import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -146,6 +144,7 @@ public class ControlManagedBean implements Serializable {
     public void addNewCategory() {
         CategoryEntity category = new CategoryEntity();
         LabelEntity label = new LabelEntity();
+        label.setText(messages.getString("con_newCategoryLabel"));
         category.setOrderNumber(categories.size());
         category.setLabel(label);
 
@@ -235,11 +234,10 @@ public class ControlManagedBean implements Serializable {
         return "newobservation";
     }
 
-    public void removeEventGroup() {
-        if (selectedEventGroup != null) {
-            eventGroupEJB.remove(selectedEventGroup);
-            eventGroups.remove(selectedEventGroup);
-            selectedEventGroup = null;
+    public void removeEventGroup(EventGroupEntity eventGroup) {
+        if (eventGroup != null) {
+            eventGroupEJB.remove(eventGroup);
+            eventGroups.remove(eventGroup);
         }
     }
 
