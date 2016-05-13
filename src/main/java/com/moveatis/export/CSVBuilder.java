@@ -32,6 +32,7 @@ package com.moveatis.export;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -49,7 +50,7 @@ public class CSVBuilder {
      * @param separator Separator to use between fields.
      */
     public CSVBuilder(OutputStream output, String separator) {
-        out = new OutputStreamWriter(output);
+        out = new OutputStreamWriter(output, StandardCharsets.UTF_8);
         sep = separator;
         atLineBegin = true;
     }
