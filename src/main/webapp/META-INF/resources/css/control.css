@@ -204,7 +204,7 @@ a.new-key {
 }
 
 .ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
-    pointer-events: none;
+    /*    pointer-events: none;*/
 }
 
 #eventGroupsForm .ui-datatable table {
@@ -247,6 +247,16 @@ a.link-observation:visited,
 a.link-observation:active,
 a.link-observation:hover {
     color: #4f4f4f;
+}
+
+.ui-selectonemenu,
+.ui-inputfield {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.ui-selectonemenu {
+    padding-right: 0;
 }
 
 @media screen and (max-width: 800px) {

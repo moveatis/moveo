@@ -54,6 +54,7 @@ function focusDataTableEditInput(table) {
         $(this).click();
     });
     $(table + ' .ui-datatable-data tr').last().find('.ui-editable-column:first-child input').focus();
+    $(table + ' .ui-datatable-data tr').last().find('.ui-editable-column:first-child input').select();
 }
 
 /*

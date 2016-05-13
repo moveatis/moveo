@@ -119,7 +119,6 @@ public class SummaryManagedBean implements Serializable {
     @PostConstruct
     protected void initialize() {
         createTimeline();
-        setDefaultSaveOptions();
     }
 
     /**
@@ -215,7 +214,7 @@ public class SummaryManagedBean implements Serializable {
         facesCtx.responseComplete();
     }
 
-    public void saveObservation() {
+    public void doSelectedSaveOperation() {
         if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
             try {
                 downloadCurrentObservation();
@@ -228,12 +227,6 @@ public class SummaryManagedBean implements Serializable {
         }
         if (selectedSaveOptions.contains(SAVE_OPTION)) {
             saveCurrentObservation();
-        }
-    }
-
-    private void setDefaultSaveOptions() {
-        if (!sessionBean.isIdentifiedUser()) {
-            selectedSaveOptions.add(DOWNLOAD_OPTION);
         }
     }
 
