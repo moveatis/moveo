@@ -166,7 +166,7 @@ ul.ui-menu-child {
     font-weight: normal;
 }
 
-.coloredDialog .ui-widget-content:not(.ui-panelgrid-content) {
+.coloredDialog form label {
     color: white;
 }
 
@@ -174,9 +174,9 @@ ul.ui-menu-child {
     width: auto;
 }
 
-.coloredDialog form > input,
-.coloredDialog form > textarea,
-.coloredDialog form > table  {
+.coloredDialog form input,
+.coloredDialog form textarea,
+.coloredDialog form table  {
     margin-bottom: 0.8em;
 }
 

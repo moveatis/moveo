@@ -68,7 +68,7 @@ import org.primefaces.extensions.model.timeline.TimelineGroup;
 @Named(value = "summaryBean")
 @ViewScoped
 public class SummaryManagedBean implements Serializable {
-    
+
     private TimelineModel timeline;
     private final Date min;
     private final Date start;
@@ -87,11 +87,8 @@ public class SummaryManagedBean implements Serializable {
     private static final String DOWNLOAD_OPTION = "download";
 
     @Inject
-    private Observation observationEJB; //EJB-beans have EJB in their name by convention
+    private Observation observationEJB;
 
-    //@Inject
-    //private CategorySelectionManagedBean categoryBean; //Managedbeans have Bean in their name by convention
-    
     @Inject
     private Session sessionBean;
     @Inject
@@ -122,8 +119,127 @@ public class SummaryManagedBean implements Serializable {
     @PostConstruct
     protected void initialize() {
         createTimeline();
+        setDefaultSaveOptions();
     }
 
+    /**
+     * Create timeline model. Add category groups as timeline event groups and
+     * records as timeline events.
+     */
+    private void createTimeline() {
+        timeline = new TimelineModel();
+
+        observation = observationManagedBean.getObservationEntity();
+        List<RecordEntity> records = observation.getRecords();
+
+        duration = new Date(observation.getDuration());
+        max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
+
+        // Add categories to timeline as timeline groups
+        int categoryNumber = 1;
+        for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
+            for (ObservationCategory category : categorySet.getCategories()) {
+                // Add category name inside element with class name
+                // use css style to hide them in timeline
+                // class name is intentionally without quotes, timeline expectional case
+                String numberedLabel
+                        = "<span class=categoryNumber>" + categoryNumber + ". </span>"
+                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category.getName()) + "</span>"
+                        + "<span class=categorySet>" + StringEscapeUtils.escapeHtml4(categorySet.getName()) + "</span>";
+                String groupID = Long.toString(category.getTag());
+                TimelineGroup timelineGroup = new TimelineGroup(groupID, numberedLabel);
+                timeline.addGroup(timelineGroup);
+                // Add dummy records to show empty categories in timeline
+                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, groupID, "dummyRecord");
+                timeline.add(timelineEvent);
+                categoryNumber++;
+            }
+        }
+
+        // Add records to timeline as timeline-events
+        for (RecordEntity record : records) {
+            ObservationCategory category = record.getCategory();
+            long startTime = record.getStartTime();
+            long endTime = record.getEndTime();
+            TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
+                    new Date(endTime), false, Long.toString(category.getTag()));
+            timeline.add(timelineEvent);
+        }
+    }
+
+    public void saveCurrentObservation() {
+        observationManagedBean.saveObservationToDatabase();
+    }
+
+    public void mailCurrentObservation() {
+        CSVFileBuilder csv = new CSVFileBuilder();
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
+        try {
+            File f = File.createTempFile("observationdata", ".csv");
+            FileOutputStream fos = new FileOutputStream(f);
+            csv.buildCSV(fos, observation, ",");
+            fos.flush();
+            String[] recipients = {recipientEmail};
+            File[] files = {f};
+            mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"),
+                    bundle.getString("sum_message"), files);
+        } catch (IOException ex) {
+            LOGGER.error("Väliaikaisen tiedoston luonti epäonnistui", ex);
+        }
+    }
+
+    private static String convertToFilename(String s) {
+        if (s == null || s.isEmpty()) {
+            return "unnamed";
+        }
+        return s.replaceAll("[^a-zA-Z0-9_]", "_");
+    }
+
+    public void downloadCurrentObservation() throws IOException {
+        String fileName = convertToFilename(observation.getName()) + ".csv";
+
+        FacesContext facesCtx = FacesContext.getCurrentInstance();
+        ExternalContext externalCtx = facesCtx.getExternalContext();
+
+        externalCtx.responseReset();
+        externalCtx.setResponseContentType("text/plain");
+        externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+        OutputStream outputStream = externalCtx.getResponseOutputStream();
+
+        CSVFileBuilder csv = new CSVFileBuilder();
+        csv.buildCSV(outputStream, observation, ",");
+        outputStream.flush();
+
+        facesCtx.responseComplete();
+    }
+
+    public void saveObservation() {
+        if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
+            try {
+                downloadCurrentObservation();
+            } catch (IOException e) {
+                //TODO: show error message
+            }
+        }
+        if (selectedSaveOptions.contains(MAIL_OPTION)) {
+            mailCurrentObservation();
+        }
+        if (selectedSaveOptions.contains(SAVE_OPTION)) {
+            saveCurrentObservation();
+        }
+    }
+
+    private void setDefaultSaveOptions() {
+        if (!sessionBean.isIdentifiedUser()) {
+            selectedSaveOptions.add(DOWNLOAD_OPTION);
+        }
+    }
+
+    /*
+       Getters and setters
+     */
     /**
      * Get timeline model.
      *
@@ -209,113 +325,5 @@ public class SummaryManagedBean implements Serializable {
 
     public boolean getMailOptionChecked() {
         return selectedSaveOptions.contains(MAIL_OPTION);
-    }
-
-    /**
-     * Create timeline model. Add category groups as timeline event groups and
-     * records as timeline events.
-     */
-    private void createTimeline() {
-        timeline = new TimelineModel();
-        
-        observation = observationManagedBean.getObservationEntity();
-        List<RecordEntity> records = observation.getRecords();
-        
-        duration = new Date(observation.getDuration());
-        max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
-
-        // Add categories to timeline as timeline groups
-        int categoryNumber = 1;
-        for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
-            for (ObservationCategory category : categorySet.getCategories()) {
-                // Add category name inside element with class name
-                // use css style to hide them in timeline
-                // class name is intentionally without quotes, timeline expectional case
-                String numberedLabel
-                        = "<span class=categoryNumber>" + categoryNumber + ". </span>"
-                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category.getName()) + "</span>"
-                        + "<span class=categorySet>" + StringEscapeUtils.escapeHtml4(categorySet.getName()) + "</span>";
-                String groupID = Long.toString(category.getTag());
-                TimelineGroup timelineGroup = new TimelineGroup(groupID, numberedLabel);
-                timeline.addGroup(timelineGroup);
-                // Add dummy records to show empty categories in timeline
-                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, groupID, "dummyRecord");
-                timeline.add(timelineEvent);
-                categoryNumber++;
-            }
-        }
-
-        // Add records to timeline as timeline-events
-        for (RecordEntity record : records) {
-            ObservationCategory category = record.getCategory();
-            long startTime = record.getStartTime();
-            long endTime = record.getEndTime();
-            TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
-                    new Date(endTime), false, Long.toString(category.getTag()));
-            timeline.add(timelineEvent);
-        }
-    }
-
-    public void saveCurrentObservation() {
-        observationManagedBean.saveObservationToDatabase();
-    }
-
-    public void mailCurrentObservation() {
-        CSVFileBuilder csv = new CSVFileBuilder();
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
-        try {
-            File f = File.createTempFile("observationdata", ".csv");
-            FileOutputStream fos = new FileOutputStream(f);
-            csv.buildCSV(fos, observation, ",");
-            fos.flush();
-            String[] recipients = {recipientEmail};
-            File[] files = {f};
-            mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), 
-                bundle.getString("sum_message"), files);
-        } catch (IOException ex) {
-            LOGGER.error("Väliaikaisen tiedoston luonti epäonnistui", ex);
-        }
-    }
-    
-    private static String convertToFilename(String s) {
-        if (s == null || s.isEmpty())
-            return "unnamed";
-        return s.replaceAll("[^a-zA-Z0-9_]", "_");
-    }
-
-    public void downloadCurrentObservation() throws IOException {
-        String fileName = convertToFilename(observation.getName()) + ".csv";
-        
-        FacesContext facesCtx = FacesContext.getCurrentInstance();
-        ExternalContext externalCtx = facesCtx.getExternalContext();
-        
-        externalCtx.responseReset();
-        externalCtx.setResponseContentType("text/plain");
-        externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-        
-        OutputStream outputStream = externalCtx.getResponseOutputStream();
-        
-        CSVFileBuilder csv = new CSVFileBuilder();
-        csv.buildCSV(outputStream, observation, ",");
-        outputStream.flush();
-        
-        facesCtx.responseComplete();
-    }
-
-    public void saveObservation() {
-        if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
-            try {
-                downloadCurrentObservation();
-            } catch (IOException e) {
-                //TODO: show error message
-            }
-        }
-        if (selectedSaveOptions.contains(MAIL_OPTION)) {
-            mailCurrentObservation();
-        }
-        if (selectedSaveOptions.contains(SAVE_OPTION)) {
-            saveCurrentObservation();
-        }
     }
 }

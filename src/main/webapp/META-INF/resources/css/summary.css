@@ -97,6 +97,10 @@
     font-weight: bold;
 }
 
+.timeframe .ui-state-error {
+    border-width: 3px;
+}
+
 .ui-fluid .timeframe .ui-calendar,
 .ui-fluid .timeframe .ui-calendar input {
     width: auto;
@@ -220,6 +224,25 @@
 
 .ui-timepicker-div .ui-slider {
     margin-left:1em;
+}
+
+.ui-fluid .save-button {
+    width: auto;
+    margin: .6em 0;
+}
+
+.ui-datepicker-current {
+    display: none;
+}
+
+.ui-datepicker-trigger {
+    font-size: 0;
+}
+
+.ui-datepicker-trigger:before {
+    content: "\f017";
+    font-size: 1rem;
+    font-family: FontAwesome;
 }
 
 /* Responsive */
