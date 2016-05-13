@@ -250,7 +250,17 @@ public class CategorySelectionManagedBean implements Serializable {
      */
     public void addNewCategorySet() {
         String name = Validation.validateForJsAndHtml(newCategorySetName);
+        
         if (!name.isEmpty()) {
+            // TODO: Is this wanted? What about default category sets?
+            // Can they be added if there is already category with same name in use?
+            for (ObservationCategorySet set : categorySetsInUse.getCategorySets()) {
+                if (name.equals(set.getName())) {
+                    showErrorMessage(messages.getString("cs_errorNotUniqueCategorySet"));
+                    return;
+                }
+            }
+            
             ObservationCategorySet categorySet = new ObservationCategorySet(addedCategorySetTag++, name);
             categorySetsInUse.add(categorySet);
             newCategorySetName = "";
