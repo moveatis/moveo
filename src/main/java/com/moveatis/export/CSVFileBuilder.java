@@ -75,6 +75,9 @@ public class CSVFileBuilder {
         
         CSVBuilder csv = new CSVBuilder(out, separator);
         
+        csv.add("Observation info").newLine();
+        csv.newLine();
+        
         csv.add("Attribute").add("Value").newLine();
         
         csv.add("name").add(obs.getName()).newLine();
@@ -83,6 +86,10 @@ public class CSVFileBuilder {
         csv.add("duration (ms)").add(obsDuration).newLine();
         csv.add("records").add(totalCount).newLine();
         
+        csv.newLine();
+        csv.newLine();
+        
+        csv.add("Summary").newLine();
         csv.newLine();
         
         csv.add("Category").add("Count").add("Count %").add("Duration (ms)").add("Duration %").newLine();
@@ -95,6 +102,10 @@ public class CSVFileBuilder {
             csv.add(category).add(item.count).addPercent(countPercent).add(item.duration).addPercent(durationPercent).newLine();
         }
         
+        csv.newLine();
+        csv.newLine();
+        
+        csv.add("Recordings").newLine();
         csv.newLine();
         
         csv.add("Category").add("Start time (ms)").add("End time (ms)").add("Duration (ms)").newLine();
