@@ -257,102 +257,97 @@
                           modal="true" fitViewport="true" class="coloredDialog">
                     <h:form id="categorySetForm">
                         <div class="ui-fluid">
-                            <h:outputLabel for="input-name-categoryset" value="#{msg.con_categorySetName}" />
+                            <h:outputLabel for="input-name-categoryset" value="#{msg.con_categorySetDetailsName}" />
                             <p:message for="input-name-categoryset" />
                             <p:inputText id="input-name-categoryset" required="true" requiredMessage="#{msg.dlg_notEmpty}"
-                                         <<<<<<< HEAD
-                                         =======
-                                         placeholder="#{msg.con_categorySetDetailsName}"
-                                         >>>>>>> 109ec7fce241ca587524228ff2d70f19f59dbb94
                                          value="#{controlBean.selectedCategorySet.label}"
                                          validator="#{validationBean.validateShortString}"/>
 
-                                         <h:outputLabel for="input-description-categoryset" value="#{msg.con_categorySetDescription}" />
-                                <p:message for="input-description-categoryset" />
-                                <p:inputTextarea id="input-description-categoryset"
-                                                 value="#{controlBean.selectedCategorySet.description}"
-                                                 <<<<<<< HEAD
-                                                 =======
-                                                 placeholder="#{msg.con_categorySetDetailsDescription}"
-                                                 >>>>>>> 109ec7fce241ca587524228ff2d70f19f59dbb94
-                                                 validator="#{validationBean.validateLongString}"
-                                                 rows="2" cols="16" autoResize="true" />
-                                                 </div>
+                            <h:outputLabel for="input-description-categoryset" value="#{msg.con_categorySetDetailsDescription}" />
+                            <p:message for="input-description-categoryset" />
+                            <p:inputTextarea id="input-description-categoryset"
+                                             value="#{controlBean.selectedCategorySet.description}"
+                                             validator="#{validationBean.validateLongString}"
+                                             rows="2" cols="16" autoResize="true" />
+                        </div>
 
-                                    <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
-                                                 selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
-                                                 editable="true" editMode="row" reflow="true" draggableRows="false" styleClass="categories-table"
-                                                 sortBy="#{category.orderNumber}" emptyMessage="#{msg.con_emptyMessageCategories}">
+                        <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
+                                     selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
+                                     editable="true" editMode="row" reflow="true" draggableRows="false" styleClass="categories-table"
+                                     sortBy="#{category.orderNumber}" emptyMessage="#{msg.con_emptyMessageCategories}">
 
-                                        <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>
-                                        <p:ajax event="rowUnselect" update=":categorySetForm:categoryRemoveButton"/>
-                                        <p:ajax event="rowReorder" listener="#{controlBean.onCategoryReorder}" />
+                            <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>
+                            <p:ajax event="rowUnselect" update=":categorySetForm:categoryRemoveButton"/>
+                            <p:ajax event="rowReorder" listener="#{controlBean.onCategoryReorder}" />
 
-                                        <p:message for="input-name-category" />
-                                        <p:column headerText="#{msg.con_categorySetDetailsCategory}">
-                                            <p:cellEditor>
-                                                <f:facet name="output"><h:outputText class="output-name" value="#{category.label.text}"/></f:facet>
-                                                <f:facet name="input">
-                                                    <p:inputText id="input-name-category"
-                                                                 required="true" requiredMessage="#{msg.dlg_notEmpty}"
-                                                                 value="#{category.label.text}"
-                                                                 validator="#{validationBean.validateShortString}"/>
-                                                </f:facet>
-                                            </p:cellEditor>
-                                        </p:column>
-                                        <p:column headerText="#{msg.con_categorySetDetailsType}">
-                                            <p:cellEditor>
-                                                <f:facet name="output"><h:outputText value="#{msg['con_' += category.categoryType]}" /></f:facet>
-                                                <f:facet name="input">
-                                                    <p:selectOneMenu value="#{category.categoryType}">
-                                                        <f:selectItems value="#{controlBean.categoryTypes}" var="type"
-                                                                       itemValue="#{type}" itemLabel="#{msg['con_' += type]}" />
-                                                    </p:selectOneMenu>
-                                                </f:facet>
-                                            </p:cellEditor>
-                                        </p:column>
+                            <p:message for="input-name-category" />
+                            <p:column headerText="#{msg.con_categorySetDetailsCategory}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText class="output-name" value="#{category.label.text}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="input-name-category"
+                                                     required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                                     value="#{category.label.text}"
+                                                     validator="#{validationBean.validateShortString}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="#{msg.con_categorySetDetailsType}"
+                                      styleClass="column-categorytype">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{msg['con_' += category.categoryType]}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{category.categoryType}">
+                                            <f:selectItems value="#{controlBean.categoryTypes}" var="type"
+                                                           itemValue="#{type}" itemLabel="#{msg['con_' += type]}" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
 
-                                        <p:column styleClass="row-editor">
-                                            <p:rowEditor styleClass="fa"/>
-                                        </p:column>
+                            <p:column styleClass="row-editor">
+                                <p:rowEditor styleClass="fa"/>
+                            </p:column>
 
-                                    </p:dataTable>
-                                    <div class="categorySetCommandButtons">
-                                        <p:commandButton value="#{msg.con_addCategory}" icon="fa fa-plus"
-                                                         action="#{controlBean.addNewCategory}"
-                                                         onclick="submitDataTableEditInputs('.categories-table')"
-                                                         oncomplete="focusDataTableEditInput('.categories-table');"
-                                                         update="categoriesTable" validateClient="true"/>
-                                        <p:commandButton value="#{msg.con_removeCategory}" icon="fa fa-minus"
-                                                         id="categoryRemoveButton"
-                                                         action="#{controlBean.removeCategory}"
-                                                         update="categoriesTable"
-                                                         disabled="#{empty controlBean.selectedCategory}"/>
-                                        <br/>
-                                        <br/>
-                                        <p:commandButton value="#{msg.con_categorySetDetailsSave}" icon="ui-icon-check"
-                                                         action="#{controlBean.saveCategorySet}"
-                                                         onclick="submitDataTableEditInputs('.categories-table')"
-                                                         oncomplete="onDialogSuccess(args, 'dlgCategorySet', '#{msg.con_categorySetSaved}')"
-                                                         update=":eventGroupsForm:eventGroupsTable @form" validateClient="true"/>
-                                        <p:commandButton value="#{msg.con_categorySetDetailsCancel}" icon="ui-icon-close"
-                                                         onclick="PF('dlgCategorySet').hide();" />
-                                        <p:commandButton value="#{msg.con_removeCategorySet}" icon="fa fa-trash"
-                                                         action="#{controlBean.removeCategorySet}"
-                                                         rendered="#{!empty controlBean.selectedCategorySet.id}"
-                                                         oncomplete="onDialogSuccess(args, 'dlgCategorySet', '#{msg.con_categorySetRemoved}')"
-                                                         update=":eventGroupsForm:eventGroupsTable">
-                                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-                                                       message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
-                                        </p:commandButton>
-                                    </div>
-                                    </h:form>
-                                    </p:dialog>
+                        </p:dataTable>
+                        <div class="categorySetCommandButtons">
+                            <p:commandButton value="#{msg.con_addCategory}" icon="fa fa-plus"
+                                             action="#{controlBean.addNewCategory}"
+                                             onclick="submitDataTableEditInputs('.categories-table')"
+                                             oncomplete="focusDataTableEditInput('.categories-table');"
+                                             update="categoriesTable" validateClient="true"/>
+                            <p:commandButton value="#{msg.con_removeCategory}" icon="fa fa-minus"
+                                             id="categoryRemoveButton"
+                                             action="#{controlBean.removeCategory}"
+                                             update="categoriesTable"
+                                             disabled="#{empty controlBean.selectedCategory}"/>
+                            <br/>
+                            <br/>
+                            <p:commandButton value="#{msg.con_categorySetDetailsSave}" icon="ui-icon-check"
+                                             action="#{controlBean.saveCategorySet}"
+                                             onclick="submitDataTableEditInputs('.categories-table')"
+                                             oncomplete="onDialogSuccess(args, 'dlgCategorySet', '#{msg.con_categorySetSaved}')"
+                                             update=":eventGroupsForm:eventGroupsTable @form :validationErrorGrowl" validateClient="true"/>
+                            <p:commandButton value="#{msg.con_categorySetDetailsCancel}" icon="ui-icon-close"
+                                             onclick="PF('dlgCategorySet').hide();" />
+                            <br/>
+                            <br/>
+                            <p:commandButton value="#{msg.con_removeCategorySet}" icon="fa fa-trash"
+                                             action="#{controlBean.removeCategorySet}"
+                                             rendered="#{!empty controlBean.selectedCategorySet.id}"
+                                             oncomplete="onDialogSuccess(args, 'dlgCategorySet', '#{msg.con_categorySetRemoved}')"
+                                             update=":eventGroupsForm:eventGroupsTable">
+                                <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                           message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
+                            </p:commandButton>
+                        </div>
+                    </h:form>
+                </p:dialog>
 
-                                    <p:growl id="validationErrorGrowl" showDetail="true" severity="error" life="3000"/>
-                                    <p:growl showDetail="false" widgetVar="growlWdgt" severity="info" life="3000"/>
+                <p:growl id="validationErrorGrowl" showDetail="true" severity="error" life="3000"/>
+                <p:growl showDetail="false" widgetVar="growlWdgt" severity="info" life="3000"/>
 
-                                    </ui:define>
-                                    </ui:composition>
-                                    </h:body>
-                                    </html>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

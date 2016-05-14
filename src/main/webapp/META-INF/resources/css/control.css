@@ -277,6 +277,14 @@ a.ui-commandlink:hover {
     display: none!important;
 }
 
+.ui-selectonemenu {
+    width: 100%;
+}
+
+.column-categorytype {
+    width: 8em;
+}
+
 @media screen and (max-width: 800px) {
 
     #mainPage {

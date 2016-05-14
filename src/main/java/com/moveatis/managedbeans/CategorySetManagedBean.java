@@ -39,6 +39,7 @@ import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -123,32 +124,47 @@ public class CategorySetManagedBean implements Serializable {
         //controlManagedBean.addCategorySet(categorySetEntity);
     }
 
-    public void createNewCategorySet(EventGroupEntity eventGroupEntity,
-            CategorySetEntity categorySetEntity, List<CategoryEntity> categories) {
+    public void createAndEditCategorySet(EventGroupEntity eventGroupEntity,
+            CategorySetEntity categorySetEntity, List<CategoryEntity> newCategoryEntities) {
 
         if (categorySetEntity.getId() == null) {
             categorySetEJB.create(categorySetEntity);
         }
 
-        Map<Integer, CategoryEntity> categoriesOrdered = categorySetEntity.getCategoryEntitys();
-        if(categoriesOrdered == null) {
-            categoriesOrdered = new TreeMap<>();
-        }
-        List<CategoryEntity> unordered = new ArrayList<>();
+        Map<Integer, CategoryEntity> orderedCategories = new TreeMap<>();
+        List<CategoryEntity> unorderedCategories = new ArrayList<>();
+        HashMap<Long, CategoryEntity> oldCategories = new HashMap<>();
 
-        for (CategoryEntity categoryEntity : categories) {
+        // Remove removed categories
+        if (categorySetEntity.getCategoryEntitys() != null) {
+            for (CategoryEntity categoryEntity : newCategoryEntities) {
+                Long id = categoryEntity.getId();
+                if (id != null) {
+                    oldCategories.put(id, categoryEntity);
+                }
+            }
+            for (CategoryEntity categoryEntity : categorySetEntity.getCategoryEntitys().values()) {
+                if (oldCategories.containsKey(categoryEntity.getId())) {
+                    categoryEJB.remove(categoryEntity);
+                }
+            }
+        }
+
+        for (CategoryEntity categoryEntity : newCategoryEntities) {
             String label = categoryEntity.getLabel().getText();
             LabelEntity labelEntity = labelEJB.findByLabel(label);
 
             if (labelEntity == null) {
                 labelEntity = new LabelEntity();
                 labelEntity.setText(label);
-                
+                // Create label entity before other categories in the loop
+                // to prevent creating non-unique labels. Is this required?
+                labelEJB.create(labelEntity);
             }
 
             categoryEntity.setLabel(labelEntity);
             List<CategoryEntity> labelCategories = labelEntity.getCategoryEntities();
-            
+
             if (labelCategories == null) {
                 labelCategories = new LinkedList<>();
             }
@@ -156,28 +172,27 @@ public class CategorySetManagedBean implements Serializable {
             labelEntity.setCategoryEntities(labelCategories);
 
             List<CategoryEntity> labelCategoryList = labelEntity.getCategoryEntities();
-            if(labelCategoryList == null) {
+            if (labelCategoryList == null) {
                 labelCategoryList = new ArrayList<>();
             }
             labelCategoryList.add(categoryEntity);
             labelEntity.setCategoryEntities(labelCategoryList);
-            
+
             categoryEntity.setCategorySet(categorySetEntity);
 
             if (categoryEntity.getOrderNumber() == null) {
-                unordered.add(categoryEntity);
+                unorderedCategories.add(categoryEntity);
             } else {
-                categoriesOrdered.put(categoryEntity.getOrderNumber(), categoryEntity);
+                orderedCategories.put(categoryEntity.getOrderNumber(), categoryEntity);
             }
         }
 
-        for (CategoryEntity categoryEntity : unordered) {
-            categoryEntity.setOrderNumber(categoriesOrdered.size());
-            categoriesOrdered.put(categoriesOrdered.size(), categoryEntity);
-            categoryEJB.edit(categoryEntity);
+        for (CategoryEntity categoryEntity : unorderedCategories) {
+            categoryEntity.setOrderNumber(orderedCategories.size());
+            orderedCategories.put(orderedCategories.size(), categoryEntity);
         }
 
-        categorySetEntity.setCategoryEntitys(categoriesOrdered);
+        categorySetEntity.setCategoryEntitys(orderedCategories);
         categorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
         categorySetEntity.setEventGroupEntity(eventGroupEntity);
 

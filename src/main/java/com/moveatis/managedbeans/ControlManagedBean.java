@@ -46,11 +46,14 @@ import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.inject.Inject;
@@ -298,8 +301,16 @@ public class ControlManagedBean implements Serializable {
 
     public void saveCategorySet() {
         if (selectedEventGroup != null && selectedCategorySet != null) {
-            categorySetBean.createNewCategorySet(selectedEventGroup, selectedCategorySet, categories);
-            fetchEventGroups();
+            if (!hasDuplicate()) {
+                categorySetBean.createAndEditCategorySet(selectedEventGroup, selectedCategorySet, categories);
+                fetchEventGroups();
+            } else {
+                FacesContext.getCurrentInstance().validationFailed();
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                                messages.getString("dialogErrorTitle"), 
+                                messages.getString("cs_errorNotUniqueCategories")));
+            }
         }
     }
 
@@ -307,5 +318,17 @@ public class ControlManagedBean implements Serializable {
         observationBean.setObservationEntity(selectedObservation);
         observationBean.setCategorySetsInUse(new ArrayList<>(selectedObservation.getObservationCategorySets()));
         return "summary";
+    }
+
+    private boolean hasDuplicate() {
+        Set<String> duplicates = new HashSet<>();
+        for (CategoryEntity categoryEntity : categories) {
+            String categoryText = categoryEntity.getLabel().getText();
+            if (!categoryText.isEmpty() && !duplicates.add(categoryText)) {
+                selectedCategory = categoryEntity;
+                return true;
+            }
+        }
+        return false;
     }
 }
