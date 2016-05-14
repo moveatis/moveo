@@ -69,22 +69,28 @@
                             <p:commandLink styleClass="fa fa-key new-key"
                                            action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                            rendered="#{!controlBean.hasGroupKey(eventGroup)}"
+                                           title="#{msg.con_setGroupKey}"
                                            onclick="PF('dlgNewKey').show();"
                                            update=":newKeyForm :eventGroupsForm:eventGroupsTable"/>
                             <p:commandLink class="fa fa-key edit-key"
                                            action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                            rendered="#{controlBean.hasGroupKey(eventGroup)}"
+                                           title="#{msg.con_changeGroupKey}"
                                            onclick="PF('dlgEditKey').show();"
                                            update=":editKeyForm :eventGroupsForm:eventGroupsTable"/>
                         </p:column>
 
                         <p:column styleClass="row-editor">
-                            <p:rowEditor styleClass="fa"/>
+                            <p:rowEditor styleClass="fa"
+                                         editTitle="#{msg.con_editEvent}"
+                                         saveTitle="#{msg.dlg_save}"
+                                         cancelTitle="#{msg.dlg_cancel}"/>
                         </p:column>
 
                         <p:column styleClass="column-remove">
                             <p:commandLink styleClass="fa fa-trash"
                                            action="#{controlBean.removeEventGroup(eventGroup)}"
+                                           title="#{msg.con_removeEvent}"
                                            update=":eventGroupsForm:eventGroupsTable">
                                 <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
                                            message="#{msg.dlg_confirmRemoveMessage} #{eventGroup.label}. #{msg.dlg_confirmMessage}" />
@@ -306,7 +312,10 @@
                             </p:column>
 
                             <p:column styleClass="row-editor">
-                                <p:rowEditor styleClass="fa"/>
+                                <p:rowEditor styleClass="fa"
+                                         editTitle="#{msg.con_editCategory}"
+                                         saveTitle="#{msg.dlg_save}"
+                                         cancelTitle="#{msg.dlg_cancel}"/>
                             </p:column>
 
                         </p:dataTable>
