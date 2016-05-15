@@ -63,10 +63,12 @@ public class UserManagedBean implements Serializable {
     }
 
     public Locale getLocale() {
+        
         if(this.locale == null) {
             FacesContext context = FacesContext.getCurrentInstance();
             this.locale = context.getViewRoot().getLocale();
             this.languageString = this.locale.getLanguage();
+            LOGGER.debug("getLocale -> " + this.locale.toString());
         }
         return this.locale;
     }
@@ -75,7 +77,9 @@ public class UserManagedBean implements Serializable {
         this.locale = locale;
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(this.locale);
+        
         this.languageString = this.locale.getLanguage();
+        LOGGER.debug("Locale set to -> " + this.locale.toString());
     }
     
     public void setLocale(String language) {
@@ -91,6 +95,8 @@ public class UserManagedBean implements Serializable {
         if(newLocale != null) {
             this.setLocale(newLocale);
         }
+        
+        LOGGER.debug("Locale (language) set to -> " + this.locale.toString());
     }
     
     public void changeLocale(ActionEvent event) {
@@ -106,6 +112,8 @@ public class UserManagedBean implements Serializable {
             this.setLanguageString(finnishLocale.getLanguage());
             this.setOptionLanguageString(defaultLocale.getLanguage());
         }
+        
+        LOGGER.debug("Locale changed");
         
     }
 
@@ -127,6 +135,10 @@ public class UserManagedBean implements Serializable {
 
     public String getOptionLanguageString() {
         Locale finnishLocale = new Locale("fi", "FI");
+        
+        if(this.languageString == null) {
+            this.getLocale();
+        }
         
         if(this.languageString.equals(finnishLocale.getLanguage())) {
             this.optionLanguageString = "English";
