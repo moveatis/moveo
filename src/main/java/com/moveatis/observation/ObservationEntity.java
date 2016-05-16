@@ -56,6 +56,14 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "findByObserver",
             query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer"
+    ),
+    @NamedQuery(
+            name = "findWithoutEvent",
+            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event is null"
+    ),
+    @NamedQuery(
+            name = "findByEventsNotOwned",
+            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator!=:observer"
     )
 })
 @Entity

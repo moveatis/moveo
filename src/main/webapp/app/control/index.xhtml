@@ -18,6 +18,7 @@
                 <h1>#{msg.con_title}</h1>
                 <p>#{msg.con_introduction}</p>
 
+                <h2>#{msg.con_titleOwnEvents}</h2>
                 <h:form id="eventGroupsForm">
                     <p:dataTable id="eventGroupsTable" var="eventGroup" value="#{controlBean.eventGroups}" widgetVar="eventsWdgt"
                                  selectionMode="single" selection="#{controlBean.selectedEventGroup}" rowKey="#{eventGroup.id}"
@@ -57,7 +58,7 @@
                         <p:column headerText="Kategoriaryhmät" styleClass="column-category-groups">
                             <p:dataList value="#{eventGroup.categorySets}" var="categorySet"
                                         emptyMessage="#{msg.con_emptyMessageCategories}" styleClass="categorySets"
-                                        lazy="true" itemType="none">
+                                        itemType="none">
                                 <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"
                                                action="#{controlBean.setSelectedCategorySet(categorySet)}"
                                                onclick="PF('dlgCategorySet').show()"
@@ -161,7 +162,7 @@
                             </p:outputPanel>
 
                             <h:outputText value="#{msg.con_observationDetailsDuration}" />
-                            <h:outputText value="#{controlBean.selectedObservation.duration}" />
+                            <h:outputText value="#{controlBean.msToUnits(controlBean.selectedObservation.duration)}" />
 
                             <h:outputText value="#{msg.con_observationDetailsRecordAmount}" />
                             <h:outputText value="#{controlBean.selectedObservation.records.size()}" />
@@ -214,6 +215,29 @@
                                      action="#{controlBean.newObservation}" styleClass="start-button"
                                      disabled="#{empty controlBean.selectedEventGroup}"/>
                 </h:form>
+
+                <p:outputPanel rendered="#{controlBean.otherObservations.size() > 0}">
+                    <h2>#{msg.con_titleOtherObservations}</h2>
+                    <p:fieldset legend="#{msg.con_showHide}" collapsed="true" toggleable="true"
+                                styleClass="other-observations-fieldset">
+                        <h:form id="otherObservationsForm">
+                            <p:dataTable id="otherObservations" value="#{controlBean.otherObservations}" var="otherObservation"
+                                         selectionMode="single" selection="#{controlBean.selectedObservation}"
+                                         rowKey="#{otherObservation.id}" sortBy="#{otherObservation.id}" reflow="true">
+
+                                <p:ajax process="@this" event="rowSelect" update=":observationDetail" oncomplete="PF('dlgObservation').show()" />
+
+                                <p:column headerText="#{msg.con_name}" styleClass="column-other-observation-name">
+                                    <h:outputText value="#{otherObservation.name}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg.con_event}" styleClass="column-other-eventgroup-name">
+                                    <h:outputText value="#{controlBean.getObservationEventGroupName(otherObservation)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:fieldset>
+                </p:outputPanel>
 
                 <p:confirmDialog global="true" closable="false" styleClass="coloredButton">
                     <p:commandButton value="#{msg.dlg_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -313,9 +337,9 @@
 
                             <p:column styleClass="row-editor">
                                 <p:rowEditor styleClass="fa"
-                                         editTitle="#{msg.con_editCategory}"
-                                         saveTitle="#{msg.dlg_save}"
-                                         cancelTitle="#{msg.dlg_cancel}"/>
+                                             editTitle="#{msg.con_editCategory}"
+                                             saveTitle="#{msg.dlg_save}"
+                                             cancelTitle="#{msg.dlg_cancel}"/>
                             </p:column>
 
                         </p:dataTable>

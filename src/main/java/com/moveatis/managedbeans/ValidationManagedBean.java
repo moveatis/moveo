@@ -41,7 +41,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import org.hibernate.validator.constraints.Email;
 
 /**
  * Bean that validates user input.
@@ -56,17 +55,6 @@ public class ValidationManagedBean {
     
     @Inject
     private GroupKey groupKeyEJB;
-
-    @Email
-    private String email;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     /**
      * Creates a new instance of ValidationManagedBean

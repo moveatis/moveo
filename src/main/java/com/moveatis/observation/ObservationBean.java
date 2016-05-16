@@ -89,6 +89,20 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
 
     @Override
+    public List<ObservationEntity> findWithoutEvent(AbstractUser observer) {
+        TypedQuery<ObservationEntity> query = em.createNamedQuery("findWithoutEvent", ObservationEntity.class);
+        query.setParameter("observer", observer);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<ObservationEntity> findByEventsNotOwned(AbstractUser observer) {
+        TypedQuery<ObservationEntity> query = em.createNamedQuery("findByEventsNotOwned", ObservationEntity.class);
+        query.setParameter("observer", observer);
+        return query.getResultList();
+    }
+
+    @Override
     public void create(ObservationEntity observationEntity) {
         if (sessionBean.isIdentifiedUser()) {
             super.create(observationEntity);

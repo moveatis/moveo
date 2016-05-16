@@ -163,7 +163,11 @@ public class ObservationManagedBean implements Serializable {
     }
     
     public void saveObservation() {
-        observationEntity.setObserver(sessionBean.getLoggedInUser());
+        if (sessionBean.isIdentifiedUser()) {
+            observationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
+        } else {
+            observationEntity.setObserver(sessionBean.getLoggedInUser());
+        }
         /*
         * Client wanted that user has the ability to persist observation into 
         * database when he/she wants to. Since it was easier to build business logic
