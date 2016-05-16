@@ -23,7 +23,7 @@
                     </h:form>
 
                     <!-- TODO: REQUIRES VALIDATION -->
-                    <p:dialog header="Anna kurssiavain" widgetVar="dlg1" minHeight="80" position="top" resizable="false" responsive="true" modal="true" fitViewport="true" class="coloredDialog">
+                    <p:dialog header="#{msg.fp_giveGroupKey}" widgetVar="dlg1" minHeight="80" position="top" resizable="false" responsive="true" modal="true" fitViewport="true" class="coloredDialog">
                         <h:form>
                             <p:inputText id="tagField" autocomplete="off" value="#{loginBean.tag}" required="true"/>
                             <p:commandButton icon="ui-icon-check" action="#{loginBean.doTagLogin}"/>

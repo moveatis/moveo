@@ -56,6 +56,10 @@ public interface Observation {
 
     List<ObservationEntity> findAllByObserver(AbstractUser observer);
 
+    List<ObservationEntity> findWithoutEvent(AbstractUser observer);
+
+    List<ObservationEntity> findByEventsNotOwned(AbstractUser observer);
+
     List<ObservationEntity> findRange(int[] range);
     
     List<RecordEntity> findRecords(Object id);
