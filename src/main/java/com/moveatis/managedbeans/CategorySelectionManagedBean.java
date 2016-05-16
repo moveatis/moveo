@@ -143,8 +143,8 @@ public class CategorySelectionManagedBean implements Serializable {
             GroupKeyEntity groupKey = sessionBean.getGroupKey();
             eventGroup = groupKey.getEventGroup();
             addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
-        } else if (sessionBean.getIsEventEntityForObservationSet()) {
-            EventEntity event = sessionBean.getEventEntityForNewObservation();
+        } else if (observationManagedBean.getEventEntity() != null) {
+            EventEntity event = observationManagedBean.getEventEntity();
             eventGroup = event.getEventGroup();
             addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
         }

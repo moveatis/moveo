@@ -31,7 +31,6 @@ package com.moveatis.session;
 
 import com.moveatis.enums.SessionStatus;
 import com.moveatis.enums.UserType;
-import com.moveatis.event.EventEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Session;
 import com.moveatis.managedbeans.ObservationManagedBean;
@@ -46,7 +45,6 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -178,18 +176,7 @@ public class SessionBean implements Serializable, Session  {
     public GroupKeyEntity getGroupKey() {
         return this.tagEntity.getGroupKey();
     }
-
-    @Override
-    public void setEventEntityForNewObservation(EventEntity eventEntity) {
-        observationManagedBean.setEventEntity(eventEntity);
-        LOGGER.debug("eventEntity set");
-    }
-
-    @Override
-    public EventEntity getEventEntityForNewObservation() {
-        return observationManagedBean.getEventEntity();
-    }
-
+    
     public boolean isResetObsAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
@@ -239,11 +226,6 @@ public class SessionBean implements Serializable, Session  {
     public boolean isIdentifiedUser() {
         return userEntity != null;
 //        return userType == UserType.IDENTIFIED_USER;
-    }
-
-    @Override
-    public boolean getIsEventEntityForObservationSet() {
-        return (observationManagedBean.getEventEntity() != null);
     }
     
     @Override
