@@ -33,6 +33,9 @@
 
                 <h:panelGroup styleClass="welcomeContent" rendered="#{applicationManagedBean.installed}">
                     <h:outputText escape="false" value="#{msg.fp_infoText}"/>
+                    <h:outputLink value="#{msg.fp_infoLink}">
+                        <h:outputText value="#{msg.fp_infoLinkText}" style="text-decoration: underline"/>
+                    </h:outputLink>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{!applicationManagedBean.installed}" style="margin-top: 10em;">
                     <h:form>

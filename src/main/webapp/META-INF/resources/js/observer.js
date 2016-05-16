@@ -30,7 +30,6 @@
 
 //
 // TODO:
-// - How and where from should we get categories?
 // - Remove/comment out console.log calls in release?
 //
 

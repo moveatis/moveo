@@ -250,7 +250,9 @@ public class ControlManagedBean implements Serializable {
     }
 
     public String newObservation() {
-        sessionBean.setEventEntityForNewObservation(selectedEventGroup.getEvent());
+        observationBean.setEventEntity(selectedEventGroup.getEvent());
+        // Make sure we don't modify earlier categories.
+        observationBean.resetCategorySetsInUse();
         return "newobservation";
     }
 
