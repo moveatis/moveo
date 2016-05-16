@@ -29,8 +29,6 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.enums.SessionStatus;
-import com.moveatis.event.EventEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.user.AbstractUser;
@@ -48,9 +46,9 @@ import javax.ejb.Local;
 @Local(Session.class)
 public interface Session {
     
-    public SessionStatus setTagUser(TagUserEntity tagUser);
-    public SessionStatus setIdentityProviderUser(IdentifiedUserEntity user);
-    public SessionStatus setAnonymityUser();
+    public void setTagUser(TagUserEntity tagUser);
+    public void setIdentityProviderUser(IdentifiedUserEntity user);
+    public void setAnonymityUser();
     public boolean isLoggedIn();
     public boolean isIdentifiedUser();
     public boolean isAnonymityUser();
@@ -63,9 +61,6 @@ public interface Session {
     public GroupKeyEntity getGroupKey();
     public TimeZone getSessionTimeZone();
     public void setSessionTimeZone(TimeZone timeZone);
-    public void setEventEntityForNewObservation(EventEntity eventEntity);
-    public EventEntity getEventEntityForNewObservation();
-    public boolean getIsEventEntityForObservationSet();
     public boolean getIsLocalhost();
     public void setReturnUri(String uri);
     public String getReturnUri();
