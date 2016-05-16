@@ -29,7 +29,6 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.enums.SessionStatus;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.user.AbstractUser;
@@ -47,9 +46,9 @@ import javax.ejb.Local;
 @Local(Session.class)
 public interface Session {
     
-    public SessionStatus setTagUser(TagUserEntity tagUser);
-    public SessionStatus setIdentityProviderUser(IdentifiedUserEntity user);
-    public SessionStatus setAnonymityUser();
+    public void setTagUser(TagUserEntity tagUser);
+    public void setIdentityProviderUser(IdentifiedUserEntity user);
+    public void setAnonymityUser();
     public boolean isLoggedIn();
     public boolean isIdentifiedUser();
     public boolean isAnonymityUser();

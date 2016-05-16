@@ -29,7 +29,6 @@
  */
 package com.moveatis.session;
 
-import com.moveatis.enums.SessionStatus;
 import com.moveatis.enums.UserType;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Session;
@@ -86,16 +85,15 @@ public class SessionBean implements Serializable, Session  {
     }
     
     @Override
-    public SessionStatus setIdentityProviderUser(IdentifiedUserEntity user) {
+    public void setIdentityProviderUser(IdentifiedUserEntity user) {
         userType = UserType.IDENTIFIED_USER;
         this.userEntity = user;
         this.abstractUser = user;
         commonSettingsForLoggedInUsers();
-        return SessionStatus.USER_OK;
     }
     
     @Override
-    public SessionStatus setAnonymityUser() {
+    public void setAnonymityUser() {
         userType = UserType.ANONYMITY_USER;
         // TODO: Doesn't set abstractUser. Is this ok?
         commonSettingsForLoggedInUsers();
@@ -103,19 +101,17 @@ public class SessionBean implements Serializable, Session  {
         // (in control view or with a group key), we should reset the event.
         // TODO: Is null ok?
         observationManagedBean.setEventEntity(null);
-        return SessionStatus.USER_OK;
     }
     
     @Override
-    public SessionStatus setTagUser(TagUserEntity tagUser) {
+    public void setTagUser(TagUserEntity tagUser) {
         if(tagUser == null) {
-            return SessionStatus.TAG_NOT_FOUND;
+            return;
         }
         userType = UserType.TAG_USER;
         this.tagEntity = tagUser;
         this.abstractUser = tagUser;
         commonSettingsForLoggedInUsers();
-        return SessionStatus.TAG_OK;
     }
     
     private void commonSettingsForLoggedInUsers() {
