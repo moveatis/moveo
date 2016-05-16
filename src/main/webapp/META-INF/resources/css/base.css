@@ -6,8 +6,6 @@ The base stylesheet for Lotas-webapplication
     Author     : Jarmo Juujärvi (based on base.css by Sami kallio)
 */
 @import url(https://fonts.googleapis.com/css?family=Roboto);
-/*@import url(smartphones/basev2.css);*/
-/*@import url(tablets/basev2.css);*/
 
 html {
     width: 100%;

@@ -9,8 +9,6 @@ and open the template in the editor.
 */
 
 @import url(https://fonts.googleapis.com/css?family=Roboto);
-@import url(smartphones/basev2.css);
-@import url(tablets/basev2.css);
 
 html {
     width: 100%;
