@@ -62,7 +62,7 @@ public class EventEntity extends BaseEntity implements Serializable {
     @ManyToOne
     private AbstractUser creator;
 
-    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private Set<ObservationEntity> observations;
     
     private String description;

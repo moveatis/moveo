@@ -77,10 +77,10 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     @ManyToOne
     private EventEntity event;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<ObservationCategorySet> observationCategorySets;
 
-    @OneToMany(mappedBy = "observation", fetch = FetchType.EAGER, cascade = ALL)
+    @OneToMany(mappedBy = "observation", fetch = FetchType.LAZY, cascade = ALL)
     private List<RecordEntity> records;
 
     private long duration;

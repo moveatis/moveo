@@ -57,12 +57,12 @@ import org.slf4j.LoggerFactory;
  */
 @Stateless
 public class EventGroupBean extends AbstractBean<EventGroupEntity> implements EventGroup {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(EventGroupBean.class);
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
-    
+
     @Inject
     private AnonUser anonUserEJB;
 
@@ -91,20 +91,20 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
     public List<EventGroupEntity> findAllForPublicUser() {
         return findAllForAbstractUser(anonUserEJB.find());
     }
-    
+
     private List<EventGroupEntity> findAllForAbstractUser(AbstractUser user) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
-   
+
         Root<EventGroupEntity> groupRoot = cq.from(EventGroupEntity.class);
-        
+
         SetJoin<EventGroupEntity, AbstractUser> userJoin = groupRoot.join(EventGroupEntity_.users);
         Predicate p = cb.equal(userJoin.get(AbstractUser_.id), user.getId());
-        
+
         cq.select(groupRoot).where(p);
-        
+
         TypedQuery<EventGroupEntity> query = em.createQuery(cq);
-        
+
         return query.getResultList();
     }
 
@@ -112,16 +112,16 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
     public void removeCategorySetEntityFromEventGroups(CategorySetEntity categorySetEntity) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
-        
+
         Root<EventGroupEntity> groupRoot = cq.from(EventGroupEntity.class);
         SetJoin<EventGroupEntity, CategorySetEntity> categoryJoin = groupRoot.join(EventGroupEntity_.categorySets);
         Predicate p = cb.equal(categoryJoin.get(CategorySetEntity_.id), categorySetEntity.getId());
-        
+
         cq.select(groupRoot).where(p);
         TypedQuery<EventGroupEntity> query = em.createQuery(cq);
         List<EventGroupEntity> eventGroups = query.getResultList();
-        if(!eventGroups.isEmpty()) {
-            for(EventGroupEntity eventGroup : eventGroups) {
+        if (!eventGroups.isEmpty()) {
+            for (EventGroupEntity eventGroup : eventGroups) {
                 Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
                 categorySets.remove(categorySetEntity);
                 eventGroup.setCategorySets(categorySets);

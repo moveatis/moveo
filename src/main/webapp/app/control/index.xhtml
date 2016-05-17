@@ -24,7 +24,8 @@
                                  selectionMode="single" selection="#{controlBean.selectedEventGroup}" rowKey="#{eventGroup.id}"
                                  editable="true" styleClass="eventGroupsTable"
                                  emptyMessage="#{msg.con_emptyMessageEvents}"
-                                 sortBy="#{eventGroup.id}" reflow="true">
+                                 sortBy="#{eventGroup.id}" reflow="true"
+                                 lazy="true">
 
                         <p:ajax event="rowEdit" listener="#{controlBean.onEditEventGroup}"/>
                         <p:ajax event="rowSelect" update="commandButtons"/>
@@ -58,7 +59,8 @@
                         <p:column headerText="Kategoriaryhmät" styleClass="column-category-groups">
                             <p:dataList value="#{eventGroup.categorySets}" var="categorySet"
                                         emptyMessage="#{msg.con_emptyMessageCategories}" styleClass="categorySets"
-                                        itemType="none">
+                                        itemType="none"
+                                        lazy="true">
                                 <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"
                                                action="#{controlBean.setSelectedCategorySet(categorySet)}"
                                                onclick="PF('dlgCategorySet').show()"
@@ -103,7 +105,9 @@
                         </p:column>
 
                         <p:rowExpansion>
-                            <p:dataList value="#{controlBean.getObservations(eventGroup)}" var="observation" emptyMessage="#{msg.con_emptyMessageObservations}" >
+                            <p:dataList value="#{controlBean.getObservations(eventGroup)}"
+                                        var="observation" emptyMessage="#{msg.con_emptyMessageObservations}"
+                                        lazy="true">
                                 <f:facet name="header">
                                     #{msg.con_eventObservations}
                                 </f:facet>
@@ -223,7 +227,8 @@
                         <h:form id="otherObservationsForm">
                             <p:dataTable id="otherObservations" value="#{controlBean.otherObservations}" var="otherObservation"
                                          selectionMode="single" selection="#{controlBean.selectedObservation}"
-                                         rowKey="#{otherObservation.id}" sortBy="#{otherObservation.id}" reflow="true">
+                                         rowKey="#{otherObservation.id}" sortBy="#{otherObservation.id}" reflow="true"
+                                         lazy="true">
 
                                 <p:ajax process="@this" event="rowSelect" update=":observationDetail" oncomplete="PF('dlgObservation').show()" />
 
@@ -304,7 +309,8 @@
                         <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
                                      selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
                                      editable="true" editMode="row" reflow="true" draggableRows="false" styleClass="categories-table"
-                                     sortBy="#{category.orderNumber}" emptyMessage="#{msg.con_emptyMessageCategories}">
+                                     sortBy="#{category.orderNumber}" emptyMessage="#{msg.con_emptyMessageCategories}"
+                                     lazy="true">
 
                             <p:ajax event="rowSelect" update=":categorySetForm:categoryRemoveButton"/>
                             <p:ajax event="rowUnselect" update=":categorySetForm:categoryRemoveButton"/>
