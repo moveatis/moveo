@@ -97,6 +97,8 @@ public class ControlManagedBean implements Serializable {
     private Observation observationEJB;
     @Inject
     private CategorySetManagedBean categorySetBean;
+    @Inject
+    private EventGroupManagedBean eventGroupBean;
 
     @Inject
     private Session sessionBean;
@@ -258,6 +260,8 @@ public class ControlManagedBean implements Serializable {
 
     public void removeEventGroup(EventGroupEntity eventGroup) {
         if (eventGroup != null) {
+            // remove group key first
+            eventGroupBean.removeGroupKey(eventGroup);
             eventGroupEJB.remove(eventGroup);
             eventGroups.remove(eventGroup);
         }
