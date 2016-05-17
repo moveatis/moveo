@@ -231,7 +231,10 @@ a.new-key {
 }
 
 .ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
-    /*    pointer-events: none;*/
+    pointer-events: none;
+}
+.ui-cell-editor-input {
+    pointer-events: auto;
 }
 
 #eventGroupsForm .ui-datatable table {
