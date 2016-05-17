@@ -261,7 +261,9 @@ public class ControlManagedBean implements Serializable {
     public void removeEventGroup(EventGroupEntity eventGroup) {
         if (eventGroup != null) {
             // remove group key first
-            eventGroupBean.removeGroupKey(eventGroup);
+            if (eventGroup.getGroupKey() != null) {
+                eventGroupBean.removeGroupKey(eventGroup);
+            }
             eventGroupEJB.remove(eventGroup);
             eventGroups.remove(eventGroup);
         }
