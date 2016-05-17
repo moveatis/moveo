@@ -32,6 +32,7 @@ package com.moveatis.managedbeans;
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.category.CategoryType;
+import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
@@ -51,6 +52,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -74,7 +76,7 @@ public class ControlManagedBean implements Serializable {
     //private static final Logger LOGGER = LoggerFactory.getLogger(ControlManagedBean.class);
     private List<EventGroupEntity> eventGroups;
     private List<CategoryEntity> categories;
-    private List<ObservationEntity> observations;
+    private List<ObservationEntity> otherObservations;
 
     private EventGroupEntity selectedEventGroup;
     private CategorySetEntity selectedCategorySet;
@@ -95,6 +97,8 @@ public class ControlManagedBean implements Serializable {
     private Observation observationEJB;
     @Inject
     private CategorySetManagedBean categorySetBean;
+    @Inject
+    private EventGroupManagedBean eventGroupBean;
 
     @Inject
     private Session sessionBean;
@@ -112,12 +116,19 @@ public class ControlManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        user = sessionBean.getLoggedIdentifiedUser();
         fetchEventGroups();
+        fetchOtherObservations();
+        observationEJB.findAllByObserver(user);
     }
 
     protected void fetchEventGroups() {
-        user = sessionBean.getLoggedIdentifiedUser();
         eventGroups = eventGroupEJB.findAllForOwner(user);
+    }
+
+    private void fetchOtherObservations() {
+        otherObservations = observationEJB.findWithoutEvent(user);
+        otherObservations.addAll(observationEJB.findByEventsNotOwned(user));
     }
 
     public Set<ObservationEntity> getObservations(EventGroupEntity eventGroup) {
@@ -218,6 +229,14 @@ public class ControlManagedBean implements Serializable {
         this.selectedObservation = selectedObservation;
     }
 
+    public List<ObservationEntity> getOtherObservations() {
+        return otherObservations;
+    }
+
+    public void setOtherObservations(List<ObservationEntity> otherObservations) {
+        this.otherObservations = otherObservations;
+    }
+
     public CategoryType[] getCategoryTypes() {
         return CategoryType.values();
     }
@@ -241,6 +260,10 @@ public class ControlManagedBean implements Serializable {
 
     public void removeEventGroup(EventGroupEntity eventGroup) {
         if (eventGroup != null) {
+            // remove group key first
+            if (eventGroup.getGroupKey() != null) {
+                eventGroupBean.removeGroupKey(eventGroup);
+            }
             eventGroupEJB.remove(eventGroup);
             eventGroups.remove(eventGroup);
         }
@@ -332,5 +355,28 @@ public class ControlManagedBean implements Serializable {
             }
         }
         return false;
+    }
+
+    public String msToUnits(long ms) {
+        if (ms <= 0) {
+            return "0 s";
+        }
+        if (ms < 1000) {
+            return "~1 s";
+        }
+        String hms = String.format("%d h %d m %d s", TimeUnit.MILLISECONDS.toHours(ms),
+                TimeUnit.MILLISECONDS.toMinutes(ms) % TimeUnit.HOURS.toMinutes(1),
+                TimeUnit.MILLISECONDS.toSeconds(ms) % TimeUnit.MINUTES.toSeconds(1));
+        hms = hms.replaceFirst("0 h ", "");
+        hms = hms.replaceFirst("0 m ", "");
+        return hms;
+    }
+
+    public String getObservationEventGroupName(ObservationEntity observationEntity) {
+        EventEntity eventEntity = observationEntity.getEvent();
+        if (eventEntity != null && eventEntity.getEventGroup() != null) {
+            return eventEntity.getEventGroup().getLabel();
+        }
+        return "";
     }
 }

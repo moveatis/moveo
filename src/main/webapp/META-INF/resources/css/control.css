@@ -1,16 +1,37 @@
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 /*
     Created on : Mar 15, 2016, 2:16:45 PM
     Author     : Juha Moisio
 */
-
-h1 {
-    font-size: 1.4em;
-}
 
 #mainPage {
     max-width: 960px;
@@ -18,8 +39,10 @@ h1 {
     margin-bottom: 3em;
 }
 
-#mainPage > form {
+#mainPage > form,
+#mainPage .other-observations-fieldset {
     max-width: 40em;
+    margin: 1em 0;
 }
 
 .eventGroupsTable thead {
@@ -186,10 +209,6 @@ a.new-key {
     display: none;
 }
 
-#mainPage .start-button {
-    font-size: 1.2em;
-}
-
 .ui-growl {
     z-index: 2000!important;
 }
@@ -212,20 +231,14 @@ a.new-key {
 }
 
 .ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
-    /*    pointer-events: none;*/
+    pointer-events: none;
+}
+.ui-cell-editor-input {
+    pointer-events: auto;
 }
 
 #eventGroupsForm .ui-datatable table {
     table-layout: auto;
-}
-
-#newEventGroupPanel {
-    display: inline-block;
-    margin-top: 1em;
-}
-
-#commandButtons {
-    margin-top: 1em;
 }
 
 #commandButtons > button:not(:last-of-type) {
@@ -250,10 +263,10 @@ a.new-key {
     font-size: .9em;
 }
 
-a.ui-commandlink:link,
-a.ui-commandlink:visited,
-a.ui-commandlink:active,
-a.ui-commandlink:hover {
+.ui-datalist a.ui-commandlink:link,
+.ui-datalist a.ui-commandlink:visited,
+.ui-datalist a.ui-commandlink:active,
+.ui-datalist a.ui-commandlink:hover {
     color: #4f4f4f;
 }
 
@@ -283,6 +296,23 @@ a.ui-commandlink:hover {
 
 .column-categorytype {
     width: 8em;
+}
+
+.other-observations-fieldset {
+    padding: 0;
+}
+
+.ui-fieldset-legend {
+    font-size: .8em;
+}
+
+#eventGroupsForm .ui-datalist-header,
+#otherObservationsForm thead {
+    font-size: 0.9em;
+}
+
+#eventGroupsForm .ui-expanded-row-content > td {
+    padding: 4px 0;
 }
 
 @media screen and (max-width: 800px) {

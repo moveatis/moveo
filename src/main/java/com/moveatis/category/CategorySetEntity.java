@@ -39,6 +39,7 @@ import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
@@ -55,7 +56,7 @@ public class CategorySetEntity extends BaseEntity implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy="categorySet", cascade={PERSIST, MERGE}, fetch=EAGER, targetEntity=CategoryEntity.class)
+    @OneToMany(mappedBy = "categorySet", cascade = {PERSIST, MERGE}, fetch = FetchType.LAZY, targetEntity = CategoryEntity.class)
     @CollectionTable(name="CATEGORYENTITIES")
     @MapKey(name="orderNumber")
     @Column(name="CATEGORYENTITY_ORDERNUMBER")

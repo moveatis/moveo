@@ -34,6 +34,7 @@ import com.moveatis.category.CategoryEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -54,7 +55,7 @@ public class LabelEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @OneToMany(mappedBy = "label", orphanRemoval=true, fetch=EAGER)
+    @OneToMany(mappedBy = "label", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CategoryEntity> categoryEntities;
     
     @NotNull

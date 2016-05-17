@@ -56,6 +56,14 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "findByObserver",
             query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer"
+    ),
+    @NamedQuery(
+            name = "findWithoutEvent",
+            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event is null"
+    ),
+    @NamedQuery(
+            name = "findByEventsNotOwned",
+            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator!=:observer"
     )
 })
 @Entity
@@ -69,10 +77,10 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     @ManyToOne
     private EventEntity event;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<ObservationCategorySet> observationCategorySets;
 
-    @OneToMany(mappedBy = "observation", fetch = FetchType.EAGER, cascade = ALL)
+    @OneToMany(mappedBy = "observation", fetch = FetchType.LAZY, cascade = ALL)
     private List<RecordEntity> records;
 
     private long duration;
