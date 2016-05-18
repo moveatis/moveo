@@ -170,7 +170,7 @@ function CategoryItem(name, type, id, index) {
                 this.li.removeClass("down");
                 if (master_time > this.start_time) {
                     this.time += master_time - this.start_time;
-                    record = {id: this.id, category: name, startTime: this.start_time, endTime: master_time};
+                    record = {id: this.id, startTime: this.start_time, endTime: master_time};
                 }
                 this.down = false;
             } else {
@@ -208,7 +208,7 @@ function CategoryItem(name, type, id, index) {
             var item = this.li;
             setTimeout(function() { item.removeClass("down"); }, 50);
             
-            return {id: this.id, category: name, startTime: master_time, endTime: master_time};
+            return {id: this.id, startTime: master_time, endTime: master_time};
         };
         
         this_.updateTimer = function() { };

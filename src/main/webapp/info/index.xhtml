@@ -24,6 +24,10 @@
                                 <h:outputLink value="#team">
                                     <h:outputText value="-> #{msg.inf_credits}"/>
                                 </h:outputLink>
+                                <br></br>
+                                <h:outputLink value="#licenses">
+                                    <h:outputText value="-> #{msg.inf_licensedUnder}"/>
+                                </h:outputLink>
                                 <p><br></br></p>
                             </div>
                             <div id="whatIs">
@@ -41,7 +45,22 @@
                             <div id="team">
                                 <p><h3>#{msg.inf_credits}</h3></p>
                                 <h:outputText escape="false" value="#{msg.inf_creditsText}"/>
+                                <p><br></br></p>
                             </div>
+                            
+                            <div id="licenses">
+                                <p><h3>#{msg.inf_licensedUnder}</h3></p>
+                                <h:outputLink value="#{msg.inf_licenseUrl1}">
+                                    <h:outputText escape="false" value="#{msg.inf_licSource}"/>
+                                </h:outputLink>
+                                <br></br>
+                                <h:outputLink value="#{msg.inf_licenseUrl2}">
+                                    <h:outputText escape="false" value="#{msg.inf_licDoc}"/>
+                                </h:outputLink>
+                            </div>
+
+
+
                         </h:panelGroup>
                     </form>
                 </div>
