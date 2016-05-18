@@ -28,8 +28,8 @@
                                  lazy="true">
 
                         <p:ajax event="rowEdit" listener="#{controlBean.onEditEventGroup}"/>
-                        <p:ajax event="rowSelect" update="commandButtons"/>
-                        <p:ajax event="rowUnselect" update="commandButtons"/>
+                        <p:ajax event="rowSelect" update=":startObservationForm"/>
+                        <p:ajax event="rowUnselect" update=":startObservationForm"/>
 
                         <p:column styleClass="row-toggler">
                             <p:rowToggler expandLabel="&#xf138;" collapseLabel="&#xf13a;"/>
@@ -57,15 +57,26 @@
                         </p:column>
 
                         <p:column headerText="Kategoriaryhmät" styleClass="column-category-groups">
-                            <p:dataList value="#{eventGroup.categorySets}" var="categorySet"
-                                        emptyMessage="#{msg.con_emptyMessageCategories}" styleClass="categorySets"
-                                        itemType="none"
-                                        lazy="true">
-                                <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"
-                                               action="#{controlBean.setSelectedCategorySet(categorySet)}"
-                                               onclick="PF('dlgCategorySet').show()" styleClass="link-categoryset"
-                                               update=":categorySetForm :eventGroupsForm:eventGroupsTable"/>
-                            </p:dataList>
+                            <h:outputText rendered="#{eventGroup.categorySets.size() == 0}" value="#{msg.con_emptyMessageCategories}"/>
+                            <ul class="list-categorysets">
+                                <ui:repeat value="#{eventGroup.categorySets.toArray()}" var="categorySet">
+                                    <li>
+                                        <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"
+                                                       action="#{controlBean.setSelectedCategorySet(categorySet)}"
+                                                       onclick="PF('dlgCategorySet').show()" styleClass="link-categoryset"
+                                                       update=":categorySetForm :eventGroupsForm:eventGroupsTable"/>
+                                    </li>
+                                </ui:repeat>
+                                <li>
+                                    <p:commandLink styleClass="fa fa-plus link-new-categoryset link-categoryset"
+                                                   action="#{controlBean.setSelectedEventGroup(eventGroup)}"
+                                                   oncomplete="PF('dlgCategorySet').show()"
+                                                   update=":categorySetForm :eventGroupsForm:eventGroupsTable">
+                                        <span>Lisää</span>
+                                        <f:actionListener binding="#{controlBean.addNewCategorySet()}" />
+                                    </p:commandLink>
+                                </li>
+                            </ul>
                         </p:column>
 
                         <p:column headerText="Avain" styleClass="column-group-keys">
@@ -111,7 +122,7 @@
                                 <f:facet name="header">
                                     #{msg.con_eventObservations}
                                 </f:facet>
-                                <p:commandLink update=":observationDetail" oncomplete="PF('dlgObservation').show()"
+                                <p:commandLink update=":observationDetail :observationFormCommands" oncomplete="PF('dlgObservation').show()"
                                                title="#{msg.con_showObservationDetails}" styleClass="link-observation">
                                     <f:setPropertyActionListener value="#{observation}" target="#{controlBean.selectedObservation}" />
                                     <h:outputText value="#{observation.name}"/>
@@ -204,17 +215,13 @@
                                    action="#{controlBean.setCreatingNewEventGroup(false)}" update="newEventGroupPanel"/>
                 </h:panelGroup>
 
-                <h:form id="commandButtons">
+                <h:form id="newEventGroupButton">
                     <p:commandButton value="#{msg.con_newEvent}" icon="fa fa-plus"
                                      action="#{controlBean.setCreatingNewEventGroup(true)}"
                                      update="newEventGroupPanel" />
-                    <p:commandButton value="#{msg.con_newCategorySet}" icon="fa fa-list"
-                                     disabled="#{empty controlBean.selectedEventGroup}"
-                                     action="#{controlBean.addNewCategorySet}"
-                                     onclick="PF('dlgCategorySet').show()"
-                                     update=":categorySetForm"/>
-                    <br/>
-                    <br/>
+                </h:form>
+
+                <h:form id="startObservationForm">
                     <p:commandButton value="#{msg.con_startObservationForEvent}" icon="fa fa-caret-square-o-right"
                                      action="#{controlBean.newObservation}" styleClass="start-button"
                                      disabled="#{empty controlBean.selectedEventGroup}"/>
@@ -230,7 +237,7 @@
                                          rowKey="#{otherObservation.id}" sortBy="#{otherObservation.id}" reflow="true"
                                          lazy="true">
 
-                                <p:ajax process="@this" event="rowSelect" update=":observationDetail" oncomplete="PF('dlgObservation').show()" />
+                                <p:ajax process="@this" event="rowSelect" update=":observationDetail :observationFormCommands" oncomplete="PF('dlgObservation').show()" />
 
                                 <p:column headerText="#{msg.con_name}" styleClass="column-other-observation-name">
                                     <h:outputText value="#{otherObservation.name}"/>
@@ -362,6 +369,18 @@
                                              disabled="#{empty controlBean.selectedCategory}"/>
                             <br/>
                             <br/>
+                            <p:outputPanel rendered="#{!empty controlBean.selectedCategorySet.id}">
+                                <p:commandButton value="#{msg.con_removeCategorySet}" icon="fa fa-trash"
+                                                 action="#{controlBean.removeCategorySet}"
+
+                                                 oncomplete="onDialogSuccess(args, 'dlgCategorySet', '#{msg.con_categorySetRemoved}')"
+                                                 update=":eventGroupsForm:eventGroupsTable">
+                                    <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                               message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
+                                </p:commandButton>
+                                <br/>
+                                <br/>
+                            </p:outputPanel>
                             <p:commandButton value="#{msg.con_categorySetDetailsSave}" icon="ui-icon-check"
                                              action="#{controlBean.saveCategorySet}"
                                              onclick="submitDataTableEditInputs('.categories-table')"
@@ -369,16 +388,6 @@
                                              update=":eventGroupsForm:eventGroupsTable @form :validationErrorGrowl" validateClient="true"/>
                             <p:commandButton value="#{msg.con_categorySetDetailsCancel}" icon="ui-icon-close"
                                              onclick="PF('dlgCategorySet').hide();" />
-                            <br/>
-                            <br/>
-                            <p:commandButton value="#{msg.con_removeCategorySet}" icon="fa fa-trash"
-                                             action="#{controlBean.removeCategorySet}"
-                                             rendered="#{!empty controlBean.selectedCategorySet.id}"
-                                             oncomplete="onDialogSuccess(args, 'dlgCategorySet', '#{msg.con_categorySetRemoved}')"
-                                             update=":eventGroupsForm:eventGroupsTable">
-                                <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-                                           message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
-                            </p:commandButton>
                         </div>
                     </h:form>
                 </p:dialog>

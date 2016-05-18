@@ -157,21 +157,13 @@ a.new-key {
     color:red;
 }
 
-.categorySets {
-    pointer-events: none;
-}
-
-.categorySets .ui-datalist-content {
-    background: none;
-    border: none;
-}
-
-.categorySets ul {
+.list-categorysets {
     padding: 0;
     margin: 0;
+    display: inline-block;
 }
 
-.categorySets ul > li {
+.list-categorysets > li {
     display: inline-block;
     padding: .2em;
     background: #2D363F;
@@ -183,8 +175,12 @@ a.new-key {
     box-shadow: 1px 1px 1px grey;
 }
 
-.categoryset ul > li:hover {
+.list-categorysets > li:hover {
     box-shadow: none;
+}
+
+.link-new-categoryset > span {
+    font-family: "Roboto",sans-serif;
 }
 
 .link-categoryset {
@@ -306,10 +302,6 @@ a.new-key {
 #eventGroupsForm .ui-datalist-header,
 #otherObservationsForm thead {
     font-size: 0.9em;
-}
-
-#eventGroupsForm .ui-expanded-row-content > td {
-    padding: 4px 0;
 }
 
 @media screen and (max-width: 800px) {
