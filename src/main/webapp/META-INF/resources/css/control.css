@@ -183,19 +183,16 @@ a.new-key {
     box-shadow: 1px 1px 1px grey;
 }
 
-.categorySets ul > li:hover {
+.categoryset ul > li:hover {
     box-shadow: none;
 }
 
-.categorySets ul > li > a.ui-commandlink,
-.ui-state-highlight .categorySets ul > li > a.ui-commandlink {
-    color: white;
+.link-categoryset {
+    color: white!important;
     text-shadow: 1px 1px 1px rgb(51, 51, 51);
 }
 
-.categorySets ul > li > a.ui-commandlink:hover,
-.ui-state-highlight .categorySets ul > li > a.ui-commandlink:hover {
-    color: white;
+.link-categoryset:hover {
     text-shadow: 1px 1px 1px grey;
 }
 
