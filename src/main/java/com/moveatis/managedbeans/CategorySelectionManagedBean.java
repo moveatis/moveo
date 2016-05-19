@@ -297,13 +297,11 @@ public class CategorySelectionManagedBean implements Serializable {
         categorySetsInUse.remove(categorySet);
     }
     
-    public boolean isAtLeastOneCategorySelected() {
+    public boolean isContinueDisabled() {
         for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
-            if (!categorySet.getCategories().isEmpty()) {
-                return true;
-            }
+            if (categorySet.getCategories().isEmpty()) return true;
         }
-        return false;
+        return categorySetsInUse.getCategorySets().isEmpty();
     }
     
     /**
