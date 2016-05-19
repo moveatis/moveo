@@ -165,9 +165,16 @@ public class ObservationManagedBean implements Serializable {
     public void saveObservation() {
         if (sessionBean.isIdentifiedUser()) {
             observationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
-        } else {
-            observationEntity.setObserver(sessionBean.getLoggedInUser());
         }
+        /*
+        NOTE:   GroupKey couldn't be removed if there were observations whose
+                observer was the TagUser corresponding to the GroupKey.
+                Solution: don't set observer if not identified user.
+        
+        else { TODO: Can we leave observer unset? Should we ensure it is null or...?
+            observationEntity.setObserver(sessionBean.getLoggedInUser());
+        }*/
+        
         /*
         * Client wanted that user has the ability to persist observation into 
         * database when he/she wants to. Since it was easier to build business logic
