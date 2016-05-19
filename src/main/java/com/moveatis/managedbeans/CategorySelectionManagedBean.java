@@ -297,6 +297,12 @@ public class CategorySelectionManagedBean implements Serializable {
         categorySetsInUse.remove(categorySet);
     }
     
+    /**
+     * Checks if continue button should be disabled.
+     * The button is disabled if no category sets have been added for the observation
+     * or if some of the added category sets are empty.
+     * @return True if continue button should be disabled.
+     */
     public boolean isContinueDisabled() {
         for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
             if (categorySet.getCategories().isEmpty()) return true;
