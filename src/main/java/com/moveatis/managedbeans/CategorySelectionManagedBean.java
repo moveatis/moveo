@@ -139,11 +139,7 @@ public class CategorySelectionManagedBean implements Serializable {
         privateCategorySets = new ObservationCategorySetList();
         categorySetsInUse = new ObservationCategorySetList();
         
-        if (sessionBean.isTagUser()) {
-            GroupKeyEntity groupKey = sessionBean.getGroupKey();
-            eventGroup = groupKey.getEventGroup();
-            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
-        } else if (observationManagedBean.getEventEntity() != null) {
+        if (observationManagedBean.getEventEntity() != null) {
             EventEntity event = observationManagedBean.getEventEntity();
             eventGroup = event.getEventGroup();
             addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
@@ -297,13 +293,17 @@ public class CategorySelectionManagedBean implements Serializable {
         categorySetsInUse.remove(categorySet);
     }
     
-    public boolean isAtLeastOneCategorySelected() {
+    /**
+     * Checks if continue button should be disabled.
+     * The button is disabled if no category sets have been added for the observation
+     * or if some of the added category sets are empty.
+     * @return True if continue button should be disabled.
+     */
+    public boolean isContinueDisabled() {
         for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
-            if (!categorySet.getCategories().isEmpty()) {
-                return true;
-            }
+            if (categorySet.getCategories().isEmpty()) return true;
         }
-        return false;
+        return categorySetsInUse.getCategorySets().isEmpty();
     }
     
     /**

@@ -29,7 +29,6 @@
  */
 package com.moveatis.session;
 
-import com.moveatis.enums.UserType;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Session;
 import com.moveatis.managedbeans.ObservationManagedBean;
@@ -67,10 +66,8 @@ public class SessionBean implements Serializable, Session  {
     private ObservationManagedBean observationManagedBean;
 
     private boolean loggedIn = false;
-    private UserType userType; // TODO(ilari): Is this needed?
     private IdentifiedUserEntity userEntity;
     private TagUserEntity tagEntity;
-    private AbstractUser abstractUser;
     
     private SortedSet<Long> sessionObservations;
     
@@ -86,20 +83,17 @@ public class SessionBean implements Serializable, Session  {
     
     @Override
     public void setIdentityProviderUser(IdentifiedUserEntity user) {
-        userType = UserType.IDENTIFIED_USER;
         this.userEntity = user;
-        this.abstractUser = user;
         commonSettingsForLoggedInUsers();
     }
     
     @Override
     public void setAnonymityUser() {
-        userType = UserType.ANONYMITY_USER;
         // TODO: Doesn't set abstractUser. Is this ok?
+        tagEntity = null;
         commonSettingsForLoggedInUsers();
         // If user wants to observe without selecting existing event group
         // (in control view or with a group key), we should reset the event.
-        // TODO: Is null ok?
         observationManagedBean.setEventEntity(null);
     }
     
@@ -108,9 +102,7 @@ public class SessionBean implements Serializable, Session  {
         if(tagUser == null) {
             return;
         }
-        userType = UserType.TAG_USER;
         this.tagEntity = tagUser;
-        this.abstractUser = tagUser;
         commonSettingsForLoggedInUsers();
         observationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
     }
@@ -128,6 +120,8 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public String toString() {
+        String userType = this.tagEntity != null ? "tag" : "anonymous";
+        userType = this.userEntity != null ? "identified" : userType;
         return "SessionBean: userType -> " + userType + ", loggedIn -> " + isLoggedIn();
     }
 
@@ -151,7 +145,7 @@ public class SessionBean implements Serializable, Session  {
 
     @Override
     public AbstractUser getLoggedInUser() {
-        return this.abstractUser;
+        return this.tagEntity;
     }
 
     @Override
@@ -208,21 +202,10 @@ public class SessionBean implements Serializable, Session  {
     public void setReturnUri(String returnUri) {
         this.returnUri = returnUri;
     }
-    
-    @Override
-    public boolean isAnonymityUser() {
-        return userType == UserType.ANONYMITY_USER;
-    }
-
-    @Override
-    public boolean isTagUser() {
-        return userType == UserType.TAG_USER;
-    }
 
     @Override
     public boolean isIdentifiedUser() {
         return userEntity != null;
-//        return userType == UserType.IDENTIFIED_USER;
     }
     
     @Override

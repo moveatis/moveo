@@ -51,8 +51,6 @@ public interface Session {
     public void setAnonymityUser();
     public boolean isLoggedIn();
     public boolean isIdentifiedUser();
-    public boolean isAnonymityUser();
-    public boolean isTagUser();
     public boolean isSaveable();
     public SortedSet<Long> getSessionObservationsIds();
     public void setSessionObservations(SortedSet<Long> observationsIds);

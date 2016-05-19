@@ -27,7 +27,7 @@
                     
                     <h2>#{msg.cs_addedCategorySets}</h2>
                         
-                    <h:form id="form">
+                    <h:form id="form" onkeypress="return captureEnter(event);">
                         <p:growl id="growl" showDetail="true"/>
                         
                         <p:confirmDialog global="true">
@@ -36,7 +36,7 @@
                         </p:confirmDialog>
                         
                     
-                        <h:outputText value="#{msg.cs_helpText}" rendered="#{empty categorySelectionBean.categorySetsInUse}"/>
+                        <h:outputText value="#{msg.cs_noCategorySetsText}" rendered="#{empty categorySelectionBean.categorySetsInUse}"/>
                         
                         <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet" varStatus="status">
                         <h:panelGroup id="category-set" styleClass="category-set category-set-#{status.index}">
@@ -47,6 +47,10 @@
                             </p:commandLink>
                             
                             <h2>#{categorySet.name}</h2>
+                            
+                            <h:panelGroup layout="block" styleClass="no-categories-text" rendered="#{empty categorySet.categories}">
+                                <h:outputText value="#{msg.cs_noCategoriesText}"/>
+                            </h:panelGroup>
                             
                             <ui:repeat value="#{categorySet.categories}" var="category">
                             <div class="category">
@@ -69,7 +73,7 @@
                         
                         <div id="continue-div">
                             <p:commandButton value="#{msg.cs_continueToObservation}" id="continue-button"
-                                             disabled="#{not categorySelectionBean.atLeastOneCategorySelected}"
+                                             disabled="#{categorySelectionBean.continueDisabled}"
                                              action="#{categorySelectionBean.checkCategories}" update="@form"/>
                         </div>
                         
@@ -119,6 +123,20 @@
                                 category_set.find(".category-text").last().focus();
                             }, 200);
                         }
+                    }
+                    function captureEnter(event) {
+                        if (event.keyCode !== 13)
+                            return true;
+                        var focused = $(":focus");
+                        if (focused.hasClass("category-text")) {
+                            focused.blur();
+                            var button = focused.parent().next("button");
+                            if (button.length) button.click();
+                        } else if (focused.hasClass("category-set-list-input")) {
+                            var button = focused.next("button");
+                            if (button.length) button.click();
+                        }
+                        return false;
                     }
                 </h:outputScript>
             </ui:define>
