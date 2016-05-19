@@ -12,7 +12,9 @@
             <h:form>
                 <p:menubar styleClass="naviHeader" autoDisplay="false" >
                     <f:facet name="options">
+                        <h:outputLink value="/index.xhtml">
                         <h:outputText value="Moveatis" styleClass="facetLeft"/>
+                        </h:outputLink>
                     </f:facet>
                     
                     <p:submenu icon="fa fa-user" label="#{sessionBean.loggedIdentifiedUser.givenName}" rendered="#{sessionBean.isIdentifiedUser()}">
