@@ -106,7 +106,7 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     public void create(ObservationEntity observationEntity) {
         if (sessionBean.isIdentifiedUser()) {
             super.create(observationEntity);
-        } else if(sessionBean.isAnonymityUser() || sessionBean.isTagUser()) {
+        } else {
             /*
             * TODO: Create observationentity to repository, not database
             */
