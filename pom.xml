@@ -33,10 +33,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.moveatis</groupId>
-    <artifactId>lotas</artifactId>
+    <artifactId>moveatis</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Lotas observer</name>
+    <name>Moveatis</name>
     <description>Student project for University of Jyväskylä</description>
     <organization>
         <name>University of Jyväskylä</name>
