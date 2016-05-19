@@ -157,21 +157,13 @@ a.new-key {
     color:red;
 }
 
-.categorySets {
-    pointer-events: none;
-}
-
-.categorySets .ui-datalist-content {
-    background: none;
-    border: none;
-}
-
-.categorySets ul {
+.list-categorysets {
     padding: 0;
     margin: 0;
+    display: inline-block;
 }
 
-.categorySets ul > li {
+.list-categorysets > li {
     display: inline-block;
     padding: .2em;
     background: #2D363F;
@@ -183,19 +175,20 @@ a.new-key {
     box-shadow: 1px 1px 1px grey;
 }
 
-.categorySets ul > li:hover {
+.list-categorysets > li:hover {
     box-shadow: none;
 }
 
-.categorySets ul > li > a.ui-commandlink,
-.ui-state-highlight .categorySets ul > li > a.ui-commandlink {
-    color: white;
+.link-new-categoryset > span {
+    font-family: "Roboto",sans-serif;
+}
+
+.link-categoryset {
+    color: white!important;
     text-shadow: 1px 1px 1px rgb(51, 51, 51);
 }
 
-.categorySets ul > li > a.ui-commandlink:hover,
-.ui-state-highlight .categorySets ul > li > a.ui-commandlink:hover {
-    color: white;
+.link-categoryset:hover {
     text-shadow: 1px 1px 1px grey;
 }
 
@@ -309,10 +302,6 @@ a.new-key {
 #eventGroupsForm .ui-datalist-header,
 #otherObservationsForm thead {
     font-size: 0.9em;
-}
-
-#eventGroupsForm .ui-expanded-row-content > td {
-    padding: 4px 0;
 }
 
 @media screen and (max-width: 800px) {
