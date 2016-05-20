@@ -24,7 +24,7 @@
                                  selectionMode="single" selection="#{controlBean.selectedEventGroup}" rowKey="#{eventGroup.id}"
                                  editable="true" styleClass="eventGroupsTable"
                                  emptyMessage="#{msg.con_emptyMessageEvents}"
-                                 sortBy="#{eventGroup.id}" reflow="true"
+                                 sortBy="#{eventGroup.created}" reflow="true"
                                  lazy="true">
 
                         <p:ajax event="rowEdit" listener="#{controlBean.onEditEventGroup}"/>
@@ -72,7 +72,7 @@
                                                    action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                                    oncomplete="PF('dlgCategorySet').show()"
                                                    update=":categorySetForm :eventGroupsForm:eventGroupsTable">
-                                        <span>Lisää</span>
+                                        <span>#{msg.dlg_add}</span>
                                         <f:actionListener binding="#{controlBean.addNewCategorySet()}" />
                                     </p:commandLink>
                                 </li>
@@ -206,19 +206,24 @@
                                      value="#{eventGroupManagedBean.eventGroupName}" styleClass="input-name"
                                      placeholder="#{msg.con_eventName}"
                                      validator="#{validationBean.validateShortString}"/>
-                        <p:commandLink class="fa fa-check-square-o"
-                                       action="#{eventGroupManagedBean.createNewEventGroup}"
-                                       update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel" process="@form"
-                                       validateClient="true"/>
+
+                        <p:commandButton value="#{msg.dlg_add}" icon="fa fa-plus"
+                                         action="#{eventGroupManagedBean.createNewEventGroup}"
+                                         update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel :newEventGroupButton" process="@form"
+                                         validateClient="true"/>
                     </h:form>
-                    <p:commandLink class="fa fa-close" rendered="#{controlBean.creatingNewEventGroup}"
-                                   action="#{controlBean.setCreatingNewEventGroup(false)}" update="newEventGroupPanel"/>
+
+                    <p:commandButton value="#{msg.dlg_cancel}" icon="fa fa-close"
+                                     rendered="#{controlBean.creatingNewEventGroup}"
+                                     action="#{controlBean.setCreatingNewEventGroup(false)}"
+                                     update=":newEventGroupPanel :newEventGroupButton"/>
                 </h:panelGroup>
 
                 <h:form id="newEventGroupButton">
                     <p:commandButton value="#{msg.con_newEvent}" icon="fa fa-plus"
+                                     rendered="#{!controlBean.creatingNewEventGroup}"
                                      action="#{controlBean.setCreatingNewEventGroup(true)}"
-                                     update="newEventGroupPanel" />
+                                     update="newEventGroupPanel @form" />
                 </h:form>
 
                 <h:form id="startObservationForm">
@@ -234,7 +239,7 @@
                         <h:form id="otherObservationsForm">
                             <p:dataTable id="otherObservations" value="#{controlBean.otherObservations}" var="otherObservation"
                                          selectionMode="single" selection="#{controlBean.selectedObservation}"
-                                         rowKey="#{otherObservation.id}" sortBy="#{otherObservation.id}" reflow="true"
+                                         rowKey="#{otherObservation.id}" sortBy="#{otherObservation.created}" reflow="true"
                                          lazy="true">
 
                                 <p:ajax process="@this" event="rowSelect" update=":observationDetail :observationFormCommands" oncomplete="PF('dlgObservation').show()" />

@@ -65,9 +65,7 @@ a.new-key {
 .column-group-keys,
 .row-editor,
 .row-toggler,
-.fa-check-square-o,
-.ui-widget.fa-trash,
-.fa-close  {
+.ui-widget.fa-trash {
     font-size: 1.6em;
 }
 
@@ -132,28 +130,24 @@ a.new-key {
     content:"\f046";
 }
 
-.row-editor .ui-icon-check:before,
-.new-eventgroup-form .fa-check-square-o {
+.row-editor .ui-icon-check:before{
     margin-right: .1em;
     display: inline-block;
     vertical-align: middle;
 }
 
-.row-editor .ui-icon-close:before,
-#newEventGroupPanel .fa-close {
+.row-editor .ui-icon-close:before {
     display: inline-block;
     vertical-align: middle;
     margin-top: -4px;
 }
 
-.row-editor .ui-icon-check:hover,
-.new-eventgroup-form .fa-check-square-o:hover {
+.row-editor .ui-icon-check:hover {
     color: green;
 }
 
 .row-editor .ui-icon-close:hover,
-.ui-widget.fa-trash:hover,
-#newEventGroupPanel .fa-close:hover {
+.ui-widget.fa-trash:hover {
     color:red;
 }
 

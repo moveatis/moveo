@@ -119,7 +119,6 @@ public class ControlManagedBean implements Serializable {
         user = sessionBean.getLoggedIdentifiedUser();
         fetchEventGroups();
         fetchOtherObservations();
-        observationEJB.findAllByObserver(user);
     }
 
     protected void fetchEventGroups() {
