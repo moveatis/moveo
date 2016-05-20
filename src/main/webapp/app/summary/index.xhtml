@@ -67,15 +67,23 @@
                     </div>
                     <div id="records" class="ui-grid ui-grid-responsive-480"/>
 
-                    <p:commandButton value="#{msg.dlg_saveAndSend}"
-                                     rendered="#{sessionBean.identifiedUser}"
-                                     styleClass="save-button"
-                                     onclick="PF('dlgSave').show();" />
+                    <h:form>
+                        <p:commandButton value="#{msg.dlg_saveAndSend}"
+                                         rendered="#{sessionBean.identifiedUser}"
+                                         styleClass="save-button"
+                                         onclick="PF('dlgSave').show();"
+                                         process="@this">
+                            <p:ajax update=":saveForm" resetValues="true" />
+                        </p:commandButton>
 
-                    <p:commandButton value="#{msg.dlg_save}"
-                                     rendered="#{!sessionBean.identifiedUser}"
-                                     styleClass="save-button"
-                                     onclick="PF('dlgSave').show();" />
+                        <p:commandButton value="#{msg.dlg_saveDialogHeader}"
+                                         rendered="#{!sessionBean.identifiedUser}"
+                                         styleClass="save-button"
+                                         onclick="PF('dlgSave').show();"
+                                         process="@this">
+                            <p:ajax update=":saveForm" resetValues="true" />
+                        </p:commandButton>
+                    </h:form>
                 </div>
 
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
@@ -134,7 +142,9 @@
                                           itemDisabled="#{!sessionBean.identifiedUser}"/>
                         </p:selectManyCheckbox>
 
-                        <h:outputLabel for="input-name" value="#{msg.sum_observationName}" />
+                        <h:outputLabel for="input-name" value="#{msg.sum_observationName}">
+                            <h:outputText rendered="#{sessionBean.identifiedUser}" value=" (#{msg.dlg_defaultFileName})" />
+                        </h:outputLabel>
                         <p:message for="input-name" />
                         <p:inputText id="input-name" required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{summaryBean.observation.name}"

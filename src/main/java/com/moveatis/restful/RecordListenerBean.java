@@ -29,13 +29,11 @@
  */
 package com.moveatis.restful;
 
-import com.moveatis.category.CategoryEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.Label;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Record;
 import com.moveatis.interfaces.Session;
-import com.moveatis.label.LabelEntity;
 import com.moveatis.managedbeans.ObservationManagedBean;
 import com.moveatis.managedbeans.UserManagedBean;
 import com.moveatis.observation.ObservationCategory;
@@ -46,7 +44,6 @@ import com.moveatis.timezone.TimeZoneInformation;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -96,9 +93,7 @@ public class RecordListenerBean implements Serializable {
     private UserManagedBean userManagedBean;
     
     private ResourceBundle messages;
-    
-    private ObservationEntity observationEntity;
-    
+
     @Inject
     private Observation observationEJB;
     @Inject
@@ -157,7 +152,7 @@ public class RecordListenerBean implements Serializable {
         
         jsonReader.close();
 
-        Date createdTime = Calendar.getInstance().getTime();
+        Date createdTime = observationManagedBean.getObservationEntity().getCreated();
         
         TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(
                 timeZoneOffset.intValue(), DSTOffset.intValue());
@@ -169,7 +164,7 @@ public class RecordListenerBean implements Serializable {
         dateFormat.setTimeZone(timeZone);
         
         observationManagedBean.setObservationName(messages.getString("obs_title")
-                + " - " + dateFormat.format(createdTime));
+                + " - " + messages.getString("obs_startedAt") + " " + dateFormat.format(createdTime));
         observationManagedBean.setObservationDuration(duration.longValue());
 
         Map<Long, ObservationCategory> categoriesById = new HashMap<>();

@@ -61,12 +61,12 @@ public abstract class BaseEntity {
     private Date removed;
     
     @PrePersist
-    protected void setCreated() {
+    public void setCreated() {
         Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
         created = calendar.getTime();
     }
     
-    protected Date getCreated() {
+    public Date getCreated() {
         return this.created;
     }
     

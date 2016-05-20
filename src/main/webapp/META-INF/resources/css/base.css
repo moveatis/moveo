@@ -315,6 +315,16 @@ a:hover {text-decoration: none; color: white;}
     opacity: 1;
 }
 
+/* Error icon change */
+.ui-message-error-icon {
+    background: none!important;
+}
+.ui-message-error-icon:before {
+    content: "\f12a";
+    font-family: FontAwesome;
+    margin-left: .2em;
+}
+
 @media screen and (max-width: 800px) {
 
     nav {

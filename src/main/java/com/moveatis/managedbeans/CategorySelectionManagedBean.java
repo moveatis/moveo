@@ -355,7 +355,7 @@ public class CategorySelectionManagedBean implements Serializable {
             showErrorMessage(messages.getString("cs_errorNoneSelected"));
             return "";
         }
-        
+
         observationManagedBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
         return "categoriesok";
     }
