@@ -46,3 +46,7 @@ buildNumber.properties
 
 # Lockfiles and such
 .LCK*
+
+# Directory for TeXDoclet and LaTeX outputs
+texdocs/
+
