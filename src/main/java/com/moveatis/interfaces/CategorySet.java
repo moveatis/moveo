@@ -37,6 +37,11 @@ import javax.ejb.Local;
 
 /**
  *
+ * This interfaces defines the contract to manage the categoryset entity.
+ * Categoryset tells the common nominator for different categories. For instance, 
+ * for developer the categoryset might be "Developing", which categories such as
+ * "Coding", "Debugging" etc.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local

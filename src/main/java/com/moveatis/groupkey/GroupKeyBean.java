@@ -30,7 +30,6 @@ package com.moveatis.groupkey;
 
 import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.GroupKey;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -38,7 +37,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * This EJB managed groupkeys, which are used to access eventgroups in "semi-public" fashion.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -58,11 +57,20 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
         return em;
     }
 
+    /**
+     * This method returns the groupkey, which currently is associated with this instance.
+     * @return The groupkey associated with this instances for groupkeyEJB.
+     */
     @Override
     public GroupKeyEntity getGroupKeyEntity() {
         return groupKeyEntity;
     }
-
+    /**
+     * This method finds and returns the groupkey, which has the same value 
+     * as the String-type parameters.
+     * @param key String-representation of the key.
+     * @return the groupkey or null-
+     */
     @Override
     public GroupKeyEntity findByKey(String key) {
         TypedQuery<GroupKeyEntity> query = em.createNamedQuery("findKey", GroupKeyEntity.class);
@@ -78,6 +86,12 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
 
     }
 
+    /**
+     * This method removes groupkeys permanently. Usually the entities are not removed
+     * from database, only their removed-date is set, but groupkey need to be reused,
+     * so they need to be removed permanently before reuse.
+     * @param groupKeyEntity Which groupkey to remove
+     */
     @Override
     public void removePermanently(GroupKeyEntity groupKeyEntity) {
         em.remove(em.merge(groupKeyEntity));

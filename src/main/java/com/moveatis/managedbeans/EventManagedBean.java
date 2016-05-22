@@ -34,9 +34,6 @@ import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.interfaces.Event;
 import com.moveatis.interfaces.Session;
-import java.util.Calendar;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -44,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Bean to manage events in appropriate views. 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="eventManagedBean")
@@ -62,9 +59,6 @@ public class EventManagedBean {
     
     @Inject
     private Session sessionBean;
-    
-    @Inject
-    private ControlManagedBean controlManagedBean;
 
     /** Creates a new instance of EventManagedBean */
     public EventManagedBean() {
@@ -87,6 +81,10 @@ public class EventManagedBean {
         this.description = description;
     }
     
+    /**
+     * Creates new event for eventgroup.
+     * @param eventGroupEntity The eventgroup for new event.
+     */
     public void createNewEvent(EventGroupEntity eventGroupEntity) {
         
         eventEntity = new EventEntity();
@@ -99,7 +97,6 @@ public class EventManagedBean {
         
         eventEJB.create(eventEntity);
         
-        //controlManagedBean.createNewEvent();
     }
 
 }

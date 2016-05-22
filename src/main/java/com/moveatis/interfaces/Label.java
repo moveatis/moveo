@@ -33,7 +33,11 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * This interfaces defines the contract to manage the label entity.
+ * Label is a name for category. As there might be several similarly named categories,
+ * like "software project", having a label to store this information means that the 
+ * text is persisted only once.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Label.class)

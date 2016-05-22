@@ -39,7 +39,6 @@ import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,7 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Bean for managing categorysets in appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "categorySetManagedBean")
@@ -103,6 +102,10 @@ public class CategorySetManagedBean implements Serializable {
         this.description = description;
     }
 
+    /**
+     * Creates new categoryset.
+     * @param eventGroupEntity For which eventgroup add this new categoryset.
+     */
     public void createNewCategorySet(EventGroupEntity eventGroupEntity) {
         categorySetEntity = new CategorySetEntity();
         categorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
@@ -122,6 +125,14 @@ public class CategorySetManagedBean implements Serializable {
         categorySetEJB.create(categorySetEntity);
     }
 
+    /**
+     * This method allows creating and editing a categoryset. Its fairly complex,
+     * see the comments in the code to get better understanding what this does.
+     * 
+     * @param eventGroupEntity For which eventgroup the categoryset belongs.
+     * @param categorySetEntity The categoryset to create or edit,
+     * @param newCategoryEntities The categories belonging to the categoryset.
+     */
     public void createAndEditCategorySet(EventGroupEntity eventGroupEntity,
             CategorySetEntity categorySetEntity, List<CategoryEntity> newCategoryEntities) {
 

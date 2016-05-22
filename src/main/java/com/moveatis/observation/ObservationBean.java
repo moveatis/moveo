@@ -30,7 +30,6 @@
 package com.moveatis.observation;
 
 import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.event.EventEntity;
 import com.moveatis.interfaces.Event;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -42,7 +41,6 @@ import javax.ejb.EJB;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.moveatis.repository.RepositoryDescriptorBean;
 import com.moveatis.session.SessionBean;
 import com.moveatis.user.AbstractUser;
 import java.util.List;
@@ -62,8 +60,6 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     @Inject
     private SessionBean sessionBean;
     
-    @EJB
-    private RepositoryDescriptorBean repositoryBean;
     @EJB
     private Event eventEJB;
     
@@ -104,14 +100,7 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 
     @Override
     public void create(ObservationEntity observationEntity) {
-        if (sessionBean.isIdentifiedUser()) {
-            super.create(observationEntity);
-        } else {
-            /*
-            * TODO: Create observationentity to repository, not database
-            */
-            super.create(observationEntity);
-        }
+        super.create(observationEntity);
     }
 
     @Override

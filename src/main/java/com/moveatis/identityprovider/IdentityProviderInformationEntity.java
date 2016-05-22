@@ -40,7 +40,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * This entity represents the data needed to identify a existing user. This is 
+ * an example entity, which must be rewritten, if custom identityservice is to be used.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

@@ -46,7 +46,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This EJB manages the CategorySet entities.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -72,6 +73,10 @@ public class CategorySetBean extends AbstractBean<CategorySetEntity> implements 
         super(CategorySetEntity.class);
     }
     
+    /**
+     * Sets the categoryset removed-date and removes the categoryset from eventgroups.
+     * @param categorySetEntity The categorysetentity to remove
+     */
     @Override
     public void remove(CategorySetEntity categorySetEntity) {
         super.remove(categorySetEntity);
@@ -80,6 +85,10 @@ public class CategorySetBean extends AbstractBean<CategorySetEntity> implements 
         super.edit(categorySetEntity);
     }
 
+    /**
+     * Finds those categorysets that are set as public.
+     * @return Set of all categorysetentities-
+     */
     @Override
     public Set<CategorySetEntity> findPublicCategorySets() {
         
@@ -93,7 +102,12 @@ public class CategorySetBean extends AbstractBean<CategorySetEntity> implements 
         
         return publicCategorySets;
     }
-
+    
+    /**
+     * Removes a category from the categoryset.
+     * @param categorySet From which categoryset to remove the category
+     * @param categoryEntity The category to be removed from the categoryset.
+     */
     @Override
     public void removeCategoryFromCategorySet(CategorySetEntity categorySet, CategoryEntity categoryEntity) {
         Map<Integer, CategoryEntity> categories = categorySet.getCategoryEntitys();

@@ -32,7 +32,8 @@ package com.moveatis.identityprovider;
 import com.moveatis.user.IdentifiedUserEntity;
 
 /**
- *
+ * Interface for identityprovider service. If identityprovider service needs to 
+ * be customized outside Jyväskylä University, then this interface must be implemented.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface IdentityProvider {

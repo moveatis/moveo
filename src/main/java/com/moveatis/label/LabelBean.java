@@ -36,7 +36,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * This EJB manages the labels.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -56,6 +56,11 @@ public class LabelBean extends AbstractBean<LabelEntity> implements Label {
         return em;
     }
 
+    /**
+     * Finds and returns a label for given string representation of its value.
+     * @param label String-presentation of wanted label
+     * @return the LabelEntity or null
+     */
     @Override
     public LabelEntity findByLabel(String label) {
         TypedQuery<LabelEntity> query = em.createNamedQuery("findByText", LabelEntity.class);

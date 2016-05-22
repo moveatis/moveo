@@ -43,7 +43,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * This entity represent the data of the application in the database.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Table(name="APPLICATION")
@@ -58,7 +59,8 @@ public class ApplicationEntity extends BaseEntity implements Serializable {
     
     @OneToMany
     private List<SuperUserRoleEntity> superUsers;
-
+    
+    private String reportEmail;
 
     public List<SuperUserRoleEntity> getSuperUsers() {
         if(superUsers == null) {
@@ -77,6 +79,14 @@ public class ApplicationEntity extends BaseEntity implements Serializable {
 
     public void setApplicationInstalled(Date applicationInstalled) {
         this.applicationInstalled = applicationInstalled;
+    }
+
+    public String getReportEmail() {
+        return reportEmail;
+    }
+
+    public void setReportEmail(String reportEmail) {
+        this.reportEmail = reportEmail;
     }
 
     @Override

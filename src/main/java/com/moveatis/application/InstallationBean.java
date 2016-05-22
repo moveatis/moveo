@@ -44,13 +44,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This class does the installation task of the Moveatis-application.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class InstallationBean implements Serializable {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(InstallationBean.class);
+    private static final String REPORT_EMAIL="sami.m.j.kallio@student.jyu.fi";
     
     private ApplicationEntity applicationEntity;
     
@@ -70,6 +72,13 @@ public class InstallationBean implements Serializable {
         
     }
     
+    /**
+     * This method creates the application, which includes setting the 
+     * installation date, adding the user, who made the installation to 
+     * superusers and adding reporting email, where possible error reports are sent.
+     * 
+     * @return enum, which result of the installation
+     */
     public ApplicationStatusCode createApplication() {
         
         if(!applicationEJB.checkInstalled()) {
@@ -77,6 +86,7 @@ public class InstallationBean implements Serializable {
             applicationEntity = new ApplicationEntity();
             applicationEntity.setApplicationInstalled(Calendar.getInstance().getTime());
             applicationEntity.setSuperUsers(roleEJB.listSuperusers());
+            applicationEntity.setReportEmail(REPORT_EMAIL);
             applicationEJB.create(applicationEntity);
             
             AnonUserEntity anonEntity = new AnonUserEntity();
@@ -86,7 +96,6 @@ public class InstallationBean implements Serializable {
             return ApplicationStatusCode.INSTALLATION_OK;
         }
         
-        LOGGER.debug("Application existed already");
         return ApplicationStatusCode.ALREADY_INSTALLED;
     }
 }

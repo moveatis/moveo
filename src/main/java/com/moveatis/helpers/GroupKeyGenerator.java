@@ -32,12 +32,13 @@ package com.moveatis.helpers;
 import java.util.Random;
 
 /**
- *
+ * This helper class could be used to generate a groupkey, if user cannot
+ * think one of herself.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class GroupKeyGenerator {
     
-    private static final int SCENE_KEY_LENGTH = 8;
+    private static final int EVENGROUP_KEY_LENGTH = 8;
     private static final int LETTERS_COUNT = 25;
     private static final int NUMBERS_COUNT = 10;
     
@@ -56,7 +57,7 @@ public class GroupKeyGenerator {
         StringBuilder stb = new StringBuilder();
         int letterOrNumber;
         
-        for(int i = 0; i <= SCENE_KEY_LENGTH; i++) {
+        for(int i = 0; i <= EVENGROUP_KEY_LENGTH; i++) {
             letterOrNumber = randomizer.nextInt(2);
             if(letterOrNumber % 2 == CHOOSE_LETTER) {
                 stb.append(LETTERS[randomizer.nextInt(LETTERS_COUNT)]);

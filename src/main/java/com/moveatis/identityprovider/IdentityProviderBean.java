@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, sami 
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * An example EJB to implement custom identityprovider service.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless

@@ -36,7 +36,9 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * This interfaces defines the contract to manage the eventgroup entity.
+ * Eventgroup is the common nominator for different events.For instance, for developers
+ * the eventgroup might be the different projects.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(EventGroup.class)

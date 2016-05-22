@@ -39,7 +39,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**
- *
+ * Bean which allows setting superuserrole for identified users. Not used
+ * in current version of Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com
  */
 @Named(value = "superUserBean")

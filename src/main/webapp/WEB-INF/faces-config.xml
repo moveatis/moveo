@@ -112,5 +112,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <base-name>com.moveatis.messages.IdentityProviderMessages</base-name>
             <var>identitymessages</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>com.moveatis.messages.ErrorMessages</base-name>
+            <var>errormessages</var>
+        </resource-bundle>
     </application>
 </faces-config>

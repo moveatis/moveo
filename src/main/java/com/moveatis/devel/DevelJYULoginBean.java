@@ -40,7 +40,6 @@ import com.moveatis.interfaces.Session;
 import com.moveatis.interfaces.User;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.IOException;
-import java.util.Calendar;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -48,7 +47,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- *
+ * This bean is dummy-loginbean for development purposes, as it mocks
+ * the Jyväskylä University's Shibboleth-identityprovider system.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="develJYULoginBean")
@@ -130,6 +131,7 @@ public class DevelJYULoginBean {
         }
         
         return "fail?faces-redirect=true";
+        
     }
     
     public String doRegistration() {

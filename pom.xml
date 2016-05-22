@@ -52,7 +52,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <jboss-logging.version>3.3.0.Final</jboss-logging.version>
         <log4j.version>1.2.17</log4j.version>
         <javaee-api.version>7.0</javaee-api.version>
-        <datasource>java:/jboss/jdbc/MoveatisDS</datasource>
+        <jbossjta.version>4.16.6.Final</jbossjta.version>
+        <datasource>java:jboss/datasources/MoveatisDS</datasource>
         <netbeans.hint.license>bsd3-license-template</netbeans.hint.license>
     </properties>
 	<developers>
@@ -98,34 +99,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		</developer>
 	</developers>
         
-    <dependencyManagement>
-        <dependencies>
-          <!-- Import the ModeShape BOM for embedded usage. This adds to the "dependenciesManagement" section
-               defaults for all of the modules we might need, but we still have to include in the
-               "dependencies" section the modules we DO need. The benefit is that we don't have to
-               specify the versions of any of those modules.-->
-            <dependency>
-                <groupId>org.modeshape.bom</groupId>
-                <artifactId>modeshape-bom-embedded</artifactId>
-                <version>4.0.0.Final</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     
     <dependencies>
         <dependency>
-            <groupId>org.modeshape</groupId>
-            <artifactId>modeshape-jcr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.modeshape</groupId>
-            <artifactId>modeshape-jcr-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.jbossts</groupId>
             <artifactId>jbossjta</artifactId>
+            <version>${jbossjta.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>

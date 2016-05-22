@@ -35,7 +35,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import static javax.persistence.FetchType.EAGER;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,7 +42,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * This entity represents information for category's label in the database.
+ * Since there might be several categories with similar type of name, like "Teaching", 
+ * having one label for many categories saves us from persisting information many times
+ * to database.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Table(name="LABEL")
@@ -86,15 +88,11 @@ public class LabelEntity extends BaseEntity implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof LabelEntity)) {
             return false;
         }
         LabelEntity other = (LabelEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

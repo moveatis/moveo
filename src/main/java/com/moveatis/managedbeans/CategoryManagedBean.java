@@ -45,7 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Bean that serves category management in appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "categoryManagedBean")

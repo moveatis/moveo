@@ -50,7 +50,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This servlet handles identification of users, using Jyväskylä University
+ * Shibboleth-service.
+ * 
+ * If you are modifying Moveatis to your own organization, you need to 
+ * implement your own identity provider service with classes in 
+ * identityprovider package.
+ * 
+ * @see IdentityProviderInformationEntity
+ * @see IdentityProvider
+ * @see IdentityProviderBean
+ * @see IdentityProviderRegistrationBean
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @WebServlet(name = "JyuIdentityServlet", urlPatterns = {"/lotas/secure"})
@@ -102,7 +112,6 @@ public class JyuIdentityServlet extends HttpServlet {
                 * IdentityProviderInformationEntity was not found, but as our service is open to all
                 * students and affiliates of Jyväskylä University, we shall create a new entity for this user
                 */
-                LOGGER.debug("UserEntityä ei löytynyt, luodaan uusi");
                 userEntity = new IdentifiedUserEntity();
         
                 IdentityProviderInformationEntity identityProviderInformationEntity = new IdentityProviderInformationEntity();
@@ -120,12 +129,10 @@ public class JyuIdentityServlet extends HttpServlet {
                 if(!applicationEJB.checkInstalled()) {
                     // Application itself has not been installed yet, so that 
                     // needs to be done
-                    LOGGER.debug("Sovellusta ei ollut vielä asennettu, asennetaan");
                     // First user is the admin user
                     roleEJB.addSuperuserRoleToUser(userEntity);
                     
                     if(installationEJB.createApplication() == ApplicationStatusCode.INSTALLATION_OK) {
-                        LOGGER.debug("Sovellus asennettu, siirretään control-sivulle");
                         response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
                     } else {
                         response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
@@ -135,7 +142,6 @@ public class JyuIdentityServlet extends HttpServlet {
                 }
             }
         } else {
-            LOGGER.debug("eppn, displayName or affiliation was null");
             response.sendRedirect(RedirectURLs.HOME_URI);
         }
     }
@@ -167,7 +173,7 @@ public class JyuIdentityServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "This servlet is the endpoint to Shibboleth-identityprovider service";
+    }
 
 }

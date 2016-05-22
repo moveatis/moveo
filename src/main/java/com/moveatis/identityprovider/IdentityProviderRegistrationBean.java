@@ -40,7 +40,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
 /**
- *
+ * This is an example managedbean for customizing identityservice.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="identityProviderRegistrationBean")

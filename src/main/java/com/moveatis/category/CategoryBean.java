@@ -35,11 +35,12 @@ import com.moveatis.interfaces.CategorySet;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * This EJB manages the Category entity.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -60,14 +61,29 @@ public class CategoryBean extends AbstractBean<CategoryEntity> implements Catego
         super(CategoryEntity.class);
     }
 
+    /**
+     * Method for finding category with certain label.
+     * @param label Find category with this label.
+     * @return The found category or null.
+     */
     @Override
     public CategoryEntity findByLabel(String label) {
         TypedQuery<CategoryEntity> query = em.createNamedQuery("Category.findByLabel", CategoryEntity.class);
         query.setParameter("label", label);
-        
-        return query.getSingleResult();
+        try {
+            CategoryEntity categoryEntity = query.getSingleResult();
+            return categoryEntity;
+        } catch(NoResultException nre) {
+            return null;
+        }
     }
 
+    /**
+     * Removes category from categoryset.
+     * 
+     * @param whichCategorySet Which categoryset the category belongs
+     * @param whichCategory The category that is removed
+     */
     @Override
     public void removeFromCategorySet(CategorySetEntity whichCategorySet, CategoryEntity whichCategory) {
         super.remove(whichCategory);
