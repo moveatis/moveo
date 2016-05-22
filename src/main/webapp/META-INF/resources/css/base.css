@@ -211,6 +211,9 @@ ul.ui-menu-child {
 .coloredDialog form table  {
     margin-bottom: 0.8em;
 }
+.coloredDialog form button {
+    margin-bottom: 0.4em;
+}
 
 .ui-dialog-content {
     overflow-y: auto;

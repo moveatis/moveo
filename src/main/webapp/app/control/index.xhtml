@@ -275,10 +275,12 @@
                                          oncomplete="onDialogSuccess(args, 'dlgNewKey', '#{msg.con_keySet}')"
                                          update="input-new-groupkey :validationErrorGrowl :eventGroupsForm:eventGroupsTable" validateClient="true"/>
                     </h:form>
+                    <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+                                     onclick="PF('dlgNewKey').hide();" />
                 </p:dialog>
 
 
-                <p:dialog header="#{msg.con_changeGroupKey}" widgetVar="dlgEditKey"
+                <p:dialog header="#{msg.con_manageGroupKey}" widgetVar="dlgEditKey"
                           position="top" resizable="false" responsive="true"
                           modal="true" fitViewport="true" styleClass="coloredDialog key-dialog ui-fluid">
                     <h:form id="editKeyForm">
@@ -286,16 +288,19 @@
                                      required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{controlBean.selectedEventGroup.groupKey.groupKey}"
                                      validator="#{validationBean.validateGroupKey}"/>
-                        <p:commandButton value="#{msg.con_changeGroupKey}" icon="ui-icon-check"
+                        <p:commandButton value="#{msg.dlg_change}" icon="ui-icon-check"
                                          action="#{eventGroupManagedBean.editGroupKey(controlBean.selectedEventGroup, controlBean.selectedEventGroup.groupKey.groupKey)}"
                                          oncomplete="onDialogSuccess(args, 'dlgEditKey', '#{msg.con_keyChanged}')"
                                          update="input-edit-groupkey :validationErrorGrowl" validateClient="true"/>
                     </h:form>
                     <h:form id="removeKeyForm">
-                        <p:commandButton value="#{msg.con_removeGroupKey}" icon="ui-icon-trash"
+                        <p:commandButton value="#{msg.dlg_remove}" icon="ui-icon-trash"
                                          action="#{eventGroupManagedBean.removeGroupKey(controlBean.selectedEventGroup)}"
                                          oncomplete="onDialogSuccess(args, 'dlgEditKey', '#{msg.con_keyRemoved}')"
-                                         update=":eventGroupsForm:eventGroupsTable"/>
+                                         update=":eventGroupsForm:eventGroupsTable">
+                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                       message="#{msg.dlg_confirmRemoveMessage} #{msg.con_groupKey}. #{msg.dlg_confirmMessage}"/>
+                        </p:commandButton>
                     </h:form>
                 </p:dialog>
 
