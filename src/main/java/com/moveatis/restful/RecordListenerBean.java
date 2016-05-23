@@ -164,7 +164,7 @@ public class RecordListenerBean implements Serializable {
         dateFormat.setTimeZone(timeZone);
         
         observationManagedBean.setObservationName(messages.getString("obs_title")
-                + " - " + messages.getString("obs_startedAt") + " " + dateFormat.format(createdTime));
+                + " - " + dateFormat.format(createdTime));
         observationManagedBean.setObservationDuration(duration.longValue());
 
         Map<Long, ObservationCategory> categoriesById = new HashMap<>();
