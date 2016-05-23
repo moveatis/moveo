@@ -30,7 +30,6 @@
 package com.moveatis.records;
 
 import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.category.CategoryEntity;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import java.io.File;
@@ -40,7 +39,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * This entity represent data of an record, which will be persisted to database.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
@@ -58,6 +58,7 @@ public class RecordEntity extends BaseEntity implements Serializable {
     private ObservationEntity observation;
     
     private String comment;
+    // Not used in version 1.0
     private File voiceComment;
 
     public ObservationEntity getObservation() {
@@ -100,10 +101,18 @@ public class RecordEntity extends BaseEntity implements Serializable {
         this.comment = comment;
     }
 
+    /**
+     * Not used in version 1.0
+     * @return File for voicecomment.
+     */
     public File getVoiceComment() {
         return voiceComment;
     }
 
+    /**
+     * Not used in version 1.0
+     * @param voiceComment The file that holds the voice comment.
+     */
     public void setVoiceComment(File voiceComment) {
         this.voiceComment = voiceComment;
     }
@@ -121,10 +130,7 @@ public class RecordEntity extends BaseEntity implements Serializable {
             return false;
         }
         RecordEntity other = (RecordEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

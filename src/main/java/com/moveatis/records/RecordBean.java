@@ -36,7 +36,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
+ * EJB for managing records, which hold the information for analysis for an obsevation.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless

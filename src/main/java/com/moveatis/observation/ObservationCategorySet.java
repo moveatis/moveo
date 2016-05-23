@@ -36,7 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Observation has it own categorysets, so renaming or removing original categorysets
+ * does not alter old observations.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
@@ -86,9 +88,5 @@ public class ObservationCategorySet implements Serializable {
 
     public void remove(ObservationCategory category) {
         categories.remove(category);
-    }
-    
-    private Long findNextTag() {
-        return (long)categories.size();
     }
 }

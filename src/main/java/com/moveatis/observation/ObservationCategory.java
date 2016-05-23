@@ -35,7 +35,9 @@ import com.moveatis.helpers.Validation;
 import java.io.Serializable;
 
 /**
- *
+ * Observation has it own categories, so renaming the original category
+ * does not affect on old observations.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
@@ -75,8 +77,12 @@ public class ObservationCategory implements Serializable {
     }
     
     public void setTypeAsBoolean(boolean value) {
-        if (value)  type = CategoryType.COUNTED;
-        else        type = CategoryType.TIMED;
+        if (value) {
+            type = CategoryType.COUNTED;
+        }
+        else {
+            type = CategoryType.TIMED;
+        }
     }
     
     public Long getTag() {
