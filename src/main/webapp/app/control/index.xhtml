@@ -35,7 +35,7 @@
                             <p:rowToggler expandLabel="&#xf138;" collapseLabel="&#xf13a;"/>
                         </p:column>
 
-                        <p:column headerText="Nimi" styleClass="column-name">
+                        <p:column headerText="#{msg.con_event}" styleClass="column-name">
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <h:outputText value="#{eventGroup.label}" title="#{eventGroup.description}"/>
@@ -56,7 +56,7 @@
                             </p:cellEditor>
                         </p:column>
 
-                        <p:column headerText="Kategoriaryhmät" styleClass="column-category-groups">
+                        <p:column headerText="#{msg.con_categorySets}" styleClass="column-category-groups">
                             <h:outputText rendered="#{eventGroup.categorySets.size() == 0}" value="#{msg.con_emptyMessageCategories}"/>
                             <ul class="list-categorysets">
                                 <ui:repeat value="#{eventGroup.categorySets.toArray()}" var="categorySet">
@@ -79,7 +79,7 @@
                             </ul>
                         </p:column>
 
-                        <p:column headerText="Avain" styleClass="column-group-keys">
+                        <p:column headerText="#{msg.con_key}" styleClass="column-group-keys">
                             <p:commandLink styleClass="fa fa-key new-key"
                                            action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                            rendered="#{!controlBean.hasGroupKey(eventGroup)}"
@@ -89,19 +89,19 @@
                             <p:commandLink class="fa fa-key edit-key"
                                            action="#{controlBean.setSelectedEventGroup(eventGroup)}"
                                            rendered="#{controlBean.hasGroupKey(eventGroup)}"
-                                           title="#{msg.con_changeGroupKey}"
+                                           title="#{msg.con_manageGroupKey}"
                                            onclick="PF('dlgEditKey').show();"
                                            update=":editKeyForm :eventGroupsForm:eventGroupsTable"/>
                         </p:column>
 
-                        <p:column styleClass="row-editor">
+                        <p:column headerText="#{msg.dlg_edit}" styleClass="row-editor">
                             <p:rowEditor styleClass="fa"
                                          editTitle="#{msg.con_editEvent}"
                                          saveTitle="#{msg.dlg_save}"
                                          cancelTitle="#{msg.dlg_cancel}"/>
                         </p:column>
 
-                        <p:column styleClass="column-remove">
+                        <p:column headerText="#{msg.dlg_remove}" styleClass="column-remove">
                             <p:commandLink styleClass="fa fa-trash"
                                            action="#{controlBean.removeEventGroup(eventGroup)}"
                                            title="#{msg.con_removeEvent}"
@@ -267,7 +267,6 @@
                           modal="true" fitViewport="true" styleClass="coloredDialog key-dialog ui-fluid">
                     <h:form id="newKeyForm">
                         <p:inputText id="input-new-groupkey" autocomplete="off"
-                                     required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{eventGroupManagedBean.eventGroupKey}"
                                      validator="#{validationBean.validateGroupKey}"/>
                         <p:commandButton value="#{msg.con_ok}" icon="ui-icon-check"
@@ -285,7 +284,6 @@
                           modal="true" fitViewport="true" styleClass="coloredDialog key-dialog ui-fluid">
                     <h:form id="editKeyForm">
                         <p:inputText id="input-edit-groupkey" autocomplete="off"
-                                     required="true" requiredMessage="#{msg.dlg_notEmpty}"
                                      value="#{controlBean.selectedEventGroup.groupKey.groupKey}"
                                      validator="#{validationBean.validateGroupKey}"/>
                         <p:commandButton value="#{msg.dlg_change}" icon="ui-icon-check"

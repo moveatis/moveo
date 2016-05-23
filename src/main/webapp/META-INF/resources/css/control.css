@@ -41,12 +41,8 @@
 
 #mainPage > form,
 #mainPage .other-observations-fieldset {
-    max-width: 40em;
+    max-width: 50rem;
     margin: 1em 0;
-}
-
-.eventGroupsTable thead {
-    display:none!important;
 }
 
 #mainPage a.edit-key {
@@ -78,6 +74,16 @@ a.new-key {
 .column-remove,
 .column-group-keys {
     width: 1em;
+    text-align: center;
+}
+
+.ui-datatable thead th {
+    text-align: left;
+    font-size: 1em;
+}
+
+.ui-datatable .ui-row-editor span {
+    float: none;
 }
 
 .column-name,
@@ -298,6 +304,10 @@ a.new-key {
     font-size: 0.9em;
 }
 
+#startObservationForm {
+    text-align: right;
+}
+
 @media screen and (max-width: 800px) {
 
     #mainPage {
@@ -305,12 +315,17 @@ a.new-key {
     }
 
     #mainPage > form {
-        margin: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
 
 }
 
 @media screen and (max-width: 640px) {
+
+    .eventGroupsTable thead {
+        display:none!important;
+    }
 
     .row-toggler-mobile {
         display: block;
