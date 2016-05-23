@@ -298,8 +298,6 @@
                                          action="#{eventGroupManagedBean.removeGroupKey(controlBean.selectedEventGroup)}"
                                          oncomplete="onDialogSuccess(args, 'dlgEditKey', '#{msg.con_keyRemoved}')"
                                          update=":eventGroupsForm:eventGroupsTable">
-                            <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-                                       message="#{msg.dlg_confirmRemoveMessage} #{msg.con_groupKey}. #{msg.dlg_confirmMessage}"/>
                         </p:commandButton>
                     </h:form>
                 </p:dialog>
