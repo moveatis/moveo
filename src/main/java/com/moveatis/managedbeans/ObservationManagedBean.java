@@ -39,7 +39,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -50,7 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Bean to manage observations in appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "observationBean")
@@ -70,6 +69,7 @@ public class ObservationManagedBean implements Serializable {
     @Inject
     private Session sessionBean;
     
+    // Tag is used to identify the observationcategories within a observation
     private Long nextTag;
 
     public ObservationManagedBean() {
@@ -81,6 +81,10 @@ public class ObservationManagedBean implements Serializable {
         nextTag = 0L;
     }
     
+    /**
+     * Those observations, that user doesn't want to save to database,
+     * are removed when session timeout happens and this bean is destroyed.
+     */
     @PreDestroy
     public void destroy() {
         if(observationEntity != null) {
@@ -104,6 +108,8 @@ public class ObservationManagedBean implements Serializable {
     
     public void startObservation() {
         this.observationEntity = new ObservationEntity();
+        // Can we use created time for observation start time?
+        this.observationEntity.setCreated();
         this.observationEntity.setEvent(eventEntity);
         // Summary view doesn't break if no records are added.
         // TODO: Should observer not let user continue, if there are no records?
@@ -124,6 +130,10 @@ public class ObservationManagedBean implements Serializable {
         return categorySetsInUse;
     }
 
+    /**
+     * Sets the observationcategories to be used in this observation.
+     * @param categorySetsInUse List of observationcategorysets to use in this observation.
+     */
     public void setCategorySetsInUse(List<ObservationCategorySet> categorySetsInUse) {
         
         for(ObservationCategorySet observationCategorySet : categorySetsInUse) {
@@ -137,7 +147,6 @@ public class ObservationManagedBean implements Serializable {
     }
 
     public Long getNextTag() {
-        LOGGER.debug("getNextTag -> " + nextTag);
         return nextTag++;
     }
     
@@ -149,6 +158,10 @@ public class ObservationManagedBean implements Serializable {
         this.observationEntity.setDuration(duration);
     }
     
+    /**
+     * Adds an record to the observation.
+     * @param record Record to be added to the observations.
+     */
     public void addRecord(RecordEntity record) {
         List<RecordEntity> records = observationEntity.getRecords();
         record.setObservation(observationEntity);
@@ -162,6 +175,9 @@ public class ObservationManagedBean implements Serializable {
         observationEntity.setRecords(records);
     }
     
+    /**
+     * This method is called from REST API, to save the records to the observation.
+     */
     public void saveObservation() {
         if (sessionBean.isIdentifiedUser()) {
             observationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
@@ -186,6 +202,9 @@ public class ObservationManagedBean implements Serializable {
         observationEJB.create(observationEntity);
     }
     
+    /**
+     * This method persists the observation to the database.
+     */
     public void saveObservationToDatabase() {
         observationEntity.setUserWantsToSaveToDatabase(true);
         observationEntity.setObservationCategorySets(new HashSet<>(getCategorySetsInUse()));

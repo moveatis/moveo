@@ -52,7 +52,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Bean that manages the login for three types of users : public user,
+ * tag user and identified user.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @ManagedBean(name="loginBean")
@@ -91,6 +92,10 @@ public class LoginManagedBean {
         this.tag = tag;
     }
 
+    /**
+     * Method that sets the session for particular groupkey.
+     * @return The redirection parameter.
+     */
     public String doTagLogin() {
         GroupKeyEntity groupKeyEntity = groupKeyEJB.findByKey(tag);
         
@@ -115,11 +120,20 @@ public class LoginManagedBean {
         return "";
     }
     
+    /**
+     * Method that sets the session for public user.
+     * @return The redirection parameter.
+     */
     public String doAnonymityLogin() {
         sessionBean.setAnonymityUser();
         return "anonymityuser";
     }
     
+    /**
+     * This method allows users to login from different views. As of May 2016, 
+     * its not working as supposed, since Shibboleth nulls the session on redirect.
+     * @param actionEvent Where the login button was activated.
+     */
     public void doIdentityLogin(ActionEvent actionEvent) {
         
         String secureRedirectUri, defaultUri;
@@ -142,7 +156,7 @@ public class LoginManagedBean {
             
             FacesContext.getCurrentInstance().getExternalContext().redirect(secureRedirectUri);
         } catch (IOException ex) {
-            LOGGER.error("Virhe -> " + ex.toString());
+            LOGGER.error("An error happened in identitylogin" + ex.toString());
         }
     }
 

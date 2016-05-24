@@ -31,7 +31,7 @@
 package com.moveatis.application;
 
 /**
- *
+ * This class as the URIs for redirection within the Jyväskylä University login system.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class RedirectURLs {
@@ -46,6 +46,7 @@ public class RedirectURLs {
             + "https%3A%2F%2Fmoveatis.sport.jyu.fi";
     
     public static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/app/control/";
+    public static final String ERROR_PAGE_URI = "https://moveatis.sport.jyu.fi/error";
     
     public RedirectURLs() {
         

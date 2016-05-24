@@ -40,14 +40,13 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
+ * This entity represents categorysets in the database
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

@@ -44,7 +44,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * This entity represents information of events.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

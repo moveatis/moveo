@@ -29,8 +29,13 @@
  */
 package com.moveatis.error;
 
+import com.moveatis.interfaces.Application;
+import com.moveatis.interfaces.Mailer;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,11 +43,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * 
+ * This servlet handles errors, that might be thrown in the course of 
+ * executing the software. It mails the error to superuser mail account and
+ * redirects user to error page.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @WebServlet(name = "ErrorHandler", urlPatterns = {"/ErrorHandler"})
 public class ErrorHandler extends HttpServlet {
+    
+    @Inject
+    private Mailer mailerBean;
+    @Inject
+    private Application applicationEJB;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,24 +69,18 @@ public class ErrorHandler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            Throwable throwable = (Throwable)request.getAttribute("javax.servlet.error.exception");
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ErrorHandler</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ErrorHandler at " + request.getContextPath() + "</h1>");
-            out.println("<div>There was an error -> " + throwable.toString() + "</div>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        String recipients[] = {applicationEJB.getApplicationEntity().getReportEmail()};
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("errormessages", new Locale("fi", "FI"));
+        
+        String subject = resourceBundle.getString("emailErrorSubject");
+        String exception = ((Throwable)request.getAttribute("javax.servlet.error.exception")).toString();
+        String errorMessage = MessageFormat.format(resourceBundle.getString("emailErrorText"), exception);
+        
+        mailerBean.sendEmail(recipients, subject, errorMessage);
+        response.sendRedirect("/error");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -108,7 +116,7 @@ public class ErrorHandler extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "Errorhandler servlet to send error reports to admin and redirect user to error page";
+    }
 
 }

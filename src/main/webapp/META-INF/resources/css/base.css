@@ -211,6 +211,9 @@ ul.ui-menu-child {
 .coloredDialog form table  {
     margin-bottom: 0.8em;
 }
+.coloredDialog form button {
+    margin-bottom: 0.4em;
+}
 
 .ui-dialog-content {
     overflow-y: auto;
@@ -313,6 +316,16 @@ a:hover {text-decoration: none; color: white;}
 
 .ui-growl .ui-growl-icon-close:hover {
     opacity: 1;
+}
+
+/* Error icon change */
+.ui-message-error-icon {
+    background: none!important;
+}
+.ui-message-error-icon:before {
+    content: "\f12a";
+    font-family: FontAwesome;
+    margin-left: .2em;
 }
 
 @media screen and (max-width: 800px) {

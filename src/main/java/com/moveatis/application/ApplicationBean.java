@@ -39,7 +39,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This is the Application enterprise bean, which controls access to application entity.
+ * Its singleton bean, so only on instance is running at any time, and its 
+ * automatically started when the application is started.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Singleton
@@ -50,8 +53,6 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
 
     @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
     private EntityManager em;
-    
-    private ApplicationEntity applicationEntity;
 
     public ApplicationBean() {
         super(ApplicationEntity.class);
@@ -66,4 +67,9 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
     public boolean checkInstalled() { 
         return super.findAll().size() == 1;
     }  
+
+    @Override
+    public ApplicationEntity getApplicationEntity() {
+        return super.findAll().get(0);
+    }
 }

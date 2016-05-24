@@ -35,7 +35,8 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
- *
+ * RestApplication for RESTfull -actions in Moveatis. Those actions include
+ * adding records to observation and starting/stopping observation.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @ApplicationPath("/webapi")

@@ -35,7 +35,10 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * This interfaces defines the contract to manage the category entity.
+ * Category tells of what the observation record was about. For instance, 
+ * for developer working on code the category might be "Debugging".
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Category.class)

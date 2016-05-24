@@ -30,7 +30,9 @@
 package com.moveatis.exception;
 
 /**
- *
+ * This exception is to inform the developers or admin that there went something
+ * wrong with the installation.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class InstallationRedirectException extends RuntimeException {

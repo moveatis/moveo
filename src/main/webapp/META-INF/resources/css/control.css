@@ -41,12 +41,8 @@
 
 #mainPage > form,
 #mainPage .other-observations-fieldset {
-    max-width: 40em;
+    max-width: 50rem;
     margin: 1em 0;
-}
-
-.eventGroupsTable thead {
-    display:none!important;
 }
 
 #mainPage a.edit-key {
@@ -65,9 +61,7 @@ a.new-key {
 .column-group-keys,
 .row-editor,
 .row-toggler,
-.fa-check-square-o,
-.ui-widget.fa-trash,
-.fa-close  {
+.ui-widget.fa-trash {
     font-size: 1.6em;
 }
 
@@ -80,6 +74,16 @@ a.new-key {
 .column-remove,
 .column-group-keys {
     width: 1em;
+    text-align: center;
+}
+
+.ui-datatable thead th {
+    text-align: left;
+    font-size: 1em;
+}
+
+.ui-datatable .ui-row-editor span {
+    float: none;
 }
 
 .column-name,
@@ -132,28 +136,24 @@ a.new-key {
     content:"\f046";
 }
 
-.row-editor .ui-icon-check:before,
-.new-eventgroup-form .fa-check-square-o {
+.row-editor .ui-icon-check:before{
     margin-right: .1em;
     display: inline-block;
     vertical-align: middle;
 }
 
-.row-editor .ui-icon-close:before,
-#newEventGroupPanel .fa-close {
+.row-editor .ui-icon-close:before {
     display: inline-block;
     vertical-align: middle;
     margin-top: -4px;
 }
 
-.row-editor .ui-icon-check:hover,
-.new-eventgroup-form .fa-check-square-o:hover {
+.row-editor .ui-icon-check:hover {
     color: green;
 }
 
 .row-editor .ui-icon-close:hover,
-.ui-widget.fa-trash:hover,
-#newEventGroupPanel .fa-close:hover {
+.ui-widget.fa-trash:hover {
     color:red;
 }
 
@@ -304,6 +304,10 @@ a.new-key {
     font-size: 0.9em;
 }
 
+#startObservationForm {
+    text-align: right;
+}
+
 @media screen and (max-width: 800px) {
 
     #mainPage {
@@ -311,12 +315,17 @@ a.new-key {
     }
 
     #mainPage > form {
-        margin: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
 
 }
 
 @media screen and (max-width: 640px) {
+
+    .eventGroupsTable thead {
+        display:none!important;
+    }
 
     .row-toggler-mobile {
         display: block;

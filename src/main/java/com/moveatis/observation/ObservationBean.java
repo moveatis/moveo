@@ -30,7 +30,6 @@
 package com.moveatis.observation;
 
 import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.event.EventEntity;
 import com.moveatis.interfaces.Event;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -42,14 +41,15 @@ import javax.ejb.EJB;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.moveatis.repository.RepositoryDescriptorBean;
 import com.moveatis.session.SessionBean;
 import com.moveatis.user.AbstractUser;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * This EJB manages observations, which have collection of records in an event.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateful
@@ -62,8 +62,6 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     @Inject
     private SessionBean sessionBean;
     
-    @EJB
-    private RepositoryDescriptorBean repositoryBean;
     @EJB
     private Event eventEJB;
     
@@ -81,6 +79,11 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         super(ObservationEntity.class);
     }
 
+    /**
+     * Method that finds and returns all observations for specific user.
+     * @param observer The user, whose observations are to be searched.
+     * @return  List of observations for the user.
+     */
     @Override
     public List<ObservationEntity> findAllByObserver(AbstractUser observer) {
         TypedQuery<ObservationEntity> query = em.createNamedQuery("findByObserver", ObservationEntity.class);
@@ -88,6 +91,11 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         return query.getResultList();
     }
 
+    /**
+     * Method that finds those observations for user, which have no event attached to them.
+     * @param observer The user, whose observations are to be searched.
+     * @return List of observations.
+     */
     @Override
     public List<ObservationEntity> findWithoutEvent(AbstractUser observer) {
         TypedQuery<ObservationEntity> query = em.createNamedQuery("findWithoutEvent", ObservationEntity.class);
@@ -95,6 +103,12 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         return query.getResultList();
     }
 
+    /**
+     * Method that finds those observations, which are made for event that specific
+     * user does not own.
+     * @param observer The user, whose observations are to be searched.
+     * @return List of observations.
+     */
     @Override
     public List<ObservationEntity> findByEventsNotOwned(AbstractUser observer) {
         TypedQuery<ObservationEntity> query = em.createNamedQuery("findByEventsNotOwned", ObservationEntity.class);
@@ -102,25 +116,33 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         return query.getResultList();
     }
 
+    /**
+     * Method that persists observations to database.
+     * @param observationEntity Which observatioentity to persist.
+     */
     @Override
     public void create(ObservationEntity observationEntity) {
-        if (sessionBean.isIdentifiedUser()) {
-            super.create(observationEntity);
-        } else {
-            /*
-            * TODO: Create observationentity to repository, not database
-            */
-            super.create(observationEntity);
-        }
+        super.create(observationEntity);
     }
 
+    /**
+     * Method that finds list of records for observation with certain id.
+     * @param id The id for observation
+     * @return List of records.
+     */
     @Override
     public List<RecordEntity> findRecords(Object id) {
         observationEntity = em.find(ObservationEntity.class, id);
-        LOGGER.debug("observation-entity records size ->" + observationEntity.getRecords().size());
-        return observationEntity.getRecords();
+        if(observationEntity != null) {
+            return observationEntity.getRecords();
+        } 
+        return new ArrayList<>(); //return empty list
     }
     
+    /**
+     * Removes observation and also removes observation from the event it was associated with.
+     * @param observationEntity Which observation to remove.
+     */
     @Override
     public void remove(ObservationEntity observationEntity) {
         super.remove(observationEntity);
@@ -129,6 +151,10 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
         super.edit(observationEntity);
     }
 
+    /**
+     * Permanently removes observation, which user did not set to be saved into database.
+     * @param observationEntity Which observation to remove.
+     */
     @Override
     public void removeUnsavedObservation(ObservationEntity observationEntity) {
         em.remove(em.merge(observationEntity));

@@ -29,11 +29,9 @@
  */
 package com.moveatis.filters;
 
+import com.moveatis.application.RedirectURLs;
 import com.moveatis.interfaces.Session;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -44,16 +42,23 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
+ * This filter checks that pages in /app -folder are accessed only
+ * through the frontpage.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * 
  */
 @WebFilter(filterName = "LoginFilter", urlPatterns = {"/app/*"})
 public class LoginFilter implements Filter {
     
-    private static final boolean DEBUG = true;
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
+    
+    private static final boolean DEBUG = false;
     private FilterConfig filterConfig = null;
     private ServletContext context = null;
     
@@ -170,51 +175,16 @@ public class LoginFilter implements Filter {
     }
     
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);        
+        LOGGER.error("Error in login filtering", t);
         
-        if (stackTrace != null && !stackTrace.equals("")) {
-            try {
-                response.setContentType("text/html");
-                PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);                
-                pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
-
-                // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
-                pw.print(stackTrace);                
-                pw.print("</pre></body>\n</html>"); //NOI18N
-                pw.close();
-                ps.close();
-                response.getOutputStream().close();
-            } catch (Exception ex) {
-            }
-        } else {
-            try {
-                try (PrintStream ps = new PrintStream(response.getOutputStream())) {
-                    t.printStackTrace(ps);
-                }
-                response.getOutputStream().close();
-            } catch (Exception ex) {
-            }
-        }
-    }
-    
-    public static String getStackTrace(Throwable t) {
-        String stackTrace = null;
         try {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            t.printStackTrace(pw);
-            pw.close();
-            sw.close();
-            stackTrace = sw.getBuffer().toString();
-        } catch (Exception ex) {
+            ((HttpServletResponse)response).sendRedirect(RedirectURLs.ERROR_PAGE_URI);
+        } catch (IOException ex) {
+            LOGGER.error("Error in redirecting", ex);
         }
-        return stackTrace;
     }
-    
+
     public void log(String msg) {
         filterConfig.getServletContext().log(msg);        
     }
-    
 }

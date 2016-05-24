@@ -40,7 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Bean that provides means to manage user-related information during a session 
+ * in Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "userManagedBean")
@@ -68,7 +69,6 @@ public class UserManagedBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             this.locale = context.getViewRoot().getLocale();
             this.languageString = this.locale.getLanguage();
-            LOGGER.debug("getLocale -> " + this.locale.toString());
         }
         return this.locale;
     }
@@ -79,7 +79,6 @@ public class UserManagedBean implements Serializable {
         context.getViewRoot().setLocale(this.locale);
         
         this.languageString = this.locale.getLanguage();
-        LOGGER.debug("Locale set to -> " + this.locale.toString());
     }
     
     public void setLocale(String language) {
@@ -95,8 +94,6 @@ public class UserManagedBean implements Serializable {
         if(newLocale != null) {
             this.setLocale(newLocale);
         }
-        
-        LOGGER.debug("Locale (language) set to -> " + this.locale.toString());
     }
     
     public void changeLocale(ActionEvent event) {
@@ -112,8 +109,6 @@ public class UserManagedBean implements Serializable {
             this.setLanguageString(finnishLocale.getLanguage());
             this.setOptionLanguageString(defaultLocale.getLanguage());
         }
-        
-        LOGGER.debug("Locale changed");
         
     }
 

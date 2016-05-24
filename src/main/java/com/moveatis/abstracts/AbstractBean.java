@@ -40,9 +40,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- *
+ * Superclass to enterprisebeans, which manage the persistent connection and entities
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
- * @param <T> 
+ * @param <T> The entity the child of this bean uses
  * 
  */
 public abstract class AbstractBean<T extends BaseEntity> {
@@ -55,19 +56,36 @@ public abstract class AbstractBean<T extends BaseEntity> {
 
     protected abstract EntityManager getEntityManager();
 
+    /**
+     * Creates new entity.
+     * @param entity Entity to create
+     */
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
 
+    /**
+     * Edits the entity.
+     * @param entity Entity to edit
+     */
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }
 
+    /**
+     * Removes the entity.
+     * @param entity Entity to be removed
+     */
     public void remove(T entity) {
-        entity.setRemoved();
+        entity.setRemoved(); //entity is not actually removed, only the removed-date is set
         getEntityManager().merge(entity);
     }
 
+    /**
+     * Finds those entities, which do not have removed-date set.
+     * @param id Id for entity to find
+     * @return The entity, if one is found with id, or null
+     */
     public T find(Object id) {
         T entity = (T)getEntityManager().find(entityClass, id);
         
@@ -86,6 +104,10 @@ public abstract class AbstractBean<T extends BaseEntity> {
         }
     }
 
+    /**
+     * Finds all entities, which have the type of the requested entity.
+     * @return List of all entities of the requested entity type.
+     */
     public List<T> findAll() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -97,6 +119,13 @@ public abstract class AbstractBean<T extends BaseEntity> {
         return allQuery.getResultList();
     }
 
+    /**
+     * Finds and returns the list of entities, with as many entities, as there is range.
+     * Range array has two elements, the min and max range.
+     * 
+     * @param range Array with two elements
+     * @return List of entities in the range
+     */
     public List<T> findRange(int[] range) {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -106,6 +135,10 @@ public abstract class AbstractBean<T extends BaseEntity> {
         return q.getResultList();
     }
 
+    /**
+     * Method to count that how many entities there are of the requested type.
+     * @return The count of entities.
+     */
     public int count() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         Root<T> rt = cq.from(entityClass);

@@ -35,7 +35,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * This interfaces defines the contract to manage the role entity.
+ * Role offers means to granting more finegrained access rights to users. For now, 
+ * the only role is superuserrole, and users, who have this role, can make
+ * administrator tasks in Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface Role {

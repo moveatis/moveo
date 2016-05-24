@@ -52,7 +52,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This EJB managed the eventgroupentities.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -75,6 +76,11 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
         super(EventGroupEntity.class);
     }
 
+    /**
+     * Finds and returns list of eventgroups belonging to particular user.
+     * @param owner For which user search for eventgroups.
+     * @return List of eventGroups
+     */
     @Override
     public List<EventGroupEntity> findAllForOwner(AbstractUser owner) {
         TypedQuery<EventGroupEntity> query = em.createNamedQuery("findEventGroupByOwner", EventGroupEntity.class);
@@ -82,16 +88,31 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
         return query.getResultList();
     }
 
+    /**
+     * Finds and returns list of eventgroups, which particular user has access to.
+     * @param user For which user search for eventgroups.
+     * @return List of eventgroups.
+     */
     @Override
     public List<EventGroupEntity> findAllForUser(AbstractUser user) {
         return findAllForAbstractUser(user);
     }
 
+    /**
+     * Finds and returns those eventgroups that are allowed for public use.
+     * @return List of eventgroups.
+     */
     @Override
     public List<EventGroupEntity> findAllForPublicUser() {
         return findAllForAbstractUser(anonUserEJB.find());
     }
 
+    /**
+     * This methods finds and returns those eventgouprs, which particular user
+     * has access to.
+     * @param user For which user search for eventgroups.
+     * @return List of eventgroups.
+     */
     private List<EventGroupEntity> findAllForAbstractUser(AbstractUser user) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
@@ -107,7 +128,10 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 
         return query.getResultList();
     }
-
+    /**
+     * This method removes particular categoryset from all of the eventgroups that has the categoryset.
+     * @param categorySetEntity The categoryset to be removed from eventgroups.
+     */
     @Override
     public void removeCategorySetEntityFromEventGroups(CategorySetEntity categorySetEntity) {
         CriteriaBuilder cb = em.getCriteriaBuilder();

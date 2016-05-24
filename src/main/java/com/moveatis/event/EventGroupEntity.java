@@ -34,7 +34,6 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
@@ -47,7 +46,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * This entity represents information for eventgroups of the application. Eventgroup
+ * in this version has just one event, but this could be extended to support multiple events. 
+ * Eventgroup can be identified with groupkey, which allows semi-public usage.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

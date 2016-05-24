@@ -48,8 +48,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
- * @author Sami Kallio <phinaliumz at outlook.>
+ * This entity represents the observationdata, that is persisted to database.
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Table(name = "OBSERVATION")
 @NamedQueries({

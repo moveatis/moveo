@@ -30,12 +30,11 @@
 package com.moveatis.interfaces;
 
 import com.moveatis.application.ApplicationEntity;
-import com.moveatis.user.IdentifiedUserEntity;
-import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * This interfaces defines the contract to manage the application entity.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Application.class)
@@ -47,11 +46,7 @@ public interface Application {
 
     void remove(ApplicationEntity applicationEntity);
 
-    ApplicationEntity find(Object id);
-
-    List<ApplicationEntity> findAll();
-
-    List<ApplicationEntity> findRange(int[] range);
+    ApplicationEntity getApplicationEntity();
 
     int count();
     

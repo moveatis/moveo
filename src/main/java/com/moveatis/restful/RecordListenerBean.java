@@ -29,24 +29,20 @@
  */
 package com.moveatis.restful;
 
-import com.moveatis.category.CategoryEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.Label;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Record;
 import com.moveatis.interfaces.Session;
-import com.moveatis.label.LabelEntity;
 import com.moveatis.managedbeans.ObservationManagedBean;
 import com.moveatis.managedbeans.UserManagedBean;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.timezone.TimeZoneInformation;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -72,7 +68,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Bean that manages REST API for adding records to observation, and
+ * starting/stopping observation.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Path("/records")
@@ -96,9 +93,7 @@ public class RecordListenerBean implements Serializable {
     private UserManagedBean userManagedBean;
     
     private ResourceBundle messages;
-    
-    private ObservationEntity observationEntity;
-    
+
     @Inject
     private Observation observationEJB;
     @Inject
@@ -112,19 +107,25 @@ public class RecordListenerBean implements Serializable {
         
     }
     
-    /*
-    * Used to create the observation entity in observationManagedBean
-    */
+    /**
+     * Marks the observation as started.
+     * 
+     * @param data JSON data, which is not needed in current implementation.
+     * @return Status string.
+     */
     @POST
     @Path("startobservation")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public String startObservation(String data) {
-        LOGGER.debug(data);
         observationManagedBean.startObservation();
         return "success";
     }
     
+    /**
+     * Keeps the session alive during observations. Not implemented in current version.
+     * @return keep-alive status string.
+     */
     /*
     * TODO: Needs work - what to do when keep-alive request is commenced?
     */
@@ -134,10 +135,15 @@ public class RecordListenerBean implements Serializable {
     @Path("keepalive")
     @Produces(MediaType.TEXT_PLAIN)
     public String keepAlive() {
-        LOGGER.debug("keep-alive received");
         return "keep-alive";
     }
     
+    /**
+     * Adds the observation data coming from observation view. Could be used to take
+     * data from other clients, not yet implemented or even planned.
+     * @param data The JSON data
+     * @return status string
+     */
     @POST
     @Path("addobservationdata")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -157,7 +163,7 @@ public class RecordListenerBean implements Serializable {
         
         jsonReader.close();
 
-        Date createdTime = Calendar.getInstance().getTime();
+        Date createdTime = observationManagedBean.getObservationEntity().getCreated();
         
         TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(
                 timeZoneOffset.intValue(), DSTOffset.intValue());
@@ -196,7 +202,7 @@ public class RecordListenerBean implements Serializable {
                 observationManagedBean.addRecord(record);
             }
         } catch(Exception e) {
-            LOGGER.debug(e.toString());
+            LOGGER.error("Parsing JSON to records failed", e);
             return "failed";
         }
         

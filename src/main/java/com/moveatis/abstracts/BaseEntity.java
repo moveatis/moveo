@@ -42,7 +42,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * This entity is the base of all entities of the application. It has the
+ * id and dates for creation and removal. As MappedSuperclass its not persisted
+ * to database itself.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 
@@ -61,12 +63,12 @@ public abstract class BaseEntity {
     private Date removed;
     
     @PrePersist
-    protected void setCreated() {
+    public void setCreated() {
         Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
         created = calendar.getTime();
     }
     
-    protected Date getCreated() {
+    public Date getCreated() {
         return this.created;
     }
     

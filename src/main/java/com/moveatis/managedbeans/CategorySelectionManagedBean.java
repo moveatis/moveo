@@ -33,7 +33,6 @@ import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
-import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.EventGroup;
 import javax.inject.Named;
@@ -355,7 +354,7 @@ public class CategorySelectionManagedBean implements Serializable {
             showErrorMessage(messages.getString("cs_errorNoneSelected"));
             return "";
         }
-        
+
         observationManagedBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
         return "categoriesok";
     }

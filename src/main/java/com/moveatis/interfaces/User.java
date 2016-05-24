@@ -34,7 +34,9 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * This interfaces defines the contract to manage the user entity.
+ * User is the identified user, which means that they are recognized by
+ * identityprovider service.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(User.class)
