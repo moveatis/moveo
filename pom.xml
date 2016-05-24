@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Moveatis observer</name>
+
     <description>Student project for University of Jyväskylä</description>
     <organization>
         <name>University of Jyväskylä</name>
