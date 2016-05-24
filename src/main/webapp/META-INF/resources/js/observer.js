@@ -491,11 +491,16 @@ $(document).ready(function() {
     setInterval(keepAlive, 5*60000); // Send keep-alive every 5 minutes.
 });
 
-
+/*
+ * Get the offset of timezone in milliseconds (in JAVA format).
+ */
 function getTimeZoneOffset(){
     return -1 * 60 * 1000 * new Date().getTimezoneOffset();
 }
 
+/*
+ * Get the daylight saving time offset in milliseconds.
+ */
 function getDaylightSaving() {
     var now = new Date();
     var jan = new Date(now.getFullYear(), 0, 1);
