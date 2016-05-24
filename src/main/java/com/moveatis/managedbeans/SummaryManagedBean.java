@@ -64,8 +64,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
 
 /**
- * Class for Summary page managed bean. Responsive for creating summary page
- * timeline model and get required variables from observation.
+ * Class for Summary page managed bean. Responsive for creating timeline model
+ * and for getting observation's attributes for summary.
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
@@ -176,6 +176,9 @@ public class SummaryManagedBean implements Serializable {
         }
     }
 
+    /**
+     *  Show Faces context message of saved observation.
+     */
     public void showObservationSavedMessage() {
         if (observationSaved) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -184,11 +187,17 @@ public class SummaryManagedBean implements Serializable {
         }
     }
 
+    /**
+     * Save current observation to data base.
+     */
     public void saveCurrentObservation() {
         observationManagedBean.saveObservationToDatabase();
         observationSaved = true;
     }
 
+    /**
+     * Mail current observation.
+     */
     public void mailCurrentObservation() {
         CSVFileBuilder csv = new CSVFileBuilder();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -229,11 +238,14 @@ public class SummaryManagedBean implements Serializable {
             //remove the temp file after sending it
             f.delete();
         } catch (IOException ex) {
-            LOGGER.error("Väliaikaisen tiedoston luonti epäonnistui", ex);
+            LOGGER.error("Failed to create temporary file for sending observeraion by email.", ex);
         }
         observationSaved = true;
     }
 
+    /**
+     * File name converter.
+     */
     private static String convertToFilename(String s) {
         if (s == null || s.isEmpty()) {
             return "unnamed";
@@ -241,6 +253,10 @@ public class SummaryManagedBean implements Serializable {
         return s.replaceAll("[^a-zA-Z0-9_]", "_");
     }
 
+    /**
+     * Download current observation.
+     * @throws IOException
+     */
     public void downloadCurrentObservation() throws IOException {
         String fileName = convertToFilename(observation.getName()) + ".csv";
 
@@ -262,6 +278,9 @@ public class SummaryManagedBean implements Serializable {
         observationSaved = true;
     }
 
+    /**
+     * Do all the save operations selected by the user.
+     */
     public void doSelectedSaveOperation() {
         if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
             try {
@@ -278,9 +297,6 @@ public class SummaryManagedBean implements Serializable {
         }
     }
 
-    /*
-       Getters and setters
-     */
     /**
      * Get timeline model.
      *
@@ -309,6 +325,10 @@ public class SummaryManagedBean implements Serializable {
         return max;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDuration() {
         return duration;
     }
@@ -340,38 +360,74 @@ public class SummaryManagedBean implements Serializable {
         return zoomMax;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getRecipientEmail() {
         return recipientEmail;
     }
 
+    /**
+     *
+     * @param recipientEmail
+     */
     public void setRecipientEmail(String recipientEmail) {
         this.recipientEmail = recipientEmail;
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservationEntity getObservation() {
         return observation;
     }
 
+    /**
+     *
+     * @param observation
+     */
     public void setObservation(ObservationEntity observation) {
         this.observation = observation;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getSelectedSaveOptions() {
         return selectedSaveOptions;
     }
 
+    /**
+     *
+     * @param selectedSaveOptions
+     */
     public void setSelectedSaveOptions(List<String> selectedSaveOptions) {
         this.selectedSaveOptions = selectedSaveOptions;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean getMailOptionChecked() {
         return selectedSaveOptions.contains(MAIL_OPTION);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isObservationSaved() {
         return observationSaved;
     }
 
+    /**
+     *
+     * @param observationSaved
+     */
     public void setObservationSaved(boolean observationSaved) {
         this.observationSaved = observationSaved;
     }

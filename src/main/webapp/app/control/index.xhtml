@@ -57,7 +57,7 @@
                         </p:column>
 
                         <p:column headerText="#{msg.con_categorySets}" styleClass="column-category-groups">
-                            <h:outputText rendered="#{eventGroup.categorySets.size() == 0}" value="#{msg.con_emptyMessageCategories}"/>
+                            <h:outputText rendered="#{eventGroup.categorySets.size() == 0}" value=""/>
                             <ul class="list-categorysets">
                                 <ui:repeat value="#{eventGroup.categorySets.toArray()}" var="categorySet">
                                     <li>
