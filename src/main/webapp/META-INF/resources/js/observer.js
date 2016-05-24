@@ -323,7 +323,7 @@ function Observer(category_sets) {
             $("#continue").hide();
             $("#pause").show();
         }
-    }
+    };
     
     /*
      * Event handler that pauses the observing.
@@ -463,7 +463,7 @@ function showError(error_msg) {
 }
 
 
-var stopObservation = function () {}
+var stopObservation = function () {};
 
 
 /*
