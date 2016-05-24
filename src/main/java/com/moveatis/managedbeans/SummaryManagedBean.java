@@ -177,7 +177,7 @@ public class SummaryManagedBean implements Serializable {
     }
 
     /**
-     *  Show Faces context message of saved observation.
+     * Show Faces context message of saved observation.
      */
     public void showObservationSavedMessage() {
         if (observationSaved) {
@@ -207,17 +207,17 @@ public class SummaryManagedBean implements Serializable {
             // replace non-word ![a-ZA-Z_0-9] chars with underscope
             fileName = fileName.replaceAll("\\W", "_");
             File f = File.createTempFile(fileName, ".csv");
-            
+
             StringBuilder msgBuilder = new StringBuilder();
-            String description = StringUtils.defaultIfEmpty(observation.getDescription(), 
+            String description = StringUtils.defaultIfEmpty(observation.getDescription(),
                     bundle.getString("sum_descriptionNotSet"));
-            String target = StringUtils.defaultIfEmpty(observation.getTarget(), 
+            String target = StringUtils.defaultIfEmpty(observation.getTarget(),
                     bundle.getString("sum_targetNotSet"));
             String descriptionPartOfMessage = MessageFormat.format(bundle.getString("sum_descriptionWas"), description);
             String targetPartOfMessage = MessageFormat.format(bundle.getString("sum_targetWas"), target);
-            String messageWithSender = MessageFormat.format(bundle.getString("sum_message"), 
+            String messageWithSender = MessageFormat.format(bundle.getString("sum_message"),
                     sessionBean.getLoggedIdentifiedUser().getGivenName());
-            
+
             msgBuilder
                     .append(messageWithSender)
                     .append("\n\n")
@@ -226,8 +226,7 @@ public class SummaryManagedBean implements Serializable {
                     .append(targetPartOfMessage)
                     .append("\n\n")
                     .append(bundle.getString("emailSignature"));
-            
-            
+
             FileOutputStream fos = new FileOutputStream(f);
             csv.buildCSV(fos, observation, ",");
             fos.flush();
@@ -255,6 +254,7 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      * Download current observation.
+     *
      * @throws IOException
      */
     public void downloadCurrentObservation() throws IOException {
@@ -287,6 +287,7 @@ public class SummaryManagedBean implements Serializable {
                 downloadCurrentObservation();
             } catch (IOException e) {
                 //TODO: show error message
+                LOGGER.error("Failed to download the observation.", e);
             }
         }
         if (selectedSaveOptions.contains(MAIL_OPTION)) {
