@@ -39,7 +39,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * This entity represents the individual user, which is identified 
+ * using Jyväskylä University's Shibboleth identitysystem.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
@@ -110,6 +111,6 @@ public class IdentifiedUserEntity extends AbstractUser implements Serializable {
     
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.IdentifiedUserEntity[ id=" + id + " ]";
+        return "com.moveatis.user.IdentifiedUserEntity[ id=" + id + " ]";
     }
 }

@@ -198,7 +198,7 @@ public class ObservationEntity extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.observation.ObservationEntity[ id=" + id + " ]";
+        return "com.moveatis.observation.ObservationEntity[ id=" + id + " ]";
     }
 
 }

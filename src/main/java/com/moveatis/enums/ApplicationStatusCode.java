@@ -38,6 +38,6 @@ package com.moveatis.enums;
  */
 public enum ApplicationStatusCode {
     
-    ALREADY_INSTALLED, INSTALLATION_OK, INSTALLATION_FAILED;
+    ALREADY_INSTALLED, INSTALLATION_OK, INSTALLATION_FAILED
     
 }

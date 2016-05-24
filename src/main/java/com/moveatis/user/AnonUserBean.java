@@ -40,13 +40,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- *
+ * This EJB managed the anonymity user, which represents the public user
+ * of Moveatis. Not used in version 1.0
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class AnonUserBean extends AbstractBean<AnonUserEntity> implements AnonUser {
     
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
 
     public AnonUserBean() {

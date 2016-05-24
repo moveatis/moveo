@@ -42,7 +42,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class RecordBean extends AbstractBean<RecordEntity> implements Record {
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
 
     @Override

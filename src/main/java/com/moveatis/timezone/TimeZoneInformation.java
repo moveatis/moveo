@@ -34,7 +34,7 @@ import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 /**
- *
+ * Class to keep the default timezone of Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class TimeZoneInformation {

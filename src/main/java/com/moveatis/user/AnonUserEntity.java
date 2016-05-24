@@ -35,7 +35,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * This entity represents the one public user account in Moveatis. Its used
+ * as bookkeeping purposes, as session must have an user. 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
@@ -83,6 +84,6 @@ public class AnonUserEntity extends AbstractUser implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.AnonUserEntity[ id=" + id + " ]";
+        return "com.moveatis.user.AnonUserEntity[ id=" + id + " ]";
     }
 }

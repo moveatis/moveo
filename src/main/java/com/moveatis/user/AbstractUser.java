@@ -38,8 +38,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 /**
- *
- * @author Sami Kallio <phinaliumz at outlook.>
+ * This is the base-userentity for TagUser and IdentifiendUser. TagUser is the 
+ * user which provides access for groupkeys and identifieduser is an individual user,
+ * who is identified using Jyväskylä University Shibboleth-identitysystem.
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -74,6 +76,6 @@ public abstract class AbstractUser extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.AbstractUser[ id=" + id + " ]";
+        return "com.moveatis.user.AbstractUser[ id=" + id + " ]";
     }
 }

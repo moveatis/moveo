@@ -136,7 +136,7 @@ public class GroupKeyEntity extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.groupkey.GroupKeyEntity[ id=" + id + " ]";
+        return "com.moveatis.groupkey.GroupKeyEntity[ id=" + id + " ]";
     }
     
 }

@@ -39,13 +39,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * This EJB manages TagUser, which represents the user account for
+ * groupkey-based access to Moveeatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class TagUserBean extends AbstractBean<TagUserEntity> implements TagUser {
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
     
     public TagUserBean() {

@@ -138,7 +138,7 @@ public class CategorySetEntity extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.category.CategoryTemplateEntity[ id=" + id + " ]";
+        return "com.moveatis.category.CategoryTemplateEntity[ id=" + id + " ]";
     }
     
 }

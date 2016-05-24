@@ -36,5 +36,5 @@ package com.moveatis.category;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public enum CategoryType {
-    TIMED, COUNTED;
+    TIMED, COUNTED
 }

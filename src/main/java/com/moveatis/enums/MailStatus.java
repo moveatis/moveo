@@ -36,5 +36,5 @@ package com.moveatis.enums;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public enum MailStatus {
-    MAIL_SENT_OK, MAIL_SENT_FAILED;
+    MAIL_SENT_OK, MAIL_SENT_FAILED
 }

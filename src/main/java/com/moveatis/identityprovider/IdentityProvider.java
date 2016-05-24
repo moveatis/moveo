@@ -37,5 +37,5 @@ import com.moveatis.user.IdentifiedUserEntity;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface IdentityProvider {
-    public IdentifiedUserEntity getIdentifiedUserEntity();
+    IdentifiedUserEntity getIdentifiedUserEntity();
 }

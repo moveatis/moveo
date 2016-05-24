@@ -42,7 +42,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class LabelBean extends AbstractBean<LabelEntity> implements Label {
     
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
     
     private LabelEntity labelEntity;

@@ -135,7 +135,7 @@ public class RecordEntity extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.entries.EntryEntity[ id=" + id + " ]";
+        return "com.moveatis.records.RecordEntity[ id=" + id + " ]";
     }
     
 }

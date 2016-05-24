@@ -38,7 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This EJB manages identified user. Not much use in version 1.0
  * @author Sami Kallio <phinalium at outlook.com>
  */
 @Stateless
@@ -46,7 +46,7 @@ public class UserBean extends AbstractBean<IdentifiedUserEntity> implements User
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserBean.class);
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
 
     @Override

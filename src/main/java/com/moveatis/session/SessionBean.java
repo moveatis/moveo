@@ -52,7 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This bean manages actions the user needs through the usage of Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @SessionScoped
@@ -133,6 +133,11 @@ public class SessionBean implements Serializable, Session  {
         return this.sessionObservations;
     }
 
+    /**
+     * Checks if observation is saveable-state. Used in checking if
+     * Save-button can be displayed.
+     * @return true if observation could be saved.
+     */
     @Override
     public boolean isSaveable() {
         return observationManagedBean.getObservationEntity() != null;
@@ -186,6 +191,10 @@ public class SessionBean implements Serializable, Session  {
         return result;
     }
 
+    /**
+     * Used in development of Moveatis.
+     * @return true if Moveatis is running in localhost, false otherwise.
+     */
     @Override
     public boolean getIsLocalhost() {
         boolean isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
@@ -193,11 +202,22 @@ public class SessionBean implements Serializable, Session  {
         return isLocalhost;
     }
 
+    /**
+     * This method returns the URI user was before he or she clicked the 
+     * login button, in some other page than frontpage. Not implemented
+     * in version 1.0.
+     * @return the URI to return the user.
+     */
     @Override
     public String getReturnUri() {
         return returnUri;
     }
 
+    /**
+     * This method sets the URI, which user will be returned when he or she
+     * clicks the login-button outside frontpage. Not implemented in version 1.0.
+     * @param returnUri The URI that is set as return URI.
+     */
     @Override
     public void setReturnUri(String returnUri) {
         this.returnUri = returnUri;

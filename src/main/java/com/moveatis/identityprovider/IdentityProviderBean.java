@@ -43,7 +43,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class IdentityProviderBean extends AbstractBean<IdentityProviderInformationEntity> {
     
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
 
     public IdentityProviderBean() {

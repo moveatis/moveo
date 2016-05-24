@@ -43,7 +43,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupKey {
     
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
     
     private GroupKeyEntity groupKeyEntity;

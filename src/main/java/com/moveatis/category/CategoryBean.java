@@ -46,7 +46,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class CategoryBean extends AbstractBean<CategoryEntity> implements Category {
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
     
     @Inject

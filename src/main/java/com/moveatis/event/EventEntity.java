@@ -136,7 +136,7 @@ public class EventEntity extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.event.EventEntity[ id=" + id + " ]";
+        return "com.moveatis.event.EventEntity[ id=" + id + " ]";
     }
     
 }

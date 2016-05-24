@@ -107,7 +107,7 @@ public class ApplicationEntity extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.category.application.ApplicationEntity[ id=" + id + " ]";
+        return "com.moveatis.application.ApplicationEntity[ id=" + id + " ]";
     }
     
 }

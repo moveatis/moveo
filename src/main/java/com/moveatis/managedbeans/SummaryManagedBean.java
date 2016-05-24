@@ -229,7 +229,7 @@ public class SummaryManagedBean implements Serializable {
             //remove the temp file after sending it
             f.delete();
         } catch (IOException ex) {
-            LOGGER.error("Väliaikaisen tiedoston luonti epäonnistui", ex);
+            LOGGER.error("Failed to create temporary file", ex);
         }
         observationSaved = true;
     }

@@ -36,16 +36,15 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 
 /**
- *
- * @author Sami Kallio <phinaliumz at outlook.>
+ * This entity is the base for roles in Moveatis. Roles can be used to make 
+ * access rights system more finegrained. This entity can be extended to 
+ * add more roles.
+ * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -94,7 +93,7 @@ public abstract class AbstractRole extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.roles.AbstractRole[ id=" + id + " ]";
+        return "com.moveatis.roles.AbstractRole[ id=" + id + " ]";
     }
 
 }

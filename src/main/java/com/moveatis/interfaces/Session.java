@@ -49,22 +49,22 @@ import javax.ejb.Local;
 @Local(Session.class)
 public interface Session {
     
-    public void setTagUser(TagUserEntity tagUser);
-    public void setIdentityProviderUser(IdentifiedUserEntity user);
-    public void setAnonymityUser();
-    public boolean isLoggedIn();
-    public boolean isIdentifiedUser();
-    public boolean isSaveable();
-    public SortedSet<Long> getSessionObservationsIds();
-    public void setSessionObservations(SortedSet<Long> observationsIds);
-    public AbstractUser getLoggedInUser();
-    public IdentifiedUserEntity getLoggedIdentifiedUser();
-    public GroupKeyEntity getGroupKey();
-    public TimeZone getSessionTimeZone();
-    public void setSessionTimeZone(TimeZone timeZone);
-    public boolean getIsLocalhost();
-    public void setReturnUri(String uri);
-    public String getReturnUri();
-    public void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
-    public List<ObservationCategorySet> getCategorySetsInUse();
+     void setTagUser(TagUserEntity tagUser);
+     void setIdentityProviderUser(IdentifiedUserEntity user);
+     void setAnonymityUser();
+     boolean isLoggedIn();
+     boolean isIdentifiedUser();
+     boolean isSaveable();
+     SortedSet<Long> getSessionObservationsIds();
+     void setSessionObservations(SortedSet<Long> observationsIds);
+     AbstractUser getLoggedInUser();
+     IdentifiedUserEntity getLoggedIdentifiedUser();
+     GroupKeyEntity getGroupKey();
+     TimeZone getSessionTimeZone();
+     void setSessionTimeZone(TimeZone timeZone);
+     boolean getIsLocalhost();
+     void setReturnUri(String uri);
+     String getReturnUri();
+     void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
+     List<ObservationCategorySet> getCategorySetsInUse();
 }

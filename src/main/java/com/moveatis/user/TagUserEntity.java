@@ -31,7 +31,6 @@ package com.moveatis.user;
 
 import com.moveatis.groupkey.GroupKeyEntity;
 import java.io.Serializable;
-import java.util.Date;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -40,10 +39,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
- *
+ * This entity represent the data for groupkey based access of Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
@@ -109,6 +107,6 @@ public class TagUserEntity extends AbstractUser implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.user.TagUserEntity[ id=" + id + " ]";
+        return "com.moveatis.user.TagUserEntity[ id=" + id + " ]";
     }
 }

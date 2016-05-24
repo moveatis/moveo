@@ -67,7 +67,7 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     
     private ObservationEntity observationEntity;
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
         
     @Override

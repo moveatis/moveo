@@ -61,7 +61,7 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventGroupBean.class);
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
 
     @Inject

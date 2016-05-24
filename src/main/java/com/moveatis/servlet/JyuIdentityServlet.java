@@ -63,7 +63,7 @@ import org.slf4j.LoggerFactory;
  * @see IdentityProviderRegistrationBean
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@WebServlet(name = "JyuIdentityServlet", urlPatterns = {"/lotas/secure"})
+@WebServlet(name = "JyuIdentityServlet", urlPatterns = {"/moveatis/secure"})
 public class JyuIdentityServlet extends HttpServlet {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(JyuIdentityServlet.class);

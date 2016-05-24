@@ -54,7 +54,7 @@ import javax.persistence.criteria.SetJoin;
 @Stateful
 public class EventBean extends AbstractBean<EventEntity> implements Event {
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
     
     private EventEntity eventEntity;
@@ -112,7 +112,7 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
             event.setObservations(observationSets);
             super.edit(event);
         } catch(NoResultException nre) {
-            
+            //NoResultException is not an actual exception IMHO ...
         }
     }
 }

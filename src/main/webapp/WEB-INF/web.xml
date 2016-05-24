@@ -80,7 +80,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>com.moveatis.lotas.restful.MoveatisRestApplication</servlet-name>
+        <servlet-name>com.moveatis.restful.MoveatisRestApplication</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

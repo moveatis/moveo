@@ -39,6 +39,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * This entity represents superuser-role, which can be added to users, who should
+ * have admin-rights to Moveatis. As of version 1.0 there is not much admin tasks
+ * to do though.
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -83,7 +86,7 @@ public class SuperUserRoleEntity extends AbstractRole implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.roles.SuperUserRoleEntity[ id=" + id + " ]";
+        return "com.moveatis.roles.SuperUserRoleEntity[ id=" + id + " ]";
     }
 
 }

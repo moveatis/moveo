@@ -51,7 +51,7 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationBean.class);
 
-    @PersistenceContext(unitName = "LOTAS_PERSISTENCE")
+    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
 
     public ApplicationBean() {

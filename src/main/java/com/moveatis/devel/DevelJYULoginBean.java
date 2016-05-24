@@ -45,6 +45,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This bean is dummy-loginbean for development purposes, as it mocks
@@ -55,6 +57,8 @@ import javax.servlet.http.HttpServletRequest;
 @Named(value="develJYULoginBean")
 @RequestScoped
 public class DevelJYULoginBean {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(DevelJYULoginBean.class);
     
     private IdentifiedUserEntity userEntity;
     
@@ -124,7 +128,7 @@ public class DevelJYULoginBean {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(sessionBean.getReturnUri());
             } catch (IOException ex) {
-                
+                LOGGER.debug("Error in doLogin", ex);
             }
         } else {
             return "/app/control/index?faces-redirect=true";

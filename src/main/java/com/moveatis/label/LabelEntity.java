@@ -97,7 +97,7 @@ public class LabelEntity extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moveatis.lotas.category.LabelEntity[ id=" + id + " ]";
+        return "com.moveatis.category.LabelEntity[ id=" + id + " ]";
     }
 
 }

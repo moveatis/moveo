@@ -33,7 +33,6 @@ package com.moveatis.validation;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
@@ -54,7 +53,7 @@ public class EmailValidatorBean implements Validator, ClientValidator{
     }
 
     /**
-     * 
+     * Validates the email address.
      * @param context FacesContext for the session
      * @param component Component to validate
      * @param value Value for the component

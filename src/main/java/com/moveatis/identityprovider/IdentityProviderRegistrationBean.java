@@ -38,6 +38,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is an example managedbean for customizing identityservice.
@@ -48,6 +50,7 @@ import javax.inject.Named;
 public class IdentityProviderRegistrationBean implements IdentityProvider, Serializable {
     
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(IdentityProviderRegistrationBean.class);
     private IdentifiedUserEntity userEntity;
     private IdentityProviderInformationEntity identityProviderInformationEntity;
 
@@ -61,7 +64,7 @@ public class IdentityProviderRegistrationBean implements IdentityProvider, Seria
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(RedirectURLs.SHIBBOLETH_REDIRECT_SECURE_URI);
         } catch (IOException ex) {
-            
+            LOGGER.debug("Error in registration", ex);
         }
     }
 

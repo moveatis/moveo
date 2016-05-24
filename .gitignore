@@ -6,13 +6,16 @@ db/
 docker/
 mails/
 
-# Folder for Openshifts
+# Folder for Openshift
 deployments/
 
 # Java class files
 *.class
 *.war
 lib/
+
+# Scripts
+*.sh
 
 # Netbeans files
 nbproject/private
@@ -35,7 +38,6 @@ nb-configuration.xml
 
 # Maven files and folders
 target/
-lib/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

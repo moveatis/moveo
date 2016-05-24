@@ -41,7 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * This bean manages logging out of Moveatis, which includes invalidating the session
+ * and redirecting to Shibboleth logout URI.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="logoutBean")
