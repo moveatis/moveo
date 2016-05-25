@@ -248,8 +248,12 @@ a.new-key {
     width: 7em;
 }
 
-#observationDetail .ui-inplace-display {
-    color: black;
+#observationDetail .ui-panelgrid-cell.value {
+    width: auto;
+}
+
+#observationDetail .ui-inplace-content .ui-inputfield {
+    display: block;
 }
 
 #observationFormCommands {
@@ -306,6 +310,35 @@ a.new-key {
 
 #startObservationForm {
     text-align: right;
+}
+
+#observationDetail {
+    margin-bottom: .6em;
+}
+
+#observationDetail .ui-panelgrid-content {
+    background: none;
+    border: none;
+    color: white;
+}
+
+#observationDetail .ui-outputpanel.editable {
+    padding: 0.2em 0.5em;
+    border: 1px inset #444;
+    border-radius: 3px;
+}
+
+#observationDetail .ui-inplace-display.ui-state-highlight {
+    background: none;
+    text-decoration: underline;
+}
+
+.link-observation {
+    text-decoration: underline!important;
+}
+
+.link-observation:hover {
+    color: #ff6600!important;
 }
 
 @media screen and (max-width: 800px) {

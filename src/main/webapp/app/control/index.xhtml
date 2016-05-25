@@ -144,7 +144,7 @@
                         <p:panelGrid layout="grid" columns="2" rendered="#{not empty controlBean.selectedObservation}" columnClasses="label,value">
 
                             <h:outputText value="#{msg.con_observationDetailsName}" />
-                            <p:outputPanel>
+                            <p:outputPanel styleClass="editable">
                                 <p:message for="input-name-observation" />
                                 <p:inplace id="input-name-observation" editor="true"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
@@ -156,9 +156,10 @@
                             </p:outputPanel>
 
                             <h:outputText value="#{msg.con_observationDetailsDescription}" />
-                            <p:outputPanel>
+                            <p:outputPanel styleClass="editable">
                                 <p:message for="input-description-observation" />
-                                <p:inplace id="input-description-observation" emptyLabel="#{msg.con_observationDetailsAddDescription}" editor="true"
+                                <p:inplace id="input-description-observation" editor="true"
+                                           emptyLabel="#{msg.con_observationDetailsDescriptionEmptyLabel}"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
                                     <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
                                     <p:inputTextarea value="#{controlBean.selectedObservation.description}"
@@ -171,9 +172,10 @@
                             <h:outputText value="#{controlBean.getObserverName()}" />
 
                             <h:outputText value="#{msg.con_observationDetailsTarget}" />
-                            <p:outputPanel>
+                            <p:outputPanel styleClass="editable">
                                 <p:message for="input-target-observation" />
-                                <p:inplace id="input-target-observation" emptyLabel="#{msg.con_observationDetailsAddTarget}" editor="true"
+                                <p:inplace id="input-target-observation" editor="true"
+                                           emptyLabel="#{msg.con_observationDetailsEmptyLabel}"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
                                     <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
                                     <p:inputText value="#{controlBean.selectedObservation.target}"
