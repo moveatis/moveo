@@ -8,6 +8,9 @@
 
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml" >
+            
+            <f:event type="preRenderView" 
+                     listener="#{facesContext.externalContext.response.setHeader('Cache-Control', 'no-cache, no-store')}"/>
 
             <ui:define name="pageTitle"> - #{msg.con_title}</ui:define>
 
