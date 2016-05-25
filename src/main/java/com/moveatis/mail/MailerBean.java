@@ -29,6 +29,7 @@
  */
 package com.moveatis.mail;
 
+import com.moveatis.application.RedirectURLs;
 import com.moveatis.enums.MailStatus;
 import javax.ejb.Stateless;
 import com.moveatis.interfaces.Mailer;
@@ -59,7 +60,6 @@ public class MailerBean implements Mailer {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MailerBean.class);
     
-    private static final String MAILHOST = "localhost";
     private static final String FROM = "donotreply@moveatis.sport.jyu.fi";
     
     private static final String CHARSET = "UTF-8";
@@ -151,7 +151,7 @@ public class MailerBean implements Mailer {
      */
     private MimeMessage setMessage(final String[] recipients, final String subject) throws MessagingException {
         Properties props = System.getProperties();
-        props.setProperty("mail.smtp.host", MAILHOST);
+        props.setProperty("mail.smtp.host", RedirectURLs.DOCKER_HOST_HOSTNAME);
         props.setProperty("mail.mime.charset", CHARSET);
         Session session = Session.getDefaultInstance(props);
         MimeMessage msg = new MimeMessage(session);

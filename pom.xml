@@ -188,7 +188,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <version>2.3</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-		    <warName>moveatis</warName>
+		    <warName>ROOT</warName>
 		    <outputDirectory>${basedir}/docker</outputDirectory>
                 </configuration>
             </plugin>
