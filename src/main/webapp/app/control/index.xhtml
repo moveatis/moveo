@@ -67,7 +67,9 @@
                                         <p:commandLink value="#{categorySet.label}" title="#{categorySet.description}"
                                                        action="#{controlBean.setSelectedCategorySet(categorySet)}"
                                                        onclick="PF('dlgCategorySet').show()" styleClass="link-categoryset"
-                                                       update=":categorySetForm :eventGroupsForm:eventGroupsTable"/>
+                                                       update=":categorySetForm :eventGroupsForm:eventGroupsTable :startObservationForm">
+                                            <f:actionListener binding="#{controlBean.setSelectedEventGroup(eventGroup)}"/>
+                                        </p:commandLink>
                                     </li>
                                 </ui:repeat>
                                 <li>
