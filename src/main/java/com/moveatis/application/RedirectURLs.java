@@ -47,9 +47,8 @@ public class RedirectURLs {
     
     public static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/app/control/";
     public static final String ERROR_PAGE_URI = "https://moveatis.sport.jyu.fi/error";
-    // This sets the hostname of the Docker host. Moveatis is running in docker image
-    // and host has the SMTP server. With this hostname we are able to call the host SMTP.
-    public static final String DOCKER_HOST_HOSTNAME="parent-host";
+    // Jyväskylä University's SMTP host. Only accessible inside JYU network.
+    public static final String DOCKER_HOST_HOSTNAME="smtp.jyu.fi";
     
     public RedirectURLs() {
         
