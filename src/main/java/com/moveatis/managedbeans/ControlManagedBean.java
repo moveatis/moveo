@@ -47,6 +47,8 @@ import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -64,6 +66,7 @@ import org.primefaces.event.RowEditEvent;
 
 /**
  * Managed bean class for managing the control page view.
+ *
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
@@ -132,6 +135,13 @@ public class ControlManagedBean implements Serializable {
      */
     protected void fetchEventGroups() {
         eventGroups = eventGroupEJB.findAllForOwner(user);
+        // Re order event groups by created date
+        Collections.sort(eventGroups, new Comparator<EventGroupEntity>() {
+            @Override
+            public int compare(EventGroupEntity one, EventGroupEntity other) {
+                return one.getCreated().compareTo(other.getCreated());
+            }
+        });
     }
 
     /**
@@ -144,6 +154,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Get event group's observations. (default event)
+     *
      * @param eventGroup given event group entity.
      * @return set of observation entities
      */
@@ -156,6 +167,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for creatingNewEventGroup.
+     *
      * @return boolean
      */
     public boolean isCreatingNewEventGroup() {
@@ -164,6 +176,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Setter for creatingNewEventGroup.
+     *
      * @param creatingNewEventGroup boolean
      */
     public void setCreatingNewEventGroup(boolean creatingNewEventGroup) {
@@ -172,6 +185,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Check if event group entity has group key.
+     *
      * @param eventGroup event group entity
      * @return boolean
      */
@@ -211,6 +225,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Listener for event group row edit.
+     *
      * @param event RowEditEvent
      */
     public void onEditEventGroup(RowEditEvent event) {
@@ -220,6 +235,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for eventGroups.
+     *
      * @return List of event group entities
      */
     public List<EventGroupEntity> getEventGroups() {
@@ -228,6 +244,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Setter for eventGroups.
+     *
      * @param eventGroups List of event group entities
      */
     public void setEventGroups(List<EventGroupEntity> eventGroups) {
@@ -236,6 +253,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for selectedEventGroup.
+     *
      * @return EventGroupEntity
      */
     public EventGroupEntity getSelectedEventGroup() {
@@ -244,6 +262,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Setter for selectedEventGroup
+     *
      * @param selectedEventGroup EventGroupEntity
      */
     public void setSelectedEventGroup(EventGroupEntity selectedEventGroup) {
@@ -251,7 +270,8 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     *  Getter for categories.
+     * Getter for categories.
+     *
      * @return List of category entities
      */
     public List<CategoryEntity> getCategories() {
@@ -260,6 +280,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Setter for categories.
+     *
      * @param categories List of category entities.
      */
     public void setCategories(List<CategoryEntity> categories) {
@@ -268,6 +289,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for selectedCategorySet.
+     *
      * @return CategorySetEntity
      */
     public CategorySetEntity getSelectedCategorySet() {
@@ -276,6 +298,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Seeter for selectedCategorySet.
+     *
      * @param selectedCategorySet CategorySetEntity
      */
     public void setSelectedCategorySet(CategorySetEntity selectedCategorySet) {
@@ -286,6 +309,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for selectedCategory.
+     *
      * @return CategoryEntity
      */
     public CategoryEntity getSelectedCategory() {
@@ -294,6 +318,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Setter for selectedCategory.
+     *
      * @param selectedCategory CategoryEntity
      */
     public void setSelectedCategory(CategoryEntity selectedCategory) {
@@ -302,6 +327,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for selectedObservation.
+     *
      * @return ObservationEntity
      */
     public ObservationEntity getSelectedObservation() {
@@ -310,6 +336,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Setter for selectedObservation.
+     *
      * @param selectedObservation ObservationEntity
      */
     public void setSelectedObservation(ObservationEntity selectedObservation) {
@@ -318,6 +345,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for otherObservations.
+     *
      * @return List of observation entities
      */
     public List<ObservationEntity> getOtherObservations() {
@@ -326,6 +354,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Setter for otherObservations.
+     *
      * @param otherObservations List of observation entities
      */
     public void setOtherObservations(List<ObservationEntity> otherObservations) {
@@ -334,6 +363,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Getter for category types.
+     *
      * @return Array of category types.
      */
     public CategoryType[] getCategoryTypes() {
@@ -342,6 +372,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Get the name of the selected observation entity's observer.
+     *
      * @return String of observer's name
      */
     public String getObserverName() {
@@ -356,6 +387,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Initialize new observation.
+     *
      * @return String of navigation rule
      */
     public String newObservation() {
@@ -367,6 +399,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Remove event group data base.
+     *
      * @param eventGroup EventGroupEntity
      */
     public void removeEventGroup(EventGroupEntity eventGroup) {
@@ -394,7 +427,8 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Remove selected category from view, reorder categories and select new category.
+     * Remove selected category from view, reorder categories and select new
+     * category.
      */
     public void removeCategory() {
         if (selectedCategory != null) {
@@ -428,6 +462,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * ReorderEvent listener for catetories reorder.
+     *
      * @param event
      */
     public void onCategoryReorder(ReorderEvent event) {
@@ -449,6 +484,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Add new event group to eventGroups.
+     *
      * @param eventGroup EventGroupEntity
      */
     public void addEventGroup(EventGroupEntity eventGroup) {
@@ -466,8 +502,8 @@ public class ControlManagedBean implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().validationFailed();
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                                messages.getString("dialogErrorTitle"), 
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                messages.getString("dialogErrorTitle"),
                                 messages.getString("cs_errorNotUniqueCategories")));
             }
         }
@@ -475,6 +511,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Method to show the selected observation in summary page.
+     *
      * @return String of navigation rule.
      */
     public String showObservationInSummaryPage() {
@@ -485,6 +522,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Check if categories has duplicates.
+     *
      * @return boolean of has duplicate.
      */
     private boolean hasDuplicate() {
@@ -501,7 +539,8 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Convert milliseconds to string with time units h, m, s.
-     * @param ms long  milliseconds
+     *
+     * @param ms long milliseconds
      * @return String of converted time units.
      */
     public String msToUnits(long ms) {
@@ -521,6 +560,7 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Get name of the observation's event group.
+     *
      * @param observationEntity ObservationEntity
      * @return String of observation's event group name
      */

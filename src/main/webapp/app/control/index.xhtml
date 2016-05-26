@@ -27,8 +27,7 @@
                                  selectionMode="single" selection="#{controlBean.selectedEventGroup}" rowKey="#{eventGroup.id}"
                                  editable="true" styleClass="eventGroupsTable"
                                  emptyMessage="#{msg.con_emptyMessageEvents}"
-                                 sortBy="#{eventGroup.created}" reflow="true"
-                                 lazy="true">
+                                 sortBy="#{eventGroup.id}" reflow="true">
 
                         <p:ajax event="rowEdit" listener="#{controlBean.onEditEventGroup}"/>
                         <p:ajax event="rowSelect" update=":startObservationForm"/>
@@ -246,7 +245,7 @@
                         <h:form id="otherObservationsForm">
                             <p:dataTable id="otherObservations" value="#{controlBean.otherObservations}" var="otherObservation"
                                          selectionMode="single" selection="#{controlBean.selectedObservation}"
-                                         rowKey="#{otherObservation.id}" sortBy="#{otherObservation.created}" reflow="true"
+                                         rowKey="#{otherObservation.id}" sortBy="#{otherObservation.id}" reflow="true"
                                          lazy="true">
 
                                 <p:ajax process="@this" event="rowSelect" update=":observationDetail :observationFormCommands" oncomplete="PF('dlgObservation').show()" />
