@@ -151,7 +151,7 @@ public class MailerBean implements Mailer {
      */
     private MimeMessage setMessage(final String[] recipients, final String subject) throws MessagingException {
         Properties props = System.getProperties();
-        props.setProperty("mail.smtp.host", RedirectURLs.DOCKER_HOST_HOSTNAME);
+        props.setProperty("mail.smtp.host", RedirectURLs.SMTP_HOST);
         props.setProperty("mail.mime.charset", CHARSET);
         Session session = Session.getDefaultInstance(props);
         MimeMessage msg = new MimeMessage(session);

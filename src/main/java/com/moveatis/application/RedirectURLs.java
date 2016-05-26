@@ -47,8 +47,7 @@ public class RedirectURLs {
     
     public static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/app/control/";
     public static final String ERROR_PAGE_URI = "https://moveatis.sport.jyu.fi/error";
-    // Jyväskylä University's SMTP host. Only accessible inside JYU network.
-    public static final String DOCKER_HOST_HOSTNAME="smtp.jyu.fi";
+    public static final String SMTP_HOST="localhost";
     
     public RedirectURLs() {
         
