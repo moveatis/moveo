@@ -175,7 +175,7 @@
                             <p:outputPanel styleClass="editable">
                                 <p:message for="input-target-observation" />
                                 <p:inplace id="input-target-observation" editor="true"
-                                           emptyLabel="#{msg.con_observationDetailsEmptyLabel}"
+                                           emptyLabel="#{msg.con_observationDetailsTargetEmptyLabel}"
                                            saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
                                     <p:ajax event="save" listener="#{controlBean.onEditObservation}" update=":eventGroupsForm" />
                                     <p:inputText value="#{controlBean.selectedObservation.target}"
