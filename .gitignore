@@ -52,3 +52,6 @@ buildNumber.properties
 # Directory for TeXDoclet and LaTeX outputs
 texdocs/
 
+# Directory for JSDoc outputs
+jsdocs/
+
