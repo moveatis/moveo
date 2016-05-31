@@ -49,9 +49,6 @@ buildNumber.properties
 # Lockfiles and such
 .LCK*
 
-# Directory for TeXDoclet and LaTeX outputs
-texdocs/
-
-# Directory for JSDoc outputs
-jsdocs/
+# Directory for class documentation
+docs/
 

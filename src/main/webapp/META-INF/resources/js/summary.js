@@ -32,6 +32,7 @@
 
 /**
  * @fileOverview Javascript methods for the summary page.
+ * @module summary
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 var TIMELINE_BEGIN = getLocalZeroDate();

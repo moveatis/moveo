@@ -1,29 +1,125 @@
-# JavaScript documentation
+# Shell script that generates class documentations.
+# This is not very clean, but works for now.
+# Generated documentations:
+#   ./docs/java/    					- Java HTML documentation
+#   ./docs/js/    					- JavaScript HTML documentation
+#   ./docs/moveatis_java_class_documentation.pdf	- Java PDF documentation
+#   ./docs/moveatis_js_class_documentation.html		- JavaScript one page HTML documentation
+
+# TODO: Actually generate Java HTML docs!
+
+
+mkdir docs
+mkdir docs/js
+mkdir docs/js-onepage
+mkdir docs/java-tex
 
 jsdoc_path="../node_modules/.bin/jsdoc"
-onepage_path="../node_modules/jsdoc-one-page"
-out_path="jsdocs"
-src_path="src/main/webapp/META-INF/resources/js"
+js_onepage_path="../node_modules/jsdoc-one-page"
+js_out_path="docs/js"
+js_onepage_out_path="docs/js-onepage"
+js_src_path="src/main/webapp/META-INF/resources/js"
+js_class_doc_file="docs/moveatis_js_class_documentation.html"
+js_front_page="docs/js-front-page.md"
 
-$jsdoc_path -d $out_path \
-$src_path/control.js $src_path/locales.js $src_path/observer.js $src_path/summary.js
+texdoclet_path="../TeXDoclet.jar"
+tex_out_path="docs/java-tex"
+tex_out_file="moveatis_java_class_documentation.tex"
+java_class_doc_file="moveatis_java_class_documentation.pdf"
+java_src_path="src/main/java"
 
-$jsdoc_path -t $onepage_path -d $out_path/onepage \
-$src_path/control.js $src_path/locales.js $src_path/observer.js $src_path/summary.js
+# JavaScript documentation front page
+
+echo "
+# Moveatis JavaScript Class Documentation
+## Software version 1.0.0
+
+## Documentation version 0.1.0
+
+Moveatis is ...
+
+Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+" > $js_front_page
+
+# JavaScript documentation
+
+$jsdoc_path -d $js_out_path $(find $js_src_path -name *.js) $js_front_page
+$jsdoc_path -t $js_onepage_path -d $js_onepage_out_path $(find $js_src_path -name *.js) $js_front_page
+
+echo "<!DOCTYPE html>
+<html><head>
+	<meta charset='utf-8'/>
+	<title>Moveatis JavaScript Class Documentation</title> 
+	<style>
+		.back-to-top { display: none; }
+		td { padding: 0 0.5em; }
+		footer { padding-top: 2em; }
+	</style>
+</head><body>" > $js_class_doc_file
+
+cat $js_onepage_out_path/api_content_only.html >> $js_class_doc_file
+
+grep -A 2 "<footer>" $js_onepage_out_path/index.html >> $js_class_doc_file
+
+echo "<script>
+function appendToc(toc, heading, items) {
+	var h3 = document.createElement('h3');
+	h3.appendChild(document.createTextNode(heading));
+	toc.appendChild(h3);
+	var ul = document.createElement('ul');	
+	for (var i = 0; i < items.length; i++) {
+		var li = document.createElement('li');
+		li.appendChild(document.createTextNode(items[i]));
+		ul.appendChild(li);
+	}
+	toc.appendChild(ul);
+}
+(function() {
+	var sections = document.getElementsByTagName('section');
+	var classes = [];
+	var modules = [];
+	for (var i = 0; i < sections.length; i++) {
+		var s = sections[i];
+		var id = s.getAttribute('id');
+		if (id === null) continue;
+		var name;
+		if (id.startsWith('class')) {
+			name = id.slice(id.indexOf('~') + 1);
+			classes.push(name);
+			name = 'Class: ' + name;
+		} else if (id.startsWith('module')) {
+			name = id.slice(id.indexOf(':') + 1);
+			modules.push(name);
+			name = 'Module: ' + name;
+		}
+		var h1 = document.createElement('h1');
+		h1.appendChild(document.createTextNode(name));
+		s.parentElement.insertBefore(h1, s);
+	}
+	var toc = document.createElement('section');
+	var h2 = document.createElement('h2');
+	h2.appendChild(document.createTextNode('Table of Contents'));
+	toc.appendChild(h2);
+	appendToc(toc, 'Classes', classes);
+	appendToc(toc, 'Modules', modules);
+	sections[0].parentElement.insertBefore(toc, sections[0].nextSibling);
+})();
+</script></body></html>" >> $js_class_doc_file
 
 # Java documentation
 
-mkdir texdocs
-
-javadoc -docletpath ../TeXDoclet.jar -doclet org.stfm.texdoclet.TeXDoclet \
--tree -output texdocs/docs.tex \
--title "Moveatis Class Documentation" \
--subtitle "Version 0.0.1" \
+javadoc -docletpath $texdoclet_path -doclet org.stfm.texdoclet.TeXDoclet \
+-tree -output $tex_out_path/$tex_out_file \
+-title "Moveatis Java Class Documentation\\\\Software version 1.0.0" \
+-subtitle "Version 0.2.0" \
 -author "Jarmo Juuj\\""\"arvi\\\\Sami Kallio\\\\Kai Korhonen\\\\Juha Moisio\\\\Ilari Paananen" \
--sourcepath src/main/java -subpackages com
+-nosummaries \
+-sourcepath $java_src_path -subpackages com
 
-cd texdocs
+cd $tex_out_path
 
-pdflatex docs.tex
-pdflatex docs.tex
+pdflatex $tex_out_file
+pdflatex $tex_out_file
+
+cp $java_class_doc_file ../
 

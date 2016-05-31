@@ -29,13 +29,9 @@
  */
 
 /**
- * @fileOverview PrimeFaces localizstion file.
- */
-
-/* global PrimeFaces */
-
-/**
- * Finnish localization.
+ * @fileOverview PrimeFaces localization file.
+ * @module locales
+ * @property {object} PrimeFaces.locales.fi Finnish localization.
  */
 PrimeFaces.locales['fi'] = {
     closeText: 'Sulje',

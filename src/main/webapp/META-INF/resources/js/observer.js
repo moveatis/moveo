@@ -30,6 +30,7 @@
 
 /**
  * @fileOverview JavaScript logic for observation view.
+ * @module observer
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
 
@@ -121,9 +122,9 @@ function timeToString(ms) {
 
 
 /**
- * Returns count string with abbreviation, e.g. "13 ct.".
- * @param {type} count
- * @returns {String} Count string.
+ * Returns a count as a string with abbreviation, e.g. "13 ct.".
+ * @param {number} count The count to make the string from.
+ * @returns {String} The count string.
  */
 function countToString(count) {
     return count + " " + msg.countAbbreviation;
@@ -135,7 +136,7 @@ function countToString(count) {
  * @constructor
  * @param {String} name Name to be displayed on the button.
  * @param {number} type Type of the category (TIME or COUNTED).
- * @param {number} index
+ * @param {number} index Index of the category button.
  * @returns {CategoryItem}
  */
 function CategoryItem(name, type, id, index) {

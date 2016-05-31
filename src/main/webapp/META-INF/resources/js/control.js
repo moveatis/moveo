@@ -30,6 +30,7 @@
 
 /**
  * @fileOverview JavaScript methods for control view.
+ * @module control
  */
 
 /* global PrimeFaces, PF */
