@@ -143,6 +143,7 @@ public class CategorySetManagedBean implements Serializable {
         Map<Integer, CategoryEntity> orderedCategories = new TreeMap<>();
         List<CategoryEntity> unorderedCategories = new ArrayList<>();
         
+        // TODO: The logic of the for-loop can be done without this variable.
         boolean doNotRemove = false;
 
         /*
