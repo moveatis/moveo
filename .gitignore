@@ -51,4 +51,4 @@ buildNumber.properties
 
 # Directory for TeXDoclet and LaTeX outputs
 texdocs/
-
+bin/
