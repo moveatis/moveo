@@ -25,6 +25,8 @@ dist/
 ndist/
 nbactions.xml
 nbactions-moveatis.xml
+nbactions-Moveatis.xml
+faces-config.Navdata
 nb-configuration.xml
 .nb-gradle/
 
