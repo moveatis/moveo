@@ -31,7 +31,8 @@
 /* global PF, links, SummaryIndex */
 
 /**
- * Javascript methods for the summary page.
+ * @fileOverview Javascript methods for the summary page.
+ * @module summary
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 var TIMELINE_BEGIN = getLocalZeroDate();
@@ -39,7 +40,7 @@ var OBSERVATION_DURATION = SummaryIndex.getObservationDuration(); // function in
 var msg = SummaryIndex.getMessages(); // function in summary/index.xhtml
 var ESCAPE_KEY = 27;
 
-/*
+/**
  * On document ready:
  *  - Calculate recordings summary details.
  *  - Update the details on time frame change.
@@ -174,7 +175,7 @@ function updateRecordsTable(timeline, timeframe) {
     recordsTable.append(summaryRow);
 }
 
-/*
+/**
  * Create html element containing the data of a record.
  * @param {object} record - object containing record data
  *  Data form: {name, count, countPercentage, duration, durationPercentage}
@@ -199,7 +200,7 @@ function createRecordRow(record, colcount) {
     return row;
 }
 
-/*
+/**
  * Updates timeline's time frame to the given start and end times.
  * @param {object} timeline - The timeline component.
  * @param {string} strStart - time frame start in hh:mm:ss format
@@ -234,7 +235,7 @@ function updateTimelineTimeframe(timeline, strStart, strEnd) {
     return false;
 }
 
-/*
+/**
  * Show a growl message of the selected record.
  * @param {object} timeline - The timeline component.
  * @param {object} growl - The growl component.
@@ -254,7 +255,7 @@ function showRecordDetails(timeline, growl) {
     }
 }
 
-/*
+/**
  * Hide all growl messages and remove timeline selection.
  * @param {object} timeline - The timeline component.
  * @param {object} growl - The growl component.
@@ -264,7 +265,7 @@ function hideMessages(timeline, growl) {
     timeline.setSelection(null);
 }
 
-/*
+/**
  * Get all records that are fully or partially in the given time frame.
  * @param {object} records - object containing the records.
  * @param {object} timeframe - The selected start and end time.
@@ -286,7 +287,7 @@ function getRecordsInTimeframe(records, timeframe) {
     return recordsIn;
 }
 
-/*
+/**
  * Get record details.
  * @param {object} record - a record object from the timeline component.
  * @returns {string} - details as a string value.
@@ -303,7 +304,7 @@ function getRecordDetails(record) {
     return details;
 }
 
-/*
+/**
  * Get total duration of records of all categories in given time frame.
  * @param {object} records - object containing the records.
  * @param {object} timeframe - The selected start and end time.
@@ -317,7 +318,7 @@ function getDurationOfCategories(categories, timeframe) {
     return duration;
 }
 
-/*
+/**
  * Get duration of observation's time frame.
  * @param {object} timeframe - The selected start and end time.
  * @returns {number} - duration of the observation's time frame.
@@ -330,7 +331,8 @@ function getTimeframeDuration(timeframe) {
     return end - start;
 }
 
-/* Get total duration of records in given time frame.
+/**
+ * Get total duration of records in given time frame.
  * @param {object} records - object containing the records.
  * @returns {number} - duration of the records.
  */
@@ -355,7 +357,7 @@ function getDurationOfRecords(records, timeframe) {
     return duration;
 }
 
-/*
+/**
  * Convert milliseconds to time string hh:mm:ss. 
  * @param {number} ms - time in milliseconds.
  * @returns {string} - time in string as hh:mm:ss.
@@ -371,7 +373,7 @@ function convertMsToStr(ms) {
     return [h, m, s].map(leadingZero).join(':');
 }
 
-/*
+/**
  * Convert time string hh:mm:ss to milliseconds
  * @param {string} str - time in string as hh:mm:ss.
  * @returns {number} - time in milliseconds or NaN for unparseable time string.
@@ -389,7 +391,7 @@ function convertStrToMs(str) {
     return seconds * 1000;
 }
 
-/*
+/**
  * Convert time in milliseconds to string with time units e.g. 1h 2m 0s. 
  * @param {number} ms - time in milliseconds.
  * @returns {string} - time in string with units e.g. 1h 2m 0s.
@@ -420,7 +422,7 @@ function convertMsToUnits(ms) {
     return units.replace(/([hms])(\d)/g, "$1 $2");
 }
 
-/*
+/**
  * Append leading zero to single digit numbers. 
  * @param {number} n - number.
  * @returns {string} - number with possible leading zero.
@@ -429,7 +431,7 @@ function leadingZero(n) {
     return (n < 10 ? "0" + n : n.toString());
 }
 
-/*
+/**
  * Calculate percent of two values.
  * @param {number} a - the number of share.
  * @param {number} b - the number of total quantity.
@@ -442,7 +444,7 @@ function percentOf(a, b) {
     return Math.round((a / b) * 100);
 }
 
-/*
+/**
  * Get percent of two values as span element string.
  * @param {number} a - the number of share.
  * @param {number} b - the number of total quantity.
@@ -460,7 +462,7 @@ function spanPercentOf(a, b) {
     return '<span class="percent">' + str + "</span>";
 }
 
-/*
+/**
  * Get "zero" date with time zone offset.
  * @returns {date} - zero date with time zone offset.
  */
@@ -470,7 +472,7 @@ function getLocalZeroDate() {
     return zeroDate;
 }
 
-/*
+/**
  * Convert date object to the timeline component time.
  * @param {date} date - the date object of the time to convert.
  * @returns {number} - converted time in milliseconds.
@@ -479,7 +481,7 @@ function toTimelineTime(date) {
     return Math.abs(TIMELINE_BEGIN.getTime() - date.getTime());
 }
 
-/*
+/**
  * Encode main html markup characters to html entities.
  * @param {string} str - the string to encode.
  * @returns {str} - the encoded string.
@@ -492,7 +494,7 @@ function encodeHTML(str) {
             .replace(/"/g, '&quot;');
 }
 
-/*
+/**
  * Check if scrolled to the bottom of the page.
  * @param {number} padding - extra padding from bottom to check.
  * @return {boolean} - true if at bottom otherwise false.

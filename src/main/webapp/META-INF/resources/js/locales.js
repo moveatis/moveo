@@ -27,8 +27,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/* global PrimeFaces */
 
+/**
+ * @fileOverview PrimeFaces localization file.
+ * @module locales
+ * @property {object} PrimeFaces.locales.fi Finnish localization.
+ */
 PrimeFaces.locales['fi'] = {
     closeText: 'Sulje',
     prevText: 'Edellinen',

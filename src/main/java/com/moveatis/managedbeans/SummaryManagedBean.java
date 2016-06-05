@@ -235,7 +235,7 @@ public class SummaryManagedBean implements Serializable {
             mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"),
                     msgBuilder.toString(), files);
             //remove the temp file after sending it
-            f.delete();
+            f.delete(); // TODO: Check the return value.
         } catch (IOException ex) {
             LOGGER.error("Failed to create temporary file for sending observeraion by email.", ex);
         }

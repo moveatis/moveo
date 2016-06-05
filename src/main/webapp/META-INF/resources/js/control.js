@@ -28,9 +28,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * @fileOverview JavaScript methods for control view.
+ * @module control
+ */
+
 /* global PrimeFaces, PF */
 
-/*
+/**
  * Hide dialog on succesfull submit. Additionally, display the provided message.
  * @param {object} args - containing the validationFailed attribute.
  * @param {string} dialogWidgetVar - Dialogs widget variable.
@@ -45,7 +50,7 @@ function onDialogSuccess(args, dialogWidgetVar, message) {
     }
 }
 
-/*
+/**
  * Set last editable data table row into edit mode and set focus to it's first editable input.
  * @param {string} table data table's identifier, id or class name.
  */
@@ -57,7 +62,7 @@ function focusDataTableEditInput(table) {
     $(table + ' .ui-datatable-data tr').last().find('.ui-editable-column:first-child input').select();
 }
 
-/*
+/**
  * Submit data table rows in edit mode.
  * @param {string} table - data table's identifier, id or class name.
  */

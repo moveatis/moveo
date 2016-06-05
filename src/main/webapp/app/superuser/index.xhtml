@@ -81,7 +81,7 @@
                 <h:panelGrid columns="3" style="width: 80%; max-width: 400px; min-width: 250px;" >
                     <p:inputText id="user" placeholder="Käyttäjätunnus" style="margin-right: 0.2em; width:90%; font-size: 1em;" size="8" maxlength="8" />  
                     <p:inputMask id="expirationDate" placeholder="01.01.2017" value="#{maskView.date}" mask="99/99/9999" size="8" style="margin-right: 0.2em; width:90%; font-size: 1em;" />
-                    <p:commandButton id="addSuperuserButton" value="Lisää" type="button" onclick="PF('addSuperuserConfirmation').show();" style=" width:95%; heigth: 90%; font-size: 1em; float: right;"/>
+                    <p:commandButton id="addSuperuserButton" value="Lisää" type="button" onclick="PF('addSuperuserConfirmation').show();" style=" width:95%; height: 90%; font-size: 1em; float: right;"/>
                 </h:panelGrid>    
 
                 <p:dialog id ="userToSuperuser" header="Lisätään pääkäyttäjäoikeudet" widgetVar="addSuperuserConfirmation" modal="true" width="300px">

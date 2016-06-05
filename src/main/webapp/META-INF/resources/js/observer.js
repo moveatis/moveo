@@ -28,6 +28,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * @fileOverview JavaScript logic for observation view.
+ * @module observer
+ * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
+ */
+
 //
 // TODO:
 // - Remove/comment out console.log calls in release?
@@ -38,15 +44,20 @@ var CategoryType = getCategoryTypes();
 var msg = getMessages();
 
 
-/*
+/**
  * Master clock that can be paused and resumed at will.
  * Individual categories get their time from the master clock.
+ * @constructor
  */
 function Clock() {
     this.total_time = 0;
     this.resume_time = 0;
     this.running = false;
     
+    /**
+     * Resumes paused clock.
+     * @param {number} now Time in milliseconds when clock was resumed.
+     */
     this.resume = function(now) {
         if (!this.running) {
             this.resume_time = now;
@@ -56,6 +67,10 @@ function Clock() {
         }
     };
     
+    /**
+     * Pauses running clock.
+     * @param {number} now Time in milliseconds when clock was paused.
+     */
     this.pause = function(now) {
         if (this.running) {
             var delta_time = now - this.resume_time;
@@ -66,6 +81,10 @@ function Clock() {
         }
     };
     
+    /**
+     * Returns total time clock has been running in milliseconds.
+     * @param {number} now Time in milliseconds when elapsed time was wanted.
+     */
     this.getElapsedTime = function(now) {
         if (this.running) {
             return this.total_time + (now - this.resume_time);
@@ -74,13 +93,16 @@ function Clock() {
         }
     };
     
+    /**
+     * Returns true if clock is paused, otherwise false.
+     */
     this.isPaused = function() {
         return !this.running;
     };
 }
 
 
-/*
+/**
  * Converts milliseconds to a string representing time.
  * Time format is hh:mm:ss if hh > 0 and mm:ss otherwise.
  * @param {number} ms Time in milliseconds.
@@ -99,21 +121,22 @@ function timeToString(ms) {
 }
 
 
-/*
- * Returns count string with abbreviation, e.g. "13 ct.".
- * @param {type} count
- * @returns {String} Count string.
+/**
+ * Returns a count as a string with abbreviation, e.g. "13 ct.".
+ * @param {number} count The count to make the string from.
+ * @returns {String} The count string.
  */
 function countToString(count) {
     return count + " " + msg.countAbbreviation;
 }
 
 
-/*
+/**
  * Handles one category button.
+ * @constructor
  * @param {String} name Name to be displayed on the button.
  * @param {number} type Type of the category (TIME or COUNTED).
- * @param {number} index
+ * @param {number} index Index of the category button.
  * @returns {CategoryItem}
  */
 function CategoryItem(name, type, id, index) {
@@ -148,8 +171,8 @@ function CategoryItem(name, type, id, index) {
     
     /**
      * Private method that replaces value_div's content with given text.
-     * @param {type} this_
-     * @param {type} text Text to replace value_div's content with.
+     * @param {CategoryItem} this_ This object.
+     * @param {String} text Text to replace value_div's content with.
      */
     function updateValueDiv(this_, text) {
         this_.value_div.empty();
@@ -158,11 +181,14 @@ function CategoryItem(name, type, id, index) {
     
     /**
      * Private method that initializes this to behave as a timed category.
-     * @param {type} this_
+     * @param {CategoryItem} this_ This object.
      */
     function initTimedCategory(this_) {
         updateValueDiv(this_, timeToString(0));
         
+	/*
+         * Click handler for timed category item.
+         */
         this_.click = function(master_time) {
             var record;
 
@@ -181,7 +207,10 @@ function CategoryItem(name, type, id, index) {
 
             return record;
         };
-    
+    	
+	/*
+         * Method that updates category item's timer div if the category type is timed.
+         */
         this_.updateTimer = function(master_time) {
             var time = this.time;
             if (this.down) {
@@ -193,11 +222,14 @@ function CategoryItem(name, type, id, index) {
     
     /**
      * Private method that initializes this to behave as a counted category.
-     * @param {type} this_
+     * @param {CategoryItem} this_ This object.
      */
     function initCountedCategory(this_) {
         updateValueDiv(this_, countToString(0));
-        
+
+        /*
+         * Click handler for counted category item.
+         */
         this_.click = function(master_time, paused) {
             if (paused) return;
             
@@ -210,16 +242,20 @@ function CategoryItem(name, type, id, index) {
             
             return {id: this.id, startTime: master_time, endTime: master_time};
         };
-        
+
+        /*
+         * Method that does nothing if the category type is counted.
+         */
         this_.updateTimer = function() { };
     }
 }
 
 
-/*
+/**
  * Handles the actual observing.
- * @param {type} category_sets
- * @returns {Observer}
+ * @constructor
+ * @param category_sets Array of category sets to use in observation.
+ * @returns {Observer} Constructed observer.
  */
 function Observer(category_sets) {
     this.master_clock = new Clock();
@@ -232,7 +268,7 @@ function Observer(category_sets) {
     
     /**
      * Private method that initializes various things.
-     * @param {Observer} this_
+     * @param {Observer} this_ This object.
      */
     function initialize(this_) {
         $("#continue").hide();
@@ -269,11 +305,11 @@ function Observer(category_sets) {
         $(".category-item").addClass("disabled");
     }
     
-    /*
+    /**
      * Private method.
      * Adds record to the records list if it's not undefined.
      * Used by categoryClick() and stopClick().
-     * @param {type} record Record or undefined if there is nothing to add.
+     * @param record Record or undefined if there is nothing to add.
      */
     function addRecord(this_, record) {
         if (record !== undefined) {
@@ -281,7 +317,7 @@ function Observer(category_sets) {
         }
     }
     
-    /*
+    /**
      * Event handler that starts or continues observing.
      * Sends ajax notification to backend when observing is first started.
      */
@@ -317,6 +353,9 @@ function Observer(category_sets) {
         });
     };
     
+    /**
+     * Event handler that continues the observing.
+     */
     this.continueClick = function () {
         if (this.master_clock.isPaused()) {
             this.master_clock.resume(Date.now());
@@ -325,7 +364,7 @@ function Observer(category_sets) {
         }
     };
     
-    /*
+    /**
      * Event handler that pauses the observing.
      */
     this.pauseClick = function() {
@@ -336,7 +375,7 @@ function Observer(category_sets) {
         }
     };
     
-    /*
+    /**
      * Event handler that stops the observing.
      * Disables continue, pause, and category buttons.
      * If some categories were still on, stops them
@@ -398,10 +437,10 @@ function Observer(category_sets) {
         });
     };
     
-    /*
+    /**
      * Delegates handling of category button click to the correct category.
      * Adds (possible) record returned by the category.
-     * @param {type} index Index of the category.
+     * @param {number} index Index of the category.
      */
     this.categoryClick = function(index) {
         var category = this.categories[index];
@@ -409,7 +448,7 @@ function Observer(category_sets) {
         addRecord(this, category.click(time, this.master_clock.isPaused()));
     };
     
-    /*
+    /**
      * Updates master clock and all categories based on it.
      */
     this.tick = function() {
@@ -463,10 +502,14 @@ function showError(error_msg) {
 }
 
 
+/**
+ * Function that will call observer.stop().
+ * Needed if the stopping has to be confirmed.
+ */
 var stopObservation = function () {};
 
 
-/*
+/**
  * This function is ran when the document is ready.
  * Creates observer, binds event handlers, and sets two intervals:
  * one that updates the observer and one that sends keep alive to backend.
@@ -491,14 +534,14 @@ $(document).ready(function() {
     setInterval(keepAlive, 5*60000); // Send keep-alive every 5 minutes.
 });
 
-/*
+/**
  * Get the offset of timezone in milliseconds (in JAVA format).
  */
 function getTimeZoneOffset(){
     return -1 * 60 * 1000 * new Date().getTimezoneOffset();
 }
 
-/*
+/**
  * Get the daylight saving time offset in milliseconds.
  */
 function getDaylightSaving() {
