@@ -109,7 +109,9 @@ function appendToc(toc, heading, items) {
 
 # Java documentation
 
-javadoc -d $java_out_path -sourcepath $java_src_path -subpackages com
+#javadoc -d $java_out_path -sourcepath $java_src_path -subpackages com
+mvn generate-sources javadoc:javadoc
+cp -r target/site/apidocs/ docs/java/
 
 javadoc -docletpath $texdoclet_path -doclet org.stfm.texdoclet.TeXDoclet \
 -tree -output $tex_out_path/$tex_out_file \
