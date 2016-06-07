@@ -68,8 +68,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean that manages REST API for adding records to observation, and
- * starting/stopping observation.
+ * The bean manages REST API for adding records to an observation as well as
+ * starting and stopping an observation.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Path("/records")
@@ -109,9 +109,6 @@ public class RecordListenerBean implements Serializable {
     
     /**
      * Marks the observation as started.
-     * 
-     * @param data JSON data, which is not needed in current implementation.
-     * @return Status string.
      */
     @POST
     @Path("startobservation")
@@ -123,8 +120,7 @@ public class RecordListenerBean implements Serializable {
     }
     
     /**
-     * Keeps the session alive during observations. Not implemented in current version.
-     * @return keep-alive status string.
+     * Keeps the session alive during the observation.
      */
     /*
     * TODO: Needs work - what to do when keep-alive request is commenced?
@@ -139,10 +135,11 @@ public class RecordListenerBean implements Serializable {
     }
     
     /**
-     * Adds the observation data coming from observation view. Could be used to take
-     * data from other clients, not yet implemented or even planned.
-     * @param data The JSON data
-     * @return status string
+     * Adds the observation data coming from the observation view.
+     * It could be used to take data from other clients, but not yet
+     * implemented or even planned.
+     * @param data The JSON data containing the records of the observation.
+     * @return "success" if the action succeeded and "failed" if it failed.
      */
     @POST
     @Path("addobservationdata")

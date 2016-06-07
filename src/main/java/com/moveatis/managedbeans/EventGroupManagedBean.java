@@ -48,7 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The bean to manage event groups in the appropriate views.
+ * The bean is used to manage event groups in the appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "eventGroupManagedBean")
@@ -136,9 +136,9 @@ public class EventGroupManagedBean {
     }
 
     /**
-     * This method adds groupkey to particular eventgroup. Groupkey is used
-     * to identify this eventgroup.
-     * @param eventGroup Which eventgroup add the groupkey
+     * Adds the group key to the specified event group. The group key is used
+     * to identify the event group.
+     * @param eventGroup The event group into which the the group key is added.
      */
     public void addGroupKey(EventGroupEntity eventGroup) {
         
@@ -165,10 +165,10 @@ public class EventGroupManagedBean {
     }
 
     /**
-     * This method sets a new groupkey for particular eventgroup.
+     * Sets a new group key for the event group.
      * 
-     * @param eventGroup Eventgroup to edit.
-     * @param newGroupKey The new groupkey for the eventgroup.
+     * @param eventGroup The event group to edit.
+     * @param newGroupKey The new group key for the event group.
      */
     public void editGroupKey(EventGroupEntity eventGroup, String newGroupKey) {
         if (newGroupKey != null) {
@@ -187,9 +187,7 @@ public class EventGroupManagedBean {
     }
 
     /**
-     * This method removes the wanted eventgroup.
-     * 
-     * @param eventGroup The eventgroup tp remove
+     * Removes the group key from the given event group.
      */
     public void removeGroupKey(EventGroupEntity eventGroup) {
         GroupKeyEntity groupKey = eventGroup.getGroupKey();
@@ -200,7 +198,7 @@ public class EventGroupManagedBean {
     }
 
     /**
-     * This method creates new eventgroup.
+     * Creates a new event group.
      */
     public void createNewEventGroup() {
 

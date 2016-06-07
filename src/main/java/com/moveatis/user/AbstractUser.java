@@ -38,9 +38,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 /**
- * This is the base-userentity for TagUser and IdentifiendUser. TagUser is the 
- * user which provides access for groupkeys and identifieduser is an individual user,
- * who is identified using Jyväskylä University Shibboleth-identitysystem.
+ * The base user entity for TagUser and IdentifiendUser. TagUser is the user
+ * which provides access for group keys and the identified user is an individual
+ * user, who is identified using the Shibboleth identity system of Jyväskylä University.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

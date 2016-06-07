@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The bean to manage events in the appropriate views. 
+ * The bean is used to manage events in the appropriate views. 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="eventManagedBean")
@@ -60,7 +60,7 @@ public class EventManagedBean {
     @Inject
     private Session sessionBean;
 
-    /** Creates a new instance of EventManagedBean */
+    /** Creates a new instance of EventManagedBean. */
     public EventManagedBean() {
         
     }
@@ -82,8 +82,7 @@ public class EventManagedBean {
     }
     
     /**
-     * Creates new event for eventgroup.
-     * @param eventGroupEntity The eventgroup for new event.
+     * Creates a new event for the event group.
      */
     public void createNewEvent(EventGroupEntity eventGroupEntity) {
         

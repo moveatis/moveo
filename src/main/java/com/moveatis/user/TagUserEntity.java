@@ -41,7 +41,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * This entity represent the data for groupkey based access of Moveatis.
+ * The entity represent the data for accessing with a group key into Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

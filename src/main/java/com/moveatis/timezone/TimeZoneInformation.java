@@ -34,7 +34,7 @@ import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 /**
- * Class to keep the default timezone of Moveatis.
+ * The class to keep the default time zone of Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class TimeZoneInformation {
@@ -55,11 +55,10 @@ public class TimeZoneInformation {
     }
 
     /**
-     * Get TimeZone from time zone offset and daylight saving time
+     * Gets a TimeZone from the time zone offset and the daylight saving time.
      *
-     * @param offset time zone offset in milliseconds
-     * @param DSTSaving daylight saving in milliseconds
-     * @return TimeZone
+     * @param offset the time zone offset in milliseconds.
+     * @param DSTSaving the daylight saving time in milliseconds.
      */
     public static TimeZone getTimeZoneFromOffset(int offset, int DSTSaving) {
         if (DSTSaving > 0) {

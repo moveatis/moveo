@@ -35,7 +35,7 @@ import com.moveatis.helpers.Validation;
 import java.io.Serializable;
 
 /**
- * Observation has it own categories, so renaming the original category
+ * The observation has its own categories, so renaming the original category
  * does not affect on old observations.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>

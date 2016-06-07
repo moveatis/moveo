@@ -42,9 +42,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- * This entity is the base of all entities of the application. It has the
- * id and dates for creation and removal. As MappedSuperclass its not persisted
- * to database itself.
+ * The entity is the base of all the entities of the application. It has the
+ * id and the dates for creation and removal. Like the MappedSuperclass, it's
+ * not persisted to the database itself.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 

@@ -40,7 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The bean provides means to manage user-related information in a session.
+ * The bean manages user-related information in a session.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "userManagedBean")
@@ -56,7 +56,7 @@ public class UserManagedBean implements Serializable {
     private String optionLanguageString;
 
     /**
-     * Creates a new instance of UserManagedBean
+     * Creates a new instance of UserManagedBean.
      */
     public UserManagedBean() {
         

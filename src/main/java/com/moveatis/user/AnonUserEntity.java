@@ -35,8 +35,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * This entity represents the one public user account in Moveatis. Its used
- * as bookkeeping purposes, as session must have an user. 
+ * The entity represents one public user account in Moveatis. It's used
+ * as bookkeeping purposes, as each session must have a user.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
