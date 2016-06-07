@@ -40,7 +40,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <description>Student project for University of Jyväskylä</description>
     <organization>
-        <name>University of Jyväskylä</name>
+        <name>
+        Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+        </name>
     </organization>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

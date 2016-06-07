@@ -25,6 +25,7 @@ js_front_page="docs/js-front-page.md"
 texdoclet_path="../TeXDoclet.jar"
 tex_out_path="docs/java-tex"
 tex_out_file="moveatis_java_class_documentation.tex"
+java_out_path="docs/java"
 java_class_doc_file="moveatis_java_class_documentation.pdf"
 java_src_path="src/main/java"
 
@@ -107,6 +108,8 @@ function appendToc(toc, heading, items) {
 </script></body></html>" >> $js_class_doc_file
 
 # Java documentation
+
+javadoc -d $java_out_path -sourcepath $java_src_path -subpackages com
 
 javadoc -docletpath $texdoclet_path -doclet org.stfm.texdoclet.TeXDoclet \
 -tree -output $tex_out_path/$tex_out_file \
