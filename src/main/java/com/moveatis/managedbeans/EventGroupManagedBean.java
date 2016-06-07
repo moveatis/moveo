@@ -48,7 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean to manage eventgroups in appropriate views.
+ * The bean to manage event groups in the appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "eventGroupManagedBean")

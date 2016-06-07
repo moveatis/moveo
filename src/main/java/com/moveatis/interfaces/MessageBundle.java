@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 /**
- * This is qualifier for messagebundle. Its needed to provide resourcebundle
+ * The qualifier for the message bundle is needed to provide a resource bundle
  * as injected resource for transient managed beans.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

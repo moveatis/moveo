@@ -44,9 +44,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
- * This servlet handles errors, that might be thrown in the course of 
- * executing the software. It mails the error to superuser mail account and
- * redirects user to error page.
+ * The servlet handles the errors, that might be thrown in the course of 
+ * executing the software. It mails the error to the superuser mail account and
+ * redirects the user to an error page.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -62,10 +62,10 @@ public class ErrorHandler extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -84,10 +84,10 @@ public class ErrorHandler extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -98,10 +98,10 @@ public class ErrorHandler extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request servlet request.
+     * @param response servlet response.
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -112,7 +112,7 @@ public class ErrorHandler extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a String containing servlet description.
      */
     @Override
     public String getServletInfo() {

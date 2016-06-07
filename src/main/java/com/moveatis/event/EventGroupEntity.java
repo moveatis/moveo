@@ -46,9 +46,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * This entity represents information for eventgroups of the application. Eventgroup
- * in this version has just one event, but this could be extended to support multiple events. 
- * Eventgroup can be identified with groupkey, which allows semi-public usage.
+ * The entity represents the information for the event groups of the application.
+ * The event group has just one event, but the class could be extended to support
+ * multiple events. The event group can be identified with a groupkey, which
+ * allows semi-public usage.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

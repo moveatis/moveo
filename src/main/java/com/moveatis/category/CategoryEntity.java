@@ -41,7 +41,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * This entity represent the categories of an observation in the database.
+ * The entity represents the categories of an observation in the database.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Table(name="CATEGORY")

@@ -33,9 +33,9 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to manage the groupke entity.
- * Groupkey is used to identify a eventgroup for "semi-public" usage - that is, 
- * anyone who knowns the groupkey for particular eventgroup, can use the eventgroup.
+ * The interface to manage the group key entity.
+ * A group key is used to identify an event group for "semi-public" usage. 
+ * Anyone who knowns the group key for a particular event group, can use the event group.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(GroupKey.class)

@@ -46,7 +46,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * This entity represents categorysets in the database
+ * The entity represents a category set in the database.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

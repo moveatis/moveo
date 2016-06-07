@@ -34,7 +34,7 @@ import java.io.File;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to send mails.
+ * The interface to send mails.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local

@@ -32,8 +32,8 @@ package com.moveatis.helpers;
 import java.util.Random;
 
 /**
- * This helper class could be used to generate a groupkey, if user cannot
- * think one of herself.
+ * The helper class could be used to generate a random group key, if the user cannot
+ * come up with one by herself.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class GroupKeyGenerator {

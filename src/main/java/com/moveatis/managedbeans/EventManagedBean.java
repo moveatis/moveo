@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean to manage events in appropriate views. 
+ * The bean to manage events in the appropriate views. 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="eventManagedBean")

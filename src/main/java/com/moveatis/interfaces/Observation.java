@@ -36,9 +36,9 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to manage the observation entity.
- * Observation is the process of defining what categories in a event were to be found
- * in particular situation.
+ * The interface to manage the observation entity.
+ * The observation contains the records a user made when
+ * he or she was observing some event.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

@@ -49,8 +49,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This bean is dummy-loginbean for development purposes, as it mocks
- * the Jyväskylä University's Shibboleth-identityprovider system.
+ * The bean is a dummy login bean for development purposes, as it mocks
+ * the Sibboleth identity provider system of Jyväskylä University.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -80,7 +80,7 @@ public class DevelJYULoginBean {
     private String affiliation;
     private final Boolean isLocalhost;
 
-    /** Creates a new instance of DevelJYULoginBean */
+    /** Creates a new instance of DevelJYULoginBean. */
     public DevelJYULoginBean() {
         
         isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())

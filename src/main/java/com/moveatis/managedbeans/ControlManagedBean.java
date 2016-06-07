@@ -65,7 +65,7 @@ import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
 
 /**
- * Managed bean class for managing the control page view.
+ * The bean class for managing the control page view.
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
@@ -115,13 +115,7 @@ public class ControlManagedBean implements Serializable {
     private AbstractUser user;
 
     /**
-     * Default contructor.
-     */
-    public ControlManagedBean() {
-    }
-
-    /**
-     * Post contructor.
+     * Initializes the bean appropriately.
      */
     @PostConstruct
     public void init() {
@@ -131,7 +125,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Fetch user's event groups.
+     * Fetches the event groups of the user.
      */
     protected void fetchEventGroups() {
         eventGroups = eventGroupEJB.findAllForOwner(user);
@@ -145,7 +139,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Fetch user's observations.
+     * Fetches the other observations of the user.
      */
     private void fetchOtherObservations() {
         otherObservations = observationEJB.findWithoutEvent(user);
@@ -153,10 +147,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Get event group's observations. (default event)
-     *
-     * @param eventGroup given event group entity.
-     * @return set of observation entities
+     * Gets the observations of the event group.
      */
     public Set<ObservationEntity> getObservations(EventGroupEntity eventGroup) {
         if (eventGroup != null && eventGroup.getEvent() != null) {
@@ -166,35 +157,28 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Getter for creatingNewEventGroup.
-     *
-     * @return boolean
+     * Returns true if a new event group is being created.
      */
     public boolean isCreatingNewEventGroup() {
         return creatingNewEventGroup;
     }
 
     /**
-     * Setter for creatingNewEventGroup.
-     *
-     * @param creatingNewEventGroup boolean
+     * Sets whether a new event group is being created or not.
      */
     public void setCreatingNewEventGroup(boolean creatingNewEventGroup) {
         this.creatingNewEventGroup = creatingNewEventGroup;
     }
 
     /**
-     * Check if event group entity has group key.
-     *
-     * @param eventGroup event group entity
-     * @return boolean
+     * Checks if the event group entity has a group key.
      */
     public boolean hasGroupKey(EventGroupEntity eventGroup) {
         return eventGroup != null && eventGroup.getGroupKey() != null;
     }
 
     /**
-     * Add new category set in the view.
+     * Adds a new category set in the view.
      */
     public void addNewCategorySet() {
         selectedCategorySet = new CategorySetEntity();
@@ -202,7 +186,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Add new category in the view.
+     * Adds a new category in the view.
      */
     public void addNewCategory() {
         CategoryEntity category = new CategoryEntity();
@@ -225,8 +209,6 @@ public class ControlManagedBean implements Serializable {
 
     /**
      * Listener for event group row edit.
-     *
-     * @param event RowEditEvent
      */
     public void onEditEventGroup(RowEditEvent event) {
         EventGroupEntity eventGroup = (EventGroupEntity) event.getObject();
@@ -234,72 +216,56 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Getter for eventGroups.
-     *
-     * @return List of event group entities
+     * Gets the event groups.
      */
     public List<EventGroupEntity> getEventGroups() {
         return eventGroups;
     }
 
     /**
-     * Setter for eventGroups.
-     *
-     * @param eventGroups List of event group entities
+     * Sets the event groups.
      */
     public void setEventGroups(List<EventGroupEntity> eventGroups) {
         this.eventGroups = eventGroups;
     }
 
     /**
-     * Getter for selectedEventGroup.
-     *
-     * @return EventGroupEntity
+     * Gets the  selected event group.
      */
     public EventGroupEntity getSelectedEventGroup() {
         return selectedEventGroup;
     }
 
     /**
-     * Setter for selectedEventGroup
-     *
-     * @param selectedEventGroup EventGroupEntity
+     * Sets the selected event group.
      */
     public void setSelectedEventGroup(EventGroupEntity selectedEventGroup) {
         this.selectedEventGroup = selectedEventGroup;
     }
 
     /**
-     * Getter for categories.
-     *
-     * @return List of category entities
+     * Gets the categories.
      */
     public List<CategoryEntity> getCategories() {
         return categories;
     }
 
     /**
-     * Setter for categories.
-     *
-     * @param categories List of category entities.
+     * Sets the categories.
      */
     public void setCategories(List<CategoryEntity> categories) {
         this.categories = categories;
     }
 
     /**
-     * Getter for selectedCategorySet.
-     *
-     * @return CategorySetEntity
+     * Gets the selected category set.
      */
     public CategorySetEntity getSelectedCategorySet() {
         return selectedCategorySet;
     }
 
     /**
-     * Seeter for selectedCategorySet.
-     *
-     * @param selectedCategorySet CategorySetEntity
+     * Sets the selected category set.
      */
     public void setSelectedCategorySet(CategorySetEntity selectedCategorySet) {
         this.selectedCategorySet = selectedCategorySet;
@@ -308,72 +274,56 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Getter for selectedCategory.
-     *
-     * @return CategoryEntity
+     * Gets the selected category.
      */
     public CategoryEntity getSelectedCategory() {
         return selectedCategory;
     }
 
     /**
-     * Setter for selectedCategory.
-     *
-     * @param selectedCategory CategoryEntity
+     * Sets the selected category.
      */
     public void setSelectedCategory(CategoryEntity selectedCategory) {
         this.selectedCategory = selectedCategory;
     }
 
     /**
-     * Getter for selectedObservation.
-     *
-     * @return ObservationEntity
+     * Gets the selected observation.
      */
     public ObservationEntity getSelectedObservation() {
         return selectedObservation;
     }
 
     /**
-     * Setter for selectedObservation.
-     *
-     * @param selectedObservation ObservationEntity
+     * Sets the selected observation.
      */
     public void setSelectedObservation(ObservationEntity selectedObservation) {
         this.selectedObservation = selectedObservation;
     }
 
     /**
-     * Getter for otherObservations.
-     *
-     * @return List of observation entities
+     * Gets the other observations.
      */
     public List<ObservationEntity> getOtherObservations() {
         return otherObservations;
     }
 
     /**
-     * Setter for otherObservations.
-     *
-     * @param otherObservations List of observation entities
+     * Sets the other observations.
      */
     public void setOtherObservations(List<ObservationEntity> otherObservations) {
         this.otherObservations = otherObservations;
     }
 
     /**
-     * Getter for category types.
-     *
-     * @return Array of category types.
+     * Gets the category types.
      */
     public CategoryType[] getCategoryTypes() {
         return CategoryType.values();
     }
 
     /**
-     * Get the name of the selected observation entity's observer.
-     *
-     * @return String of observer's name
+     * Gets the name of the observer of the selected observation entity.
      */
     public String getObserverName() {
         if (selectedObservation == null) {
@@ -386,9 +336,9 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Initialize new observation.
+     * Initializes a new observation and redirects to the category selection view.
      *
-     * @return String of navigation rule
+     * @return The navigation rule string that redirects to the category selection view.
      */
     public String newObservation() {
         observationBean.setEventEntity(selectedEventGroup.getEvent());
@@ -398,9 +348,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Remove event group data base.
-     *
-     * @param eventGroup EventGroupEntity
+     * Removes the event group from the database.
      */
     public void removeEventGroup(EventGroupEntity eventGroup) {
         if (eventGroup != null) {
@@ -414,7 +362,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Remove category set from data base.
+     * Removes the selected category set from the database.
      */
     public void removeCategorySet() {
         if (selectedCategorySet != null) {
@@ -427,8 +375,8 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Remove selected category from view, reorder categories and select new
-     * category.
+     * Removes the selected category from the view, reorders the categories and
+     * selects a new category.
      */
     public void removeCategory() {
         if (selectedCategory != null) {
@@ -450,7 +398,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Remove observation from data base.
+     * Removes the selected observation from the database.
      */
     public void removeObservation() {
         if (selectedObservation != null) {
@@ -461,9 +409,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * ReorderEvent listener for catetories reorder.
-     *
-     * @param event
+     * ReorderEvent listener for categories reorder.
      */
     public void onCategoryReorder(ReorderEvent event) {
         int i = 0;
@@ -483,16 +429,14 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Add new event group to eventGroups.
-     *
-     * @param eventGroup EventGroupEntity
+     * Adds a new event group to the event groups.
      */
     public void addEventGroup(EventGroupEntity eventGroup) {
         eventGroups.add(eventGroup);
     }
 
     /**
-     * Save selected category set.
+     * Saves the selected category set.
      */
     public void saveCategorySet() {
         if (selectedEventGroup != null && selectedCategorySet != null) {
@@ -510,9 +454,9 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Method to show the selected observation in summary page.
+     * Shows the selected observation in the summary page.
      *
-     * @return String of navigation rule.
+     * @return The navigation rule string that redirects to the summary page.
      */
     public String showObservationInSummaryPage() {
         observationBean.setObservationEntity(selectedObservation);
@@ -521,9 +465,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Check if categories has duplicates.
-     *
-     * @return boolean of has duplicate.
+     * Checks if the categories have duplicates.
      */
     private boolean hasDuplicate() {
         Set<String> duplicates = new HashSet<>();
@@ -538,10 +480,10 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Convert milliseconds to string with time units h, m, s.
+     * Converts milliseconds to string with time units h, m, s.
      *
-     * @param ms long milliseconds
-     * @return String of converted time units.
+     * @param ms The time to be converted in milliseconds.
+     * @return String of the converted time units.
      */
     public String msToUnits(long ms) {
         if (ms <= 0) {
@@ -559,10 +501,7 @@ public class ControlManagedBean implements Serializable {
     }
 
     /**
-     * Get name of the observation's event group.
-     *
-     * @param observationEntity ObservationEntity
-     * @return String of observation's event group name
+     * Gets the name of the event group of the observation.
      */
     public String getObservationEventGroupName(ObservationEntity observationEntity) {
         EventEntity eventEntity = observationEntity.getEvent();

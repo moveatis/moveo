@@ -52,8 +52,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean that manages the login for three types of users : public user,
- * tag user and identified user.
+ * The bean that manages the login for three types of users: the public user,
+ * the tag user and the identified user.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @ManagedBean(name="loginBean")

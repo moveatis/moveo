@@ -37,7 +37,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Provides time related attributes.
+ * Provides the attributes related to time.
  *
  * @author Juha Moisio
  */

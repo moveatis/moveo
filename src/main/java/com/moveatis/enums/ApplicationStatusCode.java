@@ -30,9 +30,8 @@
 package com.moveatis.enums;
 
 /**
- * This enum contains the information of the status of the application. Application
- * can either be already installed, or the installation went fine, or there was an
- * error
+ * The enum contains the information of the status of the application. The application
+ * can be already installed, the installation went fine, or there was an error.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

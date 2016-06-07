@@ -37,7 +37,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- * An example EJB to implement custom identityprovider service.
+ * An example EJB that implements the custom identity provider service.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless

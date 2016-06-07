@@ -43,7 +43,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
 /**
- * Bean that validates user input.
+ * The bean validates the user input.
  * @author Ilari Paananen
  */
 @Named(value = "validationBean")

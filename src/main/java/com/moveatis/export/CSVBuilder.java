@@ -36,7 +36,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
- * Builds csv formatted data to OutputStream.
+ * Builds CSV formatted data to OutputStream.
  * @author Ilari Paananen
  */
 public class CSVBuilder {
@@ -45,9 +45,9 @@ public class CSVBuilder {
     private boolean atLineBegin;
 
     /**
-     * Constructs builder with given stream and separator.
-     * @param output Stream to output csv data to.
-     * @param separator Separator to use between fields.
+     * Constructs a builder with the given stream and separator.
+     * @param output The stream to write the CSV data to.
+     * @param separator The separator to be used between the fields.
      */
     public CSVBuilder(OutputStream output, String separator) {
         out = new OutputStreamWriter(output, StandardCharsets.UTF_8);
@@ -56,9 +56,9 @@ public class CSVBuilder {
     }
 
     /**
-     * Adds a long field to stream.
-     * @param value Field value.
-     * @return This for convenience.
+     * Adds the long field to the stream.
+     * @param value The field value.
+     * @return The instance of the CSVBuilder for convenience.
      * @throws IOException 
      */
     public CSVBuilder add(Long value) throws IOException {
@@ -68,9 +68,9 @@ public class CSVBuilder {
     }
     
     /**
-     * Adds a long field followed by percent character (%).
+     * Adds the long field followed by a percent character (%) to the stream.
      * @param value Field value.
-     * @return This for convenience.
+     * @return The instance of the CSVBuilder for convenience.
      * @throws IOException 
      */
     public CSVBuilder addPercent(Long value) throws IOException {
@@ -80,9 +80,9 @@ public class CSVBuilder {
     }
 
     /**
-     * Escapes string field and adds it to the stream.
-     * @param value Field value.
-     * @return This for convenience.
+     * Escapes the string field and adds it to the stream.
+     * @param value The field value.
+     * @return The instance of the CSVBuilder for convenience.
      * @throws IOException 
      */
     public CSVBuilder add(String value) throws IOException {
@@ -95,8 +95,8 @@ public class CSVBuilder {
     }
 
     /**
-     * Adds a csv new line.
-     * @return This for convenience.
+     * Adds a CSV new line to the stream.
+     * @return The instance of the CSVBuilder for convenience.
      * @throws IOException 
      */
     public CSVBuilder newLine() throws IOException {
@@ -106,7 +106,7 @@ public class CSVBuilder {
     }
     
     /**
-     * Closes the writer that uses the OutputStream given in constructor.
+     * Closes the writer that uses the OutputStream given in the constructor.
      * @throws IOException 
      */
     public void close() throws IOException {

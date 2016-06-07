@@ -48,7 +48,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 
 /**
- * This EJB manages the events of an user.
+ * The EJB manages the events of an user.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateful
@@ -69,9 +69,9 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
     }
 
     /**
-     * Returns an list of events belonging to requested user.
-     * @param user For which user should the events be searched.
-     * @return 
+     * Returns a list of the events belonging to the requested user.
+     * @param user The user for which the events should be searched for.
+     * @return A list of the user's events.
      */
     @Override
     public List<EventEntity> findEventsForUser(IdentifiedUserEntity user) {
@@ -81,8 +81,8 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
     }
 
     /**
-     * Gets the event that is currently associated with this instance of eventBean.
-     * @return the EventEntity associated with this instance.
+     * Gets the event that is currently associated with the instance of the eventBean.
+     * @return the EventEntity associated with the instance.
      */
     @Override
     public EventEntity getEventEntity() {
@@ -90,8 +90,8 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
     }
 
     /**
-     * This method removes those observations from event of this this instance of eventBean.
-     * @param observationEntity Which observatio to remove from this event.
+     * The method removes the observations from the event of the instance of the eventBean.
+     * @param observationEntity The observation to be removed from the event.
      */
     @Override
     public void removeObservation(ObservationEntity observationEntity) {

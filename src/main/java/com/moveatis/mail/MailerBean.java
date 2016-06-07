@@ -50,7 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class implements Mailer-interface, and takes care of mailing the users
+ * The class implements the Mailer interface, and takes care of mailing to the users
  * the requested information.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
@@ -70,12 +70,12 @@ public class MailerBean implements Mailer {
     }
 
     /**
-     * Sends mail to recipients.
+     * Sends email to the recipients.
      * 
-     * @param recipients List of users who should receive the mail
-     * @param subject Subject of the mail
-     * @param message The message for the mail
-     * @return enum which states if the mail sent failed or succeeded.
+     * @param recipients An array of the users to whom the mail is sent.
+     * @param subject The subject of the mail.
+     * @param message The message for the mail.
+     * @return enum that states if the mail was sent successfully or not.
      */
     @Override
     public MailStatus sendEmail(final String[] recipients, final String subject, final String message) {
@@ -100,13 +100,13 @@ public class MailerBean implements Mailer {
     }
 
     /**
-     * Method for sending mail with attachments.
+     * Sends email with the given attachment files.
      * 
-     * @param recipients Array of users who should receive the mail
-     * @param subject Subject of the mail
-     * @param message The message for the mail
-     * @param attachmentFiles  Array of files to be attached to the mail
-     * @return enum which states if the mail sent failed or succeeded.
+     * @param recipients An array of the users to whom the mail is sent.
+     * @param subject The subject of the mail.
+     * @param message The message for the mail.
+     * @param attachmentFiles An array of the files to be attached to the mail.
+     * @return enum that states if the mail was sent successfully or not.
      */
     @Override
     public MailStatus sendEmailWithAttachment(final String[] recipients, final String subject, final String message, final File[] attachmentFiles) {
@@ -141,13 +141,13 @@ public class MailerBean implements Mailer {
     }
     
     /**
-     * This method creates the mimemessage, which is sent to the recipients
+     * Creates the mime message, which is sent to the recipients.
      * 
-     * @param recipients Array of users who should receive the mail
-     * @param subject Subject of the mail
-     * @param message The message for the mail
-     * @return The MimeMessage containing the necessary information for sending the email
-     * @throws MessagingException If there is an error in sending the email
+     * @param recipients An array of the users to whom the mail is sent.
+     * @param subject The subject of the mail.
+     * @param message The message for the mail.
+     * @return The MimeMessage containing the necessary information for sending the email.
+     * @throws MessagingException If there is an error in sending the email.
      */
     private MimeMessage setMessage(final String[] recipients, final String subject) throws MessagingException {
         Properties props = System.getProperties();

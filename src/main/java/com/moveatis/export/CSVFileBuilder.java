@@ -42,7 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Builds csv file from an observation.
+ * Builds a CSV file from an observation.
  * @author Ilari Paananen
  */
 public class CSVFileBuilder {
@@ -53,17 +53,10 @@ public class CSVFileBuilder {
     private long totalDuration;
     
     /**
-     * Empty constructor.
-     */
-    public CSVFileBuilder() {
-        
-    }
-    
-    /**
-     * Builds csv file from observation and writes it to the output stream.
-     * @param out Stream to write the csv data.
-     * @param obs Observation to build.
-     * @param separator Separator used in between csv fields.
+     * Builds a CSV file from the given observation and writes it to the output stream.
+     * @param out The stream to write the CSV data to.
+     * @param obs The observation to be built.
+     * @param separator The separator used between the CSV fields.
      * @throws IOException 
      */
     public void buildCSV(OutputStream out, ObservationEntity obs, String separator) throws IOException {

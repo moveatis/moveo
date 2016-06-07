@@ -64,7 +64,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
 
 /**
- * Class for Summary page managed bean. Responsive for creating timeline model
+ * The bean that serves the summary page. Responsive for creating timeline model
  * and for getting observation's attributes for summary.
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>

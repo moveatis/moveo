@@ -40,8 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean that provides means to manage user-related information during a session 
- * in Moveatis.
+ * The bean provides means to manage user-related information in a session.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "userManagedBean")

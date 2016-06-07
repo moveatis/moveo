@@ -42,10 +42,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * This entity represents information for category's label in the database.
- * Since there might be several categories with similar type of name, like "Teaching", 
- * having one label for many categories saves us from persisting information many times
- * to database.
+ * The entity represents the information for the category's label in the database.
+ * If there are several categories with a similar name, like "Teaching", they
+ * can all have the same label entity.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Table(name="LABEL")
