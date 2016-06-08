@@ -6,9 +6,6 @@
 #   ./docs/moveatis_java_class_documentation.pdf	- Java PDF documentation
 #   ./docs/moveatis_js_class_documentation.html		- JavaScript one page HTML documentation
 
-# TODO: Actually generate Java HTML docs!
-
-
 mkdir docs
 mkdir docs/js
 mkdir docs/js-onepage
@@ -105,6 +102,12 @@ function appendToc(toc, heading, items) {
 	appendToc(toc, 'Classes', classes);
 	appendToc(toc, 'Modules', modules);
 	sections[0].parentElement.insertBefore(toc, sections[0].nextSibling);
+	
+	var headers = document.getElementsByTagName('header');
+	while (headers.length) {
+		headers[0].remove();
+		headers = document.getElementsByTagName('header');
+	}
 })();
 </script></body></html>" >> $js_class_doc_file
 
