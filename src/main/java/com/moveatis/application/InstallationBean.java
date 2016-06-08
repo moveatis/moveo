@@ -44,7 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class does the installation task of the Moveatis-application.
+ * The class does the installation task of the Moveatis application.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -73,11 +73,11 @@ public class InstallationBean implements Serializable {
     }
     
     /**
-     * This method creates the application, which includes setting the 
-     * installation date, adding the user, who made the installation to 
-     * superusers and adding reporting email, where possible error reports are sent.
+     * The method creates the application, which includes setting the 
+     * installation date, adding the user to superusers, and adding the
+     * reporting email address, where possible error reports are sent.
      * 
-     * @return enum, which result of the installation
+     * @return enum, which result of the installation.
      */
     public ApplicationStatusCode createApplication() {
         

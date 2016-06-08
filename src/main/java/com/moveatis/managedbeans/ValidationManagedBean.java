@@ -43,7 +43,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
 /**
- * Bean that validates user input.
+ * The bean implements commonly used methods to validate user input.
  * @author Ilari Paananen
  */
 @Named(value = "validationBean")
@@ -55,12 +55,6 @@ public class ValidationManagedBean {
     
     @Inject
     private GroupKey groupKeyEJB;
-
-    /**
-     * Creates a new instance of ValidationManagedBean
-     */
-    public ValidationManagedBean() {
-    }
     
     private void throwError(String message) {
         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));

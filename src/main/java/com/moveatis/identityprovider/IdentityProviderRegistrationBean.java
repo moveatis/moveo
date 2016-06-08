@@ -42,7 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is an example managedbean for customizing identityservice.
+ * An example managed bean for customizing an identity service.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="identityProviderRegistrationBean")

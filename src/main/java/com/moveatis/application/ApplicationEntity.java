@@ -43,7 +43,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- * This entity represent the data of the application in the database.
+ * The entity represents the data of the application in the database.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

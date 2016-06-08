@@ -48,7 +48,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * This entity represents the observationdata, that is persisted to database.
+ * The entity represents the observation data, that is saved to the database.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Table(name = "OBSERVATION")

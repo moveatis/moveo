@@ -40,7 +40,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * Superclass to enterprisebeans, which manage the persistent connection and entities
+ * The super class to the enterprise beans manages the persistent connection and entities.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @param <T> The entity the child of this bean uses
@@ -57,8 +57,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
     protected abstract EntityManager getEntityManager();
 
     /**
-     * Creates new entity.
-     * @param entity Entity to create
+     * Creates a new entity.
+     * @param entity The entity to be created.
      */
     public void create(T entity) {
         getEntityManager().persist(entity);
@@ -66,7 +66,7 @@ public abstract class AbstractBean<T extends BaseEntity> {
 
     /**
      * Edits the entity.
-     * @param entity Entity to edit
+     * @param entity The entity to be edited.
      */
     public void edit(T entity) {
         getEntityManager().merge(entity);
@@ -74,7 +74,7 @@ public abstract class AbstractBean<T extends BaseEntity> {
 
     /**
      * Removes the entity.
-     * @param entity Entity to be removed
+     * @param entity The entity to be removed.
      */
     public void remove(T entity) {
         entity.setRemoved(); //entity is not actually removed, only the removed-date is set
@@ -82,9 +82,9 @@ public abstract class AbstractBean<T extends BaseEntity> {
     }
 
     /**
-     * Finds those entities, which do not have removed-date set.
-     * @param id Id for entity to find
-     * @return The entity, if one is found with id, or null
+     * Finds an entity and returns it if it's not out of date.
+     * @param id The id of the entity to be found.
+     * @return The entity, if it is found. Otherwise null.
      */
     public T find(Object id) {
         T entity = (T)getEntityManager().find(entityClass, id);
@@ -105,8 +105,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
     }
 
     /**
-     * Finds all entities, which have the type of the requested entity.
-     * @return List of all entities of the requested entity type.
+     * Finds all the entities, whose type matches the requested entity.
+     * @return A list of all the entities of the requested entity type.
      */
     public List<T> findAll() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -120,11 +120,11 @@ public abstract class AbstractBean<T extends BaseEntity> {
     }
 
     /**
-     * Finds and returns the list of entities, with as many entities, as there is range.
-     * Range array has two elements, the min and max range.
+     * Finds and returns the list of entities in the specified range.
+     * The range array has two elements: the minimum and the maximum of the range.
      * 
-     * @param range Array with two elements
-     * @return List of entities in the range
+     * @param range An array with two elements.
+     * @return A list of the entities in the range.
      */
     public List<T> findRange(int[] range) {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -136,8 +136,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
     }
 
     /**
-     * Method to count that how many entities there are of the requested type.
-     * @return The count of entities.
+     * Counts how many entities there are of the requested type.
+     * @return The count of the entities.
      */
     public int count() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();

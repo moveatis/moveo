@@ -39,8 +39,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- * This EJB manages TagUser, which represents the user account for
- * groupkey-based access to Moveeatis.
+ * The EJB is used in managing of TagUser, which represents the user account for
+ * accessing with a group key into Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless

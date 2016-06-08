@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Observation has it own categorysets, so renaming or removing original categorysets
- * does not alter old observations.
+ * The observation has its own category sets, so renaming or removing
+ * original category sets does not alter old observations.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>

@@ -39,8 +39,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * This entity represents the individual user, which is identified 
- * using Jyväskylä University's Shibboleth identitysystem.
+ * The entity represents the individual user, which is identified 
+ * using the Shibboleth identity system of Jyväskylä University.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

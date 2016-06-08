@@ -52,8 +52,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean that manages the login for three types of users : public user,
- * tag user and identified user.
+ * The bean that manages the login for three types of users: the public user,
+ * the tag user and the identified user.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @ManagedBean(name="loginBean")
@@ -78,7 +78,7 @@ public class LoginManagedBean {
     private String tag;
     
     /**
-     * Creates a new instance of Login
+     * Creates a new instance of LoginManagedBean.
      */
     public LoginManagedBean() {
         
@@ -93,8 +93,8 @@ public class LoginManagedBean {
     }
 
     /**
-     * Method that sets the session for particular groupkey.
-     * @return The redirection parameter.
+     * Sets the session for a particular group key.
+     * @return The navigation rule string that redirects to the category selection view.
      */
     public String doTagLogin() {
         GroupKeyEntity groupKeyEntity = groupKeyEJB.findByKey(tag);
@@ -121,8 +121,8 @@ public class LoginManagedBean {
     }
     
     /**
-     * Method that sets the session for public user.
-     * @return The redirection parameter.
+     * Sets the session for a public user.
+     * @return The navigation rule string that redirects to the category selection view.
      */
     public String doAnonymityLogin() {
         sessionBean.setAnonymityUser();
@@ -130,9 +130,9 @@ public class LoginManagedBean {
     }
     
     /**
-     * This method allows users to login from different views. As of May 2016, 
-     * its not working as supposed, since Shibboleth nulls the session on redirect.
-     * @param actionEvent Where the login button was activated.
+     * Allows users to login from different views. On May 2016, it's not
+     * working as supposed, since Shibboleth nulls the session on redirect.
+     * @param actionEvent The action event that activated the login button.
      */
     public void doIdentityLogin(ActionEvent actionEvent) {
         

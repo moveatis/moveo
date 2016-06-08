@@ -36,7 +36,7 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
 /**
- * Bean that serves the application installation view.
+ * The bean that serves the application installation view.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @ManagedBean(name="applicationManagedBean")

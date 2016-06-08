@@ -64,8 +64,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
 
 /**
- * Class for Summary page managed bean. Responsive for creating timeline model
- * and for getting observation's attributes for summary.
+ * The bean that serves the summary page. It is responsible for creating the
+ * timeline model and for getting the attributes of an observation for the summary.
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
@@ -112,7 +112,7 @@ public class SummaryManagedBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
     /**
-     * Default constructor to initialize timeline options.
+     * The default constructor initializes the timeline options.
      */
     public SummaryManagedBean() {
         this.start = new Date(0);
@@ -124,7 +124,7 @@ public class SummaryManagedBean implements Serializable {
     }
 
     /**
-     * Post constructor to create timeline on request.
+     * The post constructor creates the timeline on request.
      */
     @PostConstruct
     protected void initialize() {
@@ -177,7 +177,7 @@ public class SummaryManagedBean implements Serializable {
     }
 
     /**
-     * Show Faces context message of saved observation.
+     * Shows a message of the saved observation.
      */
     public void showObservationSavedMessage() {
         if (observationSaved) {
@@ -188,7 +188,7 @@ public class SummaryManagedBean implements Serializable {
     }
 
     /**
-     * Save current observation to data base.
+     * Saves the current observation to the database.
      */
     public void saveCurrentObservation() {
         observationManagedBean.saveObservationToDatabase();
@@ -196,7 +196,7 @@ public class SummaryManagedBean implements Serializable {
     }
 
     /**
-     * Mail current observation.
+     *
      */
     public void mailCurrentObservation() {
         CSVFileBuilder csv = new CSVFileBuilder();
@@ -253,7 +253,7 @@ public class SummaryManagedBean implements Serializable {
     }
 
     /**
-     * Download current observation.
+     * Downloads the current observation.
      *
      * @throws IOException
      */
@@ -299,28 +299,23 @@ public class SummaryManagedBean implements Serializable {
     }
 
     /**
-     * Get timeline model.
-     *
-     * @return TimelineModel
+     * Gets the timeline model.
      */
     public TimelineModel getTimeline() {
         return timeline;
     }
 
     /**
-     * Get min date of timeline. User cannot move the timeline before that date.
-     *
-     * @return Date
+     * Gets the minimum date of the timeline. The user cannot move the timeline
+     * before that date.
      */
     public Date getMin() {
         return min;
     }
 
     /**
-     * Get maximum date of timeline. User cannot move the timeline after that
-     * date.
-     *
-     * @return Date
+     * Gets the maximum date of the timeline. The user cannot move the timeline
+     * after that date.
      */
     public Date getMax() {
         return max;
@@ -328,34 +323,27 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @return
      */
     public Date getDuration() {
         return duration;
     }
 
     /**
-     * Get timeline start date.
-     *
-     * @return Date
+     * Gets the start date of the timeline.
      */
     public Date getStart() {
         return start;
     }
 
     /**
-     * Get minimum zoom interval for timeline in milliseconds.
-     *
-     * @return long
+     * Gets the minimum zoom interval for the timeline in milliseconds.
      */
     public long getZoomMin() {
         return zoomMin;
     }
 
     /**
-     * Get maximum zoom interval for timeline in milliseconds.
-     *
-     * @return long
+     * Gets the maximum zoom interval for the timeline in milliseconds.
      */
     public long getZoomMax() {
         return zoomMax;
@@ -363,7 +351,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @return
      */
     public String getRecipientEmail() {
         return recipientEmail;
@@ -371,7 +358,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @param recipientEmail
      */
     public void setRecipientEmail(String recipientEmail) {
         this.recipientEmail = recipientEmail;
@@ -379,7 +365,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @return
      */
     public ObservationEntity getObservation() {
         return observation;
@@ -387,7 +372,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @param observation
      */
     public void setObservation(ObservationEntity observation) {
         this.observation = observation;
@@ -395,7 +379,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @return
      */
     public List<String> getSelectedSaveOptions() {
         return selectedSaveOptions;
@@ -403,7 +386,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @param selectedSaveOptions
      */
     public void setSelectedSaveOptions(List<String> selectedSaveOptions) {
         this.selectedSaveOptions = selectedSaveOptions;
@@ -411,7 +393,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @return
      */
     public boolean getMailOptionChecked() {
         return selectedSaveOptions.contains(MAIL_OPTION);
@@ -419,7 +400,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @return
      */
     public boolean isObservationSaved() {
         return observationSaved;
@@ -427,7 +407,6 @@ public class SummaryManagedBean implements Serializable {
 
     /**
      *
-     * @param observationSaved
      */
     public void setObservationSaved(boolean observationSaved) {
         this.observationSaved = observationSaved;

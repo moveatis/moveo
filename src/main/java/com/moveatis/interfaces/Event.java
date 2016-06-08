@@ -36,9 +36,9 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to manage the event entity.
- * Event tells of what was observed. For instance, for developer 
- * working on code the event might be "Moveatis application".
+ * The interface to manage the event entity.
+ * Event specifies the situation that is observed.
+ * For example, the event could be "Teaching situation number 4".
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Event.class)

@@ -39,9 +39,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * This entity represents superuser-role, which can be added to users, who should
- * have admin-rights to Moveatis. As of version 1.0 there is not much admin tasks
- * to do though.
+ * The entity represents the superuser role, which can be added to the users,
+ * who should have the superuser rights to Moveatis. In version 1.0 doesn't
+ * include superuser tasks.
  *
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

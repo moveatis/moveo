@@ -33,7 +33,7 @@ import com.moveatis.user.AnonUserEntity;
 import java.util.List;
 
 /**
- * This interface defines the contract to manage public users within the Moveatis.
+ * The interface to manage public users within the Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface AnonUser {

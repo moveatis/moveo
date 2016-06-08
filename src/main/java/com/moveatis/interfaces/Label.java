@@ -33,10 +33,9 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to manage the label entity.
- * Label is a name for category. As there might be several similarly named categories,
- * like "software project", having a label to store this information means that the 
- * text is persisted only once.
+ * The interface to manage the label entity.
+ * A label is a name for a category. If there are several similarly named categories,
+ * like "Giving feedback", they can all use the same label.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

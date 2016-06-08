@@ -33,7 +33,7 @@ import com.moveatis.application.ApplicationEntity;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to manage the application entity.
+ * The interface to manage the application entity.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

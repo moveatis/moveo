@@ -49,7 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean to manage observations in appropriate views.
+ * The bean is used to manage observations in the appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "observationBean")
@@ -82,8 +82,8 @@ public class ObservationManagedBean implements Serializable {
     }
     
     /**
-     * Those observations, that user doesn't want to save to database,
-     * are removed when session timeout happens and this bean is destroyed.
+     * Removes the observations the user doesn't want to save to database
+     * when the session timeout happens and the bean is destroyed.
      */
     @PreDestroy
     public void destroy() {
@@ -131,8 +131,7 @@ public class ObservationManagedBean implements Serializable {
     }
 
     /**
-     * Sets the observationcategories to be used in this observation.
-     * @param categorySetsInUse List of observationcategorysets to use in this observation.
+     * Sets the observation categories to be used in the observation.
      */
     public void setCategorySetsInUse(List<ObservationCategorySet> categorySetsInUse) {
         
@@ -159,8 +158,8 @@ public class ObservationManagedBean implements Serializable {
     }
     
     /**
-     * Adds an record to the observation.
-     * @param record Record to be added to the observations.
+     * Adds a record to the observation.
+     * @param record The record to be added to the observation.
      */
     public void addRecord(RecordEntity record) {
         List<RecordEntity> records = observationEntity.getRecords();
@@ -176,7 +175,7 @@ public class ObservationManagedBean implements Serializable {
     }
     
     /**
-     * This method is called from REST API, to save the records to the observation.
+     * The method is called from REST API to save the records to the observation.
      */
     public void saveObservation() {
         if (sessionBean.isIdentifiedUser()) {
@@ -203,7 +202,7 @@ public class ObservationManagedBean implements Serializable {
     }
     
     /**
-     * This method persists the observation to the database.
+     * The method saves the observation to the database.
      */
     public void saveObservationToDatabase() {
         observationEntity.setUserWantsToSaveToDatabase(true);

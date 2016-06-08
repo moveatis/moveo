@@ -48,7 +48,7 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 /**
- * This EJB manages observations, which have collection of records in an event.
+ * The EJB manages observations..
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -80,9 +80,9 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
 
     /**
-     * Method that finds and returns all observations for specific user.
+     * Finds and returns all observations for the specific user.
      * @param observer The user, whose observations are to be searched.
-     * @return  List of observations for the user.
+     * @return A list of the observations for the user.
      */
     @Override
     public List<ObservationEntity> findAllByObserver(AbstractUser observer) {
@@ -92,9 +92,9 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
 
     /**
-     * Method that finds those observations for user, which have no event attached to them.
+     * Finds the observations for the user, which have no event attached to them.
      * @param observer The user, whose observations are to be searched.
-     * @return List of observations.
+     * @return A list of the observations.
      */
     @Override
     public List<ObservationEntity> findWithoutEvent(AbstractUser observer) {
@@ -104,10 +104,10 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
 
     /**
-     * Method that finds those observations, which are made for event that specific
+     * Finds the observations that are made for events that the specified
      * user does not own.
      * @param observer The user, whose observations are to be searched.
-     * @return List of observations.
+     * @return A list of the observations.
      */
     @Override
     public List<ObservationEntity> findByEventsNotOwned(AbstractUser observer) {
@@ -117,8 +117,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
 
     /**
-     * Method that persists observations to database.
-     * @param observationEntity Which observatioentity to persist.
+     * Persists the observations to the database.
+     * @param observationEntity The observatio entity to be persisted.
      */
     @Override
     public void create(ObservationEntity observationEntity) {
@@ -126,9 +126,9 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
 
     /**
-     * Method that finds list of records for observation with certain id.
-     * @param id The id for observation
-     * @return List of records.
+     * Finds a list of the records for the observation with the given id.
+     * @param id The id of the observation.
+     * @return A list of the records.
      */
     @Override
     public List<RecordEntity> findRecords(Object id) {
@@ -140,8 +140,9 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
     
     /**
-     * Removes observation and also removes observation from the event it was associated with.
-     * @param observationEntity Which observation to remove.
+     * Removes the observation and also removes the observation from the event
+     * it was associated with.
+     * @param observationEntity The observation to be removed.
      */
     @Override
     public void remove(ObservationEntity observationEntity) {
@@ -152,8 +153,9 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
     }
 
     /**
-     * Permanently removes observation, which user did not set to be saved into database.
-     * @param observationEntity Which observation to remove.
+     * Permanently removes the observation, which the user did not set to be
+     * saved into the database.
+     * @param observationEntity The observation to be removed.
      */
     @Override
     public void removeUnsavedObservation(ObservationEntity observationEntity) {

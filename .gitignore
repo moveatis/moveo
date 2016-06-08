@@ -25,6 +25,8 @@ dist/
 ndist/
 nbactions.xml
 nbactions-moveatis.xml
+nbactions-Moveatis.xml
+faces-config.Navdata
 nb-configuration.xml
 .nb-gradle/
 
@@ -49,6 +51,9 @@ buildNumber.properties
 # Lockfiles and such
 .LCK*
 
+# Directory for TeXDoclet and LaTeX outputs
+texdocs/
+bin/
 # Directory for class documentation
 docs/
 

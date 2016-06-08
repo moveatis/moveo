@@ -30,8 +30,8 @@
 package com.moveatis.enums;
 
 /**
- * This enum represents the status of the mail that was sent. Mail was either
- * sent ok, or the sending failed.
+ * The enum represents the status of the mail that was sent. The mail was either
+ * sent successfully or the sending failed.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

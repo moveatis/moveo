@@ -37,7 +37,7 @@ import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 
 /**
- * This CDI bean produces resourcebundle for transient CDI beans.
+ * The CDI bean produces a resource bundle for the transient CDI beans.
  * @author Sami Kallio <phinaliumz at outlook.>
  */
 @RequestScoped

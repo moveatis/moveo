@@ -39,8 +39,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is the Application enterprise bean, which controls access to application entity.
- * Its singleton bean, so only on instance is running at any time, and its 
+ * The Application enterprise bean controls access to the application entity.
+ * It is a singleton bean, so only one instance is running at any time, and it is 
  * automatically started when the application is started.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>

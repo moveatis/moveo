@@ -30,7 +30,7 @@
 package com.moveatis.exception;
 
 /**
- * This exception is to inform the developers or admin that there went something
+ * The exception informs the developers or the admin that something went
  * wrong with the installation.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
@@ -41,16 +41,16 @@ public class InstallationRedirectException extends RuntimeException {
 
     /**
      * Creates a new instance of <code>InstallationRedirectException</code>
-     * without detail message.
+     * without a detailed message.
      */
     public InstallationRedirectException() {
     }
 
     /**
      * Constructs an instance of <code>InstallationRedirectException</code> with
-     * the specified detail message.
+     * the specified detailed message.
      *
-     * @param msg the detail message.
+     * @param msg the detailed message.
      */
     public InstallationRedirectException(String msg) {
         super(msg);

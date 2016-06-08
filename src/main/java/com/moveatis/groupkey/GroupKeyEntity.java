@@ -47,7 +47,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * This entity presents the groupkey, for which eventgroups can be identified, in the database.
+ * The entity presents the group key that the event groups can be identified with in the database.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity

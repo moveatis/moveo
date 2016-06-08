@@ -23,8 +23,10 @@ js_class_doc_file="docs/moveatis_js_class_documentation.html"
 js_front_page="docs/js-front-page.md"
 
 texdoclet_path="../TeXDoclet.jar"
+tex_init_file="docs/tex_init.tex"
 tex_out_path="docs/java-tex"
 tex_out_file="moveatis_java_class_documentation.tex"
+java_out_path="docs/java"
 java_class_doc_file="moveatis_java_class_documentation.pdf"
 java_src_path="src/main/java"
 
@@ -34,7 +36,7 @@ echo "
 # Moveatis JavaScript Class Documentation
 ## Software version 1.0.0
 
-## Documentation version 0.1.0
+## Documentation version 0.2.0
 
 Moveatis is a web application designed to help the analysis of teaching situations by means of systematic observation. It was developed for the Department of Sport Pedagogy at University of Jyväskylä. Moveatis was written in Java and JavaScript programming languages. The JavaScript classes are documented here and the Java classes are described in a separate class documentation.
 
@@ -108,7 +110,14 @@ function appendToc(toc, heading, items) {
 
 # Java documentation
 
+#javadoc -d $java_out_path -sourcepath $java_src_path -subpackages com
+mvn generate-sources javadoc:javadoc
+cp -r target/site/apidocs/ docs/java/
+
+echo "\\usepackage[utf8]{inputenc}" > $tex_init_file
+
 javadoc -docletpath $texdoclet_path -doclet org.stfm.texdoclet.TeXDoclet \
+-texinit $tex_init_file \
 -tree -output $tex_out_path/$tex_out_file \
 -title "Moveatis Java Class Documentation\\\\Software version 1.0.0" \
 -subtitle "Version 0.2.0" \

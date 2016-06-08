@@ -40,7 +40,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- * This EJB manages the Category entity.
+ * The EJB manages the Category entity.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -62,8 +62,8 @@ public class CategoryBean extends AbstractBean<CategoryEntity> implements Catego
     }
 
     /**
-     * Method for finding category with certain label.
-     * @param label Find category with this label.
+     * The method is used for finding the category with the certain label.
+     * @param label The label to find the category by.
      * @return The found category or null.
      */
     @Override
@@ -79,10 +79,10 @@ public class CategoryBean extends AbstractBean<CategoryEntity> implements Catego
     }
 
     /**
-     * Removes category from categoryset.
+     * Removes the category from the category set.
      * 
-     * @param whichCategorySet Which categoryset the category belongs
-     * @param whichCategory The category that is removed
+     * @param whichCategorySet The category set the category belongs to.
+     * @param whichCategory The category to be removed.
      */
     @Override
     public void removeFromCategorySet(CategorySetEntity whichCategorySet, CategoryEntity whichCategory) {

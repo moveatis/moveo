@@ -39,7 +39,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * This entity represent data of an record, which will be persisted to database.
+ * The entity represent the data of a record, which will be persisted to the database.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -102,15 +102,15 @@ public class RecordEntity extends BaseEntity implements Serializable {
     }
 
     /**
-     * Not used in version 1.0
-     * @return File for voicecomment.
+     * Not used in version 1.0.
+     * @return The file for the voice comment.
      */
     public File getVoiceComment() {
         return voiceComment;
     }
 
     /**
-     * Not used in version 1.0
+     * Not used in version 1.0.
      * @param voiceComment The file that holds the voice comment.
      */
     public void setVoiceComment(File voiceComment) {
