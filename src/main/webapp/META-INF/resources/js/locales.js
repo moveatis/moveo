@@ -31,6 +31,7 @@
 /**
  * @fileOverview PrimeFaces localization file.
  * @module locales
+ * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  * @property {object} PrimeFaces.locales.fi Finnish localization.
  */
 PrimeFaces.locales['fi'] = {
