@@ -62,6 +62,9 @@ public class UserManagedBean implements Serializable {
         
     }
 
+    /**
+     * Gets the locale to use in the user interface of the application.
+     */
     public Locale getLocale() {
         
         if(this.locale == null) {

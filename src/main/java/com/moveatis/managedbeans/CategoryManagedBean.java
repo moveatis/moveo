@@ -102,6 +102,9 @@ public class CategoryManagedBean implements Serializable {
         LOGGER.debug("Category added");
     }
 
+    /**
+     * Creates a new category entity and adds it to the given category set.
+     */
     public void createNewCategory(CategorySetEntity categorySetEntity) {
         CategoryEntity categoryEntity = new CategoryEntity();
 

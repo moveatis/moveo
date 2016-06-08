@@ -106,6 +106,10 @@ public class ObservationManagedBean implements Serializable {
         return this.eventEntity;
     }
     
+    /**
+     * Creates a new observation entity and initializes it to be used in a new
+     * observation.
+     */
     public void startObservation() {
         this.observationEntity = new ObservationEntity();
         // Can we use created time for observation start time?
@@ -118,14 +122,23 @@ public class ObservationManagedBean implements Serializable {
         }
     }
 
+    /**
+     * Returns the current observation entity.
+     */
     public ObservationEntity getObservationEntity() {
         return observationEntity;
     }
 
+    /**
+     * Sets the current observation entity.
+     */
     public void setObservationEntity(ObservationEntity observationEntity) {
         this.observationEntity = observationEntity;
     }
 
+    /**
+     * Gets the observation categories to be used in the observation.
+     */
     public List<ObservationCategorySet> getCategorySetsInUse() {
         return categorySetsInUse;
     }

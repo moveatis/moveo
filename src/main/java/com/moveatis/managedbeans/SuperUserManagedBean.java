@@ -54,14 +54,23 @@ public class SuperUserManagedBean {
         
     }
     
+    /**
+     * Adds the superuser role to the given identified user.
+     */
     public void addSuperUserRights(IdentifiedUserEntity userEntity) {
         roleBean.addSuperuserRoleToUser(userEntity);
     }
 
+    /**
+     * Adds the superuser role for the given time period to the given identified user.
+     */
     public void addSuperUserRights(IdentifiedUserEntity userEntity, Date startDate, Date endDate) {
         roleBean.addSuperuserRoleToUser(userEntity, startDate, endDate);
     }
 
+    /**
+     * Removes the superuser role from the given identified user.
+     */
     public void removeSuperUserRights(IdentifiedUserEntity userEntity) {
         roleBean.removeSuperuserRoleFromUser(userEntity);
     }

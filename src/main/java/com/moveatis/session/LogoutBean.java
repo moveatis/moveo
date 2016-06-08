@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The bean manages logging out of Moveatis, which includes invalidating the session
- * and redirecting the user to Shibboleth logout URI.
+ * and redirecting the user to the Shibboleth logout URI.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value="logoutBean")
@@ -55,6 +55,10 @@ public class LogoutBean {
         
     }
     
+    /**
+     * Logs the user out by invalidating the session and redirecting the user to
+     * the Shibboleth logout URI.
+     */
     public void logOut(ActionEvent event) throws IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.invalidateSession();

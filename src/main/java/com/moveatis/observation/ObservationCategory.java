@@ -72,10 +72,19 @@ public class ObservationCategory implements Serializable {
         return type.ordinal();
     }
     
+    /**
+     * Returns true if the type of the category is COUNTED.
+     * The method is used with the PrimeFaces boolean button.
+     */
     public boolean getTypeAsBoolean() {
         return (type == CategoryType.COUNTED);
     }
     
+    /**
+     * Sets the type of the category based on the given boolean value.
+     * If the value is true, the type will be COUNTED. Otherwise the type will be TIMED.
+     * The method is used with the PrimeFaces boolean button.
+     */
     public void setTypeAsBoolean(boolean value) {
         if (value) {
             type = CategoryType.COUNTED;

@@ -173,18 +173,30 @@ public class SessionBean implements Serializable, Session  {
         return this.tagEntity.getGroupKey();
     }
     
+    /**
+     * Returns true if the button that resets the current observation
+     * should be available to the user.
+     */
     public boolean isResetObsAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
         return result;
     }
     
+    /**
+     * Returns true if the button that redirects the user to the category
+     * selection view should be available to the user.
+     */
     public boolean isBackToCatEdAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml"));
         return result;
     }
     
+    /**
+     * Returns true if the button that redirects the user to the front page
+     * should be available to the user.
+     */
     public boolean isToFrontPageAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = !(viewId.equals("/index.xhtml"));

@@ -63,11 +63,17 @@ public class ApplicationBean extends AbstractBean<ApplicationEntity> implements 
         return em;
     }
 
+    /**
+     * Checks if the application has been installed.
+     */
     @Override
     public boolean checkInstalled() { 
         return super.findAll().size() == 1;
     }  
 
+    /**
+     * Gets the singleton application entity.
+     */
     @Override
     public ApplicationEntity getApplicationEntity() {
         return super.findAll().get(0);

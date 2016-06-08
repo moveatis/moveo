@@ -103,7 +103,7 @@ public class CategorySetManagedBean implements Serializable {
     }
 
     /**
-     * Creates a new category set.
+     * Creates a new category set and adds it to the given event group.
      * @param eventGroupEntity The event group into which the new category set is added.
      */
     public void createNewCategorySet(EventGroupEntity eventGroupEntity) {
