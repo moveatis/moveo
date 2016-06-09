@@ -45,8 +45,8 @@ var msg = getMessages();
 
 
 /**
- * Master clock that can be paused and resumed at will.
- * Individual categories get their time from the master clock.
+ * The observation clock that can be paused and resumed.
+ * The individual categories get their time from the observation clock.
  * @constructor
  */
 function Clock() {
@@ -55,8 +55,8 @@ function Clock() {
     this.running = false;
     
     /**
-     * Resumes paused clock.
-     * @param {number} now Time in milliseconds when clock was resumed.
+     * Resumes the observation clock.
+     * @param {number} now The time in milliseconds when the observation clock was resumed.
      */
     this.resume = function(now) {
         if (!this.running) {
@@ -68,8 +68,8 @@ function Clock() {
     };
     
     /**
-     * Pauses running clock.
-     * @param {number} now Time in milliseconds when clock was paused.
+     * Pauses the observation clock.
+     * @param {number} now The time in milliseconds when the observation clock was paused.
      */
     this.pause = function(now) {
         if (this.running) {
@@ -82,8 +82,8 @@ function Clock() {
     };
     
     /**
-     * Returns total time clock has been running in milliseconds.
-     * @param {number} now Time in milliseconds when elapsed time was wanted.
+     * Returns the total time the observation clock has been running in milliseconds.
+     * @param {number} now The time in milliseconds when the elapsed time was wanted.
      */
     this.getElapsedTime = function(now) {
         if (this.running) {
@@ -94,7 +94,7 @@ function Clock() {
     };
     
     /**
-     * Returns true if clock is paused, otherwise false.
+     * Returns true if the observation clock is paused, otherwise false.
      */
     this.isPaused = function() {
         return !this.running;
@@ -104,9 +104,9 @@ function Clock() {
 
 /**
  * Converts milliseconds to a string representing time.
- * Time format is hh:mm:ss if hh > 0 and mm:ss otherwise.
- * @param {number} ms Time in milliseconds.
- * @returns {String} Time string.
+ * The time format is hh:mm:ss if the given time is at
+ * least one hour and mm:ss otherwise.
+ * @param {number} ms The time in milliseconds.
  */
 function timeToString(ms) {
     var t = Math.floor(ms / 1000);
@@ -122,9 +122,8 @@ function timeToString(ms) {
 
 
 /**
- * Returns a count as a string with abbreviation, e.g. "13 ct.".
+ * Returns the given count as a string with abbreviation, e.g. "13 ct.".
  * @param {number} count The count to make the string from.
- * @returns {String} The count string.
  */
 function countToString(count) {
     return count + " " + msg.countAbbreviation;
@@ -132,11 +131,12 @@ function countToString(count) {
 
 
 /**
- * Handles one category button.
+ * The class acts as a category button. It creates the HTML
+ * elements it needs and responds to the click events it gets.
  * @constructor
- * @param {String} name Name to be displayed on the button.
- * @param {number} type Type of the category (TIME or COUNTED).
- * @param {number} index Index of the category button.
+ * @param {String} name The name to be displayed on the button.
+ * @param {number} type The type of the category (TIMED or COUNTED).
+ * @param {number} index The index of the category button.
  * @returns {CategoryItem}
  */
 function CategoryItem(name, type, id, index) {
@@ -170,9 +170,10 @@ function CategoryItem(name, type, id, index) {
     
     
     /**
-     * Private method that replaces value_div's content with given text.
-     * @param {CategoryItem} this_ This object.
-     * @param {String} text Text to replace value_div's content with.
+     * The private method replaces the contents of the HTML element
+     * that displays the value of the category button.
+     * @param {CategoryItem} this_ The category button.
+     * @param {String} text The text to replace the contents of the element with.
      */
     function updateValueDiv(this_, text) {
         this_.value_div.empty();
@@ -180,8 +181,9 @@ function CategoryItem(name, type, id, index) {
     }
     
     /**
-     * Private method that initializes this to behave as a timed category.
-     * @param {CategoryItem} this_ This object.
+     * The private method initializes the category button to behave
+     * as a time interval category.
+     * @param {CategoryItem} this_ The category button.
      */
     function initTimedCategory(this_) {
         updateValueDiv(this_, timeToString(0));
@@ -209,7 +211,7 @@ function CategoryItem(name, type, id, index) {
         };
     	
 	/*
-         * Method that updates category item's timer div if the category type is timed.
+         * Updates category item's timer div if the category type is timed.
          */
         this_.updateTimer = function(master_time) {
             var time = this.time;
@@ -221,8 +223,9 @@ function CategoryItem(name, type, id, index) {
     }
     
     /**
-     * Private method that initializes this to behave as a counted category.
-     * @param {CategoryItem} this_ This object.
+     * The private method initializes the category button to behave
+     * as a category that counts the click events it gets.
+     * @param {CategoryItem} this_ The category button.
      */
     function initCountedCategory(this_) {
         updateValueDiv(this_, countToString(0));
@@ -244,7 +247,7 @@ function CategoryItem(name, type, id, index) {
         };
 
         /*
-         * Method that does nothing if the category type is counted.
+         * Does nothing because the category type is counted.
          */
         this_.updateTimer = function() { };
     }
@@ -252,9 +255,11 @@ function CategoryItem(name, type, id, index) {
 
 
 /**
- * Handles the actual observing.
+ * The class does the actual observation. It keeps the records
+ * made during the observation and sends them to the backend after
+ * the observation is stopped.
  * @constructor
- * @param category_sets Array of category sets to use in observation.
+ * @param category_sets The array of the category sets to be used in the observation.
  * @returns {Observer} Constructed observer.
  */
 function Observer(category_sets) {
@@ -267,8 +272,9 @@ function Observer(category_sets) {
     initialize(this);
     
     /**
-     * Private method that initializes various things.
-     * @param {Observer} this_ This object.
+     * The private method initializes the observer. It creates
+     * the category buttons and adds them to the HTML element tree.
+     * @param {Observer} this_ The observer to be initialized.
      */
     function initialize(this_) {
         $("#continue").hide();
@@ -306,10 +312,9 @@ function Observer(category_sets) {
     }
     
     /**
-     * Private method.
-     * Adds record to the records list if it's not undefined.
-     * Used by categoryClick() and stopClick().
-     * @param record Record or undefined if there is nothing to add.
+     * The private method adds the record to the records list if it's not undefined.
+     * The method is used by categoryClick() and stopClick().
+     * @param record The record or undefined if there is nothing to be added.
      */
     function addRecord(this_, record) {
         if (record !== undefined) {
@@ -318,8 +323,8 @@ function Observer(category_sets) {
     }
     
     /**
-     * Event handler that starts or continues observing.
-     * Sends ajax notification to backend when observing is first started.
+     * The event handler starts the observation. It sends an AJAX notification
+     * to the backend when the observation is started.
      */
     this.startClick = function() {
         if (this.waiting) return;
@@ -354,7 +359,7 @@ function Observer(category_sets) {
     };
     
     /**
-     * Event handler that continues the observing.
+     * The event handler continues the observation.
      */
     this.continueClick = function () {
         if (this.master_clock.isPaused()) {
@@ -365,7 +370,7 @@ function Observer(category_sets) {
     };
     
     /**
-     * Event handler that pauses the observing.
+     * The event handler pauses the observation.
      */
     this.pauseClick = function() {
         if (!this.master_clock.isPaused()) {
@@ -376,12 +381,12 @@ function Observer(category_sets) {
     };
     
     /**
-     * Event handler that stops the observing.
-     * Disables continue, pause, and category buttons.
-     * If some categories were still on, stops them
-     * and creates records accordingly.
-     * Sends records to backend with ajax and
-     * redirect to summary page (on success).
+     * The event handler stops the observation.
+     * It disables the continue, pause and category buttons.
+     * If some categories were still on, it stops them
+     * and creates records accordingly. It sends the recorded
+     * information to the backend with AJAX and
+     * redirects the user to the summary page (on success).
      */
     this.stopClick = function() {
         if (!this.started || this.waiting) return;
@@ -438,9 +443,10 @@ function Observer(category_sets) {
     };
     
     /**
-     * Delegates handling of category button click to the correct category.
-     * Adds (possible) record returned by the category.
-     * @param {number} index Index of the category.
+     * Delegates the click of a category button to the correct category.
+     * It adds the (possible) record returned by the category to the
+     * list of all the records made during the observation.
+     * @param {number} index The index of the category button that was clicked.
      */
     this.categoryClick = function(index) {
         var category = this.categories[index];
@@ -449,7 +455,7 @@ function Observer(category_sets) {
     };
     
     /**
-     * Updates master clock and all categories based on it.
+     * Updates the observation clock and all the categories based on it.
      */
     this.tick = function() {
         var time = this.master_clock.getElapsedTime(Date.now());
@@ -467,7 +473,7 @@ function Observer(category_sets) {
 
 
 /**
- * Sends ajax keep-alive signal to backend.
+ * Sends an AJAX keep-alive signal to the backend.
  */
 function keepAlive() {
     $.ajax({
@@ -488,8 +494,8 @@ function keepAlive() {
 
 
 /**
- * Shows error message in a PrimeFaces growl.
- * @param {String} error_msg
+ * Shows an error message in a PrimeFaces growl.
+ * @param {String} error_msg The error message to be shown.
  */
 function showError(error_msg) {
     var growl = PF("growlWdgt");
@@ -503,8 +509,8 @@ function showError(error_msg) {
 
 
 /**
- * Function that will call observer.stop().
- * Needed if the stopping has to be confirmed.
+ * The function will call observer.stop().
+ * It is needed if the stopping of the observation has to be confirmed.
  */
 var stopObservation = function () {};
 
@@ -535,14 +541,14 @@ $(document).ready(function() {
 });
 
 /**
- * Get the offset of timezone in milliseconds (in JAVA format).
+ * Gets the offset of the time zone in milliseconds (in JAVA format).
  */
 function getTimeZoneOffset(){
     return -1 * 60 * 1000 * new Date().getTimezoneOffset();
 }
 
 /**
- * Get the daylight saving time offset in milliseconds.
+ * Gets the daylight saving time offset in milliseconds.
  */
 function getDaylightSaving() {
     var now = new Date();

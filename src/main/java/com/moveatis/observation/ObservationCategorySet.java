@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Observation has it own categorysets, so renaming or removing original categorysets
- * does not alter old observations.
+ * The observation has its own category sets, so renaming or removing
+ * original category sets does not alter old observations.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
@@ -49,7 +49,10 @@ public class ObservationCategorySet implements Serializable {
     private final Long id;
     private final String name;
     private final List<ObservationCategory> categories;
-        
+    
+    /**
+     * Creates a new instance of ObservationCategorySet with the given id and name.
+     */
     public ObservationCategorySet(Long id, String name) {
         this.id = id;
         this.name = name;
@@ -64,10 +67,19 @@ public class ObservationCategorySet implements Serializable {
         return name;
     }
 
+    /**
+     * Returns the list of the categories in the category set.
+     */
     public List<ObservationCategory> getCategories() {
         return categories;
     }
     
+    /**
+     * Adds a new category to the list of the categories.
+     * @param type The type of the new category.
+     * @param tag The tag of the new category.
+     * @param name The name of the new category.
+     */
     public void add(CategoryType type, Long tag, String name) {
         ObservationCategory category = new ObservationCategory();
         category.setType(type);
@@ -76,16 +88,27 @@ public class ObservationCategorySet implements Serializable {
         categories.add(category);
     }
 
+    /**
+     * Adds the given category to the list of the categories.
+     * @param category The category to be added.
+     */
     public void add(ObservationCategory category) {
         categories.add(category);
     }
     
+    /**
+     * Adds an empty category to the list of the categories.
+     */
     public void addEmpty() {
         ObservationCategory category = new ObservationCategory();
         category.setTag(-1L);
         categories.add(category);
     }
 
+    /**
+     * Removes the given category from the list of the categories.
+     * @param category The category to be removed.
+     */
     public void remove(ObservationCategory category) {
         categories.remove(category);
     }

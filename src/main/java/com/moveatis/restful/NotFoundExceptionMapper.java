@@ -37,7 +37,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- * Custom NotFound-exception for those REST API calls, that are not to 
+ * Custom NotFound exception for those REST API calls, that are not to 
  * /webapi or RecordListenerBean.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

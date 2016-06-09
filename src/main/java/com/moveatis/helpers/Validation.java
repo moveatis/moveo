@@ -30,15 +30,16 @@
 package com.moveatis.helpers;
 
 /**
- * Helper class with static validation function(s).
+ * The helper class contains the static validation function(s).
  * @author Ilari Paananen
  */
 public class Validation {
 
     /**
-     * Validates given string to be placed as a js string possibly in html script tag.
-     * @param s String to validate.
-     * @return Validated string that contains only white listed characters.
+     * Validates the given string so that it can be placed as a JavaScript string
+     * in an HTML script tag.
+     * @param s The string to be validated.
+     * @return The validated string that contains only accepted characters.
      */
     public static String validateForJsAndHtml(String s) {
         // TODO: Allow some other chars? Don't allow some of these?

@@ -40,8 +40,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * This EJB managed the anonymity user, which represents the public user
- * of Moveatis. Not used in version 1.0
+ * The EJB manages the anonymity user, which represents the public user
+ * of Moveatis. The class is not used in version 1.0
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless

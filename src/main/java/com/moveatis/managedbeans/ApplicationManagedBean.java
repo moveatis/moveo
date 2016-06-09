@@ -36,7 +36,7 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
 /**
- * Bean that serves the application installation view.
+ * The bean that serves the application installation view.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @ManagedBean(name="applicationManagedBean")
@@ -53,10 +53,18 @@ public class ApplicationManagedBean {
         
     }
 
+    /**
+     * Returns true if the application has been installed, otherwise false.
+     */
     public Boolean getInstalled() {
         return applicationEJB.checkInstalled();
     }
     
+    /**
+     * Redirects the user to the installation URI if the application has not
+     * been installed yet. If the application is running on localhost server
+     * it redirects to the localhost version of the installation URI.
+     */
     public String doInstall() {
         if(applicationEJB.checkInstalled()) {
             return "index?faces-redirect=true";

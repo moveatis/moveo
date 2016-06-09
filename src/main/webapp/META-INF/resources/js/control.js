@@ -31,15 +31,16 @@
 /**
  * @fileOverview JavaScript methods for control view.
  * @module control
+ * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
 
 /* global PrimeFaces, PF */
 
 /**
- * Hide dialog on succesfull submit. Additionally, display the provided message.
- * @param {object} args - containing the validationFailed attribute.
- * @param {string} dialogWidgetVar - Dialogs widget variable.
- * @param {string} message - given message
+ * Hides the dialog on succesfull submit and displays the given message.
+ * @param {object} args - Containing the validationFailed attribute.
+ * @param {string} dialogWidgetVar - The widget variable of the dialog.
+ * @param {string} message - The given message.
  */
 function onDialogSuccess(args, dialogWidgetVar, message) {
     if (args && !args.validationFailed) {
@@ -51,8 +52,8 @@ function onDialogSuccess(args, dialogWidgetVar, message) {
 }
 
 /**
- * Set last editable data table row into edit mode and set focus to it's first editable input.
- * @param {string} table data table's identifier, id or class name.
+ * Sets the last editable data table row into edit mode and sets the focus to it's first editable input.
+ * @param {string} table The identifier, id or class name of the data table.
  */
 function focusDataTableEditInput(table) {
     $(table + ' .ui-datatable-data tr').last().find('.ui-icon-pencil').each(function(){
@@ -63,8 +64,8 @@ function focusDataTableEditInput(table) {
 }
 
 /**
- * Submit data table rows in edit mode.
- * @param {string} table - data table's identifier, id or class name.
+ * Submits the data table rows in edit mode.
+ * @param {string} table - The identifier, id or class name of the data table.
  */
 function submitDataTableEditInputs(table) {
     $(table + ' .ui-datatable-data tr').find('.ui-icon-check').each(function(){

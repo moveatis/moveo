@@ -34,10 +34,10 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to manage the record entity.
- * Record is a single instance of a category in a observation. For instance,
- * for a developer a category "Debugging" could have record of "5:10" meaning
- * 5 minutes and 10 seconds record of debugging.
+ * The interface to manage the record entity. A record is a single instance of
+ * a category in an observation. For example, if during an observation a teacher
+ * gives feedback for 5 minutes, there would be a record of the category
+ * "Giving feedback" with a duration of 5 minutes.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Record.class)

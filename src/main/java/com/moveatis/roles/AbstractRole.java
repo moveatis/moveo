@@ -41,8 +41,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 
 /**
- * This entity is the base for roles in Moveatis. Roles can be used to make 
- * access rights system more finegrained. This entity can be extended to 
+ * The entity is the base for the roles in Moveatis. The roles can be used to make 
+ * the access rights system more finegrained. The entity can be extended to 
  * add more roles.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */

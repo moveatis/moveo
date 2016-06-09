@@ -44,8 +44,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This EJB manages roles, which can be added to users to allow access system
- * to be more finegrained.
+ * The EJB manages the roles, which can be added to the users to allow
+ * the access system to be more finegrained.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -66,8 +66,8 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
     }
     
     /**
-     * Adds superuser rights to wanted user.
-     * @param user The user who gets superuser rights.
+     * Adds the superuser rights to the user.
+     * @param user The user to whom the superuser rights are granted.
      */
     @Override
     public void addSuperuserRoleToUser(IdentifiedUserEntity user) {
@@ -76,10 +76,10 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
     }
 
     /**
-     * Adds superuser rights to wanted user with start- and endDate.
-     * @param user The user who gets the superuser rights.
-     * @param startDate Date when role is active.
-     * @param endDate Date when role is inactive.
+     * Adds the superuser rights to the user with the start and end date.
+     * @param user The user to whom the superuser rights are granted.
+     * @param startDate The date when te role is actived.
+     * @param endDate The date when the role is deactived.
      */
     @Override
     public void addSuperuserRoleToUser(IdentifiedUserEntity user, Date startDate, Date endDate) {
@@ -88,8 +88,8 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
     }
 
     /**
-     * Removes superuser rights from certain user.
-     * @param user The user who has superuser rights removed.
+     * Removes the superuser rights from the user.
+     * @param user The user whose superuser rights should be removed.
      */
     @Override
     public void removeSuperuserRoleFromUser(IdentifiedUserEntity user) {
@@ -102,8 +102,8 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
     }
 
     /**
-     * Finds and returns lists of users with superuser rights.
-     * @return List of users with superuser rights.
+     * Finds and returns a list of the users with the superuser rights.
+     * @return A list of the users with the superuser rights.
      */
     @Override
     public List<SuperUserRoleEntity> listSuperusers() {
@@ -128,19 +128,19 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
     }
     
     /**
-     * Finds and returns users with certain role, which extends AbstractRole.
+     * Finds and returns the users with the given role.
      * Not implemented in version 1.0.
-     * @param role Which role to search.
-     * @return List of users with wanted role.
+     * @param role The role to be searched for.
+     * @return A list of the users with the role.
      */
     public List<? extends AbstractRole> listRoleUsers(AbstractRole role) {
         return Collections.emptyList();
     }
 
     /**
-     * Checks if certain user has superuser rights.
-     * @param user User to check for superuser rights.
-     * @return true if user had superuser rights, false otherwise.
+     * Checks if the user has the superuser rights.
+     * @param user The user to be checked for the superuser rights.
+     * @return true if the user had the superuser rights, false otherwise.
      */
     @Override
     public boolean checkIfUserIsSuperUser(IdentifiedUserEntity user) {

@@ -31,7 +31,7 @@
 package com.moveatis.application;
 
 /**
- * This class has the URIs for redirection within the Jyväskylä University login system.
+ * The class has the URIs for redirection within the Jyväskylä University login system.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class RedirectURLs {

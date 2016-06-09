@@ -40,10 +40,10 @@ import java.util.TimeZone;
 import javax.ejb.Local;
 
 /**
- * This interfaces defines the contract to manage the session entity.
- * Session is a context, in which particular user is using Moveatis. Session
- * has information, that are meaningful in current context, such as if user 
- * has been identified.
+ * The interface to manage the session entity.
+ * The session is a context, in which a particular user is using Moveatis.
+ * The session has information, that is meaningful in the current context,
+ * such as whether the user has been identified or not.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Session.class)

@@ -52,7 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This EJB managed the eventgroupentities.
+ * The EJB manages the event group entities.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -77,9 +77,9 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
     }
 
     /**
-     * Finds and returns list of eventgroups belonging to particular user.
-     * @param owner For which user search for eventgroups.
-     * @return List of eventGroups
+     * Finds and returns a list of the event groups belonging to the given user.
+     * @param owner The user whose event groups are searched for.
+     * @return A list of the event groups.
      */
     @Override
     public List<EventGroupEntity> findAllForOwner(AbstractUser owner) {
@@ -89,9 +89,9 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
     }
 
     /**
-     * Finds and returns list of eventgroups, which particular user has access to.
-     * @param user For which user search for eventgroups.
-     * @return List of eventgroups.
+     * Finds and returns a list of event groups, which the given user has access to.
+     * @param user The user whose event groups are searched for.
+     * @return A list of the event groups.
      */
     @Override
     public List<EventGroupEntity> findAllForUser(AbstractUser user) {
@@ -99,8 +99,8 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
     }
 
     /**
-     * Finds and returns those eventgroups that are allowed for public use.
-     * @return List of eventgroups.
+     * Finds and returns the event groups that are allowed for public use.
+     * @return A list of the event groups.
      */
     @Override
     public List<EventGroupEntity> findAllForPublicUser() {
@@ -108,10 +108,10 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
     }
 
     /**
-     * This methods finds and returns those eventgouprs, which particular user
+     * The method finds and returns the event groups, which the given user
      * has access to.
-     * @param user For which user search for eventgroups.
-     * @return List of eventgroups.
+     * @param user The user to search event groups for.
+     * @return A list of the event groups.
      */
     private List<EventGroupEntity> findAllForAbstractUser(AbstractUser user) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -129,8 +129,9 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
         return query.getResultList();
     }
     /**
-     * This method removes particular categoryset from all of the eventgroups that has the categoryset.
-     * @param categorySetEntity The categoryset to be removed from eventgroups.
+     * The method removes the given category set from all of the event
+     * groups that have the category set.
+     * @param categorySetEntity The category set to be removed from the event groups.
      */
     @Override
     public void removeCategorySetEntityFromEventGroups(CategorySetEntity categorySetEntity) {

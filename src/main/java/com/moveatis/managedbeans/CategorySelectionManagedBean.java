@@ -57,7 +57,7 @@ import java.util.Set;
 import javax.faces.view.ViewScoped;
 
 /**
- * Bean that serves category selection view.
+ * The bean that serves the category selection view.
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
@@ -93,7 +93,7 @@ public class CategorySelectionManagedBean implements Serializable {
     private Long addedCategorySetTag = 0L;
     
     /**
-     * Creates a new instance of CategoryManagedBean
+     * Creates a new instance of CategoryManagedBean.
      */
     public CategorySelectionManagedBean() {
     }
@@ -129,7 +129,7 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     /**
-     * Initializes properly all members needed for category selection.
+     * Initializes properly all the members needed for category selection.
      */
     @PostConstruct
     public void init() {
@@ -160,40 +160,35 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     /**
-     * Getter for new category set name.
-     * @return New category set name.
+     * Gets the new category set name.
      */
     public String getNewCategorySetName() {
         return newCategorySetName;
     }
     
     /**
-     * Setter for new category set name.
-     * @param newCategorySetName New name.
+     * Sets the new category set name.
      */
     public void setNewCategorySetName(String newCategorySetName) {
         this.newCategorySetName = newCategorySetName;
     }
     
     /**
-     * Getter for selected default category set.
-     * @return Selected default category set's id.
+     * Gets the selected default category set.
      */
     public Long getSelectedDefaultCategorySet() {
         return selectedDefaultCategorySet;
     }
     
     /**
-     * Setter for selected default category set.
-     * @param selectedDefaultCategorySet Category set's id.
+     * Sets the selected default category set.
      */
     public void setSelectedDefaultCategorySet(Long selectedDefaultCategorySet) {
         this.selectedDefaultCategorySet = selectedDefaultCategorySet;
     }
     
     /**
-     * Getter for selected private category set.
-     * @return Selected private category set's id.
+     * Gets the selected private category set.
      */
     public Long getSelectedPrivateCategorySet() {
         return selectedPrivateCategorySet;
@@ -201,47 +196,42 @@ public class CategorySelectionManagedBean implements Serializable {
     
     
     /**
-     * Setter for selected private category set.
-     * @param selectedPrivateCategorySet Category set's id.
+     * Sets the selected private category set.
      */
     public void setSelectedPrivateCategorySet(Long selectedPrivateCategorySet) {
         this.selectedPrivateCategorySet = selectedPrivateCategorySet;
     }
     
     /**
-     * Getter for default category sets.
-     * @return List of default category sets.
+     * Gets the default category sets.
      */
     public List<ObservationCategorySet> getDefaultCategorySets() {
         return defaultCategorySets.getCategorySets();
     }
     
     /**
-     * Getter for private category sets.
-     * @return List of private category sets.
+     * Gets the private category sets.
      */
     public List<ObservationCategorySet> getPrivateCategorySets() {
         return privateCategorySets.getCategorySets();
     }
     
     /**
-     * Getter for category sets in use.
-     * @return List of category sets in use.
+     * Gets the category sets in use.
      */
     public List<ObservationCategorySet> getCategorySetsInUse() {
         return categorySetsInUse.getCategorySets();
     }
     
     /**
-     * Getter for event group.
-     * @return Event group.
+     * Gets the event group.
      */
     public EventGroupEntity getEventGroup() {
         return eventGroup;
     }
     
     /**
-     * Adds new category set for observation if newCategorySetName isn't empty.
+     * Adds a new category set for the observation if newCategorySetName isn't empty.
      */
     public void addNewCategorySet() {
         String name = Validation.validateForJsAndHtml(newCategorySetName);
@@ -263,7 +253,7 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     /**
-     * Adds selected default category set for observation.
+     * Adds the selected default category set for the observation.
      */
     public void addDefaultCategorySet() {
         if (categorySetsInUse.find(selectedDefaultCategorySet) == null) {
@@ -274,7 +264,7 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     /**
-     * Adds selected private category set for observation.
+     * Adds the selected private category set for the observation.
      */
     public void addPrivateCategorySet() {
         if (categorySetsInUse.find(selectedPrivateCategorySet) == null) {
@@ -285,18 +275,17 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     /**
-     * Removes given category set from observation.
-     * @param categorySet Category set to remove from observation.
+     * Removes the given category set from the observation.
      */
     public void removeCategorySet(ObservationCategorySet categorySet) {
         categorySetsInUse.remove(categorySet);
     }
     
     /**
-     * Checks if continue button should be disabled.
+     * Checks if the continue button should be disabled.
      * The button is disabled if no category sets have been added for the observation
      * or if some of the added category sets are empty.
-     * @return True if continue button should be disabled.
+     * @return True if the continue button should be disabled.
      */
     public boolean isContinueDisabled() {
         for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
@@ -315,12 +304,12 @@ public class CategorySelectionManagedBean implements Serializable {
     }
     
     /**
-     * Checks that categories in use are ok.
-     * Categories in same category set should have different names.
-     * Categories shouldn't have empty names.
-     * At least one category should be selected for observation.
-     * Shows an error message if categories aren't ok.
-     * @return "categoriesok" if categories were ok, otherwise "".
+     * Checks the categories in use before letting the user continue to observation.
+     * The categories in the same category set should have different names.
+     * The categories shouldn't have empty names.
+     * At least one category should be selected for the observation.
+     * It shows an error message if the categories aren't ok.
+     * @return "categoriesok" if the categories were ok, otherwise an empty string.
      */
     public String checkCategories() {
         boolean atLeastOneCategorySelected = false;

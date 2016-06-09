@@ -52,7 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean for managing categorysets in appropriate views.
+ * The bean for managing category sets in the appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "categorySetManagedBean")
@@ -80,7 +80,7 @@ public class CategorySetManagedBean implements Serializable {
     private CategorySetEntity categorySetEntity;
 
     /**
-     * Creates a new instance of CategorySetManagedBean
+     * Creates a new instance of CategorySetManagedBean.
      */
     public CategorySetManagedBean() {
 
@@ -103,8 +103,8 @@ public class CategorySetManagedBean implements Serializable {
     }
 
     /**
-     * Creates new categoryset.
-     * @param eventGroupEntity For which eventgroup add this new categoryset.
+     * Creates a new category set and adds it to the given event group.
+     * @param eventGroupEntity The event group into which the new category set is added.
      */
     public void createNewCategorySet(EventGroupEntity eventGroupEntity) {
         categorySetEntity = new CategorySetEntity();
@@ -126,12 +126,12 @@ public class CategorySetManagedBean implements Serializable {
     }
 
     /**
-     * This method allows creating and editing a categoryset. Its fairly complex,
-     * see the comments in the code to get better understanding what this does.
+     * The method is used for creating and editing the category set. As it's fairly complex,
+     * see the comments in the code to get better understanding what it does.
      * 
-     * @param eventGroupEntity For which eventgroup the categoryset belongs.
-     * @param categorySetEntity The categoryset to create or edit,
-     * @param newCategoryEntities The categories belonging to the categoryset.
+     * @param eventGroupEntity The event group the category set belongs to.
+     * @param categorySetEntity The category set to be created or edited.
+     * @param newCategoryEntities The categories belonging to the category set.
      */
     public void createAndEditCategorySet(EventGroupEntity eventGroupEntity,
             CategorySetEntity categorySetEntity, List<CategoryEntity> newCategoryEntities) {

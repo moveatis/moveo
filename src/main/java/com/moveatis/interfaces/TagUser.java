@@ -34,9 +34,9 @@ import com.moveatis.user.TagUserEntity;
 import java.util.List;
 
 /**
- * This interfaces defines the contract to manage the taguse entity.
- * Taguser is the user account for groupkeys, which are used to identify
- * eventgroups.
+ * The interface to manage the tag user entity.
+ * A tag user is the user account for group keys, which are used to identify
+ * event groups.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface TagUser {

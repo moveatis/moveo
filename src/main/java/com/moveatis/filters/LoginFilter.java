@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * This filter checks that pages in /app -folder are accessed only
+ * The filter checks that the pages in /app folder are accessed only
  * through the frontpage.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
@@ -80,12 +80,12 @@ public class LoginFilter implements Filter {
 
     /**
      *
-     * @param request The servlet request we are processing
-     * @param response The servlet response we are creating
-     * @param chain The filter chain we are processing
+     * @param request The servlet request to be processed.
+     * @param response The servlet response to be created.
+     * @param chain The filter chain to be processed.
      *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet error occurs
+     * @exception IOException if an input or output error occurs.
+     * @exception ServletException if a servlet error occurs.
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -122,31 +122,30 @@ public class LoginFilter implements Filter {
     }
 
     /**
-     * Return the filter configuration object for this filter.
-     * @return 
+     * Returns the filter configuration object for the filter.
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
     }
 
     /**
-     * Set the filter configuration object for this filter.
+     * Sets the filter configuration object for the filter.
      *
-     * @param filterConfig The filter configuration object
+     * @param filterConfig The filter configuration object.
      */
     public void setFilterConfig(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
     }
 
     /**
-     * Destroy method for this filter
+     * Destroys the filter.
      */
     @Override
     public void destroy() {        
     }
 
     /**
-     * Init method for this filter
+     * Initializes the filter.
      */
     @Override
     public void init(FilterConfig filterConfig) {        
@@ -160,8 +159,7 @@ public class LoginFilter implements Filter {
     }
 
     /**
-     * Return a String representation of this object.
-     * @return 
+     * Returns a string representation of the object.
      */
     @Override
     public String toString() {

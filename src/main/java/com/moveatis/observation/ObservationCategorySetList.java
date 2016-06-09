@@ -34,8 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Observation has it own categorysets, and this class has a list, which
- * holds those categorysets.
+ * The observation has its own category sets, and this class has a list, which
+ * holds those category sets.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
@@ -56,10 +56,16 @@ public class ObservationCategorySetList {
         this.categorySets = categorySets;
     }
 
+    /**
+     * Adds the given category set to the category set list.
+     */
     public void add(ObservationCategorySet categorySet) {
         categorySets.add(categorySet);
     }
 
+    /**
+     * Creates a clone of the given category set and adds it to the category set list.
+     */
     public void addClone(ObservationCategorySet categorySet) {
         ObservationCategorySet cloned = new ObservationCategorySet(categorySet.getId(), categorySet.getName());
         for (ObservationCategory category : categorySet.getCategories()) {
@@ -68,6 +74,10 @@ public class ObservationCategorySetList {
         categorySets.add(cloned);
     }
 
+    /**
+     * Searches for the category set with the given id from the category set list.
+     * Returns the category if it was found and null otherwise.
+     */
     public ObservationCategorySet find(Long id) {
         for (ObservationCategorySet categorySet : categorySets) {
             if (categorySet.getId().equals(id)) {
@@ -77,6 +87,9 @@ public class ObservationCategorySetList {
         return null;
     }
 
+    /**
+     * Removes the given category set from the category set list.
+     */
     public void remove(ObservationCategorySet categorySet) {
         categorySets.remove(categorySet);
     }

@@ -137,7 +137,7 @@ $(function () {
 });
 
 /**
- * Updates records table information for given time frame.
+ * Updates the records table information according to the given time frame.
  * @param {object} timeline - The timeline component.
  * @param {object} timeframe - The selected start and end time.
  */
@@ -176,10 +176,10 @@ function updateRecordsTable(timeline, timeframe) {
 }
 
 /**
- * Create html element containing the data of a record.
- * @param {object} record - object containing record data
- *  Data form: {name, count, countPercentage, duration, durationPercentage}
- * @returns {object} - jquery object containing the record row element.
+ * Creates a HTML element containing the data of a record.
+ * @param {object} record - The object contains record data
+ *  in the form: {name, count, countPercentage, duration, durationPercentage}
+ * @returns {object} - The jquery object containing the record row element.
  */
 function createRecordRow(record, colcount) {
     // TODO: escape XSS; Is it required? Values are from backing bean and are
@@ -201,10 +201,10 @@ function createRecordRow(record, colcount) {
 }
 
 /**
- * Updates timeline's time frame to the given start and end times.
+ * Updates the time frame of the timeline to the given start and end times.
  * @param {object} timeline - The timeline component.
- * @param {string} strStart - time frame start in hh:mm:ss format
- * @param {string} strEnd - time frame end in hh:mm:ss format
+ * @param {string} strStart - The time frame starting time in hh:mm:ss format.
+ * @param {string} strEnd - The time frame ending time in hh:mm:ss format.
  * @returns {boolean} - returns true on errors, false if updated successfully.
  */
 function updateTimelineTimeframe(timeline, strStart, strEnd) {
@@ -236,7 +236,7 @@ function updateTimelineTimeframe(timeline, strStart, strEnd) {
 }
 
 /**
- * Show a growl message of the selected record.
+ * Shows a PrimeFaces growl message with details of the selected record.
  * @param {object} timeline - The timeline component.
  * @param {object} growl - The growl component.
  */
@@ -256,7 +256,7 @@ function showRecordDetails(timeline, growl) {
 }
 
 /**
- * Hide all growl messages and remove timeline selection.
+ * Hides all growl messages and removes timeline selection.
  * @param {object} timeline - The timeline component.
  * @param {object} growl - The growl component.
  */
@@ -266,8 +266,8 @@ function hideMessages(timeline, growl) {
 }
 
 /**
- * Get all records that are fully or partially in the given time frame.
- * @param {object} records - object containing the records.
+ * Gets all the records that are fully or partially in the given time frame.
+ * @param {object} records - The object containing the records.
  * @param {object} timeframe - The selected start and end time.
  * @returns {object} - returns a list of matched records.
  */
@@ -288,9 +288,9 @@ function getRecordsInTimeframe(records, timeframe) {
 }
 
 /**
- * Get record details.
- * @param {object} record - a record object from the timeline component.
- * @returns {string} - details as a string value.
+ * Gets the record details as a string.
+ * @param {object} record - The record object from the timeline component.
+ * @returns {string} - The details as a string value.
  */
 function getRecordDetails(record) {
     var details = "";
@@ -319,7 +319,7 @@ function getDurationOfCategories(categories, timeframe) {
 }
 
 /**
- * Get duration of observation's time frame.
+ * Gets the duration of the given time frame.
  * @param {object} timeframe - The selected start and end time.
  * @returns {number} - duration of the observation's time frame.
  */
@@ -332,9 +332,9 @@ function getTimeframeDuration(timeframe) {
 }
 
 /**
- * Get total duration of records in given time frame.
- * @param {object} records - object containing the records.
- * @returns {number} - duration of the records.
+ * Gets the total duration of the records in the given time frame.
+ * @param {object} records - The object containing the records.
+ * @returns {number} - The duration of the records.
  */
 function getDurationOfRecords(records, timeframe) {
     var duration = 0;
@@ -358,9 +358,9 @@ function getDurationOfRecords(records, timeframe) {
 }
 
 /**
- * Convert milliseconds to time string hh:mm:ss. 
- * @param {number} ms - time in milliseconds.
- * @returns {string} - time in string as hh:mm:ss.
+ * Converts the time in milliseconds to a string hh:mm:ss. 
+ * @param {number} ms - The time in milliseconds.
+ * @returns {string} - The time in string as hh:mm:ss.
  */
 function convertMsToStr(ms) {
     var d = ms;
@@ -374,9 +374,9 @@ function convertMsToStr(ms) {
 }
 
 /**
- * Convert time string hh:mm:ss to milliseconds
- * @param {string} str - time in string as hh:mm:ss.
- * @returns {number} - time in milliseconds or NaN for unparseable time string.
+ * Converts the time string in the form hh:mm:ss to milliseconds.
+ * @param {string} str - The time in a string as hh:mm:ss.
+ * @returns {number} - The time in milliseconds or NaN for unparseable time string.
  */
 function convertStrToMs(str) {
     var time = str.split(/:/);
@@ -392,9 +392,9 @@ function convertStrToMs(str) {
 }
 
 /**
- * Convert time in milliseconds to string with time units e.g. 1h 2m 0s. 
- * @param {number} ms - time in milliseconds.
- * @returns {string} - time in string with units e.g. 1h 2m 0s.
+ * Converts the time in milliseconds to a string with the time units e.g. 1h 2m 0s. 
+ * @param {number} ms - The time in milliseconds.
+ * @returns {string} - The time in string with units e.g. 1h 2m 0s.
  */
 function convertMsToUnits(ms) {
     var time = convertMsToStr(ms).split(":");
@@ -423,8 +423,9 @@ function convertMsToUnits(ms) {
 }
 
 /**
- * Append leading zero to single digit numbers. 
- * @param {number} n - number.
+ * Returns the given number as a string and appends a leading zero
+ * to it if the number is a single digit number.
+ * @param {number} n - The given number.
  * @returns {string} - number with possible leading zero.
  */
 function leadingZero(n) {
@@ -432,9 +433,9 @@ function leadingZero(n) {
 }
 
 /**
- * Calculate percent of two values.
- * @param {number} a - the number of share.
- * @param {number} b - the number of total quantity.
+ * Calculates the percentage of two values.
+ * @param {number} a - The number of share.
+ * @param {number} b - The number of total quantity.
  * @returns {number} - percentage ratio.
  */
 function percentOf(a, b) {
@@ -445,9 +446,9 @@ function percentOf(a, b) {
 }
 
 /**
- * Get percent of two values as span element string.
- * @param {number} a - the number of share.
- * @param {number} b - the number of total quantity.
+ * Gets the percentage of two values as a span element string.
+ * @param {number} a - The number of share.
+ * @param {number} b - The number of total quantity.
  * @returns {string} - percent as span element string.
  */
 function spanPercentOf(a, b) {
@@ -463,8 +464,8 @@ function spanPercentOf(a, b) {
 }
 
 /**
- * Get "zero" date with time zone offset.
- * @returns {date} - zero date with time zone offset.
+ * Gets the "zero" date with the time zone offset.
+ * @returns {date} - The zero date with the time zone offset.
  */
 function getLocalZeroDate() {
     var localDate = new Date(0);
@@ -473,18 +474,18 @@ function getLocalZeroDate() {
 }
 
 /**
- * Convert date object to the timeline component time.
- * @param {date} date - the date object of the time to convert.
- * @returns {number} - converted time in milliseconds.
+ * Converts the date object to the timeline component time.
+ * @param {date} date - The date object of the time to be converted.
+ * @returns {number} - The converted time in milliseconds.
  */
 function toTimelineTime(date) {
     return Math.abs(TIMELINE_BEGIN.getTime() - date.getTime());
 }
 
 /**
- * Encode main html markup characters to html entities.
- * @param {string} str - the string to encode.
- * @returns {str} - the encoded string.
+ * Encodes HTML markup characters to HTML entities.
+ * @param {string} str - The string to be encoded.
+ * @returns {str} - The encoded string.
  */
 function encodeHTML(str) {
     return str
@@ -495,8 +496,8 @@ function encodeHTML(str) {
 }
 
 /**
- * Check if scrolled to the bottom of the page.
- * @param {number} padding - extra padding from bottom to check.
+ * Checks if the user has scrolled to the bottom of the page.
+ * @param {number} padding - An extra padding to be checked.
  * @return {boolean} - true if at bottom otherwise false.
  */
 function isBottomOfDocument(padding) {

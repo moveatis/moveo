@@ -45,7 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean that serves category management in appropriate views.
+ * The bean that serves category management in the appropriate views.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "categoryManagedBean")
@@ -68,7 +68,7 @@ public class CategoryManagedBean implements Serializable {
     private Boolean canOverlap = false;
 
     /**
-     * Creates a new instance of CategoryManagedBean
+     * Creates a new instance of CategoryManagedBean.
      */
     public CategoryManagedBean() {
 
@@ -102,6 +102,9 @@ public class CategoryManagedBean implements Serializable {
         LOGGER.debug("Category added");
     }
 
+    /**
+     * Creates a new category entity and adds it to the given category set.
+     */
     public void createNewCategory(CategorySetEntity categorySetEntity) {
         CategoryEntity categoryEntity = new CategoryEntity();
 

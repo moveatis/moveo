@@ -39,8 +39,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**
- * Bean which allows setting superuserrole for identified users. Not used
- * in current version of Moveatis.
+ * The bean sets the superuser role for the identified users. It is not used
+ * in the current version of Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com
  */
 @Named(value = "superUserBean")
@@ -54,14 +54,23 @@ public class SuperUserManagedBean {
         
     }
     
+    /**
+     * Adds the superuser role to the given identified user.
+     */
     public void addSuperUserRights(IdentifiedUserEntity userEntity) {
         roleBean.addSuperuserRoleToUser(userEntity);
     }
 
+    /**
+     * Adds the superuser role for the given time period to the given identified user.
+     */
     public void addSuperUserRights(IdentifiedUserEntity userEntity, Date startDate, Date endDate) {
         roleBean.addSuperuserRoleToUser(userEntity, startDate, endDate);
     }
 
+    /**
+     * Removes the superuser role from the given identified user.
+     */
     public void removeSuperUserRights(IdentifiedUserEntity userEntity) {
         roleBean.removeSuperuserRoleFromUser(userEntity);
     }

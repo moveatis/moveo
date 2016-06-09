@@ -50,12 +50,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This servlet handles identification of users, using Jyväskylä University
- * Shibboleth-service.
+ * The servlet handles the identification of a user using the Shibboleth service
+ * of Jyväskylä University.
  * 
  * If you are modifying Moveatis to your own organization, you need to 
- * implement your own identity provider service with classes in 
- * identityprovider package.
+ * implement your own identity provider service with the classes in 
+ * the identity provider package.
  * 
  * @see IdentityProviderInformationEntity
  * @see IdentityProvider
@@ -87,10 +87,8 @@ public class JyuIdentityServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -149,10 +147,8 @@ public class JyuIdentityServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -169,7 +165,7 @@ public class JyuIdentityServlet extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a String containing servlet description.
      */
     @Override
     public String getServletInfo() {

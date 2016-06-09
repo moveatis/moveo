@@ -41,7 +41,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.primefaces.validate.ClientValidator;
 
 /**
- * Validator for user submitted email addresses
+ * The validator for user submitted email addresses.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
@@ -54,10 +54,10 @@ public class EmailValidatorBean implements Validator, ClientValidator{
 
     /**
      * Validates the email address.
-     * @param context FacesContext for the session
-     * @param component Component to validate
-     * @param value Value for the component
-     * @throws ValidatorException if email address was not valid
+     * @param context The FacesContext for the session.
+     * @param component The component to be validated.
+     * @param value The value for the component.
+     * @throws ValidatorException if the email address was not valid.
      */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {

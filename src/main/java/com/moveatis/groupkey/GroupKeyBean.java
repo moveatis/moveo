@@ -37,7 +37,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- * This EJB managed groupkeys, which are used to access eventgroups in "semi-public" fashion.
+ * The EJB manages group keys that are used to access the event groups in a "semi-public" fashion.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
@@ -58,18 +58,18 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
     }
 
     /**
-     * This method returns the groupkey, which currently is associated with this instance.
-     * @return The groupkey associated with this instances for groupkeyEJB.
+     * The method returns the group key, which currently is associated with the instance.
+     * @return The group key associated with the instance for groupkeyEJB.
      */
     @Override
     public GroupKeyEntity getGroupKeyEntity() {
         return groupKeyEntity;
     }
     /**
-     * This method finds and returns the groupkey, which has the same value 
-     * as the String-type parameters.
+     * The method finds and returns the group key, which has the same value 
+     * as the specified parameter.
      * @param key String-representation of the key.
-     * @return the groupkey or null-
+     * @return the group key or null.
      */
     @Override
     public GroupKeyEntity findByKey(String key) {
@@ -87,10 +87,10 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
     }
 
     /**
-     * This method removes groupkeys permanently. Usually the entities are not removed
-     * from database, only their removed-date is set, but groupkey need to be reused,
-     * so they need to be removed permanently before reuse.
-     * @param groupKeyEntity Which groupkey to remove
+     * The method removes the group keys permanently. Usually the entities are not removed
+     * from the database, as only their removal date is set. If the group key need to be reused,
+     * they need to be removed permanently before reuse.
+     * @param groupKeyEntity The group key to be removed.
      */
     @Override
     public void removePermanently(GroupKeyEntity groupKeyEntity) {

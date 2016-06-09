@@ -38,7 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This EJB manages identified user. Not much use in version 1.0
+ * The EJB manages an identified user. It is not used much in version 1.0
  * @author Sami Kallio <phinalium at outlook.com>
  */
 @Stateless

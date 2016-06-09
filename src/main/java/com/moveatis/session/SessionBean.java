@@ -52,7 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This bean manages actions the user needs through the usage of Moveatis.
+ * The bean manages actions the user needs in the usage of Moveatis.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @SessionScoped
@@ -134,9 +134,9 @@ public class SessionBean implements Serializable, Session  {
     }
 
     /**
-     * Checks if observation is saveable-state. Used in checking if
-     * Save-button can be displayed.
-     * @return true if observation could be saved.
+     * Checks if the observation is in saveable state. It is used in checking if
+     * the Save button can be displayed.
+     * @return true if the observation could be saved.
      */
     @Override
     public boolean isSaveable() {
@@ -173,18 +173,30 @@ public class SessionBean implements Serializable, Session  {
         return this.tagEntity.getGroupKey();
     }
     
+    /**
+     * Returns true if the button that resets the current observation
+     * should be available to the user.
+     */
     public boolean isResetObsAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
         return result;
     }
     
+    /**
+     * Returns true if the button that redirects the user to the category
+     * selection view should be available to the user.
+     */
     public boolean isBackToCatEdAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = (viewId.equals("/app/observer/index.xhtml"));
         return result;
     }
     
+    /**
+     * Returns true if the button that redirects the user to the front page
+     * should be available to the user.
+     */
     public boolean isToFrontPageAvailable() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         boolean result = !(viewId.equals("/index.xhtml"));
@@ -192,7 +204,8 @@ public class SessionBean implements Serializable, Session  {
     }
 
     /**
-     * Used in development of Moveatis.
+     * Used in development of Moveatis to detect whether the application is running
+     * on the actual production server or on localhost.
      * @return true if Moveatis is running in localhost, false otherwise.
      */
     @Override
@@ -203,10 +216,9 @@ public class SessionBean implements Serializable, Session  {
     }
 
     /**
-     * This method returns the URI user was before he or she clicked the 
-     * login button, in some other page than frontpage. Not implemented
-     * in version 1.0.
-     * @return the URI to return the user.
+     * Returns the URI in which the user was before he or she clicked the 
+     * login button when not in the front page. Not implemented in version 1.0.
+     * @return the URI to return the user to.
      */
     @Override
     public String getReturnUri() {
@@ -214,8 +226,9 @@ public class SessionBean implements Serializable, Session  {
     }
 
     /**
-     * This method sets the URI, which user will be returned when he or she
-     * clicks the login-button outside frontpage. Not implemented in version 1.0.
+     * Sets the URI into which the user will be returned when he or she
+     * clicks the login button outside of the front page.
+     * Not implemented in version 1.0.
      * @param returnUri The URI that is set as return URI.
      */
     @Override

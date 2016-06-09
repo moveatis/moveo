@@ -40,8 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Bean that provides means to manage user-related information during a session 
- * in Moveatis.
+ * The bean manages user-related information in a session.
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "userManagedBean")
@@ -57,12 +56,15 @@ public class UserManagedBean implements Serializable {
     private String optionLanguageString;
 
     /**
-     * Creates a new instance of UserManagedBean
+     * Creates a new instance of UserManagedBean.
      */
     public UserManagedBean() {
         
     }
 
+    /**
+     * Gets the locale to use in the user interface of the application.
+     */
     public Locale getLocale() {
         
         if(this.locale == null) {

@@ -34,13 +34,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <groupId>com.jyu</groupId>
     <artifactId>moveatis</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
-    <name>Moveatis observer</name>
+    <name>Moveatis</name>
 
     <description>Student project for University of Jyväskylä</description>
     <organization>
-        <name>University of Jyväskylä</name>
+        <name>
+        Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+        </name>
     </organization>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
