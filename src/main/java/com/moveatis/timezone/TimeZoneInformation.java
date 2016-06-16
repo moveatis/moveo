@@ -65,9 +65,9 @@ public class TimeZoneInformation {
             return new SimpleTimeZone(
                     offset - DSTSaving, "GMT/" + offset,
                     Calendar.JANUARY, -1, Calendar.SUNDAY,
-                    offset,
+                    2,
                     Calendar.DECEMBER, -1, Calendar.SUNDAY,
-                    offset,
+                    2,
                     DSTSaving
             );
         } else {
