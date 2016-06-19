@@ -1,33 +1,45 @@
-# Gitignore sitä tarkoitusta varten, että repositoryyn tulee vain lähdekoodit.
+# Gitignore in purpose of pushing just code changes to repository
 # Sami Kallio 13.2.2016 sami.m.j.kallio@student.jyu.fi
 
-# Tällä tiedostolla saadaan aikaan se, ettei Git huomioi määreisiin sopivia 
-# tiedostoja päättäessään, mitä muutoksia se huomioi. Jos käytetään jotain
-# muuta kehitysympäristöä kuin Netbeansia, täytyy tähän tiedostoon tehdä
-# vastaavat muutokset.
+# Folders for Docker
+db/
+docker/
+mails/
 
-# Dockerin hakemisto
-docker/lotas*
+# Folder for Openshift
+deployments/
 
-# Java -luokkatiedostot
+# Java class files
 *.class
 *.war
 lib/
 
-# Netbeans -sidonnaiset tiedostot
+# Scripts
+*.sh
+
+# Netbeans files
 nbproject/private
 build/
 nbbuild/
 dist/
 ndist/
 nbactions.xml
+nbactions-moveatis.xml
+nbactions-Moveatis.xml
+/faces-config.Navdata
+faces-config.Navdata
 nb-configuration.xml
 .nb-gradle/
 
-# Eclipse ja vim
+# Eclipse and vim files
 *.swp
+.directory
+.metadata/
+.project
+.settings/
+.classpath
 
-# Maven
+# Maven files and folders
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -36,3 +48,12 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
+
+# Lockfiles and such
+.LCK*
+
+# Directory for TeXDoclet and LaTeX outputs
+texdocs/
+bin/
+# Directory for class documentation
+docs/
