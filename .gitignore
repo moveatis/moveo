@@ -26,6 +26,7 @@ ndist/
 nbactions.xml
 nbactions-moveatis.xml
 nbactions-Moveatis.xml
+/faces-config.Navdata
 faces-config.Navdata
 nb-configuration.xml
 .nb-gradle/
@@ -56,4 +57,3 @@ texdocs/
 bin/
 # Directory for class documentation
 docs/
-
