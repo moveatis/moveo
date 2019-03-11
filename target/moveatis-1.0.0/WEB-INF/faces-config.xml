@@ -99,6 +99,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <redirect/>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/app/activityselection/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/app/categoryselection/index.xhtml</to-view-id>
+            <from-outcome>observationselected</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/app/activityselection/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/app/categoryselection/index.xhtml</to-view-id>
+            <from-outcome>analyzeselected</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
     <application>
         <locale-config>
             <default-locale>en</default-locale>
