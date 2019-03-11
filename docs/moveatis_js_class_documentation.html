@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset='utf-8'/>
+	<title>Moveatis JavaScript Class Documentation</title> 
+	<style>
+		.back-to-top { display: none; }
+		td { padding: 0 0.5em; }
+		footer { padding-top: 2em; }
+	</style>
+</head><body>
+<script>
+function appendToc(toc, heading, items) {
+	var h3 = document.createElement('h3');
+	h3.appendChild(document.createTextNode(heading));
+	toc.appendChild(h3);
+	var ul = document.createElement('ul');	
+	for (var i = 0; i < items.length; i++) {
+		var li = document.createElement('li');
+		li.appendChild(document.createTextNode(items[i]));
+		ul.appendChild(li);
+	}
+	toc.appendChild(ul);
+}
+(function() {
+	var sections = document.getElementsByTagName('section');
+	var classes = [];
+	var modules = [];
+	for (var i = 0; i < sections.length; i++) {
+		var s = sections[i];
+		var id = s.getAttribute('id');
+		if (id === null) continue;
+		var name;
+		if (id.startsWith('class')) {
+			name = id.slice(id.indexOf('~') + 1);
+			classes.push(name);
+			name = 'Class: ' + name;
+		} else if (id.startsWith('module')) {
+			name = id.slice(id.indexOf(':') + 1);
+			modules.push(name);
+			name = 'Module: ' + name;
+		}
+		var h1 = document.createElement('h1');
+		h1.appendChild(document.createTextNode(name));
+		s.parentElement.insertBefore(h1, s);
+	}
+	var toc = document.createElement('section');
+	var h2 = document.createElement('h2');
+	h2.appendChild(document.createTextNode('Table of Contents'));
+	toc.appendChild(h2);
+	appendToc(toc, 'Classes', classes);
+	appendToc(toc, 'Modules', modules);
+	sections[0].parentElement.insertBefore(toc, sections[0].nextSibling);
+	
+	var headers = document.getElementsByTagName('header');
+	while (headers.length) {
+		headers[0].remove();
+		headers = document.getElementsByTagName('header');
+	}
+})();
+</script></body></html>
