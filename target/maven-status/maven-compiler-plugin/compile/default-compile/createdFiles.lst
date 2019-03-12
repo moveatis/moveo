@@ -10,6 +10,7 @@ com\moveatis\error\ErrorHandler.class
 com\moveatis\label\LabelEntity_.class
 com\moveatis\groupkey\GroupKeyEntity.class
 com\moveatis\interfaces\Label.class
+com\moveatis\test\TestController.class
 com\moveatis\user\AbstractUser.class
 com\moveatis\managedbeans\ValidationManagedBean.class
 com\moveatis\records\RecordEntity_.class

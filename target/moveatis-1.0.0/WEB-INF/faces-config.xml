@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <to-view-id>/app/categoryselection/index.xhtml</to-view-id>
+            <to-view-id>/app/activityselection/index.xhtml</to-view-id>
             <from-outcome>anonymityuser</from-outcome>
             <redirect/>
         </navigation-case>
@@ -72,6 +72,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <navigation-case>
             <to-view-id>/app/observer/index.xhtml</to-view-id>
             <from-outcome>categoriesok</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/app/analysiscategoryselection/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/app/analyzer/index.xhtml</to-view-id>
+            <from-outcome>analysiscategoriesok</from-outcome>
             <redirect/>
         </navigation-case>
     </navigation-rule>
@@ -110,8 +118,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <navigation-rule>
         <from-view-id>/app/activityselection/index.xhtml</from-view-id>
         <navigation-case>
-            <to-view-id>/app/categoryselection/index.xhtml</to-view-id>
-            <from-outcome>analyzeselected</from-outcome>
+            <to-view-id>/app/analysiscategoryselection/index.xhtml</to-view-id>
+            <from-outcome>analysisselected</from-outcome>
             <redirect/>
         </navigation-case>
     </navigation-rule>

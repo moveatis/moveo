@@ -363,4 +363,50 @@ public class CategorySelectionManagedBean implements Serializable {
         }
         return false;
     }
+    
+    
+    /**
+     * Checks the categories in use before letting the user continue to feedback analysis.
+     * The categories in the same category set should have different names.
+     * The categories shouldn't have empty names.
+     * At least one category should be selected for the feedback analysis.
+     * It shows an error message if the categories aren't ok.
+     * @return "categoriesok" if the categories were ok, otherwise an empty string.
+     */
+    public String checkAnalysisCategories() {
+        boolean atLeastOneCategorySelected = false;
+        
+        for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
+            
+            List<ObservationCategory> categories = categorySet.getCategories();
+            
+            if(hasDuplicate(categories)) {
+                showErrorMessage(messages.getString("facs_errorNotUniqueCategories"));
+                return "";
+            }
+            
+            if (!categories.isEmpty()) {
+                atLeastOneCategorySelected = true;
+            } else {
+                showErrorMessage(messages.getString("facs_warningEmptyCategorySets"));
+                return ""; // TODO: Show confirmation or something and let user continue.
+            }
+            
+            for (ObservationCategory category : categories) {
+                
+                if (category.getName().isEmpty()) {
+                    showErrorMessage(messages.getString("facs_warningEmptyCategories"));
+                    return ""; // TODO: Show confirmation or something and let user continue.
+                }
+            }
+        }
+        
+        if (!atLeastOneCategorySelected) {
+            showErrorMessage(messages.getString("cs_errorNoneSelected"));
+            return "";
+        }
+
+        observationManagedBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
+        return "analysiscategoriesok";
+    }
 }
