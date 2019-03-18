@@ -7,66 +7,59 @@
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml">
 
-            <ui:define name="pageTitle">#{msg.obs_title}</ui:define>
+            <ui:define name="pageTitle">#{msg.ana_title}</ui:define>
 
             <ui:define name="mainpage">
-                <script type="text/javascript">
-                    function getMessages() {
-                        return {
-                            dialogErrorTitle: "#{msg.dialogErrorTitle}",
-                            countAbbreviation: "#{msg.countAbbreviation}",
-                            obs_errorCouldntSendStart: "#{msg.obs_errorCouldntSendStart}",
-                            obs_errorCouldntSendData: "#{msg.obs_errorCouldntSendData}",
-                            obs_errorKeepAliveFailed: "#{msg.obs_errorKeepAliveFailed}"
-                        };
-                    }
-                    function getCategoryTypes() {
-                        return Object.freeze({
-                            TIMED: 0,
-                            COUNTED: 1
-                        });
-                    }
-                    function getCategorySets() {
-                        return [
+                <script type="text/javascript">  
+             function getCategorySets() {
+                 return [
                         <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
                             {name: "#{categorySet.name}", categories: [
                             <ui:repeat value="#{categorySet.categories}" var="category">
-                                { name: "#{category.name}", type: #{category.getTypeAsInt()}, id: #{category.tag} },
+                                { name: "#{category.name}", id: #{category.tag} },
                             </ui:repeat>
                             ]},
                         </ui:repeat>
                         ];
                         
-                    }
-                </script>
-                
-                <h:outputStylesheet library="css" name="observer.css"/>
+                    }   
+             </script>
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
-                <h:outputScript library="js" name="observer.js"/>
+                <h:outputScript library="js" name="analyzer.js"/>
                 
-                <p:growl id="growl" widgetVar="growlWdgt" showDetail="true" severity="error"/>
-                    
-                <p:confirmDialog global="true" style="font-size: 1.1rem">
-                    <p:commandButton value="#{msg.dialogConfirmYes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="#{msg.dialogConfirmNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-                
-                <div id="content" class="no-text-select">
-                    <div id="total-time"></div>
-                    <div id="controls">
-                        <div id="start" class="control-button"><span class="fa fa-play"></span> #{msg.obs_start}</div>
-                        <div id="continue" class="control-button"><span class="fa fa-play"></span> #{msg.obs_continue}</div>
-                        <div id="pause" class="control-button"><span class="fa fa-pause"></span> #{msg.obs_pause}</div>
-                        <div id="stop-disabled" class="control-button disabled"><span class="fa fa-stop"></span> #{msg.obs_stop}</div>
-                        <p:commandLink id="stop" class="control-button" onclick="stopObservation();">
-                            <span class="fa fa-stop"></span> #{msg.obs_stop}
-                            <!--<p:confirm header="#{msg.dialogConfirmTitle}" message="#{msg.obs_confirmStopObservation}" icon="ui-icon-alert"/>-->
-                        </p:commandLink>
-                    </div>
-                    <div id="category-list"></div>
+                              
+           
+               	<div class="no-text-selected" id="content">
+              		<div id="textArea"></div>
+              		<div id="basicControls">
+              			<div id="empty" class="control-button"><span class="fa fa-empty"></span> #{msg.ana_empty}</div>
+              			<div id="new" class="control-button"><span class="fa fa-new"></span> #{msg.ana_new}</div>
+              			<div id="continue" class="control-button"><span class="fa fa-continue"></span> #{msg.ana_continue}</div>
+              		</div>
                 </div>
+                <div id="category-list"></div>
+                
+                <!--  <h:form id ="form">
+                <div class="ui-g">
+                <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
+                	<div class="ui-g-1">
+                			<h:outputLabel value="#{categorySet.name}" />
+                				<div class="ui-g-2">
+                					<ui:repeat value="#{categorySet.categories}" var="category">
+                						<p:commandButton id="#{category.tag}" value="#{category.name}"/> 
+                					</ui:repeat>
+                				</div>
+                		</div>
+                	</div>    	
+                	<ui:repeat value="#{categorySet.categories}" var="category">
+                		<p:commandButton id="#{category.tag}" value="#{category.name}"/> 
+                	</ui:repeat> 
+                </ui:repeat>
+                </h:form>
+                
+                -->
             </ui:define>
             
-        </ui:composition>
+       </ui:composition>
     </h:body>
 </html>
