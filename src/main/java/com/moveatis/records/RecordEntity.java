@@ -29,6 +29,7 @@
  */
 package com.moveatis.records;
 
+import com.moveatis.abstracts.AbstractRecordEntity;
 import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
@@ -45,19 +46,15 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="RECORD")
-public class RecordEntity extends BaseEntity implements Serializable {
+public class RecordEntity extends AbstractRecordEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     private ObservationCategory category;
-    
-    private Long startTime;
-    private Long endTime;
-    
+
     @ManyToOne
     private ObservationEntity observation;
     
-    private String comment;
     // Not used in version 1.0
     private File voiceComment;
 
@@ -77,29 +74,7 @@ public class RecordEntity extends BaseEntity implements Serializable {
         this.category = category;
     }
 
-    public Long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Long startTime) {
-        this.startTime = startTime;
-    }
-
-    public Long getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Long endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+  
 
     /**
      * Not used in version 1.0.

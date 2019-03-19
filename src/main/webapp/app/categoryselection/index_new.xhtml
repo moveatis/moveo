@@ -14,13 +14,13 @@
                 <h:outputStylesheet library="css" name="categoryselection.css"/>
                 
                 <div id="container">
-                    <h:panelGroup layout="block" rendered="#{empty categorySelectionBean.eventGroup}">
+                    <h:panelGroup layout="block" rendered="#{empty feedbackAnalysisCategorySelectionBean.eventGroup}">
                         <h1>#{msg.cs_heading}</h1>
                     </h:panelGroup>
-                    <h:panelGroup layout="block" rendered="#{not empty categorySelectionBean.eventGroup}">
+                    <h:panelGroup layout="block" rendered="#{not empty feedbackAnalysisCategorySelectionBean.eventGroup}">
                         <h1>
                         <h:outputFormat value="#{msg.cs_headingEvent}">
-                            <f:param value="#{categorySelectionBean.eventGroup.label}"/>
+                            <f:param value="#{feedbackAnalysisCategorySelectionBean.eventGroup.label}"/>
                         </h:outputFormat>
                         </h1>
                     </h:panelGroup>
@@ -36,13 +36,13 @@
                         </p:confirmDialog>
                         
                     
-                        <h:outputText value="#{msg.cs_noCategorySetsText}" rendered="#{empty categorySelectionBean.categorySetsInUse}"/>
+                        <h:outputText value="#{msg.cs_noCategorySetsText}" rendered="#{empty feedbackAnalysisCategorySelectionBean.categorySetsInUse}"/>
                         
-                        <ui:repeat value="#{categorySelectionBean.categorySetsInUse}" var="categorySet" varStatus="status">
+                        <ui:repeat value="#{feedbackAnalysisCategorySelectionBean.categorySetsInUse}" var="categorySet" varStatus="status">
                         <h:panelGroup id="category-set" styleClass="category-set category-set-#{status.index}">
                             
                             <p:commandLink styleClass="fa fa-remove category-set-remove-button"
-                                           action="#{categorySelectionBean.removeCategorySet(categorySet)}" update="@form">
+                                           action="#{feedbackAnalysisCategorySelectionBean.removeCategorySet(categorySet)}" update="@form">
                                 <p:confirm header="#{msg.dialogConfirmTitle}" message="#{msg.cs_confirmRemoveCategorySet}" icon="ui-icon-alert"/>
                             </p:commandLink>
                             
@@ -54,10 +54,7 @@
                             
                             <ui:repeat value="#{categorySet.categories}" var="category">
                             <div class="category">
-                                <p:selectBooleanButton value="#{category.typeAsBoolean}"
-                                                       onLabel="#{msg.cs_countedCategory}"
-                                                       offLabel="#{msg.cs_timedCategory}"
-                                                       styleClass="category-type-button"/>
+
                                 <p:inputText value="#{category.name}" id="category-name-input" styleClass="category-text"/>
                                 <p:watermark value="#{msg.cs_categoryName}" for="category-name-input"/>
                                 <p:commandButton icon="fa fa-remove" class="category-remove-button"
@@ -73,44 +70,44 @@
                         
                         <div id="continue-div">
                             <p:commandButton value="#{msg.cs_continueToObservation}" id="continue-button"
-                                             disabled="#{categorySelectionBean.continueDisabled}"
-                                             action="#{categorySelectionBean.checkCategories}" update="@form"/>
+                                             disabled="#{feedbackAnalysisCategorySelectionBean.continueDisabled}"
+                                             action="#{feedbackAnalysisCategorySelectionBean.checkCategories}" update="@form"/>
                         </div>
                         
                         <h2>#{msg.cs_addCategorySets}</h2>
                         
                         <h:panelGroup layout="block" styleClass="category-set-list">
                             <p:outputLabel for="new-category-set" value="#{msg.cs_newCategorySet}:" styleClass="category-set-list-label"/>
-                            <p:inputText value="#{categorySelectionBean.newCategorySetName}" id="new-category-set" styleClass="category-set-list-input" />
+                            <p:inputText value="#{feedbackAnalysisCategorySelectionBean.newCategorySetName}" id="new-category-set" styleClass="category-set-list-input" />
                             <p:watermark value="#{msg.cs_categorySetName}" for="new-category-set" />
                             <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
-                                             action="#{categorySelectionBean.addNewCategorySet}" update="@form"/>
+                                             action="#{feedbackAnalysisCategorySelectionBean.addNewCategorySet}" update="@form"/>
                         </h:panelGroup>
                         
                         <h:panelGroup layout="block" styleClass="category-set-list"
-                                      rendered="#{not empty categorySelectionBean.privateCategorySets}">
+                                      rendered="#{not empty feedbackAnalysisCategorySelectionBean.privateCategorySets}">
                             <p:outputLabel for="private-category-sets" value="#{msg.cs_privateCategorySets}:"
                                            styleClass="category-set-list-label"/>
-                            <p:selectOneMenu id="private-category-sets" value="#{categorySelectionBean.selectedPrivateCategorySet}"
+                            <p:selectOneMenu id="private-category-sets" value="#{feedbackAnalysisCategorySelectionBean.selectedPrivateCategorySet}"
                                              styleClass="category-set-list-select">
-                                <f:selectItems value="#{categorySelectionBean.privateCategorySets}" var="categorySet"
+                                <f:selectItems value="#{feedbackAnalysisCategorySelectionBean.privateCategorySets}" var="categorySet"
                                                itemLabel="#{categorySet.name}" itemValue="#{categorySet.id}"/>
                             </p:selectOneMenu>
                             <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
-                                             action="#{categorySelectionBean.addPrivateCategorySet}" update="@form"/>
+                                             action="#{feedbackAnalysisCategorySelectionBean.addPrivateCategorySet}" update="@form"/>
                         </h:panelGroup>
                         
                         <h:panelGroup layout="block" styleClass="category-set-list-last"
-                                      rendered="#{not empty categorySelectionBean.defaultCategorySets}">
+                                      rendered="#{not empty feedbackAnalysisCategorySelectionBean.defaultCategorySets}">
                             <p:outputLabel for="default-category-sets" value="#{msg.cs_defaultCategorySets}:"
                                            styleClass="category-set-list-label"/>
-                            <p:selectOneMenu id="default-category-sets" value="#{categorySelectionBean.selectedDefaultCategorySet}"
+                            <p:selectOneMenu id="default-category-sets" value="#{feedbackAnalysisCategorySelectionBean.selectedDefaultCategorySet}"
                                              styleClass="category-set-list-select">
-                                <f:selectItems value="#{categorySelectionBean.defaultCategorySets}" var="categorySet"
+                                <f:selectItems value="#{feedbackAnalysisCategorySelectionBean.defaultCategorySets}" var="categorySet"
                                                itemLabel="#{categorySet.name}" itemValue="#{categorySet.id}"/>
                             </p:selectOneMenu>
                             <p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
-                                             action="#{categorySelectionBean.addDefaultCategorySet}" update="@form"/>
+                                             action="#{feedbackAnalysisCategorySelectionBean.addDefaultCategorySet}" update="@form"/>
                         </h:panelGroup>
                     </h:form>
                 </div>

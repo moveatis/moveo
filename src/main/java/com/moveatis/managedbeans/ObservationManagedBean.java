@@ -62,6 +62,8 @@ public class ObservationManagedBean implements Serializable {
     
     private ObservationEntity observationEntity;
     private List<ObservationCategorySet> categorySetsInUse;
+	private List<ObservationCategorySet> feedbackAnalysisCategorySetsInUse;
+
     private EventEntity eventEntity;
     
     @EJB
@@ -157,6 +159,23 @@ public class ObservationManagedBean implements Serializable {
         }
         this.categorySetsInUse = categorySetsInUse;
     }
+    
+
+	public void setFeedbackAnalysisCategorySetsInUse(List<ObservationCategorySet> feedbackAnalysisCategorySetsInUse) {
+		for(ObservationCategorySet observationCategorySet : feedbackAnalysisCategorySetsInUse) {
+            for(ObservationCategory observationCategory : observationCategorySet.getCategories()) {
+                if(observationCategory.getTag().equals(-1L)) {
+                    observationCategory.setTag(getNextTag());
+                }
+            }
+        }
+        this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
+		
+	}
+
+	public List<ObservationCategorySet> getFeedbackAnalysisCategorySetsInUse() {
+		return feedbackAnalysisCategorySetsInUse;
+	}
 
     public Long getNextTag() {
         return nextTag++;
@@ -222,4 +241,5 @@ public class ObservationManagedBean implements Serializable {
         observationEntity.setObservationCategorySets(new HashSet<>(getCategorySetsInUse()));
         observationEJB.edit(observationEntity);
     }
+
 }

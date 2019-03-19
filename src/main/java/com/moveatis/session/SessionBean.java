@@ -250,4 +250,14 @@ public class SessionBean implements Serializable, Session  {
     public List<ObservationCategorySet> getCategorySetsInUse() {
         return observationManagedBean.getCategorySetsInUse();
     }
+    
+    @Override
+    public void setFeedbackAnalysisCategorySetsInUse(List<ObservationCategorySet> categorySets) {
+        observationManagedBean.setFeedbackAnalysisCategorySetsInUse(categorySets);
+    }
+    
+    @Override
+    public List<ObservationCategorySet> getFeedbackAnalysisCategorySetsInUse() {
+        return observationManagedBean.getFeedbackAnalysisCategorySetsInUse();
+    }
 }

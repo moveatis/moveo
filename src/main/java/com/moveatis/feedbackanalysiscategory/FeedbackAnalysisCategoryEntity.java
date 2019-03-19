@@ -12,7 +12,6 @@ import com.moveatis.abstracts.AbstractCategorySetEntity;
 import com.moveatis.category.CategorySetEntity;
 @Table(name="FEEDBACKANALYSISCATEGORY")
 @Entity
-@NamedQuery(name="FeedbackAnalysisCategory.findByLabel", query="SELECT category FROM FeedbackAnalysisCategoryEntity category WHERE category.label = :label")
 public class FeedbackAnalysisCategoryEntity extends AbstractCategoryEntity implements Serializable{
     private static final long serialVersionUID = 1L;
     @ManyToOne

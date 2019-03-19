@@ -67,4 +67,6 @@ public interface Session {
      String getReturnUri();
      void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
      List<ObservationCategorySet> getCategorySetsInUse();
+     void setFeedbackAnalysisCategorySetsInUse(List<ObservationCategorySet> feedbackAnalysisCategorySets);
+     List<ObservationCategorySet> getFeedbackAnalysisCategorySetsInUse();
 }
