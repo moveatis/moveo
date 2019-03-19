@@ -10,7 +10,7 @@
             <ui:define name="pageTitle">#{msg.ana_title}</ui:define>
 
             <ui:define name="mainpage">
-                <script type="text/javascript">  
+           <!--     <script type="text/javascript">  
              function getCategorySets() {
                  return [
                         <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
@@ -24,40 +24,74 @@
                         
                     }   
              </script>
-                <h:outputScript library="primefaces" name="jquery/jquery.js" />
+                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
                 <h:outputScript library="js" name="analyzer.js"/>
                 
-                              
-           
-               	<div class="no-text-selected" id="content">
-              		<div id="textArea"></div>
-              		<div id="basicControls">
-              			<div id="empty" class="control-button"><span class="fa fa-empty"></span> #{msg.ana_empty}</div>
-              			<div id="new" class="control-button"><span class="fa fa-new"></span> #{msg.ana_new}</div>
-              			<div id="continue" class="control-button"><span class="fa fa-continue"></span> #{msg.ana_continue}</div>
-              		</div>
-                </div>
                 <div id="category-list"></div>
                 
-                <!--  <h:form id ="form">
-                <div class="ui-g">
+                <div id="video">
+                
+                </div>              
+           		<div id="content"> 
+           		
+           		<div id="categorySet">
+           	 	
+           	 	</div>
+           		<div id="categories">
+
+           		</div>
+           		
+               	<div id="basicContent">
+              		<div id="textArea">
+              		<p:inputTextarea />
+              		</div>
+              		<div id="basicControls">
+              			<p:commandButton id="empty" value="#{msg.ana_empty}" />
+              			<p:commandButton id="new" value="#{msg.ana_new}" />
+              			<p:commandButton id="continue" value="#{msg.ana_continue}" />
+              		</div>
+                </div>
+                </div>
+                 -->
+				<h:outputScript library="primefaces" name="jquery/jquery.js" />
+                <h:outputScript library="js" name="analyzer.js"/>
+                <h:form id ="form">
+                <div id="content">
+                <div id="index">
+                <h:panelGrid columns="5">
+                	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" />
+                	<p:commandButton value=" " id="previousAnalyze" icon="fa fa-fw fa-arrow-left" />
+                	<h:outputText value="1/1"/>
+                	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" />
+					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" />
+				</h:panelGrid>
+                </div>
+                
                 <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
-                	<div class="ui-g-1">
-                			<h:outputLabel value="#{categorySet.name}" />
-                				<div class="ui-g-2">
+                	<div id="categoryContent">
+                			<h:outputText value="#{categorySet.name}" />
+                				 <div id="buttons">
                 					<ui:repeat value="#{categorySet.categories}" var="category">
-                						<p:commandButton id="#{category.tag}" value="#{category.name}"/> 
+                						<p:selectBooleanButton value="#{category.name}" onLabel="#{category.name}" offLabel="#{category.name}"/>
                 					</ui:repeat>
                 				</div>
-                		</div>
-                	</div>    	
-                	<ui:repeat value="#{categorySet.categories}" var="category">
-                		<p:commandButton id="#{category.tag}" value="#{category.name}"/> 
-                	</ui:repeat> 
+                	</div>
                 </ui:repeat>
+                </div>
                 </h:form>
                 
-                -->
+                <div id="basicContent">
+              		<div id="textArea">
+              		<p:inputTextarea />
+              		</div>
+              		<div id="basicControls">
+              			<p:commandButton id="empty" value="#{msg.ana_empty}" />
+              			<p:commandButton id="new" value="#{msg.ana_new}" />
+              			<p:commandButton id="continue" value="#{msg.ana_continue}" />
+              		</div>
+                </div>
+                
+               
             </ui:define>
             
        </ui:composition>

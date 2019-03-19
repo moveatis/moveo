@@ -7,52 +7,57 @@
 //var msg = getMessages();
 
 $(document).ready(function() {
-	var category_sets = getCategorySets();
+	//var category_sets = getCategorySets();
 	var analyzer = new Analyzer(category_sets);
 });
 
 function Analyzer(category_sets){
 	//this.categories = [];
+	//initialize(this);
 	
-	initialize(this);
 	
-	function initialize(this_){
-		var div = $(document.getElementById("textArea"));
-		var input = $(document.createElement("textarea"));
-		var button = $(document.createElement("button"));
-		input.name = "post";
-		input.maxLength = "5000";
-		input.cols = "580";
-		input.rows = "40";
-		button.setAttribute = ('value', 'dumbledore');
-		div.append(input);
-		div.append(button);
-		var categories = document.createElement("input");
-		categories.type = "text";
-		categories.value = category_sets;
-		console.log(categories);
-		div.append(categories);
-				
-		var category_list = $(document.getElementById("category-list"));  
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* function initialize(this_){
+		var divCategorySet= document.getElementById("categorySet");
+		var divCategories= document.getElementById("categories");
+		
 		for (var i = 0; i < category_sets.length; i++) {
         	
             var set = category_sets[i];
-            
-            if (set.categories.length > 0) {
-                
-            	var category_set = $(document.createElement("ul"));
-            	category_set.attr("id", set.name);
-            	category_set.addClass("category-set");
-                //category_set.append(set.name);
-                //category_list.append(category);
-                //category_list.append(category_set);
-                
+            var setElement= document.createElement("LABEL");
+    		setElement.innerHTML = set.name;
+    		setElement.id = set.name;
+            divCategorySet.append(setElement);
+            //var divCategoryButtons = document.createElement("selectManyButton");
+            //divCategories.Append(divCategoryButtons);    
+           if (set.categories.length > 0) {               
+            	
                 for (var j = 0; j < set.categories.length; j++) {
                     var cat = set.categories[j];
-                    var catElement = $(document.createElement("li"));
-                    catElement.append(document.createTextNode(cat.name));
-                    
+                    //var catElement = document.createElement("selectItem");
+                    //catElement.itemLabel = cat.name;
+                    //catElement.itemValue = cat.name;
+                    //divCategoryButtons.append(catElement);
+                    var catElement = document.createElement("BUTTON");
+                    catElement.innerHTML = cat.name;
+                    divCategories.append(catElement);
                 }
                 
                 
@@ -60,7 +65,7 @@ function Analyzer(category_sets){
         }
         
 //        $(".category-item").addClass("disabled");
-    }
+    } */
     
 	
 }
