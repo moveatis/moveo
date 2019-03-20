@@ -31,7 +31,7 @@ import com.moveatis.user.IdentifiedUserEntity;
 
 public abstract class AbstractCategorySelectionManagedBean {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CategorySelectionManagedBean.class);
-	private static final long serialVersionUID = 1L;
+
 	
 	private String newCategorySetName;
 	
@@ -42,12 +42,6 @@ public abstract class AbstractCategorySelectionManagedBean {
 	protected ObservationCategorySetList privateCategorySets;
 	protected ObservationCategorySetList categorySetsInUse;
 	
-
-
-
-
-
-
 	
 	protected EventGroupEntity eventGroup;
 	
@@ -55,12 +49,11 @@ public abstract class AbstractCategorySelectionManagedBean {
 	protected Session sessionBean;
 	@Inject
 	protected EventGroup eventGroupEJB;
-	@Inject
-	protected ObservationManagedBean observationManagedBean;
 
 	// TODO: Messages aren't updated to match language selection. Get ResourceBundle some other way?
 	@Inject @MessageBundle //created MessageBundle to allow resourcebundle injection to CDI beans
-	private transient ResourceBundle messages;  //RequestBundle is not serializable 
+	protected
+	transient ResourceBundle messages;  //RequestBundle is not serializable 
 	
 	private Long addedCategorySetTag = 0L;
 	
@@ -206,62 +199,19 @@ public abstract class AbstractCategorySelectionManagedBean {
      * Shows given error message in primefaces message popup.
      * @param message Error message to show.
      */
-    private void showErrorMessage(String message) {
+    protected void showErrorMessage(String message) {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
     }
     
-    /**
-     * Checks the categories in use before letting the user continue to observation.
-     * The categories in the same category set should have different names.
-     * The categories shouldn't have empty names.
-     * At least one category should be selected for the observation.
-     * It shows an error message if the categories aren't ok.
-     * @return "categoriesok" if the categories were ok, otherwise an empty string.
-     */
-    public String checkCategories() {
-        boolean atLeastOneCategorySelected = false;
-        
-        for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
-            
-            List<ObservationCategory> categories = categorySet.getCategories();
-            
-            if(hasDuplicate(categories)) {
-                showErrorMessage(messages.getString("cs_errorNotUniqueCategories"));
-                return "";
-            }
-            
-            if (!categories.isEmpty()) {
-                atLeastOneCategorySelected = true;
-            } else {
-                showErrorMessage(messages.getString("cs_warningEmptyCategorySets"));
-                return ""; // TODO: Show confirmation or something and let user continue.
-            }
-            
-            for (ObservationCategory category : categories) {
-                
-                if (category.getName().isEmpty()) {
-                    showErrorMessage(messages.getString("cs_warningEmptyCategories"));
-                    return ""; // TODO: Show confirmation or something and let user continue.
-                }
-            }
-        }
-        
-        if (!atLeastOneCategorySelected) {
-            showErrorMessage(messages.getString("cs_errorNoneSelected"));
-            return "";
-        }
 
-        observationManagedBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
-        return "categoriesok";
-    }
     
     /**
      * Checks if given categories contain duplicate names.
      * @param categories List of categories to check.
      * @return True if categories contain duplicates, otherwise false.
      */
-    private static boolean hasDuplicate(List<ObservationCategory> categories) {
+    protected static boolean hasDuplicate(List<ObservationCategory> categories) {
         Set<String> set = new HashSet<>();
         for (ObservationCategory category : categories) {
             String name = category.getName();

@@ -1,78 +1,52 @@
-/* 
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     1. Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *
- *     2. Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *
- *     3. Neither the name of the copyright holder nor the names of its 
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 package com.moveatis.managedbeans;
-import com.moveatis.event.EventEntity;
-import com.moveatis.interfaces.Observation;
-import com.moveatis.interfaces.Session;
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.observation.ObservationEntity;
-import com.moveatis.records.RecordEntity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * The bean is used to manage observations in the appropriate views.
- * @author Sami Kallio <phinaliumz at outlook.com>
- */
-@Named(value = "observationBean")
+import com.moveatis.event.EventEntity;
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.interfaces.FeedbackAnalyzation;
+import com.moveatis.interfaces.Observation;
+import com.moveatis.interfaces.Session;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
+import com.moveatis.observation.ObservationEntity;
+import com.moveatis.records.FeedbackAnalysisRecordEntity;
+import com.moveatis.records.RecordEntity;
+
+@Named(value = "feedbackAnalyzationManagedBean")
 @SessionScoped
-public class ObservationManagedBean implements Serializable {
-    
+public class FeedbackAnalyzationManagedBean implements Serializable{
+	 
     private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagedBean.class);
     
     private static final long serialVersionUID = 1L;
     
-    private ObservationEntity observationEntity;
-    private List<ObservationCategorySet> categorySetsInUse;
+    private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
+    private List<ObservationCategorySet> feedbackAnalysisCategorySetsInUse;
     private EventEntity eventEntity;
     
     @EJB
-    private Observation observationEJB;
+    private FeedbackAnalyzation feedbackAnalyzationEJB;
     @Inject
     private Session sessionBean;
     
     // Tag is used to identify the observationcategories within a observation
     private Long nextTag;
 
-    public ObservationManagedBean() {
+    public FeedbackAnalyzationManagedBean() {
         
     }
     
@@ -87,15 +61,15 @@ public class ObservationManagedBean implements Serializable {
      */
     @PreDestroy
     public void destroy() {
-        if(observationEntity != null) {
-            if(!observationEntity.getUserWantsToSaveToDatabase()) {
-                observationEJB.removeUnsavedObservation(observationEntity);
+        if(feedbackAnalyzationEntity != null) {
+            if(!feedbackAnalyzationEntity.getUserWantsToSaveToDatabase()) {
+                feedbackAnalyzationEJB.removeUnsavedObservation(feedbackAnalyzationEntity);
             }
         }
     }
     
     public void resetCategorySetsInUse() {
-        this.categorySetsInUse = null;
+        this.feedbackAnalysisCategorySetsInUse = null;
     }
     
     public void setEventEntity(EventEntity eventEntity) {
@@ -111,36 +85,36 @@ public class ObservationManagedBean implements Serializable {
      * observation.
      */
     public void startObservation() {
-        this.observationEntity = new ObservationEntity();
+        this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
         // Can we use created time for observation start time?
-        this.observationEntity.setCreated();
-        this.observationEntity.setEvent(eventEntity);
+        this.feedbackAnalyzationEntity.setCreated();
+        this.feedbackAnalyzationEntity.setEvent(eventEntity);
         // Summary view doesn't break if no records are added.
         // TODO: Should observer not let user continue, if there are no records?
-        if(observationEntity.getRecords() == null) {
-            observationEntity.setRecords(new ArrayList<RecordEntity>());
+        if(feedbackAnalyzationEntity.getRecords() == null) {
+            feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
         }
     }
 
     /**
      * Returns the current observation entity.
      */
-    public ObservationEntity getObservationEntity() {
-        return observationEntity;
+    public FeedbackAnalyzationEntity getObservationEntity() {
+        return feedbackAnalyzationEntity;
     }
 
     /**
      * Sets the current observation entity.
      */
-    public void setObservationEntity(ObservationEntity observationEntity) {
-        this.observationEntity = observationEntity;
+    public void setObservationEntity(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
+        this.feedbackAnalyzationEntity = feedbackAnalyzationEntity;
     }
 
     /**
      * Gets the observation categories to be used in the observation.
      */
     public List<ObservationCategorySet> getCategorySetsInUse() {
-        return categorySetsInUse;
+        return feedbackAnalysisCategorySetsInUse;
     }
 
     /**
@@ -155,7 +129,7 @@ public class ObservationManagedBean implements Serializable {
                 }
             }
         }
-        this.categorySetsInUse = categorySetsInUse;
+        this.feedbackAnalysisCategorySetsInUse = categorySetsInUse;
     }
 
     public Long getNextTag() {
@@ -163,28 +137,27 @@ public class ObservationManagedBean implements Serializable {
     }
     
     public void setObservationName(String name) {
-        this.observationEntity.setName(name);
+        this.feedbackAnalyzationEntity.setName(name);
     }
     
     public void setObservationDuration(long duration) {
-        this.observationEntity.setDuration(duration);
+        this.feedbackAnalyzationEntity.setDuration(duration);
     }
     
     /**
      * Adds a record to the observation.
      * @param record The record to be added to the observation.
      */
-    public void addRecord(RecordEntity record) {
-        List<RecordEntity> records = observationEntity.getRecords();
-        record.setObservation(observationEntity);
-        record.setVoiceComment(null);
+    public void addRecord(FeedbackAnalysisRecordEntity record) {
+        List<FeedbackAnalysisRecordEntity> records = feedbackAnalyzationEntity.getRecords();
+        record.setFeedbackAnalyzation(feedbackAnalyzationEntity);
         
         if(records == null) {
             records = new ArrayList<>();
         }
         
         records.add(record);
-        observationEntity.setRecords(records);
+        feedbackAnalyzationEntity.setRecords(records);
     }
     
     /**
@@ -192,7 +165,7 @@ public class ObservationManagedBean implements Serializable {
      */
     public void saveObservation() {
         if (sessionBean.isIdentifiedUser()) {
-            observationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
+            feedbackAnalyzationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
         }
         /*
         NOTE:   GroupKey couldn't be removed if there were observations whose
@@ -210,16 +183,15 @@ public class ObservationManagedBean implements Serializable {
         * "userWantsToSaveToDatabase was added. This flag is true if user wants to save
         * the observation to database. If its false, we need remove this observation later.
         */
-        observationEntity.setUserWantsToSaveToDatabase(false); 
-        observationEJB.create(observationEntity);
+        feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(false); 
+        feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
     }
     
     /**
      * The method saves the observation to the database.
      */
     public void saveObservationToDatabase() {
-        observationEntity.setUserWantsToSaveToDatabase(true);
-        observationEntity.setObservationCategorySets(new HashSet<>(getCategorySetsInUse()));
-        observationEJB.edit(observationEntity);
+        feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
+        feedbackAnalyzationEJB.edit(feedbackAnalyzationEntity);
     }
 }

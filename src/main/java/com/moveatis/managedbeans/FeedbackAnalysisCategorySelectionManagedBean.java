@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
@@ -15,6 +16,7 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
+import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
@@ -23,7 +25,15 @@ import com.moveatis.user.IdentifiedUserEntity;
 @ViewScoped
 public class FeedbackAnalysisCategorySelectionManagedBean extends AbstractCategorySelectionManagedBean implements Serializable{
 	
-	 @Override
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Inject
+	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+
+
+	@Override
 	 protected void addAllCategorySetsFromEventGroup(ObservationCategorySetList addTo, EventGroupEntity eventGroup) {
 		        
 		        Set<FeedbackAnalysisCategorySetEntity> categorySets = eventGroup.getFeedbackAnalysisCategorySets();
@@ -34,7 +44,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean extends AbstractCatego
 		            ObservationCategorySet categorySet = new ObservationCategorySet(categorySetEntity.getId(), categorySetEntity.getLabel());
 		            Map<Integer, AbstractCategoryEntity> categories = categorySetEntity.getCategoryEntitys();
 		            for (AbstractCategoryEntity category : categories.values()) {
-		                categorySet.add(observationManagedBean.getNextTag(), category.getLabel().getText());
+		                categorySet.add(feedbackAnalyzationManagedBean.getNextTag(), category.getLabel().getText());
 		            }
 		            
 		            addTo.add(categorySet);
@@ -63,8 +73,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean extends AbstractCatego
 		        categorySetsInUse   = new ObservationCategorySetList();
 		        
 
-		        if (observationManagedBean.getEventEntity() != null) {
-		            EventEntity event = observationManagedBean.getEventEntity();
+		        if (feedbackAnalyzationManagedBean.getEventEntity() != null) {
+		            EventEntity event = feedbackAnalyzationManagedBean.getEventEntity();
 		            eventGroup = event.getEventGroup();
 		            addAllCategorySetsFromEventGroup(defaultCategorySets, eventGroup);
 		        }
@@ -81,5 +91,42 @@ public class FeedbackAnalysisCategorySelectionManagedBean extends AbstractCatego
 		                categorySetsInUse.addClone(categorySet);
 		            }
 		        }
+		    }
+		    
+		    public String checkCategories() {
+		        boolean atLeastOneCategorySelected = false;
+		        
+		        for (ObservationCategorySet categorySet : categorySetsInUse.getCategorySets()) {
+		            
+		            List<ObservationCategory> categories = categorySet.getCategories();
+		            
+		            if(hasDuplicate(categories)) {
+		                showErrorMessage(messages.getString("cs_errorNotUniqueCategories"));
+		                return "";
+		            }
+		            
+		            if (!categories.isEmpty()) {
+		                atLeastOneCategorySelected = true;
+		            } else {
+		                showErrorMessage(messages.getString("cs_warningEmptyCategorySets"));
+		                return ""; // TODO: Show confirmation or something and let user continue.
+		            }
+		            
+		            for (ObservationCategory category : categories) {
+		                
+		                if (category.getName().isEmpty()) {
+		                    showErrorMessage(messages.getString("cs_warningEmptyCategories"));
+		                    return ""; // TODO: Show confirmation or something and let user continue.
+		                }
+		            }
+		        }
+		        
+		        if (!atLeastOneCategorySelected) {
+		            showErrorMessage(messages.getString("cs_errorNoneSelected"));
+		            return "";
+		        }
+
+		        feedbackAnalyzationManagedBean.setCategorySetsInUse(categorySetsInUse.getCategorySets());
+		        return "categoriesok";
 		    }
 }
