@@ -55,6 +55,8 @@
                  -->
 				<h:outputScript library="primefaces" name="jquery/jquery.js" />
                 <h:outputScript library="js" name="analyzer.js"/>
+				<h:outputStylesheet library="css" name="analyzer.css"/>
+                
                 <h:form id ="form">
                 <div id="content">
                 <div id="index">
@@ -66,7 +68,7 @@
 					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" />
 				</h:panelGrid>
                 </div>
-                
+                 <div id="categories">
                 <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
                 	<div id="categoryContent">
                 			<h:outputText value="#{categorySet.name}" />
@@ -77,6 +79,7 @@
                 				</div>
                 	</div>
                 </ui:repeat>
+                </div>
                 </div>
                 </h:form>
                 
