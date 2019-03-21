@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml">
@@ -71,7 +72,9 @@
                  <div id="categories">
                 <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
                 	<div id="categoryContent">
+                	<div id="texts">
                 			<h:outputText value="#{categorySet.name}" />
+                			</div>
                 				 <div id="buttons">
                 					<ui:repeat value="#{categorySet.categories}" var="category">
                 						<p:selectBooleanButton value="#{category.name}" onLabel="#{category.name}" offLabel="#{category.name}"/>
@@ -85,7 +88,7 @@
                 
                 <div id="basicContent">
               		<div id="textArea">
-              		<p:inputTextarea />
+              		<p:inputTextarea pt:placeholder="Watermark here"/>
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />

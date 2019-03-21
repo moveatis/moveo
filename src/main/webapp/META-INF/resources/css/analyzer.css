@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@
 */
 
 body {
+
 	text-align: center;
 
 	    /* Disable text selection.
@@ -61,7 +62,15 @@ body {
 }
 
 #buttons {
-	display: inline;
+	display:inline-block;
+	margin right: 0;
+	margin left: auto;
+	width: 74%;
+}
+
+#texts {
+	display:inline-block;	
+	width: 25%;
 }
 
 #content {
@@ -133,3 +142,26 @@ label {
     border-radius: 1vh;
 
     }
+
+.ui-button {    
+	display: inline-block;
+    border: none;
+    text-shadow: none;
+    margin: 0 0.2em;
+    padding: 0.2em 0;
+    background-color: #567;
+    background: linear-gradient(0deg, #345, #567);
+    cursor: pointer;
+    color: white;
+    box-shadow:none;
+}
+
+.ui-button.ui-state-active {
+	background: #ff6600;
+}
+
+#categoryContent {
+	margin-bottom: 10px;
+	text-align: left;
+	padding-left: 2vh;
+}
