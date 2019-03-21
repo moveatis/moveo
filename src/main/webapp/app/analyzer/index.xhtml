@@ -61,7 +61,7 @@
                 <h:panelGrid columns="5">
                 	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" />
                 	<p:commandButton value=" " id="previousAnalyze" icon="fa fa-fw fa-arrow-left" />
-                	<h:outputText value="1/1"/>
+                	<h:outputText value="1" id="currentAnalyze"/>
                 	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" />
 					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" />
 				</h:panelGrid>
@@ -72,7 +72,7 @@
                 			<h:outputText value="#{categorySet.name}" />
                 				 <div id="buttons">
                 					<ui:repeat value="#{categorySet.categories}" var="category">
-                						<p:selectBooleanButton value="#{category.name}" onLabel="#{category.name}" offLabel="#{category.name}"/>
+                						<p:selectBooleanButton onLabel="#{category.name}" offLabel="#{category.name}"  valueChangeListener="changeValue()"/>
                 					</ui:repeat>
                 				</div>
                 	</div>
@@ -86,7 +86,7 @@
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-              			<p:commandButton id="new" value="#{msg.ana_new}" />
+              			<p:commandButton id="new" value="#{msg.ana_new}" action="#{analyzer.newAnalyzeEvent}"/>
               			<p:commandButton id="continue" value="#{msg.ana_continue}" />
               		</div>
                 </div>
