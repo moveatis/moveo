@@ -14,6 +14,8 @@ public class FeedbackAnalysisRecordSelectedCategory implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ObservationCategory selectedCategory;
+	private ObservationCategorySet categoryset;
+	
 	public ObservationCategory getSelectedCategory() {
 		return selectedCategory;
 	}
@@ -26,6 +28,5 @@ public class FeedbackAnalysisRecordSelectedCategory implements Serializable {
 	public void setCategoryset(ObservationCategorySet categoryset) {
 		this.categoryset = categoryset;
 	}
-	private ObservationCategorySet categoryset;
 
 }

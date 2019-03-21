@@ -29,12 +29,14 @@
  */
 package com.moveatis.interfaces;
 
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import javax.ejb.Local;
@@ -67,6 +69,6 @@ public interface Session {
      String getReturnUri();
      void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
      List<ObservationCategorySet> getCategorySetsInUse();
-     void setFeedbackAnalysisCategorySetsInUse(List<ObservationCategorySet> feedbackAnalysisCategorySets);
-     List<ObservationCategorySet> getFeedbackAnalysisCategorySetsInUse();
+     void setFeedbackAnalysisCategorySetsInUse(Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets);
+     Set<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse();
 }

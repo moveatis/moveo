@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.moveatis.event.EventEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.interfaces.Observation;
@@ -35,7 +37,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
-    private List<ObservationCategorySet> feedbackAnalysisCategorySetsInUse;
+    private Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
     private EventEntity eventEntity;
     
     @EJB
@@ -113,22 +115,16 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     /**
      * Gets the observation categories to be used in the observation.
      */
-    public List<ObservationCategorySet> getCategorySetsInUse() {
+    public Set<FeedbackAnalysisCategorySetEntity> getCategorySetsInUse() {
         return feedbackAnalysisCategorySetsInUse;
     }
 
     /**
      * Sets the observation categories to be used in the observation.
      */
-    public void setCategorySetsInUse(List<ObservationCategorySet> categorySetsInUse) {
+    public void setCategorySetsInUse(Set<FeedbackAnalysisCategorySetEntity> categorySetsInUse) {
         
-        for(ObservationCategorySet observationCategorySet : categorySetsInUse) {
-            for(ObservationCategory observationCategory : observationCategorySet.getCategories()) {
-                if(observationCategory.getTag().equals(-1L)) {
-                    observationCategory.setTag(getNextTag());
-                }
-            }
-        }
+
         this.feedbackAnalysisCategorySetsInUse = categorySetsInUse;
     }
 
