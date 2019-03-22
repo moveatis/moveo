@@ -39,7 +39,7 @@ import com.moveatis.records.RecordEntity;
 public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
 
 
-    @OneToMany(mappedBy = "FeedbackAnalyzation", fetch = FetchType.LAZY, cascade = ALL)
+    @OneToMany(mappedBy = "feedbackAnalyzation", fetch = FetchType.LAZY, cascade = ALL)
     private List<FeedbackAnalysisRecordEntity> records;
 
     

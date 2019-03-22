@@ -17,12 +17,13 @@ import com.moveatis.observation.ObservationCategorySet;
 @Table(name="FEEDBACKANALYSISRECORD")
 public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	@ManyToOne
-	private FeedbackAnalyzationEntity FeedbackAnalyzation;
+	private FeedbackAnalyzationEntity feedbackAnalyzation;
+    private Set<FeedbackAnalysisRecordSelectedCategory> SelectedCategories;
     public FeedbackAnalyzationEntity getFeedbackAnalyzation() {
-		return FeedbackAnalyzation;
+		return feedbackAnalyzation;
 	}
 	public void setFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation) {
-		FeedbackAnalyzation = feedbackAnalyzation;
+		this.feedbackAnalyzation = feedbackAnalyzation;
 	}
 	public Set<FeedbackAnalysisRecordSelectedCategory> getSelectedCategories() {
 		return SelectedCategories;
@@ -30,6 +31,4 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	public void setSelectedCategories(Set<FeedbackAnalysisRecordSelectedCategory> selectedCategories) {
 		SelectedCategories = selectedCategories;
 	}
-	@ElementCollection(fetch = FetchType.LAZY)
-    private Set<FeedbackAnalysisRecordSelectedCategory> SelectedCategories;
 }
