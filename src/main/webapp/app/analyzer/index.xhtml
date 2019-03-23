@@ -64,40 +64,40 @@
                 <h:panelGrid columns="5">
                 	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" />
                 	<p:commandButton value=" " id="previousAnalyze" icon="fa fa-fw fa-arrow-left" />
-                	<h:outputText value="1/1"/>
+                	<h:outputText value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}"/>
                 	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" />
 					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" />
 				</h:panelGrid>
                 </div>
                  <div id="categories">
-                <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
+                <ui:repeat value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}" var="categorySet">
                 	<div id="categoryContent">
                 	<div id="texts">
-                			<h:outputText value="#{categorySet.name}" />
+                			<h:outputText value="#{categorySet.label}" />
                 			</div>
                 				 <div id="buttons">
-                					<ui:repeat value="#{categorySet.categories}" var="category">
-                						<p:selectBooleanButton value="#{category.name}" onLabel="#{category.name}" offLabel="#{category.name}"/>
+                					<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
+                						<p:selectBooleanButton onchange="#{feedbackAnalyzationManagedBean.setSelected(category)}" onLabel="#{category.label.text}" offLabel="#{category.label.text}"/>
                 					</ui:repeat>
                 				</div>
                 	</div>
                 </ui:repeat>
                 </div>
-                </div>
-                </h:form>
-                
+                </div>            
                 <div id="basicContent">
               		<div id="textArea">
               		<p:inputTextarea pt:placeholder="Watermark here"/>
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-              			<p:commandButton id="new" value="#{msg.ana_new}" />
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" />
+              			<p:commandButton id="new" value="#{msg.ana_new}" action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form"/>
+              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.saveFeedbackAnalyzation()}" />
               		</div>
                 </div>
                 
                
+                </h:form>
+    
             </ui:define>
             
        </ui:composition>

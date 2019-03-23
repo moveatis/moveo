@@ -1,10 +1,13 @@
 package com.moveatis.managedbeans;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -16,9 +19,13 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.event.EventEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.interfaces.Category;
+import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
@@ -35,18 +42,43 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagedBean.class);
     
     private static final long serialVersionUID = 1L;
-    
     private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
     private Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
-    private EventEntity eventEntity;
+    private List<FeedbackAnalysisCategoryEntity> selectedCategories;
+
+    private int numberOfRecords;
+    private int currentRecordNumber;
+    
+    
+
+	public List<FeedbackAnalysisCategoryEntity> getSelectedCategories() {
+		return selectedCategories;
+	}
+
+	public void setSelectedCategories(List<FeedbackAnalysisCategoryEntity> selectedCategories) {
+		this.selectedCategories = selectedCategories;
+	}
+
+	public Boolean isSelected(FeedbackAnalysisCategoryEntity category) {
+		return selectedCategories.contains(category);
+	}
+    public Set<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+		return feedbackAnalysisCategorySetsInUse;
+	}
+
+	public void setFeedbackAnalysisCategorySetsInUse(
+			Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
+		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
+	}
+
+	private EventEntity eventEntity;
     
     @EJB
     private FeedbackAnalyzation feedbackAnalyzationEJB;
     @Inject
     private Session sessionBean;
-    
-    // Tag is used to identify the observationcategories within a observation
-    private Long nextTag;
+
+
 
     public FeedbackAnalyzationManagedBean() {
         
@@ -54,7 +86,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     
     @PostConstruct
     public void init() {
-        nextTag = 0L;
+    	setCurrentRecordNumber(1);
+    	setNumberOfRecords(1);
+    	selectedCategories=new ArrayList<FeedbackAnalysisCategoryEntity>();
+    	startObservation();
     }
     
     /**
@@ -82,6 +117,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
         return this.eventEntity;
     }
     
+
+    
     /**
      * Creates a new observation entity and initializes it to be used in a new
      * observation.
@@ -98,6 +135,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
         }
     }
 
+    public void setSelected(FeedbackAnalysisCategoryEntity category) {
+    	if(selectedCategories.contains(category)) selectedCategories.remove(category);
+    	else selectedCategories.add(category);
+   }
     /**
      * Returns the current observation entity.
      */
@@ -128,9 +169,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
         this.feedbackAnalysisCategorySetsInUse = categorySetsInUse;
     }
 
-    public Long getNextTag() {
-        return nextTag++;
-    }
+
     
     public void setObservationName(String name) {
         this.feedbackAnalyzationEntity.setName(name);
@@ -144,17 +183,24 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
      * Adds a record to the observation.
      * @param record The record to be added to the observation.
      */
-    public void addRecord(FeedbackAnalysisRecordEntity record) {
-        List<FeedbackAnalysisRecordEntity> records = feedbackAnalyzationEntity.getRecords();
+    public void addRecord() {
+    	FeedbackAnalysisRecordEntity record=new FeedbackAnalysisRecordEntity();
+    	if(feedbackAnalyzationEntity==null)feedbackAnalyzationEntity=new FeedbackAnalyzationEntity();
+    	List<FeedbackAnalysisRecordEntity> records = feedbackAnalyzationEntity.getRecords();
         record.setFeedbackAnalyzation(feedbackAnalyzationEntity);
         
         if(records == null) {
             records = new ArrayList<>();
         }
+        record.setSelectedCategories(selectedCategories);
         
         records.add(record);
         feedbackAnalyzationEntity.setRecords(records);
+        selectedCategories=new ArrayList<FeedbackAnalysisCategoryEntity>();
+        setNumberOfRecords(getNumberOfRecords() + 1);
+        setCurrentRecordNumber(getCurrentRecordNumber() + 1);
     }
+ 
     
     /**
      * The method is called from REST API to save the records to the observation.
@@ -186,8 +232,24 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     /**
      * The method saves the observation to the database.
      */
-    public void saveObservationToDatabase() {
+    public void saveFeedbackAnalyzation() {
         feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
-        feedbackAnalyzationEJB.edit(feedbackAnalyzationEntity);
+        feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
     }
+
+	public int getNumberOfRecords() {
+		return numberOfRecords;
+	}
+
+	public void setNumberOfRecords(int numberOfRecords) {
+		this.numberOfRecords = numberOfRecords;
+	}
+
+	public int getCurrentRecordNumber() {
+		return currentRecordNumber;
+	}
+
+	public void setCurrentRecordNumber(int currentRecordNumber) {
+		this.currentRecordNumber = currentRecordNumber;
+	}
 }

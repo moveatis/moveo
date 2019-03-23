@@ -81,11 +81,11 @@ public abstract class BaseEntity {
         return this.removed;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return id;
     }
 
-    protected void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     

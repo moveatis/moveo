@@ -82,6 +82,31 @@
                                 </li>
                             </ul>
                         </p:column>
+                        <p:column headerText="#{msg.con_feedbackAnalysisCategorySets}" styleClass="column-category-groups">
+                            <h:outputText rendered="#{eventGroup.feedbackAnalysisCategorySets.size() == 0}" value=""/>
+                            <ul class="list-categorysets">
+                                <ui:repeat value="#{eventGroup.feedbackAnalysisCategorySets.toArray()}" var="feedbackAnalysisCategorySet">
+                                    <li>
+                                        <p:commandLink value="#{feedbackAnalysisCategorySet.label}" title="#{feedbackAnalysisCategorySet.description}"
+                                                       action="#{controlBean.setSelectedCategorySet(feedbackAnalysisCategorySet)}"
+                                                       onclick="PF('dlgFeedbackAnalysisCategorySet').show()" styleClass="link-categoryset"
+                                                       update=":feedbackAnalysisCategorySetForm :eventGroupsForm:eventGroupsTable :startObservationForm">
+                                         
+                                            <f:actionListener binding="#{controlBean.setSelectedEventGroup(eventGroup)}"/>
+                                        </p:commandLink>
+                                    </li>
+                                </ui:repeat>
+                                <li>
+                                    <p:commandLink styleClass="fa fa-plus link-new-categoryset link-categoryset"
+                                                   action="#{controlBean.setSelectedEventGroup(eventGroup)}"
+                                                   oncomplete="PF('dlgFeedbackAnalysisCategorySet').show()"
+                                                   update=":feedbackAnalysisCategorySetForm :eventGroupsForm:eventGroupsTable">
+                                        <span>#{msg.dlg_add}</span>
+                                        <f:actionListener binding="#{controlBean.addNewFeedbackAnalysisCategorySet()}" />
+                                    </p:commandLink>
+                                </li>
+                            </ul>
+                        </p:column>
 
                         <p:column headerText="#{msg.con_key}" styleClass="column-group-keys">
                             <p:commandLink styleClass="fa fa-key new-key"
@@ -326,7 +351,6 @@
                                              validator="#{validationBean.validateLongString}"
                                              rows="2" cols="16" autoResize="true" />
                         </div>
-
                         <p:dataTable id="categoriesTable" var="category" value="#{controlBean.categories}"
                                      selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
                                      editable="true" editMode="row" reflow="true" draggableRows="false" styleClass="categories-table"
@@ -370,6 +394,7 @@
                             </p:column>
 
                         </p:dataTable>
+                        
                         <div class="categorySetCommandButtons">
                             <p:commandButton value="#{msg.con_addCategory}" icon="fa fa-plus"
                                              action="#{controlBean.addNewCategory}"
@@ -405,7 +430,91 @@
                         </div>
                     </h:form>
                 </p:dialog>
+  				<p:dialog header="#{msg.con_categorySetDetails}" widgetVar="dlgFeedbackAnalysisCategorySet"
+                          position="top" resizable="false" responsive="true"
+                          modal="true" fitViewport="true" class="coloredDialog">
+                    <h:form id="feedbackAnalysisCategorySetForm">
+                        <div class="ui-fluid">
+                            <h:outputLabel for="input-name-feedbackanalysiscategoryset" value="#{msg.con_categorySetDetailsName}" />
+                            <p:message for="input-name-feedbackanalysiscategoryset" />
+                            <p:inputText id="input-name-feedbackanalysiscategoryset" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                         value="#{controlBean.selectedCategorySet.label}"
+                                         validator="#{validationBean.validateShortString}"/>
 
+                            <h:outputLabel for="input-description-feedbackanalysiscategoryset" value="#{msg.con_categorySetDetailsDescription}" />
+                            <p:message for="input-description-feedbackanalysiscategoryset" />
+                            <p:inputTextarea id="input-description-feedbackanalysiscategoryset"
+                                             value="#{controlBean.selectedCategorySet.description}"
+                                             validator="#{validationBean.validateLongString}"
+                                             rows="2" cols="16" autoResize="true" />
+                        </div>
+                        <p:dataTable id="feedbackAnalysisCategoriesTable" var="category" value="#{controlBean.categories}"
+                                     selectionMode="single" selection="#{controlBean.selectedCategory}" rowKey="#{category.orderNumber}"
+                                     editable="true" editMode="row" reflow="true" draggableRows="false" styleClass="feedback-analysis-categories-table"
+                                     sortBy="#{category.orderNumber}" emptyMessage="#{msg.con_emptyMessageCategories}"
+                                     lazy="true">
+
+                            <p:ajax event="rowSelect" update=":feedbackAnalysisCategorySetForm:categoryRemoveButton"/>
+                            <p:ajax event="rowUnselect" update=":feedbackAnalysisCategorySetForm:categoryRemoveButton"/>
+                            <p:ajax event="rowReorder" listener="#{controlBean.onCategoryReorder}" />
+
+                            <p:message for="input-name-category" />
+                            <p:column headerText="#{msg.con_categorySetDetailsCategory}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText class="output-name" value="#{category.label.text}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="input-name-feedbackanalysiscategory"
+                                                     required="true" requiredMessage="#{msg.dlg_notEmpty}"
+                                                     value="#{category.label.text}"
+                                                     validator="#{validationBean.validateShortString}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                        
+                            <p:column styleClass="row-editor">
+                                <p:rowEditor styleClass="fa"
+                                             editTitle="#{msg.con_editCategory}"
+                                             saveTitle="#{msg.dlg_save}"
+                                             cancelTitle="#{msg.dlg_cancel}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        
+                        <div class="categorySetCommandButtons">
+                            <p:commandButton value="#{msg.con_addCategory}" icon="fa fa-plus"
+                                             action="#{controlBean.addNewFeedbackAnalysisCategory}"
+                                             onclick="submitDataTableEditInputs('.feedback-analysis-categories-table')"
+                                             oncomplete="focusDataTableEditInput('.feedback-analysis-categories-table');"
+                                             update="feedbackAnalysisCategoriesTable" validateClient="true"/>
+                            <p:commandButton value="#{msg.con_removeCategory}" icon="fa fa-minus"
+                                             id="categoryRemoveButton"
+                                             action="#{controlBean.removeCategory}"
+                                             update="feedbackAnalysisCategoriesTable"
+                                             disabled="#{empty controlBean.selectedCategory}"/>
+                            <br/>
+                            <br/>
+                            <p:outputPanel rendered="#{!empty controlBean.selectedCategorySet.id}">
+                                <p:commandButton value="#{msg.con_removeCategorySet}" icon="fa fa-trash"
+                                                 action="#{controlBean.removeCategorySet}"
+
+                                                 oncomplete="onDialogSuccess(args, 'dlgFeedbackAnalysisCategorySet', '#{msg.con_categorySetRemoved}')"
+                                                 update=":eventGroupsForm:eventGroupsTable">
+                                    <p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+                                               message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedCategorySet.label}. #{msg.dlg_confirmMessage}"/>
+                                </p:commandButton>
+                                <br/>
+                                <br/>
+                            </p:outputPanel>
+                            <p:commandButton value="#{msg.con_categorySetDetailsSave}" icon="ui-icon-check"
+                                             action="#{controlBean.saveCategorySet}"
+                                             onclick="submitDataTableEditInputs('.feedback-analysis-categories-table')"
+                                             oncomplete="onDialogSuccess(args, 'dlgFeedbackAnalysisCategorySet', '#{msg.con_categorySetSaved}')"
+                                             update=":eventGroupsForm:eventGroupsTable @form :validationErrorGrowl" validateClient="true"/>
+                            <p:commandButton value="#{msg.con_categorySetDetailsCancel}" icon="ui-icon-close"
+                                             onclick="PF('dlgFeedbackAnalysisCategorySet').hide();" />
+                        </div>
+                    </h:form>
+                </p:dialog>
                 <p:growl id="validationErrorGrowl" showDetail="true" severity="error" life="3000"/>
                 <p:growl showDetail="false" widgetVar="growlWdgt" severity="info" life="3000"/>
 
@@ -413,4 +522,3 @@
         </ui:composition>
     </h:body>
 </html>
-

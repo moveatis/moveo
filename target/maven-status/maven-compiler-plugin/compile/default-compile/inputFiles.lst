@@ -1,97 +1,108 @@
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\User.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\label\LabelBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\ControlManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\roles\SuperUserRoleEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\application\ApplicationEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\label\LabelEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Application.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\restful\RecordListenerBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\category\CategoryEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\user\TagUserEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\identityprovider\IdentityProviderInformationEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Event.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\filters\SuperUserFilter.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\EventGroupManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\SummaryManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\event\EventGroupEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\export\CSVFileBuilder.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Label.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\helpers\GroupKeyGenerator.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\timezone\TimeZoneInformation.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\user\TagUserBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\observation\ObservationBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\filters\ControlFilter.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\observation\ObservationEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\abstracts\AbstractBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\ValidationManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\identityprovider\IdentityProviderBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\category\CategoryType.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\ApplicationManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\enums\ApplicationStatusCode.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\records\RecordEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\user\UserBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\application\ApplicationBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\devel\DevelJYULoginBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\user\AbstractUser.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\abstracts\BaseEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\CategorySetManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\user\AnonUserBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\servlet\JyuIdentityServlet.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\error\ErrorHandler.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\category\CategorySetBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\session\SessionBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\enums\MailStatus.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Category.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\identityprovider\IdentityProvider.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\TagUser.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\restful\NotFoundExceptionMapper.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Record.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\UserManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\roles\AbstractRole.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\abstracts\AbstractCategoryEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\user\IdentifiedUserEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\category\CategoryBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\CategorySet.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\observation\ObservationCategory.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\restful\MoveatisRestApplication.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Role.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\MessageBundle.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\roles\RoleBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\exception\InstallationRedirectException.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\GroupKey.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Mailer.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\application\InstallationBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\helpers\Validation.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\CategorySelectionManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\mail\MailerBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\records\RecordBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\identityprovider\IdentityProviderRegistrationBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Observation.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\feedbackanalysiscategory\FeedbackAnalysisCategoryEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\category\CategorySetEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\observation\ObservationCategorySetList.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\EventGroup.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\AnonUser.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\SuperUserManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\event\EventGroupBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\feedbackanalysiscategory\FeedbackAnalysisCategorySetEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\EventManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\user\AnonUserEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\interfaces\Session.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\test\TestController.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\validation\EmailValidatorBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\event\EventBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\export\CSVBuilder.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\providers\MessageProvider.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\ObservationManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\application\RedirectURLs.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\TimeManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\LoginManagedBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\filters\LoginFilter.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\event\EventEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\groupkey\GroupKeyBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\groupkey\GroupKeyEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\observation\ObservationCategorySet.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\session\LogoutBean.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\abstracts\AbstractCategorySetEntity.java
-C:\moveoprojekti\jaa\moveo\src\main\java\com\moveatis\managedbeans\CategoryManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\abstracts\AbstractRecordEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\feedbackanalysiscategory\FeedbackAnalysisCategorySetEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\identityprovider\IdentityProviderRegistrationBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\application\ApplicationEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Application.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\roles\SuperUserRoleEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\CategorySetManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\abstracts\AbstractCategorySetEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\test\TestController.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\category\CategoryBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\roles\RoleBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\TimeManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\user\AnonUserEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\LoginManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\helpers\GroupKeyGenerator.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\mail\MailerBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\event\EventGroupEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\identityprovider\IdentityProvider.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\identityprovider\IdentityProviderInformationEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\filters\SuperUserFilter.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\label\LabelEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\CategorySelectionManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\restful\RecordListenerBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\groupkey\GroupKeyBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\observation\ObservationEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\user\UserBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\category\CategoryType.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\records\RecordBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\observation\ObservationBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\observation\ObservationCategorySet.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\filters\ControlFilter.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\FeedbackAnalysisRecordManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\category\CategorySetBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\export\CSVFileBuilder.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\export\CSVBuilder.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\label\LabelBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\category\CategorySetEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\records\FeedbackAnalysisRecordBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\EventGroup.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\SummaryManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\restful\NotFoundExceptionMapper.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\application\InstallationBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\exception\InstallationRedirectException.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\devel\DevelJYULoginBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\providers\MessageProvider.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\EventGroupManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\category\CategoryEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\AnonUser.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\enums\MailStatus.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\feedbackanalysiscategory\FeedbackAnalysisCategoryEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\MessageBundle.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\event\EventEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Label.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\session\LogoutBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\user\AnonUserBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\enums\ApplicationStatusCode.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\restful\MoveatisRestApplication.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\abstracts\AbstractCategoryEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\observation\ObservationCategory.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\ApplicationManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\filters\LoginFilter.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\CategorySet.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\validation\EmailValidatorBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\FeedbackAnalyzation.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Session.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\application\ApplicationBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\UserManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\roles\AbstractRole.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\abstracts\BaseEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\records\FeedbackAnalysisRecordEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\FeedbackAnalysisRecord.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\event\EventGroupBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Observation.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\user\IdentifiedUserEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Event.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Role.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\feedbackanalyzation\FeedbackAnalyzationEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\abstracts\AbstractBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Category.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\servlet\JyuIdentityServlet.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\helpers\Validation.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\GroupKey.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\feedbackanalyzation\FeedbackAnalyzationBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Mailer.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\identityprovider\IdentityProviderBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\session\SessionBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\SuperUserManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\FeedbackAnalysisCategorySelectionManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\user\AbstractUser.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\error\ErrorHandler.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\user\TagUserEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\user\TagUserBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\records\RecordEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\groupkey\GroupKeyEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\TagUser.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\observation\ObservationCategorySetList.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\CategoryManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\event\EventBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\User.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\ControlManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\EventManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\FeedbackAnalyzationManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\abstracts\AbstractObservationEntity.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Record.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\ValidationManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\ObservationManagedBean.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\application\RedirectURLs.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\timezone\TimeZoneInformation.java
