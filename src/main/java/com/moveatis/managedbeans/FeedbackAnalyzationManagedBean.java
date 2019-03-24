@@ -25,6 +25,7 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.Category;
+import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.interfaces.Observation;
@@ -48,6 +49,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 
     private int numberOfRecords;
     private int currentRecordNumber;
+    @Inject
+    private CategorySet categorySetEJB;
     
     
 
@@ -179,10 +182,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
         this.feedbackAnalyzationEntity.setDuration(duration);
     }
     
-    /**
-     * Adds a record to the observation.
-     * @param record The record to be added to the observation.
-     */
+
     public void addRecord() {
     	FeedbackAnalysisRecordEntity record=new FeedbackAnalysisRecordEntity();
     	if(feedbackAnalyzationEntity==null)feedbackAnalyzationEntity=new FeedbackAnalyzationEntity();
@@ -234,6 +234,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
      */
     public void saveFeedbackAnalyzation() {
         feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
+        
+        for(FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse)
+        	if(categorySet.getId()==null)categorySetEJB.create(categorySet);
+        
         feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
     }
 

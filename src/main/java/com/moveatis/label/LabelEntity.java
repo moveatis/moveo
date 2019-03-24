@@ -32,7 +32,10 @@ package com.moveatis.label;
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.category.CategoryEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -57,7 +60,25 @@ public class LabelEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    @OneToMany(mappedBy = "label", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CategoryEntity> categoryEntities;
+    
+    public List<CategoryEntity> getCategoryEntities() {
+		return categoryEntities;
+	}
 
+	public void setCategoryEntities(List<CategoryEntity> categoryEntities) {
+		this.categoryEntities = categoryEntities;
+	}
+
+	public List<FeedbackAnalysisCategoryEntity> getFeedbackAnalysisCategoryEntities() {
+		return feedbackAnalysisCategoryEntities;
+	}
+
+	
+
+	@OneToMany(mappedBy = "label", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<FeedbackAnalysisCategoryEntity> feedbackAnalysisCategoryEntities;
     
     @NotNull
     private String text;
@@ -91,5 +112,18 @@ public class LabelEntity extends BaseEntity implements Serializable {
     public String toString() {
         return "com.moveatis.category.LabelEntity[ id=" + id + " ]";
     }
+
+	public void addCategoryEntity(AbstractCategoryEntity abstractCategoryEntity) {
+		if(feedbackAnalysisCategoryEntities==null) {
+			feedbackAnalysisCategoryEntities=new ArrayList<FeedbackAnalysisCategoryEntity>();
+		}
+		if(categoryEntities==null) {
+			categoryEntities=new ArrayList<CategoryEntity>();
+		}
+		if(abstractCategoryEntity instanceof FeedbackAnalysisCategoryEntity)
+			feedbackAnalysisCategoryEntities.add((FeedbackAnalysisCategoryEntity) abstractCategoryEntity);
+		else
+			categoryEntities.add((CategoryEntity) abstractCategoryEntity);
+	}
 
 }

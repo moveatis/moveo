@@ -42,6 +42,7 @@ public abstract class AbstractCategoryEntity extends BaseEntity {
     }
 
     public void setLabel(LabelEntity label) {
+        label.addCategoryEntity(this);
         this.label = label;
     }
 
