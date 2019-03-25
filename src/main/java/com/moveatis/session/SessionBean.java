@@ -256,12 +256,12 @@ public class SessionBean implements Serializable, Session  {
     }
     
     @Override
-    public void setFeedbackAnalysisCategorySetsInUse(Set<FeedbackAnalysisCategorySetEntity> categorySets) {
+    public void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> categorySets) {
     	feedbackAnalyzationManagedBean.setCategorySetsInUse(categorySets);
     }
     
     @Override
-    public Set<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+    public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
         return feedbackAnalyzationManagedBean.getCategorySetsInUse();
     }
 }

@@ -5,6 +5,7 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.user.AbstractUser;
 import javax.annotation.Generated;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -13,7 +14,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(EventGroupEntity.class)
 public abstract class EventGroupEntity_ extends com.moveatis.abstracts.BaseEntity_ {
 
-	public static volatile SetAttribute<EventGroupEntity, FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
+	public static volatile ListAttribute<EventGroupEntity, FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
 	public static volatile SingularAttribute<EventGroupEntity, AbstractUser> owner;
 	public static volatile SetAttribute<EventGroupEntity, CategorySetEntity> categorySets;
 	public static volatile SingularAttribute<EventGroupEntity, String> description;

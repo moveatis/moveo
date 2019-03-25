@@ -195,13 +195,13 @@ public class CategorySetManagedBean implements Serializable {
         abstractCategorySetEntity.setEventGroupEntity(eventGroupEntity);
 
         Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
-        Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets = eventGroupEntity.getFeedbackAnalysisCategorySets();
+        List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets = eventGroupEntity.getFeedbackAnalysisCategorySets();
 
         if (categorySets == null) {
             categorySets = new HashSet<>();
         }
         if (feedbackAnalysisCategorySets == null) {
-            feedbackAnalysisCategorySets = new HashSet<>();
+            feedbackAnalysisCategorySets = new ArrayList<FeedbackAnalysisCategorySetEntity>();
         }
 
         if(abstractCategorySetEntity instanceof CategorySetEntity) {

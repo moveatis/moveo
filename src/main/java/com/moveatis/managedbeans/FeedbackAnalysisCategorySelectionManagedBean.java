@@ -1,6 +1,7 @@
 package com.moveatis.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +55,9 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
     
     
     
-    private Set<FeedbackAnalysisCategorySetEntity> defaultCategorySets; // From group key or event that was selected in control page.
-    private Set<FeedbackAnalysisCategorySetEntity>  privateCategorySets;
-    private Set<FeedbackAnalysisCategorySetEntity>  categorySetsInUse;
+    private List<FeedbackAnalysisCategorySetEntity> defaultCategorySets; // From group key or event that was selected in control page.
+    private List<FeedbackAnalysisCategorySetEntity>  privateCategorySets;
+    private List<FeedbackAnalysisCategorySetEntity>  categorySetsInUse;
     
     private EventGroupEntity eventGroup;
     
@@ -72,9 +73,9 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	@PostConstruct
 	public void init() {
 		eventGroup = null;
-		defaultCategorySets=new HashSet<FeedbackAnalysisCategorySetEntity>(); 
-        privateCategorySets=new HashSet<FeedbackAnalysisCategorySetEntity>();
-        categorySetsInUse=new HashSet<FeedbackAnalysisCategorySetEntity>();  
+		defaultCategorySets=new ArrayList<FeedbackAnalysisCategorySetEntity>(); 
+        privateCategorySets=new ArrayList<FeedbackAnalysisCategorySetEntity>();
+        categorySetsInUse=new ArrayList<FeedbackAnalysisCategorySetEntity>();  
         if (feedbackAnalyzationManagedBean.getEventEntity() != null) {
             EventEntity event = feedbackAnalyzationManagedBean.getEventEntity();
             eventGroup = event.getEventGroup();
@@ -88,7 +89,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
             		privateCategorySets.add(fba);
         }
         
-        Set<FeedbackAnalysisCategorySetEntity> categorySets = sessionEJB.getFeedbackAnalysisCategorySetsInUse();
+        List<FeedbackAnalysisCategorySetEntity> categorySets = sessionEJB.getFeedbackAnalysisCategorySetsInUse();
         if (categorySets != null) {
             categorySetsInUse=categorySets;
         } else {
@@ -144,21 +145,21 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
     /**
      * Gets the default category sets.
      */
-    public Set<FeedbackAnalysisCategorySetEntity> getDefaultCategorySets() {
+    public List<FeedbackAnalysisCategorySetEntity> getDefaultCategorySets() {
         return defaultCategorySets;
     }
     
     /**
      * Gets the private category sets.
      */
-    public Set<FeedbackAnalysisCategorySetEntity> getPrivateCategorySets() {
+    public List<FeedbackAnalysisCategorySetEntity> getPrivateCategorySets() {
         return privateCategorySets;
     }
     
     /**
      * Gets the category sets in use.
      */
-    public Set<FeedbackAnalysisCategorySetEntity> getCategorySetsInUse() {
+    public List<FeedbackAnalysisCategorySetEntity> getCategorySetsInUse() {
         return categorySetsInUse;
     }
     
@@ -193,6 +194,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
     }
     
     public FeedbackAnalysisCategorySetEntity getCopyForEditing(FeedbackAnalysisCategorySetEntity categorySet) {
+    		if(categorySet.getId()==null)return categorySet;
     		categorySetsInUse.remove(categorySet);
     		FeedbackAnalysisCategorySetEntity tmp_categorySet = new FeedbackAnalysisCategorySetEntity();
     		Map<Integer,AbstractCategoryEntity> categoryEntities=categorySet.getCategoryEntitys();
@@ -239,7 +241,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
     	categorySet.setCategoryEntitys(tmp_categories);
     }
     
-    private FeedbackAnalysisCategorySetEntity findById(Set<FeedbackAnalysisCategorySetEntity> set,long id) {
+    private FeedbackAnalysisCategorySetEntity findById(List<FeedbackAnalysisCategorySetEntity> defaultCategorySets2,long id) {
     	for (FeedbackAnalysisCategorySetEntity pcs : privateCategorySets){
     		if(pcs.getId()==selectedPrivateCategorySet) {
     			return(pcs);

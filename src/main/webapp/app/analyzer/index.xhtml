@@ -78,7 +78,7 @@
                 				 <div id="buttons">
                 					<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
                 						<p:selectBooleanButton onLabel="#{category.label.text}" offLabel="#{category.label.text}">
-                							<p:ajax event="change" listener="#{feedbackAnalyzationManagedBean.setSelected(category)}"/>
+                							<p:ajax listener="#{feedbackAnalyzationManagedBean.setSelected(category)}"/>
                 						</p:selectBooleanButton>
                 					</ui:repeat>
                 				</div>

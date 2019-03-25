@@ -35,7 +35,7 @@
                             <p:commandButton value="#{msg.dialogConfirmNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     
-                        <h:outputText value="#{msg.facs_noCategorySetsText}" rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.categorySetsInUse.toArray()}"/>
+                        <h:outputText value="#{msg.facs_noCategorySetsText}" rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.categorySetsInUse}"/>
                         
                         <ui:repeat value="#{feedbackAnalysisCategorySelectionManagedBean.categorySetsInUse.toArray()}" var="categorySet" varStatus="status">
                         <h:panelGroup id="category-set" styleClass="category-set category-set-#{status.index}">
@@ -58,7 +58,7 @@
                                 </p:inputText>
                                 <p:watermark value="#{msg.facs_categoryName}" for="category-name-input"/>
                                 <p:commandButton icon="fa fa-remove" class="category-remove-button"
-                                                 action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}" update="@form"/>
+                                                 action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}" update=":form"/>
                             </div>
                             </ui:repeat>
                             
@@ -81,7 +81,7 @@
                             <p:inputText value="#{feedbackAnalysisCategorySelectionManagedBean.newCategorySetName}" id="new-category-set" styleClass="category-set-list-input" />
                             <p:watermark value="#{msg.facs_categorySetName}" for="new-category-set" />
                             <p:commandButton value="#{msg.facs_addCategorySet}" style="vertical-align: middle"
-                                             action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategorySet}" update="@form"/>
+                                             action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategorySet()}" update="@form"/>
                         </h:panelGroup>
                         
                         <h:panelGroup layout="block" styleClass="category-set-list"

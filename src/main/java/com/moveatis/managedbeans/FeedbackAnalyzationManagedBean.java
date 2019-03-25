@@ -44,7 +44,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     
     private static final long serialVersionUID = 1L;
     private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
-    private Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
+    private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
     private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 
     private int numberOfRecords;
@@ -65,12 +65,12 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 	public Boolean isSelected(FeedbackAnalysisCategoryEntity category) {
 		return selectedCategories.contains(category);
 	}
-    public Set<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+    public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
 		return feedbackAnalysisCategorySetsInUse;
 	}
 
 	public void setFeedbackAnalysisCategorySetsInUse(
-			Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
+			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
 		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
 
@@ -80,6 +80,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     private FeedbackAnalyzation feedbackAnalyzationEJB;
     @Inject
     private Session sessionBean;
+
+	private FeedbackAnalysisCategoryEntity cur_cat;
 
 
 
@@ -159,14 +161,14 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     /**
      * Gets the observation categories to be used in the observation.
      */
-    public Set<FeedbackAnalysisCategorySetEntity> getCategorySetsInUse() {
+    public List<FeedbackAnalysisCategorySetEntity> getCategorySetsInUse() {
         return feedbackAnalysisCategorySetsInUse;
     }
 
     /**
      * Sets the observation categories to be used in the observation.
      */
-    public void setCategorySetsInUse(Set<FeedbackAnalysisCategorySetEntity> categorySetsInUse) {
+    public void setCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> categorySetsInUse) {
         
 
         this.feedbackAnalysisCategorySetsInUse = categorySetsInUse;
@@ -255,5 +257,14 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 
 	public void setCurrentRecordNumber(int currentRecordNumber) {
 		this.currentRecordNumber = currentRecordNumber;
+	}
+	
+	public void setIsSelected(Boolean isSelected) {
+		if(selectedCategories.contains(cur_cat)) selectedCategories.remove(cur_cat);
+		else selectedCategories.add(cur_cat);
+	}
+	public boolean getIsSelected() {
+		setIsSelected(true);
+		return selectedCategories.contains(cur_cat);		
 	}
 }
