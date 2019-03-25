@@ -30,10 +30,12 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.abstracts.AbstractCategorySetEntity;
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Label;
@@ -88,58 +90,20 @@ public class CategorySetManagedBean implements Serializable {
 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Creates a new category set and adds it to the given event group.
-     * @param eventGroupEntity The event group into which the new category set is added.
-     */
-    public void createNewCategorySet(EventGroupEntity eventGroupEntity) {
-        categorySetEntity = new CategorySetEntity();
-        categorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
-        categorySetEntity.setEventGroupEntity(eventGroupEntity);
-        categorySetEntity.setLabel(name);
-        categorySetEntity.setDescription(description);
-
-        Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
-
-        if (categorySets == null) {
-            categorySets = new HashSet<>();
-        }
-
-        categorySets.add(categorySetEntity);
-        eventGroupEntity.setCategorySets(categorySets);
-
-        categorySetEJB.create(categorySetEntity);
-    }
 
     /**
      * The method is used for creating and editing the category set. As it's fairly complex,
      * see the comments in the code to get better understanding what it does.
      * 
      * @param eventGroupEntity The event group the category set belongs to.
-     * @param categorySetEntity The category set to be created or edited.
-     * @param categories2 The categories belonging to the category set.
+     * @param abstractCategorySetEntity The category set to be created or edited.
+     * @param abstractCategories2 The categories belonging to the category set.
      */
     public void createAndEditCategorySet(EventGroupEntity eventGroupEntity,
-        CategorySetEntity categorySetEntity, List<AbstractCategoryEntity> categories2) {
+        AbstractCategorySetEntity abstractCategorySetEntity, List<AbstractCategoryEntity> abstractCategories2) {
 
-        if (categorySetEntity.getId() == null) {
-            categorySetEJB.create(categorySetEntity);
+        if (abstractCategorySetEntity.getId() == null) {
+            categorySetEJB.create(abstractCategorySetEntity);
         }
 
         Map<Integer, AbstractCategoryEntity> orderedCategories = new TreeMap<>();
@@ -156,20 +120,20 @@ public class CategorySetManagedBean implements Serializable {
         *   2. Compare previous list to list of all categoryentities of categoryset
         *   3. If categoryentity is not in first list but is in second, it must be removed.
         */
-        if (categorySetEntity.getCategoryEntitys() != null) {
+        if (abstractCategorySetEntity.getCategoryEntitys() != null) {
             
             List<Long> idForNewCategories = new ArrayList<>();
             List<Integer> keysForCategoriesToBeRemoved = new ArrayList<>();
             
             // newCategoryEntities containts the categoryentities user wants to keep in categoryset
-            for(AbstractCategoryEntity newCategoryEntity : categories2) {
+            for(AbstractCategoryEntity newCategoryEntity : abstractCategories2) {
                 if(newCategoryEntity.getId() != null) {
                     idForNewCategories.add(newCategoryEntity.getId());
                 }
             }
             
             // get all categoryentities for categoryset
-            Map<Integer, AbstractCategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+            Map<Integer, AbstractCategoryEntity> categories = abstractCategorySetEntity.getCategoryEntitys();
             
             // check if categoryentity is part of newcategoryentities list.
             for(Integer key : categories.keySet()) {
@@ -190,11 +154,11 @@ public class CategorySetManagedBean implements Serializable {
             
             // remove those categoryentities which were part of toBeRemoved list.
             for(Integer key : keysForCategoriesToBeRemoved) {
-                categoryEJB.removeFromCategorySet(categorySetEntity, categorySetEntity.getCategoryEntitys().get(key));
+                categoryEJB.removeFromCategorySet(abstractCategorySetEntity, abstractCategorySetEntity.getCategoryEntitys().get(key));
             }
         }
 
-        for (AbstractCategoryEntity categoryEntity : categories2) {
+        for (AbstractCategoryEntity categoryEntity : abstractCategories2) {
         	
             String label = categoryEntity.getLabel().getText();
             LabelEntity labelEntity = labelEJB.findByLabel(label);
@@ -209,9 +173,11 @@ public class CategorySetManagedBean implements Serializable {
 
             categoryEntity.setLabel(labelEntity);
 
-
-            ((CategoryEntity)categoryEntity).setCategorySet(categorySetEntity);
-
+            if(categoryEntity instanceof CategoryEntity)
+            ((CategoryEntity)categoryEntity).setCategorySet(abstractCategorySetEntity);
+            else if(categoryEntity instanceof FeedbackAnalysisCategoryEntity)
+            ((FeedbackAnalysisCategoryEntity)categoryEntity).setCategorySet(abstractCategorySetEntity);
+            
             if (categoryEntity.getOrderNumber() == null) {
                 unorderedCategories.add(categoryEntity);
             } else {
@@ -224,19 +190,29 @@ public class CategorySetManagedBean implements Serializable {
             orderedCategories.put(orderedCategories.size(), categoryEntity);
         }
 
-        categorySetEntity.setCategoryEntitys(orderedCategories);
-        categorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
-        categorySetEntity.setEventGroupEntity(eventGroupEntity);
+        abstractCategorySetEntity.setCategoryEntitys(orderedCategories);
+        abstractCategorySetEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
+        abstractCategorySetEntity.setEventGroupEntity(eventGroupEntity);
 
         Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
+        Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets = eventGroupEntity.getFeedbackAnalysisCategorySets();
 
         if (categorySets == null) {
             categorySets = new HashSet<>();
         }
+        if (feedbackAnalysisCategorySets == null) {
+            feedbackAnalysisCategorySets = new HashSet<>();
+        }
 
-        categorySets.add(categorySetEntity);
+        if(abstractCategorySetEntity instanceof CategorySetEntity) {
+        	categorySets.add((CategorySetEntity) abstractCategorySetEntity);
+        }
+        else if (abstractCategorySetEntity instanceof FeedbackAnalysisCategorySetEntity) {
+        	feedbackAnalysisCategorySets.add((FeedbackAnalysisCategorySetEntity) abstractCategorySetEntity);
+        }
+        eventGroupEntity.setFeedbackAnalysisCategorySets(feedbackAnalysisCategorySets);
         eventGroupEntity.setCategorySets(categorySets);
 
-        categorySetEJB.edit(categorySetEntity);
+        categorySetEJB.edit(abstractCategorySetEntity);
     }
 }

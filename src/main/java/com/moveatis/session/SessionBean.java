@@ -29,8 +29,10 @@
  */
 package com.moveatis.session;
 
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Session;
+import com.moveatis.managedbeans.FeedbackAnalyzationManagedBean;
 import com.moveatis.managedbeans.ObservationManagedBean;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.timezone.TimeZoneInformation;
@@ -40,6 +42,7 @@ import com.moveatis.user.TagUserEntity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
@@ -64,7 +67,8 @@ public class SessionBean implements Serializable, Session  {
     
     @Inject
     private ObservationManagedBean observationManagedBean;
-
+    @Inject
+    private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
     private boolean loggedIn = false;
     private IdentifiedUserEntity userEntity;
     private TagUserEntity tagEntity;
@@ -249,5 +253,15 @@ public class SessionBean implements Serializable, Session  {
     @Override
     public List<ObservationCategorySet> getCategorySetsInUse() {
         return observationManagedBean.getCategorySetsInUse();
+    }
+    
+    @Override
+    public void setFeedbackAnalysisCategorySetsInUse(Set<FeedbackAnalysisCategorySetEntity> categorySets) {
+    	feedbackAnalyzationManagedBean.setCategorySetsInUse(categorySets);
+    }
+    
+    @Override
+    public Set<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+        return feedbackAnalyzationManagedBean.getCategorySetsInUse();
     }
 }

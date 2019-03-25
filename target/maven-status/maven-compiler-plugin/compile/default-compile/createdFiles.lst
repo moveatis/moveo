@@ -1,3 +1,4 @@
+com\moveatis\managedbeans\FeedbackAnalyzationManagedBean.class
 com\moveatis\abstracts\AbstractCategorySetEntity.class
 com\moveatis\interfaces\Observation.class
 com\moveatis\managedbeans\UserManagedBean.class
@@ -5,6 +6,8 @@ com\moveatis\devel\DevelJYULoginBean.class
 com\moveatis\interfaces\User.class
 com\moveatis\providers\MessageProvider.class
 com\moveatis\session\LogoutBean.class
+com\moveatis\managedbeans\FeedbackAnalysisCategorySelectionManagedBean.class
+com\moveatis\abstracts\AbstractRecordEntity.class
 com\moveatis\managedbeans\CategorySetManagedBean.class
 com\moveatis\error\ErrorHandler.class
 com\moveatis\label\LabelEntity_.class
@@ -16,8 +19,10 @@ com\moveatis\managedbeans\ValidationManagedBean.class
 com\moveatis\records\RecordEntity_.class
 com\moveatis\user\TagUserBean.class
 com\moveatis\interfaces\Mailer.class
+com\moveatis\records\FeedbackAnalysisRecordBean.class
 com\moveatis\session\SessionBean.class
 com\moveatis\feedbackanalysiscategory\FeedbackAnalysisCategorySetEntity.class
+com\moveatis\interfaces\FeedbackAnalyzation.class
 com\moveatis\category\CategorySetEntity.class
 com\moveatis\managedbeans\EventManagedBean.class
 com\moveatis\category\CategorySetBean.class
@@ -45,9 +50,11 @@ com\moveatis\roles\SuperUserRoleEntity.class
 com\moveatis\managedbeans\TimeManagedBean.class
 com\moveatis\managedbeans\ControlManagedBean$1.class
 com\moveatis\abstracts\AbstractCategoryEntity_.class
+com\moveatis\interfaces\FeedbackAnalysisRecord.class
 com\moveatis\mail\MailerBean.class
 com\moveatis\user\AnonUserEntity_.class
 com\moveatis\feedbackanalysiscategory\FeedbackAnalysisCategoryEntity_.class
+com\moveatis\feedbackanalyzation\FeedbackAnalyzationEntity_.class
 com\moveatis\records\RecordEntity.class
 com\moveatis\roles\AbstractRole_.class
 com\moveatis\abstracts\BaseEntity.class
@@ -56,13 +63,18 @@ com\moveatis\restful\MoveatisRestApplication.class
 com\moveatis\identityprovider\IdentityProviderInformationEntity_.class
 com\moveatis\label\LabelEntity.class
 com\moveatis\records\RecordBean.class
+com\moveatis\abstracts\AbstractRecordEntity_.class
 com\moveatis\application\InstallationBean.class
 com\moveatis\managedbeans\CategorySelectionManagedBean.class
 com\moveatis\event\EventEntity.class
 com\moveatis\user\IdentifiedUserEntity.class
+com\moveatis\abstracts\AbstractObservationEntity_.class
+com\moveatis\records\FeedbackAnalysisRecordEntity_.class
+com\moveatis\managedbeans\FeedbackAnalysisRecordManagedBean.class
 com\moveatis\helpers\GroupKeyGenerator.class
 com\moveatis\application\RedirectURLs.class
 com\moveatis\interfaces\GroupKey.class
+com\moveatis\feedbackanalyzation\FeedbackAnalyzationEntity.class
 com\moveatis\application\ApplicationEntity.class
 com\moveatis\event\EventBean.class
 com\moveatis\event\EventGroupEntity_.class
@@ -72,6 +84,7 @@ com\moveatis\export\CSVFileBuilder$1.class
 com\moveatis\identityprovider\IdentityProviderInformationEntity.class
 com\moveatis\event\EventGroupEntity.class
 com\moveatis\category\CategoryEntity_.class
+com\moveatis\records\FeedbackAnalysisRecordEntity.class
 com\moveatis\enums\MailStatus.class
 com\moveatis\user\IdentifiedUserEntity_.class
 com\moveatis\application\ApplicationBean.class
@@ -89,6 +102,7 @@ com\moveatis\abstracts\BaseEntity_.class
 com\moveatis\export\CSVBuilder.class
 com\moveatis\interfaces\Application.class
 com\moveatis\groupkey\GroupKeyBean.class
+com\moveatis\abstracts\AbstractObservationEntity.class
 com\moveatis\observation\ObservationCategorySet.class
 com\moveatis\user\TagUserEntity_.class
 com\moveatis\identityprovider\IdentityProvider.class
@@ -97,6 +111,7 @@ com\moveatis\interfaces\EventGroup.class
 com\moveatis\managedbeans\ControlManagedBean.class
 com\moveatis\managedbeans\CategoryManagedBean.class
 com\moveatis\category\CategoryBean.class
+com\moveatis\feedbackanalyzation\FeedbackAnalyzationBean.class
 com\moveatis\user\TagUserEntity.class
 com\moveatis\roles\RoleBean.class
 com\moveatis\event\EventGroupBean.class

@@ -29,6 +29,7 @@
  */
 package com.moveatis.observation;
 
+import com.moveatis.abstracts.AbstractObservationEntity;
 import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.event.EventEntity;
@@ -67,15 +68,9 @@ import javax.persistence.Table;
     )
 })
 @Entity
-public class ObservationEntity extends BaseEntity implements Serializable {
+public class ObservationEntity extends AbstractObservationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @ManyToOne
-    private AbstractUser observer;
-
-    @ManyToOne
-    private EventEntity event;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<ObservationCategorySet> observationCategorySets;
@@ -83,41 +78,10 @@ public class ObservationEntity extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "observation", fetch = FetchType.LAZY, cascade = ALL)
     private List<RecordEntity> records;
 
-    private long duration;
-
-    private String description;
-    private String name;
-    private String target;
-    private Boolean userWantsToSaveToDatabase;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+    
 
     public List<RecordEntity> getRecords() {
         return records;
-    }
-
-    public AbstractUser getObserver() {
-        return observer;
-    }
-
-    public void setObserver(AbstractUser observer) {
-        this.observer = observer;
-    }
-
-    public EventEntity getEvent() {
-        return event;
-    }
-
-    public void setEvent(EventEntity event) {
-        this.event = event;
     }
 
     public void setRecords(List<RecordEntity> records) {
@@ -132,37 +96,6 @@ public class ObservationEntity extends BaseEntity implements Serializable {
         record.setObservation(this);
     }
 
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
 
     public Set<ObservationCategorySet> getObservationCategorySets() {
         return observationCategorySets;
@@ -170,14 +103,6 @@ public class ObservationEntity extends BaseEntity implements Serializable {
 
     public void setObservationCategorySets(Set<ObservationCategorySet> observationCategorySets) {
         this.observationCategorySets = observationCategorySets;
-    }
-
-    public Boolean getUserWantsToSaveToDatabase() {
-        return userWantsToSaveToDatabase;
-    }
-
-    public void setUserWantsToSaveToDatabase(Boolean userWantsToSaveToDatabase) {
-        this.userWantsToSaveToDatabase = userWantsToSaveToDatabase;
     }
 
     @Override

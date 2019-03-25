@@ -63,22 +63,6 @@ public class CategoryBean extends AbstractBean<AbstractCategoryEntity> implement
         super(AbstractCategoryEntity.class);
     }
 
-    /**
-     * The method is used for finding the category with the certain label.
-     * @param label The label to find the category by.
-     * @return The found category or null.
-     */
-    @Override
-    public AbstractCategoryEntity findByLabel(String label) {
-        TypedQuery<CategoryEntity> query = em.createNamedQuery("Category.findByLabel", CategoryEntity.class);
-        query.setParameter("label", label);
-        try {
-            CategoryEntity categoryEntity = query.getSingleResult();
-            return categoryEntity;
-        } catch(NoResultException nre) {
-            return null;
-        }
-    }
 
     /**
      * Removes the category from the category set.
@@ -93,7 +77,6 @@ public class CategoryBean extends AbstractBean<AbstractCategoryEntity> implement
     		categorySetEJB.removeCategoryFromCategorySet(whichCategorySet, whichCategory);
     		whichCategory.setCategorySet(null);
     		super.edit(whichCategory);
-    	//TODO: removing for feedback analysis categories
     }
 }
     

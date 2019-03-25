@@ -30,11 +30,15 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.abstracts.AbstractCategorySetEntity;
+import com.moveatis.application.ApplicationBean;
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.category.CategoryType;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Event;
@@ -64,6 +68,8 @@ import javax.inject.Named;
 import javax.inject.Inject;
 import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The bean class for managing the control page view.
@@ -83,7 +89,7 @@ public class ControlManagedBean implements Serializable {
     private List<ObservationEntity> otherObservations;
 
     private EventGroupEntity selectedEventGroup;
-    private CategorySetEntity selectedCategorySet;
+    private AbstractCategorySetEntity selectedCategorySet;
     private AbstractCategoryEntity selectedCategory;
     private ObservationEntity selectedObservation;
 
@@ -185,7 +191,13 @@ public class ControlManagedBean implements Serializable {
         selectedCategorySet = new CategorySetEntity();
         categories = new ArrayList<>();
     }
-
+    /**
+     * Adds a new feedbackanalysiscategory set in the view.
+     */
+    public void addNewFeedbackAnalysisCategorySet() {
+        selectedCategorySet = new FeedbackAnalysisCategorySetEntity();
+        categories = new ArrayList<>();
+    }
     /**
      * Adds a new category in the view.
      */
@@ -198,6 +210,20 @@ public class ControlManagedBean implements Serializable {
 
 
         category.setCategoryType(CategoryType.TIMED);
+        categories.add(category);
+        selectedCategory = category;
+    }
+    
+    /**
+     * Adds a new category in the view.
+     */
+    public void addNewFeedbackAnalysisCategory() {
+    	FeedbackAnalysisCategoryEntity category = new FeedbackAnalysisCategoryEntity();
+        LabelEntity label = new LabelEntity();
+        label.setText(messages.getString("con_newCategoryLabel"));
+        category.setOrderNumber(categories.size());
+        category.setLabel(label);
+
         categories.add(category);
         selectedCategory = category;
     }
@@ -255,17 +281,17 @@ public class ControlManagedBean implements Serializable {
     /**
      * Gets the selected category set.
      */
-    public CategorySetEntity getSelectedCategorySet() {
+    public AbstractCategorySetEntity getSelectedCategorySet() {
         return selectedCategorySet;
     }
 
     /**
      * Sets the selected category set.
      */
-    public void setSelectedCategorySet(CategorySetEntity selectedCategorySet) {
+    public void setSelectedCategorySet(AbstractCategorySetEntity selectedCategorySet) {
         this.selectedCategorySet = selectedCategorySet;
         this.selectedEventGroup = this.selectedCategorySet.getEventGroupEntity();
-        categories = new ArrayList<>(selectedCategorySet.getCategoryEntitys().values());
+        categories = new ArrayList<>(selectedCategorySet.getCategoryEntitys().values());        	
     }
 
     /**
@@ -278,7 +304,7 @@ public class ControlManagedBean implements Serializable {
     /**
      * Sets the selected category.
      */
-    public void setSelectedCategory(CategoryEntity selectedCategory) {
+    public void setSelectedCategory(AbstractCategoryEntity selectedCategory) {
         this.selectedCategory = selectedCategory;
     }
 

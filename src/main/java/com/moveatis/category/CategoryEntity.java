@@ -48,7 +48,6 @@ import javax.persistence.Table;
  */
 @Table(name="CATEGORY")
 @Entity
-@NamedQuery(name="Category.findByLabel", query="SELECT category FROM CategoryEntity category WHERE category.label = :label")
 public class CategoryEntity extends AbstractCategoryEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,14 +75,15 @@ public class CategoryEntity extends AbstractCategoryEntity implements Serializab
         this.categoryType = categoryType;
     }
 
-	public void setCategorySet(CategorySetEntity categorySetEntity) {
-		this.categorySet=categorySetEntity;
+    @Override
+	public void setCategorySet(AbstractCategorySetEntity categorySetEntity) {
+		this.categorySet=(CategorySetEntity)categorySetEntity;
 		
 	}
-	
-	public AbstractCategorySetEntity getCategorySet() {
-		return this.categorySet;
-		
+
+    @Override
+	public CategorySetEntity getCategorySet() {
+		return this.categorySet;		
 	}
 
     

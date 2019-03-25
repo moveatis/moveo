@@ -30,6 +30,8 @@
 package com.moveatis.event;
 
 import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -115,4 +117,10 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
             //NoResultException is not an actual exception IMHO ...
         }
     }
+
+	@Override
+	public void removeFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
+		// TODO Auto-generated method stub
+		
+	}
 }

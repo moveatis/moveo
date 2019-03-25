@@ -30,6 +30,7 @@
 package com.moveatis.interfaces;
 
 import com.moveatis.event.EventEntity;
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.IdentifiedUserEntity;
 import java.util.List;
@@ -63,5 +64,7 @@ public interface Event {
     EventEntity getEventEntity();
     
     int count();
+
+	void removeFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
     
 }

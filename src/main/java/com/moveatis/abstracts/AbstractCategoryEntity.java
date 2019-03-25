@@ -42,6 +42,7 @@ public abstract class AbstractCategoryEntity extends BaseEntity {
     }
 
     public void setLabel(LabelEntity label) {
+        label.addCategoryEntity(this);
         this.label = label;
     }
 
@@ -79,10 +80,10 @@ public abstract class AbstractCategoryEntity extends BaseEntity {
         return "com.moveatis.category.Category[ id=" + id + " ]";
     }
 
-	public void setCategorySet(AbstractCategorySetEntity abstractCategorySet) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void setCategorySet(AbstractCategorySetEntity abstractCategorySetEntity);
+
+	public abstract AbstractCategorySetEntity getCategorySet(); 
+
 
 
 

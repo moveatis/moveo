@@ -57,8 +57,6 @@ public interface Category {
 
     AbstractCategoryEntity find(Object id);
     
-    AbstractCategoryEntity findByLabel(String label); 
-
     List<AbstractCategoryEntity> findAll();
 
     List<AbstractCategoryEntity> findRange(int[] range);

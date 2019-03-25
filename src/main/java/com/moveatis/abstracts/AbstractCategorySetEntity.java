@@ -68,16 +68,6 @@ public abstract class AbstractCategorySetEntity extends BaseEntity implements Se
 	    private String label;
 	    private String description;
 	    
-	    @Transient
-	    private String type;
-
-	    public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
 
 		@Override
 	    public Long getId() {

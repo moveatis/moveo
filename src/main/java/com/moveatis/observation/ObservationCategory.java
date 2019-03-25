@@ -50,7 +50,7 @@ public class ObservationCategory implements Serializable {
     private String name;
 
     public ObservationCategory() {
-        this.type = CategoryType.TIMED;
+        this.type = CategoryType.COUNTED;
         this.name = "";
     }
 

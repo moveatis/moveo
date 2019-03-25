@@ -87,6 +87,15 @@ public class ObservationCategorySet implements Serializable {
         category.setTag(tag);
         categories.add(category);
     }
+    
+    
+	public void add(Long tag, String name) {
+        ObservationCategory category = new ObservationCategory();
+        category.setName(name);
+        category.setTag(tag);
+        category.setType(CategoryType.COUNTED);
+        categories.add(category);		
+	}
 
     /**
      * Adds the given category to the list of the categories.
@@ -112,4 +121,5 @@ public class ObservationCategorySet implements Serializable {
     public void remove(ObservationCategory category) {
         categories.remove(category);
     }
+
 }
