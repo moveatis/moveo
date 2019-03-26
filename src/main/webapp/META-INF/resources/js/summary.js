@@ -503,3 +503,12 @@ function encodeHTML(str) {
 function isBottomOfDocument(padding) {
     return $(window).scrollTop() >= $(document).height() - padding - $(window).height();
 }
+
+function saveAsImage() {
+	html2canvas(document.getElementById('photo')).then(function(canvas) {
+		document.getElementById('output').innerHTML ="";
+		document.getElementById('output').appendChild(canvas);
+	});
+	
+	PF('dlg').show();
+}

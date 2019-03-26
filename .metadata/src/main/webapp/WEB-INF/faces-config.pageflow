@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15517724384600" configfile="/moveatis/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="install.xhtml" x="122" y="562" id="pf15523114248820" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15523114248821" path="/install.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="562" id="pf15523114248822" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf15523114248823 pf15523114248825 pf15523805901300" inlinks="pf15523114248821" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/control/index.xhtml" x="554" y="360" id="pf15523114248826" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf15523114248827 pf15523114248828" inlinks="pf15523114248823" path="/app/control/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/categoryselection/index.xhtml" x="770" y="690" id="pf15523114248829" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" outlinks="pf155231142488210" inlinks="pf15523114248825 pf155231142488211 pf15523114248827 pf155231142488212" path="/app/categoryselection/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/*" x="122" y="178" id="pf155231142488314" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf155231142488315" path="/app/*"/>
-  <nodes xsi:type="pageflow:PFPage" name="#{view.viewId}" x="338" y="178" id="pf155231142488316" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf155231142488315" path="#{view.viewId}"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/observer/index.xhtml" x="986" y="690" id="pf155231142488317" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf155231142488210" path="/app/observer/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/settings/index.xhtml" x="554" y="765" id="pf155231142488318" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf155231142488211" path="/app/settings/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/summary/index.xhtml" x="770" y="306" id="pf155231142488319" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf15523114248828" path="/app/summary/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/activityselection/index.xhtml" x="554" y="1149" id="pf155231142488320" referenceLink="//@navigationRule.8/@fromViewId|" outlinks="pf155231142488212 pf15523836786491" inlinks="pf15523805901300" path="/app/activityselection/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="app/feedbackanalysiscategoryselection/index.xhtml" x="770" y="1149" id="pf15523836786492" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf15523836786491" path="/app/analysiscategoryselection/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="install.xhtml" x="122" y="563" id="pf15523114248820" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15523114248821" path="/install.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="563" id="pf15523114248822" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf15523114248823 pf15523114248825 pf15523805901300" inlinks="pf15523114248821" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/control/index.xhtml" x="554" y="361" id="pf15523114248826" referenceLink="//@navigationRule.7/@fromViewId|" outlinks="pf15523114248827 pf15523114248828" inlinks="pf15523114248823" path="/app/control/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/categoryselection/index.xhtml" x="770" y="692" id="pf15523114248829" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" outlinks="pf155231142488210" inlinks="pf15523114248825 pf155231142488211 pf15523114248827 pf155231142488212" path="/app/categoryselection/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/*" x="122" y="178" id="pf155231142488314" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf155231142488315" path="/app/*"/>
+  <nodes xsi:type="pageflow:PFPage" name="#{view.viewId}" x="338" y="178" id="pf155231142488316" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf155231142488315" path="#{view.viewId}"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/observer/index.xhtml" x="986" y="692" id="pf155231142488317" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf155231142488210" path="/app/observer/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/settings/index.xhtml" x="554" y="766" id="pf155231142488318" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf155231142488211" path="/app/settings/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/summary/index.xhtml" x="770" y="308" id="pf155231142488319" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" inlinks="pf15523114248828" path="/app/summary/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/activityselection/index.xhtml" x="554" y="1150" id="pf155231142488320" referenceLink="//@navigationRule.9/@fromViewId|" outlinks="pf155231142488212 pf15523836786491" inlinks="pf15523805901300" path="/app/activityselection/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/feedbackanalysiscategoryselection/index.xhtml" x="770" y="1150" id="pf15523836786492" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" outlinks="pf15535915490341" inlinks="pf15523836786491" path="/app/analysiscategoryselection/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/analyzer/index.xhtml" x="986" y="1150" id="pf15535915490342" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf15535916418384" inlinks="pf15535915490341" path="/app/analyzer/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="app/analysisrecordtable/index.xhtml" id="pf15535916418385" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf15535916418384" path="/app/analysisrecordtable/index.xhtml"/>
   <links id="pf15523114248821" target="pf15523114248822" source="pf15523114248820" outcome="success" redirect="true"/>
   <links id="pf15523114248823" target="pf15523114248826" source="pf15523114248822" outcome="useridentified" redirect="true"/>
   <links id="pf15523114248825" target="pf15523114248829" source="pf15523114248822" outcome="taguser" redirect="true"/>
@@ -22,4 +24,6 @@
   <links id="pf155231142488212" target="pf15523114248829" source="pf155231142488320" outcome="observationselected" redirect="true"/>
   <links id="pf15523805901300" target="pf155231142488320" source="pf15523114248822" outcome="anonymityuser" redirect="true"/>
   <links id="pf15523836786491" target="pf15523836786492" source="pf155231142488320" outcome="analysisselected" redirect="true"/>
+  <links id="pf15535915490341" target="pf15535915490342" source="pf15523836786492" outcome="analysiscategoriesok" redirect="true"/>
+  <links id="pf15535916418384" target="pf15535916418385" source="pf15535915490342" outcome="recordtable" redirect="true"/>
 </pageflow:Pageflow>

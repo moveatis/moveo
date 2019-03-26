@@ -21,8 +21,7 @@
                             </ui:repeat>
                             ]},
                         </ui:repeat>
-                        ];
-                        
+                        ];                        
                     }   
              </script>
                  <h:outputScript library="primefaces" name="jquery/jquery.js" />
@@ -64,11 +63,7 @@
                 <h:panelGrid columns="5">
                 	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" />
                 	<p:commandButton value=" " id="previousAnalyze" icon="fa fa-fw fa-arrow-left" />
-<<<<<<< HEAD
-                	<h:outputText value="1" id="currentAnalyze"/>
-=======
                 	<h:outputText value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}"/>
->>>>>>> origin/Visa
                 	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" />
 					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" />
 				</h:panelGrid>
@@ -80,15 +75,10 @@
                 			<h:outputText value="#{categorySet.label}" />
                 			</div>
                 				 <div id="buttons">
-<<<<<<< HEAD
-                					<ui:repeat value="#{categorySet.categories}" var="category">
-                						<p:selectBooleanButton onLabel="#{category.name}" offLabel="#{category.name}"  valueChangeListener="changeValue()"/>
-=======
                 					<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
                 						<p:selectBooleanButton onLabel="#{category.label.text}" offLabel="#{category.label.text}">
                 							<p:ajax event="change" listener="#{feedbackAnalyzationManagedBean.setSelected(category)}"/>
                 						</p:selectBooleanButton>
->>>>>>> origin/Visa
                 					</ui:repeat>
                 				</div>
                 	</div>
@@ -101,13 +91,8 @@
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-<<<<<<< HEAD
-              			<p:commandButton id="new" value="#{msg.ana_new}" action="#{analyzer.newAnalyzeEvent}"/>
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" />
-=======
               			<p:commandButton id="new" value="#{msg.ana_new}" action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form"/>
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.saveFeedbackAnalyzation()}" />
->>>>>>> origin/Visa
+              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.continueToRecordTable()}" />
               		</div>
                 </div>
                 

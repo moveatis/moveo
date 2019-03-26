@@ -143,9 +143,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     	else selectedCategories.add(category);
    }
     /**
-     * Returns the current observation entity.
+     * Returns the current feedback analyzation entity.
      */
-    public FeedbackAnalyzationEntity getObservationEntity() {
+    public FeedbackAnalyzationEntity getFeedbackAnalyzationEntity() {
         return feedbackAnalyzationEntity;
     }
 
@@ -255,5 +255,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 
 	public void setCurrentRecordNumber(int currentRecordNumber) {
 		this.currentRecordNumber = currentRecordNumber;
+	}
+	
+	public String continueToRecordTable(){
+		return "recordtable";
 	}
 }
