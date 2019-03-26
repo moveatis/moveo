@@ -232,11 +232,14 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
     public void removeCategoryFromCategorySet(FeedbackAnalysisCategorySetEntity categorySet, FeedbackAnalysisCategoryEntity category) {
     	if(categorySet.getId()!=null) categorySet=getCopyForEditing(categorySet);
     	Map<Integer, AbstractCategoryEntity> categories=categorySet.getCategoryEntitys();
-    	Map<Integer, AbstractCategoryEntity> tmp_categories=categorySet.getCategoryEntitys();
-    	categories.remove(category.getOrderNumber());
+    	Map<Integer, AbstractCategoryEntity> tmp_categories=new TreeMap<Integer,AbstractCategoryEntity>();
+
+    	categories.remove(category.getOrderNumber());    	
     	int i=0;    	
     	for(int key : categories.keySet()) {
-    		tmp_categories.put(i++,categories.get(key));
+    		categories.get(key).setOrderNumber(i);
+    		tmp_categories.put(i,categories.get(key));
+    		i++;
     	}
     	categorySet.setCategoryEntitys(tmp_categories);
     }

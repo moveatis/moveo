@@ -54,7 +54,7 @@
                             <ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
                             <div class="category">
                                 <p:inputText value="#{category.label.text}" id="category-name-input" styleClass="category-text">
-                                	<p:ajax event="change" update=":form" listener="#{feedbackAnalysisCategorySelectionManagedBean.getCopyForEditing(categorySet)}"/>
+                                	<p:ajax event="keyup" listener="#{feedbackAnalysisCategorySelectionManagedBean.getCopyForEditing(categorySet)}"/>
                                 </p:inputText>
                                 <p:watermark value="#{msg.facs_categoryName}" for="category-name-input"/>
                                 <p:commandButton icon="fa fa-remove" class="category-remove-button"

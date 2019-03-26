@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
@@ -24,6 +25,8 @@ public class FeedbackAnalysisCategoryEntity extends AbstractCategoryEntity imple
     
     @ManyToMany(mappedBy="selectedCategories")
     private List<FeedbackAnalysisRecordEntity> recordsContainingThisFeedbackAnalysisCategory;
+	@Transient
+    private boolean inRecord=false;
     
     public List<FeedbackAnalysisRecordEntity> getRecordsContainingThisFeedbackAnalysisCategory() {
 		return recordsContainingThisFeedbackAnalysisCategory;
@@ -37,7 +40,12 @@ public class FeedbackAnalysisCategoryEntity extends AbstractCategoryEntity imple
 			this.recordsContainingThisFeedbackAnalysisCategory.add(far);
 		}
 	}
-
+	public boolean getInRecord() {
+		return inRecord;
+	}
+	public void setInRecord(boolean inRecord) {
+		this.inRecord=inRecord;
+	}
 	@Override
     public FeedbackAnalysisCategorySetEntity getCategorySet() {
         return feedbackAnalysisCategorySet;

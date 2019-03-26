@@ -62,11 +62,11 @@
                 <div id="content">
                 <div id="index">
                 <h:panelGrid columns="5">
-                	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" />
-                	<p:commandButton value=" " id="previousAnalyze" icon="fa fa-fw fa-arrow-left" />
+                	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}" update=":form"/>
+                	<p:commandButton value=" " id="previousAnalyze" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}" update=":form" icon="fa fa-fw fa-arrow-left" />
                 	<h:outputText value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}"/>
-                	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" />
-					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" />
+                	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}" update=":form"/>
+					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.numberOfRecords)}" update=":form"/>
 				</h:panelGrid>
                 </div>
                  <div id="categories">
@@ -77,9 +77,9 @@
                 			</div>
                 				 <div id="buttons">
                 					<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
-                						<p:selectBooleanButton onLabel="#{category.label.text}" offLabel="#{category.label.text}">
-                							<p:ajax listener="#{feedbackAnalyzationManagedBean.setSelected(category)}"/>
-                						</p:selectBooleanButton>
+                							<p:selectBooleanButton value="#{category.inRecord}" onLabel="#{category.label.text}" offLabel="#{category.label.text}">
+                								<p:ajax listener="#{feedbackAnalyzationManagedBean.setSelected(category)}"/>
+                							</p:selectBooleanButton>
                 					</ui:repeat>
                 				</div>
                 	</div>

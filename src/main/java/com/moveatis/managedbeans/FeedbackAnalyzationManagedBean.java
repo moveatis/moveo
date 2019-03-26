@@ -52,7 +52,13 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     @Inject
     private CategorySet categorySetEJB;
     
-    
+    public void setCurrentRecord(int recordNumber) {
+    	if(recordNumber>numberOfRecords-1||recordNumber<1)return;
+    	currentRecordNumber=recordNumber;
+    	selectedCategories=feedbackAnalyzationEntity.getRecords().get(recordNumber-1).getSelectedCategories();
+        for(FeedbackAnalysisCategoryEntity category:selectedCategories)
+        	category.setInRecord(true);
+    }
 
 	public List<FeedbackAnalysisCategoryEntity> getSelectedCategories() {
 		return selectedCategories;
@@ -62,9 +68,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 		this.selectedCategories = selectedCategories;
 	}
 
-	public Boolean isSelected(FeedbackAnalysisCategoryEntity category) {
-		return selectedCategories.contains(category);
-	}
     public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
 		return feedbackAnalysisCategorySetsInUse;
 	}
@@ -140,10 +143,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
         }
     }
 
-    public void setSelected(FeedbackAnalysisCategoryEntity category) {
-    	if(selectedCategories.contains(category)) selectedCategories.remove(category);
-    	else selectedCategories.add(category);
-   }
+
     /**
      * Returns the current observation entity.
      */
@@ -198,6 +198,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
         
         records.add(record);
         feedbackAnalyzationEntity.setRecords(records);
+        for(FeedbackAnalysisCategoryEntity category:selectedCategories)
+        	category.setInRecord(false);
         selectedCategories=new ArrayList<FeedbackAnalysisCategoryEntity>();
         setNumberOfRecords(getNumberOfRecords() + 1);
         setCurrentRecordNumber(getCurrentRecordNumber() + 1);
@@ -259,12 +261,13 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 		this.currentRecordNumber = currentRecordNumber;
 	}
 	
-	public void setIsSelected(Boolean isSelected) {
-		if(selectedCategories.contains(cur_cat)) selectedCategories.remove(cur_cat);
-		else selectedCategories.add(cur_cat);
-	}
-	public boolean getIsSelected() {
-		setIsSelected(true);
-		return selectedCategories.contains(cur_cat);		
-	}
+    public void setSelected(FeedbackAnalysisCategoryEntity category) {
+    	if(!category.getInRecord()) {
+    		selectedCategories.remove(category);    		
+    	}
+    	else {
+    		selectedCategories.add(category);    		
+    	}
+   }
+
 }
