@@ -78,7 +78,6 @@
                 				 <div id="buttons">
                 					<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
                 							<p:selectBooleanButton value="#{category.inRecord}" onLabel="#{category.label.text}" offLabel="#{category.label.text}">
-                								<p:ajax listener="#{feedbackAnalyzationManagedBean.setSelected(category)}"/>
                 							</p:selectBooleanButton>
                 					</ui:repeat>
                 				</div>
@@ -88,7 +87,7 @@
                 </div>            
                 <div id="basicContent">
               		<div id="textArea">
-              		<p:inputTextarea pt:placeholder="Watermark here"/>
+              		<p:inputTextarea value="#{feedbackAnalyzationManagedBean.comment}" pt:placeholder="Watermark here"/>
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />

@@ -45,35 +45,37 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     private static final long serialVersionUID = 1L;
     private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
     private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
-    private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 
     private int numberOfRecords;
     private int currentRecordNumber;
     @Inject
     private CategorySet categorySetEJB;
     
+    private FeedbackAnalysisRecordEntity currentRecord;
+    
+    private String comment;
+    
     public void setCurrentRecord(int recordNumber) {
-    	if(recordNumber>numberOfRecords-1||recordNumber<1)return;
+    	if(recordNumber>numberOfRecords||recordNumber<1)return;
     	currentRecordNumber=recordNumber;
-    	selectedCategories=feedbackAnalyzationEntity.getRecords().get(recordNumber-1).getSelectedCategories();
+    	currentRecord=feedbackAnalyzationEntity.getRecords().get(recordNumber-1);
+        for(FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+        	for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+        		((FeedbackAnalysisCategoryEntity)fac).setInRecord(false);
+        comment=currentRecord.getComment();
+        		
+    	List<FeedbackAnalysisCategoryEntity> selectedCategories=currentRecord.getSelectedCategories();
         for(FeedbackAnalysisCategoryEntity category:selectedCategories)
         	category.setInRecord(true);
     }
 
-	public List<FeedbackAnalysisCategoryEntity> getSelectedCategories() {
-		return selectedCategories;
-	}
 
-	public void setSelectedCategories(List<FeedbackAnalysisCategoryEntity> selectedCategories) {
-		this.selectedCategories = selectedCategories;
-	}
 
     public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
 		return feedbackAnalysisCategorySetsInUse;
 	}
 
-	public void setFeedbackAnalysisCategorySetsInUse(
-			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
+	public void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
 		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
 
@@ -84,9 +86,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     @Inject
     private Session sessionBean;
 
-	private FeedbackAnalysisCategoryEntity cur_cat;
-
-
 
     public FeedbackAnalyzationManagedBean() {
         
@@ -96,8 +95,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     public void init() {
     	setCurrentRecordNumber(1);
     	setNumberOfRecords(1);
-    	selectedCategories=new ArrayList<FeedbackAnalysisCategoryEntity>();
     	startObservation();
+        currentRecord=new FeedbackAnalysisRecordEntity();
+        currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
+        feedbackAnalyzationEntity.addRecord(currentRecord);
     }
     
     /**
@@ -186,23 +187,34 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
     
 
     public void addRecord() {
-    	FeedbackAnalysisRecordEntity record=new FeedbackAnalysisRecordEntity();
     	if(feedbackAnalyzationEntity==null)feedbackAnalyzationEntity=new FeedbackAnalyzationEntity();
     	List<FeedbackAnalysisRecordEntity> records = feedbackAnalyzationEntity.getRecords();
-        record.setFeedbackAnalyzation(feedbackAnalyzationEntity);
         
         if(records == null) {
             records = new ArrayList<>();
         }
-        record.setSelectedCategories(selectedCategories);
+        List<FeedbackAnalysisCategoryEntity> selectedCategories=new ArrayList<FeedbackAnalysisCategoryEntity>();
+        for(FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+        	for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+        		if(((FeedbackAnalysisCategoryEntity)fac).getInRecord()) {
+        			selectedCategories.add((FeedbackAnalysisCategoryEntity) fac);
+        			((FeedbackAnalysisCategoryEntity)fac).setInRecord(false);
+        		}
+        			
         
-        records.add(record);
+        currentRecord.setSelectedCategories(selectedCategories);
+        
+        currentRecord.setComment(comment);
         feedbackAnalyzationEntity.setRecords(records);
-        for(FeedbackAnalysisCategoryEntity category:selectedCategories)
-        	category.setInRecord(false);
-        selectedCategories=new ArrayList<FeedbackAnalysisCategoryEntity>();
-        setNumberOfRecords(getNumberOfRecords() + 1);
-        setCurrentRecordNumber(getCurrentRecordNumber() + 1);
+        
+        comment="";
+        currentRecord=new FeedbackAnalysisRecordEntity();
+        currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
+        feedbackAnalyzationEntity.addRecord(currentRecord);
+        currentRecord.setSelectedCategories(new ArrayList<FeedbackAnalysisCategoryEntity>());
+        
+        numberOfRecords++;
+       	currentRecordNumber++;
     }
  
     
@@ -260,14 +272,19 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 	public void setCurrentRecordNumber(int currentRecordNumber) {
 		this.currentRecordNumber = currentRecordNumber;
 	}
+
+
+
+	public String getComment() {
+		return comment;
+	}
+
+
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	
-    public void setSelected(FeedbackAnalysisCategoryEntity category) {
-    	if(!category.getInRecord()) {
-    		selectedCategories.remove(category);    		
-    	}
-    	else {
-    		selectedCategories.add(category);    		
-    	}
-   }
+
 
 }
