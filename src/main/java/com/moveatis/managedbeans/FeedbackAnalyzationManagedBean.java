@@ -144,6 +144,14 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
         }
     }
     
+    public void checkExclusive(FeedbackAnalysisCategoryEntity category) {
+    	if(category.getCategorySet().getIsExclusive()){
+    		for(AbstractCategoryEntity cat:category.getCategorySet().getCategoryEntitys().values())
+    			((FeedbackAnalysisCategoryEntity)cat).setInRecord(false);
+    		category.setInRecord(true);
+    	}
+    }
+    
     
     public void setEventEntity(EventEntity eventEntity) {
         this.eventEntity = eventEntity;
