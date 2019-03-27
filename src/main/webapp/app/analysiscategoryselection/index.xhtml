@@ -35,9 +35,9 @@
                             <p:commandButton value="#{msg.dialogConfirmNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     
-                        <h:outputText value="#{msg.facs_noCategorySetsText}" rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.categorySetsInUse}"/>
+                        <h:outputText value="#{msg.facs_noCategorySetsText}" rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse}"/>
                         
-                        <ui:repeat value="#{feedbackAnalysisCategorySelectionManagedBean.categorySetsInUse.toArray()}" var="categorySet" varStatus="status">
+                        <ui:repeat value="#{feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}" var="categorySet" varStatus="status">
                         <h:panelGroup id="category-set" styleClass="category-set category-set-#{status.index}">
                             
                             <p:commandLink styleClass="fa fa-remove category-set-remove-button"
@@ -78,19 +78,19 @@
                         
                         <h:panelGroup layout="block" styleClass="category-set-list">
                             <p:outputLabel for="new-category-set" value="#{msg.facs_newCategorySet}:" styleClass="category-set-list-label"/>
-                            <p:inputText value="#{feedbackAnalysisCategorySelectionManagedBean.newCategorySetName}" id="new-category-set" styleClass="category-set-list-input" />
+                            <p:inputText value="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName}" id="new-category-set" styleClass="category-set-list-input" />
                             <p:watermark value="#{msg.facs_categorySetName}" for="new-category-set" />
                             <p:commandButton value="#{msg.facs_addCategorySet}" style="vertical-align: middle"
                                              action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategorySet()}" update="@form"/>
                         </h:panelGroup>
                         
                         <h:panelGroup layout="block" styleClass="category-set-list"
-                                      rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.privateCategorySets.toArray()}">
+                                      rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.privateFeedbackAnalysisCategorySets.toArray()}">
                             <p:outputLabel for="private-category-sets" value="#{msg.facs_privateCategorySets}:"
                                            styleClass="category-set-list-label"/>
-                            <p:selectOneMenu id="private-category-sets" value="#{feedbackAnalysisCategorySelectionManagedBean.selectedPrivateCategorySet}"
+                            <p:selectOneMenu id="private-category-sets" value="#{feedbackAnalysisCategorySelectionManagedBean.selectedPrivateFeedbackAnalysisCategorySet}"
                                              styleClass="category-set-list-select">
-                                <f:selectItems value="#{feedbackAnalysisCategorySelectionManagedBean.privateCategorySets.toArray()}" var="categorySet"
+                                <f:selectItems value="#{feedbackAnalysisCategorySelectionManagedBean.privateFeedbackAnalysisCategorySets.toArray()}" var="categorySet"
                                                itemLabel="#{categorySet.label}" itemValue="#{categorySet.id}"/>
                             </p:selectOneMenu>
                             <p:commandButton value="#{msg.facs_addCategorySet}" style="vertical-align: middle"
@@ -98,12 +98,12 @@
                         </h:panelGroup>
                         
                         <h:panelGroup layout="block" styleClass="category-set-list-last"
-                                      rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.defaultCategorySets.toArray()}">
+                                      rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.defaultFeedbackAnalysisCategorySets.toArray()}">
                             <p:outputLabel for="default-category-sets" value="#{msg.facs_defaultCategorySets}:"
                                            styleClass="category-set-list-label"/>
-                            <p:selectOneMenu id="default-category-sets" value="#{feedbackAnalysisCategorySelectionManagedBean.selectedDefaultCategorySet}"
+                            <p:selectOneMenu id="default-category-sets" value="#{feedbackAnalysisCategorySelectionManagedBean.selectedDefaultFeedbackAnalysisCategorySet}"
                                              styleClass="category-set-list-select">
-                                <f:selectItems value="#{feedbackAnalysisCategorySelectionManagedBean.defaultCategorySets.toArray()}" var="categorySet"
+                                <f:selectItems value="#{feedbackAnalysisCategorySelectionManagedBean.defaultFeedbackAnalysisCategorySets.toArray()}" var="categorySet"
                                                itemLabel="#{categorySet.label}" itemValue="#{categorySet.id}"/>
                             </p:selectOneMenu>
                             <p:commandButton value="#{msg.facs_addCategorySet}" style="vertical-align: middle"
