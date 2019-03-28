@@ -241,6 +241,11 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 	public void setCurrentRecordNumber(int currentRecordNumber) {
 		this.currentRecordNumber = currentRecordNumber;
 	}
+	
+	public String continueToRecordTable(){
+		saveFeedbackAnalyzation();
+		return "recordtable";
+	}
 
 
 
