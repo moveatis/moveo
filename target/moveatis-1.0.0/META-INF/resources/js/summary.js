@@ -505,10 +505,31 @@ function isBottomOfDocument(padding) {
 }
 
 function saveAsImage() {
-	html2canvas(document.getElementById('photo')).then(function(canvas) {
-		document.getElementById('output').innerHTML ="";
-		document.getElementById('output').appendChild(canvas);
+	document.getElementById('hiddenButtons').style.display = "none";
+	html2canvas(document.getElementById('recordingsPhoto')).then(function(canvas) {
+ 	document.getElementById('hiddenButtons').style.display = "block";
+	document.getElementById('image').appendChild(canvas);
+	document.getElementById('image').style.display = "none";
+	saveAs(canvas.toDataURL(), 'summary.png');	 
+	PF('dlgSave').hide();
 	});
 	
-	PF('dlg').show();
+	function saveAs(uri, filename) {
+	    var link = document.createElement('a');
+	    if (typeof link.download === 'string') {
+	      link.href = uri;
+	      link.download = filename;
+
+	      //Firefox requires the link to be in the body
+	      document.body.appendChild(link);
+
+	      //simulate click
+	      link.click();
+
+	      //remove the link when done
+	      document.body.removeChild(link);
+	    } else {
+	      window.open(uri);
+	    }
+	  }
 }
