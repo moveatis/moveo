@@ -83,6 +83,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <redirect/>
         </navigation-case>
     </navigation-rule>
+        <navigation-rule>
+        <from-view-id>/app/analyzer/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/app/summary/index_new.xhtml</to-view-id>
+            <from-outcome>recordtable</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>/app/settings/index.xhtml</from-view-id>
         <navigation-case>

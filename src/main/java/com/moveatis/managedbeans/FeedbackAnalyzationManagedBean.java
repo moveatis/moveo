@@ -1,6 +1,5 @@
 package com.moveatis.managedbeans;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,212 +26,244 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 @Named(value = "feedbackAnalyzationManagedBean")
 @SessionScoped
-public class FeedbackAnalyzationManagedBean implements Serializable{
-	 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagedBean.class);
-    
-    private static final long serialVersionUID = 1L;
-    /*
-     * The feedbackanalyzationentity being edited
-     * */
-    private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
-    /*
-     * The categorysets being used in the analyzation event
-     * */
-    private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
+public class FeedbackAnalyzationManagedBean implements Serializable {
 
-    /*
-     * The number of records currently added to the analyzation
-     * TODO get this based on the length of the list of records
-     * */
-    private int numberOfRecords;
-    /*
-     * The index(+1) of the record currently in view 
-     * */
-    private int currentRecordNumber;
-    /*
-     * If the analyzation has some new categorysets they need to be saved, so CategorySetBean is needed
-     * */
-    @Inject
-    private CategorySet categorySetEJB;
-    /*
-     * The record currently in view
-     * */
-    private FeedbackAnalysisRecordEntity currentRecord;
-    
-    /*
-     * The event the analyzation is performed for
-     * */
+	private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagedBean.class);
+
+	private static final long serialVersionUID = 1L;
+	/*
+	 * The feedbackanalyzationentity being edited
+	 */
+	private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
+	/*
+	 * The categorysets being used in the analyzation event
+	 */
+	private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
+
+	/*
+	 * The number of records currently added to the analyzation TODO get this based
+	 * on the length of the list of records
+	 */
+	private int numberOfRecords;
+	/*
+	 * The index(+1) of the record currently in view
+	 */
+	private int currentRecordNumber;
+	/*
+	 * If the analyzation has some new categorysets they need to be saved, so
+	 * CategorySetBean is needed
+	 */
+	@Inject
+	private CategorySet categorySetEJB;
+	/*
+	 * The record currently in view
+	 */
+	private FeedbackAnalysisRecordEntity currentRecord;
+
+	/*
+	 * The event the analyzation is performed for
+	 */
 	private EventEntity eventEntity;
-    /*
-     * used to save the analyzation to the database
-     * */
-    @EJB
-    private FeedbackAnalyzation feedbackAnalyzationEJB;
-    /*
-     * The categorysets are gotten from the session
-     * */
-    @Inject
-    private Session sessionBean;
-    /*
-     * The comment for the record currently in view
-     * */
-    private String comment;
-    /**
-     * Sets the record to be shown in the view based on the given parameter
-     * TODO: Make the list of records be ordered either by an order number or starttime (if the timer is implemented) as the order might change
-     * @param recordNumber The index(+1) of the record to be accessed
-     */
-    public void setCurrentRecord(int recordNumber) {
-    	if(recordNumber>numberOfRecords||recordNumber<1||recordNumber==currentRecordNumber)return;
-    	editRecord();
-    	currentRecordNumber=recordNumber;
-    	currentRecord=feedbackAnalyzationEntity.getRecords().get(recordNumber-1);
-        for(FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
-        	for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
-        		((FeedbackAnalysisCategoryEntity)fac).setInRecord(false);
-        comment=currentRecord.getComment();
-        		
-    	List<FeedbackAnalysisCategoryEntity> selectedCategories=currentRecord.getSelectedCategories();
-        for(FeedbackAnalysisCategoryEntity category:selectedCategories)
-        	category.setInRecord(true);
-    }
+	/*
+	 * used to save the analyzation to the database
+	 */
+	@EJB
+	private FeedbackAnalyzation feedbackAnalyzationEJB;
+	/*
+	 * The categorysets are gotten from the session
+	 */
+	@Inject
+	private Session sessionBean;
+	/*
+	 * The comment for the record currently in view
+	 */
+	private String comment;
 
+	private FeedbackAnalysisCategoryEntity selectedCategory;
 
+	public void setSelectedCategory(FeedbackAnalysisCategoryEntity selectedCategory) {
+		this.selectedCategory = selectedCategory;
+	}
 
-    public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+	public FeedbackAnalysisCategoryEntity getSelectedCategory() {
+		return selectedCategory;
+	}
+
+	public void addCategoryToCurrentRecord(FeedbackAnalysisCategoryEntity category) {
+		currentRecord.addSelectedCategory(category);
+	}
+
+	public void setCurrentRecord(FeedbackAnalysisRecordEntity currentRecord) {
+		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
+		comment = currentRecord.getComment();
+
+		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
+		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
+			category.setInRecord(true);
+		this.currentRecord = currentRecord;
+	}
+
+	public FeedbackAnalysisRecordEntity getCurrentRecord() {
+		return currentRecord;
+
+	}
+
+	/**
+	 * Sets the record to be shown in the view based on the given parameter TODO:
+	 * Make the list of records be ordered either by an order number or starttime
+	 * (if the timer is implemented) as the order might change
+	 * 
+	 * @param recordNumber
+	 *            The index(+1) of the record to be accessed
+	 */
+	public void setCurrentRecord(int recordNumber) {
+		if (recordNumber > numberOfRecords || recordNumber < 1 || recordNumber == currentRecordNumber)
+			return;
+		editRecord();
+		currentRecordNumber = recordNumber;
+		currentRecord = feedbackAnalyzationEntity.getRecords().get(recordNumber - 1);
+		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
+		comment = currentRecord.getComment();
+
+		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
+		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
+			category.setInRecord(true);
+	}
+
+	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
 		return feedbackAnalysisCategorySetsInUse;
 	}
 
-	public void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
+	public void setFeedbackAnalysisCategorySetsInUse(
+			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
 		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
 
+	public FeedbackAnalyzationManagedBean() {
 
-
-    public FeedbackAnalyzationManagedBean() {
-        
-    }
-    /**
-     * Initializes all the necessary information for the analyzation
-     * */
-    @PostConstruct
-    public void init() {
-    	setCurrentRecordNumber(1);
-    	setNumberOfRecords(1);
-        this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
-        this.feedbackAnalyzationEntity.setCreated();
-        this.feedbackAnalyzationEntity.setEvent(eventEntity);
-        if(feedbackAnalyzationEntity.getRecords() == null) {
-            feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
-        }
-        currentRecord=new FeedbackAnalysisRecordEntity();
-        currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
-        feedbackAnalyzationEntity.addRecord(currentRecord);
-    }
-    
-    /**
-     * Removes the analyzations the user doesn't want to save to database
-     * when the session timeout happens and the bean is destroyed.
-     */
-    @PreDestroy
-    public void destroy() {
-        if(feedbackAnalyzationEntity != null) {
-            if(!feedbackAnalyzationEntity.getUserWantsToSaveToDatabase()) {
-                feedbackAnalyzationEJB.removeUnsavedObservation(feedbackAnalyzationEntity);
-            }
-        }
-    }
-    
-    public void checkExclusive(FeedbackAnalysisCategoryEntity category) {
-    	if(category.getCategorySet().getIsExclusive()){
-    		for(AbstractCategoryEntity cat:category.getCategorySet().getCategoryEntitys().values())
-    			((FeedbackAnalysisCategoryEntity)cat).setInRecord(false);
-    		category.setInRecord(true);
-    	}
-    }
-    
-    
-    public void setEventEntity(EventEntity eventEntity) {
-        this.eventEntity = eventEntity;
-    }
-    
-    public EventEntity getEventEntity() {
-        return this.eventEntity;
-    }
-   
-
-    public FeedbackAnalyzationEntity getFeedbackAnalyzationEntity() {
-        return feedbackAnalyzationEntity;
-    }
-
-
-    public void setFeedbackAnalyzationEntity(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
-        this.feedbackAnalyzationEntity = feedbackAnalyzationEntity;
-    }
-
-
-
-    
-    public void setFeedbackAnalyzationName(String name) {
-        this.feedbackAnalyzationEntity.setName(name);
-    }
-    
-    public void setFeedbackAnalyzationDuration(long duration) {
-        this.feedbackAnalyzationEntity.setDuration(duration);
-    }
-    
-    /**
-     * saves the changes to the record currently in view and initializes a new record
-     * */
-    public void addRecord() {
-    	if(feedbackAnalyzationEntity==null)feedbackAnalyzationEntity=new FeedbackAnalyzationEntity();
-    	
-    	editRecord();
-        
-        comment="";
-        currentRecord=new FeedbackAnalysisRecordEntity();
-        currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
-        feedbackAnalyzationEntity.addRecord(currentRecord);
-        currentRecord.setSelectedCategories(new ArrayList<FeedbackAnalysisCategoryEntity>());
-        
-        numberOfRecords++;
-       	currentRecordNumber++;
-    }
-
-
-
-    /**
-     * saves the changes to the record currently in view
-     * */
-	private void editRecord() {
-
-        List<FeedbackAnalysisCategoryEntity> selectedCategories=new ArrayList<FeedbackAnalysisCategoryEntity>();
-        for(FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
-        	for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
-        		if(((FeedbackAnalysisCategoryEntity)fac).getInRecord()) {
-        			selectedCategories.add((FeedbackAnalysisCategoryEntity) fac);
-        			((FeedbackAnalysisCategoryEntity)fac).setInRecord(false);
-        		}
-        			
-        
-        currentRecord.setSelectedCategories(selectedCategories);
-        
-        currentRecord.setComment(comment);
 	}
- 
 
-    /**
-     * The method saves the analyzation to the database.
-     */
-    public void saveFeedbackAnalyzation() {
-        feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
-        
-        for(FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse)
-        	if(categorySet.getId()==null)categorySetEJB.create(categorySet);
-        
-        feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
-    }
+	/**
+	 * Initializes all the necessary information for the analyzation
+	 */
+	@PostConstruct
+	public void init() {
+		setCurrentRecordNumber(1);
+		setNumberOfRecords(1);
+		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
+		this.feedbackAnalyzationEntity.setCreated();
+		this.feedbackAnalyzationEntity.setEvent(eventEntity);
+		if (feedbackAnalyzationEntity.getRecords() == null) {
+			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
+		}
+		currentRecord = new FeedbackAnalysisRecordEntity();
+		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
+		feedbackAnalyzationEntity.addRecord(currentRecord);
+	}
+
+	/**
+	 * Removes the analyzations the user doesn't want to save to database when the
+	 * session timeout happens and the bean is destroyed.
+	 */
+	@PreDestroy
+	public void destroy() {
+		if (feedbackAnalyzationEntity != null) {
+			if (!feedbackAnalyzationEntity.getUserWantsToSaveToDatabase()) {
+				feedbackAnalyzationEJB.removeUnsavedObservation(feedbackAnalyzationEntity);
+			}
+		}
+	}
+
+	public void checkExclusive(FeedbackAnalysisCategoryEntity category) {
+		if (category.getCategorySet().getIsExclusive()) {
+			for (AbstractCategoryEntity cat : category.getCategorySet().getCategoryEntitys().values())
+				((FeedbackAnalysisCategoryEntity) cat).setInRecord(false);
+			category.setInRecord(true);
+		}
+	}
+
+	public void setEventEntity(EventEntity eventEntity) {
+		this.eventEntity = eventEntity;
+	}
+
+	public EventEntity getEventEntity() {
+		return this.eventEntity;
+	}
+
+	public FeedbackAnalyzationEntity getFeedbackAnalyzationEntity() {
+		return feedbackAnalyzationEntity;
+	}
+
+	public void setFeedbackAnalyzationEntity(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
+		this.feedbackAnalyzationEntity = feedbackAnalyzationEntity;
+	}
+
+	public void setFeedbackAnalyzationName(String name) {
+		this.feedbackAnalyzationEntity.setName(name);
+	}
+
+	public void setFeedbackAnalyzationDuration(long duration) {
+		this.feedbackAnalyzationEntity.setDuration(duration);
+	}
+
+	/**
+	 * saves the changes to the record currently in view and initializes a new
+	 * record
+	 */
+	public void addRecord() {
+		if (feedbackAnalyzationEntity == null)
+			feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
+
+		editRecord();
+
+		comment = "";
+		currentRecord = new FeedbackAnalysisRecordEntity();
+		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
+		feedbackAnalyzationEntity.addRecord(currentRecord);
+		currentRecord.setSelectedCategories(new ArrayList<FeedbackAnalysisCategoryEntity>());
+
+		numberOfRecords++;
+		currentRecordNumber++;
+	}
+
+	/**
+	 * saves the changes to the record currently in view
+	 */
+	public void editRecord() {
+
+		List<FeedbackAnalysisCategoryEntity> selectedCategories = new ArrayList<FeedbackAnalysisCategoryEntity>();
+		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+				if (((FeedbackAnalysisCategoryEntity) fac).getInRecord()) {
+					selectedCategories.add((FeedbackAnalysisCategoryEntity) fac);
+					((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
+				}
+
+		currentRecord.setSelectedCategories(selectedCategories);
+
+		currentRecord.setComment(comment);
+	}
+
+	public String toSummary() {
+		return "recordtable";
+	}
+
+	/**
+	 * The method saves the analyzation to the database.
+	 */
+	public void saveFeedbackAnalyzation() {
+		feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
+
+		for (FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse)
+			if (categorySet.getId() == null)
+				categorySetEJB.create(categorySet);
+
+		feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
+	}
 
 	public int getNumberOfRecords() {
 		return numberOfRecords;
@@ -250,18 +281,12 @@ public class FeedbackAnalyzationManagedBean implements Serializable{
 		this.currentRecordNumber = currentRecordNumber;
 	}
 
-
-
 	public String getComment() {
 		return comment;
 	}
 
-
-
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
-
 
 }
