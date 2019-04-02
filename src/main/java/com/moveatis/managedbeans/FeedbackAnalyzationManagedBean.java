@@ -3,6 +3,7 @@ package com.moveatis.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -21,6 +22,7 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.FeedbackAnalyzation;
+import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
@@ -31,6 +33,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagedBean.class);
 
 	private static final long serialVersionUID = 1L;
+	
+	
+
+
 	/*
 	 * The feedbackanalyzationentity being edited
 	 */
@@ -178,13 +184,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		}
 	}
 
-	public void checkExclusive(FeedbackAnalysisCategoryEntity category) {
-		if (category.getCategorySet().getIsExclusive()) {
-			for (AbstractCategoryEntity cat : category.getCategorySet().getCategoryEntitys().values())
-				((FeedbackAnalysisCategoryEntity) cat).setInRecord(false);
-			category.setInRecord(true);
-		}
-	}
+
 
 	public void setEventEntity(EventEntity eventEntity) {
 		this.eventEntity = eventEntity;
@@ -249,7 +249,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	}
 
 	public String toSummary() {
-		return "recordtable";
+		editRecord();
+		return "summary";
 	}
 
 	/**

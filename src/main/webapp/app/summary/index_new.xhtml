@@ -72,7 +72,7 @@
 						<p:selectBooleanButton value="#{category.inRecord}"
 							onLabel="#{category.label.text}"
 							offLabel="#{category.label.text}">
-                			<p:ajax listener="#{feedbackAnalyzationManagedBean.checkExclusive(category)}" update=":categorySetForm"/>
+                			<p:ajax update=":categorySetForm"/>
 						</p:selectBooleanButton>
 
 					</ui:repeat>

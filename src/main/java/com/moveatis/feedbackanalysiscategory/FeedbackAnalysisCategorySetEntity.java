@@ -33,7 +33,6 @@ public class FeedbackAnalysisCategorySetEntity extends AbstractCategorySetEntity
     @Column(name="FEEDBACKANALYSISCATEGORYENTITY_ORDERNUMBER")
     private Map<Integer, AbstractCategoryEntity> categoryEntitys;
 
-    private boolean isExclusive=true;
     
     @Override
     public Map<Integer, AbstractCategoryEntity> getCategoryEntitys() {
@@ -45,13 +44,7 @@ public class FeedbackAnalysisCategorySetEntity extends AbstractCategorySetEntity
         this.categoryEntitys = categories;
     }
 
-	public boolean getIsExclusive() {
-		return isExclusive;
-	}
-	
-	public void setIsExclusive(boolean isExclusive) {
-		this.isExclusive=isExclusive;
-	}
+
 
     
 }

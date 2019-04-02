@@ -104,103 +104,6 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
     }
 	
 
-    
-    public String getNewFeedbackAnalysisCategorySetName() {
-		return newFeedbackAnalysisCategorySetName;
-	}
-
-
-
-	public void setNewFeedbackAnalysisCategorySetName(String newFeedbackAnalysisCategorySetName) {
-		this.newFeedbackAnalysisCategorySetName = newFeedbackAnalysisCategorySetName;
-	}
-
-
-
-	public long getSelectedDefaultFeedbackAnalysisCategorySet() {
-		return selectedDefaultFeedbackAnalysisCategorySet;
-	}
-
-
-
-	public void setSelectedDefaultFeedbackAnalysisCategorySet(long selectedDefaultFeedbackAnalysisCategorySet) {
-		this.selectedDefaultFeedbackAnalysisCategorySet = selectedDefaultFeedbackAnalysisCategorySet;
-	}
-
-
-
-	public long getSelectedPrivateFeedbackAnalysisCategorySet() {
-		return selectedPrivateFeedbackAnalysisCategorySet;
-	}
-
-
-
-	public void setSelectedPrivateFeedbackAnalysisCategorySet(long selectedPrivateFeedbackAnalysisCategorySet) {
-		this.selectedPrivateFeedbackAnalysisCategorySet = selectedPrivateFeedbackAnalysisCategorySet;
-	}
-
-
-
-	public List<FeedbackAnalysisCategorySetEntity> getDefaultFeedbackAnalysisCategorySets() {
-		return defaultFeedbackAnalysisCategorySets;
-	}
-
-
-
-	public void setDefaultFeedbackAnalysisCategorySets(
-			List<FeedbackAnalysisCategorySetEntity> defaultFeedbackAnalysisCategorySets) {
-		this.defaultFeedbackAnalysisCategorySets = defaultFeedbackAnalysisCategorySets;
-	}
-
-
-
-	public List<FeedbackAnalysisCategorySetEntity> getPrivateFeedbackAnalysisCategorySets() {
-		return privateFeedbackAnalysisCategorySets;
-	}
-
-
-
-	public void setPrivateFeedbackAnalysisCategorySets(
-			List<FeedbackAnalysisCategorySetEntity> privateFeedbackAnalysisCategorySets) {
-		this.privateFeedbackAnalysisCategorySets = privateFeedbackAnalysisCategorySets;
-	}
-
-
-
-	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
-		return feedbackAnalysisCategorySetsInUse;
-	}
-
-
-
-	public void setFeedbackAnalysisCategorySetsInUse(
-			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
-		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
-	}
-
-
-
-	public EventGroupEntity getEventGroup() {
-		return eventGroup;
-	}
-
-
-
-	public void setEventGroup(EventGroupEntity eventGroup) {
-		this.eventGroup = eventGroup;
-	}
-
-
-
-	public FeedbackAnalyzationManagedBean getFeedbackAnalyzationManagedBean() {
-		return feedbackAnalyzationManagedBean;
-	}
-
-
-
-	public void setFeedbackAnalyzationManagedBean(FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean) {
-		this.feedbackAnalyzationManagedBean = feedbackAnalyzationManagedBean;
-	}
 
 
 
@@ -407,5 +310,105 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
         }
         return false;
     }
+    
+    
+    public String getNewFeedbackAnalysisCategorySetName() {
+		return newFeedbackAnalysisCategorySetName;
+	}
+
+
+
+	public void setNewFeedbackAnalysisCategorySetName(String newFeedbackAnalysisCategorySetName) {
+		this.newFeedbackAnalysisCategorySetName = newFeedbackAnalysisCategorySetName;
+	}
+
+
+
+	public long getSelectedDefaultFeedbackAnalysisCategorySet() {
+		return selectedDefaultFeedbackAnalysisCategorySet;
+	}
+
+
+
+	public void setSelectedDefaultFeedbackAnalysisCategorySet(long selectedDefaultFeedbackAnalysisCategorySet) {
+		this.selectedDefaultFeedbackAnalysisCategorySet = selectedDefaultFeedbackAnalysisCategorySet;
+	}
+
+
+
+	public long getSelectedPrivateFeedbackAnalysisCategorySet() {
+		return selectedPrivateFeedbackAnalysisCategorySet;
+	}
+
+
+
+	public void setSelectedPrivateFeedbackAnalysisCategorySet(long selectedPrivateFeedbackAnalysisCategorySet) {
+		this.selectedPrivateFeedbackAnalysisCategorySet = selectedPrivateFeedbackAnalysisCategorySet;
+	}
+
+
+
+	public List<FeedbackAnalysisCategorySetEntity> getDefaultFeedbackAnalysisCategorySets() {
+		return defaultFeedbackAnalysisCategorySets;
+	}
+
+
+
+	public void setDefaultFeedbackAnalysisCategorySets(
+			List<FeedbackAnalysisCategorySetEntity> defaultFeedbackAnalysisCategorySets) {
+		this.defaultFeedbackAnalysisCategorySets = defaultFeedbackAnalysisCategorySets;
+	}
+
+
+
+	public List<FeedbackAnalysisCategorySetEntity> getPrivateFeedbackAnalysisCategorySets() {
+		return privateFeedbackAnalysisCategorySets;
+	}
+
+
+
+	public void setPrivateFeedbackAnalysisCategorySets(
+			List<FeedbackAnalysisCategorySetEntity> privateFeedbackAnalysisCategorySets) {
+		this.privateFeedbackAnalysisCategorySets = privateFeedbackAnalysisCategorySets;
+	}
+
+
+
+	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+		return feedbackAnalysisCategorySetsInUse;
+	}
+
+
+
+	public void setFeedbackAnalysisCategorySetsInUse(
+			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
+		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
+	}
+
+
+
+	public EventGroupEntity getEventGroup() {
+		return eventGroup;
+	}
+
+
+
+	public void setEventGroup(EventGroupEntity eventGroup) {
+		this.eventGroup = eventGroup;
+	}
+
+
+
+	public FeedbackAnalyzationManagedBean getFeedbackAnalyzationManagedBean() {
+		return feedbackAnalyzationManagedBean;
+	}
+
+
+
+	public void setFeedbackAnalyzationManagedBean(FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean) {
+		this.feedbackAnalyzationManagedBean = feedbackAnalyzationManagedBean;
+	}
+
+    
 	}
 

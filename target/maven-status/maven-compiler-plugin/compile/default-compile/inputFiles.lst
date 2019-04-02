@@ -49,6 +49,7 @@ G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\AnonUser.
 G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\enums\MailStatus.java
 G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\feedbackanalysiscategory\FeedbackAnalysisCategoryEntity.java
 G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\MessageBundle.java
+G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\managedbeans\FeedbackAnalysisSummaryManagedBean.java
 G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\event\EventEntity.java
 G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\interfaces\Label.java
 G:\Users\Business Time\git\Moveo\src\main\java\com\moveatis\session\LogoutBean.java
