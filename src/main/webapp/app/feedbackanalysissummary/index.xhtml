@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+
+		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
+
+		<ui:define name="mainpage">
+		<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}" var="barModel">
+			<p:chart type="bar" model="#{barModel}"
+				style="width:100px" />
+		</ui:repeat>
+		<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}" var="pieModel">
+			<p:chart type="pie" model="#{pieModel}"
+				style="width:300px; height:300px" />
+		</ui:repeat>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

@@ -61,11 +61,11 @@
                 <div id="content">
                 <div id="index">
                 <h:panelGrid columns="5">
-                	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" />
-                	<p:commandButton value=" " id="previousAnalyze" icon="fa fa-fw fa-arrow-left" />
+                	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}" update=":form"/>
+                	<p:commandButton value=" " id="previousAnalyze" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}" update=":form" icon="fa fa-fw fa-arrow-left" />
                 	<h:outputText value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}"/>
-                	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" />
-					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" />
+                	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}" update=":form"/>
+					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.numberOfRecords)}" update=":form"/>
 				</h:panelGrid>
                 </div>
                  <div id="categories">
@@ -76,9 +76,9 @@
                 			</div>
                 				 <div id="buttons">
                 					<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
-                						<p:selectBooleanButton onLabel="#{category.label.text}" offLabel="#{category.label.text}">
-                							<p:ajax event="change" listener="#{feedbackAnalyzationManagedBean.setSelected(category)}"/>
-                						</p:selectBooleanButton>
+                							<p:selectBooleanButton value="#{category.inRecord}" onLabel="#{category.label.text}" offLabel="#{category.label.text}">
+                							<p:ajax update=":form"/>
+                							</p:selectBooleanButton>
                 					</ui:repeat>
                 				</div>
                 	</div>
@@ -87,15 +87,17 @@
                 </div>            
                 <div id="basicContent">
               		<div id="textArea">
-              		<p:inputTextarea pt:placeholder="Watermark here"/>
+              		<p:inputTextarea value="#{feedbackAnalyzationManagedBean.comment}" pt:placeholder="Watermark here"/>
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />
               			<p:commandButton id="new" value="#{msg.ana_new}" action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form"/>
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.continueToRecordTable()}" />
+              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.toSummary()}" />
               		</div>
                 </div>
-                 </h:form>
+                
+               
+                </h:form>
     
             </ui:define>
             

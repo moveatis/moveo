@@ -104,6 +104,7 @@ com\moveatis\groupkey\GroupKeyBean.class
 com\moveatis\abstracts\AbstractObservationEntity.class
 com\moveatis\observation\ObservationCategorySet.class
 com\moveatis\user\TagUserEntity_.class
+com\moveatis\managedbeans\FeedbackAnalysisSummaryManagedBean.class
 com\moveatis\identityprovider\IdentityProvider.class
 com\moveatis\managedbeans\SummaryManagedBean.class
 com\moveatis\interfaces\EventGroup.class

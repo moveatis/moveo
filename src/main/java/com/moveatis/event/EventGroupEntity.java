@@ -35,6 +35,7 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
@@ -70,13 +71,13 @@ public class EventGroupEntity extends BaseEntity implements Serializable {
     private Set<CategorySetEntity> categorySets;
     
     @OneToMany(mappedBy = "eventGroupEntity", cascade = PERSIST, fetch = EAGER)
-    private Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
+    private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
 
-    public Set<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
+    public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
 		return feedbackAnalysisCategorySets;
 	}
 
-	public void setFeedbackAnalysisCategorySets(Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets) {
+	public void setFeedbackAnalysisCategorySets(List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets) {
 		this.feedbackAnalysisCategorySets = feedbackAnalysisCategorySets;
 	}
 
