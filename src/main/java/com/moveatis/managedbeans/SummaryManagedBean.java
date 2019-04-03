@@ -443,9 +443,9 @@ public class SummaryManagedBean implements Serializable {
      */
     public void saveCurrentObservationAsImage(){
     	ScriptEngineManager manager = new ScriptEngineManager();
-    	ScriptEngine engine = manager.getEngineByName("JavaScript");
+    	ScriptEngine engine = manager.getEngineByName("nashorn");
     	try {
-			engine.eval(new FileReader("C:/MyTemp/GIT/Moveatis/src/main/webapp/META-INF/resources/js/summary.js"));
+			engine.eval(new java.io.FileReader("summary.js"));
 		} catch (ScriptException | IOException e) {
 			e.printStackTrace();
 		} 

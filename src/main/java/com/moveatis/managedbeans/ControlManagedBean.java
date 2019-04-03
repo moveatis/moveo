@@ -114,6 +114,8 @@ public class ControlManagedBean implements Serializable {
     private Session sessionBean;
     @Inject
     private ObservationManagedBean observationBean;
+    @Inject
+    private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 
     @Inject
     @MessageBundle
@@ -367,6 +369,18 @@ public class ControlManagedBean implements Serializable {
         observationBean.resetCategorySetsInUse();
         return "newobservation";
     }
+    
+    /**
+     * Initializes a new analyzation and redirects to the category selection view.
+     *
+     * @return The navigation rule string that redirects to the category selection view.
+     */
+    public String newAnalyzation() {
+    	feedbackAnalyzationManagedBean.setEventEntity(selectedEventGroup.getEvent());
+        // Make sure we don't modify earlier categories.
+    	feedbackAnalyzationManagedBean.resetCategorySetsInUse();
+        return "newanalyzation";
+    }
 
     /**
      * Removes the event group from the database.
@@ -531,4 +545,14 @@ public class ControlManagedBean implements Serializable {
         }
         return "";
     }
+    
+	public String redirectObservation()
+	{
+		return "observationselected";		
+	}
+	
+	public String redirectAnalyze()
+	{
+		return "analysisselected";		
+	}
 }

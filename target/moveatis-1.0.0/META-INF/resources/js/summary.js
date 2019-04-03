@@ -508,8 +508,8 @@ function saveAsImage() {
 	document.getElementById('hiddenButtons').style.display = "none";
 	html2canvas(document.getElementById('recordingsPhoto')).then(function(canvas) {
  	document.getElementById('hiddenButtons').style.display = "block";
-	document.getElementById('image').appendChild(canvas);
-	document.getElementById('image').style.display = "none";
+	document.getElementById('imageDiv').appendChild(canvas);
+	document.getElementById('imageDiv').style.display = "none";
 	saveAs(canvas.toDataURL(), 'summary.png');	 
 	PF('dlgSave').hide();
 	});

@@ -140,7 +140,7 @@
                             <f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
                                           itemDisabled="#{!sessionBean.identifiedUser}"/>
                             <f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-                                          itemDisabled="#{!sessionBean.identifiedUser}" id="imageLoggedUser"/>             
+                                          itemDisabled="#{!sessionBean.identifiedUser}" />             
                         </p:selectManyCheckbox>
                         
                         <p:selectManyCheckbox id="anonomityUserBoxes" value="#{summaryBean.selectedSaveOptions}" 
@@ -149,7 +149,7 @@
                         	<f:selectItem itemLabel="#{msg.dlg_downloadOption}" itemValue="download"
                                           itemDisabled="#{!sessionBean.loggedIn}"/>
                        		<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-                                          itemDisabled="#{!sessionBean.loggedIn}" id="imageAnonymousUser"/> 
+                                          itemDisabled="#{!sessionBean.loggedIn}" /> 
                         </p:selectManyCheckbox>
 
                         <h:outputLabel for="input-name" value="#{msg.sum_observationName}">
@@ -192,6 +192,8 @@
                                          action="#{summaryBean.doSelectedSaveOperation()}"
                                          onclick="window.onbeforeunload = null;"
                                          ajax="false" validateClient="true"/>
+                        <p:commandButton value="Save as png" icon="ui-icon-check"
+                                         onclick="saveAsImage()"/>                 
                         <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>
                     </h:form>
@@ -217,7 +219,7 @@
                     };
                 </h:outputScript>
                 <h:outputScript library="js" name="summary.js"/>
-                 <div id="image">
+                 <div id="imageDiv">
                  </div>
            </ui:define>
         </ui:composition>
