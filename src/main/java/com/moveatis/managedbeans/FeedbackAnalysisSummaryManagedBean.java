@@ -29,11 +29,56 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	/**
 	 * 
 	 */
+	
+	public class TableInformation{
+		private String feedbackAnalysisCategorySet;
+		private List<String> categories;
+		private List<Integer> counts;
+		
+		public TableInformation(String feedbackAnalysisCategorySet) {
+			this.categories=new ArrayList<String>();
+			this.counts=new ArrayList<Integer>();
+			this.setFeedbackAnalysisCategorySet(feedbackAnalysisCategorySet);
+		}
+		public void addCategoryWithCount(String category, Integer count) {
+			this.categories.add(category);
+			this.counts.add(count);
+		}
+		public String getFeedbackAnalysisCategorySet() {
+			return feedbackAnalysisCategorySet;
+		}
+		public void setFeedbackAnalysisCategorySet(String feedbackAnalysisCategorySet) {
+			this.feedbackAnalysisCategorySet = feedbackAnalysisCategorySet;
+		}
+		public List<String> getCategories() {
+			return categories;
+		}
+		public void setCategories(List<String> categories) {
+			this.categories = categories;
+		}
+		public List<Integer> getCounts() {
+			return counts;
+		}
+		public void setCounts(List<Integer> counts) {
+			this.counts = counts;
+		}
+		
+	}
+	
 	private static final long serialVersionUID = 1L;
 	private List<FeedbackAnalysisCategorySetEntity> categorySetsInUse;
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
 	private List<BarChartModel> barModels;
 	private List<PieChartModel> pieModels;
+	private List<TableInformation> tableInformations;	
+	
+	public List<TableInformation> getTableInformations() {
+		return tableInformations;
+	}
+
+	public void setTableInformations(List<TableInformation> tableInformations) {
+		this.tableInformations = tableInformations;
+	}
 
 	public List<PieChartModel> getPieModels() {
 		return pieModels;
@@ -91,9 +136,12 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 		List<BarChartModel> barModels = new ArrayList<BarChartModel>();
 		List<PieChartModel> pieModels = new ArrayList<PieChartModel>();
+		List<TableInformation> tableInformations=new ArrayList<TableInformation>();
+		
 		for (FeedbackAnalysisCategorySetEntity catSet : categorySetsInUse) {
 			BarChartModel barModel = new BarChartModel();
 			PieChartModel pieModel = new PieChartModel();
+			TableInformation tableInformation=new TableInformation(catSet.getLabel());
 			int fullcount = 0;
 			for (AbstractCategoryEntity cat : catSet.getCategoryEntitys().values()) {
 				ChartSeries categorySetChartSeries = new ChartSeries();
@@ -108,6 +156,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				categorySetChartSeries.set(catSet.getLabel(), count);
 
 				barModel.addSeries(categorySetChartSeries);
+				
+				tableInformation.addCategoryWithCount(cat.getLabel().getText(),count);
 			}
 			if (maxAxis > fullcount) {
 				ChartSeries empty = new ChartSeries();
@@ -115,6 +165,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				empty.set(catSet.getLabel(), maxAxis - fullcount);
 				barModel.addSeries(empty);
 				pieModel.set("empty", maxAxis - fullcount);
+				tableInformation.addCategoryWithCount("empty",maxAxis-fullcount);
 			}
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPosition("ne");
@@ -129,9 +180,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			
 			barModels.add(barModel);
 			pieModels.add(pieModel);
+			tableInformations.add(tableInformation);
 		}
 
 		this.barModels= barModels;
 		this.pieModels=pieModels;
+		this.tableInformations=tableInformations;
 	}
+
+
 }
