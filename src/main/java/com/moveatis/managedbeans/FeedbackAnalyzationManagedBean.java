@@ -305,5 +305,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
+	 public void resetCategorySetsInUse() {
+	        this.feedbackAnalysisCategorySetsInUse = null;
+	    }
 
 }
