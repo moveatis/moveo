@@ -9,17 +9,16 @@
 	
 		<ui:define name="mainpage">
 			<div>
-				<!--  <h3>#{testController.showHello()}</h3> -->
 				<nav> <h:form>
 					<h:panelGroup>
 						<div class="accessButtons" style="min-height: 200px;">
 							<p:commandButton value="#{msg.selection_analyze}"
 								style="width: 200px; margin-top: 15px" class="coloredButton"
-								action="#{testController.redirectAnalyze()}" />
+								action="#{controlBean.redirectAnalyze}" />
 							<p:commandButton value="#{msg.selection_observation}"
 								ajax="false" style="width: 200px; margin-top: 15px"
 								class="coloredButton"
-								action="#{testController.redirectObservation()}" />
+								action="#{controlBean.redirectObservation}" />
 						</div>
 					</h:panelGroup>
 				</h:form> </nav>

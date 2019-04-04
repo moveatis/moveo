@@ -18,16 +18,16 @@
                 <h:outputStylesheet library="primefaces" name="grid/grid.css"/>
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
                 <h:outputScript library="js" name="locales.js"/>
+                <h:outputScript library="js" name="html2canvas.min.js"/>
 
                 <f:event type="preRenderView" listener="#{summaryBean.showObservationSavedMessage()}" />
-
-                <div id="summary-content">
+				<div id="summary-content">
 
                     <h1>#{msg.sum_title} : #{summaryBean.observation.name}</h1>
 
                 </div>
-
-                <div id="recordings-details" class="ui-fluid">
+				<div id="recordingsPhoto">
+				<div id="recordings-details" class="ui-fluid">
                     <div class="inline-bar">
 
                         <div><h3>#{msg.sum_recordings}</h3></div>
@@ -66,8 +66,8 @@
                         </div>
                     </div>
                     <div id="records" class="ui-grid ui-grid-responsive-480"/>
-
-                    <h:form>
+					<div id="hiddenButtons">
+					<h:form>
                         <p:commandButton value="#{msg.dlg_saveAndSend}"
                                          rendered="#{sessionBean.identifiedUser}"
                                          styleClass="save-button"
@@ -84,8 +84,7 @@
                             <p:ajax update=":saveForm" resetValues="true" />
                         </p:commandButton>
                     </h:form>
-                </div>
-
+                    </div>
                 <pe:timeline id="timeline" widgetVar="timelineWdgt"
                              value="#{summaryBean.timeline}"
                              timeZone="#{timeBean.serverTimeZone}"
@@ -97,7 +96,7 @@
                              zoomMax="#{summaryBean.zoomMax}"
                              selectable="true"
                              zoomable="false"
-                             moveable="true"
+                             moveable="false"
                              animate="false"
                              animateZoom="false"
                              axisOnTop="true"
@@ -112,13 +111,13 @@
                              eventMarginAxis="0"
                              eventMargin="16">
                 </pe:timeline>
-
+                </div>
                 <div id="timelineControls" class="bottom">
                     <div>
                         <a href="#summary-content"><span> #{msg.sum_backToTop}</span><span class="fa fa-chevron-circle-up"></span></a>
                     </div>
                 </div>
-
+				</div>
                 <p:dialog header="#{msg.dlg_saveDialogHeader}"
                           id="saveDialog"
                           widgetVar="dlgSave"
@@ -140,6 +139,17 @@
                                           itemDisabled="#{!sessionBean.loggedIn}"/>
                             <f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
                                           itemDisabled="#{!sessionBean.identifiedUser}"/>
+                            <f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
+                                          itemDisabled="#{!sessionBean.identifiedUser}" />             
+                        </p:selectManyCheckbox>
+                        
+                        <p:selectManyCheckbox id="anonomityUserBoxes" value="#{summaryBean.selectedSaveOptions}" 
+                        rendered="#{!sessionBean.identifiedUser}" columns="1" required="true"  requiredMessage="" 
+                        layout="grid"> 
+                        	<f:selectItem itemLabel="#{msg.dlg_downloadOption}" itemValue="download"
+                                          itemDisabled="#{!sessionBean.loggedIn}"/>
+                       		<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
+                                          itemDisabled="#{!sessionBean.loggedIn}" /> 
                         </p:selectManyCheckbox>
 
                         <h:outputLabel for="input-name" value="#{msg.sum_observationName}">
@@ -179,9 +189,11 @@
                                          ajax="false" validateClient="true"/>
                         <p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
                                          rendered="#{!sessionBean.identifiedUser}"
-                                         action="#{summaryBean.downloadCurrentObservation()}"
+                                         action="#{summaryBean.doSelectedSaveOperation()}"
                                          onclick="window.onbeforeunload = null;"
                                          ajax="false" validateClient="true"/>
+                        <p:commandButton value="Save as png" icon="ui-icon-check"
+                                         onclick="saveAsImage()"/>                 
                         <p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
                                          onclick="PF('dlgSave').hide();"/>
                     </h:form>
@@ -207,7 +219,9 @@
                     };
                 </h:outputScript>
                 <h:outputScript library="js" name="summary.js"/>
-            </ui:define>
+                 <div id="imageDiv">
+                 </div>
+           </ui:define>
         </ui:composition>
     </h:body>
 </html>

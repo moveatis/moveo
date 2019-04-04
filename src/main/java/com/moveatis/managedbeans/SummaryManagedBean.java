@@ -29,6 +29,7 @@
  */
 package com.moveatis.managedbeans;
 
+
 import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.interfaces.Mailer;
 import com.moveatis.interfaces.MessageBundle;
@@ -38,11 +39,23 @@ import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
+
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,9 +72,15 @@ import org.primefaces.extensions.model.timeline.TimelineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 /**
  * The bean that serves the summary page. It is responsible for creating the
@@ -81,7 +100,7 @@ public class SummaryManagedBean implements Serializable {
     private Date max;
     private Date duration;
     private String recipientEmail;
-
+        
     private ObservationEntity observation;
 
     private List<String> selectedSaveOptions;
@@ -89,6 +108,7 @@ public class SummaryManagedBean implements Serializable {
     private static final String MAIL_OPTION = "mail";
     private static final String SAVE_OPTION = "save";
     private static final String DOWNLOAD_OPTION = "download";
+    private static final String IMAGE_OPTION = "image";
 
     private boolean observationSaved = false;
 
@@ -108,7 +128,7 @@ public class SummaryManagedBean implements Serializable {
     @Inject
     @MessageBundle
     private transient ResourceBundle messages;
-
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
     /**
@@ -296,6 +316,9 @@ public class SummaryManagedBean implements Serializable {
         if (selectedSaveOptions.contains(SAVE_OPTION)) {
             saveCurrentObservation();
         }
+        if (selectedSaveOptions.contains(IMAGE_OPTION)) {
+            saveCurrentObservationAsImage();
+        }
     }
 
     /**
@@ -411,4 +434,27 @@ public class SummaryManagedBean implements Serializable {
     public void setObservationSaved(boolean observationSaved) {
         this.observationSaved = observationSaved;
     }
+    
+    /**
+     * @throws IOException 
+     * @throws ScriptException 
+     * @throws NoSuchMethodException 
+     * 
+     */
+    public void saveCurrentObservationAsImage(){
+    	ScriptEngineManager manager = new ScriptEngineManager();
+    	ScriptEngine engine = manager.getEngineByName("nashorn");
+    	try {
+			engine.eval(new java.io.FileReader("summary.js"));
+		} catch (ScriptException | IOException e) {
+			e.printStackTrace();
+		} 
+    	Invocable inv = (Invocable) engine;
+    	try {
+			inv.invokeFunction("saveAsImage");
+		} catch (NoSuchMethodException | ScriptException e) {
+			e.printStackTrace();
+		}
+    }
+    
 }

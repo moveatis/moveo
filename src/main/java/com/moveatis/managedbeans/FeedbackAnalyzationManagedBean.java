@@ -184,6 +184,22 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		}
 	}
 
+    
+    /**
+     * Creates a new observation entity and initializes it to be used in a new
+     * observation.
+     */
+    public void startObservation() {
+        this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
+        // Can we use created time for observation start time?
+        this.feedbackAnalyzationEntity.setCreated();
+        this.feedbackAnalyzationEntity.setEvent(eventEntity);
+        // Summary view doesn't break if no records are added.
+        // TODO: Should observer not let user continue, if there are no records?
+        if(feedbackAnalyzationEntity.getRecords() == null) {
+            feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
+        }
+    }
 
 
 	public void setEventEntity(EventEntity eventEntity) {
@@ -289,5 +305,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
+	 public void resetCategorySetsInUse() {
+	        this.feedbackAnalysisCategorySetsInUse = null;
+	    }
 
 }

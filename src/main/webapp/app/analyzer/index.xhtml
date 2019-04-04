@@ -21,8 +21,7 @@
                             </ui:repeat>
                             ]},
                         </ui:repeat>
-                        ];
-                        
+                        ];                        
                     }   
              </script>
                  <h:outputScript library="primefaces" name="jquery/jquery.js" />
@@ -92,10 +91,8 @@
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-==== BASE ====
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.saveFeedbackAnalyzation()}" />
-==== BASE ====
->>>>>>> /tmp/meld-tmp-Remote-bdCfYW
+              			<p:commandButton id="new" value="#{msg.ana_new}" action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form"/>
+              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.toSummary()}" />
               		</div>
                 </div>
                 
