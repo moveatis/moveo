@@ -51,7 +51,6 @@ com/moveatis/records/RecordEntity.class
 com/moveatis/managedbeans/CategorySelectionManagedBean.class
 com/moveatis/export/CSVFileBuilder$1.class
 com/moveatis/enums/MailStatus.class
-com/moveatis/test/TestController.class
 com/moveatis/feedbackanalysiscategory/FeedbackAnalysisCategorySetEntity.class
 com/moveatis/interfaces/Application.class
 com/moveatis/abstracts/AbstractCategoryEntity.class

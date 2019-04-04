@@ -5,6 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
+      
+
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml">
 
@@ -38,7 +40,6 @@
            	 	
            	 	</div>
            		<div id="categories">
-
            		</div>
            		
                	<div id="basicContent">
@@ -91,6 +92,8 @@
               		</div>
               		<div id="basicControls">
               			<p:commandButton id="empty" value="#{msg.ana_empty}" />
+              			<p:commandButton id="new" value="#{msg.ana_new}" action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form"/>
+              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.toSummary()}" />
               		</div>
                 </div>
                 

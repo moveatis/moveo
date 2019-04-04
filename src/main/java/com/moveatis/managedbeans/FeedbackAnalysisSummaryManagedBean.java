@@ -24,7 +24,7 @@ import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 @Named(value = "feedbackAnalysisSummaryManagedBean")
-@ViewScoped
+@SessionScoped
 public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	/**
 	 * 
@@ -71,7 +71,27 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private List<BarChartModel> barModels;
 	private List<PieChartModel> pieModels;
 	private List<TableInformation> tableInformations;	
+	private boolean renderPieChart=false;
+	private boolean renderBarChart=false;
 	
+	
+	
+	public boolean isRenderPieChart() {
+		return renderPieChart;
+	}
+
+	public void setRenderPieChart(boolean renderPieChart) {
+		this.renderPieChart = renderPieChart;
+	}
+
+	public boolean isRenderBarChart() {
+		return renderBarChart;
+	}
+
+	public void setRenderBarChart(boolean renderBarChart) {
+		this.renderBarChart = renderBarChart;
+	}
+
 	public List<TableInformation> getTableInformations() {
 		return tableInformations;
 	}
@@ -118,6 +138,9 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public FeedbackAnalysisSummaryManagedBean() {
 
 	}
+	
+
+
 
 	@PostConstruct
 	public void init() {
