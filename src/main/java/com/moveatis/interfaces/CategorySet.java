@@ -56,6 +56,8 @@ public interface CategorySet {
     void remove(AbstractCategorySetEntity categoryTemplateEntity);
     
     void removeCategoryFromCategorySet(AbstractCategorySetEntity categorySet, AbstractCategoryEntity whichCategory);
+    
+    void detachCategorySet(AbstractCategorySetEntity categorySetEntity);
 
     AbstractCategorySetEntity find(Object id);
 

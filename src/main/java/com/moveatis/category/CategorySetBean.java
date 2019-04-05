@@ -75,6 +75,14 @@ public class CategorySetBean extends AbstractBean<AbstractCategorySetEntity> imp
         super(AbstractCategorySetEntity.class);
     }
     
+    public void detachCategorySet(AbstractCategorySetEntity categorySetEntity) {
+    	em.detach(categorySetEntity);
+    	categorySetEntity.setId(null);
+    	categorySetEntity.setEventGroupEntity(null);
+    	for (AbstractCategoryEntity cat: categorySetEntity.getCategoryEntitys().values())
+    		cat.setId(null);
+    }
+    
     /**
      * Sets the category set removal date and removes the category set from event groups.
      * @param categorySetEntity The category set entity to be removed.

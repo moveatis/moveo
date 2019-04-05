@@ -5,29 +5,30 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
-import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.user.AbstractUser;
 @Local(FeedbackAnalyzation.class)
 public interface FeedbackAnalyzation {
-	  void create(FeedbackAnalyzationEntity observationEntity);
+	  void create(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
 
-	    void edit(FeedbackAnalyzationEntity observationEntity);
+	    void edit(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
 
-	    void remove(FeedbackAnalyzationEntity observationEntity);
+	    void remove(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
 	    
-	    void removeUnsavedObservation(FeedbackAnalyzationEntity observationEntity);
+	    void removeUnsavedObservation(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
+	    
+	    boolean isPersisted(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
 
 	    FeedbackAnalyzationEntity find(Object id);
 
 	    List<FeedbackAnalyzationEntity> findAll();
 
-	    List<FeedbackAnalyzationEntity> findAllByObserver(AbstractUser observer);
+	    List<FeedbackAnalyzationEntity> findAllByObserver(AbstractUser analyzer);
 
-	    List<FeedbackAnalyzationEntity> findWithoutEvent(AbstractUser observer);
+	    List<FeedbackAnalyzationEntity> findWithoutEvent(AbstractUser analyzer);
 
-	    List<FeedbackAnalyzationEntity> findByEventsNotOwned(AbstractUser observer);
+	    List<FeedbackAnalyzationEntity> findByEventsNotOwned(AbstractUser analyzer);
 
 	    List<FeedbackAnalyzationEntity> findRange(int[] range);
 	    

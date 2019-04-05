@@ -19,16 +19,14 @@
                    ];                        
                } 		
 		</script>  -->
-		
-	                <h:outputScript library="primefaces" name="jquery/jquery.js" />
-                <h:outputScript library="js" name="analysisrecordtable.js"/>
-	
+
 			<div id="content">
 			<ui:debug hotkey="x" />
+				<h:outputText value="Dumbledore" />
 				<!-- <ui:repeat var="FeedbackAnalysisRecordEntity" value="feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.getRecords()"> 
 					<h:outputText value="#{FeedbackAnalysisRecordEntity.getSelectedCategories()}"></h:outputText>  -->
-<!--				<div id="table">
- 					<ui:repeat
+				<div id="table">
+					<ui:repeat
 						value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 						var="categorySet">
 						<h:outputText value="#{categorySet.label}" />
@@ -44,18 +42,9 @@
 						var="selectedCategories">
 						<h:outputText value="#{selectedCategories.label.text}" />
 						<h:outputText value="Harri2" />
-					</ui:repeat> </div> -->
-					
-					    <!-- javascriptillä
-					    
-					    <p:column headerText="ID">
-					        <h:outputText value="kalkaros" />
-					    </p:column>
-					    
-					     -->					     
-			           <h:form>
-            	            <h:panelGroup binding="#{DatatableManagedBean.dynamicDataTableGroup}" />
-            		   </h:form>
+					</ui:repeat>
+				</div>
+				<h:outputText value="Kalkaros" />
 				<div id="textArea">
 					<p:inputTextarea value="Lyhyt analyysi annetusta palautteesta" />
 				</div>

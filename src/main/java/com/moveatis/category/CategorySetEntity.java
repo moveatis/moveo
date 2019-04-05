@@ -38,6 +38,7 @@ import java.io.Serializable;
 import java.util.Map;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.DETACH;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -58,7 +59,7 @@ public class CategorySetEntity extends AbstractCategorySetEntity implements Seri
     
     private static final long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy = "categorySet", cascade = {PERSIST, MERGE}, fetch = FetchType.LAZY, targetEntity = CategoryEntity.class)
+    @OneToMany(mappedBy = "categorySet", cascade = {PERSIST, MERGE, DETACH}, fetch = FetchType.LAZY, targetEntity = CategoryEntity.class)
     @CollectionTable(name="CATEGORYENTITIES")
     @MapKey(name="orderNumber")
     @Column(name="CATEGORYENTITY_ORDERNUMBER")

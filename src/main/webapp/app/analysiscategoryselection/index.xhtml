@@ -46,16 +46,14 @@
                             </p:commandLink>
                             
                             <h2>#{categorySet.label}</h2>
-                            
+          
                             <h:panelGroup layout="block" styleClass="no-categories-text" rendered="#{empty categorySet.categoryEntitys}">
                                 <h:outputText value="#{msg.facs_noCategoriesText}"/>
                             </h:panelGroup>
                             
                             <ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
                             <div class="category">
-                                <p:inputText value="#{category.label.text}" id="category-name-input" styleClass="category-text">
-                                	<p:ajax event="keyup" listener="#{feedbackAnalysisCategorySelectionManagedBean.getCopyForEditing(categorySet)}"/>
-                                </p:inputText>
+                                <p:inputText value="#{category.label.text}" id="category-name-input" styleClass="category-text">                         </p:inputText>
                                 <p:watermark value="#{msg.facs_categoryName}" for="category-name-input"/>
                                 <p:commandButton icon="fa fa-remove" class="category-remove-button"
                                                  action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}" update=":form"/>

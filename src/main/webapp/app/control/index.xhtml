@@ -261,6 +261,9 @@
                     <p:commandButton value="#{msg.con_startObservationForEvent}" icon="fa fa-caret-square-o-right"
                                      action="#{controlBean.newObservation}" styleClass="start-button"
                                      disabled="#{empty controlBean.selectedEventGroup}"/>
+					<p:commandButton value="#{msg.con_startAnalyzationForEvent}" icon="fa fa-caret-square-o-right"
+                                     action="#{controlBean.newAnalyzation}" styleClass="start-button"
+                                     disabled="#{empty controlBean.selectedEventGroup}"/>
                 </h:form>
 
                 <p:outputPanel rendered="#{controlBean.otherObservations.size() > 0}">

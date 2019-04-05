@@ -33,7 +33,7 @@ public class FeedbackAnalysisCategorySetEntity extends AbstractCategorySetEntity
     @Column(name="FEEDBACKANALYSISCATEGORYENTITY_ORDERNUMBER")
     private Map<Integer, AbstractCategoryEntity> categoryEntitys;
 
-
+    
     @Override
     public Map<Integer, AbstractCategoryEntity> getCategoryEntitys() {
         return categoryEntitys;
@@ -43,6 +43,8 @@ public class FeedbackAnalysisCategorySetEntity extends AbstractCategorySetEntity
     public void setCategoryEntitys(Map<Integer, AbstractCategoryEntity> categories) {
         this.categoryEntitys = categories;
     }
+
+
 
     
 }

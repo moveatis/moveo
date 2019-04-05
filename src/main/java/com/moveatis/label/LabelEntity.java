@@ -57,18 +57,33 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name="findByText", query="SELECT l FROM LabelEntity l WHERE l.text = :text")
 )
 public class LabelEntity extends BaseEntity implements Serializable {
+	
+	@NotNull
+    private String text;
 
     private static final long serialVersionUID = 1L;
     
     @OneToMany(mappedBy = "label", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CategoryEntity> categoryEntities;
     
+	@OneToMany(mappedBy = "label", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<FeedbackAnalysisCategoryEntity> feedbackAnalysisCategoryEntities;
+    
+    public void setFeedbackAnalysisCategoryEntities(List<FeedbackAnalysisCategoryEntity> feedbackAnalysisCategoryEntities) {
+		this.feedbackAnalysisCategoryEntities = new ArrayList<FeedbackAnalysisCategoryEntity>();
+		for (AbstractCategoryEntity cat: feedbackAnalysisCategoryEntities)
+			this.addCategoryEntity(cat);
+	}
+
+    
     public List<CategoryEntity> getCategoryEntities() {
 		return categoryEntities;
 	}
 
 	public void setCategoryEntities(List<CategoryEntity> categoryEntities) {
-		this.categoryEntities = categoryEntities;
+		this.categoryEntities=new ArrayList<CategoryEntity>();
+		for (AbstractCategoryEntity cat: categoryEntities)
+			this.addCategoryEntity(cat);
 	}
 
 	public List<FeedbackAnalysisCategoryEntity> getFeedbackAnalysisCategoryEntities() {
@@ -77,11 +92,9 @@ public class LabelEntity extends BaseEntity implements Serializable {
 
 	
 
-	@OneToMany(mappedBy = "label", orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<FeedbackAnalysisCategoryEntity> feedbackAnalysisCategoryEntities;
-    
-    @NotNull
-    private String text;
+
+
+
 
     @Override
     public int hashCode() {

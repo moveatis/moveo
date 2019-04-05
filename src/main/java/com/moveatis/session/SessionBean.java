@@ -109,6 +109,7 @@ public class SessionBean implements Serializable, Session  {
         this.tagEntity = tagUser;
         commonSettingsForLoggedInUsers();
         observationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
+        feedbackAnalyzationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
     }
     
     private void commonSettingsForLoggedInUsers() {
