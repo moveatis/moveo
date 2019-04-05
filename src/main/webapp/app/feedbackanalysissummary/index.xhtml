@@ -4,21 +4,100 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
 
 		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
 
 		<ui:define name="mainpage">
-		<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}" var="barModel">
-			<p:chart type="bar" model="#{barModel}"
-				style="width:100px" />
-		</ui:repeat>
-		<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}" var="pieModel">
-			<p:chart type="pie" model="#{pieModel}"
-				style="width:300px; height:300px" />
-		</ui:repeat>
+			<style>
+#summaryTable {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#summaryTable td, #summaryTable th {
+	padding: 8px;
+	color: black;
+	background-color: white;
+}
+
+#summaryTable td {
+	border: 1px solid #7d7d7d;
+}
+
+#summaryTable th {
+	border: 2px solid #7d7d7d;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	background-color: #ee9a00;
+}
+</style>
+			<table id="summaryTable">
+				<tr>
+					<ui:repeat
+						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+						var="tableInformation">
+						<th align="center" colspan="#{tableInformation.categories.size()}">#{tableInformation.feedbackAnalysisCategorySet}</th>
+					</ui:repeat>
+				</tr>
+				<tr>
+					<ui:repeat
+						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+						var="tableInformation">
+						<ui:repeat value="#{tableInformation.categories}" var="category">
+							<td align="center">#{category}</td>
+						</ui:repeat>
+					</ui:repeat>
+				</tr>
+				<tr>
+					<ui:repeat
+						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+						var="tableInformation">
+						<ui:repeat value="#{tableInformation.counts}" var="count">
+							<td align="center">#{count}</td>
+						</ui:repeat>
+					</ui:repeat>
+				</tr>
+			</table>
+
+			<h:form id="charts">
+				<p:selectBooleanCheckbox
+					value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}">Barchart
+			<p:ajax update="charts" />
+				</p:selectBooleanCheckbox>
+				<p:selectBooleanCheckbox
+					value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}">Piechart
+			<p:ajax update="charts" />
+				</p:selectBooleanCheckbox>
+
+
+				<h:panelGroup
+					rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+					layout="block" id="barModels">
+					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}"
+						var="barModel">
+						<p:chart class="chart" type="bar" model="#{barModel}"
+							style="width:100px" />
+					</ui:repeat>
+				</h:panelGroup>
+				<br />
+				<h:panelGroup
+					rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+					id="pieModels">
+					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
+						var="pieModel">
+						<p:chart class="chart" type="pie" model="#{pieModel}"
+							style="width:300px; height:300px" />
+					</ui:repeat>
+				</h:panelGroup>
+			</h:form>
 		</ui:define>
 
 	</ui:composition>
