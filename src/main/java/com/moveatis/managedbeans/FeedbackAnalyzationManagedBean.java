@@ -1,5 +1,6 @@
 package com.moveatis.managedbeans;
 
+import com.moveatis.interfaces.Label;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
+import com.moveatis.label.LabelEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 @Named(value = "feedbackAnalyzationManagedBean")
@@ -34,8 +36,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	
-
+	@Inject
+	private Label labelEJB;
 
 	/*
 	 * The feedbackanalyzationentity being edited
@@ -113,7 +115,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	public FeedbackAnalysisRecordEntity getCurrentRecord() {
 		return currentRecord;
-
 	}
 
 	/**
@@ -121,8 +122,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * Make the list of records be ordered either by an order number or starttime
 	 * (if the timer is implemented) as the order might change
 	 * 
-	 * @param recordNumber
-	 *            The index(+1) of the record to be accessed
+	 * @param recordNumber The index(+1) of the record to be accessed
 	 */
 	public void setCurrentRecord(int recordNumber) {
 		if (recordNumber > numberOfRecords || recordNumber < 1 || recordNumber == currentRecordNumber)
@@ -162,7 +162,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		setNumberOfRecords(1);
 		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
 		this.feedbackAnalyzationEntity.setCreated();
-		this.feedbackAnalyzationEntity.setEvent(eventEntity);
 		if (feedbackAnalyzationEntity.getRecords() == null) {
 			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
 		}
@@ -184,23 +183,21 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		}
 	}
 
-    
-    /**
-     * Creates a new observation entity and initializes it to be used in a new
-     * observation.
-     */
-    public void startObservation() {
-        this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
-        // Can we use created time for observation start time?
-        this.feedbackAnalyzationEntity.setCreated();
-        this.feedbackAnalyzationEntity.setEvent(eventEntity);
-        // Summary view doesn't break if no records are added.
-        // TODO: Should observer not let user continue, if there are no records?
-        if(feedbackAnalyzationEntity.getRecords() == null) {
-            feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
-        }
-    }
-
+	/**
+	 * Creates a new observation entity and initializes it to be used in a new
+	 * observation.
+	 */
+	public void startObservation() {
+		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
+		// Can we use created time for observation start time?
+		this.feedbackAnalyzationEntity.setCreated();
+		this.feedbackAnalyzationEntity.setEvent(eventEntity);
+		// Summary view doesn't break if no records are added.
+		// TODO: Should observer not let user continue, if there are no records?
+		if (feedbackAnalyzationEntity.getRecords() == null) {
+			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
+		}
+	}
 
 	public void setEventEntity(EventEntity eventEntity) {
 		this.eventEntity = eventEntity;
@@ -273,12 +270,25 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * The method saves the analyzation to the database.
 	 */
 	public void saveFeedbackAnalyzation() {
+		if(feedbackAnalyzationEntity.getId()!=null)return;
 		feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
 
-		for (FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse)
-			if (categorySet.getId() == null)
-				categorySetEJB.create(categorySet);
-
+		for (FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse) {
+	
+			categorySetEJB.detachCategorySet(categorySet);
+			
+			for(AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()) {
+				LabelEntity label=labelEJB.findByLabel(cat.getLabel().getText());
+				cat.setCategorySet(categorySet);
+				if (label==null)
+					labelEJB.create(cat.getLabel());
+				else
+					cat.setLabel(label);
+				}
+			
+			categorySetEJB.create(categorySet);
+		}
+		feedbackAnalyzationEntity.setEvent(eventEntity);
 		feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
 	}
 
@@ -305,9 +315,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
-	 public void resetCategorySetsInUse() {
-	        this.feedbackAnalysisCategorySetsInUse = null;
-	    }
+
+	public void resetCategorySetsInUse() {
+		this.feedbackAnalysisCategorySetsInUse = null;
+	}
 
 }

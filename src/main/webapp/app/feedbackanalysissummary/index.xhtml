@@ -38,6 +38,10 @@
 	padding-bottom: 12px;
 	background-color: #ee9a00;
 }
+
+.chart {
+	float:left;
+}
 </style>
 			<table id="summaryTable">
 				<tr>
@@ -98,6 +102,7 @@
 					</ui:repeat>
 				</h:panelGroup>
 			</h:form>
+			<p:commandButton value="Save" action="#{feedbackAnalyzationManagedBean.saveFeedbackAnalyzation()}"></p:commandButton>
 		</ui:define>
 
 	</ui:composition>

@@ -81,8 +81,8 @@ com/moveatis/groupkey/GroupKeyEntity.class
 com/moveatis/observation/ObservationEntity.class
 com/moveatis/observation/ObservationCategory.class
 com/moveatis/user/AnonUserBean.class
-com/moveatis/records/RecordEntity_.class
 com/moveatis/feedbackanalyzation/FeedbackAnalyzationEntity_.class
+com/moveatis/records/RecordEntity_.class
 com/moveatis/managedbeans/UserManagedBean.class
 com/moveatis/abstracts/AbstractCategorySetEntity_.class
 com/moveatis/label/LabelEntity_.class

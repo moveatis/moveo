@@ -25,6 +25,7 @@ import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.EventGroup;
@@ -130,40 +131,12 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
         }
     }
     
-    /**
-     * creates a copy of the category set when the user edits it
-     * prevents the user from making changes to category sets gotten with a group key
-     * */
-    public FeedbackAnalysisCategorySetEntity getCopyForEditing(FeedbackAnalysisCategorySetEntity categorySet) {
-    		if(categorySet.getId()==null)return categorySet;
-    		feedbackAnalysisCategorySetsInUse.remove(categorySet);
-    		FeedbackAnalysisCategorySetEntity tmp_categorySet = new FeedbackAnalysisCategorySetEntity();
-    		Map<Integer,AbstractCategoryEntity> categoryEntities=categorySet.getCategoryEntitys();
-    		Map<Integer,AbstractCategoryEntity> newCategoryEntities=new TreeMap<Integer,AbstractCategoryEntity>();
-    		for( int key: categoryEntities.keySet()) {
-    			FeedbackAnalysisCategoryEntity cur_cat=(FeedbackAnalysisCategoryEntity) categoryEntities.get(key);
-    			FeedbackAnalysisCategoryEntity tmp_cat=new FeedbackAnalysisCategoryEntity();
-    			tmp_cat.setCategorySet(tmp_categorySet);
-    			LabelEntity label =new LabelEntity();
-    			label.setText(cur_cat.getLabel().getText());
-    			tmp_cat.setLabel(label);
-    			tmp_cat.setDescription(cur_cat.getDescription());
-    			tmp_cat.setOrderNumber(key);
-    			newCategoryEntities.put(key, tmp_cat);
-    		}
-    		tmp_categorySet.setLabel(categorySet.getLabel());
-    		tmp_categorySet.setDescription(categorySet.getDescription());
-    		tmp_categorySet.setCategoryEntitys(newCategoryEntities);
-    		
-    		feedbackAnalysisCategorySetsInUse.add(tmp_categorySet);
-    		return tmp_categorySet;
-    }
+
     /**
      * Adds a new category to the given categoryset
      * */
     public void addNewCategoryToCategorySet(FeedbackAnalysisCategorySetEntity categorySet) {
     	FeedbackAnalysisCategoryEntity fac=new FeedbackAnalysisCategoryEntity();
-    	if(categorySet.getId()!=null) categorySet=getCopyForEditing(categorySet);
     	fac.setLabel(new LabelEntity());
     	
     	Map<Integer, AbstractCategoryEntity> categories=categorySet.getCategoryEntitys();
@@ -176,7 +149,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
      * removes the given category from the given categoryset
      * */
     public void removeCategoryFromCategorySet(FeedbackAnalysisCategorySetEntity categorySet, FeedbackAnalysisCategoryEntity category) {
-    	if(categorySet.getId()!=null) categorySet=getCopyForEditing(categorySet);
+
     	Map<Integer, AbstractCategoryEntity> categories=categorySet.getCategoryEntitys();
     	Map<Integer, AbstractCategoryEntity> tmp_categories=new TreeMap<Integer,AbstractCategoryEntity>();
 
@@ -195,7 +168,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
      * */
     private FeedbackAnalysisCategorySetEntity findById(List<FeedbackAnalysisCategorySetEntity> categorySets,long id) {
     	for (FeedbackAnalysisCategorySetEntity facs : categorySets){
-    		if(facs.getId()==selectedPrivateFeedbackAnalysisCategorySet) {
+    		if(facs.getId()==id) {
     			return(facs);
     		}
     	}
@@ -212,7 +185,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
     }
      
     /**
-     * Adds the selected private category set for the observation.
+     * Adds the selected private category set for the analyzation.
      */
     public void addPrivateCategorySet() {
     	FeedbackAnalysisCategorySetEntity spc=findById(privateFeedbackAnalysisCategorySets,selectedPrivateFeedbackAnalysisCategorySet);
@@ -291,7 +264,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
             return "";
         }
 
-        feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
+        feedbackAnalyzationManagedBean.init();
         return "analysiscategoriesok";
     }
     
