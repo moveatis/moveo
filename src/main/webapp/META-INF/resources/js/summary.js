@@ -511,12 +511,15 @@ function isBottomOfDocument(padding) {
 function checkCheckBoxes(){
 	var checkBox1 = document.getElementById('saveForm:basic:1');
 	var checkBox2 = document.getElementById('saveForm:anonymityUserBoxes:1');
-	var checkBox3 = document.getElementById('saveForm:anonymityUserBoxes:0');
-	var button1 = document.getElementById('saveForm:saveButton1');
-	var button2 = document.getElementById('saveForm:saveButton2');
-
-	if(checkBox2.checked){
-		saveAsImage();
+	if(checkBox2 != null){
+		if(checkBox2.checked){
+			saveAsImage();
+		}
+	}
+	if(checkBox1 != null){
+		if(checkBox1.checked){
+			saveAsImage();
+		}
 	}
 	
 }
