@@ -74,14 +74,14 @@
 						<h:form>
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
 								rendered="#{sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="PF('dlgSave').show();"
+								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
 								process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
 
 							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
 								rendered="#{!sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="PF('dlgSave').show();"
+								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
 								process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
@@ -176,13 +176,13 @@
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						rendered="#{sessionBean.identifiedUser}"
 						action="#{summaryBean.doSelectedSaveOperation()}"
-						onclick="checkCheckBoxes()" ajax="true"
-						validateClient="true" id="saveButton1"/>
+						onclick="checkCheckBoxes()" ajax="false"
+						validateClient="true"/>
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						rendered="#{!sessionBean.identifiedUser}"
 						action="#{summaryBean.doSelectedSaveOperation()}"
-						onclick="checkCheckBoxes()" ajax="true"
-						validateClient="true" id="saveButton2"/>
+						onclick="checkCheckBoxes()" ajax="false"
+						validateClient="true"/>
 					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 						onclick="PF('dlgSave').hide();" />
 				</h:form>
