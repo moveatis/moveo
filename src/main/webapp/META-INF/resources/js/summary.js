@@ -39,6 +39,7 @@ var TIMELINE_BEGIN = getLocalZeroDate();
 var OBSERVATION_DURATION = SummaryIndex.getObservationDuration(); // function in summary/index.xhtml
 var msg = SummaryIndex.getMessages(); // function in summary/index.xhtml
 var ESCAPE_KEY = 27;
+var URI;
 
 /**
  * On document ready:
@@ -510,64 +511,48 @@ function isBottomOfDocument(padding) {
 function checkCheckBoxes(){
 	var checkBox1 = document.getElementById('saveForm:basic:1');
 	var checkBox2 = document.getElementById('saveForm:anonymityUserBoxes:1');
-	var button1 = document.getElementById('saveForm:saveButton1');
-	var button2 = document.getElementById('saveForm:saveButton2');
-	
-	if(checkBox1 != null){
-		if(checkBox1.checked != true)
-		{
-			button1.ajax = false;
-			return;
-		}
-		if(checkBox1.checked){
-			button1.ajax = true;
-			saveAsImage();
-			button1.ajax = false;
-			return;
-		}
-	}
 	if(checkBox2 != null){
-		if(checkBox2.checked != true)
-		{
-			button2.ajax = false;
-			return;
-		}
-	
 		if(checkBox2.checked){
-			button2.ajax = true;
 			saveAsImage();
-			button2.ajax = false;
-			return;
 		}
 	}
+	if(checkBox1 != null){
+		if(checkBox1.checked){
+			saveAsImage();
+		}
+	}
+	
 }
 
-function saveAsImage() {
+function saveImage() {
 	document.getElementById('hiddenButtons').style.display = "none";
 	html2canvas(document.getElementById('recordingsPhoto')).then(function(canvas) {
  	document.getElementById('hiddenButtons').style.display = "block";
- 	//document.getElementById('imageDiv').appendChild(canvas);
- 	//document.getElementById('imageDiv').style.display = "none";
-	saveAs(canvas.toDataURL(), 'summary.png');	 
-	//PF('dlgSave').hide();
-	});
-	
-	function saveAs(uri, filename) {
-	    var link = document.createElement('a');
-	    if (typeof link.download === 'string') {
-	      link.href = uri;
-	      link.download = filename;
-
-	      //Firefox requires the link to be in the body
-	      document.body.appendChild(link);
-
-	      //simulate click
-	      link.click();
-
-	      //remove the link when done
-	      document.body.removeChild(link);
-	    } else {
-	      window.open(uri);
-	    }
-	  }
+ 	URI = canvas.toDataURL();
+ 	});
 }
+
+function saveAsImage() {
+    var filename;
+    try{
+    filename = document.getElementById('saveForm:input-name').value;
+    }catch(err){
+    	filename = 'summary.png';
+    }
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+      link.href = URI;
+      link.download = filename;
+
+      //Firefox requires the link to be in the body
+      document.body.appendChild(link);
+
+      //simulate click
+      link.click();
+
+      //remove the link when done
+      document.body.removeChild(link);
+    } else {
+      window.open(URI);
+    }
+  }

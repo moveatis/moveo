@@ -38,10 +38,6 @@
 	padding-bottom: 12px;
 	background-color: #ee9a00;
 }
-
-.chart {
-	float:left;
-}
 </style>
 			<table id="summaryTable">
 				<tr>
@@ -102,9 +98,105 @@
 					</ui:repeat>
 				</h:panelGroup>
 			</h:form>
-			<p:commandButton value="Save" action="#{feedbackAnalyzationManagedBean.saveFeedbackAnalyzation()}"></p:commandButton>
-		</ui:define>
+			
+			<div id="hiddenButtons">
+						<h:form>
+							<p:commandButton value="#{msg.dlg_saveAndSend}"
+								rendered="#{sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
 
+							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
+								rendered="#{!sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+						</h:form>
+			</div>
+			
+			<p:dialog header="#{msg.dlg_saveDialogHeader}" id="saveDialog"
+				widgetVar="dlgSave" position="top" resizable="false"
+				responsive="true" fitViewport="true"
+				visible="#{facesContext.validationFailed}"
+				styleClass="coloredDialog">
+				<h:form id="saveForm" styleClass="dialog-form ui-fluid">
+					<p:selectManyCheckbox id="basic"
+						rendered="#{sessionBean.identifiedUser}" columns="1"
+						required="true" requiredMessage="" layout="grid">
+						<p:ajax update="input-email" />
+						<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
+							itemDisabled="#{!sessionBean.identifiedUser}" />
+						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
+							itemDisabled="#{!sessionBean.identifiedUser}" />	
+						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
+							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
+						<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
+							itemDisabled="#{!sessionBean.identifiedUser}" />						
+					</p:selectManyCheckbox>
+					<p:selectManyCheckbox id="anonymityUserBoxes"
+						rendered="#{!sessionBean.identifiedUser}" columns="1"
+						required="true" requiredMessage="" layout="grid">
+						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
+							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
+						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
+							itemDisabled="#{!sessionBean.loggedIn}" />
+					</p:selectManyCheckbox>
+					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}">
+						<h:outputText rendered="#{sessionBean.identifiedUser}"
+							value=" (#{msg.dlg_defaultFileName})" />
+					</h:outputLabel>
+					<p:message for="input-name" />
+					<p:inputText id="input-name" required="true"
+						requiredMessage="#{msg.dlg_notEmpty}"
+						value=""
+						validator="#{validationBean.validateShortString}" />
+
+					<h:outputLabel for="input-description"
+						value="#{msg.asum_analyzationDescription}" />
+					<p:message for="input-description" />
+					<p:inputTextarea id="input-description"
+						value=""
+						validator="#{validationBean.validateLongString}" rows="3"
+						cols="16" autoResize="true" />
+
+					<h:outputLabel for="input-target"
+						value="#{msg.asum_analyzationTarget}" />
+					<p:message for="input-target" />
+					<p:inputText id="input-target"
+						value=""
+						validator="#{validationBean.validateShortString}" />
+
+					<p:outputPanel rendered="#{sessionBean.identifiedUser}">
+						<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
+						<p:message for="input-email" />
+						<p:inputText id="input-email" required="true"
+							requiredMessage="#{msg.dlg_notEmpty}"
+							value="">
+							<f:validator validatorId="emailValidator" />
+						</p:inputText>
+					</p:outputPanel>
+					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+						rendered="#{sessionBean.identifiedUser}"
+						ajax="false"
+						validateClient="true"/>
+					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+						rendered="#{!sessionBean.identifiedUser}"
+						ajax="false"
+						validateClient="true"/>
+					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+						onclick="PF('dlgSave').hide();" />
+				</h:form>
+			</p:dialog>
+
+			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+				showDetail="true" sticky="true" escape="false" />
+			
+					
+		</ui:define>
+	
 	</ui:composition>
 </h:body>
 </html>
