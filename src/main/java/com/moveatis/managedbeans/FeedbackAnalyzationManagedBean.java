@@ -307,11 +307,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public void setCurrentRecordNumber(int currentRecordNumber) {
 		this.currentRecordNumber = currentRecordNumber;
 	}
-	
-	public String continueToRecordTable(){
-		saveFeedbackAnalyzation();
-		return "recordtable";
-	}
 
 	public String getComment() {
 		return comment;
@@ -319,6 +314,11 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public String continueToRecordTable(){
+		saveFeedbackAnalyzation();
+		return "recordtable";
 	}
 
 	public void resetCategorySetsInUse() {
