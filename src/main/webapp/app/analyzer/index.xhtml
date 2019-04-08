@@ -65,9 +65,8 @@
 						<p:commandButton id="empty" value="#{msg.ana_empty}" />
 						<p:commandButton id="new" value="#{msg.ana_new}" action="#{feedbackAnalyzationManagedBean.addRecord()}"
 							update=":form" />
-						<p:commandButton id="continue" value="#{msg.ana_continue}"
-							action="#{feedbackAnalyzationManagedBean.continueToRecordTable()}" />
-					</div>
+						<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+              		</div>
 				</div>
 			</h:form>
 		</ui:define>

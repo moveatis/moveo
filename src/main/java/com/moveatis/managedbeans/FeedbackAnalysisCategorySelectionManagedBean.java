@@ -263,8 +263,9 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
             showErrorMessage(messages.getString("cs_errorNoneSelected"));
             return "";
         }
-
+        feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
         feedbackAnalyzationManagedBean.init();
+
         return "analysiscategoriesok";
     }
     
@@ -384,4 +385,3 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 
     
 	}
-

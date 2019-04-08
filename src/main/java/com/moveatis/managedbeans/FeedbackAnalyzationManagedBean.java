@@ -35,7 +35,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagedBean.class);
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private Label labelEJB;
 
@@ -122,7 +122,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * Make the list of records be ordered either by an order number or starttime
 	 * (if the timer is implemented) as the order might change
 	 * 
-	 * @param recordNumber The index(+1) of the record to be accessed
+	 * @param recordNumber
+	 *            The index(+1) of the record to be accessed
 	 */
 	public void setCurrentRecord(int recordNumber) {
 		if (recordNumber > numberOfRecords || recordNumber < 1 || recordNumber == currentRecordNumber)
@@ -166,6 +167,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
 		}
 		currentRecord = new FeedbackAnalysisRecordEntity();
+		if (feedbackAnalysisCategorySetsInUse != null)
+			for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+				for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+					((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
 		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
 		feedbackAnalyzationEntity.addRecord(currentRecord);
 	}
@@ -180,22 +185,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 			if (!feedbackAnalyzationEntity.getUserWantsToSaveToDatabase()) {
 				feedbackAnalyzationEJB.removeUnsavedObservation(feedbackAnalyzationEntity);
 			}
-		}
-	}
-
-	/**
-	 * Creates a new observation entity and initializes it to be used in a new
-	 * observation.
-	 */
-	public void startObservation() {
-		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
-		// Can we use created time for observation start time?
-		this.feedbackAnalyzationEntity.setCreated();
-		this.feedbackAnalyzationEntity.setEvent(eventEntity);
-		// Summary view doesn't break if no records are added.
-		// TODO: Should observer not let user continue, if there are no records?
-		if (feedbackAnalyzationEntity.getRecords() == null) {
-			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
 		}
 	}
 
@@ -270,22 +259,23 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * The method saves the analyzation to the database.
 	 */
 	public void saveFeedbackAnalyzation() {
-		if(feedbackAnalyzationEntity.getId()!=null)return;
+		if (feedbackAnalyzationEntity.getId() != null)
+			return;
 		feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
 
 		for (FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse) {
-	
+
 			categorySetEJB.detachCategorySet(categorySet);
-			
-			for(AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()) {
-				LabelEntity label=labelEJB.findByLabel(cat.getLabel().getText());
+
+			for (AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()) {
+				LabelEntity label = labelEJB.findByLabel(cat.getLabel().getText());
 				cat.setCategorySet(categorySet);
-				if (label==null)
+				if (label == null)
 					labelEJB.create(cat.getLabel());
 				else
 					cat.setLabel(label);
-				}
-			
+			}
+
 			categorySetEJB.create(categorySet);
 		}
 		feedbackAnalyzationEntity.setEvent(eventEntity);
@@ -314,11 +304,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-	
-	public String continueToRecordTable(){
-		saveFeedbackAnalyzation();
-		return "recordtable";
 	}
 
 	public void resetCategorySetsInUse() {

@@ -24,7 +24,7 @@ import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 @Named(value = "feedbackAnalysisSummaryManagedBean")
-@ViewScoped
+@SessionScoped
 public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	/**
 	 * 
