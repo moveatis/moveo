@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -175,18 +176,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		feedbackAnalyzationEntity.addRecord(currentRecord);
 	}
 
-	/**
-	 * Removes the analyzations the user doesn't want to save to database when the
-	 * session timeout happens and the bean is destroyed.
-	 */
-	@PreDestroy
-	public void destroy() {
-		if (feedbackAnalyzationEntity != null) {
-			if (!feedbackAnalyzationEntity.getUserWantsToSaveToDatabase()) {
-				feedbackAnalyzationEJB.removeUnsavedObservation(feedbackAnalyzationEntity);
-			}
-		}
-	}
+
 
 	public void setEventEntity(EventEntity eventEntity) {
 		this.eventEntity = eventEntity;
@@ -278,6 +268,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 			categorySetEJB.create(categorySet);
 		}
+		feedbackAnalyzationEntity.setName("Analyzation - "+feedbackAnalyzationEntity.getCreated().toString());
 		feedbackAnalyzationEntity.setEvent(eventEntity);
 		feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
 	}

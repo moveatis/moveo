@@ -171,7 +171,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				categorySetChartSeries.setLabel(cat.getLabel().getText());
 				int count = 0;
 				for (FeedbackAnalysisCategoryEntity cat_comp : allSelectedCategories)
-					if (cat == cat_comp)
+					if (cat.getId() == cat_comp.getId())
 						count++;
 				fullcount += count;
 
