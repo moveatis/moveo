@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.moveatis.abstracts.AbstractObservationEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 import com.moveatis.records.RecordEntity;
@@ -59,5 +60,5 @@ public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
         getRecords().add(record);
         record.setFeedbackAnalyzation(this);
     }
-
+    
 }

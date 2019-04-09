@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
@@ -21,35 +22,96 @@
 		</script>  -->
 
 			<div id="content">
-			<ui:debug hotkey="x" />
-				<h:outputText value="Dumbledore" />
+				<ui:debug hotkey="x" />
 				<!-- <ui:repeat var="FeedbackAnalysisRecordEntity" value="feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.getRecords()"> 
 					<h:outputText value="#{FeedbackAnalysisRecordEntity.getSelectedCategories()}"></h:outputText>  -->
-				<div id="table">
-					<ui:repeat
+				<h:form id="table">
+				<ui:repeat
 						value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 						var="categorySet">
-						<h:outputText value="#{categorySet.label}" />
-						<p:selectBooleanCheckbox value="false" />
-					</ui:repeat>
+							<h:outputText value="#{categorySet.label}" />
+				</ui:repeat>
 					<ui:repeat
 						value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.getRecords()}"
 						var="feedbackAnalysisRecordEntity">
-						<h:outputText value="Harri" />
+						<ul>
+							<ui:repeat
+								value="#{feedbackAnalysisRecordEntity.getSelectedCategories()}"
+								var="selectedCategory">
+								<li value="#{selectedCategory.label.text}"><p:commandLink
+										value="#{selectedCategory.label.text}"
+										action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalysisRecordEntity)}"
+										onclick="PF('dlgCategorySet').show()"
+										styleClass="link-categoryset" update=":categorySetForm ">
+										<f:actionListener
+											binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(selectedCategory)}" />
+
+									</p:commandLink>
+									</li>
+							</ui:repeat>
+						</ul>
+						<br />
 					</ui:repeat>
-					<ui:repeat
-						value="#{feedbackAnalysisRecordEntity.getSelectedCategories()}"
-						var="selectedCategories">
-						<h:outputText value="#{selectedCategories.label.text}" />
-						<h:outputText value="Harri2" />
-					</ui:repeat>
-				</div>
-				<h:outputText value="Kalkaros" />
+				</h:form>
 				<div id="textArea">
 					<p:inputTextarea value="Lyhyt analyysi annetusta palautteesta" />
 				</div>
 			</div>
+			
+			<p:dataTable id="entries" value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}" var="record" >
+				<c:forEach items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}" var="categorySet">
+				<p:column headerText="#{categorySet.label}">
+				<!-- 	<h:outputText value="#{analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet)}" /> -->
+					<p:commandLink
+										action="#{feedbackAnalyzationManagedBean.setCurrentRecord(record)}"
+										onclick="PF('dlgCategorySet').show()"
+										styleClass="link-categoryset" update=":categorySetForm ">
+										<f:actionListener
+											binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet))}" />
+										<h:outputText value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}">
+									</h:outputText>
+									</p:commandLink>
+				</p:column>
+				</c:forEach>
+				<p:column headerText="Sanallinen Palaute">
+					<p:inputText value="#{record.comment}" />
+				</p:column>
+				<p:column>
+					<p:commandLink
+						action="#{analysisRecordTable.deleteCurrentRecord(record)}"
+						styleClass="link-categoryset" update=":entries ">
+					<h:outputText value="Delete" />
+					</p:commandLink>
+				</p:column>
+				
+			</p:dataTable>
+			
+			
+			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
+				position="top" resizable="false" responsive="true" modal="true"
+				fitViewport="true" class="coloredDialog">
+
+				<h:form id="categorySetForm">
+					<ui:repeat
+						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
+						var="category">
+						<p:selectBooleanButton value="#{category.inRecord}"
+							onLabel="#{category.label.text}"
+							offLabel="#{category.label.text}">
+                			<p:ajax update=":categorySetForm"/>
+						</p:selectBooleanButton>
+
+					</ui:repeat>
+						<p:commandButton value="tallenna muutokset"
+							action="#{feedbackAnalyzationManagedBean.editRecord}"
+							onclick="PF('dlgCategorySet').hide()"
+							update=":entries" />
+				</h:form>
+			</p:dialog>
 		</ui:define>
 	</ui:composition>
+
+
+
 </h:body>
 </html>

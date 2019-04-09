@@ -55,4 +55,5 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	public void setFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation) {
 		this.feedbackAnalyzation = feedbackAnalyzation;
 	}
+	
 }
