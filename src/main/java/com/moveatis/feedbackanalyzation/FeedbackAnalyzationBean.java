@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.Event;
+import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.observation.ObservationBean;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
@@ -38,6 +39,9 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 
     @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
     private EntityManager em;
+
+    @Inject
+	private FeedbackAnalysisRecord feedbackAnalysisRecordEJB;
         
     @Override
     protected EntityManager getEntityManager() {
@@ -93,6 +97,11 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
     public void create(FeedbackAnalyzationEntity feedbackAnalyzation) {
         super.create(feedbackAnalyzation);
     }
+    
+    @Override
+    public void edit(FeedbackAnalyzationEntity feedbackAnalyzation) {
+        super.edit(feedbackAnalyzation);
+    }
 
     /**
      * Finds a list of the records for the observation with the given id.
@@ -119,6 +128,16 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
         eventEJB.removeFeedbackAnalyzation(feedbackAnalyzationEntity);
         feedbackAnalyzationEntity.setEvent(null);
         super.edit(feedbackAnalyzationEntity);
+    }
+    
+    @Override
+    public void removeRecordFromAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation,FeedbackAnalysisRecordEntity record) {
+    	List<FeedbackAnalysisRecordEntity> records=feedbackAnalyzation.getRecords();
+    	records.remove(record);
+    	record.setFeedbackAnalyzation(null);
+    	feedbackAnalyzation.setRecords(records);
+    	feedbackAnalysisRecordEJB.remove(record);
+    	super.edit(feedbackAnalyzation);
     }
 
     /**

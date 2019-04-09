@@ -23,6 +23,7 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.CategorySet;
+import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
@@ -90,6 +91,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	private FeedbackAnalysisCategoryEntity selectedCategory;
 
+	@Inject
+	private FeedbackAnalysisRecord feedbackAnalysisRecordEJB;
+
 	public void setSelectedCategory(FeedbackAnalysisCategoryEntity selectedCategory) {
 		this.selectedCategory = selectedCategory;
 	}
@@ -123,8 +127,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * Make the list of records be ordered either by an order number or starttime
 	 * (if the timer is implemented) as the order might change
 	 * 
-	 * @param recordNumber
-	 *            The index(+1) of the record to be accessed
+	 * @param recordNumber The index(+1) of the record to be accessed
 	 */
 	public void setCurrentRecord(int recordNumber) {
 		if (recordNumber > numberOfRecords || recordNumber < 1 || recordNumber == currentRecordNumber)
@@ -164,9 +167,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		setNumberOfRecords(1);
 		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
 		this.feedbackAnalyzationEntity.setCreated();
-		if (feedbackAnalyzationEntity.getRecords() == null) {
-			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
-		}
+		feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
 		currentRecord = new FeedbackAnalysisRecordEntity();
 		if (feedbackAnalysisCategorySetsInUse != null)
 			for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
@@ -175,8 +176,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
 		feedbackAnalyzationEntity.addRecord(currentRecord);
 	}
-
-
 
 	public void setEventEntity(EventEntity eventEntity) {
 		this.eventEntity = eventEntity;
@@ -242,6 +241,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	public String toSummary() {
 		editRecord();
+		for (FeedbackAnalysisCategoryEntity cat: currentRecord.getSelectedCategories())
+			cat.setInRecord(true);
 		return "summary";
 	}
 
@@ -249,28 +250,34 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * The method saves the analyzation to the database.
 	 */
 	public void saveFeedbackAnalyzation() {
-		if (feedbackAnalyzationEntity.getId() != null)
-			return;
-		feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
+		if (feedbackAnalyzationEntity.getId() == null) {
+			feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
 
-		for (FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse) {
+			for (FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse) {
 
-			categorySetEJB.detachCategorySet(categorySet);
+				if (categorySet.getId() != null)
+					categorySetEJB.detachCategorySet(categorySet);
 
-			for (AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()) {
-				LabelEntity label = labelEJB.findByLabel(cat.getLabel().getText());
-				cat.setCategorySet(categorySet);
-				if (label == null)
-					labelEJB.create(cat.getLabel());
-				else
-					cat.setLabel(label);
+				for (AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()) {
+					LabelEntity label = labelEJB.findByLabel(cat.getLabel().getText());
+					cat.setCategorySet(categorySet);
+					if (label == null)
+						labelEJB.create(cat.getLabel());
+					else
+						cat.setLabel(label);
+				}
+
+				categorySetEJB.create(categorySet);
 			}
-
-			categorySetEJB.create(categorySet);
+			feedbackAnalyzationEntity.setName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
+			feedbackAnalyzationEntity.setEvent(eventEntity);
+			feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
+			feedbackAnalysisCategorySetsInUse=feedbackAnalyzationEntity.getFeedbackAnalysisCategorySets();
+		} else {
+			for (FeedbackAnalysisRecordEntity record:feedbackAnalyzationEntity.getRecords())
+				if(record.getId()==null)feedbackAnalysisRecordEJB.create(record);
+			feedbackAnalyzationEJB.edit(feedbackAnalyzationEntity);
 		}
-		feedbackAnalyzationEntity.setName("Analyzation - "+feedbackAnalyzationEntity.getCreated().toString());
-		feedbackAnalyzationEntity.setEvent(eventEntity);
-		feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
 	}
 
 	public int getNumberOfRecords() {

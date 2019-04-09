@@ -80,10 +80,7 @@ public abstract class AbstractBean<T extends BaseEntity> {
         entity.setRemoved(); //entity is not actually removed, only the removed-date is set
         getEntityManager().merge(entity);
     }
-    
-    public boolean isPersisted(T entity) {
-    	return getEntityManager().contains(entity);
-    }
+
 
     /**
      * Finds an entity and returns it if it's not out of date.

@@ -29,8 +29,7 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.category.CategoryEntity;
-import com.moveatis.category.CategorySetEntity;
+
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;

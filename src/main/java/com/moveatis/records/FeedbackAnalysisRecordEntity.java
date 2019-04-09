@@ -26,7 +26,7 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	@ManyToOne
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
 
-	@ManyToMany(cascade=MERGE)
+	@ManyToMany
 	@JoinTable(name="FeedbackAnalysisRecordSelectedCategories")
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 	

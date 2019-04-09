@@ -18,8 +18,6 @@ public interface FeedbackAnalyzation {
 	    
 	    void removeUnsavedObservation(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
 	    
-	    boolean isPersisted(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
-
 	    FeedbackAnalyzationEntity find(Object id);
 
 	    List<FeedbackAnalyzationEntity> findAll();
@@ -35,4 +33,6 @@ public interface FeedbackAnalyzation {
 	    List<FeedbackAnalysisRecordEntity> findRecords(Object id);
 
 	    int count();
+
+		void removeRecordFromAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation,FeedbackAnalysisRecordEntity record);
 }
