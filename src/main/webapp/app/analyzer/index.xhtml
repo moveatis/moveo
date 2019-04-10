@@ -50,6 +50,7 @@
 									<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
 										<p:selectBooleanButton value="#{category.inRecord}" onLabel="#{category.label.text}"
 											offLabel="#{category.label.text}">
+                							<p:ajax update=":form"/>
 										</p:selectBooleanButton>
 									</ui:repeat>
 								</div>
