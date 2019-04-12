@@ -1,3 +1,4 @@
+==== BASE ====
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15517724384600" configfile="/moveatis/src/main/webapp/WEB-INF/faces-config.xml">
   <nodes xsi:type="pageflow:PFPage" name="install.xhtml" x="122" y="562" id="pf15523114248820" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15523114248821" path="/install.xhtml"/>
@@ -16,7 +17,13 @@
   <nodes xsi:type="pageflow:PFPage" name="app/feedbackanalysissummary/index.xhtml" id="pf155489911692620" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" inlinks="pf155489911692619" path="/app/feedbackanalysissummary/index.xhtml"/>
   <links id="pf15523114248821" target="pf15523114248822" source="pf15523114248820" outcome="success" redirect="true"/>
   <links id="pf15523114248823" target="pf15523114248826" source="pf15523114248822" outcome="useridentified" redirect="true"/>
+  <links id="pf15523114248825" target="pf15523114248829" source="pf15523114248822" outcome="taguser" redirect="true"/>
   <links id="pf155231142488315" target="pf155231142488316" source="pf155231142488314" outcome="useridentified" redirect="true"/>
+  <links id="pf155231142488210" target="pf155231142488317" source="pf15523114248829" outcome="categoriesok" redirect="true"/>
+  <links id="pf155231142488211" target="pf15523114248829" source="pf155231142488318" outcome="success" redirect="true"/>
+  <links id="pf15523114248827" target="pf15523114248829" source="pf15523114248826" outcome="newobservation" redirect="true"/>
+  <links id="pf15523114248828" target="pf155231142488319" source="pf15523114248826" outcome="summary" redirect="true"/>
+  <links id="pf155231142488212" target="pf15523114248829" source="pf155231142488320" outcome="observationselected" redirect="true"/>
   <links id="pf15523805901300" target="pf155231142488320" source="pf15523114248822" outcome="anonymityuser" redirect="true"/>
   <links id="pf15547100615200" target="pf155231142488320" source="pf15523114248822" outcome="taguser" redirect="true"/>
   <links id="pf15547100615202" target="pf15547100615204" source="pf15540405066191" outcome="recordtable" redirect="true"/>
@@ -31,3 +38,4 @@
   <links id="pf15548989150678" target="pf155489891506715" source="pf155231142488320" outcome="analysisselected" redirect="true"/>
   <links id="pf155489911692619" target="pf155489911692620" source="pf15547100615204" outcome="summary" redirect="true"/>
 </pageflow:Pageflow>
+==== BASE ====
