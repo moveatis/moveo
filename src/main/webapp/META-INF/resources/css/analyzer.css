@@ -53,9 +53,11 @@ body {
 }
 
 #mainPage {
-    margin: 0;
+	width: 100%;
+    margin: auto;
     padding: 0;
     display: inline-block;
+    text-align: center;
 
 }
 
@@ -96,14 +98,15 @@ body {
 
 #content button {
 	padding: 0.5em;
-    background-color: #567;
-    background: linear-gradient(0deg, #345, #567);
-    color: white;
     border: 0;
     font-size: 1em;
     display: inline-block;
     min-width: 2.5em;
     max-width: 5em;
+}
+
+#content .ui-state-active {
+	background: #AF2A01;
 }
 
 #textArea {
@@ -117,15 +120,10 @@ body {
 	margin-bottom: 0.1em;
 }
 
-label {
-    background-color: #567;
-    background: linear-gradient(0deg, #345, #567);
-}
-
 #categoryContent {
     max-width: 100%;
     list-style-type: none;
-    background: rgba(85, 102, 119, 0.4);
+    background: rgba(85, 102, 119, 0.2);
     padding: 0.5em;
     border-radius: 0.5em;
     position: relative;
@@ -143,9 +141,8 @@ label {
 	display: inline-block;
     border: none;
     text-shadow: none;
-    margin: 0.2em 0.2em;
-    background-color: #567;
-    background: linear-gradient(0deg, #345, #567);
+    margin: 0.2em 0.2em;    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
     cursor: pointer;
     color: white;
     box-shadow:none;
@@ -159,7 +156,7 @@ label {
 }
 
 .ui-button.ui-state-active {
-	background: #ff6600;
+	background: #AF2A01;
 }
 
 #categoryContent {
@@ -240,8 +237,6 @@ label {
     border: none;
     text-shadow: none;
     margin: 0.2em 0.2em;
-    background-color: #567;
-    background: linear-gradient(0deg, #345, #567);
     cursor: pointer;
     color: white;
     box-shadow:none;
