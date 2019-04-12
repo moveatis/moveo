@@ -93,7 +93,37 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	@Inject
 	private FeedbackAnalysisRecord feedbackAnalysisRecordEJB;
+	
+	private long duration;
+	private long currentTimeStamp;
+	private boolean isTimerStopped;
+	
 
+	public boolean getIsTimerStopped() {
+		return isTimerStopped;
+	}
+	public void setIsTimerStopped(boolean timerStopped) {
+		this.isTimerStopped=timerStopped;
+	}
+	public void pauseContinue() {
+		isTimerStopped=!isTimerStopped;
+	}
+	
+	public String getDuration() {
+		return getLongAsTimeStamp(duration);
+	}
+	
+	public String getLongAsTimeStamp(long seconds) {
+		if(seconds==0)return "-- min -- s";
+		return seconds/60 +" min " + seconds%60+" s";
+		
+	}
+
+	public void increment() {
+		if(isTimerStopped)return;
+		duration+=1;
+	}
+	
 	public void setSelectedCategory(FeedbackAnalysisCategoryEntity selectedCategory) {
 		this.selectedCategory = selectedCategory;
 	}
@@ -120,6 +150,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	public FeedbackAnalysisRecordEntity getCurrentRecord() {
 		return currentRecord;
+	}
+	
+	public void setTimeStamp() {
+		if(currentRecord.getStartTime()==null)currentRecord.setStartTime(duration);
 	}
 
 	/**
@@ -165,6 +199,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public void init() {
 		setCurrentRecordNumber(1);
 		setNumberOfRecords(1);
+		duration=0;
+		isTimerStopped=false;
 		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
 		this.feedbackAnalyzationEntity.setCreated();
 		feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
@@ -269,8 +305,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 				categorySetEJB.create(categorySet);
 			}
+			feedbackAnalyzationEntity.setDuration(duration);
 			feedbackAnalyzationEntity.setName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
 			feedbackAnalyzationEntity.setEvent(eventEntity);
+			feedbackAnalyzationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
 			feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
 			feedbackAnalysisCategorySetsInUse=feedbackAnalyzationEntity.getFeedbackAnalysisCategorySets();
 		} else {
