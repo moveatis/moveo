@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,12 +16,14 @@ import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 @Named(value = "analysisRecordTable")
-@SessionScoped
+@ViewScoped
 public class FeebackAnalysisRecordTableManagedBean implements Serializable{
 	
 	private List<FeedbackAnalysisRecordEntity> selectedRecords;
 	@Inject 
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean; 
+	private FeedbackAnalysisRecordEntity selectedRow;
+	
 	
 	public String getSelectedCategorysName(List<FeedbackAnalysisCategoryEntity> selectedCategories, FeedbackAnalysisCategorySetEntity categorySet){
 		for(FeedbackAnalysisCategoryEntity selectedCategory: selectedCategories){
@@ -50,11 +54,27 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable{
 	
     public void deleteCurrentRecord(FeedbackAnalysisRecordEntity record){
     	List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords();
-    	if(list.contains(record)){
-    		list.remove(record);
-    		feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().setRecords(list);
-    	}
+    	list.remove(record);
+    	FeedbackAnalyzationEntity feedbackAnalyzationEntity = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity();
+    	feedbackAnalyzationEntity.setRecords(list);
+    	feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(feedbackAnalyzationEntity);
     }
 
-		
+	public FeedbackAnalysisRecordEntity getSelectedRow() {
+		return selectedRow;
+	}
+
+	public void setSelectedRow(FeedbackAnalysisRecordEntity selectedRow) {
+		this.selectedRow = selectedRow;
+	}
+	
+	
+	public void delete(){
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords();
+		list.remove(selectedRow);
+		selectedRow.setSelectedCategories(null);
+		feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().setRecords(list);
+		selectedRow = null;
+	}
+	
 }

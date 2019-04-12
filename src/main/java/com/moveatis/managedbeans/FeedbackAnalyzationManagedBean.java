@@ -84,6 +84,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * The comment for the record currently in view
 	 */
 	private String comment;
+	
+
 
 	private FeedbackAnalysisCategoryEntity selectedCategory;
 
@@ -104,7 +106,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
 				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
 		comment = currentRecord.getComment();
-
+		
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
 		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
 			category.setInRecord(true);
@@ -265,10 +267,15 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	}
 
 	public String toSummary() {
-		editRecord();
 		return "summary";
 	}
-
+	
+	public String toRecordTable() {
+		editRecord();
+		return "recordtable";
+	}
+	
+	
 	/**
 	 * The method saves the analyzation to the database.
 	 */

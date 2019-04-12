@@ -28,7 +28,7 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	@ManyToMany(cascade=MERGE)
 	@JoinTable(name="FeedbackAnalysisRecordSelectedCategories")
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
-	
+	private int rowNumber;
 
 	
 	public void addSelectedCategory(FeedbackAnalysisCategoryEntity category) {
@@ -55,5 +55,13 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	public void setFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation) {
 		this.feedbackAnalyzation = feedbackAnalyzation;
 	}
+	public int getRowNumber() {
+		return rowNumber;
+	}
+	public void setRowNumber(int rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+	
+	
 	
 }
