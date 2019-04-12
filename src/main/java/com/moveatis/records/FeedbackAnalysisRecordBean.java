@@ -22,4 +22,5 @@ public class FeedbackAnalysisRecordBean extends AbstractBean<FeedbackAnalysisRec
         super(FeedbackAnalysisRecordEntity.class);
     }
     
+    
 }
