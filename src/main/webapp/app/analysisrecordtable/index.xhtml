@@ -30,7 +30,7 @@
 						<p:commandLink
 							action="#{feedbackAnalyzationManagedBean.setCurrentRecord(record)}"
 							onclick="PF('dlgCategorySet').show()"
-							styleClass="link-categoryset" update=":categorySetForm " >
+							update=":categorySetForm " >
 							<f:actionListener
 								binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet))}" />
 							<h:outputText
@@ -45,7 +45,7 @@
 				<p:column>
 					<p:commandLink
 						action="#{analysisRecordTable.deleteCurrentRecord(record)}"
-						styleClass="link-categoryset" update=":dataTableForm:gridDataTable">
+						update=":dataTableForm:gridDataTable">
 						<h:outputText value="Delete" />
 					</p:commandLink>
 				</p:column>
