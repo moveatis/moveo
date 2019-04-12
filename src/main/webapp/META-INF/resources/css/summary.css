@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Jarmo JuujÃ¤rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,8 +48,9 @@
 #recordings-details {
     font-size: 1.1em;
     padding: .1em .5em;
-    background-color: #19232A;
-    border-radius: 10px 10px 0 0;
+    background: #EFEFEF;
+    
+    border-radius: 10px 10px 10px 10px;
     position: relative;
     z-index: 2;
 }
@@ -115,16 +116,25 @@
 }
 .ui-grid-row {
     padding: 0.4em 0;
-    margin-left: 3px;
 }
 .ui-grid-row:not(.header-row):not(:last-child):after {
     content:"";
-    border-bottom: 1px solid #4F4F4F;
+    border-bottom: 2px solid #005977;
     width: 100%;
     position: absolute;
     left: 0;
     margin-top: -0.4em;
     opacity: 0.5;
+}
+
+.header-row {
+
+    font-weight: bold;
+}
+
+.ui-grid-row:last-child {
+    
+    font-weight: bold;
 }
 
 .ui-grid-row > div:not(:first-child) {
@@ -166,7 +176,7 @@
     margin-right: 0.6em;
 }
 #timelineControls a:hover {
-    color: #fa4;
+    color: #AF2A01;
 }
 #timelineControls .fa {
     cursor: pointer;
@@ -192,7 +202,6 @@
 
 #records .gapBefore {
     margin-top: 1em;
-    border-top: 2px solid #567;
 }
 
 #select-save {
@@ -229,6 +238,35 @@
 .ui-fluid .save-button {
     width: auto;
     margin: .6em 0;
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
+    cursor: pointer;
+    color: white;
+    border: 0;
+    text-shadow: none;
+}
+
+.ui-datepicker-trigger {
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
+    cursor: pointer;
+    color: white;
+    border: 0;
+    text-shadow: none;
+    margin-left: 3px;
+    width: 25px;
+    height: 25px;
+}
+
+#ui-datepicker-div .ui-slider-handle .ui-state-default {
+    background-color: red;
+}
+
+#ui-datepicker-div .ui-widget-header{
+    background: white;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #A8A8A8;
 }
 
 .ui-datepicker-current {

@@ -30,6 +30,7 @@
 package com.moveatis.event;
 
 import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
@@ -65,7 +66,18 @@ public class EventEntity extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private Set<ObservationEntity> observations;
     
-    private String description;
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+    private Set<FeedbackAnalyzationEntity> analyzations;
+    
+    public Set<FeedbackAnalyzationEntity> getAnalyzations() {
+		return analyzations;
+	}
+
+	public void setAnalyzations(Set<FeedbackAnalyzationEntity> analyzations) {
+		this.analyzations = analyzations;
+	}
+
+	private String description;
     private String label;
 
     @Override

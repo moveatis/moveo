@@ -19,7 +19,7 @@ import com.moveatis.label.LabelEntity;
 @MappedSuperclass
 public abstract class AbstractCategoryEntity extends BaseEntity {
 	 
-    @ManyToOne(fetch=EAGER, cascade={PERSIST, MERGE})
+    @ManyToOne(fetch=EAGER, cascade={ MERGE})
     private LabelEntity label;
     
     private String description;

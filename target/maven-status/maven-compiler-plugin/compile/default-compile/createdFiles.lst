@@ -45,6 +45,7 @@ com\moveatis\managedbeans\FeebackAnalysisRecordTableManagedBean.class
 com\moveatis\export\CSVFileBuilder.class
 com\moveatis\managedbeans\ApplicationManagedBean.class
 com\moveatis\interfaces\TagUser.class
+com\moveatis\managedbeans\DatatableManagedBean.class
 com\moveatis\observation\ObservationCategory.class
 com\moveatis\roles\SuperUserRoleEntity.class
 com\moveatis\managedbeans\TimeManagedBean.class

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Jarmo JuujÃ¤rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,7 @@
 */
 
 body {
+
     font-size: 0; /* NOTE: Removes extra space between elements. */
 }
 
@@ -47,6 +48,7 @@ body {
     padding: 0;
     text-align: center;
     clear: both;
+
 }
 
 #growl_container {
@@ -75,9 +77,10 @@ body {
     width: 5em;
     margin: 0 0.2em;
     padding: 0.2em 0;
-    background-color: #567;
-    background: linear-gradient(0deg, #345, #567);
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
     cursor: pointer;
+    color: white;
 }
 
 .no-text-select {
@@ -99,19 +102,22 @@ body {
 }
 
 .category-set {
+
+    color: white;
     max-width: 100%;
     list-style-type: none;
-    background: rgba(85, 102, 119, 0.4);
+    background: rgba(85, 102, 119, 0.2);
 }
 
 .category-item {
+
     max-width: 100%;
     padding: 0;
     position: relative;
     text-align: left;
     white-space: nowrap;
-    background-color: #567;
-    background: linear-gradient(0deg, #345, #567);
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
     cursor: pointer;
 }
 
@@ -120,12 +126,13 @@ body {
 }
 
 .category-item.down {
-    background: #f82;
+    background: #AF2A01;
 }
 
 .category-name {
     max-width: 90%;
     margin: 0 0.3em;
+
     padding: 0;
     display: inline-block;
     vertical-align: middle;
@@ -135,6 +142,10 @@ body {
     text-overflow: ellipsis;
 }
 
+#stop {   
+    color: white;
+}
+
 .category-value {
     margin: 0;
     margin-left: 0.3em;
@@ -142,16 +153,16 @@ body {
     float: right;
     position: relative;
     z-index: 1;
-    background-color: #345;
+    background-color: #007096;
 }
 
 .disabled {
-    color: #345;
+    color: #007096;
     cursor: default;
 }
 
 .category-item.disabled > .category-value {
-    color: #567;
+    color: #005977;
 }
 
 /*
@@ -167,10 +178,12 @@ body {
 }
 
 #controls {
+
     height: calc((100vh - 70px) * 0.15);
 }
 
 .control-button {
+
     border-radius: 1vh;
     font-size: 6vh;
 }
@@ -211,6 +224,7 @@ body {
     .control-button {
         border-radius: calc(480px * 0.01);
         font-size: calc(480px * 0.06);
+
     }
 
     .category-set {

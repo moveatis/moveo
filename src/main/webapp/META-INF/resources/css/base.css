@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@ The base stylesheet for Moveatis-webapplication
 */
 /*
     Created on : 24.2.2016, 11:55:11
-    Author     : Jarmo Juujärvi (based on base.css by Sami kallio)
+    Author     : Jarmo Juujarvi (based on base.css by Sami kallio)
 */
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 
@@ -50,17 +50,18 @@ body {
     margin: 0;
     padding: 0;
     font-size: 100%;
-    color: #ffffff;
-    background-color: #131D24;
+    color: black;
+    background-color: #FEFEFE;
     background-image: repeating-linear-gradient(
         45deg,
-        #080b0d,
-        #080b0d 20px,
-        #0a0f13 20px,
-        #0a0f13 40px);
+        #FCFCFC,
+        #FCFCFC 20px,
+        #FEFEFE 20px,
+        #FEFEFE 40px);
     background-size: 100%;
     background-attachment: fixed;
     font-family: 'Roboto', sans-serif;
+
 }
 
 /* Use same font family on widgets for consistency
@@ -76,6 +77,7 @@ body {
     height: auto !important;
     height: 100%;
     margin: 0 auto -30px;
+    text-align:justify;
 }
 .push {
     height: 30px;
@@ -83,10 +85,56 @@ body {
 #Footer {
     height: 30px;
     font-size: 16px;
-    background-color: #ff6600;
+    background-color: #008AB9;
     clear: both;
 }
 
+#naviHead {
+	letter-spacing: 1px;
+}
+
+#Footer a:link {text-decoration: none; color: #FEFEFE;}
+#Footer a:visited {text-decoration: none; color: #FEFEFE;}
+#Footer a:active {text-decoration: none; color: #FEFEFE;}
+#Footer a:hover {text-decoration: none; color: #FEFEFE;}
+
+#naviHead a:link {text-decoration: none; color: #FEFEFE;}
+#naviHead a:visited {text-decoration: none; color: #FEFEFE;}
+#naviHead a:active {text-decoration: none; color: #FEFEFE;}
+#naviHead a:hover {text-decoration: none; color: #FEFEFE;}
+
+a:link {text-decoration: none; color: #000000;}
+a:visited {text-decoration: none; color: #000000;}
+a:active {text-decoration: none; color: #000000;}
+a:hover {text-decoration: none; color: #AF2A01;}
+
+#picture {
+    padding-left: 10%;
+    height: auto;
+    width: 40%;
+    margin:auto;
+    display: inline-block;
+    float: left;
+}
+
+#picture img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#picture2 {
+    padding-left: 10%;
+    padding-top: 3em;
+    height: auto;
+    width: 40%;
+    margin:auto;
+    display: inline-block;
+}
+
+#picture2 img{
+    max-width: 100%;
+    max-height: 100%;
+}
 
 nav {
     float: left;
@@ -99,10 +147,10 @@ nav {
 }
 
 .welcomeContent {
-    float: right;
+    float: left;
     width: 70%;
     display: block;
-    padding: 0.5em;
+    padding: 1em;
 }
 
 .textContentArea {
@@ -114,10 +162,10 @@ nav {
 
 .naviHeader {
     height: 28px;
-    background: #ff6600;
-    background: #ff6600 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
-    background: #ff6600 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
-    background: #ff6600 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    background: #008AB9;
+    background: #008AB9 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
+    background: #008AB9 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
     background-size: 100%;
     text-align: center;
     border: 0;
@@ -175,36 +223,62 @@ ul.ui-menu-child {
     padding: 1.0em;
 }
 
+
+.coloredButton:hover,
+.coloredButton:active {
+	color: white;
+	background: #008AB9;
+}
+
 .coloredButton {
-    background: #ff6600;
+    	letter-spacing: 1px;
+    background: #008AB9;
     color: white!important;
     font-size: 100%!important;
     text-shadow: none;
+    border: none;
+	color: #fff;
+	background: #008AB9;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+
 }
 
 /* Dialog style */
 .coloredDialog {
-    background: #19232A!important;
-    color: white;
+    background: #008AB9!important;
+    color: #FEFEFE;
     border: none;
 }
 
 .coloredDialog .ui-dialog-titlebar {
-    background:#ff6600;
-    background:#ff6600 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
-    background:#ff6600 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
-    background:#ff6600 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
-    color: white;
+    background:#008AB9;
+    background:#008AB9 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    background:#008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.3)), to(rgba(255,255,255,0)));
+    background:#008AB9 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    color: #FEFEFE;
     text-shadow: none;
     font-weight: normal;
 }
 
 .coloredDialog form label {
-    color: white;
+    color: #FEFEFE;
 }
 
 .coloredDialog .ui-fluid .ui-button {
     width: auto;
+}
+
+.coloredDialog .ui-fluid .ui-button {
+    width: auto;
+    background-color: #FCFCFC;
+    background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+    margin-right: 0.5em;
+    border: 0;
 }
 
 .coloredDialog form input,
@@ -228,19 +302,19 @@ ul.ui-menu-child {
 
 /* Naviheader styles menu */
 .naviHeader.ui-menu, .naviHeader.ui-menu .ui-menu-child{
-    background:#ff6600;
-    background:#ff6600 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
-    background:#ff6600 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
-    background:#ff6600 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    background:#008AB9;
+    background:#008AB9 linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
+    background:#008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.4)), to(rgba(255,255,255,0)));
+    background:#008AB9 -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
     color: white!important;
 }
 
 .naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover, .naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus, .naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus{
-    border:1px solid #ff6600;
-    background:#ff6600;
-    background:#ff6600 linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,0));
-    background:#ff6600 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.6)), to(rgba(255,255,255,0)));
-    background:#ff6600 -moz-linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,0));
+    border:1px solid #008AB9;
+    background:#008AB9;
+    background:#008AB9 linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,0));
+    background:#008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.6)), to(rgba(255,255,255,0)));
+    background:#008AB9 -moz-linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,0));
     font-weight:normal;
     color:black;
     -moz-box-shadow:none;
@@ -270,7 +344,7 @@ ul.ui-menu-child {
     float: right;
     height: 20px;
     background-size: 50%;
-    background-color: #ff6600;
+    background-color: #008AB9;
     align-content: flex-end;
     text-align: center;
     color: white !important;
@@ -290,10 +364,7 @@ ul.ui-menu-child {
     float: right!important;
 }
 
-a:link {text-decoration: none; color: white;}
-a:visited {text-decoration: none; color: white;}
-a:active {text-decoration: none; color: white;}
-a:hover {text-decoration: none; color: white;}
+
 
 .ui-dialog-footer {
     background: transparent none repeat scroll 0% 0%;
@@ -345,7 +416,7 @@ a:hover {text-decoration: none; color: white;}
     .welcomeContent {
         width: 96%;
         margin: 1% auto 1% auto;
-        padding: 0em;
+        padding: 0.5em;
     }
 
     .textContentArea {
@@ -355,9 +426,10 @@ a:hover {text-decoration: none; color: white;}
         padding: 2.5em;
     }
 
+
     .naviHeader {
         height: 28px;
-        background-color: #ff6600;
+        background-color: #008AB9;
         background-size: 100%;
         text-align: center;
         color: white !important;
@@ -381,8 +453,25 @@ a:hover {text-decoration: none; color: white;}
         color: white;
     }
 
+.coloredButton:hover,
+.coloredButton:active {
+	color: white;
+	background: #008AB9;
+}
+
     .coloredButton {
-        background: #ff6600;
+    	letter-spacing: 1px;
+        	border: none;
+	border: 3px solid background: #008AB9;
+	color: #fff;
+	background: #008AB9;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+
     }
 
     .naviFooter {
@@ -390,9 +479,27 @@ a:hover {text-decoration: none; color: white;}
         float: right;
         height: 20px;
         background-size: 50%;
-        background-color: #ff6600;
+        background-color: #008AB9;
         text-align: center;
         color: white !important;
     }
+
+#picture {
+    padding-left: auto;
+    padding-top: 3em;
+    height: auto;
+    width: 80%;
+    margin:auto;
+    display: inline-block;
+}
+
+#picture2 {
+    padding-left: auto;
+    padding-top: 3em;
+    height: auto;
+    width: 80%;
+    margin:auto;
+    display: inline-block;
+}
 
 }
