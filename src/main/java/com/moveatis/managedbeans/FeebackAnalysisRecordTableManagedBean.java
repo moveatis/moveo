@@ -16,7 +16,7 @@ import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 @Named(value = "analysisRecordTable")
-@ViewScoped
+@SessionScoped
 public class FeebackAnalysisRecordTableManagedBean implements Serializable{
 	
 	private List<FeedbackAnalysisRecordEntity> selectedRecords;
@@ -26,23 +26,30 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable{
 	
 	
 	public String getSelectedCategorysName(List<FeedbackAnalysisCategoryEntity> selectedCategories, FeedbackAnalysisCategorySetEntity categorySet){
-		for(FeedbackAnalysisCategoryEntity selectedCategory: selectedCategories){
+		for(FeedbackAnalysisCategoryEntity cat_comp: selectedCategories){
 			for(AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()){
-				if(cat == selectedCategory){return selectedCategory.getLabel().getText();}
+				if (cat.getLabel().getText().contentEquals(cat_comp.getLabel().getText()) && 
+					cat.getCategorySet().getLabel().contentEquals(cat_comp.getCategorySet().getLabel())){
+						return cat.getLabel().getText();
+					}
 			}
 		}
+		
 		return "empty";
 	}
 	
 	public FeedbackAnalysisCategoryEntity getSelectedCategory(List<FeedbackAnalysisCategoryEntity> selectedCategories, FeedbackAnalysisCategorySetEntity categorySet){
-		for(FeedbackAnalysisCategoryEntity selectedCategory: selectedCategories){
-			for(AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()){
-				if(cat == selectedCategory){return (FeedbackAnalysisCategoryEntity) selectedCategory;}
+			for(FeedbackAnalysisCategoryEntity cat_comp: selectedCategories){
+				for(AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()){
+					if (cat.getLabel().getText().contentEquals(cat_comp.getLabel().getText()) && 
+						cat.getCategorySet().getLabel().contentEquals(cat_comp.getCategorySet().getLabel())){
+							return (FeedbackAnalysisCategoryEntity) cat_comp;
+						}
+				}
 			}
+			return null;
 		}
-		return null;
-	}
-
+	
 	public List<FeedbackAnalysisRecordEntity> getSelectedRecords() {
 		return selectedRecords;
 	}
