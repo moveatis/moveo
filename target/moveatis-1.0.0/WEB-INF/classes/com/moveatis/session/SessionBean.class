@@ -1,69 +1,0 @@
-\CA\FE\BA\BE\00\00\003
-\005\00\9D	\002\00\9E
-\00\9F\00\A0	\002\00\A1	\002\00\A2
-\002\00\A3	\002\00\A4	\002\00\A5
-\00\A6\00\A7
-\00\A8\00\A9
-\00\AA\00\AB
-\00\AC\00\AD	\002\00\AE
-\00\AF\00\A7
-\00\A6\00\B0\00\B1\00\B2\00\B3\00\B4
-\00\00\9D\00\B5
-\00\00\B6\00\B7
-\002\00\B8
-\00\00\B9
-\00\00\BA	\002\00\BB\00\BC
-\00\00\9D
-\00\A6\00\BD
-\00\BE\00\BF
-\00\BE\00\C0
-\00\C1\00\C2\00\C3
-\00\C4\00\C5\00\C6\00\C7
-\00\BE\00\C8
-\00\C9\00\CA\00\CB\00(\00\CC
-\00\CD\00\BA\00\CE
-\00\C4\00\CF	\002\00\D0
-\00\A6\00\D1
-\00\A6\00\D2
-\00\AF\00\D3
-\00\AF\00\D4\00\D5
-\00\D6\00\D7	\002\00\D8\00\D9\00\DA\00\DB\00serialVersionUID\00J\00
-ConstantValue\00\00\00\00\00\00\00\00LOGGER\00Lorg/slf4j/Logger;\00observationManagedBean\002Lcom/moveatis/managedbeans/ObservationManagedBean;\00RuntimeVisibleAnnotations\00Ljavax/inject/Inject;\00feedbackAnalyzationManagedBean\00:Lcom/moveatis/managedbeans/FeedbackAnalyzationManagedBean;\00loggedIn\00Z\00
-userEntity\00(Lcom/moveatis/user/IdentifiedUserEntity;\00	tagEntity\00!Lcom/moveatis/user/TagUserEntity;\00sessionObservations\00Ljava/util/SortedSet;\00	Signature\00'Ljava/util/SortedSet<Ljava/lang/Long;>;\00	returnUri\00Ljava/lang/String;\00sessionTimeZone\00Ljava/util/TimeZone;\00locale\00Ljava/util/Locale;\00<init>\00()V\00Code\00LineNumberTable\00LocalVariableTable\00this\00"Lcom/moveatis/session/SessionBean;\00setIdentityProviderUser\00+(Lcom/moveatis/user/IdentifiedUserEntity;)V\00user\00setAnonymityUser\00
-setTagUser\00$(Lcom/moveatis/user/TagUserEntity;)V\00tagUser\00
-StackMapTable\00commonSettingsForLoggedInUsers\00
-isLoggedIn\00()Z\00toString\00()Ljava/lang/String;\00userType\00\DC\00getSessionObservationsIds\00()Ljava/util/SortedSet;\00)()Ljava/util/SortedSet<Ljava/lang/Long;>;\00
-isSaveable\00setSessionObservations\00(Ljava/util/SortedSet;)V\00observationsIds\00LocalVariableTypeTable\00*(Ljava/util/SortedSet<Ljava/lang/Long;>;)V\00getLoggedInUser\00"()Lcom/moveatis/user/AbstractUser;\00getSessionTimeZone\00()Ljava/util/TimeZone;\00setSessionTimeZone\00(Ljava/util/TimeZone;)V\00timeZone\00getLoggedIdentifiedUser\00*()Lcom/moveatis/user/IdentifiedUserEntity;\00getGroupKey\00(()Lcom/moveatis/groupkey/GroupKeyEntity;\00isResetObsAvailable\00viewId\00result\00isBackToCatEdAvailable\00isToFrontPageAvailable\00getIsLocalhost\00isLocalhost\00getReturnUri\00setReturnUri\00(Ljava/lang/String;)V\00isIdentifiedUser\00setCategorySetsInUse\00(Ljava/util/List;)V\00categorySets\00Ljava/util/List;\00CLjava/util/List<Lcom/moveatis/observation/ObservationCategorySet;>;\00F(Ljava/util/List<Lcom/moveatis/observation/ObservationCategorySet;>;)V\00getCategorySetsInUse\00()Ljava/util/List;\00E()Ljava/util/List<Lcom/moveatis/observation/ObservationCategorySet;>;\00$setFeedbackAnalysisCategorySetsInUse\00[Ljava/util/List<Lcom/moveatis/feedbackanalysiscategory/FeedbackAnalysisCategorySetEntity;>;\00^(Ljava/util/List<Lcom/moveatis/feedbackanalysiscategory/FeedbackAnalysisCategorySetEntity;>;)V\00$getFeedbackAnalysisCategorySetsInUse\00]()Ljava/util/List<Lcom/moveatis/feedbackanalysiscategory/FeedbackAnalysisCategorySetEntity;>;\00<clinit>\00
-SourceFile\00SessionBean.java\00(Ljavax/enterprise/context/SessionScoped;\00Ljavax/inject/Named;\00U\00V\00E\00F\00\DD\00\DE\00w\00Q\00R\00G\00H\00d\00V\00I\00J\00?\00@\00\DF\00\E0\00\E1\00\E2\00}\00~\00\E3\00\E4\00\E5\00\E6\00\E7\00\E8\00C\00D\00\E9\00\EA\00V\00tag\00	anonymous\00
-identified\00java/lang/StringBuilder\00SessionBean: userType -> \00\EB\00\EC\00, loggedIn -> \00e\00f\00\EB\00\ED\00g\00h\00K\00L\00java/util/TreeSet\00\EE\00\EF\00\F0\00\F1\00\F2\00\F3\00\F4\00\F5\00\F6\00h\00/app/observer/index.xhtml\00\DC\00\F7\00\F8\00/app/summary/index.xhtml\00/index.xhtml\00\F9\00\FA\00\FB\00\FC\00\FD\00%javax/servlet/http/HttpServletRequest\00\FE\00\FF\00\00	localhost\00O\00P\00\8A\00\8B\00\90\00\91\00\93\00\8B\00\96\00\91\00 com/moveatis/session/SessionBean\00=\00>\00java/lang/Object\00java/io/Serializable\00com/moveatis/interfaces/Session\00java/lang/String\00)com/moveatis/timezone/TimeZoneInformation\00getTimeZone\000com/moveatis/managedbeans/ObservationManagedBean\00setEventEntity\00#(Lcom/moveatis/event/EventEntity;)V\00com/moveatis/user/TagUserEntity\00$com/moveatis/groupkey/GroupKeyEntity\00
-getEventGroup\00'()Lcom/moveatis/event/EventGroupEntity;\00#com/moveatis/event/EventGroupEntity\00getEvent\00"()Lcom/moveatis/event/EventEntity;\008com/moveatis/managedbeans/FeedbackAnalyzationManagedBean\00resetCategorySetsInUse\00append\00-(Ljava/lang/String;)Ljava/lang/StringBuilder;\00(Z)Ljava/lang/StringBuilder;\00getObservationEntity\00.()Lcom/moveatis/observation/ObservationEntity;\00 javax/faces/context/FacesContext\00getCurrentInstance\00$()Ljavax/faces/context/FacesContext;\00getViewRoot\00$()Ljavax/faces/component/UIViewRoot;\00 javax/faces/component/UIViewRoot\00	getViewId\00equals\00(Ljava/lang/Object;)Z\00getExternalContext\00'()Ljavax/faces/context/ExternalContext;\00#javax/faces/context/ExternalContext\00
-getRequest\00()Ljava/lang/Object;\00
-getRequestURL\00()Ljava/lang/StringBuffer;\00java/lang/StringBuffer\00contains\00(Ljava/lang/CharSequence;)Z\00org/slf4j/LoggerFactory\00	getLogger\00%(Ljava/lang/Class;)Lorg/slf4j/Logger;\00!\002\005\00\006\007\00\00\008\009\00\00:\00\00\00\00;\00\00=\00>\00\00\00\00?\00@\00\00A\00\00\00\00\00B\00\00\00\00C\00D\00\00A\00\00\00\00\00B\00\00\00\00E\00F\00\00\00\00G\00H\00\00\00\00I\00J\00\00\00\00K\00L\00\00M\00\00\00\00N\00\00O\00P\00\00\00\00Q\00R\00\00\00\00S\00T\00\00\00\00\00U\00V\00\00W\00\00\00G\00\00\00\00\00*\B7\00*\B5\00*\B8\00\B5\00\B1\00\00\00\00X\00\00\00\00\00\00\00T\00\00H\00	\00P\00\00V\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00\\00]\00\00W\00\00\00F\00\00\00\00\00
-*+\B5\00*\B7\00\B1\00\00\00\00X\00\00\00\00\00\00\00Z\00\00[\00	\00\\00Y\00\00\00\00\00\00\00
-\00Z\00[\00\00\00\00\00
-\00^\00H\00\00\00_\00V\00\00W\00\00\00H\00\00\00\00\00*\B5\00*\B7\00*\B4\00\B6\00	\B1\00\00\00\00X\00\00\00\00\00\00\00a\00\00b\00	\00e\00\00f\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00`\00a\00\00W\00\00\00\86\00\00\00\00\001+\C7\00\B1*+\B5\00*\B7\00*\B4\00+\B6\00
-\B6\00\B6\00\B6\00	*\B4\00
-+\B6\00
-\B6\00\B6\00\B6\00\B1\00\00\00\00X\00\00\00\00\00\00\00j\00\00k\00\00m\00
-\00n\00\00o\00\00p\000\00q\00Y\00\00\00\00\00\00\001\00Z\00[\00\00\00\00\001\00b\00J\00\00c\00\00\00\00\00\00d\00V\00\00W\00\00\00?\00\00\00\00\00
-*\B5\00*\B4\00\B6\00\B1\00\00\00\00X\00\00\00\00\00\00\00t\00\00v\00\00w\00Y\00\00\00\00\00\00\00
-\00Z\00[\00\00\00\00e\00f\00\00W\00\00\00/\00\00\00\00\00*\B4\00\AC\00\00\00\00X\00\00\00\00\00\00\00{\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00g\00h\00\00W\00\00\00\90\00\00\00\00\00=*\B4\00\C6\00\A7\00L*\B4\00\C6\00\A7\00+L\BB\00Y\B7\00\B6\00+\B6\00\B6\00*\B6\00\B6\00\B6\00\B0\00\00\00\00X\00\00\00\00\00\00\00\80\00\00\81\00\00\82\00Y\00\00\00\00\00\00\00=\00Z\00[\00\00\00\00.\00i\00P\00\00c\00\00\00\00A\00j\FC\00\00j@\00j\00\00k\00l\00\00W\00\00\00O\00\00\00\00\00*\B4\00\C7\00\BB\00Y\B7\00\B0*\B4\00\B0\00\00\00\00X\00\00\00\00\00\00\00\87\00\00\88\00\00\8A\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00c\00\00\00\00\00M\00\00\00\00m\00\00n\00f\00\00W\00\00\00E\00\00\00\00\00*\B4\00\B6\00\C6\00\A7\00\AC\00\00\00\00X\00\00\00\00\00\00\00\94\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00c\00\00\00\00@\00\00o\00p\00\00W\00\00\00P\00\00\00\00\00*+\B5\00\B1\00\00\00\00X\00\00\00
-\00\00\00\00\99\00\00\9A\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00\00\00q\00L\00\00r\00\00\00\00\00\00\00\00q\00N\00\00M\00\00\00\00s\00\00t\00u\00\00W\00\00\00/\00\00\00\00\00*\B4\00\B0\00\00\00\00X\00\00\00\00\00\00\00\9E\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00v\00w\00\00W\00\00\00/\00\00\00\00\00*\B4\00\B0\00\00\00\00X\00\00\00\00\00\00\00\A3\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00x\00y\00\00W\00\00\00>\00\00\00\00\00*+\B5\00\B1\00\00\00\00X\00\00\00
-\00\00\00\00\A8\00\00\A9\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00\00\00z\00R\00\00\00{\00|\00\00W\00\00\00/\00\00\00\00\00*\B4\00\B0\00\00\00\00X\00\00\00\00\00\00\00\AD\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00}\00~\00\00W\00\00\002\00\00\00\00\00*\B4\00\B6\00
-\B0\00\00\00\00X\00\00\00\00\00\00\00\B2\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00\00f\00\00W\00\00\00{\00\00\00\00\00$\B8\00\B6\00 \B6\00!L+"\B6\00#\9A\00+$\B6\00#\99\00\A7\00=\AC\00\00\00\00X\00\00\00\00\00\00\00\BA\00
-\00\BB\00"\00\BC\00Y\00\00\00 \00\00\00\00$\00Z\00[\00\00\00
-\00\00\80\00P\00\00"\00\00\81\00F\00\00c\00\00\00\00\FC\00\00j@\00\00\82\00f\00\00W\00\00\00Y\00\00\00\00\00\B8\00\B6\00 \B6\00!L+"\B6\00#=\AC\00\00\00\00X\00\00\00\00\00\00\00\C4\00
-\00\C5\00\00\C6\00Y\00\00\00 \00\00\00\00\00Z\00[\00\00\00
-\00	\00\80\00P\00\00\00\00\81\00F\00\00\00\83\00f\00\00W\00\00\00q\00\00\00\00\00\B8\00\B6\00 \B6\00!L+%\B6\00#\9A\00\A7\00=\AC\00\00\00\00X\00\00\00\00\00\00\00\CE\00
-\00\CF\00\00\D0\00Y\00\00\00 \00\00\00\00\00Z\00[\00\00\00
-\00\00\80\00P\00\00\00\00\81\00F\00\00c\00\00\00
-\00\FC\00\00j@\00\00\84\00f\00\00W\00\00\00X\00\00\00\00\00\B8\00\B6\00&\B6\00'\C0\00(\B9\00)\00\B6\00*+\B6\00,<\AC\00\00\00\00X\00\00\00\00\00\00\00\DA\00\00\DB\00\00\DC\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00\00\85\00F\00\00\00\86\00h\00\00W\00\00\00/\00\00\00\00\00*\B4\00-\B0\00\00\00\00X\00\00\00\00\00\00\00\E6\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00\87\00\88\00\00W\00\00\00>\00\00\00\00\00*+\B5\00-\B1\00\00\00\00X\00\00\00
-\00\00\00\00\F1\00\00\F2\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00\00\00\00O\00P\00\00\00\89\00f\00\00W\00\00\00B\00\00\00\00\00
-*\B4\00\C6\00\A7\00\AC\00\00\00\00X\00\00\00\00\00\00\00\F6\00Y\00\00\00\00\00\00\00
-\00Z\00[\00\00\00c\00\00\00\00@\00\00\8A\00\8B\00\00W\00\00\00S\00\00\00\00\00	*\B4\00+\B6\00.\B1\00\00\00\00X\00\00\00
-\00\00\00\00\FB\00\00\FC\00Y\00\00\00\00\00\00\00	\00Z\00[\00\00\00\00\00	\00\8C\00\8D\00\00r\00\00\00\00\00\00\00	\00\8C\00\8E\00\00M\00\00\00\00\8F\00\00\90\00\91\00\00W\00\00\002\00\00\00\00\00*\B4\00\B6\00/\B0\00\00\00\00X\00\00\00\00\00\00\00\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00M\00\00\00\00\92\00\00\93\00\8B\00\00W\00\00\00S\00\00\00\00\00	*\B4\00
-+\B6\000\B1\00\00\00\00X\00\00\00
-\00\00\00\00\00Y\00\00\00\00\00\00\00	\00Z\00[\00\00\00\00\00	\00\8C\00\8D\00\00r\00\00\00\00\00\00\00	\00\8C\00\94\00\00M\00\00\00\00\95\00\00\96\00\91\00\00W\00\00\002\00\00\00\00\00*\B4\00
-\B6\001\B0\00\00\00\00X\00\00\00\00\00\00
-\00Y\00\00\00\00\00\00\00\00Z\00[\00\00\00M\00\00\00\00\97\00\00\98\00V\00\00W\00\00\00!\00\00\00\00\00\00	2\B8\003\B3\004\B1\00\00\00\00X\00\00\00\00\00\00\00B\00\00\99\00\00\00\00\9A\00A\00\00\00
-\00\00\9B\00\00\00\9C\00\00

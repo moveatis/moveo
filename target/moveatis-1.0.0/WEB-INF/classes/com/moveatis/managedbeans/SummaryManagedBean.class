@@ -1,102 +1,0 @@
-\CA\FE\BA\BE\00\00\003,
-\00]*	\00\84+,
-\00-	\00\84.	\00\84/	\00\840\00\00\00\00\00\00'	\00\841\00\00\00\00&\\00	\00\8423
-\00*	\00\844
-\00\8456
-\00*	\00\847	\00\848
-9:	\00\84;
-<=
-<>	\00\84??񙙙\99\99\9A
-@A
-9BCDEFEGH
-\00"IJK
-\00%*L
-\00%M
-\00%NO
-\00$P
-QRS
-\00"PT
-\00%U
-\00$V
-WX
-WYZ
-\004[
-\00\]^
-_`a
-\007b
-\00cd
-\00=e
-\00=f
-\00=g
-\007h
-ijk	\00Cl	\00\84mn
-op
-\00Cq
-ir
-9st
-\00K*
-iuv
-wx
-<Pyz
-\00Y{|
-\00l}
-<~
-\80\81\82
-<\83\84\85\86
-\87\88\89\8A	\00\84\8B\8C\8D
-\8E\8F\90\91\92
-\00f\93\94
-\00K\95
-\00f\96	\00\84\97\98	\00\84\99\9A\9B\9C
-\00l\9D\9E	\00\84\9F\A0\A1\A2
-\00Y\A3\A4\A5
-\00\84\A6
-i\A7
-\A8\A9\AA
-\A8\AB\AC\AD\AE
-\A8\AF
-\A8\B0
-\B1\96
-i\B2\B3\B4C\B5
-\00\84\B6\B7\B8
-\00\84\B9\BA
-\00\84\BB
-\BC\BD\BE\00timeline\008Lorg/primefaces/extensions/model/timeline/TimelineModel;\00min\00Ljava/util/Date;\00start\00zoomMin\00J\00zoomMax\00max\00duration\00recipientEmail\00Ljava/lang/String;\00observation\00,Lcom/moveatis/observation/ObservationEntity;\00selectedSaveOptions\00Ljava/util/List;\00	Signature\00$Ljava/util/List<Ljava/lang/String;>;\00MAIL_OPTION\00
-ConstantValue\00SAVE_OPTION\00DOWNLOAD_OPTION\00IMAGE_OPTION\BF\00observationSaved\00Z\00observationEJB\00%Lcom/moveatis/interfaces/Observation;\00RuntimeVisibleAnnotations\00Ljavax/inject/Inject;\00sessionBean\00!Lcom/moveatis/interfaces/Session;\00observationManagedBean\002Lcom/moveatis/managedbeans/ObservationManagedBean;\00	mailerEJB\00 Lcom/moveatis/interfaces/Mailer;\00validationBean\001Lcom/moveatis/managedbeans/ValidationManagedBean;\00messages\00Ljava/util/ResourceBundle;\00'Lcom/moveatis/interfaces/MessageBundle;\00LOGGER\00Lorg/slf4j/Logger;\00<init>\00()V\00Code\00LineNumberTable\00LocalVariableTable\00this\00.Lcom/moveatis/managedbeans/SummaryManagedBean;\00
-initialize\00 Ljavax/annotation/PostConstruct;\00createTimeline\00
-numberedLabel\00groupID\00
-timelineGroup\008Lorg/primefaces/extensions/model/timeline/TimelineGroup;\00
-timelineEvent\008Lorg/primefaces/extensions/model/timeline/TimelineEvent;\00category\00.Lcom/moveatis/observation/ObservationCategory;\00categorySet\001Lcom/moveatis/observation/ObservationCategorySet;\00	startTime\00endTime\00record\00#Lcom/moveatis/records/RecordEntity;\00records\00categoryNumber\00I\00LocalVariableTypeTable\005Ljava/util/List<Lcom/moveatis/records/RecordEntity;>;\00
-StackMapTable\C0\C1H\00showObservationSavedMessage\00saveCurrentObservation\00mailCurrentObservation\00fileName\00f\00Ljava/io/File;\00
-msgBuilder\00Ljava/lang/StringBuilder;\00description\00target\00descriptionPartOfMessage\00targetPartOfMessage\00messageWithSender\00fos\00Ljava/io/FileOutputStream;\00
-recipients\00[Ljava/lang/String;\00files\00[Ljava/io/File;\00ex\00Ljava/io/IOException;\00csv\00$Lcom/moveatis/export/CSVFileBuilder;\00context\00"Ljavax/faces/context/FacesContext;\00bundle\B3t\C2\C3\9E\00convertToFilename\00&(Ljava/lang/String;)Ljava/lang/String;\00s\00downloadCurrentObservation\00facesCtx\00externalCtx\00%Ljavax/faces/context/ExternalContext;\00outputStream\00Ljava/io/OutputStream;\00
-Exceptions\00doSelectedSaveOperation\00e\00getTimeline\00:()Lorg/primefaces/extensions/model/timeline/TimelineModel;\00getMin\00()Ljava/util/Date;\00getMax\00getDuration\00getStart\00
-getZoomMin\00()J\00
-getZoomMax\00getRecipientEmail\00()Ljava/lang/String;\00setRecipientEmail\00(Ljava/lang/String;)V\00getObservation\00.()Lcom/moveatis/observation/ObservationEntity;\00setObservation\00/(Lcom/moveatis/observation/ObservationEntity;)V\00getSelectedSaveOptions\00()Ljava/util/List;\00&()Ljava/util/List<Ljava/lang/String;>;\00setSelectedSaveOptions\00(Ljava/util/List;)V\00'(Ljava/util/List<Ljava/lang/String;>;)V\00getMailOptionChecked\00()Z\00isObservationSaved\00setObservationSaved\00(Z)V\00<clinit>\00
-SourceFile\00SummaryManagedBean.java\00Ljavax/inject/Named;\00value\00summaryBean\00Ljavax/faces/view/ViewScoped;\00\BA\00\BB\00\A7\00\A8\00java/util/Date\00\BA\C4\00\93\00\92\00\91\00\92\00\97\00\92\00\94\00\95\00\96\00\95\00java/util/ArrayList\00\9D\00\9E\00\C3\00\BB\006org/primefaces/extensions/model/timeline/TimelineModel\00\8F\00\90\00\AF\00\B0\C5\C6\00\9B\00\9C\C7\C8\00\98\00\92\C9\CA\CB\CC\C0\CD\CE\C1\CF\D0\D1\00/com/moveatis/observation/ObservationCategorySet\D2\00,com/moveatis/observation/ObservationCategory\00java/lang/StringBuilder\00<span class=categoryNumber>\D3\D4\D3\D5\00#. </span><span class=categoryLabel>\D6\D7\D8\00\FB\00</span><span class=categorySet>\00</span>\D9\DA\DB\DC\DD\D9\DE\006org/primefaces/extensions/model/timeline/TimelineGroup\00\BA\DF\E0\E1\006org/primefaces/extensions/model/timeline/TimelineEvent\00\00\E2\E3\E4\00dummyRecord\00\BA\E5\E6\E7\00!com/moveatis/records/RecordEntity\E8\E9\EA\DB\EB\DB\00\BA\EC\C2\ED\EE\00$javax/faces/application/FacesMessage\EF\F3\00\B5\00\B6\00sum_observationSaved\C3\F4\00\FB\00\BA\F5\F6\F7\F8\00\BB\00"com/moveatis/export/CSVFileBuilder\F9\FA\00msg\FB\FC\FD\00\W\00_\FE\FF\00.csv\00\00sum_descriptionNotSet\00java/lang/String\00sum_targetNotSet\00sum_descriptionWas\00java/lang/Object	\00
-sum_targetWas\00sum_message\00\AD\00\AE
-
-\00
-
-\00emailSignature\00java/io/FileOutputStream\00\BA\00,\00\BB\00\99\00\9A\00java/io/File\00\B1\00\B2\00sum_subject\00java/io/IOException\00\B8\00\B9\00BFailed to create temporary file for sending observeraion by email.\00unnamed\00
-[^a-zA-Z0-9_]\00\FA\00\FB\00\BB\00
-text/plain\00Content-Disposition\00attachment; filename="\00" !"#$%\00\BB\00,com/moveatis/managedbeans/SummaryManagedBean\00download&'\00\FD\00\BB\00#Failed to download the observation.\00mail\00\DD\00\BB\00save\00\DC\00\BB()*\00java/io/Serializable\00image\00java/util/List\00java/util/Iterator\00 javax/faces/context/FacesContext\00java/util/ResourceBundle\00(J)V\000com/moveatis/managedbeans/ObservationManagedBean\00getObservationEntity\00*com/moveatis/observation/ObservationEntity\00
-getRecords\00java/lang/Math\00round\00(D)J\00getCategorySetsInUse\00iterator\00()Ljava/util/Iterator;\00hasNext\00next\00()Ljava/lang/Object;\00
-getCategories\00append\00-(Ljava/lang/String;)Ljava/lang/StringBuilder;\00(I)Ljava/lang/StringBuilder;\00getName\00*org/apache/commons/lang3/StringEscapeUtils\00escapeHtml4\00toString\00getTag\00()Ljava/lang/Long;\00java/lang/Long\00	longValue\00(J)Ljava/lang/String;\00'(Ljava/lang/String;Ljava/lang/Object;)V\00addGroup\00;(Lorg/primefaces/extensions/model/timeline/TimelineGroup;)V\00java/lang/Boolean\00valueOf\00(Z)Ljava/lang/Boolean;\00\(Ljava/lang/Object;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;)V\00add\00;(Lorg/primefaces/extensions/model/timeline/TimelineEvent;)V\00getCategory\000()Lcom/moveatis/observation/ObservationCategory;\00getStartTime\00
-getEndTime\00Z(Ljava/lang/Object;Ljava/util/Date;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/String;)V\00getCurrentInstance\00$()Ljavax/faces/context/FacesContext;\00
-SEVERITY_INFO+\00Severity\00InnerClasses\00/Ljavax/faces/application/FacesMessage$Severity;\00	getString\00V(Ljavax/faces/application/FacesMessage$Severity;Ljava/lang/String;Ljava/lang/String;)V\00
-addMessage\00;(Ljava/lang/String;Ljavax/faces/application/FacesMessage;)V\00saveObservationToDatabase\00getApplication\00'()Ljavax/faces/application/Application;\00#javax/faces/application/Application\00getResourceBundle\00P(Ljavax/faces/context/FacesContext;Ljava/lang/String;)Ljava/util/ResourceBundle;\00
-replaceAll\008(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;\00createTempFile\004(Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;\00getDescription\00$org/apache/commons/lang3/StringUtils\00defaultIfEmpty\00J(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/CharSequence;\00	getTarget\00java/text/MessageFormat\00format\009(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;\00com/moveatis/interfaces/Session\00getLoggedIdentifiedUser\00*()Lcom/moveatis/user/IdentifiedUserEntity;\00&com/moveatis/user/IdentifiedUserEntity\00getGivenName\00(Ljava/io/File;)V\00buildCSV\00W(Ljava/io/OutputStream;Lcom/moveatis/observation/ObservationEntity;Ljava/lang/String;)V\00flush\00com/moveatis/interfaces/Mailer\00sendEmailWithAttachment\00g([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/io/File;)Lcom/moveatis/enums/MailStatus;\00delete\00org/slf4j/Logger\00error\00*(Ljava/lang/String;Ljava/lang/Throwable;)V\00isEmpty\00getExternalContext\00'()Ljavax/faces/context/ExternalContext;\00#javax/faces/context/ExternalContext\00
-responseReset\00setResponseContentType\00setResponseHeader\00'(Ljava/lang/String;Ljava/lang/String;)V\00getResponseOutputStream\00()Ljava/io/OutputStream;\00java/io/OutputStream\00responseComplete\00contains\00(Ljava/lang/Object;)Z\00org/slf4j/LoggerFactory\00	getLogger\00%(Ljava/lang/Class;)Lorg/slf4j/Logger;\00-javax/faces/application/FacesMessage$Severity\00!\00\84\00]\00\00\8E\00\00\00\8F\00\90\00\00\00\00\91\00\92\00\00\00\00\93\00\92\00\00\00\00\94\00\95\00\00\00\00\96\00\95\00\00\00\00\97\00\92\00\00\00\00\98\00\92\00\00\00\00\99\00\9A\00\00\00\00\9B\00\9C\00\00\00\00\9D\00\9E\00\00\9F\00\00\00\00\A0\00\00\A1\00\9A\00\00\A2\00\00\00\00\89\00\00\A3\00\9A\00\00\A2\00\00\00\00\8B\00\00\A4\00\9A\00\00\A2\00\00\00\00\85\00\00\A5\00\9A\00\00\A2\00\00\00\00\A6\00\00\A7\00\A8\00\00\00\00\A9\00\AA\00\00\AB\00\00\00\00\00\AC\00\00\00\00\AD\00\AE\00\00\AB\00\00\00\00\00\AC\00\00\00\00\AF\00\B0\00\00\AB\00\00\00\00\00\AC\00\00\00\00\B1\00\B2\00\00\AB\00\00\00\00\00\AC\00\00\00\00\B3\00\B4\00\00\AB\00\00\00\00\00\AC\00\00\00\82\00\B5\00\B6\00\00\AB\00\00\00
-\00\00\AC\00\00\00\B7\00\00\00\00\B8\00\B9\00\00\00\00\00\BA\00\BB\00\00\BC\00\00\00\91\00\00\00\00\00G*\B7\00*\B5\00*\BB\00Y	\B7\00\B5\00*\BB\00Y	\B7\00\B5\00*\BB\00Y	\B7\00\B5\00*\00\B5\00
-*\00\B5\00
-*\BB\00Y\B7\00\B5\00\B1\00\00\00\00\BD\00\00\00&\00	\00\00\00\89\00\00q\00	\00\8A\00\00\8B\00!\00\8C\00-\00\8D\004\00\8E\00;\00\8F\00F\00\90\00\BE\00\00\00\00\00\00\00G\00\BF\00\C0\00\00\00\00\C1\00\BB\00\00\BC\00\00\003\00\00\00\00\00*\B7\00\B1\00\00\00\00\BD\00\00\00
-\00\00\00\00\97\00\00\98\00\BE\00\00\00\00\00\00\00\00\BF\00\C0\00\00\00\AB\00\00\00\00\00\C2\00\00\00\00\C3\00\BB\00\00\BC\00\00\DC\00\00\00\00\88*\BB\00Y\B7\00\B5\00**\B4\00\B6\00\B5\00*\B4\00\B6\00L*\BB\00Y*\B4\00\B6\00\B7\00\B5\00*\BB\00Y*\B4\00\B6\00\8A\00k\B8\00\B7\00\B5\00=*\B4\00\B6\00\B9\00\00N-\B9\00 \00\99\00\BA-\B9\00!\00\C0\00":\B6\00#\B9\00\00:\B9\00 \00\99\00\96\B9\00!\00\C0\00$:\BB\00%Y\B7\00&'\B6\00(\B6\00)*\B6\00(\B6\00+\B8\00,\B6\00(-\B6\00(\B6\00.\B8\00,\B6\00(/\B6\00(\B6\000:\B6\001\B6\002\B8\003:\BB\004Y\B7\005:	*\B4\00	\B6\006\BB\007Y8\BB\00Y	\B7\00\B8\009:\B7\00;:
-*\B4\00
-\B6\00<\84\A7\FFf\A7\FFC+\B9\00\00N-\B9\00 \00\99\00a-\B9\00!\00\C0\00=:\B6\00>:\B6\00?\B6\0027\B6\00@\B6\0027\BB\007Y8\BB\00Y\B7\00\BB\00Y\B7\00\B8\009\B6\001\B6\002\B8\003\B7\00A:
-*\B4\00
-\B6\00<\A7\FF\9C\B1\00\00\00\00\BD\00\00\00r\00\00\00\00\9F\00\00\A1\00\00\A2\00\00\A4\000\00\A5\00J\00\A8\00L\00\A9\00m\00\AA\00\8F\00\AE\00\A6\00\B0\00\B6\00\B1\00\C9\00\B2\00\D6\00\B3\00\E3\00\B4\00\EC\00\B6\00\B7\00\B8\00\B9\00\BA\00\BD4\00\BE;\00\BFE\00\C0O\00\C1h\00\C2{\00\C3\84\00\C4\87\00\C5\00\BE\00\00\00\8E\00\00\C9\00J\00\C4\00\9A\00\00\D6\00=\00\C5\00\9A\00\00\E3\000\00\C6\00\C7\00	\00\00\C8\00\C9\00
-\00\8F\00\84\00\CA\00\CB\00\00m\00\A9\00\CC\00\CD\00;\00I\00\CA\00\CB\00E\00?\00\CE\00\95\00O\005\00\CF\00\95\00{\00	\00\C8\00\C9\00
-4\00P\00\D0\00\D1\00\00\00\88\00\BF\00\C0\00\00\00j\00\D2\00\9E\00\00L<\00\D3\00\D4\00\00\D5\00\00\00\00\00j\00\D2\00\D6\00\00\D7\00\00\00$\00\FE\00Y\00\D8\00\D9\FD\00\00\DA\00\D9\F9\00\9C\FA\00\FC\00\00\D9\FA\00f\00\00\DB\00\BB\00\00\BC\00\00\00p\00\00\00\00\00)*\B4\00\99\00$\B8\00B\BB\00CY\B2\00D*\B4\00EF\B6\00G8\B7\00H\B6\00I*\B5\00\B1\00\00\00\00\BD\00\00\00\00\00\00\00\CB\00\00\CC\00\00\CD\00 \00\CC\00#\00\CE\00(\00\D0\00\BE\00\00\00\00\00\00\00)\00\BF\00\C0\00\00\00\D7\00\00\00\00(\00\00\DC\00\BB\00\00\BC\00\00\00?\00\00\00\00\00
-*\B4\00\B6\00J*\B5\00\B1\00\00\00\00\BD\00\00\00\00\00\00\00\D6\00\00\D7\00\00\D8\00\BE\00\00\00\00\00\00\00
-
