@@ -41,6 +41,7 @@ com\moveatis\helpers\Validation.class
 com\moveatis\managedbeans\LoginManagedBean.class
 com\moveatis\filters\SuperUserFilter.class
 com\moveatis\restful\NotFoundExceptionMapper.class
+com\moveatis\managedbeans\FeebackAnalysisRecordTableManagedBean.class
 com\moveatis\export\CSVFileBuilder.class
 com\moveatis\managedbeans\ApplicationManagedBean.class
 com\moveatis\interfaces\TagUser.class

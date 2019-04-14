@@ -170,8 +170,11 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				ChartSeries categorySetChartSeries = new ChartSeries();
 				categorySetChartSeries.setLabel(cat.getLabel().getText());
 				int count = 0;
+				//Comparison by category name and categoryset-name, because if the analyzation hasn't yet been saved to the database the ID is null
+				//categoryset-category pairs have to be unique
 				for (FeedbackAnalysisCategoryEntity cat_comp : allSelectedCategories)
-					if (cat == cat_comp)
+					if (cat.getLabel().getText().contentEquals(cat_comp.getLabel().getText()) && 
+							catSet.getLabel().contentEquals(cat_comp.getCategorySet().getLabel()))
 						count++;
 				fullcount += count;
 

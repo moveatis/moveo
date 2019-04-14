@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.moveatis.abstracts.AbstractObservationEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 import com.moveatis.records.RecordEntity;
@@ -59,5 +61,17 @@ public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
         getRecords().add(record);
         record.setFeedbackAnalyzation(this);
     }
+
+	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
+		List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse= new ArrayList<FeedbackAnalysisCategorySetEntity>();
+		for (FeedbackAnalysisRecordEntity record:records) {
+			for(FeedbackAnalysisCategoryEntity cat : record.getSelectedCategories()) {
+				if(!feedbackAnalysisCategorySetsInUse.contains(cat.getCategorySet()))
+					feedbackAnalysisCategorySetsInUse.add(cat.getCategorySet());
+			}
+		}
+		return feedbackAnalysisCategorySetsInUse;
+		
+	}
 
 }

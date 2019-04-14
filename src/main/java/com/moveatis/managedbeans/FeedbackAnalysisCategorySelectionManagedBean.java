@@ -84,6 +84,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
         if (feedbackAnalyzationManagedBean.getEventEntity() != null) {
             EventEntity event = feedbackAnalyzationManagedBean.getEventEntity();
             eventGroup = event.getEventGroup();
+            if(eventGroup.getFeedbackAnalysisCategorySets()==null)
+            	eventGroup.setFeedbackAnalysisCategorySets(new ArrayList<FeedbackAnalysisCategorySetEntity>());
             defaultFeedbackAnalysisCategorySets=eventGroup.getFeedbackAnalysisCategorySets();
         }
 

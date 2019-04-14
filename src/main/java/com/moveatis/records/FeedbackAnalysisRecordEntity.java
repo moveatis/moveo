@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 import com.moveatis.abstracts.AbstractRecordEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
@@ -25,10 +26,10 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	@ManyToOne
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
 
-	@ManyToMany(cascade=MERGE)
+	@ManyToMany
 	@JoinTable(name="FeedbackAnalysisRecordSelectedCategories")
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
-	
+	private int rowNumber;
 
 	
 	public void addSelectedCategory(FeedbackAnalysisCategoryEntity category) {
@@ -55,4 +56,13 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	public void setFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation) {
 		this.feedbackAnalyzation = feedbackAnalyzation;
 	}
+	public int getRowNumber() {
+		return rowNumber;
+	}
+	public void setRowNumber(int rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+	
+	
+	
 }

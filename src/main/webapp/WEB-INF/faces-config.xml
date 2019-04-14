@@ -89,12 +89,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <navigation-rule>
         <from-view-id>/app/analyzer/index.xhtml</from-view-id>
         <navigation-case>
+            <to-view-id>/app/analysisrecordtable/index.xhtml</to-view-id>
+            <from-outcome>recordtable</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/app/analysisrecordtable/index.xhtml</from-view-id>
+        <navigation-case>
             <to-view-id>/app/feedbackanalysissummary/index.xhtml</to-view-id>
             <from-outcome>summary</from-outcome>
             <redirect/>
         </navigation-case>
     </navigation-rule>
-    
     <navigation-rule>
         <from-view-id>/app/settings/index.xhtml</from-view-id>
         <navigation-case>
@@ -127,6 +134,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <redirect/>
         </navigation-case>
     </navigation-rule>
+       <navigation-rule>
+        <from-view-id>/app/control/index.xhtml</from-view-id>
+        <navigation-case>
+            <to-view-id>/app/feedbackanalysissummary/index.xhtml</to-view-id>
+            <from-outcome>feedbackanalysissummary</from-outcome>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>    
     <navigation-rule>
         <from-view-id>/app/activityselection/index.xhtml</from-view-id>
         <navigation-case>

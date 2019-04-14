@@ -39,6 +39,7 @@ import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Event;
@@ -92,6 +93,7 @@ public class ControlManagedBean implements Serializable {
     private AbstractCategorySetEntity selectedCategorySet;
     private AbstractCategoryEntity selectedCategory;
     private ObservationEntity selectedObservation;
+    private FeedbackAnalyzationEntity selectedAnalyzation;
 
     private boolean creatingNewEventGroup = false;
 
@@ -161,6 +163,13 @@ public class ControlManagedBean implements Serializable {
     public Set<ObservationEntity> getObservations(EventGroupEntity eventGroup) {
         if (eventGroup != null && eventGroup.getEvent() != null) {
             return eventGroup.getEvent().getObservations();
+        }
+        return new TreeSet<>();
+    }
+    public Set<FeedbackAnalyzationEntity> getAnalyzations(EventGroupEntity eventGroup) {
+
+        if (eventGroup != null && eventGroup.getEvent() != null) {
+    	return eventGroup.getEvent().getAnalyzations();
         }
         return new TreeSet<>();
     }
@@ -324,7 +333,15 @@ public class ControlManagedBean implements Serializable {
         this.selectedObservation = selectedObservation;
     }
 
-    /**
+    public FeedbackAnalyzationEntity getSelectedAnalyzation() {
+		return selectedAnalyzation;
+	}
+
+	public void setSelectedAnalyzation(FeedbackAnalyzationEntity selectedAnalyzation) {
+		this.selectedAnalyzation = selectedAnalyzation;
+	}
+
+	/**
      * Gets the other observations.
      */
     public List<ObservationEntity> getOtherObservations() {
@@ -486,6 +503,12 @@ public class ControlManagedBean implements Serializable {
                                 messages.getString("cs_errorNotUniqueCategories")));
             }
         }
+    }
+    
+    public String showAnalyzationInSummaryPage(FeedbackAnalyzationEntity selectedAnalyzation){
+    	feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(selectedAnalyzation);
+    	feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(selectedAnalyzation.getFeedbackAnalysisCategorySets());    	
+    	return "feedbackanalysissummary";
     }
 
     /**
