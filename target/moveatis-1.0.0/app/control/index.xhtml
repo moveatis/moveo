@@ -184,15 +184,91 @@
                                     #{msg.con_eventObservations}
                                 </f:facet>
 							<p:commandLink
-								action="#{controlBean.showAnalyzationInSummaryPage(analyzation)}">
-								<h:outputText value="#{analyzation.name}">
-								</h:outputText>
+								update=":analyzationDetail :analyzationFormCommands"
+								oncomplete="PF('dlgAnalyzation').show()"
+								title="#{msg.con_showObservationDetails}"
+								styleClass="link-observation">
+								<f:setPropertyActionListener value="#{analyzation}"
+									target="#{controlBean.selectedAnalyzation}" />
+								<h:outputText value="#{analyzation.name}" />
 							</p:commandLink>
 						</p:dataList>
 					</p:rowExpansion>
 
 				</p:dataTable>
 			</h:form>
+
+			<p:dialog header="#{msg.con_observationDetails}"
+				widgetVar="dlgAnalyzation" position="top" resizable="false"
+				responsive="true" modal="true" fitViewport="true"
+				styleClass="coloredDialog observation-dialog">
+				<h:form id="analyzationDetail">
+					<p:panelGrid layout="grid" columns="2"
+						rendered="#{not empty controlBean.selectedAnalyzation}"
+						columnClasses="label,value">
+
+						<h:outputText value="#{msg.con_observationDetailsName}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-name-observation" />
+							<p:inplace id="input-name-observation" editor="true"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditAnalyzation}"
+									update=":eventGroupsForm" />
+								<p:inputText required="true"
+									requiredMessage="#{msg.dlg_notEmpty}"
+									value="#{controlBean.selectedAnalyzation.name}"
+									validator="#{validationBean.validateShortString}" />
+							</p:inplace>
+						</p:outputPanel>
+
+						<h:outputText value="#{msg.con_observationDetailsDescription}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-description-observation" />
+							<p:inplace id="input-description-observation" editor="true"
+								emptyLabel="#{msg.con_observationDetailsDescriptionEmptyLabel}"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditAnalyzation}"
+									update=":eventGroupsForm" />
+								<p:inputTextarea
+									value="#{controlBean.selectedAnalyzation.description}"
+									validator="#{validationBean.validateLongString}" rows="2"
+									cols="16" autoResize="true" />
+							</p:inplace>
+						</p:outputPanel>
+
+						<h:outputText value="#{msg.con_observationDetailsObserver}" />
+						<h:outputText value="#{controlBean.getAnalyzerName()}" />
+
+						<h:outputText value="#{msg.con_observationDetailsTarget}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-target-observation" />
+							<p:inplace id="input-target-observation" editor="true"
+								emptyLabel="#{msg.con_observationDetailsTargetEmptyLabel}"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditObservation}"
+									update=":eventGroupsForm" />
+								<p:inputText value="#{controlBean.selectedAnalyzation.target}"
+									validator="#{validationBean.validateShortString}" />
+							</p:inplace>
+						</p:outputPanel>
+
+					</p:panelGrid>
+				</h:form>
+				<h:form id="analyzationFormCommands">
+					<p:commandButton value="#{msg.con_showSummary}"
+						icon="fa fa-bar-chart"
+						action="#{controlBean.showAnalyzationInSummaryPage()}" />
+					<p:commandButton value="#{msg.con_removeObservation}"
+						icon="fa fa-trash" action="#{controlBean.removeAnalyzation}"
+						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}')"
+						update=":eventGroupsForm:eventGroupsTable">
+						<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedAnalyzation.name}. #{msg.dlg_confirmMessage}" />
+					</p:commandButton>
+					<p:commandButton value="#{msg.con_closeObservationDetails}"
+						icon="ui-icon-close" onclick="PF('dlgAnalyzation').hide();" />
+				</h:form>
+			</p:dialog>
 
 			<p:dialog header="#{msg.con_observationDetails}"
 				widgetVar="dlgObservation" position="top" resizable="false"
