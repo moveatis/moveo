@@ -191,7 +191,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
 		    <warName>ROOT</warName>
-		    <outputDirectory>C:\MyTemp\wildfly-15.0.1.Final\standalone\deployments</outputDirectory>
+		    <outputDirectory>C:\moveoprojekti\jaa\projekti\moveo\docker</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
