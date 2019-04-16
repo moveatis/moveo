@@ -1,186 +1,167 @@
+<!--  
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-
-
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
-
 		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
-
 		<ui:define name="mainpage">
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
-							<h1>#{msg.ana_title} : #{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
+			<h1>#{msg.ana_title} : #{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
 			<div id="container">
-			<table id="summaryTable">
-				<tr>
-					<ui:repeat
-						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-						var="tableInformation">
-						<th align="center" colspan="#{tableInformation.categories.size()}">#{tableInformation.feedbackAnalysisCategorySet}</th>
-					</ui:repeat>
-				</tr>
-				<tr>
-					<ui:repeat
-						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-						var="tableInformation">
-						<ui:repeat value="#{tableInformation.categories}" var="category">
-							<td align="center">#{category}</td>
+				<table id="summaryTable">
+					<tr>
+						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+							var="tableInformation">
+							<th align="center" colspan="#{tableInformation.categories.size()}">
+								#{tableInformation.feedbackAnalysisCategorySet}</th>
 						</ui:repeat>
-					</ui:repeat>
-				</tr>
-				<tr>
-					<ui:repeat
-						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-						var="tableInformation">
-						<ui:repeat value="#{tableInformation.counts}" var="count">
-							<td align="center">#{count}</td>
+					</tr>
+					<tr>
+						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+							var="tableInformation">
+							<ui:repeat value="#{tableInformation.categories}" var="category">
+								<td align="center">#{category}</td>
+							</ui:repeat>
 						</ui:repeat>
-					</ui:repeat>
-				</tr>
-			</table>
-
-			<h:form id="charts">
-				<p:selectBooleanCheckbox
-					value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}">Barchart
-			<p:ajax update="charts" />
-				</p:selectBooleanCheckbox>
-				<p:selectBooleanCheckbox
-					value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}">Piechart
-			<p:ajax update="charts" />
-				</p:selectBooleanCheckbox>
-
-
-				<h:panelGroup
-					rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
-					layout="block" id="barModels">
-					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}"
-						var="barModel">
-						<span id="barchart">
-						<p:chart class="chart" type="bar" model="#{barModel}"
-							style="width:100px" />
-						</span>
-					</ui:repeat>
-				</h:panelGroup>
-				<br />
-				<h:panelGroup
-					rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
-					id="pieModels">
-					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
-						var="pieModel">
-						<span id="piechart">
-						<p:chart class="chart" type="pie" model="#{pieModel}"
-							style="width:300px; height:300px" />
-						</span>
-					</ui:repeat>
-				</h:panelGroup>
-			</h:form>
-			
-			<div id="hiddenButtons">
-						<h:form>
-							<p:commandButton value="#{msg.dlg_saveAndSend}"
-								rendered="#{sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="PF('dlgSave').show();"
-								process="@this">
-								<p:ajax update=":saveForm" resetValues="true" />
-							</p:commandButton>
-
-							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
-								rendered="#{!sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="PF('dlgSave').show();"
-								process="@this">
-								<p:ajax update=":saveForm" resetValues="true" />
-							</p:commandButton>
-						</h:form>
-			</div>
-			
-			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}" id="saveDialog"
-				widgetVar="dlgSave" position="top" resizable="false"
-				responsive="true" fitViewport="true"
-				visible="#{facesContext.validationFailed}"
-				styleClass="coloredDialog">
-				<h:form id="saveForm" styleClass="dialog-form ui-fluid">
-					<p:selectManyCheckbox id="basic"
-						rendered="#{sessionBean.identifiedUser}" columns="1"
-						required="true" requiredMessage="" layout="grid">
-						<p:ajax update="input-email" />
-						<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
-							itemDisabled="#{!sessionBean.identifiedUser}" />
-						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-							itemDisabled="#{!sessionBean.identifiedUser}" />	
-						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
-							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
-						<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
-							itemDisabled="#{!sessionBean.identifiedUser}" />						
-					</p:selectManyCheckbox>
-					<p:selectManyCheckbox id="anonymityUserBoxes"
-						rendered="#{!sessionBean.identifiedUser}" columns="1"
-						required="true" requiredMessage="" layout="grid">
-						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
-							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
-						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-							itemDisabled="#{!sessionBean.loggedIn}" />
-					</p:selectManyCheckbox>
-					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}">
-						<h:outputText rendered="#{sessionBean.identifiedUser}"
-							value=" (#{msg.dlg_defaultFileName})" />
-					</h:outputLabel>
-					<p:message for="input-name" />
-					<p:inputText id="input-name" required="true"
-						requiredMessage="#{msg.dlg_notEmpty}"
-						value=""
-						validator="#{validationBean.validateShortString}" />
-
-					<h:outputLabel for="input-description"
-						value="#{msg.asum_analyzationDescription}" />
-					<p:message for="input-description" />
-					<p:inputTextarea id="input-description"
-						value=""
-						validator="#{validationBean.validateLongString}" rows="3"
-						cols="16" autoResize="true" />
-
-					<h:outputLabel for="input-target"
-						value="#{msg.asum_analyzationTarget}" />
-					<p:message for="input-target" />
-					<p:inputText id="input-target"
-						value=""
-						validator="#{validationBean.validateShortString}" />
-
-					<p:outputPanel rendered="#{sessionBean.identifiedUser}">
-						<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
-						<p:message for="input-email" />
-						<p:inputText id="input-email" required="true"
-							requiredMessage="#{msg.dlg_notEmpty}"
-							value="">
-							<f:validator validatorId="emailValidator" />
-						</p:inputText>
-					</p:outputPanel>
-					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-						rendered="#{sessionBean.identifiedUser}"
-						ajax="false"
-						validateClient="true"/>
-					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-						rendered="#{!sessionBean.identifiedUser}"
-						ajax="false"
-						validateClient="true"/>
-					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
-						onclick="PF('dlgSave').hide();" />
+					</tr>
+					<tr>
+						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+							var="tableInformation">
+							<ui:repeat value="#{tableInformation.counts}" var="count">
+								<td align="center">#{count}</td>
+							</ui:repeat>
+						</ui:repeat>
+					</tr>
+				</table>
+				<h:form id="charts">
+					<p:selectBooleanCheckbox value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}">Barchart
+						<p:ajax update="charts" />
+					</p:selectBooleanCheckbox>
+					<p:selectBooleanCheckbox value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}">Piechart
+						<p:ajax update="charts" />
+					</p:selectBooleanCheckbox>
+					<h:panelGroup rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}" layout="block"
+						id="barModels">
+						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}" var="barModel">
+							<span id="barchart">
+								<p:chart class="chart" type="bar" model="#{barModel}" style="width:100px" />
+							</span>
+						</ui:repeat>
+					</h:panelGroup>
+					<br />
+					<h:panelGroup rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}" id="pieModels">
+						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}" var="pieModel">
+							<span id="piechart">
+								<p:chart class="chart" type="pie" model="#{pieModel}"
+									style="width:300px; height:300px" />
+							</span>
+						</ui:repeat>
+					</h:panelGroup>
 				</h:form>
-			</p:dialog>
-
-			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-				showDetail="true" sticky="true" escape="false" />
-			
-					</div>
+				<div id="hiddenButtons">
+					<h:form>
+						<p:commandButton value="#{msg.dlg_saveAndSend}" rendered="#{sessionBean.identifiedUser}"
+							styleClass="save-button" onclick="PF('dlgSave').show();" process="@this">
+							<p:ajax update=":saveForm" resetValues="true" />
+						</p:commandButton>
+						<p:commandButton value="#{msg.dlg_saveDialogHeader}" rendered="#{!sessionBean.identifiedUser}"
+							styleClass="save-button" onclick="PF('dlgSave').show();" process="@this">
+							<p:ajax update=":saveForm" resetValues="true" />
+						</p:commandButton>
+					</h:form>
+				</div>
+				<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}" id="saveDialog" widgetVar="dlgSave"
+					position="top" resizable="false" responsive="true" fitViewport="true"
+					visible="#{facesContext.validationFailed}" styleClass="coloredDialog">
+					<h:form id="saveForm" styleClass="dialog-form ui-fluid">
+						<p:selectManyCheckbox id="basic" rendered="#{sessionBean.identifiedUser}" columns="1"
+							required="true" requiredMessage="" layout="grid">
+							<p:ajax update="input-email" />
+							<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
+								itemDisabled="#{!sessionBean.identifiedUser}" />
+							<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
+								itemDisabled="#{!sessionBean.identifiedUser}" />
+							<f:selectItem itemLabel="#{msg.dlg_downloadOption}" itemValue="download"
+								itemDisabled="#{!sessionBean.loggedIn}" />
+							<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
+								itemDisabled="#{!sessionBean.identifiedUser}" />
+						</p:selectManyCheckbox>
+						<p:selectManyCheckbox id="anonymityUserBoxes" rendered="#{!sessionBean.identifiedUser}"
+							columns="1" required="true" requiredMessage="" layout="grid">
+							<f:selectItem itemLabel="#{msg.dlg_downloadOption}" itemValue="download"
+								itemDisabled="#{!sessionBean.loggedIn}" />
+							<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
+								itemDisabled="#{!sessionBean.loggedIn}" />
+						</p:selectManyCheckbox>
+						<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}">
+							<h:outputText rendered="#{sessionBean.identifiedUser}"
+								value=" (#{msg.dlg_defaultFileName})" />
+						</h:outputLabel>
+						<p:message for="input-name" />
+						<p:inputText id="input-name" required="true" requiredMessage="#{msg.dlg_notEmpty}" value=""
+							validator="#{validationBean.validateShortString}" />
+						<h:outputLabel for="input-description" value="#{msg.asum_analyzationDescription}" />
+						<p:message for="input-description" />
+						<p:inputTextarea id="input-description" value=""
+							validator="#{validationBean.validateLongString}" rows="3" cols="16" autoResize="true" />
+						<h:outputLabel for="input-target" value="#{msg.asum_analyzationTarget}" />
+						<p:message for="input-target" />
+						<p:inputText id="input-target" value="" validator="#{validationBean.validateShortString}" />
+						<p:outputPanel rendered="#{sessionBean.identifiedUser}">
+							<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
+							<p:message for="input-email" />
+							<p:inputText id="input-email" required="true" requiredMessage="#{msg.dlg_notEmpty}"
+								value="">
+								<f:validator validatorId="emailValidator" />
+							</p:inputText>
+						</p:outputPanel>
+						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+							rendered="#{sessionBean.identifiedUser}" ajax="false" validateClient="true" />
+						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+							rendered="#{!sessionBean.identifiedUser}" ajax="false" validateClient="true" />
+						<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+							onclick="PF('dlgSave').hide();" />
+					</h:form>
+				</p:dialog>
+				<p:growl id="growl" widgetVar="growlWdgt" severity="info" showDetail="true" sticky="true"
+					escape="false" />
+			</div>
 		</ui:define>
-	
 	</ui:composition>
 </h:body>
 </html>

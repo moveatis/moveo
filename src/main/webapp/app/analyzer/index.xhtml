@@ -1,113 +1,90 @@
+<!--  
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
-      
-
-    <h:body>
-        <ui:composition template="/WEB-INF/template.xhtml">
-
-            <ui:define name="pageTitle">#{msg.ana_title}</ui:define>
-
-            <ui:define name="mainpage">
-           <!--     <script type="text/javascript">  
-             function getCategorySets() {
-                 return [
-                        <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
-                            {name: "#{categorySet.name}", categories: [
-                            <ui:repeat value="#{categorySet.categories}" var="category">
-                                { name: "#{category.name}", id: #{category.tag} },
-                            </ui:repeat>
-                            ]},
-                        </ui:repeat>
-                        ];                        
-                    }   
-             </script>
-                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
-                <h:outputScript library="js" name="analyzer.js"/>
-                
-                <div id="category-list"></div>
-                
-                <div id="video">
-                
-                </div>              
-           		<div id="content"> 
-           		
-           		<div id="categorySet">
-           	 	
-           	 	</div>
-           		<div id="categories">
-           		</div>
-           		
-               	<div id="basicContent">
-              		<div id="textArea">
-              		<p:inputTextarea />
-              		</div>
-              		<div id="basicControls">
-              			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-              			<p:commandButton id="new" value="#{msg.ana_new}" />
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" />
-              		</div>
-                </div>
-                </div>
-                 -->
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
+		<ui:define name="mainpage">
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputScript library="js" name="analyzer.js" />
 			<h:outputStylesheet library="css" name="analyzer.css" />
-
 			<h:form id="form">
 				<div id="content">
 					<div id="index">
-						<h:outputText id="txt_count" value="#{feedbackAnalyzationManagedBean.getDuration()}" />	
-						<p:selectBooleanButton  value ="#{feedbackAnalyzationManagedBean.isTimerStopped}" onLabel="Continue" offLabel="Pause" />
-											
+						<h:outputText id="txt_count" value="#{feedbackAnalyzationManagedBean.getDuration()}" />
+						<p:selectBooleanButton value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
+							onLabel="Continue" offLabel="Pause" />
 						<p:poll id="timer" interval="1" listener="#{feedbackAnalyzationManagedBean.increment}"
-							update="txt_count"  />
+							update="txt_count" />
 						<h:panelGrid columns="5">
-							<p:commandButton value=" " id="firstAnalyze"
-								icon="fa fa-fw fa-fast-backward"
-								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}"
-								update=":form" />
+							<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward"
+								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}" update=":form" />
 							<p:commandButton value=" " id="previousAnalyze"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}"
 								update=":form" icon="fa fa-fw fa-arrow-left" />
 							<h:outputText
 								value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}" />
-							<p:commandButton value=" " id="nextAnalyze"
-								icon="fa fa-fw fa-arrow-right"
+							<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}"
 								update=":form" />
-							<p:commandButton value=" " id="lastAnalyze"
-								icon="fa fa-fw fa-fast-forward"
+							<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.numberOfRecords)}"
 								update=":form" />
 						</h:panelGrid>
 					</div>
 					<div id="categories">
-						<ui:repeat
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+						<ui:repeat value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
 							<div id="categoryContent">
 								<div id="texts">
 									<h:outputText value="#{categorySet.label}" />
 								</div>
 								<div id="buttons">
-									<ui:repeat
-										value="#{categorySet.categoryEntitys.values().toArray()}"
-										var="category">
+									<ui:repeat value="#{categorySet.categoryEntitys.values().toArray()}" var="category">
 										<p:selectBooleanButton value="#{category.inRecord}"
-											onLabel="#{category.label.text}"
-											offLabel="#{category.label.text}">
-											<p:ajax listener="#{feedbackAnalyzationManagedBean.setTimeStamp()}" update=":form" />
+											onLabel="#{category.label.text}" offLabel="#{category.label.text}">
+											<p:ajax listener="#{feedbackAnalyzationManagedBean.setTimeStamp()}"
+												update=":form" />
 										</p:selectBooleanButton>
 									</ui:repeat>
 								</div>
 							</div>
 						</ui:repeat>
-						<h:outputText value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}"/>
+						<h:outputText
+							value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
 					</div>
 				</div>
 				<div id="basicContent">
@@ -118,18 +95,13 @@
 					<div id="basicControls">
 						<p:commandButton id="empty" value="#{msg.ana_empty}" />
 						<p:commandButton id="new" value="#{msg.ana_new}"
-							action="#{feedbackAnalyzationManagedBean.addRecord()}"
-							update=":form" />
+							action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form" />
 						<p:commandButton id="continue" value="#{msg.ana_continue}"
 							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
 					</div>
 				</div>
-
-
 			</h:form>
-
 		</ui:define>
-
 	</ui:composition>
 </h:body>
 </html>

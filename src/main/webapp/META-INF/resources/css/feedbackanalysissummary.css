@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
- *               2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *
- *     3. Neither the name of the copyright holder nor the names of its
+ *     3. Neither the name of the copyright holder nor the names of its 
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -30,101 +30,94 @@
  */
 
 /* 
-    Created on : Feb 17, 2016, 10:29:25 AM
-    Author     : Ilari Paananen
-    Changed	   : 4.4.2019, Petra Puumala
+	last modified: 16.4.2019 by Petra Puumala
+	Author     : Ilari Paananen
 */
 
 html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-size: 100%;
-    color: black;
-    background-color: #FEFEFE;
-    background-image: repeating-linear-gradient(
-        45deg,
-        #FCFCFC,
-        #FCFCFC 20px,
-        #FEFEFE 20px,
-        #FEFEFE 40px);
-    background-size: 100%;
-    background-attachment: fixed;
-    font-family: 'Roboto', sans-serif;
-
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	color: black;
+	background-color: #FEFEFE;
+	background-image: repeating-linear-gradient( 45deg, #FCFCFC, #FCFCFC 20px, #FEFEFE 20px, #FEFEFE 40px);
+	background-size: 100%;
+	background-attachment: fixed;
+	font-family: 'Roboto', sans-serif;
 }
 
 #mainPage {
 	width: 100%;
-    margin: auto;
-    padding: 0;
-    display: inline-block;
-    text-align: center;
-
+	margin: auto;
+	padding: 0;
+	display: inline-block;
+	text-align: center;
 }
 
 #container {
-    width: 100%;
-    max-width: 960px;
-    margin: 1em;
-    padding: 0;
-    display: inline-block;
-    font-size: 1.1em;
-    padding: .5em .5em;
-    background: #EFEFEF;
-    
-    border-radius: 10px 10px 10px 10px;
-    position: relative;
-    z-index: 2;
-  
+	width: 100%;
+	max-width: 60em;
+	margin: 1em;
+	padding: 0;
+	display: inline-block;
+	font-size: 1.1em;
+	padding: .5em .5em;
+	background: #EFEFEF;
+	border-radius: 0.625em 0.625em 0.625em 0.625em;
+	position: relative;
+	z-index: 2;
 }
 
 #summaryTable {
-  border-collapse: collapse;
+	border-collapse: collapse;
 	width: 100%;
 }
+
 #summaryTable td, #summaryTable th {
-	padding: 8px;
+	padding: 0.5em;
 	color: black;
 }
+
 #summaryTable td {
-   border-top: 1px solid #005977;
-   text-align: left;
+	border-top: 0.063em solid #005977;
+	text-align: left;
 }
+
 #summaryTable th {
-   text-align: left;
-   border-bottom: 1px solid #005977;
- 
+	text-align: left;
+	border-bottom: 0.063em solid #005977;
 }
 
 .ui-button {
-    width: auto;
-    margin: .6em 0;
-    background-color: #008AB9;
-    background: linear-gradient(0deg, #008AB9, #10A1D1);
-    cursor: pointer;
-    color: white;
-    border: 0;
-    text-shadow: none;
+	width: auto;
+	margin: .6em 0;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	border: 0;
+	text-shadow: none;
 }
 
-#charts{
+#charts {
 	padding-top: 1em;
 	padding-bottom: 1em;
 }
+
 .chart {
-	float:left;
+	float: left;
 	width: 6.25em;
 }
 
 #pieModels canvas {
-	width: 300px;
+	width: 18.75em;
 }

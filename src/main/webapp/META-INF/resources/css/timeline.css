@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +13,7 @@
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *
- *     3. Neither the name of the copyright holder nor the names of its
+ *     3. Neither the name of the copyright holder nor the names of its 
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -28,87 +29,87 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
-    Created on : Mar 2, 2016, 11:38:42 AM
-    Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
+/* 
+	last modified: 16.4.2019 by Petra Puumala
+	Author     : Juha Moisio
 */
 
 /* Custom styles for the Timeline component. */
 
 #timeline {
-    clear: both;
-    margin-bottom: 1em;
-    margin-right: 2px;
-    margin-left: 2px;
-    margin-top: 2em;
+	clear: both;
+	margin-bottom: 1em;
+	margin-right: 0.125em;
+	margin-left: 0.125em;
+	margin-top: 2em;
 }
 
 #timeline .timeline-event {
-    color: #AEAEAE;
-    background: #AF2A01;
-    border-color: #932301;
-    box-shadow: none;
-    margin-top: 0px;
+	color: #AEAEAE;
+	background: #AF2A01;
+	border-color: #932301;
+	box-shadow: none;
+	margin-top: 0em;
 }
 
 #timeline .timeline-event-content {
-    margin: 0;
-    padding: 10px;
-    text-shadow: none;
+	margin: 0;
+	padding: 0.625em;
+	text-shadow: none;
 }
 
 #timeline .timeline-axis,
 #timeline .timeline-groups-axis {
-    background-color: #008AB9;
-    background: linear-gradient(0deg, #008AB9, #10A1D1);    
-    opacity: 1;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);    
+	opacity: 1;
 }
 
 #timeline .timeline-axis-text {
-    font-size: 0.9em;
-    color: white;
+	font-size: 0.9em;
+	color: white;
 }
 
 #timeline .timeline-axis-grid {
-    border-left-style: dashed!important;
-    border-top-style: dashed!important;
+	border-left-style: dashed!important;
+	border-top-style: dashed!important;
 }
 
 #timeline .timeline-groups-axis  > .timeline-groups-text {
-    color: white;
+	color: white;
 }
 
 #timeline .timeline-event-selected .timeline-event-content {
-    cursor: default;
+	cursor: default;
 }
 
 #timeline .timeline-event-selected {
-    background-color: #E5E5E5;
-    border-color: #D3D3D3;
+	background-color: #E5E5E5;
+	border-color: #D3D3D3;
 }
 
 #timeline .categoryLabel {
-    display: none!important;
+	display: none!important;
 }
 
 #timeline .timeline-frame {
-    border-radius: 0.2em;
-    border: none;
+	border-radius: 0.2em;
+	border: none;
 }
 
 #timeline .ui-widget-content:not(.timeline-axis) {
-    color: #000;
+	color: #000;
 }
 
 #timeline .timeline-axis {
-    color: #008AB9;
+	color: #008AB9;
 }
 
 #timeline .timeline-groups-text,
 #timeline .timeline-axis {
-    font-family: Arial,sans-serif;
+	font-family: Arial,sans-serif;
 }
 .dummyRecord {
-    display: none!important;
+	display: none!important;
 }
 

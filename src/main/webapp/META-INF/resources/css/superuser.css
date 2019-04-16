@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +13,7 @@
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *
- *     3. Neither the name of the copyright holder nor the names of its
+ *     3. Neither the name of the copyright holder nor the names of its 
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -29,20 +30,20 @@
  */
 
 /* 
-    Created on : Mar 17, 2016, 1:49:24 PM
-    Author     : kavakorh
+	last modified: 16.4.2019 by Petra Puumala
+	Author     : kavakorh
 */
 
-.superuser_actions{
-    padding-top: 0.5em;
-    width: 80%;
-    margin: 1% auto 1% auto;
-    padding-bottom: 0.5em;  
-    font-size: 1em;
-}    
+.superuser_actions {
+	padding-top: 0.5em;
+	width: 80%;
+	margin: 1% auto 1% auto;
+	padding-bottom: 0.5em;
+	font-size: 1em;
+}
 
-#superusers{
-    width: 80%; 
-    max-width: 400px; 
-    min-width: 250px;
+#superusers {
+	width: 80%;
+	max-width: 25em;
+	min-width: 15.625em;
 }
