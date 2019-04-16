@@ -37,14 +37,16 @@
 
 #timeline {
     clear: both;
-    margin-bottom: 3em;
+    margin-bottom: 1em;
     margin-right: 2px;
     margin-left: 2px;
+    margin-top: 2em;
 }
 
 #timeline .timeline-event {
     color: #AEAEAE;
-    background: #F82;
+    background: #AF2A01;
+    border-color: #932301;
     box-shadow: none;
     margin-top: 0px;
 }
@@ -57,7 +59,8 @@
 
 #timeline .timeline-axis,
 #timeline .timeline-groups-axis {
-    background: transparent linear-gradient(0deg, #345, #567) repeat scroll 0% 0%;
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);    
     opacity: 1;
 }
 
@@ -80,7 +83,8 @@
 }
 
 #timeline .timeline-event-selected {
-    background-color: #cedff0;
+    background-color: #E5E5E5;
+    border-color: #D3D3D3;
 }
 
 #timeline .categoryLabel {
@@ -88,7 +92,7 @@
 }
 
 #timeline .timeline-frame {
-    border-radius: 0;
+    border-radius: 0.2em;
     border: none;
 }
 
@@ -97,7 +101,7 @@
 }
 
 #timeline .timeline-axis {
-    color: #4F4F4F;
+    color: #008AB9;
 }
 
 #timeline .timeline-groups-text,
@@ -107,3 +111,4 @@
 .dummyRecord {
     display: none!important;
 }
+

@@ -316,9 +316,7 @@ public class SummaryManagedBean implements Serializable {
         if (selectedSaveOptions.contains(SAVE_OPTION)) {
             saveCurrentObservation();
         }
-        if (selectedSaveOptions.contains(IMAGE_OPTION)) {
-            saveCurrentObservationAsImage();
-        }
+        
     }
 
     /**
@@ -433,28 +431,6 @@ public class SummaryManagedBean implements Serializable {
      */
     public void setObservationSaved(boolean observationSaved) {
         this.observationSaved = observationSaved;
-    }
-    
-    /**
-     * @throws IOException 
-     * @throws ScriptException 
-     * @throws NoSuchMethodException 
-     * 
-     */
-    public void saveCurrentObservationAsImage(){
-    	ScriptEngineManager manager = new ScriptEngineManager();
-    	ScriptEngine engine = manager.getEngineByName("nashorn");
-    	try {
-			engine.eval(new java.io.FileReader("summary.js"));
-		} catch (ScriptException | IOException e) {
-			e.printStackTrace();
-		} 
-    	Invocable inv = (Invocable) engine;
-    	try {
-			inv.invokeFunction("saveAsImage");
-		} catch (NoSuchMethodException | ScriptException e) {
-			e.printStackTrace();
-		}
     }
     
 }

@@ -30,7 +30,7 @@
                         </h:form>
                     </p:dialog>
                 </nav>
-
+				<div id="textContentFrontPage">
                 <h:panelGroup styleClass="welcomeContent" rendered="#{applicationManagedBean.installed}">
                     <h:outputText escape="false" value="#{msg.fp_infoText}"/>
                     <h:outputLink value="#{msg.fp_infoLink}">
@@ -44,6 +44,10 @@
                                        action="#{applicationManagedBean.doInstall}"/>
                     </h:form>
                 </h:panelGroup>
+                </div>
+                <div id="picture">
+                <p:graphicImage  library="images" name="etusivu.png"/>
+                </div>
             </ui:define>
         </ui:composition>
     </h:body>

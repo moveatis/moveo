@@ -146,7 +146,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
 				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
 		comment = currentRecord.getComment();
-
+		
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
 		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
 			category.setInRecord(true);
@@ -307,7 +307,13 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 			cat.setInRecord(true);
 		return "summary";
 	}
-
+	
+	public String toRecordTable() {
+		editRecord();
+		return "recordtable";
+	}
+	
+	
 	/**
 	 * The method saves the analyzation to the database.
 	 */
@@ -357,10 +363,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	public void setCurrentRecordNumber(int currentRecordNumber) {
 		this.currentRecordNumber = currentRecordNumber;
-	}
-	
-	public String continueToRecordTable(){
-		return "recordtable";
 	}
 
 	public String getComment() {

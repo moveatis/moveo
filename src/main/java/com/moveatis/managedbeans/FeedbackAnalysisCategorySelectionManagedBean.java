@@ -387,4 +387,3 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 
     
 	}
-
