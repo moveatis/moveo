@@ -91,6 +91,7 @@
 /home/vikonyka/git/Moveatis/src/main/java/com/moveatis/abstracts/AbstractBean.java
 /home/vikonyka/git/Moveatis/src/main/java/com/moveatis/event/EventGroupBean.java
 /home/vikonyka/git/Moveatis/src/main/java/com/moveatis/identityprovider/IdentityProviderInformationEntity.java
+/home/vikonyka/git/Moveatis/src/main/java/com/moveatis/managedbeans/DatatableManagedBean.java
 /home/vikonyka/git/Moveatis/src/main/java/com/moveatis/devel/DevelJYULoginBean.java
 /home/vikonyka/git/Moveatis/src/main/java/com/moveatis/user/TagUserEntity.java
 /home/vikonyka/git/Moveatis/src/main/java/com/moveatis/enums/MailStatus.java
