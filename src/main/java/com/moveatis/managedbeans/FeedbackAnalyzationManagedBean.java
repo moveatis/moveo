@@ -299,17 +299,17 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		currentRecord.setComment(comment);
 	}
 
+
 	public String toSummary() {
-		editRecord();
-		feedbackAnalyzationEntity.setDuration(duration);
-		isTimerStopped=true;
-		for (FeedbackAnalysisCategoryEntity cat : currentRecord.getSelectedCategories())
-			cat.setInRecord(true);
 		return "summary";
 	}
 	
 	public String toRecordTable() {
 		editRecord();
+		feedbackAnalyzationEntity.setDuration(duration);
+		isTimerStopped=true;
+		for (FeedbackAnalysisCategoryEntity cat : currentRecord.getSelectedCategories())
+			cat.setInRecord(true);
 		return "recordtable";
 	}
 	
