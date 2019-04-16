@@ -535,7 +535,11 @@ function saveImage() {
 function saveAsImage() {
     var filename;
     try{
-    filename = document.getElementById('saveForm:input-name').value;
+    filenameRaw = document.getElementById('saveForm:input-name').value;
+    if(filenameRaw ==""){
+    	return;
+    }
+    filename = filenameRaw.replace(".", "_");
     }catch(err){
     	filename = 'summary.png';
     }

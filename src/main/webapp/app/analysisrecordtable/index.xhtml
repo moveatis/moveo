@@ -19,8 +19,7 @@
 				var="record"
 				rowIndexVar="rowID">
 				<p:column headerText="#">
-					#{record.setRowNumber(rowID+1)}
-					#{record.getRowNumber()}
+				#{rowID+1}
 				</p:column>
 				<c:forEach
 					items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
@@ -40,7 +39,7 @@
 					</p:column>
 				</c:forEach>
 				<p:column headerText="Sanallinen Palaute">
-					<p:inputText value="#{record.comment}" />
+					<h:outputText value="#{record.comment}" />
 				</p:column>
 				<p:column>
 					<p:commandLink
