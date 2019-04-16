@@ -61,11 +61,15 @@
 			<h:form id="form">
 				<div id="content">
 					<div id="index">
-						<h:outputText id="txt_count" value="#{feedbackAnalyzationManagedBean.getDuration()}" />	
-						<p:selectBooleanButton  value ="#{feedbackAnalyzationManagedBean.isTimerStopped}" onLabel="Continue" offLabel="Pause" />
-											
-						<p:poll id="timer" interval="1" listener="#{feedbackAnalyzationManagedBean.increment}"
-							update="txt_count"  />
+						<h:outputText id="txt_count"
+							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
+						<p:selectBooleanButton
+							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
+							onLabel="Continue" offLabel="Pause" />
+
+						<p:poll id="timer" interval="1"
+							listener="#{feedbackAnalyzationManagedBean.increment}"
+							update="txt_count"  stop="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.duration>0}"/>
 						<h:panelGrid columns="5">
 							<p:commandButton value=" " id="firstAnalyze"
 								icon="fa fa-fw fa-fast-backward"
@@ -101,13 +105,17 @@
 										<p:selectBooleanButton value="#{category.inRecord}"
 											onLabel="#{category.label.text}"
 											offLabel="#{category.label.text}">
-											<p:ajax listener="#{feedbackAnalyzationManagedBean.setTimeStamp()}" update=":form" />
+											<p:ajax
+												listener="#{feedbackAnalyzationManagedBean.setTimeStamp()}"
+												update=":form" />
 										</p:selectBooleanButton>
 									</ui:repeat>
 								</div>
 							</div>
 						</ui:repeat>
-						<h:outputText value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}"/>
+						<h:outputText
+							value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+
 					</div>
 				</div>
 				<div id="basicContent">

@@ -30,6 +30,16 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	@JoinTable(name="FeedbackAnalysisRecordSelectedCategories")
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 	
+	private Integer orderNumber;
+	
+	public Integer getOrderNumber() {
+		return orderNumber;
+	}
+	
+	public void setOrderNumber(Integer orderNumber) {
+		this.orderNumber=orderNumber;
+	}
+	
 
 	
 	public void addSelectedCategory(FeedbackAnalysisCategoryEntity category) {
