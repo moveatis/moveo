@@ -360,7 +360,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	}
 	
 	public String continueToRecordTable(){
-		saveFeedbackAnalyzation();
 		return "recordtable";
 	}
 
