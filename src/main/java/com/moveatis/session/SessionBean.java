@@ -1,5 +1,6 @@
 /* 
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Visa Nykänen, Tuomas Moisio, Petra Puumala, Karoliina Lappalainen 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,20 +59,26 @@ import org.slf4j.LoggerFactory;
  * The bean manages actions the user needs in the usage of Moveatis.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Visa Nykänen
  */
 @SessionScoped
 @Named
 public class SessionBean implements Serializable, Session {
 
 	private static final long serialVersionUID = 1L;
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
 
 	@Inject
 	private ObservationManagedBean observationManagedBean;
+	
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	
 	private boolean loggedIn = false;
+	
 	private IdentifiedUserEntity userEntity;
+	
 	private TagUserEntity tagEntity;
 
 	private SortedSet<Long> sessionObservations;
@@ -79,6 +86,7 @@ public class SessionBean implements Serializable, Session {
 	private String returnUri;
 
 	private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
+	
 	private Locale locale; // Locale switching based on BalusC's example:
 							// http://stackoverflow.com/a/4830669
 
@@ -119,7 +127,6 @@ public class SessionBean implements Serializable, Session {
 		// Make sure we don't modify earlier categories.
 		observationManagedBean.resetCategorySetsInUse();
 		feedbackAnalyzationManagedBean.resetCategorySetsInUse();
-
 	}
 
 	@Override

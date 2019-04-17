@@ -14,57 +14,62 @@
 			<div id="content">
 				<ui:debug hotkey="x" />
 			</div>
-				<p:dataTable id="entries"
+			<p:dataTable id="entries"
 				value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-				var="record"
-				rowIndexVar="rowID">
+				var="record" sortBy="#{record.orderNumber}">
 				<p:column headerText="#">
-				#{rowID+1}
+					<h:outputText value="#{record.orderNumber}"/>
 				</p:column>
 				<c:forEach
 					items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 					var="categorySet">
-					<p:column headerText="#{categorySet.label}" >
+					<p:column headerText="#{categorySet.label}">
 						<p:commandLink
 							value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}"
 							action="#{feedbackAnalyzationManagedBean.setCurrentRecord(record)}"
-							onclick="PF('dlgCategorySet').show()"
-							update=":categorySetForm " 
+							onclick="PF('dlgCategorySet').show()" update=":categorySetForm "
 							styleClass="link-categoryset">
 							<f:actionListener
 								binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet))}" />
-								<h:outputText
-								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}"/>
+							<h:outputText
+								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 						</p:commandLink>
 					</p:column>
 				</c:forEach>
 				<p:column headerText="Sanallinen Palaute">
 					<h:outputText value="#{record.comment}" />
 				</p:column>
+				<p:column headerText="Aika">
+					<h:outputText
+						value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}" />
+				</p:column>
 				<p:column>
 					<p:commandLink
 						action="#{analysisRecordTable.deleteCurrentRecord(record)}"
-						styleClass="link-categoryset"
-						update="entries">
+						styleClass="link-categoryset" update="entries">
 						<h:outputText value="Delete" />
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
 
-			<p:dialog header="Info" widgetVar="rowDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-				<p:outputPanel id="rowDetail" >
-				<p:panelGrid  columns="2" rendered="#{not empty analysisRecordTable.selectedRow}" columnClasses="label,value">
-					<h:outputText value="Kommentti:" />
-					<h:outputText value="#{analysisRecordTable.selectedRow.comment}" />
+			<p:dialog header="Info" widgetVar="rowDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="rowDetail">
+					<p:panelGrid columns="2"
+						rendered="#{not empty analysisRecordTable.selectedRow}"
+						columnClasses="label,value">
+						<h:outputText value="Kommentti:" />
+						<h:outputText value="#{analysisRecordTable.selectedRow.comment}" />
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
-			
+
 			<div id="textArea">
 				<p:inputTextarea value="Lyhyt analyysi annetusta palautteesta" />
 			</div>
-			<p:commandButton value="Continue to Summary" action="#{feedbackAnalyzationManagedBean.toSummary()}" />
-			
+			<p:commandButton value="Continue to Summary"
+				action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+
 			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
 				position="top" resizable="false" responsive="true" modal="true"
 				fitViewport="true" class="coloredDialog">

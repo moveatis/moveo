@@ -89,12 +89,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
 
 	/**
-	 * The number of records currently added to the analyzation TODO get this based
-	 * on the length of the list of records
-	 */
-
-	private int numberOfRecords;
-	/**
 	 * The index(+1) of the record currently in view
 	 */
 
@@ -179,14 +173,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		this.feedbackAnalyzationEntity.setDuration(duration);
 	}
 
-	public int getNumberOfRecords() {
-		return numberOfRecords;
-	}
-
-	public void setNumberOfRecords(int numberOfRecords) {
-		this.numberOfRecords = numberOfRecords;
-	}
-
 	public int getCurrentRecordNumber() {
 		return currentRecordNumber;
 	}
@@ -244,6 +230,26 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
 
+	public long getMaxTimeStampForCurrentRecord() {
+		if (currentRecordNumber == feedbackAnalyzationEntity.getRecords().size())
+			return duration;
+		for (int i = currentRecordNumber+1; i <= feedbackAnalyzationEntity.getRecords().size(); i++) {
+			long start = findRecordByOrderNumber(i).getStartTime();
+			if (start > 0)
+				return start;
+		}
+		return duration;
+	}
+
+	public long getMinTimeStampForCurrentRecord() {
+		if(currentRecordNumber==1) return 0;
+		for(int i=currentRecordNumber-1; i>=1; i--) {
+			long start=findRecordByOrderNumber(i).getStartTime();
+			if(start>0) return start;	
+			}
+		return 0;
+	}
+
 	/**
 	 * Returns the given number of seconds in a string showing the minutes and
 	 * seconds
@@ -298,7 +304,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * set and the timer is running
 	 */
 	public void setTimeStamp() {
-		if (currentRecord.getStartTime() == null && !isTimerStopped && currentRecordNumber == numberOfRecords)
+		if (currentRecord.getStartTime() == null && !isTimerStopped
+				&& currentRecordNumber == feedbackAnalyzationEntity.getRecords().size())
 			currentRecord.setStartTime(duration);
 	}
 
@@ -321,7 +328,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * between records, sets the following records ordernumbers to be one higher
 	 */
 	private void setOrderNumberForRecord() {
-		for (int i = currentRecordNumber; i <= numberOfRecords; i++)
+		for (int i = currentRecordNumber; i <= feedbackAnalyzationEntity.getRecords().size(); i++)
 			findRecordByOrderNumber(i).setOrderNumber(i + 1);
 		currentRecord.setOrderNumber(currentRecordNumber);
 	}
@@ -332,7 +339,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * @param recordNumber The ordernumber of the record to be accessed
 	 */
 	public void setCurrentRecord(int recordNumber) {
-		if (recordNumber > numberOfRecords || recordNumber < 1 || recordNumber == currentRecordNumber)
+		if (recordNumber > feedbackAnalyzationEntity.getRecords().size() || recordNumber < 1
+				|| recordNumber == currentRecordNumber)
 			return;
 		editRecord();
 		currentRecordNumber = recordNumber;
@@ -357,7 +365,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		setCurrentRecordNumber(1);
-		setNumberOfRecords(1);
 		duration = 0;
 		isTimerStopped = false;
 		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
@@ -386,12 +393,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		comment = "";
 		currentRecord = new FeedbackAnalysisRecordEntity();
 		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
-		feedbackAnalyzationEntity.addRecord(currentRecord);
 		currentRecord.setSelectedCategories(new ArrayList<FeedbackAnalysisCategoryEntity>());
 		currentRecordNumber++;
 		setOrderNumberForRecord();
-
-		numberOfRecords++;
+		feedbackAnalyzationEntity.addRecord(currentRecord);
 	}
 
 	/**
