@@ -15,30 +15,10 @@
 		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
 
 		<ui:define name="mainpage">
-			<style>
-#summaryTable {
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
-}
-
-#summaryTable td, #summaryTable th {
-	padding: 8px;
-	color: black;
-	background-color: white;
-}
-
-#summaryTable td {
-	border: 1px solid #7d7d7d;
-}
-
-#summaryTable th {
-	border: 2px solid #7d7d7d;
-	padding-top: 12px;
-	padding-bottom: 12px;
-	background-color: #ee9a00;
-}
-</style>
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
+							<h1>#{msg.ana_title} : #{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
+			<div id="container">
 			<table id="summaryTable">
 				<tr>
 					<ui:repeat
@@ -83,8 +63,10 @@
 					layout="block" id="barModels">
 					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}"
 						var="barModel">
+						<span id="barchart">
 						<p:chart class="chart" type="bar" model="#{barModel}"
 							style="width:100px" />
+						</span>
 					</ui:repeat>
 				</h:panelGroup>
 				<br />
@@ -93,8 +75,10 @@
 					id="pieModels">
 					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
 						var="pieModel">
+						<span id="piechart">
 						<p:chart class="chart" type="pie" model="#{pieModel}"
 							style="width:300px; height:300px" />
+						</span>
 					</ui:repeat>
 				</h:panelGroup>
 			</h:form>
@@ -194,7 +178,7 @@
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
 			
-					
+					</div>
 		</ui:define>
 	
 	</ui:composition>

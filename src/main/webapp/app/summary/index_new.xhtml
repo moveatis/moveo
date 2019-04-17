@@ -67,7 +67,7 @@
 
 				<h:form id="categorySetForm">
 					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
+						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values().toArray()}"
 						var="category">
 						<p:selectBooleanButton value="#{category.inRecord}"
 							onLabel="#{category.label.text}"

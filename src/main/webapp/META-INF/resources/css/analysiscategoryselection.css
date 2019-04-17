@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Jarmo Juuj√§rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juuj‰rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,8 +29,8 @@
  */
 
 /* 
-    Created on : Mar 12, 2019, 11:41:10 AM
-    Author     : Tuomas Moisio
+    Created on : Mar 31, 2016, 2:38:10 PM
+    Author     : Ilari Paananen
 */
 
 #mainPage {
@@ -52,6 +52,121 @@
 .category-set-list-last {
     margin-bottom: 2em;
 }
+
+    .fa-remove { 
+        color: black;
+    }
+
+.ui-dialog-titlebar {
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
+    color: white;
+    text-shadow: none;
+}
+
+.ui-confirm-dialog {
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+}
+
+
+.ui-dialog-titlebar-close:hover,
+.ui-dialog-titlebar-close:focus {
+    background-color:transparent !important;
+
+    border:none !important;
+    background-image:none !important;
+    box-shadow: none !important;
+}
+
+.ui-dialog .ui-button {
+    border: none;
+    text-shadow: none;
+
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
+    cursor: pointer;
+    color: white;
+    box-shadow:none;    
+}
+
+.ui-dialog .ui-button .ui-icon {
+    color: white;
+}
+
+.ui-icon,
+.ui-widget-content .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+.ui-state-active .ui-icon,
+.ui-button:active .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+.ui-state-highlight .ui-icon,
+.ui-button .ui-state-highlight.ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+.ui-button .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+
+
+
+.ui-dialog-titlebar-close:hover,
+.ui-dialog-titlebar-close:focus {
+    background-color:transparent;
+
+    border:none !important;
+    background-image:none !important;
+    box-shadow: none !important;
+}
+
+.ui-dialog .ui-button {
+    border: none;
+    text-shadow: none;
+
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
+    cursor: pointer;
+    color: white;
+    box-shadow:none;    
+}
+
+.ui-dialog .ui-button .ui-icon {
+    color: white;
+}
+
+.ui-icon-closethick { background-position: -96px -128px; !important}
+
+.ui-icon-close { background-position: -80px -128px;  !important}
+.ui-icon-check { background-position: -64px -144px;  !important}
+
+.ui-button {    
+    border: none;
+    text-shadow: none;
+    background-color: #008AB9;
+    background: linear-gradient(0deg, #008AB9, #10A1D1);
+    cursor: pointer;
+    color: white;
+    box-shadow:none;
+}
+
+.ui-button .fa-remove {
+    color: white;
+}
+
+.ui-button.ui-state-active {
+    background-color: #AF2A01;
+    background: linear-gradient(0deg, #007096, #007AA3);
+}
+
+
 
 .category-set-list-label {
     display: inline-block;
@@ -76,7 +191,7 @@
     display: inline-block;
     vertical-align: top;
     margin: 0 10px 1em 0;
-    background: rgba(85, 102, 119, 0.4);
+    background: rgba(85, 102, 119, 0.1);
     border-radius: 10px;
     padding: 10px;
 }

@@ -99,6 +99,7 @@ public class SessionBean implements Serializable, Session  {
         // If user wants to observe without selecting existing event group
         // (in control view or with a group key), we should reset the event.
         observationManagedBean.setEventEntity(null);
+        feedbackAnalyzationManagedBean.setEventEntity(null);
     }
     
     @Override
@@ -116,6 +117,8 @@ public class SessionBean implements Serializable, Session  {
         this.loggedIn = true;
         // Make sure we don't modify earlier categories.
         observationManagedBean.resetCategorySetsInUse();
+        feedbackAnalyzationManagedBean.resetCategorySetsInUse();
+       
     }
 
     @Override

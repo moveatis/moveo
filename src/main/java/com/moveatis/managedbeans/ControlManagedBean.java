@@ -44,6 +44,7 @@ import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Event;
 import com.moveatis.interfaces.EventGroup;
+import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
@@ -107,6 +108,8 @@ public class ControlManagedBean implements Serializable {
     private Category categoryEJB;
     @Inject
     private Observation observationEJB;
+    @Inject
+    private FeedbackAnalyzation feedbackAnalyzationEJB;
     @Inject
     private CategorySetManagedBean categorySetBean;
     @Inject
@@ -375,6 +378,16 @@ public class ControlManagedBean implements Serializable {
         }
     }
 
+    public String getAnalyzerName() {
+        if (selectedAnalyzation == null) {
+            return "";
+        } else if (selectedAnalyzation.getObserver() instanceof IdentifiedUserEntity) {
+            return ((IdentifiedUserEntity) selectedAnalyzation.getObserver()).getGivenName();
+        } else {
+            return messages.getString("con_publicUser");
+        }
+    }
+    
     /**
      * Initializes a new observation and redirects to the category selection view.
      *
@@ -460,6 +473,15 @@ public class ControlManagedBean implements Serializable {
         }
     }
 
+    public void removeAnalyzation() {
+        if (selectedAnalyzation != null) {
+            feedbackAnalyzationEJB.remove(selectedAnalyzation);
+            selectedAnalyzation = null;
+            fetchEventGroups();
+        }
+    }
+
+    
     /**
      * ReorderEvent listener for categories reorder.
      */
@@ -477,6 +499,12 @@ public class ControlManagedBean implements Serializable {
     public void onEditObservation() {
         if (selectedObservation != null) {
             observationEJB.edit(selectedObservation);
+        }
+    }
+    
+    public void onEditAnalyzation() {
+        if (selectedObservation != null) {
+            feedbackAnalyzationEJB.edit(selectedAnalyzation);
         }
     }
 
@@ -505,7 +533,7 @@ public class ControlManagedBean implements Serializable {
         }
     }
     
-    public String showAnalyzationInSummaryPage(FeedbackAnalyzationEntity selectedAnalyzation){
+    public String showAnalyzationInSummaryPage(){
     	feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(selectedAnalyzation);
     	feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(selectedAnalyzation.getFeedbackAnalysisCategorySets());    	
     	return "feedbackanalysissummary";
