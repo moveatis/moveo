@@ -33,28 +33,28 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the label entity.
- * A label is a name for a category. If there are several similarly named categories,
- * like "Giving feedback", they can all use the same label.
+ * The interface to manage the label entity. A label is a name for a category.
+ * If there are several similarly named categories, like "Giving feedback", they
+ * can all use the same label.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Label.class)
 public interface Label {
-    
-    void create(LabelEntity labelEntity);
 
-    void edit(LabelEntity labelEntity);
+	void create(LabelEntity labelEntity);
 
-    void remove(LabelEntity labelEntity);
+	void edit(LabelEntity labelEntity);
 
-    LabelEntity find(Object id);
-    
-    LabelEntity findByLabel(String label);
+	void remove(LabelEntity labelEntity);
 
-    List<LabelEntity> findAll();
+	LabelEntity find(Object id);
 
-    List<LabelEntity> findRange(int[] range);
+	LabelEntity findByLabel(String label);
 
-    int count();
+	List<LabelEntity> findAll();
+
+	List<LabelEntity> findRange(int[] range);
+
+	int count();
 }

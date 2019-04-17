@@ -70,141 +70,141 @@ import org.slf4j.LoggerFactory;
 /**
  * The bean manages REST API for adding records to an observation as well as
  * starting and stopping an observation.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Path("/records")
 @Named(value = "recordBean")
 @Stateful
 public class RecordListenerBean implements Serializable {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecordListenerBean.class);
-    private static final long serialVersionUID = 1L;
-    
-    private JsonReader jsonReader;
-    
-    @Context
-    private HttpServletRequest httpRequest;
-    
-    @Inject
-    private Session sessionBean;
-    @Inject
-    private ObservationManagedBean observationManagedBean;
-    @Inject
-    private UserManagedBean userManagedBean;
-    
-    private ResourceBundle messages;
 
-    @Inject
-    private Observation observationEJB;
-    @Inject
-    private Record recordEJB;
-    @Inject
-    private Category categoryEJB;
-    @Inject
-    private Label labelEJB;
+	private static final Logger LOGGER = LoggerFactory.getLogger(RecordListenerBean.class);
+	private static final long serialVersionUID = 1L;
 
-    public RecordListenerBean() {
-        
-    }
-    
-    /**
-     * Marks the observation as started.
-     */
-    @POST
-    @Path("startobservation")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String startObservation(String data) {
-        observationManagedBean.startObservation();
-        return "success";
-    }
-    
-    /**
-     * Keeps the session alive during the observation.
-     */
-    /*
-    * TODO: Needs work - what to do when keep-alive request is commenced?
-    */
-    // NOTE: Used by observer view.
-    // TODO: What about other views? What happens if session expires? Redirect to front page?
-    @POST
-    @Path("keepalive")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String keepAlive() {
-        return "keep-alive";
-    }
-    
-    /**
-     * Adds the observation data coming from the observation view.
-     * It could be used to take data from other clients, but not yet
-     * implemented or even planned.
-     * @param data The JSON data containing the records of the observation.
-     * @return "success" if the action succeeded and "failed" if it failed.
-     */
-    @POST
-    @Path("addobservationdata")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String addObservationData(String data) {
-        Locale locale = userManagedBean.getLocale();
-        messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
-        StringReader stringReader = new StringReader(data);
-        
-        jsonReader = Json.createReader(stringReader);
-        
-        JsonObject jObject = jsonReader.readObject();
-        JsonNumber duration = jObject.getJsonNumber("duration");
-        JsonNumber timeZoneOffset = jObject.getJsonNumber("timeZoneOffsetInMs");
-        JsonNumber DSTOffset = jObject.getJsonNumber("daylightSavingInMs");
-        JsonArray array = jObject.getJsonArray("data");
-        
-        jsonReader.close();
+	private JsonReader jsonReader;
 
-        Date createdTime = observationManagedBean.getObservationEntity().getCreated();
-        
-        TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(
-                timeZoneOffset.intValue(), DSTOffset.intValue());
-        
-        sessionBean.setSessionTimeZone(timeZone);
+	@Context
+	private HttpServletRequest httpRequest;
 
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,
-                DateFormat.SHORT, locale);
-        dateFormat.setTimeZone(timeZone);
-        
-        observationManagedBean.setObservationName(messages.getString("obs_title")
-                + " - " + dateFormat.format(createdTime));
-        observationManagedBean.setObservationDuration(duration.longValue());
+	@Inject
+	private Session sessionBean;
+	@Inject
+	private ObservationManagedBean observationManagedBean;
+	@Inject
+	private UserManagedBean userManagedBean;
 
-        Map<Long, ObservationCategory> categoriesById = new HashMap<>();
-        
-        for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
-            for (ObservationCategory category : categorySet.getCategories()) {
-                categoriesById.put(category.getTag(), category);
-            }
-        }
+	private ResourceBundle messages;
 
-        try {
-            for (int i = 0; i < array.size(); i++) {
-                JsonObject object = array.getJsonObject(i);
-                RecordEntity record = new RecordEntity();
-                
-                Long id = object.getJsonNumber("id").longValue();
-                ObservationCategory category = categoriesById.get(id);
-                
-                record.setObservationCategory(category);
-                
-                record.setStartTime(object.getJsonNumber("startTime").longValue());
-                record.setEndTime(object.getJsonNumber("endTime").longValue());
+	@Inject
+	private Observation observationEJB;
+	@Inject
+	private Record recordEJB;
+	@Inject
+	private Category categoryEJB;
+	@Inject
+	private Label labelEJB;
 
-                observationManagedBean.addRecord(record);
-            }
-        } catch(Exception e) {
-            LOGGER.error("Parsing JSON to records failed", e);
-            return "failed";
-        }
-        
-        observationManagedBean.saveObservation();
+	public RecordListenerBean() {
 
-        return "success";
-    }
+	}
+
+	/**
+	 * Marks the observation as started.
+	 */
+	@POST
+	@Path("startobservation")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String startObservation(String data) {
+		observationManagedBean.startObservation();
+		return "success";
+	}
+
+	/**
+	 * Keeps the session alive during the observation.
+	 */
+	/*
+	 * TODO: Needs work - what to do when keep-alive request is commenced?
+	 */
+	// NOTE: Used by observer view.
+	// TODO: What about other views? What happens if session expires? Redirect to
+	// front page?
+	@POST
+	@Path("keepalive")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String keepAlive() {
+		return "keep-alive";
+	}
+
+	/**
+	 * Adds the observation data coming from the observation view. It could be used
+	 * to take data from other clients, but not yet implemented or even planned.
+	 * 
+	 * @param data The JSON data containing the records of the observation.
+	 * @return "success" if the action succeeded and "failed" if it failed.
+	 */
+	@POST
+	@Path("addobservationdata")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String addObservationData(String data) {
+		Locale locale = userManagedBean.getLocale();
+		messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+		StringReader stringReader = new StringReader(data);
+
+		jsonReader = Json.createReader(stringReader);
+
+		JsonObject jObject = jsonReader.readObject();
+		JsonNumber duration = jObject.getJsonNumber("duration");
+		JsonNumber timeZoneOffset = jObject.getJsonNumber("timeZoneOffsetInMs");
+		JsonNumber DSTOffset = jObject.getJsonNumber("daylightSavingInMs");
+		JsonArray array = jObject.getJsonArray("data");
+
+		jsonReader.close();
+
+		Date createdTime = observationManagedBean.getObservationEntity().getCreated();
+
+		TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(timeZoneOffset.intValue(), DSTOffset.intValue());
+
+		sessionBean.setSessionTimeZone(timeZone);
+
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
+		dateFormat.setTimeZone(timeZone);
+
+		observationManagedBean
+				.setObservationName(messages.getString("obs_title") + " - " + dateFormat.format(createdTime));
+		observationManagedBean.setObservationDuration(duration.longValue());
+
+		Map<Long, ObservationCategory> categoriesById = new HashMap<>();
+
+		for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
+			for (ObservationCategory category : categorySet.getCategories()) {
+				categoriesById.put(category.getTag(), category);
+			}
+		}
+
+		try {
+			for (int i = 0; i < array.size(); i++) {
+				JsonObject object = array.getJsonObject(i);
+				RecordEntity record = new RecordEntity();
+
+				Long id = object.getJsonNumber("id").longValue();
+				ObservationCategory category = categoriesById.get(id);
+
+				record.setObservationCategory(category);
+
+				record.setStartTime(object.getJsonNumber("startTime").longValue());
+				record.setEndTime(object.getJsonNumber("endTime").longValue());
+
+				observationManagedBean.addRecord(record);
+			}
+		} catch (Exception e) {
+			LOGGER.error("Parsing JSON to records failed", e);
+			return "failed";
+		}
+
+		observationManagedBean.saveObservation();
+
+		return "success";
+	}
 }

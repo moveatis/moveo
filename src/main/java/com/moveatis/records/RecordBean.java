@@ -36,22 +36,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * The EJB for managing records. Holds the information for the analysis of an observation.
+ * The EJB for managing records. Holds the information for the analysis of an
+ * observation.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class RecordBean extends AbstractBean<RecordEntity> implements Record {
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
 
-    public RecordBean() {
-        super(RecordEntity.class);
-    }
-    
+	public RecordBean() {
+		super(RecordEntity.class);
+	}
+
 }

@@ -37,30 +37,30 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the category entity.
- * The category specifies the type or class of an observation record.
- * For example, a teacher giving feedback to a student could be categorized
- * as "Giving feedback".
+ * The interface to manage the category entity. The category specifies the type
+ * or class of an observation record. For example, a teacher giving feedback to
+ * a student could be categorized as "Giving feedback".
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Category.class)
 public interface Category {
 
-    void create(AbstractCategoryEntity categoryEntity);
+	void create(AbstractCategoryEntity categoryEntity);
 
-    void edit(AbstractCategoryEntity categoryEntity);
+	void edit(AbstractCategoryEntity categoryEntity);
 
-    void remove(AbstractCategoryEntity categoryEntity);
-    
-    void removeFromCategorySet(AbstractCategorySetEntity whichCategorySet, AbstractCategoryEntity abstractCategoryEntity);
+	void remove(AbstractCategoryEntity categoryEntity);
 
-    AbstractCategoryEntity find(Object id);
-    
-    List<AbstractCategoryEntity> findAll();
+	void removeFromCategorySet(AbstractCategorySetEntity whichCategorySet,
+			AbstractCategoryEntity abstractCategoryEntity);
 
-    List<AbstractCategoryEntity> findRange(int[] range);
+	AbstractCategoryEntity find(Object id);
 
-    int count();
-    
+	List<AbstractCategoryEntity> findAll();
+
+	List<AbstractCategoryEntity> findRange(int[] range);
+
+	int count();
+
 }

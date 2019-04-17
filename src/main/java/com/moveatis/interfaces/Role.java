@@ -35,17 +35,21 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * The interface to manage the role entity.
- * A role grants more finegrained access rights to the users.
- * For now, the only role is the superuser role.
+ * The interface to manage the role entity. A role grants more finegrained
+ * access rights to the users. For now, the only role is the superuser role.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface Role {
-    
-    void addSuperuserRoleToUser(IdentifiedUserEntity user);
-    void addSuperuserRoleToUser(IdentifiedUserEntity user, Date startDate, Date endDate);
-    void removeSuperuserRoleFromUser(IdentifiedUserEntity user);
-    List<SuperUserRoleEntity> listSuperusers();
-    boolean checkIfUserIsSuperUser(IdentifiedUserEntity user);
-    
+
+	void addSuperuserRoleToUser(IdentifiedUserEntity user);
+
+	void addSuperuserRoleToUser(IdentifiedUserEntity user, Date startDate, Date endDate);
+
+	void removeSuperuserRoleFromUser(IdentifiedUserEntity user);
+
+	List<SuperUserRoleEntity> listSuperusers();
+
+	boolean checkIfUserIsSuperUser(IdentifiedUserEntity user);
+
 }

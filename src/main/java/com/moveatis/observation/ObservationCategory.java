@@ -42,74 +42,73 @@ import java.io.Serializable;
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
 public class ObservationCategory implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
-    
-    private CategoryType type;
-    private Long tag;
-    private String name;
 
-    public ObservationCategory() {
-        this.type = CategoryType.COUNTED;
-        this.name = "";
-    }
+	private static final long serialVersionUID = 1L;
 
-    public ObservationCategory(ObservationCategory other) {
-        this.type = other.type;
-        this.name = other.name;
-        this.tag = other.tag;
-    }
+	private CategoryType type;
+	private Long tag;
+	private String name;
 
-    public CategoryType getType() {
-        return type;
-    }
-    
-    public void setType(CategoryType type) {
-        this.type = type;
-    }
+	public ObservationCategory() {
+		this.type = CategoryType.COUNTED;
+		this.name = "";
+	}
 
-    public int getTypeAsInt() {
-        return type.ordinal();
-    }
-    
-    /**
-     * Returns true if the type of the category is COUNTED.
-     * The method is used with the PrimeFaces boolean button.
-     */
-    public boolean getTypeAsBoolean() {
-        return (type == CategoryType.COUNTED);
-    }
-    
-    /**
-     * Sets the type of the category based on the given boolean value.
-     * If the value is true, the type will be COUNTED. Otherwise the type will be TIMED.
-     * The method is used with the PrimeFaces boolean button.
-     */
-    public void setTypeAsBoolean(boolean value) {
-        if (value) {
-            type = CategoryType.COUNTED;
-        }
-        else {
-            type = CategoryType.TIMED;
-        }
-    }
-    
-    public Long getTag() {
-        return tag;
-    }
+	public ObservationCategory(ObservationCategory other) {
+		this.type = other.type;
+		this.name = other.name;
+		this.tag = other.tag;
+	}
 
-    public void setTag(Long tag) {
-        this.tag = tag;
-    }
+	public CategoryType getType() {
+		return type;
+	}
 
-    public String getName() {
-         return name;
-    }
+	public void setType(CategoryType type) {
+		this.type = type;
+	}
 
-    public final void setName(String name) {
-        String validName = Validation.validateForJsAndHtml(name).trim();
-        if (!this.name.equals(validName)) {
-            this.name = validName;
-        }
-    }
+	public int getTypeAsInt() {
+		return type.ordinal();
+	}
+
+	/**
+	 * Returns true if the type of the category is COUNTED. The method is used with
+	 * the PrimeFaces boolean button.
+	 */
+	public boolean getTypeAsBoolean() {
+		return (type == CategoryType.COUNTED);
+	}
+
+	/**
+	 * Sets the type of the category based on the given boolean value. If the value
+	 * is true, the type will be COUNTED. Otherwise the type will be TIMED. The
+	 * method is used with the PrimeFaces boolean button.
+	 */
+	public void setTypeAsBoolean(boolean value) {
+		if (value) {
+			type = CategoryType.COUNTED;
+		} else {
+			type = CategoryType.TIMED;
+		}
+	}
+
+	public Long getTag() {
+		return tag;
+	}
+
+	public void setTag(Long tag) {
+		this.tag = tag;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public final void setName(String name) {
+		String validName = Validation.validateForJsAndHtml(name).trim();
+		if (!this.name.equals(validName)) {
+			this.name = validName;
+		}
+	}
 }

@@ -38,32 +38,33 @@ import javax.persistence.TypedQuery;
 
 /**
  * An example EJB that implements the custom identity provider service.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class IdentityProviderBean extends AbstractBean<IdentityProviderInformationEntity> {
-    
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
 
-    public IdentityProviderBean() {
-        super(IdentityProviderInformationEntity.class);
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
-    public IdentityProviderInformationEntity findIpEntityByUsername(String userName) {
-        TypedQuery<IdentityProviderInformationEntity> query = 
-                em.createNamedQuery("findIdentityProviderEntityByUsername", IdentityProviderInformationEntity.class);
-        try {
-            IdentityProviderInformationEntity entity = query.setParameter("username", userName).getSingleResult();
-            return entity;
-        } catch (NoResultException noResult) {
-            return null;
-        }
-    }
+	public IdentityProviderBean() {
+		super(IdentityProviderInformationEntity.class);
+	}
+
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	public IdentityProviderInformationEntity findIpEntityByUsername(String userName) {
+		TypedQuery<IdentityProviderInformationEntity> query = em
+				.createNamedQuery("findIdentityProviderEntityByUsername", IdentityProviderInformationEntity.class);
+		try {
+			IdentityProviderInformationEntity entity = query.setParameter("username", userName).getSingleResult();
+			return entity;
+		} catch (NoResultException noResult) {
+			return null;
+		}
+	}
 
 }

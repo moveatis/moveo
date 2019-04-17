@@ -34,26 +34,26 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the user entity.
- * A user is the identified user, which means that they are recognized by
- * the identity provider service.
+ * The interface to manage the user entity. A user is the identified user, which
+ * means that they are recognized by the identity provider service.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(User.class)
 public interface User {
 
-    void create(IdentifiedUserEntity userEntity);
-    
-    void edit(IdentifiedUserEntity userEntity);
-    
-    void remove(IdentifiedUserEntity userEntity);
-    
-    IdentifiedUserEntity find(Object id);
+	void create(IdentifiedUserEntity userEntity);
 
-    List<IdentifiedUserEntity> findAll();
+	void edit(IdentifiedUserEntity userEntity);
 
-    List<IdentifiedUserEntity> findRange(int[] range);
+	void remove(IdentifiedUserEntity userEntity);
 
-    int count();
-    
+	IdentifiedUserEntity find(Object id);
+
+	List<IdentifiedUserEntity> findAll();
+
+	List<IdentifiedUserEntity> findRange(int[] range);
+
+	int count();
+
 }

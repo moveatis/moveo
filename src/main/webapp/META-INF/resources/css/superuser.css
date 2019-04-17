@@ -32,17 +32,16 @@
     Created on : Mar 17, 2016, 1:49:24 PM
     Author     : kavakorh
 */
+.superuser_actions {
+	padding-top: 0.5em;
+	width: 80%;
+	margin: 1% auto 1% auto;
+	padding-bottom: 0.5em;
+	font-size: 1em;
+}
 
-.superuser_actions{
-    padding-top: 0.5em;
-    width: 80%;
-    margin: 1% auto 1% auto;
-    padding-bottom: 0.5em;  
-    font-size: 1em;
-}    
-
-#superusers{
-    width: 80%; 
-    max-width: 400px; 
-    min-width: 250px;
+#superusers {
+	width: 80%;
+	max-width: 400px;
+	min-width: 250px;
 }

@@ -47,96 +47,93 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * The entity presents the group key that the event groups can be identified with in the database.
+ * The entity presents the group key that the event groups can be identified
+ * with in the database.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(
-            name="findKey",
-            query="SELECT groupkey FROM GroupKeyEntity groupkey WHERE groupkey.groupKey=:key"
-        )
-})
-@Table(name="GROUPKEY")
+		@NamedQuery(name = "findKey", query = "SELECT groupkey FROM GroupKeyEntity groupkey WHERE groupkey.groupKey=:key") })
+@Table(name = "GROUPKEY")
 public class GroupKeyEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @OneToOne
-    private EventGroupEntity eventGroup;
-    
-    @OneToOne(cascade={PERSIST, MERGE, REMOVE})
-    private TagUserEntity tagUser;
-    
-    @Column(unique=true)
-    @NotNull
-    private String groupKey;
-    
-    @ManyToOne
-    private IdentifiedUserEntity creator;
-    
-    private String label;
+	private static final long serialVersionUID = 1L;
 
+	@OneToOne
+	private EventGroupEntity eventGroup;
 
-    public EventGroupEntity getEventGroup() {
-        return eventGroup;
-    }
+	@OneToOne(cascade = { PERSIST, MERGE, REMOVE })
+	private TagUserEntity tagUser;
 
-    public void setEventGroup(EventGroupEntity eventGroup) {
-        this.eventGroup = eventGroup;
-    }
+	@Column(unique = true)
+	@NotNull
+	private String groupKey;
 
-    public String getGroupKey() {
-        return groupKey;
-    }
+	@ManyToOne
+	private IdentifiedUserEntity creator;
 
-    public void setGroupKey(String groupKey) {
-        this.groupKey = groupKey;
-    }
-    
-    public IdentifiedUserEntity getCreator() {
-        return creator;
-    }
+	private String label;
 
-    public void setCreator(IdentifiedUserEntity creator) {
-        this.creator = creator;
-    }
+	public EventGroupEntity getEventGroup() {
+		return eventGroup;
+	}
 
-    public String getLabel() {
-        return label;
-    }
+	public void setEventGroup(EventGroupEntity eventGroup) {
+		this.eventGroup = eventGroup;
+	}
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	public String getGroupKey() {
+		return groupKey;
+	}
 
-    public TagUserEntity getTagUser() {
-        return tagUser;
-    }
+	public void setGroupKey(String groupKey) {
+		this.groupKey = groupKey;
+	}
 
-    public void setTagUser(TagUserEntity tagUser) {
-        this.tagUser = tagUser;
-    }
+	public IdentifiedUserEntity getCreator() {
+		return creator;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public void setCreator(IdentifiedUserEntity creator) {
+		this.creator = creator;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof GroupKeyEntity)) {
-            return false;
-        }
-        GroupKeyEntity other = (GroupKeyEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.groupkey.GroupKeyEntity[ id=" + id + " ]";
-    }
-    
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public TagUserEntity getTagUser() {
+		return tagUser;
+	}
+
+	public void setTagUser(TagUserEntity tagUser) {
+		this.tagUser = tagUser;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof GroupKeyEntity)) {
+			return false;
+		}
+		GroupKeyEntity other = (GroupKeyEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
+
+	@Override
+	public String toString() {
+		return "com.moveatis.groupkey.GroupKeyEntity[ id=" + id + " ]";
+	}
+
 }

@@ -41,112 +41,113 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The bean manages user-related information in a session.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "userManagedBean")
 @SessionScoped
 public class UserManagedBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserManagedBean.class);
-    
-    private Locale locale;
-    private TimeZone timeZone;
-    private String languageString;
-    private String optionLanguageString;
+	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserManagedBean.class);
 
-    /**
-     * Creates a new instance of UserManagedBean.
-     */
-    public UserManagedBean() {
-        
-    }
+	private Locale locale;
+	private TimeZone timeZone;
+	private String languageString;
+	private String optionLanguageString;
 
-    /**
-     * Gets the locale to use in the user interface of the application.
-     */
-    public Locale getLocale() {
-        
-        if(this.locale == null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            this.locale = context.getViewRoot().getLocale();
-            this.languageString = this.locale.getLanguage();
-        }
-        return this.locale;
-    }
+	/**
+	 * Creates a new instance of UserManagedBean.
+	 */
+	public UserManagedBean() {
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getViewRoot().setLocale(this.locale);
-        
-        this.languageString = this.locale.getLanguage();
-    }
-    
-    public void setLocale(String language) {
-        
-        Locale newLocale = null;
-        
-        if(language.equalsIgnoreCase("fi")) {
-            newLocale = new Locale("fi", "FI");
-        } else if(language.equalsIgnoreCase("en")) {
-            newLocale = new Locale("en");
-        }
-        
-        if(newLocale != null) {
-            this.setLocale(newLocale);
-        }
-    }
-    
-    public void changeLocale(ActionEvent event) {
-        Locale finnishLocale = new Locale("fi", "FI");
-        Locale defaultLocale = new Locale("en");
-        
-        if(this.locale.getLanguage().equals(finnishLocale.getLanguage())) {
-            this.setLocale(defaultLocale);
-            this.setLanguageString(defaultLocale.getLanguage());
-            this.setOptionLanguageString(finnishLocale.getLanguage());
-        } else {
-            this.setLocale(finnishLocale);
-            this.setLanguageString(finnishLocale.getLanguage());
-            this.setOptionLanguageString(defaultLocale.getLanguage());
-        }
-        
-    }
+	}
 
-    public String getLanguageString() {
-        return languageString;
-    }
+	/**
+	 * Gets the locale to use in the user interface of the application.
+	 */
+	public Locale getLocale() {
 
-    public void setLanguageString(String languageString) {
-        this.languageString = languageString;
-    }
+		if (this.locale == null) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			this.locale = context.getViewRoot().getLocale();
+			this.languageString = this.locale.getLanguage();
+		}
+		return this.locale;
+	}
 
-    public TimeZone getTimeZone() {
-        return timeZone;
-    }
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.getViewRoot().setLocale(this.locale);
 
-    public void setTimeZone(TimeZone timeZone) {
-        this.timeZone = timeZone;
-    }
+		this.languageString = this.locale.getLanguage();
+	}
 
-    public String getOptionLanguageString() {
-        Locale finnishLocale = new Locale("fi", "FI");
-        
-        if(this.languageString == null) {
-            this.getLocale();
-        }
-        
-        if(this.languageString.equals(finnishLocale.getLanguage())) {
-            this.optionLanguageString = "English";
-        } else {
-            this.optionLanguageString = "Suomi";
-        }
-        
-        return optionLanguageString;
-    }
+	public void setLocale(String language) {
 
-    public void setOptionLanguageString(String optionLanguageString) {
-        this.optionLanguageString = optionLanguageString;
-    }
+		Locale newLocale = null;
+
+		if (language.equalsIgnoreCase("fi")) {
+			newLocale = new Locale("fi", "FI");
+		} else if (language.equalsIgnoreCase("en")) {
+			newLocale = new Locale("en");
+		}
+
+		if (newLocale != null) {
+			this.setLocale(newLocale);
+		}
+	}
+
+	public void changeLocale(ActionEvent event) {
+		Locale finnishLocale = new Locale("fi", "FI");
+		Locale defaultLocale = new Locale("en");
+
+		if (this.locale.getLanguage().equals(finnishLocale.getLanguage())) {
+			this.setLocale(defaultLocale);
+			this.setLanguageString(defaultLocale.getLanguage());
+			this.setOptionLanguageString(finnishLocale.getLanguage());
+		} else {
+			this.setLocale(finnishLocale);
+			this.setLanguageString(finnishLocale.getLanguage());
+			this.setOptionLanguageString(defaultLocale.getLanguage());
+		}
+
+	}
+
+	public String getLanguageString() {
+		return languageString;
+	}
+
+	public void setLanguageString(String languageString) {
+		this.languageString = languageString;
+	}
+
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
+	}
+
+	public String getOptionLanguageString() {
+		Locale finnishLocale = new Locale("fi", "FI");
+
+		if (this.languageString == null) {
+			this.getLocale();
+		}
+
+		if (this.languageString.equals(finnishLocale.getLanguage())) {
+			this.optionLanguageString = "English";
+		} else {
+			this.optionLanguageString = "Suomi";
+		}
+
+		return optionLanguageString;
+	}
+
+	public void setOptionLanguageString(String optionLanguageString) {
+		this.optionLanguageString = optionLanguageString;
+	}
 }

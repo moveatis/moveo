@@ -29,7 +29,6 @@
  */
 package com.moveatis.managedbeans;
 
-
 import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.interfaces.Mailer;
 import com.moveatis.interfaces.MessageBundle;
@@ -84,7 +83,8 @@ import javax.script.ScriptException;
 
 /**
  * The bean that serves the summary page. It is responsible for creating the
- * timeline model and for getting the attributes of an observation for the summary.
+ * timeline model and for getting the attributes of an observation for the
+ * summary.
  *
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
@@ -92,345 +92,337 @@ import javax.script.ScriptException;
 @ViewScoped
 public class SummaryManagedBean implements Serializable {
 
-    private TimelineModel timeline;
-    private final Date min;
-    private final Date start;
-    private final long zoomMin;
-    private final long zoomMax;
-    private Date max;
-    private Date duration;
-    private String recipientEmail;
-        
-    private ObservationEntity observation;
+	private TimelineModel timeline;
+	private final Date min;
+	private final Date start;
+	private final long zoomMin;
+	private final long zoomMax;
+	private Date max;
+	private Date duration;
+	private String recipientEmail;
 
-    private List<String> selectedSaveOptions;
+	private ObservationEntity observation;
 
-    private static final String MAIL_OPTION = "mail";
-    private static final String SAVE_OPTION = "save";
-    private static final String DOWNLOAD_OPTION = "download";
-    private static final String IMAGE_OPTION = "image";
+	private List<String> selectedSaveOptions;
 
-    private boolean observationSaved = false;
+	private static final String MAIL_OPTION = "mail";
+	private static final String SAVE_OPTION = "save";
+	private static final String DOWNLOAD_OPTION = "download";
+	private static final String IMAGE_OPTION = "image";
 
-    @Inject
-    private Observation observationEJB;
+	private boolean observationSaved = false;
 
-    @Inject
-    private Session sessionBean;
-    @Inject
-    private ObservationManagedBean observationManagedBean;
-    @Inject
-    private Mailer mailerEJB;
+	@Inject
+	private Observation observationEJB;
 
-    @Inject
-    private ValidationManagedBean validationBean;
+	@Inject
+	private Session sessionBean;
+	@Inject
+	private ObservationManagedBean observationManagedBean;
+	@Inject
+	private Mailer mailerEJB;
 
-    @Inject
-    @MessageBundle
-    private transient ResourceBundle messages;
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
+	@Inject
+	private ValidationManagedBean validationBean;
 
-    /**
-     * The default constructor initializes the timeline options.
-     */
-    public SummaryManagedBean() {
-        this.start = new Date(0);
-        this.min = new Date(0);
-        this.max = new Date(0);
-        this.zoomMin = 10 * 1000;
-        this.zoomMax = 24 * 60 * 60 * 1000;
-        this.selectedSaveOptions = new ArrayList<>();
-    }
+	@Inject
+	@MessageBundle
+	private transient ResourceBundle messages;
 
-    /**
-     * The post constructor creates the timeline on request.
-     */
-    @PostConstruct
-    protected void initialize() {
-        createTimeline();
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
-    /**
-     * Create timeline model. Add category groups as timeline event groups and
-     * records as timeline events.
-     */
-    private void createTimeline() {
-        timeline = new TimelineModel();
+	/**
+	 * The default constructor initializes the timeline options.
+	 */
+	public SummaryManagedBean() {
+		this.start = new Date(0);
+		this.min = new Date(0);
+		this.max = new Date(0);
+		this.zoomMin = 10 * 1000;
+		this.zoomMax = 24 * 60 * 60 * 1000;
+		this.selectedSaveOptions = new ArrayList<>();
+	}
 
-        observation = observationManagedBean.getObservationEntity();
-        List<RecordEntity> records = observation.getRecords();
+	/**
+	 * The post constructor creates the timeline on request.
+	 */
+	@PostConstruct
+	protected void initialize() {
+		createTimeline();
+	}
 
-        duration = new Date(observation.getDuration());
-        max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
+	/**
+	 * Create timeline model. Add category groups as timeline event groups and
+	 * records as timeline events.
+	 */
+	private void createTimeline() {
+		timeline = new TimelineModel();
 
-        // Add categories to timeline as timeline groups
-        int categoryNumber = 1;
-        for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
-            for (ObservationCategory category : categorySet.getCategories()) {
-                // Add category name inside element with class name
-                // use css style to hide them in timeline
-                // class name is intentionally without quotes, timeline expectional case
-                String numberedLabel
-                        = "<span class=categoryNumber>" + categoryNumber + ". </span>"
-                        + "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category.getName()) + "</span>"
-                        + "<span class=categorySet>" + StringEscapeUtils.escapeHtml4(categorySet.getName()) + "</span>";
-                String groupID = Long.toString(category.getTag());
-                TimelineGroup timelineGroup = new TimelineGroup(groupID, numberedLabel);
-                timeline.addGroup(timelineGroup);
-                // Add dummy records to show empty categories in timeline
-                TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, groupID, "dummyRecord");
-                timeline.add(timelineEvent);
-                categoryNumber++;
-            }
-        }
+		observation = observationManagedBean.getObservationEntity();
+		List<RecordEntity> records = observation.getRecords();
 
-        // Add records to timeline as timeline-events
-        for (RecordEntity record : records) {
-            ObservationCategory category = record.getCategory();
-            long startTime = record.getStartTime();
-            long endTime = record.getEndTime();
-            TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime),
-                    new Date(endTime), false, Long.toString(category.getTag()));
-            timeline.add(timelineEvent);
-        }
-    }
+		duration = new Date(observation.getDuration());
+		max = new Date(Math.round(this.observation.getDuration() * 1.1)); // timeline max 110% of obs. duration
 
-    /**
-     * Shows a message of the saved observation.
-     */
-    public void showObservationSavedMessage() {
-        if (observationSaved) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("sum_observationSaved"), ""));
-            observationSaved = false;
-        }
-    }
+		// Add categories to timeline as timeline groups
+		int categoryNumber = 1;
+		for (ObservationCategorySet categorySet : observationManagedBean.getCategorySetsInUse()) {
+			for (ObservationCategory category : categorySet.getCategories()) {
+				// Add category name inside element with class name
+				// use css style to hide them in timeline
+				// class name is intentionally without quotes, timeline expectional case
+				String numberedLabel = "<span class=categoryNumber>" + categoryNumber + ". </span>"
+						+ "<span class=categoryLabel>" + StringEscapeUtils.escapeHtml4(category.getName()) + "</span>"
+						+ "<span class=categorySet>" + StringEscapeUtils.escapeHtml4(categorySet.getName()) + "</span>";
+				String groupID = Long.toString(category.getTag());
+				TimelineGroup timelineGroup = new TimelineGroup(groupID, numberedLabel);
+				timeline.addGroup(timelineGroup);
+				// Add dummy records to show empty categories in timeline
+				TimelineEvent timelineEvent = new TimelineEvent("", new Date(0), false, groupID, "dummyRecord");
+				timeline.add(timelineEvent);
+				categoryNumber++;
+			}
+		}
 
-    /**
-     * Saves the current observation to the database.
-     */
-    public void saveCurrentObservation() {
-        observationManagedBean.saveObservationToDatabase();
-        observationSaved = true;
-    }
+		// Add records to timeline as timeline-events
+		for (RecordEntity record : records) {
+			ObservationCategory category = record.getCategory();
+			long startTime = record.getStartTime();
+			long endTime = record.getEndTime();
+			TimelineEvent timelineEvent = new TimelineEvent("", new Date(startTime), new Date(endTime), false,
+					Long.toString(category.getTag()));
+			timeline.add(timelineEvent);
+		}
+	}
 
-    /**
-     *
-     */
-    public void mailCurrentObservation() {
-        CSVFileBuilder csv = new CSVFileBuilder();
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
-        try {
-            String fileName = this.observation.getName();
-            // replace non-word ![a-ZA-Z_0-9] chars with underscope
-            fileName = fileName.replaceAll("\\W", "_");
-            File f = File.createTempFile(fileName, ".csv");
+	/**
+	 * Shows a message of the saved observation.
+	 */
+	public void showObservationSavedMessage() {
+		if (observationSaved) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("sum_observationSaved"), ""));
+			observationSaved = false;
+		}
+	}
 
-            StringBuilder msgBuilder = new StringBuilder();
-            String description = StringUtils.defaultIfEmpty(observation.getDescription(),
-                    bundle.getString("sum_descriptionNotSet"));
-            String target = StringUtils.defaultIfEmpty(observation.getTarget(),
-                    bundle.getString("sum_targetNotSet"));
-            String descriptionPartOfMessage = MessageFormat.format(bundle.getString("sum_descriptionWas"), description);
-            String targetPartOfMessage = MessageFormat.format(bundle.getString("sum_targetWas"), target);
-            String messageWithSender = MessageFormat.format(bundle.getString("sum_message"),
-                    sessionBean.getLoggedIdentifiedUser().getGivenName());
+	/**
+	 * Saves the current observation to the database.
+	 */
+	public void saveCurrentObservation() {
+		observationManagedBean.saveObservationToDatabase();
+		observationSaved = true;
+	}
 
-            msgBuilder
-                    .append(messageWithSender)
-                    .append("\n\n")
-                    .append(descriptionPartOfMessage)
-                    .append("\n\n")
-                    .append(targetPartOfMessage)
-                    .append("\n\n")
-                    .append(bundle.getString("emailSignature"));
+	/**
+	 *
+	 */
+	public void mailCurrentObservation() {
+		CSVFileBuilder csv = new CSVFileBuilder();
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
+		try {
+			String fileName = this.observation.getName();
+			// replace non-word ![a-ZA-Z_0-9] chars with underscope
+			fileName = fileName.replaceAll("\\W", "_");
+			File f = File.createTempFile(fileName, ".csv");
 
-            FileOutputStream fos = new FileOutputStream(f);
-            csv.buildCSV(fos, observation, ",");
-            fos.flush();
-            String[] recipients = {recipientEmail};
-            File[] files = {f};
-            mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"),
-                    msgBuilder.toString(), files);
-            //remove the temp file after sending it
-            f.delete(); // TODO: Check the return value.
-        } catch (IOException ex) {
-            LOGGER.error("Failed to create temporary file for sending observeraion by email.", ex);
-        }
-        observationSaved = true;
-    }
+			StringBuilder msgBuilder = new StringBuilder();
+			String description = StringUtils.defaultIfEmpty(observation.getDescription(),
+					bundle.getString("sum_descriptionNotSet"));
+			String target = StringUtils.defaultIfEmpty(observation.getTarget(), bundle.getString("sum_targetNotSet"));
+			String descriptionPartOfMessage = MessageFormat.format(bundle.getString("sum_descriptionWas"), description);
+			String targetPartOfMessage = MessageFormat.format(bundle.getString("sum_targetWas"), target);
+			String messageWithSender = MessageFormat.format(bundle.getString("sum_message"),
+					sessionBean.getLoggedIdentifiedUser().getGivenName());
 
-    /**
-     * File name converter.
-     */
-    private static String convertToFilename(String s) {
-        if (s == null || s.isEmpty()) {
-            return "unnamed";
-        }
-        return s.replaceAll("[^a-zA-Z0-9_]", "_");
-    }
+			msgBuilder.append(messageWithSender).append("\n\n").append(descriptionPartOfMessage).append("\n\n")
+					.append(targetPartOfMessage).append("\n\n").append(bundle.getString("emailSignature"));
 
-    /**
-     * Downloads the current observation.
-     *
-     * @throws IOException
-     */
-    public void downloadCurrentObservation() throws IOException {
-        String fileName = convertToFilename(observation.getName()) + ".csv";
+			FileOutputStream fos = new FileOutputStream(f);
+			csv.buildCSV(fos, observation, ",");
+			fos.flush();
+			String[] recipients = { recipientEmail };
+			File[] files = { f };
+			mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(),
+					files);
+			// remove the temp file after sending it
+			f.delete(); // TODO: Check the return value.
+		} catch (IOException ex) {
+			LOGGER.error("Failed to create temporary file for sending observeraion by email.", ex);
+		}
+		observationSaved = true;
+	}
 
-        FacesContext facesCtx = FacesContext.getCurrentInstance();
-        ExternalContext externalCtx = facesCtx.getExternalContext();
+	/**
+	 * File name converter.
+	 */
+	private static String convertToFilename(String s) {
+		if (s == null || s.isEmpty()) {
+			return "unnamed";
+		}
+		return s.replaceAll("[^a-zA-Z0-9_]", "_");
+	}
 
-        externalCtx.responseReset();
-        externalCtx.setResponseContentType("text/plain");
-        externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+	/**
+	 * Downloads the current observation.
+	 *
+	 * @throws IOException
+	 */
+	public void downloadCurrentObservation() throws IOException {
+		String fileName = convertToFilename(observation.getName()) + ".csv";
 
-        OutputStream outputStream = externalCtx.getResponseOutputStream();
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		ExternalContext externalCtx = facesCtx.getExternalContext();
 
-        CSVFileBuilder csv = new CSVFileBuilder();
-        csv.buildCSV(outputStream, observation, ",");
-        outputStream.flush();
+		externalCtx.responseReset();
+		externalCtx.setResponseContentType("text/plain");
+		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
-        facesCtx.responseComplete();
+		OutputStream outputStream = externalCtx.getResponseOutputStream();
 
-        observationSaved = true;
-    }
+		CSVFileBuilder csv = new CSVFileBuilder();
+		csv.buildCSV(outputStream, observation, ",");
+		outputStream.flush();
 
-    /**
-     * Do all the save operations selected by the user.
-     */
-    public void doSelectedSaveOperation() {
-        if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
-            try {
-                downloadCurrentObservation();
-            } catch (IOException e) {
-                //TODO: show error message
-                LOGGER.error("Failed to download the observation.", e);
-            }
-        }
-        if (selectedSaveOptions.contains(MAIL_OPTION)) {
-            mailCurrentObservation();
-        }
-        if (selectedSaveOptions.contains(SAVE_OPTION)) {
-            saveCurrentObservation();
-        }
-        
-    }
+		facesCtx.responseComplete();
 
-    /**
-     * Gets the timeline model.
-     */
-    public TimelineModel getTimeline() {
-        return timeline;
-    }
+		observationSaved = true;
+	}
 
-    /**
-     * Gets the minimum date of the timeline. The user cannot move the timeline
-     * before that date.
-     */
-    public Date getMin() {
-        return min;
-    }
+	/**
+	 * Do all the save operations selected by the user.
+	 */
+	public void doSelectedSaveOperation() {
+		if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
+			try {
+				downloadCurrentObservation();
+			} catch (IOException e) {
+				// TODO: show error message
+				LOGGER.error("Failed to download the observation.", e);
+			}
+		}
+		if (selectedSaveOptions.contains(MAIL_OPTION)) {
+			mailCurrentObservation();
+		}
+		if (selectedSaveOptions.contains(SAVE_OPTION)) {
+			saveCurrentObservation();
+		}
 
-    /**
-     * Gets the maximum date of the timeline. The user cannot move the timeline
-     * after that date.
-     */
-    public Date getMax() {
-        return max;
-    }
+	}
 
-    /**
-     *
-     */
-    public Date getDuration() {
-        return duration;
-    }
+	/**
+	 * Gets the timeline model.
+	 */
+	public TimelineModel getTimeline() {
+		return timeline;
+	}
 
-    /**
-     * Gets the start date of the timeline.
-     */
-    public Date getStart() {
-        return start;
-    }
+	/**
+	 * Gets the minimum date of the timeline. The user cannot move the timeline
+	 * before that date.
+	 */
+	public Date getMin() {
+		return min;
+	}
 
-    /**
-     * Gets the minimum zoom interval for the timeline in milliseconds.
-     */
-    public long getZoomMin() {
-        return zoomMin;
-    }
+	/**
+	 * Gets the maximum date of the timeline. The user cannot move the timeline
+	 * after that date.
+	 */
+	public Date getMax() {
+		return max;
+	}
 
-    /**
-     * Gets the maximum zoom interval for the timeline in milliseconds.
-     */
-    public long getZoomMax() {
-        return zoomMax;
-    }
+	/**
+	 *
+	 */
+	public Date getDuration() {
+		return duration;
+	}
 
-    /**
-     *
-     */
-    public String getRecipientEmail() {
-        return recipientEmail;
-    }
+	/**
+	 * Gets the start date of the timeline.
+	 */
+	public Date getStart() {
+		return start;
+	}
 
-    /**
-     *
-     */
-    public void setRecipientEmail(String recipientEmail) {
-        this.recipientEmail = recipientEmail;
-    }
+	/**
+	 * Gets the minimum zoom interval for the timeline in milliseconds.
+	 */
+	public long getZoomMin() {
+		return zoomMin;
+	}
 
-    /**
-     *
-     */
-    public ObservationEntity getObservation() {
-        return observation;
-    }
+	/**
+	 * Gets the maximum zoom interval for the timeline in milliseconds.
+	 */
+	public long getZoomMax() {
+		return zoomMax;
+	}
 
-    /**
-     *
-     */
-    public void setObservation(ObservationEntity observation) {
-        this.observation = observation;
-    }
+	/**
+	 *
+	 */
+	public String getRecipientEmail() {
+		return recipientEmail;
+	}
 
-    /**
-     *
-     */
-    public List<String> getSelectedSaveOptions() {
-        return selectedSaveOptions;
-    }
+	/**
+	 *
+	 */
+	public void setRecipientEmail(String recipientEmail) {
+		this.recipientEmail = recipientEmail;
+	}
 
-    /**
-     *
-     */
-    public void setSelectedSaveOptions(List<String> selectedSaveOptions) {
-        this.selectedSaveOptions = selectedSaveOptions;
-    }
+	/**
+	 *
+	 */
+	public ObservationEntity getObservation() {
+		return observation;
+	}
 
-    /**
-     *
-     */
-    public boolean getMailOptionChecked() {
-        return selectedSaveOptions.contains(MAIL_OPTION);
-    }
+	/**
+	 *
+	 */
+	public void setObservation(ObservationEntity observation) {
+		this.observation = observation;
+	}
 
-    /**
-     *
-     */
-    public boolean isObservationSaved() {
-        return observationSaved;
-    }
+	/**
+	 *
+	 */
+	public List<String> getSelectedSaveOptions() {
+		return selectedSaveOptions;
+	}
 
-    /**
-     *
-     */
-    public void setObservationSaved(boolean observationSaved) {
-        this.observationSaved = observationSaved;
-    }
-    
+	/**
+	 *
+	 */
+	public void setSelectedSaveOptions(List<String> selectedSaveOptions) {
+		this.selectedSaveOptions = selectedSaveOptions;
+	}
+
+	/**
+	 *
+	 */
+	public boolean getMailOptionChecked() {
+		return selectedSaveOptions.contains(MAIL_OPTION);
+	}
+
+	/**
+	 *
+	 */
+	public boolean isObservationSaved() {
+		return observationSaved;
+	}
+
+	/**
+	 *
+	 */
+	public void setObservationSaved(boolean observationSaved) {
+		this.observationSaved = observationSaved;
+	}
+
 }

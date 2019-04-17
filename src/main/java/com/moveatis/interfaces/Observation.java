@@ -36,36 +36,35 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the observation entity.
- * The observation contains the records a user made when
- * he or she was observing some event.
+ * The interface to manage the observation entity. The observation contains the
+ * records a user made when he or she was observing some event.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Observation.class)
 public interface Observation {
 
-    void create(ObservationEntity observationEntity);
+	void create(ObservationEntity observationEntity);
 
-    void edit(ObservationEntity observationEntity);
+	void edit(ObservationEntity observationEntity);
 
-    void remove(ObservationEntity observationEntity);
-    
-    void removeUnsavedObservation(ObservationEntity observationEntity);
+	void remove(ObservationEntity observationEntity);
 
-    ObservationEntity find(Object id);
+	void removeUnsavedObservation(ObservationEntity observationEntity);
 
-    List<ObservationEntity> findAll();
+	ObservationEntity find(Object id);
 
-    List<ObservationEntity> findAllByObserver(AbstractUser observer);
+	List<ObservationEntity> findAll();
 
-    List<ObservationEntity> findWithoutEvent(AbstractUser observer);
+	List<ObservationEntity> findAllByObserver(AbstractUser observer);
 
-    List<ObservationEntity> findByEventsNotOwned(AbstractUser observer);
+	List<ObservationEntity> findWithoutEvent(AbstractUser observer);
 
-    List<ObservationEntity> findRange(int[] range);
-    
-    List<RecordEntity> findRecords(Object id);
+	List<ObservationEntity> findByEventsNotOwned(AbstractUser observer);
 
-    int count();
+	List<ObservationEntity> findRange(int[] range);
+
+	List<RecordEntity> findRecords(Object id);
+
+	int count();
 }

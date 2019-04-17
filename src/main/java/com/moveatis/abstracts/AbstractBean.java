@@ -40,7 +40,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * The super class to the enterprise beans manages the persistent connection and entities.
+ * The super class to the enterprise beans manages the persistent connection and
+ * entities.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @param <T> The entity the child of this bean uses
@@ -48,104 +49,109 @@ import javax.persistence.criteria.Root;
  */
 public abstract class AbstractBean<T extends BaseEntity> {
 
-    private Class<T> entityClass;
+	private Class<T> entityClass;
 
-    public AbstractBean(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
+	public AbstractBean(Class<T> entityClass) {
+		this.entityClass = entityClass;
+	}
 
-    protected abstract EntityManager getEntityManager();
+	protected abstract EntityManager getEntityManager();
 
-    /**
-     * Creates a new entity.
-     * @param entity The entity to be created.
-     */
-    public void create(T entity) {
-        getEntityManager().persist(entity);
-    }
+	/**
+	 * Creates a new entity.
+	 * 
+	 * @param entity The entity to be created.
+	 */
+	public void create(T entity) {
+		getEntityManager().persist(entity);
+	}
 
-    /**
-     * Edits the entity.
-     * @param entity The entity to be edited.
-     */
-    public void edit(T entity) {
-        getEntityManager().merge(entity);
-    }
+	/**
+	 * Edits the entity.
+	 * 
+	 * @param entity The entity to be edited.
+	 */
+	public void edit(T entity) {
+		getEntityManager().merge(entity);
+	}
 
-    /**
-     * Removes the entity.
-     * @param entity The entity to be removed.
-     */
-    public void remove(T entity) {
-        entity.setRemoved(); //entity is not actually removed, only the removed-date is set
-        getEntityManager().merge(entity);
-    }
+	/**
+	 * Removes the entity.
+	 * 
+	 * @param entity The entity to be removed.
+	 */
+	public void remove(T entity) {
+		entity.setRemoved(); // entity is not actually removed, only the removed-date is set
+		getEntityManager().merge(entity);
+	}
 
+	/**
+	 * Finds an entity and returns it if it's not out of date.
+	 * 
+	 * @param id The id of the entity to be found.
+	 * @return The entity, if it is found. Otherwise null.
+	 */
+	public T find(Object id) {
+		T entity = (T) getEntityManager().find(entityClass, id);
 
-    /**
-     * Finds an entity and returns it if it's not out of date.
-     * @param id The id of the entity to be found.
-     * @return The entity, if it is found. Otherwise null.
-     */
-    public T find(Object id) {
-        T entity = (T)getEntityManager().find(entityClass, id);
-        
-        if(entity.getRemoved() != null) {
-            Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
-            Calendar entityCalendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
-            entityCalendar.setTime(entity.getRemoved());
-            
-            if(entityCalendar.before(calendar)) {
-                return entity;
-            } else {
-                return null;
-            }
-        } else {
-            return entity;
-        }
-    }
+		if (entity.getRemoved() != null) {
+			Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
+			Calendar entityCalendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
+			entityCalendar.setTime(entity.getRemoved());
 
-    /**
-     * Finds all the entities, whose type matches the requested entity.
-     * @return A list of all the entities of the requested entity type.
-     */
-    public List<T> findAll() {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<T> cq = cb.createQuery(entityClass);
-      
-        Root<T> rt = cq.from(entityClass);
-        CriteriaQuery<T> all = cq.select(rt);
-        
-        TypedQuery<T> allQuery = getEntityManager().createQuery(all);
-        return allQuery.getResultList();
-    }
+			if (entityCalendar.before(calendar)) {
+				return entity;
+			} else {
+				return null;
+			}
+		} else {
+			return entity;
+		}
+	}
 
-    /**
-     * Finds and returns the list of entities in the specified range.
-     * The range array has two elements: the minimum and the maximum of the range.
-     * 
-     * @param range An array with two elements.
-     * @return A list of the entities in the range.
-     */
-    public List<T> findRange(int[] range) {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        Query q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0] + 1);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
-    }
+	/**
+	 * Finds all the entities, whose type matches the requested entity.
+	 * 
+	 * @return A list of all the entities of the requested entity type.
+	 */
+	public List<T> findAll() {
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(entityClass);
 
-    /**
-     * Counts how many entities there are of the requested type.
-     * @return The count of the entities.
-     */
-    public int count() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
-    }
-    
+		Root<T> rt = cq.from(entityClass);
+		CriteriaQuery<T> all = cq.select(rt);
+
+		TypedQuery<T> allQuery = getEntityManager().createQuery(all);
+		return allQuery.getResultList();
+	}
+
+	/**
+	 * Finds and returns the list of entities in the specified range. The range
+	 * array has two elements: the minimum and the maximum of the range.
+	 * 
+	 * @param range An array with two elements.
+	 * @return A list of the entities in the range.
+	 */
+	public List<T> findRange(int[] range) {
+		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		cq.select(cq.from(entityClass));
+		Query q = getEntityManager().createQuery(cq);
+		q.setMaxResults(range[1] - range[0] + 1);
+		q.setFirstResult(range[0]);
+		return q.getResultList();
+	}
+
+	/**
+	 * Counts how many entities there are of the requested type.
+	 * 
+	 * @return The count of the entities.
+	 */
+	public int count() {
+		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		Root<T> rt = cq.from(entityClass);
+		cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+		Query q = getEntityManager().createQuery(cq);
+		return ((Long) q.getSingleResult()).intValue();
+	}
+
 }

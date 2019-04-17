@@ -50,52 +50,52 @@ import org.slf4j.LoggerFactory;
  */
 @Stateless
 public class InstallationBean implements Serializable {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(InstallationBean.class);
-    private static final String REPORT_EMAIL="sami.m.j.kallio@student.jyu.fi";
-    
-    private ApplicationEntity applicationEntity;
-    
-    @Inject
-    private Application applicationEJB;
-    
-    @Inject
-    private Role roleEJB;
-    
-    @Inject
-    private AnonUser anonUserEJB;
-    
-    @Inject
-    private Session sessionEJB;
-           
-    public InstallationBean() {
-        
-    }
-    
-    /**
-     * The method creates the application, which includes setting the 
-     * installation date, adding the user to superusers, and adding the
-     * reporting email address, where possible error reports are sent.
-     * 
-     * @return enum, which result of the installation.
-     */
-    public ApplicationStatusCode createApplication() {
-        
-        if(!applicationEJB.checkInstalled()) {
-            
-            applicationEntity = new ApplicationEntity();
-            applicationEntity.setApplicationInstalled(Calendar.getInstance().getTime());
-            applicationEntity.setSuperUsers(roleEJB.listSuperusers());
-            applicationEntity.setReportEmail(REPORT_EMAIL);
-            applicationEJB.create(applicationEntity);
-            
-            AnonUserEntity anonEntity = new AnonUserEntity();
-            anonEntity.setCreator(sessionEJB.getLoggedIdentifiedUser());
-            anonUserEJB.create(anonEntity);
 
-            return ApplicationStatusCode.INSTALLATION_OK;
-        }
-        
-        return ApplicationStatusCode.ALREADY_INSTALLED;
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(InstallationBean.class);
+	private static final String REPORT_EMAIL = "sami.m.j.kallio@student.jyu.fi";
+
+	private ApplicationEntity applicationEntity;
+
+	@Inject
+	private Application applicationEJB;
+
+	@Inject
+	private Role roleEJB;
+
+	@Inject
+	private AnonUser anonUserEJB;
+
+	@Inject
+	private Session sessionEJB;
+
+	public InstallationBean() {
+
+	}
+
+	/**
+	 * The method creates the application, which includes setting the installation
+	 * date, adding the user to superusers, and adding the reporting email address,
+	 * where possible error reports are sent.
+	 * 
+	 * @return enum, which result of the installation.
+	 */
+	public ApplicationStatusCode createApplication() {
+
+		if (!applicationEJB.checkInstalled()) {
+
+			applicationEntity = new ApplicationEntity();
+			applicationEntity.setApplicationInstalled(Calendar.getInstance().getTime());
+			applicationEntity.setSuperUsers(roleEJB.listSuperusers());
+			applicationEntity.setReportEmail(REPORT_EMAIL);
+			applicationEJB.create(applicationEntity);
+
+			AnonUserEntity anonEntity = new AnonUserEntity();
+			anonEntity.setCreator(sessionEJB.getLoggedIdentifiedUser());
+			anonUserEJB.create(anonEntity);
+
+			return ApplicationStatusCode.INSTALLATION_OK;
+		}
+
+		return ApplicationStatusCode.ALREADY_INSTALLED;
+	}
 }

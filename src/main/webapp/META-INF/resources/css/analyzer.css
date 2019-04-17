@@ -34,31 +34,29 @@
     Author     : Ilari Paananen
     Changed	   : 4.4.2019, Petra Puumala
 */
-
 body {
-     text-align: center;
-     /* Disable text selection.
+	text-align: center;
+	/* Disable text selection.
         Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
-     -webkit-touch-callout: none; /* iOS Safari */
-     -webkit-user-select: none;   /* Chrome/Safari/Opera */
-     -khtml-user-select: none;    /* Konqueror */
-     -moz-user-select: none;      /* Firefox */
-     -ms-user-select: none;       /* IE/Edge */
-     user-select: none;              /* non-prefixed version, currently
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE/Edge */
+	user-select: none; /* non-prefixed version, currently
                                      not supported by any browser */
 }
 
 #naviHead, #Footer {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 #mainPage {
 	width: 100%;
-    margin: auto;
-    padding: 0;
-    display: inline-block;
-    text-align: center;
-
+	margin: auto;
+	padding: 0;
+	display: inline-block;
+	text-align: center;
 }
 
 #index {
@@ -72,37 +70,37 @@ body {
 }
 
 #buttons {
-	display:inline-block;
+	display: inline-block;
 	margin-right: 0;
 	margin-left: auto;
 	width: 74%;
 }
 
 #texts {
-	display:inline-block;	
+	display: inline-block;
 	width: 25%;
 	hyphens: auto;
-  text-overflow: ellipsis;
-  overflow: hidden; 
-  white-space: nowrap;
-  padding-top: 0.5em;
-   vertical-align: top;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-top: 0.5em;
+	vertical-align: top;
 }
 
 #content {
 	width: 60%;
-    margin: 0;
-    padding: 0;
-    display: inline-block;    
+	margin: 0;
+	padding: 0;
+	display: inline-block;
 }
 
 #content button {
 	padding: 0.5em;
-    border: 0;
-    font-size: 1em;
-    display: inline-block;
-    min-width: 2.5em;
-    max-width: 5em;
+	border: 0;
+	font-size: 1em;
+	display: inline-block;
+	min-width: 2.5em;
+	max-width: 5em;
 }
 
 #content .ui-state-active {
@@ -121,38 +119,39 @@ body {
 }
 
 #categoryContent {
-    max-width: 100%;
-    list-style-type: none;
-    background: rgba(85, 102, 119, 0.2);
-    padding: 0.5em;
-    border-radius: 0.5em;
-    position: relative;
+	max-width: 100%;
+	list-style-type: none;
+	background: rgba(85, 102, 119, 0.2);
+	padding: 0.5em;
+	border-radius: 0.5em;
+	position: relative;
 }
 
 #basicContent {
 	width: 60%;
-    margin: 0;
-    padding: 0;
-    display: inline-block;    
-    padding-bottom: 1em;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	padding-bottom: 1em;
 }
 
-.ui-button {    
+.ui-button {
 	display: inline-block;
-    border: none;
-    text-shadow: none;
-    margin: 0.2em 0.2em;    background-color: #008AB9;
-    background: linear-gradient(0deg, #008AB9, #10A1D1);
-    cursor: pointer;
-    color: white;
-    box-shadow:none;
-    max-width: 12em;
+	border: none;
+	text-shadow: none;
+	margin: 0.2em 0.2em;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+	max-width: 12em;
 }
 
 .ui-button-text {
-  text-overflow: ellipsis;
-  overflow: hidden; 
-  white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .ui-button.ui-state-active {
@@ -166,80 +165,75 @@ body {
 }
 
 @media screen and (max-width: 1050px) {
-  #texts {
-    display:inline-block;	
-    width: 100%;
-    hyphens: auto;
-    text-overflow: ellipsis;
-    overflow: hidden; 
-    white-space: nowrap;
-    padding-top: 0.5em;
-    vertical-align: top;
-  }
-
-  #buttons {
-    display:inline-block;
-    margin-right: 0;
-    margin-left: auto;
-    width: 100%;
-  }
+	#texts {
+		display: inline-block;
+		width: 100%;
+		hyphens: auto;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		padding-top: 0.5em;
+		vertical-align: top;
+	}
+	#buttons {
+		display: inline-block;
+		margin-right: 0;
+		margin-left: auto;
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 600px) {
-#index {
-	width: 100%;
-	display: flex;
-	flex-flow: row wrap;
-	overflow:hidden;
-}
-
-#pageNumber {
-	display: block;
-	margin: auto;
-	order: 1;
-	width: 100%;;
-}
-
-.arrows {
-	order:2;
-	margin: auto;
-}
-
-  #texts {
-    display:inline-block;	
-    width: 100%;
-    hyphens: auto;
-    text-overflow: ellipsis;
-    overflow: hidden; 
-    white-space: nowrap;
-    padding-top: 0.5em;
-    vertical-align: top;
-  }
-
-  #buttons {
-    display:inline-block;
-    margin-right: 0;
-    margin-left: auto;
-    width: 100%;
-  }
+	#index {
+		width: 100%;
+		display: flex;
+		flex-flow: row wrap;
+		overflow: hidden;
+	}
+	#pageNumber {
+		display: block;
+		margin: auto;
+		order: 1;
+		width: 100%;;
+	}
+	.arrows {
+		order: 2;
+		margin: auto;
+	}
+	#texts {
+		display: inline-block;
+		width: 100%;
+		hyphens: auto;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		padding-top: 0.5em;
+		vertical-align: top;
+	}
+	#buttons {
+		display: inline-block;
+		margin-right: 0;
+		margin-left: auto;
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 480px) {
-  .arrows .ui-button {
-	margin: 0;
-	width: 2.6em;
-  }
+	.arrows .ui-button {
+		margin: 0;
+		width: 2.6em;
+	}
 }
 
 @media screen and (max-width: 400px) {
-  .ui-button {    
-	display: inline-block;
-    border: none;
-    text-shadow: none;
-    margin: 0.2em 0.2em;
-    cursor: pointer;
-    color: white;
-    box-shadow:none;
-    max-width: 8em;
-  }
+	.ui-button {
+		display: inline-block;
+		border: none;
+		text-shadow: none;
+		margin: 0.2em 0.2em;
+		cursor: pointer;
+		color: white;
+		box-shadow: none;
+		max-width: 8em;
+	}
 }

@@ -42,53 +42,52 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- * The entity is the base of all the entities of the application. It has the
- * id and the dates for creation and removal. Like the MappedSuperclass, it's
- * not persisted to the database itself.
+ * The entity is the base of all the entities of the application. It has the id
+ * and the dates for creation and removal. Like the MappedSuperclass, it's not
+ * persisted to the database itself.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 
 @MappedSuperclass
 public abstract class BaseEntity {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
-    private Date created;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date removed;
-    
-    @PrePersist
-    public void setCreated() {
-        Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
-        created = calendar.getTime();
-    }
-    
-    public Date getCreated() {
-        return this.created;
-    }
-    
-    protected void setRemoved() {
-        Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
-        removed = calendar.getTime();
-    }
-    
-    protected Date getRemoved() {
-        return this.removed;
-    }
 
-    public Long getId() {
-        return id;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	protected Long id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    
-    
+	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
+	private Date created;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date removed;
+
+	@PrePersist
+	public void setCreated() {
+		Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
+		created = calendar.getTime();
+	}
+
+	public Date getCreated() {
+		return this.created;
+	}
+
+	protected void setRemoved() {
+		Calendar calendar = Calendar.getInstance(TimeZoneInformation.getTimeZone());
+		removed = calendar.getTime();
+	}
+
+	protected Date getRemoved() {
+		return this.removed;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

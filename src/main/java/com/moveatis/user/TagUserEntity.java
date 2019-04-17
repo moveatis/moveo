@@ -42,71 +42,68 @@ import javax.persistence.Table;
 
 /**
  * The entity represent the data for accessing with a group key into Moveatis.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(
-            name="findTagUserByTag",
-            query="SELECT user FROM TagUserEntity user WHERE user.groupKey=:groupKey"
-        )
-})
-@Table(name="TAG_USER")
+		@NamedQuery(name = "findTagUserByTag", query = "SELECT user FROM TagUserEntity user WHERE user.groupKey=:groupKey") })
+@Table(name = "TAG_USER")
 public class TagUserEntity extends AbstractUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @OneToOne(cascade=PERSIST)
-    private GroupKeyEntity groupKey;
-    
-    @ManyToOne
-    @JoinColumn(name="CREATOR_ID")
-    private IdentifiedUserEntity creator;
-    
-    private String label;
-    
-    public GroupKeyEntity getGroupKey() {
-        return groupKey;
-    }
+	@OneToOne(cascade = PERSIST)
+	private GroupKeyEntity groupKey;
 
-    public void setGroupKey(GroupKeyEntity groupKey) {
-        this.groupKey = groupKey;
-    }
+	@ManyToOne
+	@JoinColumn(name = "CREATOR_ID")
+	private IdentifiedUserEntity creator;
 
-    public IdentifiedUserEntity getCreator() {
-        return creator;
-    }
+	private String label;
 
-    public void setCreator(IdentifiedUserEntity creator) {
-        this.creator = creator;
-    }
+	public GroupKeyEntity getGroupKey() {
+		return groupKey;
+	}
 
-    public String getLabel() {
-        return label;
-    }
+	public void setGroupKey(GroupKeyEntity groupKey) {
+		this.groupKey = groupKey;
+	}
 
-    public void setLabel(String label) {
-        this.label = label;
-    } 
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public IdentifiedUserEntity getCreator() {
+		return creator;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof TagUserEntity)) {
-            return false;
-        }
-        TagUserEntity other = (TagUserEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	public void setCreator(IdentifiedUserEntity creator) {
+		this.creator = creator;
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.user.TagUserEntity[ id=" + id + " ]";
-    }
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof TagUserEntity)) {
+			return false;
+		}
+		TagUserEntity other = (TagUserEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
+
+	@Override
+	public String toString() {
+		return "com.moveatis.user.TagUserEntity[ id=" + id + " ]";
+	}
 }

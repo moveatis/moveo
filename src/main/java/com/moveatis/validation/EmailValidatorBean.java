@@ -46,43 +46,44 @@ import org.primefaces.validate.ClientValidator;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @FacesValidator("emailValidator")
-public class EmailValidatorBean implements Validator, ClientValidator{
+public class EmailValidatorBean implements Validator, ClientValidator {
 
-    public EmailValidatorBean() {
-        
-    }
+	public EmailValidatorBean() {
 
-    /**
-     * Validates the email address.
-     * @param context The FacesContext for the session.
-     * @param component The component to be validated.
-     * @param value The value for the component.
-     * @throws ValidatorException if the email address was not valid.
-     */
-    @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if(value == null) {
-            return;
-        }
-        
-        String email = (String)value;
-        EmailValidator emailValidator = EmailValidator.getInstance();
-        if(emailValidator.isValid(email)) {
-            
-        } else {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation error",
-                email + " is not a valid email address"));
-        }
-    }
+	}
 
-    @Override
-    public Map<String, Object> getMetadata() {
-        return null;
-    }
+	/**
+	 * Validates the email address.
+	 * 
+	 * @param context   The FacesContext for the session.
+	 * @param component The component to be validated.
+	 * @param value     The value for the component.
+	 * @throws ValidatorException if the email address was not valid.
+	 */
+	@Override
+	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+		if (value == null) {
+			return;
+		}
 
-    @Override
-    public String getValidatorId() {
-        return "emailValidator";
-    }
+		String email = (String) value;
+		EmailValidator emailValidator = EmailValidator.getInstance();
+		if (emailValidator.isValid(email)) {
+
+		} else {
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation error",
+					email + " is not a valid email address"));
+		}
+	}
+
+	@Override
+	public Map<String, Object> getMetadata() {
+		return null;
+	}
+
+	@Override
+	public String getValidatorId() {
+		return "emailValidator";
+	}
 
 }

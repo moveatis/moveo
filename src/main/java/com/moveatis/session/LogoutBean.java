@@ -41,29 +41,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The bean manages logging out of Moveatis, which includes invalidating the session
- * and redirecting the user to the Shibboleth logout URI.
+ * The bean manages logging out of Moveatis, which includes invalidating the
+ * session and redirecting the user to the Shibboleth logout URI.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="logoutBean")
+@Named(value = "logoutBean")
 @RequestScoped
 public class LogoutBean {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(LogoutBean.class);
 
-    public LogoutBean() {
-        
-    }
-    
-    /**
-     * Logs the user out by invalidating the session and redirecting the user to
-     * the Shibboleth logout URI.
-     */
-    public void logOut(ActionEvent event) throws IOException {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.invalidateSession();
-                
-        context.redirect(RedirectURLs.SHIBBOLET_LOGOUT_URL);
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(LogoutBean.class);
+
+	public LogoutBean() {
+
+	}
+
+	/**
+	 * Logs the user out by invalidating the session and redirecting the user to the
+	 * Shibboleth logout URI.
+	 */
+	public void logOut(ActionEvent event) throws IOException {
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		context.invalidateSession();
+
+		context.redirect(RedirectURLs.SHIBBOLET_LOGOUT_URL);
+	}
 
 }

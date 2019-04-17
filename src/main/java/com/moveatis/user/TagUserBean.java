@@ -41,32 +41,33 @@ import javax.persistence.TypedQuery;
 /**
  * The EJB is used in managing of TagUser, which represents the user account for
  * accessing with a group key into Moveatis.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class TagUserBean extends AbstractBean<TagUserEntity> implements TagUser {
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
-    
-    public TagUserBean() {
-        super(TagUserEntity.class);
-    }
-    
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Override
-    public TagUserEntity findByKey(GroupKeyEntity groupkey) {
-        TypedQuery<TagUserEntity> query = em.createNamedQuery("findTagUserByTag", TagUserEntity.class);
-        query.setParameter("groupKey", groupkey);
-        try {
-            TagUserEntity tagUserEntity = query.getSingleResult();
-            return tagUserEntity;
-        } catch(NoResultException nre) {
-            return null;
-        }
-    }
+	public TagUserBean() {
+		super(TagUserEntity.class);
+	}
+
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	@Override
+	public TagUserEntity findByKey(GroupKeyEntity groupkey) {
+		TypedQuery<TagUserEntity> query = em.createNamedQuery("findTagUserByTag", TagUserEntity.class);
+		query.setParameter("groupKey", groupkey);
+		try {
+			TagUserEntity tagUserEntity = query.getSingleResult();
+			return tagUserEntity;
+		} catch (NoResultException nre) {
+			return null;
+		}
+	}
 }

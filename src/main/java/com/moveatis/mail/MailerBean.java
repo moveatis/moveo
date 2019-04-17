@@ -50,119 +50,120 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The class implements the Mailer interface, and takes care of mailing to the users
- * the requested information.
+ * The class implements the Mailer interface, and takes care of mailing to the
+ * users the requested information.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class MailerBean implements Mailer {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(MailerBean.class);
-    
-    private static final String FROM = "donotreply@moveatis.sport.jyu.fi";
-    
-    private static final String CHARSET = "UTF-8";
-    
 
-    public MailerBean() {
-        
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(MailerBean.class);
 
-    /**
-     * Sends email to the recipients.
-     * 
-     * @param recipients An array of the users to whom the mail is sent.
-     * @param subject The subject of the mail.
-     * @param message The message for the mail.
-     * @return enum that states if the mail was sent successfully or not.
-     */
-    @Override
-    public MailStatus sendEmail(final String[] recipients, final String subject, final String message) {
-        
-        try {
-            MimeMessage msg = setMessage(recipients, subject);
-            MimeBodyPart textPart = new MimeBodyPart();
-            textPart.setText(message, CHARSET);
-            
-            MimeMultipart multipart = new MimeMultipart();
-            multipart.addBodyPart(textPart);
-            
-            msg.setContent(multipart);
-            Transport.send(msg);
-            
-            return MailStatus.MAIL_SENT_OK;
-        } catch (MessagingException ex) {
-            LOGGER.error("Error in email", ex);
-        }
-        
-        return MailStatus.MAIL_SENT_FAILED;
-    }
+	private static final String FROM = "donotreply@moveatis.sport.jyu.fi";
 
-    /**
-     * Sends email with the given attachment files.
-     * 
-     * @param recipients An array of the users to whom the mail is sent.
-     * @param subject The subject of the mail.
-     * @param message The message for the mail.
-     * @param attachmentFiles An array of the files to be attached to the mail.
-     * @return enum that states if the mail was sent successfully or not.
-     */
-    @Override
-    public MailStatus sendEmailWithAttachment(final String[] recipients, final String subject, final String message, final File[] attachmentFiles) {
-        
-        try {
-            MimeMessage msg = setMessage(recipients,subject);
-            MimeBodyPart textPart = new MimeBodyPart();
-            textPart.setText(message, CHARSET);
-            
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(textPart);
-            
-            for(File f:attachmentFiles) {
-                DataSource source = new FileDataSource(f);
-                MimeBodyPart attachPart = new MimeBodyPart();
-                attachPart.setDataHandler(new DataHandler(source));
-                attachPart.setFileName(f.getName());
-                
-                multipart.addBodyPart(attachPart);
-            }
-            
-            msg.setContent(multipart);
-            Transport.send(msg);
-            
-            return MailStatus.MAIL_SENT_OK;
-            
-        } catch(MessagingException ex) {
-            LOGGER.error("Error in email", ex);
-        } 
-        
-        return MailStatus.MAIL_SENT_FAILED;
-    }
-    
-    /**
-     * Creates the mime message, which is sent to the recipients.
-     * 
-     * @param recipients An array of the users to whom the mail is sent.
-     * @param subject The subject of the mail.
-     * @param message The message for the mail.
-     * @return The MimeMessage containing the necessary information for sending the email.
-     * @throws MessagingException If there is an error in sending the email.
-     */
-    private MimeMessage setMessage(final String[] recipients, final String subject) throws MessagingException {
-        Properties props = System.getProperties();
-        props.setProperty("mail.smtp.host", RedirectURLs.SMTP_HOST);
-        props.setProperty("mail.mime.charset", CHARSET);
-        Session session = Session.getDefaultInstance(props);
-        MimeMessage msg = new MimeMessage(session);
-        
-        msg.setFrom(FROM);
-        for(String recipient:recipients) {
-            msg.addRecipients(Message.RecipientType.TO, recipient);
-        }
+	private static final String CHARSET = "UTF-8";
 
-        msg.setSubject(subject, CHARSET);
+	public MailerBean() {
 
-        return msg;
-    }
+	}
+
+	/**
+	 * Sends email to the recipients.
+	 * 
+	 * @param recipients An array of the users to whom the mail is sent.
+	 * @param subject    The subject of the mail.
+	 * @param message    The message for the mail.
+	 * @return enum that states if the mail was sent successfully or not.
+	 */
+	@Override
+	public MailStatus sendEmail(final String[] recipients, final String subject, final String message) {
+
+		try {
+			MimeMessage msg = setMessage(recipients, subject);
+			MimeBodyPart textPart = new MimeBodyPart();
+			textPart.setText(message, CHARSET);
+
+			MimeMultipart multipart = new MimeMultipart();
+			multipart.addBodyPart(textPart);
+
+			msg.setContent(multipart);
+			Transport.send(msg);
+
+			return MailStatus.MAIL_SENT_OK;
+		} catch (MessagingException ex) {
+			LOGGER.error("Error in email", ex);
+		}
+
+		return MailStatus.MAIL_SENT_FAILED;
+	}
+
+	/**
+	 * Sends email with the given attachment files.
+	 * 
+	 * @param recipients      An array of the users to whom the mail is sent.
+	 * @param subject         The subject of the mail.
+	 * @param message         The message for the mail.
+	 * @param attachmentFiles An array of the files to be attached to the mail.
+	 * @return enum that states if the mail was sent successfully or not.
+	 */
+	@Override
+	public MailStatus sendEmailWithAttachment(final String[] recipients, final String subject, final String message,
+			final File[] attachmentFiles) {
+
+		try {
+			MimeMessage msg = setMessage(recipients, subject);
+			MimeBodyPart textPart = new MimeBodyPart();
+			textPart.setText(message, CHARSET);
+
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(textPart);
+
+			for (File f : attachmentFiles) {
+				DataSource source = new FileDataSource(f);
+				MimeBodyPart attachPart = new MimeBodyPart();
+				attachPart.setDataHandler(new DataHandler(source));
+				attachPart.setFileName(f.getName());
+
+				multipart.addBodyPart(attachPart);
+			}
+
+			msg.setContent(multipart);
+			Transport.send(msg);
+
+			return MailStatus.MAIL_SENT_OK;
+
+		} catch (MessagingException ex) {
+			LOGGER.error("Error in email", ex);
+		}
+
+		return MailStatus.MAIL_SENT_FAILED;
+	}
+
+	/**
+	 * Creates the mime message, which is sent to the recipients.
+	 * 
+	 * @param recipients An array of the users to whom the mail is sent.
+	 * @param subject    The subject of the mail.
+	 * @param message    The message for the mail.
+	 * @return The MimeMessage containing the necessary information for sending the
+	 *         email.
+	 * @throws MessagingException If there is an error in sending the email.
+	 */
+	private MimeMessage setMessage(final String[] recipients, final String subject) throws MessagingException {
+		Properties props = System.getProperties();
+		props.setProperty("mail.smtp.host", RedirectURLs.SMTP_HOST);
+		props.setProperty("mail.mime.charset", CHARSET);
+		Session session = Session.getDefaultInstance(props);
+		MimeMessage msg = new MimeMessage(session);
+
+		msg.setFrom(FROM);
+		for (String recipient : recipients) {
+			msg.addRecipients(Message.RecipientType.TO, recipient);
+		}
+
+		msg.setSubject(subject, CHARSET);
+
+		return msg;
+	}
 }

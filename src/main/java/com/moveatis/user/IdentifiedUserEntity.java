@@ -39,78 +39,75 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * The entity represents the individual user, which is identified 
- * using the Shibboleth identity system of Jyväskylä University.
+ * The entity represents the individual user, which is identified using the
+ * Shibboleth identity system of Jyväskylä University.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(
-            name="findUserByName",
-            query="SELECT user FROM IdentifiedUserEntity user WHERE user.givenName=:givenName"
-        )
-})
-@Table(name="IDENTIFIED_USER")
+		@NamedQuery(name = "findUserByName", query = "SELECT user FROM IdentifiedUserEntity user WHERE user.givenName=:givenName") })
+@Table(name = "IDENTIFIED_USER")
 public class IdentifiedUserEntity extends AbstractUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @OneToOne(mappedBy = "userEntity", cascade=PERSIST)
-    private IdentityProviderInformationEntity identityProviderInformation;
-    
-    private String givenName;
-    private String email;
+	private static final long serialVersionUID = 1L;
 
-    public IdentityProviderInformationEntity getIdentityProviderInformation() {
-        return identityProviderInformation;
-    }
+	@OneToOne(mappedBy = "userEntity", cascade = PERSIST)
+	private IdentityProviderInformationEntity identityProviderInformation;
 
-    public void setIdentityProviderInformation(IdentityProviderInformationEntity identityProviderInformation) {
-        this.identityProviderInformation = identityProviderInformation;
-    }
+	private String givenName;
+	private String email;
 
-    public String getGivenName() {
-        return givenName;
-    }
+	public IdentityProviderInformationEntity getIdentityProviderInformation() {
+		return identityProviderInformation;
+	}
 
-    public void setGivenName(String givenName) {
-        this.givenName = givenName;
-    }
+	public void setIdentityProviderInformation(IdentityProviderInformationEntity identityProviderInformation) {
+		this.identityProviderInformation = identityProviderInformation;
+	}
 
-    public IdentityProviderInformationEntity getIdentityProviderInformationEntity() {
-        return identityProviderInformation;
-    }
+	public String getGivenName() {
+		return givenName;
+	}
 
-    public void setIdentityProviderInformationEntity(IdentityProviderInformationEntity identityProviderInformation) {
-        this.identityProviderInformation = identityProviderInformation;
-    }
+	public void setGivenName(String givenName) {
+		this.givenName = givenName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public IdentityProviderInformationEntity getIdentityProviderInformationEntity() {
+		return identityProviderInformation;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public void setIdentityProviderInformationEntity(IdentityProviderInformationEntity identityProviderInformation) {
+		this.identityProviderInformation = identityProviderInformation;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof IdentifiedUserEntity)) {
-            return false;
-        }
-        IdentifiedUserEntity other = (IdentifiedUserEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
-    
-    @Override
-    public String toString() {
-        return "com.moveatis.user.IdentifiedUserEntity[ id=" + id + " ]";
-    }
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof IdentifiedUserEntity)) {
+			return false;
+		}
+		IdentifiedUserEntity other = (IdentifiedUserEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
+
+	@Override
+	public String toString() {
+		return "com.moveatis.user.IdentifiedUserEntity[ id=" + id + " ]";
+	}
 }

@@ -1,3 +1,33 @@
+/* 
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Visa Nykänen, Tuomas Moisio, Petra Puumala, Karoliina Lappalainen 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.moveatis.managedbeans;
 
 import com.moveatis.interfaces.Label;
@@ -30,6 +60,13 @@ import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
+/**
+ * The managed bean controlling the feedbackanalyzation in view TODO: extract
+ * the methods concerning only a certain view to new managed beans controlling
+ * said views (analyzer, summary, recordtable)
+ * 
+ * @author Visa Nykänen
+ */
 @Named(value = "feedbackAnalyzationManagedBean")
 @SessionScoped
 public class FeedbackAnalyzationManagedBean implements Serializable {
@@ -41,62 +78,130 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	@Inject
 	private Label labelEJB;
 
-	/*
+	/**
 	 * The feedbackanalyzationentity being edited
 	 */
 	private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
-	/*
+
+	/**
 	 * The categorysets being used in the analyzation event
 	 */
 	private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
 
-	/*
+	/**
 	 * The number of records currently added to the analyzation TODO get this based
 	 * on the length of the list of records
 	 */
+
 	private int numberOfRecords;
-	/*
+	/**
 	 * The index(+1) of the record currently in view
 	 */
+
 	private int currentRecordNumber;
-	/*
+
+	/**
 	 * If the analyzation has some new categorysets they need to be saved, so
 	 * CategorySetBean is needed
 	 */
 	@Inject
 	private CategorySet categorySetEJB;
-	/*
+
+	/**
 	 * The record currently in view
 	 */
 	private FeedbackAnalysisRecordEntity currentRecord;
 
-	/*
+	/**
 	 * The event the analyzation is performed for
 	 */
 	private EventEntity eventEntity;
-	/*
+
+	/**
 	 * used to save the analyzation to the database
 	 */
 	@EJB
 	private FeedbackAnalyzation feedbackAnalyzationEJB;
-	/*
+
+	/**
 	 * The categorysets are gotten from the session
 	 */
 	@Inject
 	private Session sessionBean;
-	/*
+
+	/**
 	 * The comment for the record currently in view
 	 */
 	private String comment;
 
 	private FeedbackAnalysisCategoryEntity selectedCategory;
 
+	/**
+	 * If new records are added to the analyzation after it has already been saved
+	 * to the database the records need to be saved individually so
+	 * feedbackanalysisrecordbean is needed
+	 */
 	@Inject
 	private FeedbackAnalysisRecord feedbackAnalysisRecordEJB;
 
+	/**
+	 * The timer value, set to be the duration of the analyzation once navigating to
+	 * the record table
+	 */
 	private long duration;
-	private long currentTimeStamp;
+
+	/**
+	 * Whether the timer is stopped
+	 */
 	private boolean isTimerStopped;
+
+	public void setEventEntity(EventEntity eventEntity) {
+		this.eventEntity = eventEntity;
+	}
+
+	public EventEntity getEventEntity() {
+		return this.eventEntity;
+	}
+
+	public FeedbackAnalyzationEntity getFeedbackAnalyzationEntity() {
+		return feedbackAnalyzationEntity;
+	}
+
+	public void setFeedbackAnalyzationEntity(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
+		this.feedbackAnalyzationEntity = feedbackAnalyzationEntity;
+	}
+
+	public void setFeedbackAnalyzationName(String name) {
+		this.feedbackAnalyzationEntity.setName(name);
+	}
+
+	public void setFeedbackAnalyzationDuration(long duration) {
+		this.feedbackAnalyzationEntity.setDuration(duration);
+	}
+
+	public int getNumberOfRecords() {
+		return numberOfRecords;
+	}
+
+	public void setNumberOfRecords(int numberOfRecords) {
+		this.numberOfRecords = numberOfRecords;
+	}
+
+	public int getCurrentRecordNumber() {
+		return currentRecordNumber;
+	}
+
+	public void setCurrentRecordNumber(int currentRecordNumber) {
+		this.currentRecordNumber = currentRecordNumber;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 	public boolean getIsTimerStopped() {
 		return isTimerStopped;
@@ -113,20 +218,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public String getDurationAsString() {
 		return getLongAsTimeStamp(duration);
 	}
+
 	public void setDuration(long duration) {
-		this.duration=duration;
-	}
-
-	public String getLongAsTimeStamp(long seconds) {
-		if (seconds == 0)
-			return "-- min -- s";
-		return seconds / 60 + " min " + seconds % 60 + " s";
-
-	}
-
-	public void increment() {
-		if (!isTimerStopped)
-			duration += 1;
+		this.duration = duration;
 	}
 
 	public void setSelectedCategory(FeedbackAnalysisCategoryEntity selectedCategory) {
@@ -137,53 +231,105 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		return selectedCategory;
 	}
 
+	public FeedbackAnalysisRecordEntity getCurrentRecord() {
+		return currentRecord;
+	}
+
+	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+		return feedbackAnalysisCategorySetsInUse;
+	}
+
+	public void setFeedbackAnalysisCategorySetsInUse(
+			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
+		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
+	}
+
+	/**
+	 * Returns the given number of seconds in a string showing the minutes and
+	 * seconds
+	 * 
+	 * @param seconds the value as seconds
+	 * @return the timestamp as the amount of minutes and seconds in a string
+	 */
+	public String getLongAsTimeStamp(long seconds) {
+		if (seconds == 0)
+			return "-- min -- s";
+		return seconds / 60 + " min " + seconds % 60 + " s";
+
+	}
+
+	/**
+	 * increments the timer value every second if the timer is running
+	 */
+	public void increment() {
+		if (!isTimerStopped)
+			duration += 1;
+	}
+
+	/**
+	 * adds a category to the currently shown record
+	 * 
+	 * @param category the category to be added
+	 */
 	public void addCategoryToCurrentRecord(FeedbackAnalysisCategoryEntity category) {
 		currentRecord.addSelectedCategory(category);
 	}
 
+	/**
+	 * Sets the currently shown record to be the record given in the parameter
+	 * 
+	 * @param currentRecord the record to be shown
+	 */
 	public void setCurrentRecord(FeedbackAnalysisRecordEntity currentRecord) {
 		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
 			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
 				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
 		comment = currentRecord.getComment();
-		
+
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
 		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
 			category.setInRecord(true);
 		this.currentRecord = currentRecord;
 	}
 
-	public FeedbackAnalysisRecordEntity getCurrentRecord() {
-		return currentRecord;
-	}
-
+	/**
+	 * Sets the starttime of the currently viewed record based on the timer value if
+	 * the record isn't in between other records, its starttime hasn't already been
+	 * set and the timer is running
+	 */
 	public void setTimeStamp() {
-		if (currentRecord.getStartTime() == null 
-				&& !isTimerStopped
-				&& currentRecordNumber==numberOfRecords)
+		if (currentRecord.getStartTime() == null && !isTimerStopped && currentRecordNumber == numberOfRecords)
 			currentRecord.setStartTime(duration);
 	}
-	
+
+	/**
+	 * Finds the record in the feedbackanalyzation based on its ordernumber
+	 * 
+	 * @param orderNumber the ordernumber of the record to be accessed
+	 * @return the record with the given ordernumber
+	 */
 	private FeedbackAnalysisRecordEntity findRecordByOrderNumber(Integer orderNumber) {
-		List<FeedbackAnalysisRecordEntity> records=feedbackAnalyzationEntity.getRecords();
-		for(FeedbackAnalysisRecordEntity record:records) 
-			if( record.getOrderNumber()==orderNumber)
+		List<FeedbackAnalysisRecordEntity> records = feedbackAnalyzationEntity.getRecords();
+		for (FeedbackAnalysisRecordEntity record : records)
+			if (record.getOrderNumber() == orderNumber)
 				return record;
 		return new FeedbackAnalysisRecordEntity();
 	}
-	
+
+	/**
+	 * Sets the ordernumber for the currently edited record If the record is added
+	 * between records, sets the following records ordernumbers to be one higher
+	 */
 	private void setOrderNumberForRecord() {
-		for(int i=currentRecordNumber; i<=numberOfRecords;i++)
-			findRecordByOrderNumber(i).setOrderNumber(i+1);
+		for (int i = currentRecordNumber; i <= numberOfRecords; i++)
+			findRecordByOrderNumber(i).setOrderNumber(i + 1);
 		currentRecord.setOrderNumber(currentRecordNumber);
 	}
 
 	/**
-	 * Sets the record to be shown in the view based on the given parameter TODO:
-	 * Make the list of records be ordered either by an order number or starttime
-	 * (if the timer is implemented) as the order might change
+	 * Sets the record to be shown in the view based on the given ordernumber
 	 * 
-	 * @param recordNumber The index(+1) of the record to be accessed
+	 * @param recordNumber The ordernumber of the record to be accessed
 	 */
 	public void setCurrentRecord(int recordNumber) {
 		if (recordNumber > numberOfRecords || recordNumber < 1 || recordNumber == currentRecordNumber)
@@ -199,15 +345,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
 		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
 			category.setInRecord(true);
-	}
-
-	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
-		return feedbackAnalysisCategorySetsInUse;
-	}
-
-	public void setFeedbackAnalysisCategorySetsInUse(
-			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
-		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
 
 	public FeedbackAnalyzationManagedBean() {
@@ -234,30 +371,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 					((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
 		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
 		feedbackAnalyzationEntity.addRecord(currentRecord);
-	}
-
-	public void setEventEntity(EventEntity eventEntity) {
-		this.eventEntity = eventEntity;
-	}
-
-	public EventEntity getEventEntity() {
-		return this.eventEntity;
-	}
-
-	public FeedbackAnalyzationEntity getFeedbackAnalyzationEntity() {
-		return feedbackAnalyzationEntity;
-	}
-
-	public void setFeedbackAnalyzationEntity(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
-		this.feedbackAnalyzationEntity = feedbackAnalyzationEntity;
-	}
-
-	public void setFeedbackAnalyzationName(String name) {
-		this.feedbackAnalyzationEntity.setName(name);
-	}
-
-	public void setFeedbackAnalyzationDuration(long duration) {
-		this.feedbackAnalyzationEntity.setDuration(duration);
 	}
 
 	/**
@@ -299,23 +412,36 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		currentRecord.setComment(comment);
 	}
 
-
+	/**
+	 * navigates to the summary page
+	 * 
+	 * @return the key string that is used by facesconfig.xml to navigate to the
+	 *         correct page
+	 */
 	public String toSummary() {
 		return "summary";
 	}
-	
+
+	/**
+	 * Makes sure changes to the currently shown record are saved, stops the timer,
+	 * sets the duration of the analyzation and navigates to the recordtable page
+	 * 
+	 * @return the key string that is used by facesconfig.xml to navigate to the
+	 *         correct page
+	 */
 	public String toRecordTable() {
 		editRecord();
 		feedbackAnalyzationEntity.setDuration(duration);
-		isTimerStopped=true;
+		isTimerStopped = true;
 		for (FeedbackAnalysisCategoryEntity cat : currentRecord.getSelectedCategories())
 			cat.setInRecord(true);
 		return "recordtable";
 	}
-	
-	
+
 	/**
-	 * The method saves the analyzation to the database.
+	 * The method saves the analyzation to the database. Copies are made of all the
+	 * categorysets used by the analyzation, so that later edits to the categorysets
+	 * won't effect old analyzations
 	 */
 	public void saveFeedbackAnalyzation() {
 		if (feedbackAnalyzationEntity.getId() == null) {
@@ -349,30 +475,9 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		}
 	}
 
-	public int getNumberOfRecords() {
-		return numberOfRecords;
-	}
-
-	public void setNumberOfRecords(int numberOfRecords) {
-		this.numberOfRecords = numberOfRecords;
-	}
-
-	public int getCurrentRecordNumber() {
-		return currentRecordNumber;
-	}
-
-	public void setCurrentRecordNumber(int currentRecordNumber) {
-		this.currentRecordNumber = currentRecordNumber;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
+	/**
+	 * Sets the categorysetsinuse to be null,
+	 */
 	public void resetCategorySetsInUse() {
 		this.feedbackAnalysisCategorySetsInUse = null;
 	}

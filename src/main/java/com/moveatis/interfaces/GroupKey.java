@@ -33,31 +33,32 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the group key entity.
- * A group key is used to identify an event group for "semi-public" usage. 
- * Anyone who knowns the group key for a particular event group, can use the event group.
+ * The interface to manage the group key entity. A group key is used to identify
+ * an event group for "semi-public" usage. Anyone who knowns the group key for a
+ * particular event group, can use the event group.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(GroupKey.class)
 public interface GroupKey {
-    
-    void create(GroupKeyEntity groupKeyEntity);
 
-    void edit(GroupKeyEntity groupKeyEntity);
+	void create(GroupKeyEntity groupKeyEntity);
 
-    void remove(GroupKeyEntity groupKeyEntity);
-    
-    void removePermanently(GroupKeyEntity groupKeyEntity);
-    
-    GroupKeyEntity find(Object id);
-    
-    GroupKeyEntity findByKey(String key);
+	void edit(GroupKeyEntity groupKeyEntity);
 
-    List<GroupKeyEntity> findAll();
+	void remove(GroupKeyEntity groupKeyEntity);
 
-    List<GroupKeyEntity> findRange(int[] range);
-    
-    GroupKeyEntity getGroupKeyEntity();
-    
-    int count();
+	void removePermanently(GroupKeyEntity groupKeyEntity);
+
+	GroupKeyEntity find(Object id);
+
+	GroupKeyEntity findByKey(String key);
+
+	List<GroupKeyEntity> findAll();
+
+	List<GroupKeyEntity> findRange(int[] range);
+
+	GroupKeyEntity getGroupKeyEntity();
+
+	int count();
 }

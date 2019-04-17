@@ -37,23 +37,20 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- * Custom NotFound exception for those REST API calls, that are not to 
- * /webapi or RecordListenerBean.
+ * Custom NotFound exception for those REST API calls, that are not to /webapi
+ * or RecordListenerBean.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Provider
 public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
 
-    public NotFoundExceptionMapper() {
-        
-    }
+	public NotFoundExceptionMapper() {
 
-    @Override
-    public Response toResponse(NotFoundException exception) {
-        return Response
-                .status(Status.NOT_FOUND)
-                .entity("HTTP 404 - Not found")
-                .type(MediaType.TEXT_PLAIN)
-                .build();
-    }
+	}
+
+	@Override
+	public Response toResponse(NotFoundException exception) {
+		return Response.status(Status.NOT_FOUND).entity("HTTP 404 - Not found").type(MediaType.TEXT_PLAIN).build();
+	}
 }

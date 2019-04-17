@@ -30,42 +30,42 @@
 package com.moveatis.exception;
 
 /**
- * The exception informs the developers or the admin that something went
- * wrong with the installation.
+ * The exception informs the developers or the admin that something went wrong
+ * with the installation.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class InstallationRedirectException extends RuntimeException {
-    
-    private static final long serialVersionUID=1L;
 
-    /**
-     * Creates a new instance of <code>InstallationRedirectException</code>
-     * without a detailed message.
-     */
-    public InstallationRedirectException() {
-    }
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Constructs an instance of <code>InstallationRedirectException</code> with
-     * the specified detailed message.
-     *
-     * @param msg the detailed message.
-     */
-    public InstallationRedirectException(String msg) {
-        super(msg);
-    }
-    
-    public InstallationRedirectException(Throwable cause) {
-        super(cause);
-    }
-    
-    public InstallationRedirectException(String msg, Throwable cause) {
-        super(msg, cause);
-    }
-    
-    public InstallationRedirectException(String msg, Throwable cause, boolean enableSuppression,
-            boolean writableStackTrace) {
-        super(msg, cause, enableSuppression, writableStackTrace);
-    }
+	/**
+	 * Creates a new instance of <code>InstallationRedirectException</code> without
+	 * a detailed message.
+	 */
+	public InstallationRedirectException() {
+	}
+
+	/**
+	 * Constructs an instance of <code>InstallationRedirectException</code> with the
+	 * specified detailed message.
+	 *
+	 * @param msg the detailed message.
+	 */
+	public InstallationRedirectException(String msg) {
+		super(msg);
+	}
+
+	public InstallationRedirectException(Throwable cause) {
+		super(cause);
+	}
+
+	public InstallationRedirectException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public InstallationRedirectException(String msg, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
+		super(msg, cause, enableSuppression, writableStackTrace);
+	}
 }

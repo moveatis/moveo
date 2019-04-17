@@ -37,38 +37,40 @@ import javax.persistence.TypedQuery;
 
 /**
  * The EJB manages the labels.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class LabelBean extends AbstractBean<LabelEntity> implements Label {
-    
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
-    
-    private LabelEntity labelEntity;
 
-    public LabelBean() {
-        super(LabelEntity.class);
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	private LabelEntity labelEntity;
 
-    /**
-     * Finds and returns the label entity with the given string as its value.
-     * @param label The string to search for.
-     * @return the LabelEntity or null.
-     */
-    @Override
-    public LabelEntity findByLabel(String label) {
-        TypedQuery<LabelEntity> query = em.createNamedQuery("findByText", LabelEntity.class);
-        query.setParameter("text", label);
-        if(query.getResultList().size() > 0) {
-            return query.getSingleResult();
-        } else {
-            return null;
-        }
-    }
+	public LabelBean() {
+		super(LabelEntity.class);
+	}
+
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	/**
+	 * Finds and returns the label entity with the given string as its value.
+	 * 
+	 * @param label The string to search for.
+	 * @return the LabelEntity or null.
+	 */
+	@Override
+	public LabelEntity findByLabel(String label) {
+		TypedQuery<LabelEntity> query = em.createNamedQuery("findByText", LabelEntity.class);
+		query.setParameter("text", label);
+		if (query.getResultList().size() > 0) {
+			return query.getSingleResult();
+		} else {
+			return null;
+		}
+	}
 }

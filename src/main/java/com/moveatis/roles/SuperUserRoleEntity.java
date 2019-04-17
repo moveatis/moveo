@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 package com.moveatis.roles;
 
 import com.moveatis.user.IdentifiedUserEntity;
@@ -46,47 +46,46 @@ import javax.persistence.Table;
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="SUPERUSER_ROLE")
+@Table(name = "SUPERUSER_ROLE")
 @NamedQueries({
-    @NamedQuery(name="findSuperUserRoleByUser", query="SELECT super FROM SuperUserRoleEntity super WHERE "
-            + "super.userEntity=:userEntity")
-})
+		@NamedQuery(name = "findSuperUserRoleByUser", query = "SELECT super FROM SuperUserRoleEntity super WHERE "
+				+ "super.userEntity=:userEntity") })
 public class SuperUserRoleEntity extends AbstractRole implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @OneToOne
-    private IdentifiedUserEntity userEntity;
+	@OneToOne
+	private IdentifiedUserEntity userEntity;
 
-    @Override
-    public IdentifiedUserEntity getUserEntity() {
-        return userEntity;
-    }
+	@Override
+	public IdentifiedUserEntity getUserEntity() {
+		return userEntity;
+	}
 
-    @Override
-    public void setUserEntity(IdentifiedUserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
+	@Override
+	public void setUserEntity(IdentifiedUserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof SuperUserRoleEntity)) {
-            return false;
-        }
-        SuperUserRoleEntity other = (SuperUserRoleEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof SuperUserRoleEntity)) {
+			return false;
+		}
+		SuperUserRoleEntity other = (SuperUserRoleEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.roles.SuperUserRoleEntity[ id=" + id + " ]";
-    }
+	@Override
+	public String toString() {
+		return "com.moveatis.roles.SuperUserRoleEntity[ id=" + id + " ]";
+	}
 
 }

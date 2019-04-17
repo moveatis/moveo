@@ -40,16 +40,16 @@ import javax.ejb.Local;
 @Local(Application.class)
 public interface Application {
 
-    void create(ApplicationEntity applicationEntity);
+	void create(ApplicationEntity applicationEntity);
 
-    void edit(ApplicationEntity applicationEntity);
+	void edit(ApplicationEntity applicationEntity);
 
-    void remove(ApplicationEntity applicationEntity);
+	void remove(ApplicationEntity applicationEntity);
 
-    ApplicationEntity getApplicationEntity();
+	ApplicationEntity getApplicationEntity();
 
-    int count();
-    
-    boolean checkInstalled();
-    
+	int count();
+
+	boolean checkInstalled();
+
 }

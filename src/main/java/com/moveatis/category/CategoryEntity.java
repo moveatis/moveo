@@ -44,47 +44,46 @@ import javax.persistence.Table;
 
 /**
  * The entity represents the categories of an observation in the database.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Table(name="CATEGORY")
+@Table(name = "CATEGORY")
 @Entity
 public class CategoryEntity extends AbstractCategoryEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    private Boolean canOverlap;
-    private CategoryType categoryType;
-    
-    @ManyToOne
-    private CategorySetEntity categorySet;
-    
-     
-    public Boolean getCanOverlap() {
-        return canOverlap;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public void setCanOverlap(Boolean canOverlap) {
-        this.canOverlap = canOverlap;
-    }
+	private Boolean canOverlap;
+	private CategoryType categoryType;
 
-    public CategoryType getCategoryType() {
-        return categoryType;
-    }
+	@ManyToOne
+	private CategorySetEntity categorySet;
 
-    public void setCategoryType(CategoryType categoryType) {
-        this.categoryType = categoryType;
-    }
+	public Boolean getCanOverlap() {
+		return canOverlap;
+	}
 
-    @Override
+	public void setCanOverlap(Boolean canOverlap) {
+		this.canOverlap = canOverlap;
+	}
+
+	public CategoryType getCategoryType() {
+		return categoryType;
+	}
+
+	public void setCategoryType(CategoryType categoryType) {
+		this.categoryType = categoryType;
+	}
+
+	@Override
 	public void setCategorySet(AbstractCategorySetEntity categorySetEntity) {
-		this.categorySet=(CategorySetEntity)categorySetEntity;
-		
+		this.categorySet = (CategorySetEntity) categorySetEntity;
+
 	}
 
-    @Override
+	@Override
 	public CategorySetEntity getCategorySet() {
-		return this.categorySet;		
+		return this.categorySet;
 	}
 
-    
 }

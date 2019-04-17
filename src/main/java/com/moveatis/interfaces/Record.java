@@ -34,27 +34,28 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the record entity. A record is a single instance of
- * a category in an observation. For example, if during an observation a teacher
- * gives feedback for 5 minutes, there would be a record of the category
- * "Giving feedback" with a duration of 5 minutes.
+ * The interface to manage the record entity. A record is a single instance of a
+ * category in an observation. For example, if during an observation a teacher
+ * gives feedback for 5 minutes, there would be a record of the category "Giving
+ * feedback" with a duration of 5 minutes.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Record.class)
 public interface Record {
 
-    void create(RecordEntity recordEntity);
+	void create(RecordEntity recordEntity);
 
-    void edit(RecordEntity recordEntity);
+	void edit(RecordEntity recordEntity);
 
-    void remove(RecordEntity recordEntity);
+	void remove(RecordEntity recordEntity);
 
-    RecordEntity find(Object id);
+	RecordEntity find(Object id);
 
-    List<RecordEntity> findAll();
+	List<RecordEntity> findAll();
 
-    List<RecordEntity> findRange(int[] range);
+	List<RecordEntity> findRange(int[] range);
 
-    int count();
-    
+	int count();
+
 }

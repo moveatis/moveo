@@ -34,27 +34,27 @@ import com.moveatis.user.TagUserEntity;
 import java.util.List;
 
 /**
- * The interface to manage the tag user entity.
- * A tag user is the user account for group keys, which are used to identify
- * event groups.
+ * The interface to manage the tag user entity. A tag user is the user account
+ * for group keys, which are used to identify event groups.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface TagUser {
-    
-    void create(TagUserEntity userEntity);
-    
-    void edit(TagUserEntity userEntity);
-    
-    void remove(TagUserEntity userEntity);
-    
-    TagUserEntity find(Object id);
-    
-    TagUserEntity findByKey(GroupKeyEntity groupkey);
 
-    List<TagUserEntity> findAll();
+	void create(TagUserEntity userEntity);
 
-    List<TagUserEntity> findRange(int[] range);
+	void edit(TagUserEntity userEntity);
 
-    int count();
-    
+	void remove(TagUserEntity userEntity);
+
+	TagUserEntity find(Object id);
+
+	TagUserEntity findByKey(GroupKeyEntity groupkey);
+
+	List<TagUserEntity> findAll();
+
+	List<TagUserEntity> findRange(int[] range);
+
+	int count();
+
 }

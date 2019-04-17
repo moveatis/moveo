@@ -40,77 +40,87 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * The entity represent the data of a record, which will be persisted to the database.
+ * The entity represent the data of a record, which will be persisted to the
+ * database.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="RECORD")
+@Table(name = "RECORD")
 public class RecordEntity extends AbstractRecordEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    private ObservationCategory category;
+	private static final long serialVersionUID = 1L;
 
-    @ManyToOne
-    private ObservationEntity observation;
-    
-    // Not used in version 1.0
-    private File voiceComment;
+	private ObservationCategory category;
+	private Long endTime;
 
-    public ObservationEntity getObservation() {
-        return observation;
-    }
+	@ManyToOne
+	private ObservationEntity observation;
 
-    public void setObservation(ObservationEntity observation) {
-        this.observation = observation;
-    }
+	// Not used in version 1.0
+	private File voiceComment;
 
-    public ObservationCategory getCategory() {
-        return category;
-    }
+	public ObservationEntity getObservation() {
+		return observation;
+	}
 
-    public void setObservationCategory(ObservationCategory category) {
-        this.category = category;
-    }
+	public void setObservation(ObservationEntity observation) {
+		this.observation = observation;
+	}
 
-  
+	public ObservationCategory getCategory() {
+		return category;
+	}
 
-    /**
-     * Not used in version 1.0.
-     * @return The file for the voice comment.
-     */
-    public File getVoiceComment() {
-        return voiceComment;
-    }
+	public void setObservationCategory(ObservationCategory category) {
+		this.category = category;
+	}
 
-    /**
-     * Not used in version 1.0.
-     * @param voiceComment The file that holds the voice comment.
-     */
-    public void setVoiceComment(File voiceComment) {
-        this.voiceComment = voiceComment;
-    }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public Long getEndTime() {
+		return endTime;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof RecordEntity)) {
-            return false;
-        }
-        RecordEntity other = (RecordEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	public void setEndTime(Long endTime) {
+		this.endTime = endTime;
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.records.RecordEntity[ id=" + id + " ]";
-    }
-    
+	/**
+	 * Not used in version 1.0.
+	 * 
+	 * @return The file for the voice comment.
+	 */
+	public File getVoiceComment() {
+		return voiceComment;
+	}
+
+	/**
+	 * Not used in version 1.0.
+	 * 
+	 * @param voiceComment The file that holds the voice comment.
+	 */
+	public void setVoiceComment(File voiceComment) {
+		this.voiceComment = voiceComment;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof RecordEntity)) {
+			return false;
+		}
+		RecordEntity other = (RecordEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
+
+	@Override
+	public String toString() {
+		return "com.moveatis.records.RecordEntity[ id=" + id + " ]";
+	}
+
 }
