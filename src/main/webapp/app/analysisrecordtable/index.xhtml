@@ -9,66 +9,106 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
-		<ui:define name="pageTitle"></ui:define>
+		<ui:define name="pageTitle" />
 		<ui:define name="mainpage">
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript library="js" name="locales.js" />
+			<h:outputScript library="js" name="html2canvas.min.js" />
+			<h:outputScript library="js" name="analysisrecordtable.js" />
 			<div id="content">
 				<ui:debug hotkey="x" />
 			</div>
+			<div id="dataTableImage">
 				<p:dataTable id="entries"
-				value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-				var="record"
-				rowIndexVar="rowID">
-				<p:column headerText="#">
-				#{rowID+1}
+					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
+					var="record" rowIndexVar="rowID">
+					<p:column headerText="#" exportable="false">
+					#{rowID+1}
 				</p:column>
-				<c:forEach
-					items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
-					var="categorySet">
-					<p:column headerText="#{categorySet.label}" >
-						<p:commandLink
-							value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}"
-							action="#{feedbackAnalyzationManagedBean.setCurrentRecord(record)}"
-							onclick="PF('dlgCategorySet').show()"
-							update=":categorySetForm " 
-							styleClass="link-categoryset">
-							<f:actionListener
-								binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet))}" />
+					<c:forEach
+						items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+						var="categorySet">
+						<p:column headerText="#{categorySet.label}">
+							<p:commandLink
+								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}"
+								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(record)}"
+								onclick="PF('dlgCategorySet').show()" update=":categorySetForm "
+								styleClass="link-categoryset">
+								<f:actionListener
+									binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet))}" />
 								<h:outputText
-								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}"/>
+									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
+							</p:commandLink>
+						</p:column>
+					</c:forEach>
+					<p:column headerText="Sanallinen Palaute">
+						<h:outputText value="#{record.comment}" />
+					</p:column>
+					<p:column exportable="false" id="deleteButtons">
+						<p:commandLink
+							action="#{analysisRecordTable.deleteCurrentRecord(record)}"
+							styleClass="link-categoryset" update="entries">
+							<h:outputText value="Delete" />
 						</p:commandLink>
 					</p:column>
-				</c:forEach>
-				<p:column headerText="Sanallinen Palaute">
-					<h:outputText value="#{record.comment}" />
-				</p:column>
-				<p:column>
-					<p:commandLink
-						action="#{analysisRecordTable.deleteCurrentRecord(record)}"
-						styleClass="link-categoryset"
-						update="entries">
-						<h:outputText value="Delete" />
-					</p:commandLink>
-				</p:column>
-			</p:dataTable>
+				</p:dataTable>
+			</div>
 
-			<p:dialog header="Info" widgetVar="rowDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-				<p:outputPanel id="rowDetail" >
-				<p:panelGrid  columns="2" rendered="#{not empty analysisRecordTable.selectedRow}" columnClasses="label,value">
-					<h:outputText value="Kommentti:" />
-					<h:outputText value="#{analysisRecordTable.selectedRow.comment}" />
+			<p:dialog header="Info" widgetVar="rowDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="rowDetail">
+					<p:panelGrid columns="2"
+						rendered="#{not empty analysisRecordTable.selectedRow}"
+						columnClasses="label,value">
+						<h:outputText value="Kommentti:" />
+						<h:outputText value="#{analysisRecordTable.selectedRow.comment}" />
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
-			
-			<div id="textArea">
-				<p:inputTextarea value="Lyhyt analyysi annetusta palautteesta" />
-			</div>
-			<p:commandButton value="Continue to Summary" action="#{feedbackAnalyzationManagedBean.toSummary()}" />
-			
+
+			<h:form id="buttons">
+				<p:commandButton value="#{msg.dlg_saveDialogHeader}"
+					styleClass="save-button" onclick="PF('dlgSave').show();"
+					process="@this">
+					<p:ajax update=":saveForm" resetValues="true" />
+				</p:commandButton>
+			</h:form>
+
+			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
+				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
+				responsive="true" fitViewport="true" styleClass="coloredDialog"
+				visible="#{facesContext.validationFailed}">
+				<h:form id="saveForm" styleClass="dialog-form ui-fluid" columns="1">
+					<p:selectManyCheckbox id="basic">
+						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image" />
+						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
+							itemValue="download" />
+					</p:selectManyCheckbox>
+					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}" />
+					<p:message for="input-name" />
+					<p:inputText id="input-name" required="true"
+						requiredMessage="#{msg.dlg_notEmpty}" />
+					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+						onclick="save()" ajax="true" validateClient="true" />
+					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+						onclick="PF('dlgSave').hide();" />
+					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
+						style="display: none;">
+						<p:dataExporter type="csv" target=":entries" fileName="entries"
+							pageOnly="true" id="exporter" />
+					</p:commandButton>
+				</h:form>
+			</p:dialog>
+
+			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+				showDetail="true" sticky="true" escape="false" />
+
+			<p:commandButton value="Continue to Summary"
+				action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+
 			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
 				position="top" resizable="false" responsive="true" modal="true"
 				fitViewport="true" class="coloredDialog">
-
 				<h:form id="categorySetForm">
 					<ui:repeat
 						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
@@ -78,17 +118,14 @@
 							offLabel="#{category.label.text}">
 							<p:ajax update=":categorySetForm" />
 						</p:selectBooleanButton>
-
 					</ui:repeat>
 					<p:commandButton value="tallenna muutokset"
 						action="#{feedbackAnalyzationManagedBean.editRecord}"
 						onclick="PF('dlgCategorySet').hide()" update=":entries" />
 				</h:form>
 			</p:dialog>
+
 		</ui:define>
 	</ui:composition>
-
-
-
 </h:body>
 </html>

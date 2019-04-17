@@ -507,7 +507,9 @@ function isBottomOfDocument(padding) {
     return $(window).scrollTop() >= $(document).height() - padding - $(window).height();
 }
 
-
+/**
+ * Checks what checkboxes user has selected and performs action if specific checkbox is selected
+ */
 function checkCheckBoxes(){
 	var checkBox1 = document.getElementById('saveForm:basic:1');
 	var checkBox2 = document.getElementById('saveForm:anonymityUserBoxes:1');
@@ -524,6 +526,9 @@ function checkCheckBoxes(){
 	
 }
 
+/**
+ * Creates canvas element where the timeline and datatable are inserted
+ */
 function saveImage() {
 	document.getElementById('hiddenButtons').style.display = "none";
 	html2canvas(document.getElementById('recordingsPhoto')).then(function(canvas) {
@@ -532,14 +537,18 @@ function saveImage() {
  	});
 }
 
+/**
+ * Saves the canvas as png.
+ */
 function saveAsImage() {
     var filename;
+    var filenameRaw;
     try{
     filenameRaw = document.getElementById('saveForm:input-name').value;
     if(filenameRaw ==""){
     	return;
     }
-    filename = filenameRaw.replace(".", "_");
+    filename = filenameRaw.replace(/\./g, '-');
     }catch(err){
     	filename = 'summary.png';
     }

@@ -1,107 +1,78 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
-      
-
-    <h:body>
-        <ui:composition template="/WEB-INF/template.xhtml">
-
-            <ui:define name="pageTitle">#{msg.ana_title}</ui:define>
-
-            <ui:define name="mainpage">
-           <!--     <script type="text/javascript">  
-             function getCategorySets() {
-                 return [
-                        <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
-                            {name: "#{categorySet.name}", categories: [
-                            <ui:repeat value="#{categorySet.categories}" var="category">
-                                { name: "#{category.name}", id: #{category.tag} },
-                            </ui:repeat>
-                            ]},
-                        </ui:repeat>
-                        ];                        
-                    }   
-             </script>
-                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
-                <h:outputScript library="js" name="analyzer.js"/>
-                
-                <div id="category-list"></div>
-                
-                <div id="video">
-                
-                </div>              
-           		<div id="content"> 
-           		
-           		<div id="categorySet">
-           	 	
-           	 	</div>
-           		<div id="categories">
-           		</div>
-           		
-               	<div id="basicContent">
-              		<div id="textArea">
-              		<p:inputTextarea />
-              		</div>
-              		<div id="basicControls">
-              			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-              			<p:commandButton id="new" value="#{msg.ana_new}" />
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" />
-              		</div>
-                </div>
-                </div>
-                 -->
-				<h:outputScript library="primefaces" name="jquery/jquery.js" />
-                <h:outputScript library="js" name="analyzer.js"/>
-				<h:outputStylesheet library="css" name="analyzer.css"/>
-                
-                <h:form id ="form">
-                <div id="content">
-                <div id="index">
-                <h:panelGrid columns="5">
-                	<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}" update=":form"/>
-                	<p:commandButton value=" " id="previousAnalyze" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}" update=":form" icon="fa fa-fw fa-arrow-left" />
-                	<h:outputText value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}"/>
-                	<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}" update=":form"/>
-					<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward" action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.numberOfRecords)}" update=":form"/>
-				</h:panelGrid>
-                </div>
-                 <div id="categories">
-                <ui:repeat value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}" var="categorySet">
-                	<div id="categoryContent">
-                	<div id="texts">
-                			<h:outputText value="#{categorySet.label}" />
-                			</div>
-                				 <div id="buttons">
-                					<ui:repeat value="#{categorySet.categoryEntitys.values()}" var="category">
-                							<p:selectBooleanButton value="#{category.inRecord}" onLabel="#{category.label.text}" offLabel="#{category.label.text}">
-                							<p:ajax update=":form"/>
-                							</p:selectBooleanButton>
-                					</ui:repeat>
-                				</div>
-                	</div>
-                </ui:repeat>
-                </div>
-                </div>            
-                <div id="basicContent">
-              		<div id="textArea">
-              		<p:inputTextarea value="#{feedbackAnalyzationManagedBean.comment}" pt:placeholder="Watermark here"/>
-              		</div>
-              		<div id="basicControls">
-              			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-              			<p:commandButton id="new" value="#{msg.ana_new}" action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form"/>
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
-              		</div>
-                </div>
-                
-               
-                </h:form>
-    
-            </ui:define>
-            
-       </ui:composition>
-    </h:body>
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
+		<ui:define name="mainpage">
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript library="js" name="analyzer.js" />
+			<h:outputStylesheet library="css" name="analyzer.css" />
+			<h:form id="form">
+				<div id="content">
+					<div id="index">
+						<h:panelGrid columns="5">
+							<p:commandButton value=" " id="firstAnalyze"
+								icon="fa fa-fw fa-fast-backward"
+								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}"
+								update=":form" />
+							<p:commandButton value=" " id="previousAnalyze"
+								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}"
+								update=":form" icon="fa fa-fw fa-arrow-left" />
+							<h:outputText
+								value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}" />
+							<p:commandButton value=" " id="nextAnalyze"
+								icon="fa fa-fw fa-arrow-right"
+								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}"
+								update=":form" />
+							<p:commandButton value=" " id="lastAnalyze"
+								icon="fa fa-fw fa-fast-forward"
+								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.numberOfRecords)}"
+								update=":form" />
+						</h:panelGrid>
+					</div>
+					<div id="categories">
+						<ui:repeat
+							value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+							var="categorySet">
+							<div id="categoryContent">
+								<div id="texts">
+									<h:outputText value="#{categorySet.label}" />
+								</div>
+								<div id="buttons">
+									<ui:repeat value="#{categorySet.categoryEntitys.values()}"
+										var="category">
+										<p:selectBooleanButton value="#{category.inRecord}"
+											onLabel="#{category.label.text}"
+											offLabel="#{category.label.text}">
+											<p:ajax update=":form" />
+										</p:selectBooleanButton>
+									</ui:repeat>
+								</div>
+							</div>
+						</ui:repeat>
+					</div>
+				</div>
+				<div id="basicContent">
+					<div id="textArea">
+						<p:inputTextarea value="#{feedbackAnalyzationManagedBean.comment}"
+							pt:placeholder="Watermark here" />
+					</div>
+					<div id="basicControls">
+						<p:commandButton id="empty" value="#{msg.ana_empty}" />
+						<p:commandButton id="new" value="#{msg.ana_new}"
+							action="#{feedbackAnalyzationManagedBean.addRecord()}"
+							update=":form" />
+						<p:commandButton id="continue" value="#{msg.ana_continue}"
+							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
 </html>

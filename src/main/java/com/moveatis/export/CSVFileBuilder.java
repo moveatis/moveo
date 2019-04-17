@@ -29,6 +29,7 @@
  */
 package com.moveatis.export;
 
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
@@ -164,4 +165,16 @@ public class CSVFileBuilder {
         public long count = 0;
         public long duration = 0;
     }
+
+	public void buildCSV(OutputStream outputStream, FeedbackAnalyzationEntity feedbackAnalyzation, String separator) {
+		// TODO Auto-generated method stub
+		
+	}
+    
+    
+    
+    
+    
+    
+    
 }
