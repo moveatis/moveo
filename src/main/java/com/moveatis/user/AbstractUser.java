@@ -40,42 +40,44 @@ import javax.persistence.InheritanceType;
 /**
  * The base user entity for TagUser and IdentifiendUser. TagUser is the user
  * which provides access for group keys and the identified user is an individual
- * user, who is identified using the Shibboleth identity system of Jyväskylä University.
+ * user, who is identified using the Shibboleth identity system of Jyväskylä
+ * University.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="USER_TYPE")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "USER_TYPE")
 public abstract class AbstractUser extends BaseEntity implements Serializable {
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof AbstractUser)) {
-            return false;
-        }
-        AbstractUser other = (AbstractUser) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof AbstractUser)) {
+			return false;
+		}
+		AbstractUser other = (AbstractUser) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.user.AbstractUser[ id=" + id + " ]";
-    }
+	@Override
+	public String toString() {
+		return "com.moveatis.user.AbstractUser[ id=" + id + " ]";
+	}
 }

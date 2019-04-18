@@ -34,18 +34,19 @@ import java.util.List;
 
 /**
  * The interface to manage public users within the Moveatis.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface AnonUser {
-    
-    void create(AnonUserEntity userEntity);
-    
-    void edit(AnonUserEntity userEntity);
-    
-    void remove(AnonUserEntity userEntity);
-    
-    AnonUserEntity find();
 
-    List<AnonUserEntity> findAll();
-    
+	void create(AnonUserEntity userEntity);
+
+	void edit(AnonUserEntity userEntity);
+
+	void remove(AnonUserEntity userEntity);
+
+	AnonUserEntity find();
+
+	List<AnonUserEntity> findAll();
+
 }

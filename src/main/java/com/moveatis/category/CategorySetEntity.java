@@ -51,29 +51,30 @@ import javax.persistence.Transient;
 
 /**
  * The entity represents a category set in the database.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="CATEGORYSET")
+@Table(name = "CATEGORYSET")
 public class CategorySetEntity extends AbstractCategorySetEntity implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy = "categorySet", cascade = {PERSIST, MERGE, DETACH}, fetch = FetchType.LAZY, targetEntity = CategoryEntity.class)
-    @CollectionTable(name="CATEGORYENTITIES")
-    @MapKey(name="orderNumber")
-    @Column(name="CATEGORYENTITY_ORDERNUMBER")
-    private Map<Integer, AbstractCategoryEntity> categoryEntitys;
-    
-    @Override
-    public Map<Integer, AbstractCategoryEntity> getCategoryEntitys() {
-        return categoryEntitys;
-    }
+	private static final long serialVersionUID = 1L;
 
-    @Override
-    public void setCategoryEntitys(Map<Integer, AbstractCategoryEntity> categories) {
-        this.categoryEntitys = categories;
-    }
+	@OneToMany(mappedBy = "categorySet", cascade = { PERSIST, MERGE,
+			DETACH }, fetch = FetchType.LAZY, targetEntity = CategoryEntity.class)
+	@CollectionTable(name = "CATEGORYENTITIES")
+	@MapKey(name = "orderNumber")
+	@Column(name = "CATEGORYENTITY_ORDERNUMBER")
+	private Map<Integer, AbstractCategoryEntity> categoryEntitys;
 
-    
+	@Override
+	public Map<Integer, AbstractCategoryEntity> getCategoryEntitys() {
+		return categoryEntitys;
+	}
+
+	@Override
+	public void setCategoryEntitys(Map<Integer, AbstractCategoryEntity> categories) {
+		this.categoryEntitys = categories;
+	}
+
 }

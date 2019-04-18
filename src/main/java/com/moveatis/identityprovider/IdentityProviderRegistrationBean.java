@@ -43,40 +43,41 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An example managed bean for customizing an identity service.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="identityProviderRegistrationBean")
+@Named(value = "identityProviderRegistrationBean")
 @RequestScoped
 public class IdentityProviderRegistrationBean implements IdentityProvider, Serializable {
-    
-    private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(IdentityProviderRegistrationBean.class);
-    private IdentifiedUserEntity userEntity;
-    private IdentityProviderInformationEntity identityProviderInformationEntity;
 
-    
-    public IdentityProviderRegistrationBean() {
-            
-    }
-    
-    public void registerSuperUser(ActionEvent actionEvent) {
-        
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect(RedirectURLs.SHIBBOLETH_REDIRECT_SECURE_URI);
-        } catch (IOException ex) {
-            LOGGER.debug("Error in registration", ex);
-        }
-    }
+	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(IdentityProviderRegistrationBean.class);
+	private IdentifiedUserEntity userEntity;
+	private IdentityProviderInformationEntity identityProviderInformationEntity;
 
-    @Override
-    public IdentifiedUserEntity getIdentifiedUserEntity() {
-        userEntity = new IdentifiedUserEntity();
-        identityProviderInformationEntity = new IdentityProviderInformationEntity();
-        
-        userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
-        identityProviderInformationEntity.setUserEntity(userEntity);
-        
-        return userEntity;
-    }
+	public IdentityProviderRegistrationBean() {
+
+	}
+
+	public void registerSuperUser(ActionEvent actionEvent) {
+
+		try {
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect(RedirectURLs.SHIBBOLETH_REDIRECT_SECURE_URI);
+		} catch (IOException ex) {
+			LOGGER.debug("Error in registration", ex);
+		}
+	}
+
+	@Override
+	public IdentifiedUserEntity getIdentifiedUserEntity() {
+		userEntity = new IdentifiedUserEntity();
+		identityProviderInformationEntity = new IdentityProviderInformationEntity();
+
+		userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
+		identityProviderInformationEntity.setUserEntity(userEntity);
+
+		return userEntity;
+	}
 
 }

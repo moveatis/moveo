@@ -37,63 +37,70 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- * The EJB manages group keys that are used to access the event groups in a "semi-public" fashion.
+ * The EJB manages group keys that are used to access the event groups in a
+ * "semi-public" fashion.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupKey {
-    
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
-    
-    private GroupKeyEntity groupKeyEntity;
 
-    public GroupKeyBean() {
-        super(GroupKeyEntity.class);
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	private GroupKeyEntity groupKeyEntity;
 
-    /**
-     * The method returns the group key, which currently is associated with the instance.
-     * @return The group key associated with the instance for groupkeyEJB.
-     */
-    @Override
-    public GroupKeyEntity getGroupKeyEntity() {
-        return groupKeyEntity;
-    }
-    /**
-     * The method finds and returns the group key, which has the same value 
-     * as the specified parameter.
-     * @param key String-representation of the key.
-     * @return the group key or null.
-     */
-    @Override
-    public GroupKeyEntity findByKey(String key) {
-        TypedQuery<GroupKeyEntity> query = em.createNamedQuery("findKey", GroupKeyEntity.class);
-        query.setParameter("key", key);
-        
-        try {
-            groupKeyEntity = query.getSingleResult();
-        } catch(NoResultException nre) {
-            return null;
-        }
-        
-        return groupKeyEntity;
+	public GroupKeyBean() {
+		super(GroupKeyEntity.class);
+	}
 
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
 
-    /**
-     * The method removes the group keys permanently. Usually the entities are not removed
-     * from the database, as only their removal date is set. If the group key need to be reused,
-     * they need to be removed permanently before reuse.
-     * @param groupKeyEntity The group key to be removed.
-     */
-    @Override
-    public void removePermanently(GroupKeyEntity groupKeyEntity) {
-        em.remove(em.merge(groupKeyEntity));
-    }
+	/**
+	 * The method returns the group key, which currently is associated with the
+	 * instance.
+	 * 
+	 * @return The group key associated with the instance for groupkeyEJB.
+	 */
+	@Override
+	public GroupKeyEntity getGroupKeyEntity() {
+		return groupKeyEntity;
+	}
+
+	/**
+	 * The method finds and returns the group key, which has the same value as the
+	 * specified parameter.
+	 * 
+	 * @param key String-representation of the key.
+	 * @return the group key or null.
+	 */
+	@Override
+	public GroupKeyEntity findByKey(String key) {
+		TypedQuery<GroupKeyEntity> query = em.createNamedQuery("findKey", GroupKeyEntity.class);
+		query.setParameter("key", key);
+
+		try {
+			groupKeyEntity = query.getSingleResult();
+		} catch (NoResultException nre) {
+			return null;
+		}
+
+		return groupKeyEntity;
+
+	}
+
+	/**
+	 * The method removes the group keys permanently. Usually the entities are not
+	 * removed from the database, as only their removal date is set. If the group
+	 * key need to be reused, they need to be removed permanently before reuse.
+	 * 
+	 * @param groupKeyEntity The group key to be removed.
+	 */
+	@Override
+	public void removePermanently(GroupKeyEntity groupKeyEntity) {
+		em.remove(em.merge(groupKeyEntity));
+	}
 }

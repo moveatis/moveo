@@ -47,95 +47,96 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The bean that serves category management in the appropriate views.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Named(value = "categoryManagedBean")
 @ViewScoped
 public class CategoryManagedBean implements Serializable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryManagedBean.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryManagedBean.class);
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Inject
-    private Category categoryEJB;
-    @Inject
-    private Label labelEJB;
-    @Inject
-    private ControlManagedBean controlManagedBean;
+	@Inject
+	private Category categoryEJB;
+	@Inject
+	private Label labelEJB;
+	@Inject
+	private ControlManagedBean controlManagedBean;
 
-    private String label;
-    private String description;
-    private Boolean canOverlap = false;
+	private String label;
+	private String description;
+	private Boolean canOverlap = false;
 
-    /**
-     * Creates a new instance of CategoryManagedBean.
-     */
-    public CategoryManagedBean() {
+	/**
+	 * Creates a new instance of CategoryManagedBean.
+	 */
+	public CategoryManagedBean() {
 
-    }
+	}
 
-    public String getLabel() {
-        return label;
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public Boolean getCanOverlap() {
-        return canOverlap;
-    }
+	public Boolean getCanOverlap() {
+		return canOverlap;
+	}
 
-    public void setCanOverlap(Boolean canOverlap) {
-        this.canOverlap = canOverlap;
-    }
+	public void setCanOverlap(Boolean canOverlap) {
+		this.canOverlap = canOverlap;
+	}
 
-    public void addCategory(ActionEvent event) {
-        LOGGER.debug("Category added");
-    }
+	public void addCategory(ActionEvent event) {
+		LOGGER.debug("Category added");
+	}
 
-    /**
-     * Creates a new category entity and adds it to the given category set.
-     */
-    public void createNewCategory(CategorySetEntity categorySetEntity) {
-        CategoryEntity categoryEntity = new CategoryEntity();
+	/**
+	 * Creates a new category entity and adds it to the given category set.
+	 */
+	public void createNewCategory(CategorySetEntity categorySetEntity) {
+		CategoryEntity categoryEntity = new CategoryEntity();
 
-        LabelEntity labelEntity = labelEJB.findByLabel(label);
+		LabelEntity labelEntity = labelEJB.findByLabel(label);
 
-        if (labelEntity == null) {
-            labelEntity = new LabelEntity();
-            labelEntity.setText(label);
-            labelEJB.create(labelEntity);
-        }
+		if (labelEntity == null) {
+			labelEntity = new LabelEntity();
+			labelEntity.setText(label);
+			labelEJB.create(labelEntity);
+		}
 
-        categoryEntity.setLabel(labelEntity);
-        categoryEntity.setCategorySet(categorySetEntity);
-        categoryEntity.setCanOverlap(canOverlap);
-        categoryEntity.setDescription(description);
+		categoryEntity.setLabel(labelEntity);
+		categoryEntity.setCategorySet(categorySetEntity);
+		categoryEntity.setCanOverlap(canOverlap);
+		categoryEntity.setDescription(description);
 
-        Map<Integer, AbstractCategoryEntity> categories = categorySetEntity.getCategoryEntitys();
+		Map<Integer, AbstractCategoryEntity> categories = categorySetEntity.getCategoryEntitys();
 
-        if (categories == null) {
-            categories = new TreeMap<>();
-        }
+		if (categories == null) {
+			categories = new TreeMap<>();
+		}
 
-        Integer orderNumber = categories.size();
+		Integer orderNumber = categories.size();
 
-        categories.put(orderNumber, categoryEntity);
-        categoryEntity.setOrderNumber(orderNumber);
-        categorySetEntity.setCategoryEntitys(categories);
+		categories.put(orderNumber, categoryEntity);
+		categoryEntity.setOrderNumber(orderNumber);
+		categorySetEntity.setCategoryEntitys(categories);
 
-        categoryEJB.create(categoryEntity);
+		categoryEJB.create(categoryEntity);
 
-        //controlManagedBean.addCategory(categoryEntity);
-    }
+		// controlManagedBean.addCategory(categoryEntity);
+	}
 }

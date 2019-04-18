@@ -41,61 +41,62 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The bean is used to manage events in the appropriate views. 
+ * The bean is used to manage events in the appropriate views.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="eventManagedBean")
+@Named(value = "eventManagedBean")
 @RequestScoped
 public class EventManagedBean {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventManagedBean.class);
-    
-    private String label;
-    private String description;
-    private EventEntity eventEntity;
-    
-    @Inject
-    private Event eventEJB;
-    
-    @Inject
-    private Session sessionBean;
 
-    /** Creates a new instance of EventManagedBean. */
-    public EventManagedBean() {
-        
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(EventManagedBean.class);
 
-    public String getLabel() {
-        return label;
-    }
+	private String label;
+	private String description;
+	private EventEntity eventEntity;
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	@Inject
+	private Event eventEJB;
 
-    public String getDescription() {
-        return description;
-    }
+	@Inject
+	private Session sessionBean;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    /**
-     * Creates a new event for the event group.
-     */
-    public void createNewEvent(EventGroupEntity eventGroupEntity) {
-        
-        eventEntity = new EventEntity();
-        eventEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
-        eventEntity.setDescription(description);
-        eventEntity.setLabel(label);
-        eventEntity.setEventGroup(eventGroupEntity);
-        
-        eventGroupEntity.setEvent(eventEntity);
-        
-        eventEJB.create(eventEntity);
-        
-    }
+	/** Creates a new instance of EventManagedBean. */
+	public EventManagedBean() {
+
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Creates a new event for the event group.
+	 */
+	public void createNewEvent(EventGroupEntity eventGroupEntity) {
+
+		eventEntity = new EventEntity();
+		eventEntity.setCreator(sessionBean.getLoggedIdentifiedUser());
+		eventEntity.setDescription(description);
+		eventEntity.setLabel(label);
+		eventEntity.setEventGroup(eventGroupEntity);
+
+		eventGroupEntity.setEvent(eventEntity);
+
+		eventEJB.create(eventEntity);
+
+	}
 
 }

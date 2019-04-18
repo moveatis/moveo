@@ -39,34 +39,34 @@ import javax.ejb.Local;
 
 /**
  *
- * The interface to manage the category set entity.
- * The category set contains different categories that can be thought as a group.
- * For example, a category set named "Teacher's activities" could contain categories
- * like "Organizing", "Observing", and "Giving feedback".
+ * The interface to manage the category set entity. The category set contains
+ * different categories that can be thought as a group. For example, a category
+ * set named "Teacher's activities" could contain categories like "Organizing",
+ * "Observing", and "Giving feedback".
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local
 public interface CategorySet {
 
-    void create(AbstractCategorySetEntity categoryTemplateEntity);
+	void create(AbstractCategorySetEntity categoryTemplateEntity);
 
-    void edit(AbstractCategorySetEntity categoryTemplateEntity);
+	void edit(AbstractCategorySetEntity categoryTemplateEntity);
 
-    void remove(AbstractCategorySetEntity categoryTemplateEntity);
-    
-    void removeCategoryFromCategorySet(AbstractCategorySetEntity categorySet, AbstractCategoryEntity whichCategory);
-    
-    void detachCategorySet(AbstractCategorySetEntity categorySetEntity);
+	void remove(AbstractCategorySetEntity categoryTemplateEntity);
 
-    AbstractCategorySetEntity find(Object id);
+	void removeCategoryFromCategorySet(AbstractCategorySetEntity categorySet, AbstractCategoryEntity whichCategory);
 
-    List<AbstractCategorySetEntity> findAll();
-    
-    List<AbstractCategorySetEntity> findRange(int[] range);
-    
-    Set<AbstractCategorySetEntity> findPublicCategorySets();
+	void detachCategorySet(AbstractCategorySetEntity categorySetEntity);
 
-    int count();
-    
+	AbstractCategorySetEntity find(Object id);
+
+	List<AbstractCategorySetEntity> findAll();
+
+	List<AbstractCategorySetEntity> findRange(int[] range);
+
+	Set<AbstractCategorySetEntity> findPublicCategorySets();
+
+	int count();
+
 }

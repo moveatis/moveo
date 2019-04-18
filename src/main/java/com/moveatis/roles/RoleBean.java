@@ -44,115 +44,122 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The EJB manages the roles, which can be added to the users to allow
- * the access system to be more finegrained.
+ * The EJB manages the roles, which can be added to the users to allow the
+ * access system to be more finegrained.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class RoleBean extends AbstractBean<AbstractRole> implements Role {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(RoleBean.class);
-    
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
 
-    public RoleBean() {
-        super(AbstractRole.class);
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoleBean.class);
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
-    /**
-     * Adds the superuser rights to the user.
-     * @param user The user to whom the superuser rights are granted.
-     */
-    @Override
-    public void addSuperuserRoleToUser(IdentifiedUserEntity user) {
-        SuperUserRoleEntity role = new SuperUserRoleEntity();
-        addRoleToUser(role, user);
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    /**
-     * Adds the superuser rights to the user with the start and end date.
-     * @param user The user to whom the superuser rights are granted.
-     * @param startDate The date when te role is actived.
-     * @param endDate The date when the role is deactived.
-     */
-    @Override
-    public void addSuperuserRoleToUser(IdentifiedUserEntity user, Date startDate, Date endDate) {
-        SuperUserRoleEntity role = new SuperUserRoleEntity();
-        addRoleToUser(role, user, startDate, endDate);
-    }
+	public RoleBean() {
+		super(AbstractRole.class);
+	}
 
-    /**
-     * Removes the superuser rights from the user.
-     * @param user The user whose superuser rights should be removed.
-     */
-    @Override
-    public void removeSuperuserRoleFromUser(IdentifiedUserEntity user) {
-        TypedQuery typedQuery = em.createNamedQuery("findSuperUserRoleByUser", SuperUserRoleEntity.class);
-        typedQuery.setParameter("userEntity", user);
-        SuperUserRoleEntity role = (SuperUserRoleEntity)typedQuery.getSingleResult();
-        if(role != null) {
-            removeRoleFromUser(role);
-        }
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
 
-    /**
-     * Finds and returns a list of the users with the superuser rights.
-     * @return A list of the users with the superuser rights.
-     */
-    @Override
-    public List<SuperUserRoleEntity> listSuperusers() {
-        SuperUserRoleEntity role = new SuperUserRoleEntity();
-        return (List<SuperUserRoleEntity>)listRoleUsers(role);
-    }
+	/**
+	 * Adds the superuser rights to the user.
+	 * 
+	 * @param user The user to whom the superuser rights are granted.
+	 */
+	@Override
+	public void addSuperuserRoleToUser(IdentifiedUserEntity user) {
+		SuperUserRoleEntity role = new SuperUserRoleEntity();
+		addRoleToUser(role, user);
+	}
 
-    private void addRoleToUser(AbstractRole role, IdentifiedUserEntity user) {
-        role.setUserEntity(user);
-        super.create(role);
-    }
-    
-    private void addRoleToUser(AbstractRole role, IdentifiedUserEntity user, Date startDate, Date endDate) {
-        role.setUserEntity(user);
-        role.setStartDate(startDate);
-        role.setEndDate(endDate);
-        super.create(role);
-    }
-    
-    private void removeRoleFromUser(AbstractRole role) {
-        super.remove(role);
-    }
-    
-    /**
-     * Finds and returns the users with the given role.
-     * Not implemented in version 1.0.
-     * @param role The role to be searched for.
-     * @return A list of the users with the role.
-     */
-    public List<? extends AbstractRole> listRoleUsers(AbstractRole role) {
-        return Collections.emptyList();
-    }
+	/**
+	 * Adds the superuser rights to the user with the start and end date.
+	 * 
+	 * @param user      The user to whom the superuser rights are granted.
+	 * @param startDate The date when te role is actived.
+	 * @param endDate   The date when the role is deactived.
+	 */
+	@Override
+	public void addSuperuserRoleToUser(IdentifiedUserEntity user, Date startDate, Date endDate) {
+		SuperUserRoleEntity role = new SuperUserRoleEntity();
+		addRoleToUser(role, user, startDate, endDate);
+	}
 
-    /**
-     * Checks if the user has the superuser rights.
-     * @param user The user to be checked for the superuser rights.
-     * @return true if the user had the superuser rights, false otherwise.
-     */
-    @Override
-    public boolean checkIfUserIsSuperUser(IdentifiedUserEntity user) {
-        
-        TypedQuery typedQuery = em.createNamedQuery("findSuperUserRoleByUser", SuperUserRoleEntity.class);
-        typedQuery.setParameter("userEntity", user);
-        
-        try {
-            SuperUserRoleEntity role = (SuperUserRoleEntity)typedQuery.getSingleResult();
-            return role != null;
-        } catch (NoResultException nre) {
-            return false;
-        }
-    }
+	/**
+	 * Removes the superuser rights from the user.
+	 * 
+	 * @param user The user whose superuser rights should be removed.
+	 */
+	@Override
+	public void removeSuperuserRoleFromUser(IdentifiedUserEntity user) {
+		TypedQuery typedQuery = em.createNamedQuery("findSuperUserRoleByUser", SuperUserRoleEntity.class);
+		typedQuery.setParameter("userEntity", user);
+		SuperUserRoleEntity role = (SuperUserRoleEntity) typedQuery.getSingleResult();
+		if (role != null) {
+			removeRoleFromUser(role);
+		}
+	}
+
+	/**
+	 * Finds and returns a list of the users with the superuser rights.
+	 * 
+	 * @return A list of the users with the superuser rights.
+	 */
+	@Override
+	public List<SuperUserRoleEntity> listSuperusers() {
+		SuperUserRoleEntity role = new SuperUserRoleEntity();
+		return (List<SuperUserRoleEntity>) listRoleUsers(role);
+	}
+
+	private void addRoleToUser(AbstractRole role, IdentifiedUserEntity user) {
+		role.setUserEntity(user);
+		super.create(role);
+	}
+
+	private void addRoleToUser(AbstractRole role, IdentifiedUserEntity user, Date startDate, Date endDate) {
+		role.setUserEntity(user);
+		role.setStartDate(startDate);
+		role.setEndDate(endDate);
+		super.create(role);
+	}
+
+	private void removeRoleFromUser(AbstractRole role) {
+		super.remove(role);
+	}
+
+	/**
+	 * Finds and returns the users with the given role. Not implemented in version
+	 * 1.0.
+	 * 
+	 * @param role The role to be searched for.
+	 * @return A list of the users with the role.
+	 */
+	public List<? extends AbstractRole> listRoleUsers(AbstractRole role) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Checks if the user has the superuser rights.
+	 * 
+	 * @param user The user to be checked for the superuser rights.
+	 * @return true if the user had the superuser rights, false otherwise.
+	 */
+	@Override
+	public boolean checkIfUserIsSuperUser(IdentifiedUserEntity user) {
+
+		TypedQuery typedQuery = em.createNamedQuery("findSuperUserRoleByUser", SuperUserRoleEntity.class);
+		typedQuery.setParameter("userEntity", user);
+
+		try {
+			SuperUserRoleEntity role = (SuperUserRoleEntity) typedQuery.getSingleResult();
+			return role != null;
+		} catch (NoResultException nre) {
+			return false;
+		}
+	}
 }

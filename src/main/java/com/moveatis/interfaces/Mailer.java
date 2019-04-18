@@ -35,12 +35,15 @@ import javax.ejb.Local;
 
 /**
  * The interface to send mails.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local
 public interface Mailer {
 
-    MailStatus sendEmail(final String[] recipients, final String subject, final String message);
-    MailStatus sendEmailWithAttachment(final String[] recipient, final String subject, final String message, final File[] attachmentFile);
-    
+	MailStatus sendEmail(final String[] recipients, final String subject, final String message);
+
+	MailStatus sendEmailWithAttachment(final String[] recipient, final String subject, final String message,
+			final File[] attachmentFile);
+
 }

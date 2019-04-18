@@ -31,33 +31,34 @@ package com.moveatis.helpers;
 
 /**
  * The helper class contains the static validation function(s).
+ * 
  * @author Ilari Paananen
  */
 public class Validation {
 
-    /**
-     * Validates the given string so that it can be placed as a JavaScript string
-     * in an HTML script tag.
-     * @param s The string to be validated.
-     * @return The validated string that contains only accepted characters.
-     */
-    public static String validateForJsAndHtml(String s) {
-        // TODO: Allow some other chars? Don't allow some of these?
-        //       Maybe only blacklist characters shown here:
-        //       http://benv.ca/2012/10/02/you-are-probably-misusing-DOM-text-methods/
-        String validChars = " ,.-;:_!?*/+()[]{}|=#";
+	/**
+	 * Validates the given string so that it can be placed as a JavaScript string in
+	 * an HTML script tag.
+	 * 
+	 * @param s The string to be validated.
+	 * @return The validated string that contains only accepted characters.
+	 */
+	public static String validateForJsAndHtml(String s) {
+		// TODO: Allow some other chars? Don't allow some of these?
+		// Maybe only blacklist characters shown here:
+		// http://benv.ca/2012/10/02/you-are-probably-misusing-DOM-text-methods/
+		String validChars = " ,.-;:_!?*/+()[]{}|=#";
 
-        StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < s.length(); ) {
-            int codePoint = s.codePointAt(i);
-            if (Character.isLetterOrDigit(codePoint) ||
-                (validChars.indexOf(codePoint) >= 0)) {
-                sb.appendCodePoint(codePoint);
-            }
-            i += Character.charCount(codePoint);
-        }
+		for (int i = 0; i < s.length();) {
+			int codePoint = s.codePointAt(i);
+			if (Character.isLetterOrDigit(codePoint) || (validChars.indexOf(codePoint) >= 0)) {
+				sb.appendCodePoint(codePoint);
+			}
+			i += Character.charCount(codePoint);
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 }

@@ -42,33 +42,53 @@ import java.util.TimeZone;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the session entity.
- * The session is a context, in which a particular user is using Moveatis.
- * The session has information, that is meaningful in the current context,
- * such as whether the user has been identified or not.
+ * The interface to manage the session entity. The session is a context, in
+ * which a particular user is using Moveatis. The session has information, that
+ * is meaningful in the current context, such as whether the user has been
+ * identified or not.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Session.class)
 public interface Session {
-    
-     void setTagUser(TagUserEntity tagUser);
-     void setIdentityProviderUser(IdentifiedUserEntity user);
-     void setAnonymityUser();
-     boolean isLoggedIn();
-     boolean isIdentifiedUser();
-     boolean isSaveable();
-     SortedSet<Long> getSessionObservationsIds();
-     void setSessionObservations(SortedSet<Long> observationsIds);
-     AbstractUser getLoggedInUser();
-     IdentifiedUserEntity getLoggedIdentifiedUser();
-     GroupKeyEntity getGroupKey();
-     TimeZone getSessionTimeZone();
-     void setSessionTimeZone(TimeZone timeZone);
-     boolean getIsLocalhost();
-     void setReturnUri(String uri);
-     String getReturnUri();
-     void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
-     List<ObservationCategorySet> getCategorySetsInUse();
-     void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets);
-     List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse();
+
+	void setTagUser(TagUserEntity tagUser);
+
+	void setIdentityProviderUser(IdentifiedUserEntity user);
+
+	void setAnonymityUser();
+
+	boolean isLoggedIn();
+
+	boolean isIdentifiedUser();
+
+	boolean isSaveable();
+
+	SortedSet<Long> getSessionObservationsIds();
+
+	void setSessionObservations(SortedSet<Long> observationsIds);
+
+	AbstractUser getLoggedInUser();
+
+	IdentifiedUserEntity getLoggedIdentifiedUser();
+
+	GroupKeyEntity getGroupKey();
+
+	TimeZone getSessionTimeZone();
+
+	void setSessionTimeZone(TimeZone timeZone);
+
+	boolean getIsLocalhost();
+
+	void setReturnUri(String uri);
+
+	String getReturnUri();
+
+	void setCategorySetsInUse(List<ObservationCategorySet> categorySets);
+
+	List<ObservationCategorySet> getCategorySetsInUse();
+
+	void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets);
+
+	List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse();
 }

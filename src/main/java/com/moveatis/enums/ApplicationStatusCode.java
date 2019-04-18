@@ -30,13 +30,14 @@
 package com.moveatis.enums;
 
 /**
- * The enum contains the information of the status of the application. The application
- * can be already installed, the installation went fine, or there was an error.
+ * The enum contains the information of the status of the application. The
+ * application can be already installed, the installation went fine, or there
+ * was an error.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public enum ApplicationStatusCode {
-    
-    ALREADY_INSTALLED, INSTALLATION_OK, INSTALLATION_FAILED
-    
+
+	ALREADY_INSTALLED, INSTALLATION_OK, INSTALLATION_FAILED
+
 }

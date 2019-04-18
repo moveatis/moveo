@@ -1,5 +1,6 @@
 /* 
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Visa Nykänen, Tuomas Moisio, Petra Puumala, Karoliina Lappalainen 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,41 +43,41 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- * The EJB manages the Category entity.
+ * The EJB manages categories for both feedbackanalysis and observation.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class CategoryBean extends AbstractBean<AbstractCategoryEntity> implements Category {
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
-    
-    @Inject
-    private CategorySet categorySetEJB;
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@Inject
+	private CategorySet categorySetEJB;
 
-    public CategoryBean() {
-        super(AbstractCategoryEntity.class);
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
 
+	public CategoryBean() {
+		super(AbstractCategoryEntity.class);
+	}
 
-    /**
-     * Removes the category from the category set.
-     * 
-     * @param whichCategorySet The category set the category belongs to.
-     * @param whichCategory The category to be removed.
-     */
-    @Override
-    public void removeFromCategorySet(AbstractCategorySetEntity whichCategorySet, AbstractCategoryEntity whichCategory) {
+	/**
+	 * Removes the category from the category set.
+	 * 
+	 * @param whichCategorySet The category set the category belongs to.
+	 * @param whichCategory    The category to be removed.
+	 */
+	@Override
+	public void removeFromCategorySet(AbstractCategorySetEntity whichCategorySet,
+			AbstractCategoryEntity whichCategory) {
 
-    		super.remove(whichCategory);
-    		categorySetEJB.removeCategoryFromCategorySet(whichCategorySet, whichCategory);
-    		whichCategory.setCategorySet(null);
-    		super.edit(whichCategory);
-    }
+		super.remove(whichCategory);
+		categorySetEJB.removeCategoryFromCategorySet(whichCategorySet, whichCategory);
+		whichCategory.setCategorySet(null);
+		super.edit(whichCategory);
+	}
 }
-    

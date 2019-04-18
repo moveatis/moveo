@@ -39,23 +39,24 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The EJB manages an identified user. It is not used much in version 1.0
+ * 
  * @author Sami Kallio <phinalium at outlook.com>
  */
 @Stateless
 public class UserBean extends AbstractBean<IdentifiedUserEntity> implements User {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserBean.class);
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserBean.class);
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    public UserBean() {
-        super(IdentifiedUserEntity.class);
-    }
-    
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	public UserBean() {
+		super(IdentifiedUserEntity.class);
+	}
+
 }

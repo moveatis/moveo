@@ -39,44 +39,46 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**
- * The bean sets the superuser role for the identified users. It is not used
- * in the current version of Moveatis.
+ * The bean sets the superuser role for the identified users. It is not used in
+ * the current version of Moveatis.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com
  */
 @Named(value = "superUserBean")
 @RequestScoped
 public class SuperUserManagedBean {
-    
-    @Inject
-    private Role roleBean;
 
-    public SuperUserManagedBean() {
-        
-    }
-    
-    /**
-     * Adds the superuser role to the given identified user.
-     */
-    public void addSuperUserRights(IdentifiedUserEntity userEntity) {
-        roleBean.addSuperuserRoleToUser(userEntity);
-    }
+	@Inject
+	private Role roleBean;
 
-    /**
-     * Adds the superuser role for the given time period to the given identified user.
-     */
-    public void addSuperUserRights(IdentifiedUserEntity userEntity, Date startDate, Date endDate) {
-        roleBean.addSuperuserRoleToUser(userEntity, startDate, endDate);
-    }
+	public SuperUserManagedBean() {
 
-    /**
-     * Removes the superuser role from the given identified user.
-     */
-    public void removeSuperUserRights(IdentifiedUserEntity userEntity) {
-        roleBean.removeSuperuserRoleFromUser(userEntity);
-    }
-    
-    public List<SuperUserRoleEntity> listSuperUsers() {
-        return roleBean.listSuperusers();
-    }
-    
+	}
+
+	/**
+	 * Adds the superuser role to the given identified user.
+	 */
+	public void addSuperUserRights(IdentifiedUserEntity userEntity) {
+		roleBean.addSuperuserRoleToUser(userEntity);
+	}
+
+	/**
+	 * Adds the superuser role for the given time period to the given identified
+	 * user.
+	 */
+	public void addSuperUserRights(IdentifiedUserEntity userEntity, Date startDate, Date endDate) {
+		roleBean.addSuperuserRoleToUser(userEntity, startDate, endDate);
+	}
+
+	/**
+	 * Removes the superuser role from the given identified user.
+	 */
+	public void removeSuperUserRights(IdentifiedUserEntity userEntity) {
+		roleBean.removeSuperuserRoleFromUser(userEntity);
+	}
+
+	public List<SuperUserRoleEntity> listSuperUsers() {
+		return roleBean.listSuperusers();
+	}
+
 }

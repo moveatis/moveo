@@ -37,43 +37,44 @@ import javax.inject.Inject;
 
 /**
  * The bean that serves the application installation view.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@ManagedBean(name="applicationManagedBean")
+@ManagedBean(name = "applicationManagedBean")
 @RequestScoped
 public class ApplicationManagedBean {
 
-    @Inject
-    private Application applicationEJB;
-    
-    @Inject
-    private Session sessionBean;
-    
-    public ApplicationManagedBean() {
-        
-    }
+	@Inject
+	private Application applicationEJB;
 
-    /**
-     * Returns true if the application has been installed, otherwise false.
-     */
-    public Boolean getInstalled() {
-        return applicationEJB.checkInstalled();
-    }
-    
-    /**
-     * Redirects the user to the installation URI if the application has not
-     * been installed yet. If the application is running on localhost server
-     * it redirects to the localhost version of the installation URI.
-     */
-    public String doInstall() {
-        if(applicationEJB.checkInstalled()) {
-            return "index?faces-redirect=true";
-        } else {
-            if(sessionBean.getIsLocalhost()) {
-                return "jyutesting/index.xhtml?faces-redirect=true";
-            } else {
-                return "install?faces-redirect=true";
-            }
-        }
-    }
+	@Inject
+	private Session sessionBean;
+
+	public ApplicationManagedBean() {
+
+	}
+
+	/**
+	 * Returns true if the application has been installed, otherwise false.
+	 */
+	public Boolean getInstalled() {
+		return applicationEJB.checkInstalled();
+	}
+
+	/**
+	 * Redirects the user to the installation URI if the application has not been
+	 * installed yet. If the application is running on localhost server it redirects
+	 * to the localhost version of the installation URI.
+	 */
+	public String doInstall() {
+		if (applicationEJB.checkInstalled()) {
+			return "index?faces-redirect=true";
+		} else {
+			if (sessionBean.getIsLocalhost()) {
+				return "jyutesting/index.xhtml?faces-redirect=true";
+			} else {
+				return "install?faces-redirect=true";
+			}
+		}
+	}
 }

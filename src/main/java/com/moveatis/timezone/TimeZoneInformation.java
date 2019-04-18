@@ -35,43 +35,37 @@ import java.util.TimeZone;
 
 /**
  * The class to keep the default time zone of Moveatis.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class TimeZoneInformation {
-    
-    /**
-     * We use stardard UTC timezone for saving information to
-     * the server - the client can then convert this time
-     * his/her timezone
-     */
-    private static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
-    
-    public TimeZoneInformation() {
-        
-    }
 
-    public static TimeZone getTimeZone() {
-        return TIMEZONE;
-    }
+	/**
+	 * We use stardard UTC timezone for saving information to the server - the
+	 * client can then convert this time his/her timezone
+	 */
+	private static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
 
-    /**
-     * Gets a TimeZone from the time zone offset and the daylight saving time.
-     *
-     * @param offset the time zone offset in milliseconds.
-     * @param DSTSaving the daylight saving time in milliseconds.
-     */
-    public static TimeZone getTimeZoneFromOffset(int offset, int DSTSaving) {
-        if (DSTSaving > 0) {
-            return new SimpleTimeZone(
-                    offset - DSTSaving, "GMT/" + offset,
-                    Calendar.JANUARY, -1, Calendar.SUNDAY,
-                    2,
-                    Calendar.DECEMBER, -1, Calendar.SUNDAY,
-                    2,
-                    DSTSaving
-            );
-        } else {
-            return new SimpleTimeZone(offset, "GMT/" + offset);
-        }
-    }
+	public TimeZoneInformation() {
+
+	}
+
+	public static TimeZone getTimeZone() {
+		return TIMEZONE;
+	}
+
+	/**
+	 * Gets a TimeZone from the time zone offset and the daylight saving time.
+	 *
+	 * @param offset    the time zone offset in milliseconds.
+	 * @param DSTSaving the daylight saving time in milliseconds.
+	 */
+	public static TimeZone getTimeZoneFromOffset(int offset, int DSTSaving) {
+		if (DSTSaving > 0) {
+			return new SimpleTimeZone(offset - DSTSaving, "GMT/" + offset, Calendar.JANUARY, -1, Calendar.SUNDAY, 2,
+					Calendar.DECEMBER, -1, Calendar.SUNDAY, 2, DSTSaving);
+		} else {
+			return new SimpleTimeZone(offset, "GMT/" + offset);
+		}
+	}
 }

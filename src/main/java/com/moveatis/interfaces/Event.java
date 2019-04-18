@@ -37,34 +37,34 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the event entity.
- * Event specifies the situation that is observed.
- * For example, the event could be "Teaching situation number 4".
+ * The interface to manage the event entity. Event specifies the situation that
+ * is observed. For example, the event could be "Teaching situation number 4".
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(Event.class)
 public interface Event {
 
-    void create(EventEntity eventEntity);
+	void create(EventEntity eventEntity);
 
-    void edit(EventEntity eventEntity);
+	void edit(EventEntity eventEntity);
 
-    void remove(EventEntity eventEntity);
+	void remove(EventEntity eventEntity);
 
-    EventEntity find(Object id);
+	EventEntity find(Object id);
 
-    List<EventEntity> findAll();
+	List<EventEntity> findAll();
 
-    List<EventEntity> findRange(int[] range);
-    
-    void removeObservation(ObservationEntity observationEntity);
-    
-    List<EventEntity> findEventsForUser(IdentifiedUserEntity user);
-    
-    EventEntity getEventEntity();
-    
-    int count();
+	List<EventEntity> findRange(int[] range);
+
+	void removeObservation(ObservationEntity observationEntity);
+
+	List<EventEntity> findEventsForUser(IdentifiedUserEntity user);
+
+	EventEntity getEventEntity();
+
+	int count();
 
 	void removeFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
-    
+
 }

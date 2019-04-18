@@ -34,81 +34,78 @@
 */
 
 /* Custom styles for the Timeline component. */
-
 #timeline {
-    clear: both;
-    margin-bottom: 1em;
-    margin-right: 2px;
-    margin-left: 2px;
-    margin-top: 2em;
+	clear: both;
+	margin-bottom: 1em;
+	margin-right: 2px;
+	margin-left: 2px;
+	margin-top: 2em;
 }
 
 #timeline .timeline-event {
-    color: #AEAEAE;
-    background: #AF2A01;
-    border-color: #932301;
-    box-shadow: none;
-    margin-top: 0px;
+	color: #AEAEAE;
+	background: #AF2A01;
+	border-color: #932301;
+	box-shadow: none;
+	margin-top: 0px;
 }
 
 #timeline .timeline-event-content {
-    margin: 0;
-    padding: 10px;
-    text-shadow: none;
+	margin: 0;
+	padding: 10px;
+	text-shadow: none;
 }
 
-#timeline .timeline-axis,
-#timeline .timeline-groups-axis {
-    background-color: #008AB9;
-    background: linear-gradient(0deg, #008AB9, #10A1D1);    
-    opacity: 1;
+#timeline .timeline-axis, #timeline .timeline-groups-axis {
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	opacity: 1;
 }
 
 #timeline .timeline-axis-text {
-    font-size: 0.9em;
-    color: white;
+	font-size: 0.9em;
+	color: white;
 }
 
 #timeline .timeline-axis-grid {
-    border-left-style: dashed!important;
-    border-top-style: dashed!important;
+	border-left-style: dashed !important;
+	border-top-style: dashed !important;
 }
 
-#timeline .timeline-groups-axis  > .timeline-groups-text {
-    color: white;
+#timeline .timeline-groups-axis>.timeline-groups-text {
+	color: white;
 }
 
 #timeline .timeline-event-selected .timeline-event-content {
-    cursor: default;
+	cursor: default;
 }
 
 #timeline .timeline-event-selected {
-    background-color: #E5E5E5;
-    border-color: #D3D3D3;
+	background-color: #E5E5E5;
+	border-color: #D3D3D3;
 }
 
 #timeline .categoryLabel {
-    display: none!important;
+	display: none !important;
 }
 
 #timeline .timeline-frame {
-    border-radius: 0.2em;
-    border: none;
+	border-radius: 0.2em;
+	border: none;
 }
 
-#timeline .ui-widget-content:not(.timeline-axis) {
-    color: #000;
+#timeline .ui-widget-content:not (.timeline-axis ) {
+	color: #000;
 }
 
 #timeline .timeline-axis {
-    color: #008AB9;
+	color: #008AB9;
 }
 
-#timeline .timeline-groups-text,
-#timeline .timeline-axis {
-    font-family: Arial,sans-serif;
+#timeline .timeline-groups-text, #timeline .timeline-axis {
+	font-family: Arial, sans-serif;
 }
+
 .dummyRecord {
-    display: none!important;
+	display: none !important;
 }
-

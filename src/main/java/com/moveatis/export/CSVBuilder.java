@@ -37,100 +37,109 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * Builds CSV formatted data to OutputStream.
+ * 
  * @author Ilari Paananen
  */
 public class CSVBuilder {
-    private OutputStreamWriter out;
-    private String sep;
-    private boolean atLineBegin;
+	private OutputStreamWriter out;
+	private String sep;
+	private boolean atLineBegin;
 
-    /**
-     * Constructs a builder with the given stream and separator.
-     * @param output The stream to write the CSV data to.
-     * @param separator The separator to be used between the fields.
-     */
-    public CSVBuilder(OutputStream output, String separator) {
-        out = new OutputStreamWriter(output, StandardCharsets.UTF_8);
-        sep = separator;
-        atLineBegin = true;
-    }
+	/**
+	 * Constructs a builder with the given stream and separator.
+	 * 
+	 * @param output    The stream to write the CSV data to.
+	 * @param separator The separator to be used between the fields.
+	 */
+	public CSVBuilder(OutputStream output, String separator) {
+		out = new OutputStreamWriter(output, StandardCharsets.UTF_8);
+		sep = separator;
+		atLineBegin = true;
+	}
 
-    /**
-     * Adds the long field to the stream.
-     * @param value The field value.
-     * @return The instance of the CSVBuilder for convenience.
-     * @throws IOException 
-     */
-    public CSVBuilder add(Long value) throws IOException {
-        writeSep();
-        write(value.toString());
-        return this;
-    }
-    
-    /**
-     * Adds the long field followed by a percent character (%) to the stream.
-     * @param value Field value.
-     * @return The instance of the CSVBuilder for convenience.
-     * @throws IOException 
-     */
-    public CSVBuilder addPercent(Long value) throws IOException {
-        writeSep();
-        write(value + "%");
-        return this;
-    }
+	/**
+	 * Adds the long field to the stream.
+	 * 
+	 * @param value The field value.
+	 * @return The instance of the CSVBuilder for convenience.
+	 * @throws IOException
+	 */
+	public CSVBuilder add(Long value) throws IOException {
+		writeSep();
+		write(value.toString());
+		return this;
+	}
 
-    /**
-     * Escapes the string field and adds it to the stream.
-     * @param value The field value.
-     * @return The instance of the CSVBuilder for convenience.
-     * @throws IOException 
-     */
-    public CSVBuilder add(String value) throws IOException {
-        writeSep();
-        if (value != null)
-            write("\"" + StringEscapeUtils.escapeCsv(value) + "\"");
-        else
-            write("\"\"");
-        return this;
-    }
+	/**
+	 * Adds the long field followed by a percent character (%) to the stream.
+	 * 
+	 * @param value Field value.
+	 * @return The instance of the CSVBuilder for convenience.
+	 * @throws IOException
+	 */
+	public CSVBuilder addPercent(Long value) throws IOException {
+		writeSep();
+		write(value + "%");
+		return this;
+	}
 
-    /**
-     * Adds a CSV new line to the stream.
-     * @return The instance of the CSVBuilder for convenience.
-     * @throws IOException 
-     */
-    public CSVBuilder newLine() throws IOException {
-        write("\r\n");
-        atLineBegin = true;
-        return this;
-    }
-    
-    /**
-     * Closes the writer that uses the OutputStream given in the constructor.
-     * @throws IOException 
-     */
-    public void close() throws IOException {
-        out.close();
-    }
-    
-    /**
-     * Writes a string to the output stream. Makes it easier to replace member
-     * OutputStreamWriter with something else if needed.
-     * @param s String to write.
-     * @throws IOException 
-     */
-    private void write(String s) throws IOException {
-        out.write(s);
-    }
+	/**
+	 * Escapes the string field and adds it to the stream.
+	 * 
+	 * @param value The field value.
+	 * @return The instance of the CSVBuilder for convenience.
+	 * @throws IOException
+	 */
+	public CSVBuilder add(String value) throws IOException {
+		writeSep();
+		if (value != null)
+			write("\"" + StringEscapeUtils.escapeCsv(value) + "\"");
+		else
+			write("\"\"");
+		return this;
+	}
 
-    /**
-     * Writes separator if we aren't at the begin of a line.
-     * @throws IOException 
-     */
-    private void writeSep() throws IOException {
-        if (atLineBegin)
-            atLineBegin = false;
-        else
-            write(sep);
-    }
+	/**
+	 * Adds a CSV new line to the stream.
+	 * 
+	 * @return The instance of the CSVBuilder for convenience.
+	 * @throws IOException
+	 */
+	public CSVBuilder newLine() throws IOException {
+		write("\r\n");
+		atLineBegin = true;
+		return this;
+	}
+
+	/**
+	 * Closes the writer that uses the OutputStream given in the constructor.
+	 * 
+	 * @throws IOException
+	 */
+	public void close() throws IOException {
+		out.close();
+	}
+
+	/**
+	 * Writes a string to the output stream. Makes it easier to replace member
+	 * OutputStreamWriter with something else if needed.
+	 * 
+	 * @param s String to write.
+	 * @throws IOException
+	 */
+	private void write(String s) throws IOException {
+		out.write(s);
+	}
+
+	/**
+	 * Writes separator if we aren't at the begin of a line.
+	 * 
+	 * @throws IOException
+	 */
+	private void writeSep() throws IOException {
+		if (atLineBegin)
+			atLineBegin = false;
+		else
+			write(sep);
+	}
 }

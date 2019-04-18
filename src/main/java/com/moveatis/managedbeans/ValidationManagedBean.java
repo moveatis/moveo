@@ -44,64 +44,67 @@ import javax.inject.Inject;
 
 /**
  * The bean implements commonly used methods to validate user input.
+ * 
  * @author Ilari Paananen
  */
 @Named(value = "validationBean")
 @RequestScoped
 public class ValidationManagedBean {
-    
-    @Inject @MessageBundle
-    private transient ResourceBundle messages;
-    
-    @Inject
-    private GroupKey groupKeyEJB;
-    
-    private void throwError(String message) {
-        throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
-    }
-    
-    public void validateStringForJsAndHtml(FacesContext context, UIComponent component, Object value) {
-        String s = (String)value;
-        String valid = Validation.validateForJsAndHtml(s);
-        if (!s.equals(valid)) {
+
+	@Inject
+	@MessageBundle
+	private transient ResourceBundle messages;
+
+	@Inject
+	private GroupKey groupKeyEJB;
+
+	private void throwError(String message) {
+		throw new ValidatorException(
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
+	}
+
+	public void validateStringForJsAndHtml(FacesContext context, UIComponent component, Object value) {
+		String s = (String) value;
+		String valid = Validation.validateForJsAndHtml(s);
+		if (!s.equals(valid)) {
 //            String error = MessageFormat.format(messages.getString("validate_invalidChars"), invalidChars);
-            String error = messages.getString("validate_invalidChars");
-            throwError(error);
-        }
-    }
+			String error = messages.getString("validate_invalidChars");
+			throwError(error);
+		}
+	}
 
-    public void validateGroupKey(FacesContext context, UIComponent component, Object value) {
-        validateStringForJsAndHtml(context, component, value);
-        validateStringMinLength((String) value, 4);
-        validateStringMaxLength((String) value, 64);
-        if(groupKeyEJB.findByKey((String) value) != null) {
-            String error = messages.getString("validate_groupKeyReserved");
-            throwError(error);
-        }
-    }
-    
-    public void validateShortString(FacesContext context, UIComponent component, Object value) {
-        validateStringForJsAndHtml(context, component, value);
-        validateStringMaxLength((String) value, 64);
-    }
+	public void validateGroupKey(FacesContext context, UIComponent component, Object value) {
+		validateStringForJsAndHtml(context, component, value);
+		validateStringMinLength((String) value, 4);
+		validateStringMaxLength((String) value, 64);
+		if (groupKeyEJB.findByKey((String) value) != null) {
+			String error = messages.getString("validate_groupKeyReserved");
+			throwError(error);
+		}
+	}
 
-    public void validateLongString(FacesContext context, UIComponent component, Object value) {
-        validateStringForJsAndHtml(context, component, value);
-        validateStringMaxLength((String) value, 256);
-    }
+	public void validateShortString(FacesContext context, UIComponent component, Object value) {
+		validateStringForJsAndHtml(context, component, value);
+		validateStringMaxLength((String) value, 64);
+	}
 
-    private void validateStringMaxLength(String str, int maxLength) {
-        if (str.length() > maxLength) {
-            String error = MessageFormat.format(messages.getString("validate_maxLength"), maxLength);
-            throwError(error);
-        }
-    }
-    
-    private void validateStringMinLength(String str, int minLength) {
-        if (str.length() < minLength) {
-            String error = MessageFormat.format(messages.getString("validate_minLength"), minLength);
-            throwError(error);
-        }
-    }
+	public void validateLongString(FacesContext context, UIComponent component, Object value) {
+		validateStringForJsAndHtml(context, component, value);
+		validateStringMaxLength((String) value, 256);
+	}
+
+	private void validateStringMaxLength(String str, int maxLength) {
+		if (str.length() > maxLength) {
+			String error = MessageFormat.format(messages.getString("validate_maxLength"), maxLength);
+			throwError(error);
+		}
+	}
+
+	private void validateStringMinLength(String str, int minLength) {
+		if (str.length() < minLength) {
+			String error = MessageFormat.format(messages.getString("validate_minLength"), minLength);
+			throwError(error);
+		}
+	}
 
 }

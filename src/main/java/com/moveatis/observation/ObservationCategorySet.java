@@ -36,90 +36,92 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The observation has its own category sets, so renaming or removing
- * original category sets does not alter old observations.
+ * The observation has its own category sets, so renaming or removing original
+ * category sets does not alter old observations.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Ilari Paananen <ilari.k.paananen at student.jyu.fi>
  */
 public class ObservationCategorySet implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
-    
-    private final Long id;
-    private final String name;
-    private final List<ObservationCategory> categories;
-    
-    /**
-     * Creates a new instance of ObservationCategorySet with the given id and name.
-     */
-    public ObservationCategorySet(Long id, String name) {
-        this.id = id;
-        this.name = name;
-        this.categories = new ArrayList<>();
-    }
 
-    public Long getId() {
-        return id;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public String getName() {
-        return name;
-    }
+	private final Long id;
+	private final String name;
+	private final List<ObservationCategory> categories;
 
-    /**
-     * Returns the list of the categories in the category set.
-     */
-    public List<ObservationCategory> getCategories() {
-        return categories;
-    }
-    
-    /**
-     * Adds a new category to the list of the categories.
-     * @param type The type of the new category.
-     * @param tag The tag of the new category.
-     * @param name The name of the new category.
-     */
-    public void add(CategoryType type, Long tag, String name) {
-        ObservationCategory category = new ObservationCategory();
-        category.setType(type);
-        category.setName(name);
-        category.setTag(tag);
-        categories.add(category);
-    }
-    
-    
-	public void add(Long tag, String name) {
-        ObservationCategory category = new ObservationCategory();
-        category.setName(name);
-        category.setTag(tag);
-        category.setType(CategoryType.COUNTED);
-        categories.add(category);		
+	/**
+	 * Creates a new instance of ObservationCategorySet with the given id and name.
+	 */
+	public ObservationCategorySet(Long id, String name) {
+		this.id = id;
+		this.name = name;
+		this.categories = new ArrayList<>();
 	}
 
-    /**
-     * Adds the given category to the list of the categories.
-     * @param category The category to be added.
-     */
-    public void add(ObservationCategory category) {
-        categories.add(category);
-    }
-    
-    /**
-     * Adds an empty category to the list of the categories.
-     */
-    public void addEmpty() {
-        ObservationCategory category = new ObservationCategory();
-        category.setTag(-1L);
-        categories.add(category);
-    }
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * Removes the given category from the list of the categories.
-     * @param category The category to be removed.
-     */
-    public void remove(ObservationCategory category) {
-        categories.remove(category);
-    }
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Returns the list of the categories in the category set.
+	 */
+	public List<ObservationCategory> getCategories() {
+		return categories;
+	}
+
+	/**
+	 * Adds a new category to the list of the categories.
+	 * 
+	 * @param type The type of the new category.
+	 * @param tag  The tag of the new category.
+	 * @param name The name of the new category.
+	 */
+	public void add(CategoryType type, Long tag, String name) {
+		ObservationCategory category = new ObservationCategory();
+		category.setType(type);
+		category.setName(name);
+		category.setTag(tag);
+		categories.add(category);
+	}
+
+	public void add(Long tag, String name) {
+		ObservationCategory category = new ObservationCategory();
+		category.setName(name);
+		category.setTag(tag);
+		category.setType(CategoryType.COUNTED);
+		categories.add(category);
+	}
+
+	/**
+	 * Adds the given category to the list of the categories.
+	 * 
+	 * @param category The category to be added.
+	 */
+	public void add(ObservationCategory category) {
+		categories.add(category);
+	}
+
+	/**
+	 * Adds an empty category to the list of the categories.
+	 */
+	public void addEmpty() {
+		ObservationCategory category = new ObservationCategory();
+		category.setTag(-1L);
+		categories.add(category);
+	}
+
+	/**
+	 * Removes the given category from the list of the categories.
+	 * 
+	 * @param category The category to be removed.
+	 */
+	public void remove(ObservationCategory category) {
+		categories.remove(category);
+	}
 
 }

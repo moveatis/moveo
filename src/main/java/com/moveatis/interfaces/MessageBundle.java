@@ -42,12 +42,13 @@ import javax.inject.Qualifier;
 /**
  * The qualifier for the message bundle is needed to provide a resource bundle
  * as injected resource for transient managed beans.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Qualifier
-@Target({TYPE,METHOD,PARAMETER,FIELD })
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)
 @Documented
 public @interface MessageBundle {
-    
+
 }

@@ -48,92 +48,100 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The EJB manages the CategorySet entities.
+ * The EJB manages the CategorySet entities for both observation and
+ * analyzation.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Visa Nykänen
  */
 @Stateless
 public class CategorySetBean extends AbstractBean<AbstractCategorySetEntity> implements CategorySet {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(CategorySetBean.class);
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
-    
-    @Inject
-    private AnonUser anonUserEJB;
-    
-    @Inject
-    private EventGroup eventGroupEJB;
+	private static final Logger LOGGER = LoggerFactory.getLogger(CategorySetBean.class);
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    public CategorySetBean() {
-        super(AbstractCategorySetEntity.class);
-    }
-    
-    public void detachCategorySet(AbstractCategorySetEntity categorySetEntity) {
-    	em.detach(categorySetEntity);
-    	categorySetEntity.setId(null);
-    	categorySetEntity.setEventGroupEntity(null);
-    	for (AbstractCategoryEntity cat: categorySetEntity.getCategoryEntitys().values())
-    		cat.setId(null);
-    }
-    
-    /**
-     * Sets the category set removal date and removes the category set from event groups.
-     * @param categorySetEntity The category set entity to be removed.
-     */
-    @Override
-    public void remove(AbstractCategorySetEntity categorySetEntity) {
-        super.remove(categorySetEntity);
-        eventGroupEJB.removeCategorySetEntityFromEventGroups(categorySetEntity);
-        categorySetEntity.setEventGroupEntity(null);
-        super.edit(categorySetEntity);
-    }
+	@Inject
+	private AnonUser anonUserEJB;
 
-    /**
-     * Finds the category sets that are set as public.
-     * @return Set of all public category set entities.
-     */
-    @Override
-    public Set<AbstractCategorySetEntity> findPublicCategorySets() {
-        
-        List<EventGroupEntity> publicEventGroups = eventGroupEJB.findAllForPublicUser();
-        Set<AbstractCategorySetEntity> publicCategorySets = new HashSet<>();
-        
-        for(EventGroupEntity eventGroupEntity : publicEventGroups) {
-            Set<CategorySetEntity> eventGroupCategorySets = eventGroupEntity.getCategorySets();
-            publicCategorySets.addAll(eventGroupCategorySets);
-        }
-        
-        return publicCategorySets;
-    }
-    
-    /**
-     * Removes the category from the category set.
-     * @param categorySet The category set from which the category is removed from.
-     * @param categoryEntity The category to be removed from the category set.
-     */
-    @Override
-    public void removeCategoryFromCategorySet(AbstractCategorySetEntity categorySet, AbstractCategoryEntity categoryEntity) {
-        Map<Integer, AbstractCategoryEntity> categories = categorySet.getCategoryEntitys();
-        Integer keyFound = -1;
-        
-        for(Integer key : categories.keySet()) {
-            if(categories.get(key).getId().equals(categoryEntity.getId())) {
-                keyFound = key;
-            }
-        }
-        
-        if(keyFound > -1) {
-            categories.remove(keyFound);
-        }
-        
-        categorySet.setCategoryEntitys(categories);
-        super.edit(categorySet);
-    }
+	@Inject
+	private EventGroup eventGroupEJB;
+
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	public CategorySetBean() {
+		super(AbstractCategorySetEntity.class);
+	}
+
+	public void detachCategorySet(AbstractCategorySetEntity categorySetEntity) {
+		em.detach(categorySetEntity);
+		categorySetEntity.setId(null);
+		categorySetEntity.setEventGroupEntity(null);
+		for (AbstractCategoryEntity cat : categorySetEntity.getCategoryEntitys().values())
+			cat.setId(null);
+	}
+
+	/**
+	 * Sets the category set removal date and removes the category set from event
+	 * groups.
+	 * 
+	 * @param categorySetEntity The category set entity to be removed.
+	 */
+	@Override
+	public void remove(AbstractCategorySetEntity categorySetEntity) {
+		super.remove(categorySetEntity);
+		eventGroupEJB.removeCategorySetEntityFromEventGroups(categorySetEntity);
+		categorySetEntity.setEventGroupEntity(null);
+		super.edit(categorySetEntity);
+	}
+
+	/**
+	 * Finds the category sets that are set as public.
+	 * 
+	 * @return Set of all public category set entities.
+	 */
+	@Override
+	public Set<AbstractCategorySetEntity> findPublicCategorySets() {
+
+		List<EventGroupEntity> publicEventGroups = eventGroupEJB.findAllForPublicUser();
+		Set<AbstractCategorySetEntity> publicCategorySets = new HashSet<>();
+
+		for (EventGroupEntity eventGroupEntity : publicEventGroups) {
+			Set<CategorySetEntity> eventGroupCategorySets = eventGroupEntity.getCategorySets();
+			publicCategorySets.addAll(eventGroupCategorySets);
+		}
+
+		return publicCategorySets;
+	}
+
+	/**
+	 * Removes the category from the category set.
+	 * 
+	 * @param categorySet    The category set from which the category is removed
+	 *                       from.
+	 * @param categoryEntity The category to be removed from the category set.
+	 */
+	@Override
+	public void removeCategoryFromCategorySet(AbstractCategorySetEntity categorySet,
+			AbstractCategoryEntity categoryEntity) {
+		Map<Integer, AbstractCategoryEntity> categories = categorySet.getCategoryEntitys();
+		Integer keyFound = -1;
+
+		for (Integer key : categories.keySet()) {
+			if (categories.get(key).getId().equals(categoryEntity.getId())) {
+				keyFound = key;
+			}
+		}
+
+		if (keyFound > -1) {
+			categories.remove(keyFound);
+		}
+
+		categorySet.setCategoryEntitys(categories);
+		super.edit(categorySet);
+	}
 }

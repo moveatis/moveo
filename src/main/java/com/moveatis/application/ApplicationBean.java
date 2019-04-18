@@ -39,8 +39,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The Application enterprise bean controls access to the application entity.
- * It is a singleton bean, so only one instance is running at any time, and it is 
+ * The Application enterprise bean controls access to the application entity. It
+ * is a singleton bean, so only one instance is running at any time, and it is
  * automatically started when the application is started.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
@@ -48,34 +48,34 @@ import org.slf4j.LoggerFactory;
 @Singleton
 @Startup
 public class ApplicationBean extends AbstractBean<ApplicationEntity> implements Application {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationBean.class);
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
+	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationBean.class);
 
-    public ApplicationBean() {
-        super(ApplicationEntity.class);
-    }
-    
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    /**
-     * Checks if the application has been installed.
-     */
-    @Override
-    public boolean checkInstalled() { 
-        return super.findAll().size() == 1;
-    }  
+	public ApplicationBean() {
+		super(ApplicationEntity.class);
+	}
 
-    /**
-     * Gets the singleton application entity.
-     */
-    @Override
-    public ApplicationEntity getApplicationEntity() {
-        return super.findAll().get(0);
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	/**
+	 * Checks if the application has been installed.
+	 */
+	@Override
+	public boolean checkInstalled() {
+		return super.findAll().size() == 1;
+	}
+
+	/**
+	 * Gets the singleton application entity.
+	 */
+	@Override
+	public ApplicationEntity getApplicationEntity() {
+		return super.findAll().get(0);
+	}
 }

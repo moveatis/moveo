@@ -33,9 +33,11 @@ import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The interface for the identity provider service that must be implemented, if
- * the identity provider service needs to be customized outside Jyväskylä University.
+ * the identity provider service needs to be customized outside Jyväskylä
+ * University.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public interface IdentityProvider {
-    IdentifiedUserEntity getIdentifiedUserEntity();
+	IdentifiedUserEntity getIdentifiedUserEntity();
 }

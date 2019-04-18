@@ -40,34 +40,35 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * The EJB manages the anonymity user, which represents the public user
- * of Moveatis. The class is not used in version 1.0
+ * The EJB manages the anonymity user, which represents the public user of
+ * Moveatis. The class is not used in version 1.0
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Stateless
 public class AnonUserBean extends AbstractBean<AnonUserEntity> implements AnonUser {
-    
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
 
-    public AnonUserBean() {
-        super(AnonUserEntity.class);
-    }
-    
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Override
-    public AnonUserEntity find() {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<AnonUserEntity> cq = cb.createQuery(AnonUserEntity.class);
-      
-        Root<AnonUserEntity> rt = cq.from(AnonUserEntity.class);
-        CriteriaQuery<AnonUserEntity> all = cq.select(rt);
-        
-        TypedQuery<AnonUserEntity> allQuery = getEntityManager().createQuery(all);
-        return allQuery.getSingleResult();
-    }
+	public AnonUserBean() {
+		super(AnonUserEntity.class);
+	}
+
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	@Override
+	public AnonUserEntity find() {
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<AnonUserEntity> cq = cb.createQuery(AnonUserEntity.class);
+
+		Root<AnonUserEntity> rt = cq.from(AnonUserEntity.class);
+		CriteriaQuery<AnonUserEntity> all = cq.select(rt);
+
+		TypedQuery<AnonUserEntity> allQuery = getEntityManager().createQuery(all);
+		return allQuery.getSingleResult();
+	}
 }

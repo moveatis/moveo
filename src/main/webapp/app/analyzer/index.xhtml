@@ -12,6 +12,18 @@
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputScript library="js" name="analyzer.js" />
 			<h:outputStylesheet library="css" name="analyzer.css" />
+			<h:form id="timerControls">
+				<h:outputText id="txt_count"
+					value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
+				<p:selectBooleanButton
+					value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
+					onLabel="Continue" offLabel="Pause" />
+
+				<p:poll id="timer" interval="1"
+					listener="#{feedbackAnalyzationManagedBean.increment}"
+					update="txt_count"
+					stop="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.duration>0}" />
+			</h:form>
 			<h:form id="form">
 				<div id="content">
 					<div id="index">
@@ -24,14 +36,14 @@
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}"
 								update=":form" icon="fa fa-fw fa-arrow-left" />
 							<h:outputText
-								value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.numberOfRecords}" />
+								value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records.size()}" />
 							<p:commandButton value=" " id="nextAnalyze"
 								icon="fa fa-fw fa-arrow-right"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}"
 								update=":form" />
 							<p:commandButton value=" " id="lastAnalyze"
 								icon="fa fa-fw fa-fast-forward"
-								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.numberOfRecords)}"
+								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records.size())}"
 								update=":form" />
 						</h:panelGrid>
 					</div>
@@ -44,17 +56,27 @@
 									<h:outputText value="#{categorySet.label}" />
 								</div>
 								<div id="buttons">
-									<ui:repeat value="#{categorySet.categoryEntitys.values()}"
+									<ui:repeat
+										value="#{categorySet.categoryEntitys.values().toArray()}"
 										var="category">
 										<p:selectBooleanButton value="#{category.inRecord}"
 											onLabel="#{category.label.text}"
 											offLabel="#{category.label.text}">
-											<p:ajax update=":form" />
+											<p:ajax
+												listener="#{feedbackAnalyzationManagedBean.setTimeStamp()}"
+												update=":form" />
 										</p:selectBooleanButton>
 									</ui:repeat>
 								</div>
 							</div>
 						</ui:repeat>
+						<p:commandLink
+							onclick="PF('dlgTimeSlider').show()"
+							update=":timeSlider">
+							<h:outputText id="timestamp"
+								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+						</p:commandLink>
+
 					</div>
 				</div>
 				<div id="basicContent">
@@ -72,7 +94,23 @@
 					</div>
 				</div>
 			</h:form>
+			<p:dialog widgetVar="dlgTimeSlider" position="top"
+				resizable="false" responsive="true" modal="true" fitViewport="true"
+				class="coloredDialog">
+				<h:form id="timeSlider">
+					<h:outputText id="timeOutput"
+						value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+					<h:inputHidden id="secondsInput"
+						value="#{feedbackAnalyzationManagedBean.currentRecord.startTime}" >
+					</h:inputHidden>
+					<p:slider for="secondsInput" minValue="#{feedbackAnalyzationManagedBean.getMinTimeStampForCurrentRecord()}"
+						maxValue="#{feedbackAnalyzationManagedBean.getMaxTimeStampForCurrentRecord()}" >
+						<p:ajax event="slideEnd" update="timeOutput :form:timestamp" process="secondsInput"/>
+						</p:slider>
+				</h:form>
+			</p:dialog>
 		</ui:define>
+
 	</ui:composition>
 </h:body>
 </html>

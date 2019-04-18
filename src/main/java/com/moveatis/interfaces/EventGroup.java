@@ -37,35 +37,36 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- * The interface to manage the event group entity.
- * The event group contains different events that can be thought as a group.
- * For example, an event group named "Exploratory teacher" could contain events
- * like "Teaching situation number 1", "Teaching situation number 2", etc.
+ * The interface to manage the event group entity. The event group contains
+ * different events that can be thought as a group. For example, an event group
+ * named "Exploratory teacher" could contain events like "Teaching situation
+ * number 1", "Teaching situation number 2", etc.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Local(EventGroup.class)
 public interface EventGroup {
 
-    void create(EventGroupEntity eventGroupEntity);
+	void create(EventGroupEntity eventGroupEntity);
 
-    void edit(EventGroupEntity eventGroupEntity);
+	void edit(EventGroupEntity eventGroupEntity);
 
-    void remove(EventGroupEntity eventGroupEntity);
+	void remove(EventGroupEntity eventGroupEntity);
 
-    EventGroupEntity find(Object id);
-    
-    List<EventGroupEntity> findAll();
-    
-    List<EventGroupEntity> findAllForOwner(AbstractUser owner);
-    
-    List<EventGroupEntity> findAllForUser(AbstractUser user);
-    
-    List<EventGroupEntity> findAllForPublicUser();
+	EventGroupEntity find(Object id);
 
-    List<EventGroupEntity> findRange(int[] range);
-    
-    void removeCategorySetEntityFromEventGroups(AbstractCategorySetEntity categorySetEntity);
+	List<EventGroupEntity> findAll();
 
-    int count();
-    
+	List<EventGroupEntity> findAllForOwner(AbstractUser owner);
+
+	List<EventGroupEntity> findAllForUser(AbstractUser user);
+
+	List<EventGroupEntity> findAllForPublicUser();
+
+	List<EventGroupEntity> findRange(int[] range);
+
+	void removeCategorySetEntityFromEventGroups(AbstractCategorySetEntity categorySetEntity);
+
+	int count();
+
 }

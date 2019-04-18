@@ -44,79 +44,79 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
- * The servlet handles the errors, that might be thrown in the course of 
+ * The servlet handles the errors, that might be thrown in the course of
  * executing the software. It mails the error to the superuser mail account and
  * redirects the user to an error page.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@WebServlet(name = "ErrorHandler", urlPatterns = {"/ErrorHandler"})
+@WebServlet(name = "ErrorHandler", urlPatterns = { "/ErrorHandler" })
 public class ErrorHandler extends HttpServlet {
-    
-    @Inject
-    private Mailer mailerBean;
-    @Inject
-    private Application applicationEJB;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request.
-     * @param response servlet response.
-     * @throws ServletException if a servlet-specific error occurs.
-     * @throws IOException if an I/O error occurs.
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String recipients[] = {applicationEJB.getApplicationEntity().getReportEmail()};
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("errormessages", new Locale("fi", "FI"));
-        
-        String subject = resourceBundle.getString("emailErrorSubject");
-        String exception = ((Throwable)request.getAttribute("javax.servlet.error.exception")).toString();
-        String errorMessage = MessageFormat.format(resourceBundle.getString("emailErrorText"), exception);
-        
-        mailerBean.sendEmail(recipients, subject, errorMessage);
-        response.sendRedirect("/error");
-    }
+	@Inject
+	private Mailer mailerBean;
+	@Inject
+	private Application applicationEJB;
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request.
-     * @param response servlet response.
-     * @throws ServletException if a servlet-specific error occurs.
-     * @throws IOException if an I/O error occurs.
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+	/**
+	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+	 * methods.
+	 *
+	 * @param request  servlet request.
+	 * @param response servlet response.
+	 * @throws ServletException if a servlet-specific error occurs.
+	 * @throws IOException      if an I/O error occurs.
+	 */
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request.
-     * @param response servlet response.
-     * @throws ServletException if a servlet-specific error occurs.
-     * @throws IOException if an I/O error occurs.
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+		String recipients[] = { applicationEJB.getApplicationEntity().getReportEmail() };
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("errormessages", new Locale("fi", "FI"));
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description.
-     */
-    @Override
-    public String getServletInfo() {
-        return "Errorhandler servlet to send error reports to admin and redirect user to error page";
-    }
+		String subject = resourceBundle.getString("emailErrorSubject");
+		String exception = ((Throwable) request.getAttribute("javax.servlet.error.exception")).toString();
+		String errorMessage = MessageFormat.format(resourceBundle.getString("emailErrorText"), exception);
+
+		mailerBean.sendEmail(recipients, subject, errorMessage);
+		response.sendRedirect("/error");
+	}
+
+	/**
+	 * Handles the HTTP <code>GET</code> method.
+	 *
+	 * @param request  servlet request.
+	 * @param response servlet response.
+	 * @throws ServletException if a servlet-specific error occurs.
+	 * @throws IOException      if an I/O error occurs.
+	 */
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Handles the HTTP <code>POST</code> method.
+	 *
+	 * @param request  servlet request.
+	 * @param response servlet response.
+	 * @throws ServletException if a servlet-specific error occurs.
+	 * @throws IOException      if an I/O error occurs.
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Returns a short description of the servlet.
+	 *
+	 * @return a String containing servlet description.
+	 */
+	@Override
+	public String getServletInfo() {
+		return "Errorhandler servlet to send error reports to admin and redirect user to error page";
+	}
 
 }
