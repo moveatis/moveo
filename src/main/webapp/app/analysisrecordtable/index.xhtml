@@ -21,7 +21,7 @@
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
 					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" sortBy="#{record.orderNumber}">
+					var="record" sortBy="#{record.orderNumber}" >
 					<p:column headerText="#">
 						<h:outputText value ="#{record.orderNumber}" />
 					</p:column>
@@ -44,16 +44,14 @@
 					<p:column headerText="Sanallinen Palaute">
 						<h:outputText value="#{record.comment}" />
 					</p:column>
-					<p:column exportable="false" id="deleteButtons">
-						<p:commandLink
-							action="#{analysisRecordTable.deleteCurrentRecord(record)}"
-							styleClass="link-categoryset" update="entries">
-							<h:outputText value="Delete" />
-						</p:commandLink>
+					<p:column id="deleteRowButton" exportable="false" headerText="Delete">
+						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash" />
+					</p:column>
+					<p:column headerText="Edit">
+						<p:commandButton id="editButton" icon="ui-icon-pencil" action="#{analysisRecordTable.edit(record.orderNumber)}"/>
 					</p:column>
 				</p:dataTable>
 			</div>
-
 			<p:dialog header="Info" widgetVar="rowDialog" modal="true"
 				showEffect="fade" hideEffect="fade" resizable="false">
 				<p:outputPanel id="rowDetail">
@@ -78,8 +76,8 @@
 				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
 				responsive="true" fitViewport="true" styleClass="coloredDialog"
 				visible="#{facesContext.validationFailed}">
-				<h:form id="saveForm" styleClass="dialog-form ui-fluid" columns="1">
-					<p:selectManyCheckbox id="basic">
+				<h:form id="saveForm" styleClass="dialog-form ui-fluid">
+					<p:selectManyCheckbox id="basic" required="true" requiredMessage="" layout="grid" columns="1">
 						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image" />
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" />

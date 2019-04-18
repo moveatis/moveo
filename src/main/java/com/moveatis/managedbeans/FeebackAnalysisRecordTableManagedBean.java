@@ -40,6 +40,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.moveatis.abstracts.AbstractCategoryEntity;
@@ -58,7 +60,6 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
 @SessionScoped
 public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
-	private List<FeedbackAnalysisRecordEntity> selectedRecords;
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 	private FeedbackAnalysisRecordEntity selectedRow;
@@ -66,7 +67,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	private static final String DOWNLOAD_OPTION = "download";
 	private static final String IMAGE_OPTION = "image";
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
-
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
 	/**
@@ -125,22 +126,6 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	}
 
 	/**
-	 * Delete's the selected row from the datatable
-	 * 
-	 * @param record
-	 *            selected row
-	 */
-	public void deleteCurrentRecord(FeedbackAnalysisRecordEntity record) {
-		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity()
-				.getRecords();
-		list.remove(record);
-		FeedbackAnalyzationEntity feedbackAnalyzationEntity = feedbackAnalyzationManagedBean
-				.getFeedbackAnalyzationEntity();
-		feedbackAnalyzationEntity.setRecords(list);
-		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(feedbackAnalyzationEntity);
-	}
-
-	/**
 	 * Gets the selected row from datatable
 	 * 
 	 * @return seleceted row
@@ -158,17 +143,48 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
 	/**
 	 * Delete's the selected row from the datatable
-	 * 
-	 * @param record
-	 *            selected row
+	 * @param record selected row
 	 */
-	public void delete() {
-		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity()
-				.getRecords();
-		list.remove(selectedRow);
-		selectedRow.setSelectedCategories(null);
+	public void delete(Integer orderNumber) {
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords();
+		for(int i = 0; i < list.size(); i++){
+			if(list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber.intValue()){
+				list.get(i).setFeedbackAnalyzation(null);
+				list.remove(i);
+				break;
+			}
+		}
 		feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().setRecords(list);
-		selectedRow = null;
+		setOrderNumbers(list);
+		feedbackAnalyzationManagedBean.setCurrentRecord(list.size());
+	}
+	
+	/**
+	 * Sends the user to the analyzer page with the selected record as main record.
+	 * @param orderNumber order number of the selected record
+	 * @return String that faces-config uses to control navigation
+	 */
+	public String edit(Integer orderNumber) {
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords();
+		for(int i = 0; i < list.size(); i++){
+			if(list.get(i).getOrderNumber().intValue() == orderNumber.intValue()){
+				feedbackAnalyzationManagedBean.setCurrentRecord(i+1);
+			}
+		}
+		return "editrow";
+	}
+	
+	
+	/**
+	 * Updates order numbers to records list
+	 * @param list users records
+	 */
+	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
+		Integer newOrderNumber = 1;
+		for(int i = 0; i < list.size(); i++){
+			list.get(i).setOrderNumber(i+1);
+			newOrderNumber++;
+		}
 	}
 
 	/**
