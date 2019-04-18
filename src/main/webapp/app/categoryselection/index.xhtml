@@ -61,11 +61,6 @@
 								oncomplete="focusCategory('.category-set-#{status.index}');" />
 						</h:panelGroup>
 					</ui:repeat>
-					<div id="continue-div">
-						<p:commandButton value="#{msg.cs_continueToObservation}" id="continue-button"
-							disabled="#{categorySelectionBean.continueDisabled}"
-							action="#{categorySelectionBean.checkCategories}" update="@form" />
-					</div>
 					<h2>#{msg.cs_addCategorySets}</h2>
 					<h:panelGroup layout="block" styleClass="category-set-list">
 						<p:outputLabel for="new-category-set" value="#{msg.cs_newCategorySet}:"
@@ -102,6 +97,11 @@
 						<p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
 							action="#{categorySelectionBean.addDefaultCategorySet}" update="@form" />
 					</h:panelGroup>
+					<div id="continue-div">
+						<p:commandButton value="#{msg.cs_continueToObservation}" id="continue-button"
+							disabled="#{categorySelectionBean.continueDisabled}"
+							action="#{categorySelectionBean.checkCategories}" update="@form" />
+					</div>
 				</h:form>
 			</div>
 			<h:outputScript>

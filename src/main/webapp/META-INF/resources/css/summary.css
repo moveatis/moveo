@@ -48,7 +48,7 @@
 #recordings-details {
 	font-size: 1.1em;
 	padding: .1em .5em;
-	background: #EFEFEF;
+	background: rgb(0,0,0,0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -74,6 +74,10 @@
 #recordings-details .categoryNumber {
 	padding-right: 0.625em;
 	width: 1em;
+}
+
+#recordings-details {
+	margin-bottom: 1em;
 }
 
 .content, .ui-grid-row {
@@ -115,7 +119,7 @@
 	padding: 0.4em 0;
 }
 
-.ui-grid-row:not(.header-row):not(:last-child):after {
+.ui-grid-row:not(.header-row):after {
 	content: "";
 	border-bottom: 0.125em solid #005977;
 	width: 100%;
@@ -141,21 +145,17 @@
 	white-space: pre;
 }
 
+
 .ui-grid-col-3 {
 	display: inline-block;
 	min-width: 10em;
 }
 
 #timelineControls {
-	position: fixed;
-	bottom: 0.6em;
-	z-index: 1;
-	font-size: .76em;
-	-webkit-transition: bottom 1s;
-	transition: bottom .5s;
 	text-align: right;
 	width: 100%;
 	max-width: 60em;
+	padding-bottom: 1em;
 }
 
 #Footer {
@@ -166,7 +166,7 @@
 #timelineControls>div {
 	background: rgba(42, 29, 29, 0.2) none repeat scroll 0% 0%;
 	display: inline-block;
-	padding: 0.3em;
+	padding: 0.3em 0.3em 0.5em 0.3em;
 	border-radius: 0.3em;
 	margin-right: 0.6em;
 }
@@ -248,14 +248,15 @@
 	cursor: pointer;
 	color: white;
 	border: 0;
+	border-radius: 0.4em;
 	text-shadow: none;
 	margin-left: 0.188em;
-	width: 1.563em;
-	height: 1.563em;
-}
-
-#ui-datepicker-div .ui-slider-handle .ui-state-default {
-	background-color: red;
+	margin-right: 0.3em;
+	width: 1.8em;
+	height: 1.8em;
+	hyphens: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 #ui-datepicker-div .ui-widget-header {
@@ -269,14 +270,12 @@
 	display: none;
 }
 
-.ui-datepicker-trigger {
-	font-size: 0;
-}
 
 .ui-datepicker-trigger:before {
 	content: "\f017";
 	font-size: 1em;
 	font-family: FontAwesome;
+	padding-right: 1em;
 }
 
 /* Responsive */
