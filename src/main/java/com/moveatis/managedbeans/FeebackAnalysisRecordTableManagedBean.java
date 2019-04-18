@@ -139,17 +139,6 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		feedbackAnalyzationEntity.setRecords(list);
 		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(feedbackAnalyzationEntity);
 	}
-==== BASE ====
-	
-	
-    public void deleteCurrentRecord(FeedbackAnalysisRecordEntity record){
-    	List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords();
-    	list.remove(record);
-    	FeedbackAnalyzationEntity feedbackAnalyzationEntity = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity();
-    	feedbackAnalyzationEntity.setRecords(list);
-    	feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(feedbackAnalyzationEntity);
-    }
-==== BASE ====
 
 	/**
 	 * Gets the selected row from datatable

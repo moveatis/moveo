@@ -21,10 +21,10 @@
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
 					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" rowIndexVar="rowID">
-					<p:column headerText="#" exportable="false">
-					#{rowID+1}
-				</p:column>
+					var="record" sortBy="#{record.orderNumber}">
+					<p:column headerText="#">
+						<h:outputText value ="#{record.orderNumber}" />
+					</p:column>
 					<c:forEach
 						items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 						var="categorySet">
