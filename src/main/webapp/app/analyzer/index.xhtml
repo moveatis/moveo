@@ -115,8 +115,7 @@
 								</div>
 							</div>
 						</ui:repeat>
-						<p:commandLink
-							onclick="PF('dlgTimeSlider').show()"
+						<p:commandLink onclick="PF('dlgTimeSlider').show()"
 							update=":timeSlider">
 							<h:outputText id="timestamp"
 								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
@@ -126,8 +125,11 @@
 				</div>
 				<div id="basicContent">
 					<div id="textArea">
-						<p:inputTextarea value="#{feedbackAnalyzationManagedBean.comment}"
-							pt:placeholder="Watermark here" />
+						<p:inputTextarea id="currentRecordComment"
+							value="#{feedbackAnalyzationManagedBean.currentRecord.comment}"
+							pt:placeholder="Watermark here">
+							<p:ajax event="blur" process="currentRecordComment" />
+						</p:inputTextarea>
 					</div>
 					<div id="basicControls">
 						<p:commandButton id="empty" value="#{msg.ana_empty}" />
@@ -141,19 +143,21 @@
 
 
 			</h:form>
-			<p:dialog widgetVar="dlgTimeSlider" position="top"
-				resizable="false" responsive="true" modal="true" fitViewport="true"
+			<p:dialog widgetVar="dlgTimeSlider" position="top" resizable="false"
+				responsive="true" modal="true" fitViewport="true"
 				class="coloredDialog">
 				<h:form id="timeSlider">
 					<h:outputText id="timeOutput"
 						value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
 					<h:inputHidden id="secondsInput"
-						value="#{feedbackAnalyzationManagedBean.currentRecord.startTime}" >
+						value="#{feedbackAnalyzationManagedBean.currentRecord.startTime}">
 					</h:inputHidden>
-					<p:slider for="secondsInput" minValue="#{feedbackAnalyzationManagedBean.getMinTimeStampForCurrentRecord()}"
-						maxValue="#{feedbackAnalyzationManagedBean.getMaxTimeStampForCurrentRecord()}" >
-						<p:ajax event="slideEnd" update="timeOutput :form:timestamp" process="secondsInput"/>
-						</p:slider>
+					<p:slider for="secondsInput"
+						minValue="#{feedbackAnalyzationManagedBean.getMinTimeStampForCurrentRecord()}"
+						maxValue="#{feedbackAnalyzationManagedBean.getMaxTimeStampForCurrentRecord()}">
+						<p:ajax event="slideEnd" update="timeOutput :form:timestamp"
+							process="secondsInput" />
+					</p:slider>
 				</h:form>
 			</p:dialog>
 		</ui:define>
