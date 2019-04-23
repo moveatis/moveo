@@ -123,11 +123,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	@Inject
 	private Session sessionBean;
 
-	/**
-	 * The comment for the record currently in view
-	 */
-	private String comment;
-
 	private FeedbackAnalysisCategoryEntity selectedCategory;
 
 	/**
@@ -181,14 +176,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		this.currentRecordNumber = currentRecordNumber;
 	}
 
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
 	public boolean getIsTimerStopped() {
 		return isTimerStopped;
 	}
@@ -234,8 +221,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		if (currentRecordNumber == feedbackAnalyzationEntity.getRecords().size())
 			return duration;
 		for (int i = currentRecordNumber+1; i <= feedbackAnalyzationEntity.getRecords().size(); i++) {
-			long start = findRecordByOrderNumber(i).getStartTime();
-			if (start > 0)
+			Long start = findRecordByOrderNumber(i).getStartTime();
+			if (start!=null && start > 0)
 				return start;
 		}
 		return duration;
@@ -244,8 +231,8 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public long getMinTimeStampForCurrentRecord() {
 		if(currentRecordNumber==1) return 0;
 		for(int i=currentRecordNumber-1; i>=1; i--) {
-			long start=findRecordByOrderNumber(i).getStartTime();
-			if(start>0) return start;	
+			Long start=findRecordByOrderNumber(i).getStartTime();
+			if(start!=null && start>0) return start;	
 			}
 		return 0;
 	}
@@ -287,10 +274,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * @param currentRecord the record to be shown
 	 */
 	public void setCurrentRecord(FeedbackAnalysisRecordEntity currentRecord) {
+		currentRecordNumber=currentRecord.getOrderNumber();
 		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
 			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
 				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
-		comment = currentRecord.getComment();
 
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
 		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
@@ -348,7 +335,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
 			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
 				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
-		comment = currentRecord.getComment();
 
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
 		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
@@ -390,12 +376,11 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 		editRecord();
 
-		comment = "";
 		currentRecord = new FeedbackAnalysisRecordEntity();
-		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
 		currentRecord.setSelectedCategories(new ArrayList<FeedbackAnalysisCategoryEntity>());
 		currentRecordNumber++;
 		setOrderNumberForRecord();
+		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
 		feedbackAnalyzationEntity.addRecord(currentRecord);
 	}
 
@@ -414,7 +399,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 		currentRecord.setSelectedCategories(selectedCategories);
 
-		currentRecord.setComment(comment);
 	}
 
 	/**
