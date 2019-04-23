@@ -92,7 +92,7 @@
 								update=":form" />
 						</h:panelGrid>
 					</div>
-					<div id="categories">
+					<h:panelGroup id="categories">
 						<ui:repeat
 							value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
@@ -109,7 +109,7 @@
 											offLabel="#{category.label.text}">
 											<p:ajax
 												listener="#{feedbackAnalyzationManagedBean.setTimeStamp()}"
-												update=":form" />
+												update=":form:timestamp :form:categories" />
 										</p:selectBooleanButton>
 									</ui:repeat>
 								</div>
@@ -121,7 +121,7 @@
 								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
 						</p:commandLink>
 
-					</div>
+					</h:panelGroup>
 				</div>
 				<div id="basicContent">
 					<div id="textArea">
