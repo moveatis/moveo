@@ -46,6 +46,7 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
+import static org.primefaces.model.chart.LegendPlacement.OUTSIDE;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
@@ -128,10 +129,34 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private boolean renderPieChart = false;
 
 	private boolean renderBarChart = false;
+	
+	private final String SAVETODATABASE = "save";
+	
+	private final String SAVEASIMAGE = "image";
+	
+	private String emailAddress;
+	
+	private List<String> selectedSaveOperations;
 
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public List<String> getSelectedSaveOperations() {
+		return selectedSaveOperations;
+	}
+
+	public void setSelectedSaveOperations(List<String> selectedSaveOperations) {
+		this.selectedSaveOperations = selectedSaveOperations;
+	}
+	
 	public boolean isRenderPieChart() {
 		return renderPieChart;
 	}
@@ -191,12 +216,24 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public FeedbackAnalysisSummaryManagedBean() {
 
 	}
+	
+	public boolean isSelected(String saveOperation) {
+		for(String s : selectedSaveOperations)
+			if(s.contentEquals(saveOperation))return true;
+		return false;
+	}
+	
+	public void save() {
+		if(isSelected(SAVETODATABASE))
+			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
+	}
 
 	/**
 	 * calls the initModels function to build the summary table and the charts
 	 */
 	@PostConstruct
 	public void init() {
+		selectedSaveOperations=new ArrayList<>();
 		initSummary();
 	}
 
@@ -252,10 +289,12 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				tableInformation.addCategoryWithCount("empty", maxAxis - fullcount);
 			}
 			pieModel.setTitle(catSet.getLabel());
-			pieModel.setLegendPosition("ne");
+			pieModel.setLegendPlacement(OUTSIDE);
+			pieModel.setLegendPosition("n");
 
 			barModel.setStacked(true);
-			barModel.setLegendPosition("m");
+			barModel.setLegendPlacement(OUTSIDE);
+			barModel.setLegendPosition("n");
 			Axis yAxis = barModel.getAxis(AxisType.Y);
 			yAxis.setMin(0);
 			yAxis.setTickFormat("%3d");

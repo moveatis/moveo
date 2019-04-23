@@ -571,6 +571,7 @@ public class ControlManagedBean implements Serializable {
 		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(selectedAnalyzation);
 		feedbackAnalyzationManagedBean
 				.setFeedbackAnalysisCategorySetsInUse(selectedAnalyzation.getFeedbackAnalysisCategorySets());
+		feedbackAnalyzationManagedBean.init();
 		return "feedbackanalysissummary";
 	}
 

@@ -49,6 +49,7 @@ import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 /**
@@ -69,6 +70,9 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
 	
 	private String fileName;
+	
+	@Inject
+	private FeedbackAnalyzation feedbackAnalyzationEJB;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
@@ -152,6 +156,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		for(int i = 0; i < list.size(); i++){
 			if(list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber.intValue()){
 				list.get(i).setFeedbackAnalyzation(null);
+				if(list.get(i).getId()!=null)
+					feedbackAnalyzationEJB.removeRecordFromAnalyzation(feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity(),list.get(i));
 				list.remove(i);
 				break;
 			}

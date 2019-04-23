@@ -220,20 +220,22 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public long getMaxTimeStampForCurrentRecord() {
 		if (currentRecordNumber == feedbackAnalyzationEntity.getRecords().size())
 			return duration;
-		for (int i = currentRecordNumber+1; i <= feedbackAnalyzationEntity.getRecords().size(); i++) {
+		for (int i = currentRecordNumber + 1; i <= feedbackAnalyzationEntity.getRecords().size(); i++) {
 			Long start = findRecordByOrderNumber(i).getStartTime();
-			if (start!=null && start > 0)
+			if (start != null && start > 0)
 				return start;
 		}
 		return duration;
 	}
 
 	public long getMinTimeStampForCurrentRecord() {
-		if(currentRecordNumber==1) return 0;
-		for(int i=currentRecordNumber-1; i>=1; i--) {
-			Long start=findRecordByOrderNumber(i).getStartTime();
-			if(start!=null && start>0) return start;	
-			}
+		if (currentRecordNumber == 1)
+			return 0;
+		for (int i = currentRecordNumber - 1; i >= 1; i--) {
+			Long start = findRecordByOrderNumber(i).getStartTime();
+			if (start != null && start > 0)
+				return start;
+		}
 		return 0;
 	}
 
@@ -274,7 +276,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * @param currentRecord the record to be shown
 	 */
 	public void setCurrentRecord(FeedbackAnalysisRecordEntity currentRecord) {
-		currentRecordNumber=currentRecord.getOrderNumber();
+		currentRecordNumber = currentRecord.getOrderNumber();
 		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
 			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
 				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
@@ -332,13 +334,19 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		editRecord();
 		currentRecordNumber = recordNumber;
 		currentRecord = findRecordByOrderNumber(recordNumber);
-		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
-			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
-				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
-
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
-		for (FeedbackAnalysisCategoryEntity category : selectedCategories)
-			category.setInRecord(true);
+		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values()) {			
+				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);	
+				for (FeedbackAnalysisCategoryEntity category : selectedCategories)
+					if(category.getCategorySet().getLabel().contentEquals(fac.getCategorySet().getLabel()) && 
+							category.getLabel().getText().contentEquals(fac.getLabel().getText())) {
+						((FeedbackAnalysisCategoryEntity) fac).setInRecord(true);	
+						break;
+					}
+				
+			}
+
 	}
 
 	public FeedbackAnalyzationManagedBean() {
@@ -350,20 +358,23 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 */
 	@PostConstruct
 	public void init() {
-		setCurrentRecordNumber(1);
-		duration = 0;
-		isTimerStopped = false;
-		this.feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
-		this.feedbackAnalyzationEntity.setCreated();
-		feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
-		currentRecord = new FeedbackAnalysisRecordEntity();
-		setOrderNumberForRecord();
-		if (feedbackAnalysisCategorySetsInUse != null)
-			for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
-				for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
-					((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
-		currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
-		feedbackAnalyzationEntity.addRecord(currentRecord);
+		if (this.feedbackAnalyzationEntity == null) {
+			feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
+			this.feedbackAnalyzationEntity.setCreated();
+			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
+			currentRecord = new FeedbackAnalysisRecordEntity();
+			setOrderNumberForRecord();
+			if (feedbackAnalysisCategorySetsInUse != null)
+				for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+					for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+						((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
+			currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
+			feedbackAnalyzationEntity.addRecord(currentRecord);
+		}
+		setCurrentRecordNumber(feedbackAnalyzationEntity.getRecords().size());
+		setCurrentRecord(feedbackAnalyzationEntity.getRecords().size());
+		isTimerStopped = true;
+		duration = feedbackAnalyzationEntity.getDuration();
 	}
 
 	/**
@@ -398,7 +409,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 				}
 
 		currentRecord.setSelectedCategories(selectedCategories);
-
 	}
 
 	/**
@@ -452,14 +462,18 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 				categorySetEJB.create(categorySet);
 			}
-			feedbackAnalyzationEntity.setName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
+			if (feedbackAnalyzationEntity.getName().trim().length() == 0)
+				feedbackAnalyzationEntity.setName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
 			feedbackAnalyzationEntity.setEvent(eventEntity);
 			feedbackAnalyzationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
 			feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
 		} else {
-			for (FeedbackAnalysisRecordEntity record : feedbackAnalyzationEntity.getRecords())
+			for (FeedbackAnalysisRecordEntity record : feedbackAnalyzationEntity.getRecords()) {
 				if (record.getId() == null)
 					feedbackAnalysisRecordEJB.create(record);
+				else
+					feedbackAnalysisRecordEJB.edit(record);
+			}
 			feedbackAnalyzationEJB.edit(feedbackAnalyzationEntity);
 		}
 	}

@@ -320,6 +320,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 			return "";
 		}
 		feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
+		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(null);
 		feedbackAnalyzationManagedBean.init();
 
 		return "analysiscategoriesok";
