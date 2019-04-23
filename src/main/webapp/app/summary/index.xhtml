@@ -70,7 +70,7 @@
 						</div>
 					</div>
 					<div id="records" class="ui-grid ui-grid-responsive-480" />
-					<div id="hiddenButtons">
+					<div id="hiddenButtons" data-html2canvas-ignore="true">
 						<h:form>
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
 								rendered="#{sessionBean.identifiedUser}"
@@ -81,8 +81,7 @@
 
 							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
 								rendered="#{!sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
-								process="@this">
+								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
 						</h:form>

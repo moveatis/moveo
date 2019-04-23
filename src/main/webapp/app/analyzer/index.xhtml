@@ -5,55 +5,10 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
-
-
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
-
 		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
-
 		<ui:define name="mainpage">
-			<!--     <script type="text/javascript">  
-             function getCategorySets() {
-                 return [
-                        <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
-                            {name: "#{categorySet.name}", categories: [
-                            <ui:repeat value="#{categorySet.categories}" var="category">
-                                { name: "#{category.name}", id: #{category.tag} },
-                            </ui:repeat>
-                            ]},
-                        </ui:repeat>
-                        ];                        
-                    }   
-             </script>
-                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
-                <h:outputScript library="js" name="analyzer.js"/>
-                
-                <div id="category-list"></div>
-                
-                <div id="video">
-                
-                </div>              
-           		<div id="content"> 
-           		
-           		<div id="categorySet">
-           	 	
-           	 	</div>
-           		<div id="categories">
-           		</div>
-           		
-               	<div id="basicContent">
-              		<div id="textArea">
-              		<p:inputTextarea />
-              		</div>
-              		<div id="basicControls">
-              			<p:commandButton id="empty" value="#{msg.ana_empty}" />
-              			<p:commandButton id="new" value="#{msg.ana_new}" />
-              			<p:commandButton id="continue" value="#{msg.ana_continue}" />
-              		</div>
-                </div>
-                </div>
-                 -->
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputScript library="js" name="analyzer.js" />
 			<h:outputStylesheet library="css" name="analyzer.css" />
@@ -140,8 +95,6 @@
 							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
 					</div>
 				</div>
-
-
 			</h:form>
 			<p:dialog widgetVar="dlgTimeSlider" position="top" resizable="false"
 				responsive="true" modal="true" fitViewport="true"
