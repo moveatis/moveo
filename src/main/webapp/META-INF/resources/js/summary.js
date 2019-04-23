@@ -530,9 +530,7 @@ function checkCheckBoxes(){
  * Creates canvas element where the timeline and datatable are inserted
  */
 function saveImage() {
-	document.getElementById('hiddenButtons').style.display = "none";
 	html2canvas(document.getElementById('recordingsPhoto')).then(function(canvas) {
- 	document.getElementById('hiddenButtons').style.display = "block";
  	URI = canvas.toDataURL();
  	});
 }

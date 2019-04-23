@@ -44,10 +44,10 @@
 					<p:column headerText="Sanallinen Palaute">
 						<h:outputText value="#{record.comment}" />
 					</p:column>
-					<p:column id="deleteRowButton" exportable="false" headerText="Delete">
+					<p:column exportable="false" headerText="Delete" data-html2canvas-ignore="true">
 						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash" />
 					</p:column>
-					<p:column headerText="Edit">
+					<p:column headerText="Edit" exportable="false" data-html2canvas-ignore="true">
 						<p:commandButton id="editButton" icon="ui-icon-pencil" action="#{analysisRecordTable.edit(record.orderNumber)}"/>
 					</p:column>
 				</p:dataTable>
@@ -85,14 +85,14 @@
 					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}" />
 					<p:message for="input-name" />
 					<p:inputText id="input-name" required="true"
-						requiredMessage="#{msg.dlg_notEmpty}" />
+						requiredMessage="#{msg.dlg_notEmpty}" value="#{analysisRecordTable.fileName}"/> 
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						onclick="save()" ajax="true" validateClient="true" />
 					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 						onclick="PF('dlgSave').hide();" />
 					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
 						style="display: none;">
-						<p:dataExporter type="csv" target=":entries" fileName="entries"
+						<p:dataExporter type="csv" target=":entries" fileName="#{analysisRecordTable.fileName}"
 							pageOnly="true" id="exporter" />
 					</p:commandButton>
 				</h:form>

@@ -68,6 +68,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	private static final String IMAGE_OPTION = "image";
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
 	
+	private String fileName;
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
 	/**
@@ -256,6 +258,14 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 			return "unnamed";
 		}
 		return s.replaceAll("[^a-zA-Z0-9_]", "_");
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }
