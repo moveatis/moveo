@@ -97,8 +97,12 @@ public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
 		List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse = new ArrayList<FeedbackAnalysisCategorySetEntity>();
 		for (FeedbackAnalysisRecordEntity record : records) {
 			for (FeedbackAnalysisCategoryEntity cat : record.getSelectedCategories()) {
-				if (!feedbackAnalysisCategorySetsInUse.contains(cat.getCategorySet()))
-					feedbackAnalysisCategorySetsInUse.add(cat.getCategorySet());
+				boolean contained=false;
+				for(FeedbackAnalysisCategorySetEntity facs:feedbackAnalysisCategorySetsInUse){
+						contained=facs.getId()==cat.getCategorySet().getId();
+						if(contained) break;						
+					}
+				if(!contained)feedbackAnalysisCategorySetsInUse.add(cat.getCategorySet());
 			}
 		}
 		return feedbackAnalysisCategorySetsInUse;
