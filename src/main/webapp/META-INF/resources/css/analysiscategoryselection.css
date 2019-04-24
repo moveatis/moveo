@@ -182,7 +182,7 @@
 }
 
 .category-set {
-	width: 17.5em;
+	width: 14em;
 	display: inline-block;
 	vertical-align: top;
 	margin: 0 0.625em 16px 0;
@@ -236,7 +236,7 @@
 }
 
 .category-text {
-	width: calc(100% - 7.5em - 0.813em);
+	width: 75%;
 	margin-right: 0.5em;
 }
 

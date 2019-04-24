@@ -57,6 +57,47 @@ body {
 	font-size: 1em;
 }
 
+#timer_div {
+	padding-bottom: 1em;
+
+}
+
+#timer_div .ui-button.ui-state-active {
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+
+}
+
+#timer_div .ui-icon {
+	border-radius: 0;
+	font-size: 1em;
+}
+
+#timer_span {
+	font-size: 2em;
+
+}
+
+#pause_span {
+	padding-left: 0.8em;
+}
+
+#timestamp_div {
+	max-width: 100%;
+	list-style-type: none;
+	background: rgba(85, 102, 119, 0.2);
+	padding: 0.5em;
+	border-radius: 0.5em;
+	position: relative;
+	text-align: center;
+	margin-bottom: 0.5em;
+}
+
+#timestamp_span {
+	padding-left: 2em;
+	font-weight: bold;
+}
+
 #mainPage {
 	width: 100%;
 	margin: auto;
@@ -235,6 +276,11 @@ body {
 		margin: 0;
 		width: 2.6em;
 	}
+
+	#timestamp_span {
+		white-space: nowrap;
+		padding-left: 0em;
+	}
 }
 
 @media screen and (max-width: 400px) {
@@ -248,4 +294,5 @@ body {
 		box-shadow: none;
 		max-width: 8em;
 	}
+
 }

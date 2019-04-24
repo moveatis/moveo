@@ -14,17 +14,6 @@
 			<h:form id="form">
 				<div id="content">
 					<div id="index">
-					<div id="timer_div">
-					<span id="timer_span">
-						<h:outputText id="txt_count" value="#{feedbackAnalyzationManagedBean.getDuration()}" />
-						</span>
-						<span id="pause_span">
-						<p:selectBooleanButton value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
-							onLabel="Continue" offLabel="Pause" />
-							</span>
-						<p:poll id="timer" interval="1" listener="#{feedbackAnalyzationManagedBean.increment}"
-							update="txt_count" />
-							</div>
 						<span class="arrows" id="toFirst">
 							<p:commandButton value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}" update=":form" />
@@ -50,6 +39,17 @@
 								update=":form" />
 						</span>
 					</div>
+					<div id="timer_div">
+					<span id="timer_span">
+						<h:outputText id="txt_count" value="#{feedbackAnalyzationManagedBean.getDuration()}" />
+						</span>
+						<span id="pause_span">
+						<p:selectBooleanButton value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
+							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play" offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
+							</span>
+						<p:poll id="timer" interval="1" listener="#{feedbackAnalyzationManagedBean.increment}"
+							update="txt_count" />
+							</div>
 					<div id="categories">
 						<ui:repeat value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
@@ -68,20 +68,27 @@
 								</div>
 							</div>
 						</ui:repeat>
-						<h:outputText
+						<div id="timestamp_div">
+						<span id="timestamp_name">
+						<h:outputText id="txt_timestamp" value="#{msg.ana_timestamp}" />
+							
+						</span>
+						<span id="timestamp_span"><h:outputText
 							value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+						</span>
+					</div>
 					</div>
 				</div>
 				<div id="basicContent">
 					<div id="textArea">
 						<p:inputTextarea value="#{feedbackAnalyzationManagedBean.comment}"
-							pt:placeholder="Watermark here" />
+							pt:placeholder="Kirjaa palaute tähän." />
 					</div>
 					<div id="basicControls">
-						<p:commandButton id="empty" value="#{msg.ana_empty}" />
 						<p:commandButton id="new" value="#{msg.ana_new}"
 							action="#{feedbackAnalyzationManagedBean.addRecord()}" update=":form" />
-						<p:commandButton id="continue" value="#{msg.ana_continue}"
+						<p:commandButton id="empty" value="#{msg.ana_empty}" />
+						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
 							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
 					</div>
 				</div>

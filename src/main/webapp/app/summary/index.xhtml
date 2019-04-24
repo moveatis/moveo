@@ -61,6 +61,21 @@
 						</div>
 					</div>
 					<div id="records" class="ui-grid ui-grid-responsive-480" />
+					
+					<pe:timeline id="timeline" widgetVar="timelineWdgt"
+						value="#{summaryBean.timeline}"
+						timeZone="#{timeBean.serverTimeZone}"
+						browserTimeZone="#{timeBean.userTimeZone}"
+						min="#{summaryBean.min}" max="#{summaryBean.max}"
+						start="#{summaryBean.start}" zoomMin="#{summaryBean.zoomMin}"
+						zoomMax="#{summaryBean.zoomMax}" selectable="true"
+						zoomable="false" moveable="false" animate="false"
+						animateZoom="false" axisOnTop="true" groupsOrder="false"
+						groupsChangeable="false" groupMinHeight="16" editable="false"
+						timeChangeable="true" showCurrentTime="false"
+						showMajorLabels="false" stackEvents="false" eventMarginAxis="0"
+						eventMargin="16">
+					</pe:timeline>
 					<div id="hiddenButtons">
 						<h:form>
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
@@ -77,20 +92,6 @@
 							</p:commandButton>
 						</h:form>
 					</div>
-					<pe:timeline id="timeline" widgetVar="timelineWdgt"
-						value="#{summaryBean.timeline}"
-						timeZone="#{timeBean.serverTimeZone}"
-						browserTimeZone="#{timeBean.userTimeZone}"
-						min="#{summaryBean.min}" max="#{summaryBean.max}"
-						start="#{summaryBean.start}" zoomMin="#{summaryBean.zoomMin}"
-						zoomMax="#{summaryBean.zoomMax}" selectable="true"
-						zoomable="false" moveable="false" animate="false"
-						animateZoom="false" axisOnTop="true" groupsOrder="false"
-						groupsChangeable="false" groupMinHeight="16" editable="false"
-						timeChangeable="true" showCurrentTime="false"
-						showMajorLabels="false" stackEvents="false" eventMarginAxis="0"
-						eventMargin="16">
-					</pe:timeline>
 				</div>
 				<div id="timelineControls" class="bottom">
 					<div>

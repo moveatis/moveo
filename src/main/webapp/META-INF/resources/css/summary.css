@@ -152,7 +152,7 @@
 }
 
 #timelineControls {
-	text-align: right;
+	text-align: center;
 	width: 100%;
 	max-width: 60em;
 	padding-bottom: 1em;
@@ -217,6 +217,12 @@
 .ui-selectonebutton.fa span {
 	font-family: FontAwesome;
 	font-weight: normal;
+}
+
+#hiddenButtons {
+margin: auto;
+text-align: right;
+padding-bottom: 0.4em;
 }
 
 #saveDialog {
