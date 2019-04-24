@@ -36,6 +36,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -68,12 +69,12 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	private static final String DOWNLOAD_OPTION = "download";
 	private static final String IMAGE_OPTION = "image";
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
-	
+
 	private String fileName;
-	
+
 	@Inject
 	private FeedbackAnalyzation feedbackAnalyzationEJB;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
 	/**
@@ -87,10 +88,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	/**
 	 * Gets the name of selected category from current category set
 	 * 
-	 * @param selectedCategories
-	 *            Users selected categories
-	 * @param categorySet
-	 *            Category set in use
+	 * @param selectedCategories Users selected categories
+	 * @param categorySet        Category set in use
 	 * @return name of the selected category, empty if no category is selected
 	 */
 	public String getSelectedCategorysName(List<FeedbackAnalysisCategoryEntity> selectedCategories,
@@ -110,12 +109,9 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	/**
 	 * Gets the selected category from current category set
 	 * 
-	 * @param selectedCategories
-	 *            Users selected categories
-	 * @param categorySet
-	 *            Category set in use
-	 * @return the selected category, new category if the category is not
-	 *         selected
+	 * @param selectedCategories Users selected categories
+	 * @param categorySet        Category set in use
+	 * @return the selected category, new category if the category is not selected
 	 */
 	public FeedbackAnalysisCategoryEntity getSelectedCategory(List<FeedbackAnalysisCategoryEntity> selectedCategories,
 			FeedbackAnalysisCategorySetEntity categorySet) {
@@ -149,15 +145,25 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
 	/**
 	 * Delete's the selected row from the datatable
+	 * 
 	 * @param record selected row
 	 */
 	public void delete(Integer orderNumber) {
-		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords();
-		for(int i = 0; i < list.size(); i++){
-			if(list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber.intValue()){
+		if (feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords().size() == 1) {
+			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Deletion failed", "There needs to be at least one record in an analyzation."));
+			return;
+		}
+
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity()
+				.getRecords();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getOrderNumber() != null
+					&& list.get(i).getOrderNumber().intValue() == orderNumber.intValue()) {
 				list.get(i).setFeedbackAnalyzation(null);
-				if(list.get(i).getId()!=null)
-					feedbackAnalyzationEJB.removeRecordFromAnalyzation(feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity(),list.get(i));
+				if (list.get(i).getId() != null)
+					feedbackAnalyzationEJB.removeRecordFromAnalyzation(
+							feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity(), list.get(i));
 				list.remove(i);
 				break;
 			}
@@ -166,31 +172,33 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		setOrderNumbers(list);
 		feedbackAnalyzationManagedBean.setCurrentRecord(list.size());
 	}
-	
+
 	/**
 	 * Sends the user to the analyzer page with the selected record as main record.
+	 * 
 	 * @param orderNumber order number of the selected record
 	 * @return String that faces-config uses to control navigation
 	 */
 	public String edit(Integer orderNumber) {
-		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords();
-		for(int i = 0; i < list.size(); i++){
-			if(list.get(i).getOrderNumber().intValue() == orderNumber.intValue()){
-				feedbackAnalyzationManagedBean.setCurrentRecord(i+1);
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity()
+				.getRecords();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getOrderNumber().intValue() == orderNumber.intValue()) {
+				feedbackAnalyzationManagedBean.setCurrentRecord(i + 1);
 			}
 		}
 		return "editrow";
 	}
-	
-	
+
 	/**
 	 * Updates order numbers to records list
+	 * 
 	 * @param list users records
 	 */
 	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
 		Integer newOrderNumber = 1;
-		for(int i = 0; i < list.size(); i++){
-			list.get(i).setOrderNumber(i+1);
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setOrderNumber(i + 1);
 			newOrderNumber++;
 		}
 	}

@@ -21,34 +21,31 @@
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
 					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" sortBy="#{record.orderNumber}" >
+					var="record" sortBy="#{record.orderNumber}">
 					<p:column headerText="#">
-						<h:outputText value ="#{record.orderNumber}" />
+						<h:outputText value="#{record.orderNumber}" />
 					</p:column>
 					<c:forEach
 						items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 						var="categorySet">
 						<p:column headerText="#{categorySet.label}">
-							<p:commandLink
-								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}"
-								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(record)}"
-								onclick="PF('dlgCategorySet').show()" update=":categorySetForm "
-								styleClass="link-categoryset">
-								<f:actionListener
-									binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet))}" />
-								<h:outputText
-									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
-							</p:commandLink>
+							<h:outputText
+								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 						</p:column>
 					</c:forEach>
 					<p:column headerText="Sanallinen Palaute">
 						<h:outputText value="#{record.comment}" />
 					</p:column>
-					<p:column exportable="false" headerText="Delete" data-html2canvas-ignore="true">
-						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash" />
+					<p:column exportable="false" headerText="Delete"
+						data-html2canvas-ignore="true">
+						<p:commandButton
+							action="#{analysisRecordTable.delete(record.orderNumber)}"
+							id="deleteButton" update="entries" icon="fa fa-trash" />
 					</p:column>
-					<p:column headerText="Edit" exportable="false" data-html2canvas-ignore="true">
-						<p:commandButton id="editButton" icon="ui-icon-pencil" action="#{analysisRecordTable.edit(record.orderNumber)}"/>
+					<p:column headerText="Edit" exportable="false"
+						data-html2canvas-ignore="true">
+						<p:commandButton id="editButton" icon="ui-icon-pencil"
+							action="#{analysisRecordTable.edit(record.orderNumber)}" />
 					</p:column>
 				</p:dataTable>
 			</div>
@@ -77,7 +74,8 @@
 				responsive="true" fitViewport="true" styleClass="coloredDialog"
 				visible="#{facesContext.validationFailed}">
 				<h:form id="saveForm" styleClass="dialog-form ui-fluid">
-					<p:selectManyCheckbox id="basic" required="true" requiredMessage="" layout="grid" columns="1">
+					<p:selectManyCheckbox id="basic" required="true" requiredMessage=""
+						layout="grid" columns="1">
 						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image" />
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" />
@@ -85,15 +83,17 @@
 					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}" />
 					<p:message for="input-name" />
 					<p:inputText id="input-name" required="true"
-						requiredMessage="#{msg.dlg_notEmpty}" value="#{analysisRecordTable.fileName}"/> 
+						requiredMessage="#{msg.dlg_notEmpty}"
+						value="#{analysisRecordTable.fileName}" />
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						onclick="save()" ajax="true" validateClient="true" />
 					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 						onclick="PF('dlgSave').hide();" />
 					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
 						style="display: none;">
-						<p:dataExporter type="csv" target=":entries" fileName="#{analysisRecordTable.fileName}"
-							pageOnly="true" id="exporter" />
+						<p:dataExporter type="csv" target=":entries"
+							fileName="#{analysisRecordTable.fileName}" pageOnly="true"
+							id="exporter" />
 					</p:commandButton>
 				</h:form>
 			</p:dialog>
@@ -101,29 +101,26 @@
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
 
-			<p:commandButton value="Continue to Summary"
-				action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+			<p:confirmDialog global="true">
+				<p:commandButton styleClass="ui-confirmdialog-yes" value="Yes"
+					type="button" />
+				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
+					type="button" />
+			</p:confirmDialog>
 
-			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
-				position="top" resizable="false" responsive="true" modal="true"
-				fitViewport="true" class="coloredDialog">
-				<h:form id="categorySetForm">
-					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
-						var="category">
-						<p:selectBooleanButton value="#{category.inRecord}"
-							onLabel="#{category.label.text}"
-							offLabel="#{category.label.text}">
-							<p:ajax update=":categorySetForm" />
-						</p:selectBooleanButton>
-					</ui:repeat>
-					<p:commandButton value="tallenna muutokset"
-						action="#{feedbackAnalyzationManagedBean.editRecord}"
-						onclick="PF('dlgCategorySet').hide()" update=":entries" />
-				</h:form>
-			</p:dialog>
+			<p:commandButton value="Continue to Summary"
+				action="#{feedbackAnalyzationManagedBean.toSummary()}">
+				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+					<p:confirm header="Continue?"
+						message="There are records with no selected categories, are you sure you want to continue?"
+						icon="ui-icon-alert" />
+				</c:if>
+			</p:commandButton>
+
 
 		</ui:define>
+
+
 	</ui:composition>
 </h:body>
 </html>

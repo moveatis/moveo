@@ -41,9 +41,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -217,6 +219,13 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
 
+	public void resetCurrentRecord() {
+		currentRecord.setComment(null);
+		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
+	}
+
 	public long getMaxTimeStampForCurrentRecord() {
 		if (currentRecordNumber == feedbackAnalyzationEntity.getRecords().size())
 			return duration;
@@ -317,7 +326,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * between records, sets the following records ordernumbers to be one higher
 	 */
 	private void setOrderNumberForRecord() {
-		for (int i = currentRecordNumber; i <= feedbackAnalyzationEntity.getRecords().size(); i++)
+		for (int i = feedbackAnalyzationEntity.getRecords().size(); i >= currentRecordNumber; i--)
 			findRecordByOrderNumber(i).setOrderNumber(i + 1);
 		currentRecord.setOrderNumber(currentRecordNumber);
 	}
@@ -328,23 +337,20 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * @param recordNumber The ordernumber of the record to be accessed
 	 */
 	public void setCurrentRecord(int recordNumber) {
-		if (recordNumber > feedbackAnalyzationEntity.getRecords().size() || recordNumber < 1
-				|| recordNumber == currentRecordNumber)
-			return;
 		editRecord();
 		currentRecordNumber = recordNumber;
 		currentRecord = findRecordByOrderNumber(recordNumber);
 		List<FeedbackAnalysisCategoryEntity> selectedCategories = currentRecord.getSelectedCategories();
 		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
-			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values()) {			
-				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);	
+			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values()) {
+				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
 				for (FeedbackAnalysisCategoryEntity category : selectedCategories)
-					if(category.getCategorySet().getLabel().contentEquals(fac.getCategorySet().getLabel()) && 
-							category.getLabel().getText().contentEquals(fac.getLabel().getText())) {
-						((FeedbackAnalysisCategoryEntity) fac).setInRecord(true);	
+					if (category.getCategorySet().getLabel().contentEquals(fac.getCategorySet().getLabel())
+							&& category.getLabel().getText().contentEquals(fac.getLabel().getText())) {
+						((FeedbackAnalysisCategoryEntity) fac).setInRecord(true);
 						break;
 					}
-				
+
 			}
 
 	}
@@ -358,9 +364,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 */
 	@PostConstruct
 	public void init() {
-		if (this.feedbackAnalyzationEntity == null) {
+		if (feedbackAnalyzationEntity == null) {
+			currentRecordNumber = 1;
 			feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
-			this.feedbackAnalyzationEntity.setCreated();
+			feedbackAnalyzationEntity.setCreated();
 			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
 			currentRecord = new FeedbackAnalysisRecordEntity();
 			setOrderNumberForRecord();
@@ -370,11 +377,18 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 						((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
 			currentRecord.setFeedbackAnalyzation(feedbackAnalyzationEntity);
 			feedbackAnalyzationEntity.addRecord(currentRecord);
-		}
-		setCurrentRecordNumber(feedbackAnalyzationEntity.getRecords().size());
-		setCurrentRecord(feedbackAnalyzationEntity.getRecords().size());
+		} 
+		else
+			setCurrentRecord(feedbackAnalyzationEntity.getRecords().size());
 		isTimerStopped = true;
 		duration = feedbackAnalyzationEntity.getDuration();
+	}
+
+	public boolean isNavigationDisabled(boolean isLeft) {
+		if (isLeft)
+			return currentRecordNumber == 1;
+		else
+			return currentRecordNumber == feedbackAnalyzationEntity.getRecords().size();
 	}
 
 	/**
@@ -411,6 +425,23 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 		currentRecord.setSelectedCategories(selectedCategories);
 	}
 
+	public boolean checkNoCategoriesSelected() {
+		for (FeedbackAnalysisRecordEntity record : feedbackAnalyzationEntity.getRecords()) {
+			if(record.getSelectedCategories() == null || record.getSelectedCategories().size() == 0)
+				continue;
+			else
+				return false;
+		}
+		return true;
+	}
+
+	public boolean containsUnclassifiedRecords() {
+		for (FeedbackAnalysisRecordEntity record : feedbackAnalyzationEntity.getRecords()) {
+			if(feedbackAnalysisCategorySetsInUse.size() > record.getSelectedCategories().size())return true;
+		}
+		return false;
+	}
+
 	/**
 	 * navigates to the summary page
 	 * 
@@ -418,6 +449,13 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 *         correct page
 	 */
 	public String toSummary() {
+		if (checkNoCategoriesSelected()) {
+			RequestContext.getCurrentInstance()
+					.showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Can't continue to summary if no categories are selected",
+							"At least one record has to have at least one category selected to continue."));
+			return "";
+		}
 		return "summary";
 	}
 
@@ -430,6 +468,13 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 */
 	public String toRecordTable() {
 		editRecord();
+		if (checkNoCategoriesSelected()) {
+			RequestContext.getCurrentInstance()
+					.showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Can't continue to summary if no categories are selected",
+							"At least one record has to have at least one category selected to continue."));
+			return "";
+		}
 		feedbackAnalyzationEntity.setDuration(duration);
 		isTimerStopped = true;
 		for (FeedbackAnalysisCategoryEntity cat : currentRecord.getSelectedCategories())

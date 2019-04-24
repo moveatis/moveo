@@ -32,6 +32,7 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
+import com.moveatis.abstracts.AbstractObservationEntity;
 import com.moveatis.application.ApplicationBean;
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
@@ -94,6 +95,8 @@ public class ControlManagedBean implements Serializable {
 	private List<AbstractCategoryEntity> categories;
 
 	private List<ObservationEntity> otherObservations;
+	
+	private List<FeedbackAnalyzationEntity> otherAnalyzations;
 
 	private EventGroupEntity selectedEventGroup;
 
@@ -133,8 +136,10 @@ public class ControlManagedBean implements Serializable {
 
 	@Inject
 	private Session sessionBean;
+	
 	@Inject
 	private ObservationManagedBean observationBean;
+	
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 
@@ -144,6 +149,14 @@ public class ControlManagedBean implements Serializable {
 
 	private AbstractUser user;
 
+	public List<FeedbackAnalyzationEntity> getOtherAnalyzations() {
+		return otherAnalyzations;
+	}
+
+	public void setOtherAnalyzations(List<FeedbackAnalyzationEntity> otherAnalyzations) {
+		this.otherAnalyzations = otherAnalyzations;
+	}
+
 	/**
 	 * Initializes the bean appropriately.
 	 */
@@ -152,6 +165,7 @@ public class ControlManagedBean implements Serializable {
 		user = sessionBean.getLoggedIdentifiedUser();
 		fetchEventGroups();
 		fetchOtherObservations();
+		fetchOtherAnalyzations();
 	}
 
 	/**
@@ -197,6 +211,15 @@ public class ControlManagedBean implements Serializable {
 			return eventGroup.getEvent().getAnalyzations();
 		}
 		return new TreeSet<>();
+	}
+	
+
+	/**
+	 * Fetches the analyzations of the user not connected to an event or connected to an event that's been accessed through a group key.
+	 */
+	private void fetchOtherAnalyzations() {
+		otherAnalyzations = feedbackAnalyzationEJB.findWithoutEvent(user);
+		otherAnalyzations.addAll(feedbackAnalyzationEJB.findByEventsNotOwned(user));
 	}
 
 	/**
@@ -623,9 +646,9 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Gets the name of the event group of the observation.
+	 * Gets the name of the event group of the observation or analyzation.
 	 */
-	public String getObservationEventGroupName(ObservationEntity observationEntity) {
+	public String getAbstractObservationEventGroupName(AbstractObservationEntity observationEntity) {
 		EventEntity eventEntity = observationEntity.getEvent();
 		if (eventEntity != null && eventEntity.getEventGroup() != null) {
 			return eventEntity.getEventGroup().getLabel();

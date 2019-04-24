@@ -17,12 +17,11 @@
 					value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
 				<p:selectBooleanButton
 					value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
-					onLabel="Continue" offLabel="Pause" />
+					onIcon="fa fa-play" offIcon="fa fa-pause" onLabel="" offlabel="" style="width:2em; height:2em"/>
 
 				<p:poll id="timer" interval="1"
 					listener="#{feedbackAnalyzationManagedBean.increment}"
-					update="txt_count"
-					stop="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.duration>0}" />
+					update="txt_count" />
 			</h:form>
 			<h:form id="form">
 				<div id="content">
@@ -31,19 +30,23 @@
 							<p:commandButton value=" " id="firstAnalyze"
 								icon="fa fa-fw fa-fast-backward"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}"
+								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(true)}"
 								update=":form" />
 							<p:commandButton value=" " id="previousAnalyze"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}"
+								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(true)}"
 								update=":form" icon="fa fa-fw fa-arrow-left" />
 							<h:outputText
 								value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records.size()}" />
 							<p:commandButton value=" " id="nextAnalyze"
 								icon="fa fa-fw fa-arrow-right"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}"
+								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(false)}"
 								update=":form" />
 							<p:commandButton value=" " id="lastAnalyze"
 								icon="fa fa-fw fa-fast-forward"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records.size())}"
+								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(false)}"
 								update=":form" />
 						</h:panelGrid>
 					</div>
@@ -87,9 +90,11 @@
 						</p:inputTextarea>
 					</div>
 					<div id="basicControls">
-						<p:commandButton id="empty" value="#{msg.ana_empty}" />
 						<p:commandButton id="new" value="#{msg.ana_new}"
 							action="#{feedbackAnalyzationManagedBean.addRecord()}"
+							update=":form" />
+						<p:commandButton id="empty" value="#{msg.ana_empty}"
+							action="#{feedbackAnalyzationManagedBean.resetCurrentRecord()}"
 							update=":form" />
 						<p:commandButton id="continue" value="#{msg.ana_continue}"
 							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />

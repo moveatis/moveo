@@ -34,9 +34,7 @@ import static javax.persistence.CascadeType.ALL;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
@@ -47,9 +45,7 @@ import javax.persistence.Table;
 import com.moveatis.abstracts.AbstractObservationEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
-import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
-import com.moveatis.records.RecordEntity;
 
 /**
  * The entity for the feedback analyzation, corresponds to the
