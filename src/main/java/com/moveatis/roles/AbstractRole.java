@@ -41,59 +41,61 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 
 /**
- * The entity is the base for the roles in Moveatis. The roles can be used to make 
- * the access rights system more finegrained. The entity can be extended to 
+ * The entity is the base for the roles in Moveatis. The roles can be used to
+ * make the access rights system more finegrained. The entity can be extended to
  * add more roles.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="ROLE_TYPE")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "ROLE_TYPE")
 public abstract class AbstractRole extends BaseEntity implements Serializable {
-    
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    protected Date startDate;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    protected Date endDate;
 
-    public Date getStartDate() {
-        return startDate;
-    }
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	protected Date startDate;
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	protected Date endDate;
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+	public Date getStartDate() {
+		return startDate;
+	}
 
-    public Date getEndDate() {
-        return endDate;
-    }
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-    
-    public abstract void setUserEntity(IdentifiedUserEntity user);
-    public abstract IdentifiedUserEntity getUserEntity();
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof AbstractRole)) {
-            return false;
-        }
-        AbstractRole other = (AbstractRole) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.roles.AbstractRole[ id=" + id + " ]";
-    }
+	public abstract void setUserEntity(IdentifiedUserEntity user);
+
+	public abstract IdentifiedUserEntity getUserEntity();
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof AbstractRole)) {
+			return false;
+		}
+		AbstractRole other = (AbstractRole) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
+
+	@Override
+	public String toString() {
+		return "com.moveatis.roles.AbstractRole[ id=" + id + " ]";
+	}
 
 }

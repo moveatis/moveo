@@ -49,139 +49,139 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The bean is a dummy login bean for development purposes, as it mocks
- * the Sibboleth identity provider system of Jyväskylä University.
+ * The bean is a dummy login bean for development purposes, as it mocks the
+ * Sibboleth identity provider system of Jyväskylä University.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Named(value="develJYULoginBean")
+@Named(value = "develJYULoginBean")
 @RequestScoped
 public class DevelJYULoginBean {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(DevelJYULoginBean.class);
-    
-    private IdentifiedUserEntity userEntity;
-    
-    @Inject
-    private Session sessionBean;
-    @Inject
-    private IdentityProviderBean ipBean;
-    @Inject 
-    private User userEJB;
-    @Inject
-    private Role roleEJB;
-    @Inject
-    private InstallationBean installationBean;
-    @Inject
-    private Application applicationEJB;
-    
-    private String username;
-    private String givenName;
-    private String affiliation;
-    private final Boolean isLocalhost;
 
-    /** Creates a new instance of DevelJYULoginBean. */
-    public DevelJYULoginBean() {
-        
-        isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
-                .getRequestURL().toString().contains("localhost");
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(DevelJYULoginBean.class);
 
-    public String getUsername() {
-        return username;
-    }
+	private IdentifiedUserEntity userEntity;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	@Inject
+	private Session sessionBean;
+	@Inject
+	private IdentityProviderBean ipBean;
+	@Inject
+	private User userEJB;
+	@Inject
+	private Role roleEJB;
+	@Inject
+	private InstallationBean installationBean;
+	@Inject
+	private Application applicationEJB;
 
-    public String getGivenName() {
-        return givenName;
-    }
+	private String username;
+	private String givenName;
+	private String affiliation;
+	private final Boolean isLocalhost;
 
-    public void setGivenName(String givenName) {
-        this.givenName = givenName;
-    }
+	/** Creates a new instance of DevelJYULoginBean. */
+	public DevelJYULoginBean() {
 
-    public String getAffiliation() {
-        return affiliation;
-    }
+		isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+				.getRequestURL().toString().contains("localhost");
+	}
 
-    public void setAffiliation(String affiliation) {
-        this.affiliation = affiliation;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public Boolean getIsLocalhost() {
-        return isLocalhost;
-    }
-    
-    public String doLogin() {
-        IdentityProviderInformationEntity ipInformationEntity = ipBean.findIpEntityByUsername(username); 
-        
-        if(ipInformationEntity != null) { 
-            userEntity = ipInformationEntity.getIdentifiedUserEntity(); 
-            sessionBean.setIdentityProviderUser(userEntity);      
-        } else {   
-            return "fail?faces-redirect=true";
-        }
-        if(sessionBean.getReturnUri() != null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(sessionBean.getReturnUri());
-            } catch (IOException ex) {
-                LOGGER.debug("Error in doLogin", ex);
-            }
-        } else {
-            return "/app/control/index?faces-redirect=true";
-        }
-        
-        return "fail?faces-redirect=true";
-        
-    }
-    
-    public String doRegistration() {
-        userEntity = new IdentifiedUserEntity();
-        
-        IdentityProviderInformationEntity identityProviderInformationEntity = new IdentityProviderInformationEntity();
-        identityProviderInformationEntity.setUsername(username);
-        identityProviderInformationEntity.setAffiliation(affiliation);
-        
-        userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
-        userEntity.setGivenName(givenName);
-        
-        identityProviderInformationEntity.setUserEntity(userEntity);
-        
-        userEJB.create(userEntity);
-        
-        sessionBean.setIdentityProviderUser(userEntity);
-        
-        if(applicationEJB.checkInstalled()) {
-            return "/app/control/index?faces-redirect=true";
-        } else {
-            return "fail?faces-redirect=true";
-        }
-    }
-    
-    public String doSuperUserRegistration() {
-        userEntity = new IdentifiedUserEntity();
-        
-        IdentityProviderInformationEntity identityProviderInformationEntity = new IdentityProviderInformationEntity();
-        identityProviderInformationEntity.setUsername(username);
-        identityProviderInformationEntity.setAffiliation(affiliation);
-        
-        userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
-        userEntity.setGivenName(givenName);
-        
-        identityProviderInformationEntity.setUserEntity(userEntity);
-        
-        userEJB.create(userEntity);
-        roleEJB.addSuperuserRoleToUser(userEntity);
-        
-        sessionBean.setIdentityProviderUser(userEntity);
-        
-        if(installationBean.createApplication() == ApplicationStatusCode.INSTALLATION_OK) {
-            return "/app/control/index?faces-redirect=true";
-        } else {
-            return "fail?faces-redirect=true";
-        }
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getGivenName() {
+		return givenName;
+	}
+
+	public void setGivenName(String givenName) {
+		this.givenName = givenName;
+	}
+
+	public String getAffiliation() {
+		return affiliation;
+	}
+
+	public void setAffiliation(String affiliation) {
+		this.affiliation = affiliation;
+	}
+
+	public Boolean getIsLocalhost() {
+		return isLocalhost;
+	}
+
+	public String doLogin() {
+		IdentityProviderInformationEntity ipInformationEntity = ipBean.findIpEntityByUsername(username);
+
+		if (ipInformationEntity != null) {
+			userEntity = ipInformationEntity.getIdentifiedUserEntity();
+			sessionBean.setIdentityProviderUser(userEntity);
+		} else {
+			return "fail?faces-redirect=true";
+		}
+		if (sessionBean.getReturnUri() != null) {
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect(sessionBean.getReturnUri());
+			} catch (IOException ex) {
+				LOGGER.debug("Error in doLogin", ex);
+			}
+		} else {
+			return "/app/control/index?faces-redirect=true";
+		}
+
+		return "fail?faces-redirect=true";
+
+	}
+
+	public String doRegistration() {
+		userEntity = new IdentifiedUserEntity();
+
+		IdentityProviderInformationEntity identityProviderInformationEntity = new IdentityProviderInformationEntity();
+		identityProviderInformationEntity.setUsername(username);
+		identityProviderInformationEntity.setAffiliation(affiliation);
+
+		userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
+		userEntity.setGivenName(givenName);
+
+		identityProviderInformationEntity.setUserEntity(userEntity);
+
+		userEJB.create(userEntity);
+
+		sessionBean.setIdentityProviderUser(userEntity);
+
+		if (applicationEJB.checkInstalled()) {
+			return "/app/control/index?faces-redirect=true";
+		} else {
+			return "fail?faces-redirect=true";
+		}
+	}
+
+	public String doSuperUserRegistration() {
+		userEntity = new IdentifiedUserEntity();
+
+		IdentityProviderInformationEntity identityProviderInformationEntity = new IdentityProviderInformationEntity();
+		identityProviderInformationEntity.setUsername(username);
+		identityProviderInformationEntity.setAffiliation(affiliation);
+
+		userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
+		userEntity.setGivenName(givenName);
+
+		identityProviderInformationEntity.setUserEntity(userEntity);
+
+		userEJB.create(userEntity);
+		roleEJB.addSuperuserRoleToUser(userEntity);
+
+		sessionBean.setIdentityProviderUser(userEntity);
+
+		if (installationBean.createApplication() == ApplicationStatusCode.INSTALLATION_OK) {
+			return "/app/control/index?faces-redirect=true";
+		} else {
+			return "fail?faces-redirect=true";
+		}
+	}
 }

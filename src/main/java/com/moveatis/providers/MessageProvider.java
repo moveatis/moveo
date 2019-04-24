@@ -38,21 +38,23 @@ import javax.faces.context.FacesContext;
 
 /**
  * The CDI bean produces a resource bundle for the transient CDI beans.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.>
  */
 @RequestScoped
 public class MessageProvider {
-    
-    private ResourceBundle resourceBundle;
-    
-    @Produces @MessageBundle
-    public ResourceBundle getBundle() {
-        
-        if(resourceBundle == null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            resourceBundle = context.getApplication().getResourceBundle(context, "msg");
-        }
-        
-        return resourceBundle;
-    }
+
+	private ResourceBundle resourceBundle;
+
+	@Produces
+	@MessageBundle
+	public ResourceBundle getBundle() {
+
+		if (resourceBundle == null) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			resourceBundle = context.getApplication().getResourceBundle(context, "msg");
+		}
+
+		return resourceBundle;
+	}
 }

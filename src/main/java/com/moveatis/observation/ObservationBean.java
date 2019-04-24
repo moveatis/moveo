@@ -54,111 +54,118 @@ import javax.persistence.TypedQuery;
  */
 @Stateful
 public class ObservationBean extends AbstractBean<ObservationEntity> implements Observation, Serializable {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationBean.class);
-    
-    private static final long serialVersionUID = 1L;
-    
-    @Inject
-    private SessionBean sessionBean;
-    
-    @EJB
-    private Event eventEJB;
-    
-    private ObservationEntity observationEntity;
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
-        
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(ObservationBean.class);
 
-    public ObservationBean() {
-        super(ObservationEntity.class);
-    }
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Finds and returns all observations for the specific user.
-     * @param observer The user, whose observations are to be searched.
-     * @return A list of the observations for the user.
-     */
-    @Override
-    public List<ObservationEntity> findAllByObserver(AbstractUser observer) {
-        TypedQuery<ObservationEntity> query = em.createNamedQuery("findByObserver", ObservationEntity.class);
-        query.setParameter("observer", observer);
-        return query.getResultList();
-    }
+	@Inject
+	private SessionBean sessionBean;
 
-    /**
-     * Finds the observations for the user, which have no event attached to them.
-     * @param observer The user, whose observations are to be searched.
-     * @return A list of the observations.
-     */
-    @Override
-    public List<ObservationEntity> findWithoutEvent(AbstractUser observer) {
-        TypedQuery<ObservationEntity> query = em.createNamedQuery("findWithoutEvent", ObservationEntity.class);
-        query.setParameter("observer", observer);
-        return query.getResultList();
-    }
+	@EJB
+	private Event eventEJB;
 
-    /**
-     * Finds the observations that are made for events that the specified
-     * user does not own.
-     * @param observer The user, whose observations are to be searched.
-     * @return A list of the observations.
-     */
-    @Override
-    public List<ObservationEntity> findByEventsNotOwned(AbstractUser observer) {
-        TypedQuery<ObservationEntity> query = em.createNamedQuery("findByEventsNotOwned", ObservationEntity.class);
-        query.setParameter("observer", observer);
-        return query.getResultList();
-    }
+	private ObservationEntity observationEntity;
 
-    /**
-     * Persists the observations to the database.
-     * @param observationEntity The observatio entity to be persisted.
-     */
-    @Override
-    public void create(ObservationEntity observationEntity) {
-        super.create(observationEntity);
-    }
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    /**
-     * Finds a list of the records for the observation with the given id.
-     * @param id The id of the observation.
-     * @return A list of the records.
-     */
-    @Override
-    public List<RecordEntity> findRecords(Object id) {
-        observationEntity = em.find(ObservationEntity.class, id);
-        if(observationEntity != null) {
-            return observationEntity.getRecords();
-        } 
-        return new ArrayList<>(); //return empty list
-    }
-    
-    /**
-     * Removes the observation and also removes the observation from the event
-     * it was associated with.
-     * @param observationEntity The observation to be removed.
-     */
-    @Override
-    public void remove(ObservationEntity observationEntity) {
-        super.remove(observationEntity);
-        eventEJB.removeObservation(observationEntity);
-        observationEntity.setEvent(null);
-        super.edit(observationEntity);
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
 
-    /**
-     * Permanently removes the observation, which the user did not set to be
-     * saved into the database.
-     * @param observationEntity The observation to be removed.
-     */
-    @Override
-    public void removeUnsavedObservation(ObservationEntity observationEntity) {
-        em.remove(em.merge(observationEntity));
-    }
+	public ObservationBean() {
+		super(ObservationEntity.class);
+	}
+
+	/**
+	 * Finds and returns all observations for the specific user.
+	 * 
+	 * @param observer The user, whose observations are to be searched.
+	 * @return A list of the observations for the user.
+	 */
+	@Override
+	public List<ObservationEntity> findAllByObserver(AbstractUser observer) {
+		TypedQuery<ObservationEntity> query = em.createNamedQuery("findByObserver", ObservationEntity.class);
+		query.setParameter("observer", observer);
+		return query.getResultList();
+	}
+
+	/**
+	 * Finds the observations for the user, which have no event attached to them.
+	 * 
+	 * @param observer The user, whose observations are to be searched.
+	 * @return A list of the observations.
+	 */
+	@Override
+	public List<ObservationEntity> findWithoutEvent(AbstractUser observer) {
+		TypedQuery<ObservationEntity> query = em.createNamedQuery("findWithoutEvent", ObservationEntity.class);
+		query.setParameter("observer", observer);
+		return query.getResultList();
+	}
+
+	/**
+	 * Finds the observations that are made for events that the specified user does
+	 * not own.
+	 * 
+	 * @param observer The user, whose observations are to be searched.
+	 * @return A list of the observations.
+	 */
+	@Override
+	public List<ObservationEntity> findByEventsNotOwned(AbstractUser observer) {
+		TypedQuery<ObservationEntity> query = em.createNamedQuery("findByEventsNotOwned", ObservationEntity.class);
+		query.setParameter("observer", observer);
+		return query.getResultList();
+	}
+
+	/**
+	 * Persists the observations to the database.
+	 * 
+	 * @param observationEntity The observatio entity to be persisted.
+	 */
+	@Override
+	public void create(ObservationEntity observationEntity) {
+		super.create(observationEntity);
+	}
+
+	/**
+	 * Finds a list of the records for the observation with the given id.
+	 * 
+	 * @param id The id of the observation.
+	 * @return A list of the records.
+	 */
+	@Override
+	public List<RecordEntity> findRecords(Object id) {
+		observationEntity = em.find(ObservationEntity.class, id);
+		if (observationEntity != null) {
+			return observationEntity.getRecords();
+		}
+		return new ArrayList<>(); // return empty list
+	}
+
+	/**
+	 * Removes the observation and also removes the observation from the event it
+	 * was associated with.
+	 * 
+	 * @param observationEntity The observation to be removed.
+	 */
+	@Override
+	public void remove(ObservationEntity observationEntity) {
+		super.remove(observationEntity);
+		eventEJB.removeObservation(observationEntity);
+		observationEntity.setEvent(null);
+		super.edit(observationEntity);
+	}
+
+	/**
+	 * Permanently removes the observation, which the user did not set to be saved
+	 * into the database.
+	 * 
+	 * @param observationEntity The observation to be removed.
+	 */
+	@Override
+	public void removeUnsavedObservation(ObservationEntity observationEntity) {
+		em.remove(em.merge(observationEntity));
+	}
 }

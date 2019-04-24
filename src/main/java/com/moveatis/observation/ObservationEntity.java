@@ -50,80 +50,68 @@ import javax.persistence.Table;
 
 /**
  * The entity represents the observation data, that is saved to the database.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Table(name = "OBSERVATION")
 @NamedQueries({
-    @NamedQuery(
-            name = "findByObserver",
-            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer"
-    ),
-    @NamedQuery(
-            name = "findWithoutEvent",
-            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event is null"
-    ),
-    @NamedQuery(
-            name = "findByEventsNotOwned",
-            query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator<>:observer"
-    )
-})
+		@NamedQuery(name = "findByObserver", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer"),
+		@NamedQuery(name = "findWithoutEvent", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event is null"),
+		@NamedQuery(name = "findByEventsNotOwned", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator<>:observer") })
 @Entity
 public class ObservationEntity extends AbstractObservationEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    private Set<ObservationCategorySet> observationCategorySets;
+	@ElementCollection(fetch = FetchType.LAZY)
+	private Set<ObservationCategorySet> observationCategorySets;
 
-    @OneToMany(mappedBy = "observation", fetch = FetchType.LAZY, cascade = ALL)
-    private List<RecordEntity> records;
+	@OneToMany(mappedBy = "observation", fetch = FetchType.LAZY, cascade = ALL)
+	private List<RecordEntity> records;
 
-    
+	public List<RecordEntity> getRecords() {
+		return records;
+	}
 
-    public List<RecordEntity> getRecords() {
-        return records;
-    }
+	public void setRecords(List<RecordEntity> records) {
+		this.records = records;
+	}
 
-    public void setRecords(List<RecordEntity> records) {
-        this.records = records;
-    }
+	public void addRecord(RecordEntity record) {
+		if (this.getRecords() == null) {
+			this.records = new ArrayList<>();
+		}
+		getRecords().add(record);
+		record.setObservation(this);
+	}
 
-    public void addRecord(RecordEntity record) {
-        if (this.getRecords() == null) {
-            this.records = new ArrayList<>();
-        }
-        getRecords().add(record);
-        record.setObservation(this);
-    }
+	public Set<ObservationCategorySet> getObservationCategorySets() {
+		return observationCategorySets;
+	}
 
+	public void setObservationCategorySets(Set<ObservationCategorySet> observationCategorySets) {
+		this.observationCategorySets = observationCategorySets;
+	}
 
-    public Set<ObservationCategorySet> getObservationCategorySets() {
-        return observationCategorySets;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    public void setObservationCategorySets(Set<ObservationCategorySet> observationCategorySets) {
-        this.observationCategorySets = observationCategorySets;
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof ObservationEntity)) {
+			return false;
+		}
+		ObservationEntity other = (ObservationEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof ObservationEntity)) {
-            return false;
-        }
-        ObservationEntity other = (ObservationEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
-
-    @Override
-    public String toString() {
-        return "com.moveatis.observation.ObservationEntity[ id=" + id + " ]";
-    }
+	@Override
+	public String toString() {
+		return "com.moveatis.observation.ObservationEntity[ id=" + id + " ]";
+	}
 
 }

@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
@@ -40,6 +41,7 @@
 						</span>
 					</div>
 					<div id="timer_div">
+		<h:form id="timerControls">
 					<span id="timer_span">
 						<h:outputText id="txt_count" value="#{feedbackAnalyzationManagedBean.getDuration()}" />
 						</span>
@@ -50,6 +52,7 @@
 						<p:poll id="timer" interval="1" listener="#{feedbackAnalyzationManagedBean.increment}"
 							update="txt_count" />
 							</div>
+			</h:form>
 					<div id="categories">
 						<ui:repeat value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
@@ -73,10 +76,14 @@
 						<h:outputText id="txt_timestamp" value="#{msg.ana_timestamp}" />
 							
 						</span>
-						<span id="timestamp_span"><h:outputText
-							value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
-						</span>
-					</div>
+						<p:commandLink
+							onclick="PF('dlgTimeSlider').show()"
+							update=":timeSlider">
+							<span id="timestamp_span"><h:outputText id="timestamp"
+								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+						</span></p:commandLink>
+</div>
+
 					</div>
 				</div>
 				<div id="basicContent">
@@ -93,7 +100,23 @@
 					</div>
 				</div>
 			</h:form>
+			<p:dialog widgetVar="dlgTimeSlider" position="top"
+				resizable="false" responsive="true" modal="true" fitViewport="true"
+				class="coloredDialog">
+				<h:form id="timeSlider">
+					<h:outputText id="timeOutput"
+						value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+					<h:inputHidden id="secondsInput"
+						value="#{feedbackAnalyzationManagedBean.currentRecord.startTime}" >
+					</h:inputHidden>
+					<p:slider for="secondsInput" minValue="#{feedbackAnalyzationManagedBean.getMinTimeStampForCurrentRecord()}"
+						maxValue="#{feedbackAnalyzationManagedBean.getMaxTimeStampForCurrentRecord()}" >
+						<p:ajax event="slideEnd" update="timeOutput :form:timestamp" process="secondsInput"/>
+						</p:slider>
+				</h:form>
+			</p:dialog>
 		</ui:define>
+
 	</ui:composition>
 </h:body>
 </html>

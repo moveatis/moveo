@@ -46,30 +46,29 @@ import javax.persistence.Table;
 
 /**
  * The entity represents the information of the events.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="EVENT")
-@NamedQueries(
-        @NamedQuery(name="EventEntity.findByCreator", query="SELECT event FROM EventEntity event WHERE event.creator = :user")
-)
+@Table(name = "EVENT")
+@NamedQueries(@NamedQuery(name = "EventEntity.findByCreator", query = "SELECT event FROM EventEntity event WHERE event.creator = :user"))
 public class EventEntity extends BaseEntity implements Serializable {
 
-    @OneToOne
-    private EventGroupEntity eventGroup;
+	@OneToOne
+	private EventGroupEntity eventGroup;
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @ManyToOne
-    private AbstractUser creator;
+	@ManyToOne
+	private AbstractUser creator;
 
-    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
-    private Set<ObservationEntity> observations;
-    
-    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
-    private Set<FeedbackAnalyzationEntity> analyzations;
-    
-    public Set<FeedbackAnalyzationEntity> getAnalyzations() {
+	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+	private Set<ObservationEntity> observations;
+
+	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+	private Set<FeedbackAnalyzationEntity> analyzations;
+
+	public Set<FeedbackAnalyzationEntity> getAnalyzations() {
 		return analyzations;
 	}
 
@@ -78,77 +77,77 @@ public class EventEntity extends BaseEntity implements Serializable {
 	}
 
 	private String description;
-    private String label;
+	private String label;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public EventGroupEntity getEventGroup() {
-        return eventGroup;
-    }
+	public EventGroupEntity getEventGroup() {
+		return eventGroup;
+	}
 
-    public void setEventGroup(EventGroupEntity eventGroup) {
-        this.eventGroup = eventGroup;
-    }
+	public void setEventGroup(EventGroupEntity eventGroup) {
+		this.eventGroup = eventGroup;
+	}
 
-    public AbstractUser getCreator() {
-        return creator;
-    }
+	public AbstractUser getCreator() {
+		return creator;
+	}
 
-    public void setCreator(AbstractUser creator) {
-        this.creator = creator;
-    }
+	public void setCreator(AbstractUser creator) {
+		this.creator = creator;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getLabel() {
-        return label;
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
-    public Set<ObservationEntity> getObservations() {
-        return observations;
-    }
+	public Set<ObservationEntity> getObservations() {
+		return observations;
+	}
 
-    public void setObservations(Set<ObservationEntity> observations) {
-        this.observations = observations;
-    }
+	public void setObservations(Set<ObservationEntity> observations) {
+		this.observations = observations;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof EventEntity)) {
-            return false;
-        }
-        EventEntity other = (EventEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof EventEntity)) {
+			return false;
+		}
+		EventEntity other = (EventEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.event.EventEntity[ id=" + id + " ]";
-    }
-    
+	@Override
+	public String toString() {
+		return "com.moveatis.event.EventEntity[ id=" + id + " ]";
+	}
+
 }

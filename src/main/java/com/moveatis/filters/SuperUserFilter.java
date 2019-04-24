@@ -49,159 +49,161 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The filter allows only identified users that have the superuser role
- * to access the superuser page.
+ * The filter allows only identified users that have the superuser role to
+ * access the superuser page.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@WebFilter(filterName = "SuperUserFilter", urlPatterns = {"/app/superuser/*"})
+@WebFilter(filterName = "SuperUserFilter", urlPatterns = { "/app/superuser/*" })
 public class SuperUserFilter implements Filter {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuperUserFilter.class);
 
-    // The filter configuration object we are associated with.  If
-    // this value is null, this filter instance is not currently
-    // configured. 
-    private FilterConfig filterConfig = null;
-    
-    @Inject
-    private Session sessionBean;
-    @Inject
-    private Role roleBean;
-    
-    public SuperUserFilter() {
-    }    
-    
-    private void doBeforeProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SuperUserFilter.class);
 
-    }    
-    
-    private void doAfterProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-    }
+	// The filter configuration object we are associated with. If
+	// this value is null, this filter instance is not currently
+	// configured.
+	private FilterConfig filterConfig = null;
 
-    /**
-     *
-     * @param request The servlet request to be processed.
-     * @param response The servlet response to be created.
-     * @param chain The filter chain to be processed.
-     *
-     * @exception IOException if an input or output error occurs.
-     * @exception ServletException if a servlet error occurs.
-     */
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
+	@Inject
+	private Session sessionBean;
+	@Inject
+	private Role roleBean;
 
-        doBeforeProcessing(request, response);
-        
-        if(sessionBean.isIdentifiedUser()) {
-            if(roleBean.checkIfUserIsSuperUser(sessionBean.getLoggedIdentifiedUser())) {
-                
-            } else {
-                Locale locale = ((HttpServletRequest)request).getLocale();
-                ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+	public SuperUserFilter() {
+	}
 
-                ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_FORBIDDEN);
-                ((HttpServletResponse)response).sendError(HttpServletResponse.SC_FORBIDDEN, messages.getString("filter.forbidden"));
-                return;
-            }
-        } else {
-            
-            Locale locale = ((HttpServletRequest)request).getLocale();
-            ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
-            
-            ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_FORBIDDEN);
-            ((HttpServletResponse)response).sendError(HttpServletResponse.SC_FORBIDDEN, messages.getString("filter.forbidden"));
-            return;
-        }
-        
-        Throwable problem = null;
-        try {
-            chain.doFilter(request, response);
-        } catch (Throwable t) {
-            // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
-            t.printStackTrace();
-        }
-        
-        doAfterProcessing(request, response);
+	private void doBeforeProcessing(ServletRequest request, ServletResponse response)
+			throws IOException, ServletException {
 
-        // If there was a problem, we want to rethrow it if it is
-        // a known type, otherwise log it.
-        if (problem != null) {
-            if (problem instanceof ServletException) {
-                throw (ServletException) problem;
-            }
-            if (problem instanceof IOException) {
-                throw (IOException) problem;
-            }
-            sendProcessingError(problem, response);
-        }
-    }
+	}
 
-    /**
-     * Returns the filter configuration object for the filter.
-     */
-    public FilterConfig getFilterConfig() {
-        return (this.filterConfig);
-    }
+	private void doAfterProcessing(ServletRequest request, ServletResponse response)
+			throws IOException, ServletException {
+	}
 
-    /**
-     * Sets the filter configuration object for the filter.
-     *
-     * @param filterConfig The filter configuration object.
-     */
-    public void setFilterConfig(FilterConfig filterConfig) {
-        this.filterConfig = filterConfig;
-    }
+	/**
+	 *
+	 * @param request  The servlet request to be processed.
+	 * @param response The servlet response to be created.
+	 * @param chain    The filter chain to be processed.
+	 *
+	 * @exception IOException      if an input or output error occurs.
+	 * @exception ServletException if a servlet error occurs.
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 
-    /**
-     * Destroys the filter.
-     */
-    @Override
-    public void destroy() {        
-    }
+		doBeforeProcessing(request, response);
 
-    /**
-     * Initializes the filter.
-     */
-    @Override
-    public void init(FilterConfig filterConfig) {        
-        this.filterConfig = filterConfig;
-        if (filterConfig != null) {
+		if (sessionBean.isIdentifiedUser()) {
+			if (roleBean.checkIfUserIsSuperUser(sessionBean.getLoggedIdentifiedUser())) {
 
-        }
-    }
+			} else {
+				Locale locale = ((HttpServletRequest) request).getLocale();
+				ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
 
-    /**
-     * Returns a string representation of the object.
-     */
-    @Override
-    public String toString() {
-        if (filterConfig == null) {
-            return ("SuperUserFilter()");
-        }
-        StringBuilder sb = new StringBuilder("SuperUserFilter(");
-        sb.append(filterConfig);
-        sb.append(")");
-        return (sb.toString());
-    }
-    
-    private void sendProcessingError(Throwable t, ServletResponse response) {
-       LOGGER.error("Error in superuserpage filtering", t);
-        
-        try {
-            ((HttpServletResponse)response).sendRedirect(RedirectURLs.ERROR_PAGE_URI);
-        } catch (IOException ex) {
-            LOGGER.error("Error in redirecting", ex);
-        }
-    }
-    public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
-    }
-    
+				((HttpServletResponse) response).setStatus(HttpServletResponse.SC_FORBIDDEN);
+				((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN,
+						messages.getString("filter.forbidden"));
+				return;
+			}
+		} else {
+
+			Locale locale = ((HttpServletRequest) request).getLocale();
+			ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+
+			((HttpServletResponse) response).setStatus(HttpServletResponse.SC_FORBIDDEN);
+			((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN,
+					messages.getString("filter.forbidden"));
+			return;
+		}
+
+		Throwable problem = null;
+		try {
+			chain.doFilter(request, response);
+		} catch (Throwable t) {
+			// If an exception is thrown somewhere down the filter chain,
+			// we still want to execute our after processing, and then
+			// rethrow the problem after that.
+			problem = t;
+			t.printStackTrace();
+		}
+
+		doAfterProcessing(request, response);
+
+		// If there was a problem, we want to rethrow it if it is
+		// a known type, otherwise log it.
+		if (problem != null) {
+			if (problem instanceof ServletException) {
+				throw (ServletException) problem;
+			}
+			if (problem instanceof IOException) {
+				throw (IOException) problem;
+			}
+			sendProcessingError(problem, response);
+		}
+	}
+
+	/**
+	 * Returns the filter configuration object for the filter.
+	 */
+	public FilterConfig getFilterConfig() {
+		return (this.filterConfig);
+	}
+
+	/**
+	 * Sets the filter configuration object for the filter.
+	 *
+	 * @param filterConfig The filter configuration object.
+	 */
+	public void setFilterConfig(FilterConfig filterConfig) {
+		this.filterConfig = filterConfig;
+	}
+
+	/**
+	 * Destroys the filter.
+	 */
+	@Override
+	public void destroy() {
+	}
+
+	/**
+	 * Initializes the filter.
+	 */
+	@Override
+	public void init(FilterConfig filterConfig) {
+		this.filterConfig = filterConfig;
+		if (filterConfig != null) {
+
+		}
+	}
+
+	/**
+	 * Returns a string representation of the object.
+	 */
+	@Override
+	public String toString() {
+		if (filterConfig == null) {
+			return ("SuperUserFilter()");
+		}
+		StringBuilder sb = new StringBuilder("SuperUserFilter(");
+		sb.append(filterConfig);
+		sb.append(")");
+		return (sb.toString());
+	}
+
+	private void sendProcessingError(Throwable t, ServletResponse response) {
+		LOGGER.error("Error in superuserpage filtering", t);
+
+		try {
+			((HttpServletResponse) response).sendRedirect(RedirectURLs.ERROR_PAGE_URI);
+		} catch (IOException ex) {
+			LOGGER.error("Error in redirecting", ex);
+		}
+	}
+
+	public void log(String msg) {
+		filterConfig.getServletContext().log(msg);
+	}
+
 }

@@ -45,14 +45,14 @@ import javax.inject.Named;
 @RequestScoped
 public class TimeManagedBean {
 
-    @Inject
-    private Session sessionBean;
+	@Inject
+	private Session sessionBean;
 
-    public TimeZone getUserTimeZone() {
-        return sessionBean.getSessionTimeZone();
-    }
+	public TimeZone getUserTimeZone() {
+		return sessionBean.getSessionTimeZone();
+	}
 
-    public TimeZone getServerTimeZone() {
-        return TimeZoneInformation.getTimeZone();
-    }
+	public TimeZone getServerTimeZone() {
+		return TimeZoneInformation.getTimeZone();
+	}
 }

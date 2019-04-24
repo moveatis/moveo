@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 package com.moveatis.identityprovider;
 
 import com.moveatis.abstracts.BaseEntity;
@@ -40,55 +40,52 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * The entity represents the data needed to identify an existing user.
- * The example entity must be rewritten, if a custom identity service is to be used.
+ * The entity represents the data needed to identify an existing user. The
+ * example entity must be rewritten, if a custom identity service is to be used.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(
-            name="findIdentityProviderEntityByUsername",
-            query="SELECT entity FROM IdentityProviderInformationEntity entity WHERE "
-                    + "entity.username=:username"
-        )
-})
-@Table(name="IDENTITY_PROVIDER_INFORMATION")
+		@NamedQuery(name = "findIdentityProviderEntityByUsername", query = "SELECT entity FROM IdentityProviderInformationEntity entity WHERE "
+				+ "entity.username=:username") })
+@Table(name = "IDENTITY_PROVIDER_INFORMATION")
 public class IdentityProviderInformationEntity extends BaseEntity implements IdentityProvider, Serializable {
-    
-    private static final long serialVersionUID = 1L;
 
-    @OneToOne
-    private IdentifiedUserEntity userEntity;
+	private static final long serialVersionUID = 1L;
 
-    private String username;
-    private String affiliation;
-    
-    public IdentityProviderInformationEntity() {
-        
-    }
+	@OneToOne
+	private IdentifiedUserEntity userEntity;
 
-    public void setUserEntity(IdentifiedUserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
+	private String username;
+	private String affiliation;
 
-    @Override
-    public IdentifiedUserEntity getIdentifiedUserEntity() {
-        return this.userEntity;
-    }
-    
-    public String getUsername() {
-        return username;
-    }
+	public IdentityProviderInformationEntity() {
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	}
 
-    public String getAffiliation() {
-        return affiliation;
-    }
+	public void setUserEntity(IdentifiedUserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
 
-    public void setAffiliation(String affiliation) {
-        this.affiliation = affiliation;
-    }
+	@Override
+	public IdentifiedUserEntity getIdentifiedUserEntity() {
+		return this.userEntity;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getAffiliation() {
+		return affiliation;
+	}
+
+	public void setAffiliation(String affiliation) {
+		this.affiliation = affiliation;
+	}
 }

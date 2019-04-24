@@ -53,9 +53,9 @@ import org.slf4j.LoggerFactory;
  * The servlet handles the identification of a user using the Shibboleth service
  * of Jyväskylä University.
  * 
- * If you are modifying Moveatis to your own organization, you need to 
- * implement your own identity provider service with the classes in 
- * the identity provider package.
+ * If you are modifying Moveatis to your own organization, you need to implement
+ * your own identity provider service with the classes in the identity provider
+ * package.
  * 
  * @see IdentityProviderInformationEntity
  * @see IdentityProvider
@@ -63,113 +63,114 @@ import org.slf4j.LoggerFactory;
  * @see IdentityProviderRegistrationBean
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@WebServlet(name = "JyuIdentityServlet", urlPatterns = {"/moveatis/secure"})
+@WebServlet(name = "JyuIdentityServlet", urlPatterns = { "/moveatis/secure" })
 public class JyuIdentityServlet extends HttpServlet {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(JyuIdentityServlet.class);
-    
-    private IdentifiedUserEntity userEntity;
-    
-    @Inject
-    private Session sessionBean;
-    @Inject
-    private IdentityProviderBean ipBean;
-    @Inject
-    private User userEJB;
-    @Inject
-    private Role roleEJB;
-    @Inject
-    private Application applicationEJB;
-    @Inject
-    private InstallationBean installationEJB;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @throws ServletException if a servlet-specific error occurs.
-     * @throws IOException if an I/O error occurs.
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String userName = (String) request.getAttribute("eppn");
-        String affiliation = (String) request.getAttribute("unscoped-affiliation");
-        String displayName = (String) request.getAttribute("displayName");
-        
-        if(userName != null && affiliation != null && displayName != null) {
-            IdentityProviderInformationEntity ipInformationEntity = ipBean.findIpEntityByUsername(userName);
-            
-            if(ipInformationEntity != null) {
-                userEntity = ipInformationEntity.getIdentifiedUserEntity();
-                sessionBean.setIdentityProviderUser(userEntity);
-                response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
-                
-            } else {
-                /*
-                * IdentityProviderInformationEntity was not found, but as our service is open to all
-                * students and affiliates of Jyväskylä University, we shall create a new entity for this user
-                */
-                userEntity = new IdentifiedUserEntity();
-        
-                IdentityProviderInformationEntity identityProviderInformationEntity = new IdentityProviderInformationEntity();
-                identityProviderInformationEntity.setUsername(userName);
-                identityProviderInformationEntity.setAffiliation(affiliation);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JyuIdentityServlet.class);
 
-                userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
-                userEntity.setGivenName(displayName);
+	private IdentifiedUserEntity userEntity;
 
-                identityProviderInformationEntity.setUserEntity(userEntity);
+	@Inject
+	private Session sessionBean;
+	@Inject
+	private IdentityProviderBean ipBean;
+	@Inject
+	private User userEJB;
+	@Inject
+	private Role roleEJB;
+	@Inject
+	private Application applicationEJB;
+	@Inject
+	private InstallationBean installationEJB;
 
-                userEJB.create(userEntity);
-                sessionBean.setIdentityProviderUser(userEntity);
-                
-                if(!applicationEJB.checkInstalled()) {
-                    // Application itself has not been installed yet, so that 
-                    // needs to be done
-                    // First user is the admin user
-                    roleEJB.addSuperuserRoleToUser(userEntity);
-                    
-                    if(installationEJB.createApplication() == ApplicationStatusCode.INSTALLATION_OK) {
-                        response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
-                    } else {
-                        response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                    }
-                } else {
-                    response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
-                }
-            }
-        } else {
-            response.sendRedirect(RedirectURLs.HOME_URI);
-        }
-    }
+	/**
+	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+	 * methods.
+	 *
+	 * @throws ServletException if a servlet-specific error occurs.
+	 * @throws IOException      if an I/O error occurs.
+	 */
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @throws ServletException if a servlet-specific error occurs.
-     * @throws IOException if an I/O error occurs.
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+		String userName = (String) request.getAttribute("eppn");
+		String affiliation = (String) request.getAttribute("unscoped-affiliation");
+		String displayName = (String) request.getAttribute("displayName");
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description.
-     */
-    @Override
-    public String getServletInfo() {
-        return "This servlet is the endpoint to Shibboleth-identityprovider service";
-    }
+		if (userName != null && affiliation != null && displayName != null) {
+			IdentityProviderInformationEntity ipInformationEntity = ipBean.findIpEntityByUsername(userName);
+
+			if (ipInformationEntity != null) {
+				userEntity = ipInformationEntity.getIdentifiedUserEntity();
+				sessionBean.setIdentityProviderUser(userEntity);
+				response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
+
+			} else {
+				/*
+				 * IdentityProviderInformationEntity was not found, but as our service is open
+				 * to all students and affiliates of Jyväskylä University, we shall create a new
+				 * entity for this user
+				 */
+				userEntity = new IdentifiedUserEntity();
+
+				IdentityProviderInformationEntity identityProviderInformationEntity = new IdentityProviderInformationEntity();
+				identityProviderInformationEntity.setUsername(userName);
+				identityProviderInformationEntity.setAffiliation(affiliation);
+
+				userEntity.setIdentityProviderInformationEntity(identityProviderInformationEntity);
+				userEntity.setGivenName(displayName);
+
+				identityProviderInformationEntity.setUserEntity(userEntity);
+
+				userEJB.create(userEntity);
+				sessionBean.setIdentityProviderUser(userEntity);
+
+				if (!applicationEJB.checkInstalled()) {
+					// Application itself has not been installed yet, so that
+					// needs to be done
+					// First user is the admin user
+					roleEJB.addSuperuserRoleToUser(userEntity);
+
+					if (installationEJB.createApplication() == ApplicationStatusCode.INSTALLATION_OK) {
+						response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
+					} else {
+						response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+					}
+				} else {
+					response.sendRedirect(RedirectURLs.CONTROL_PAGE_URI);
+				}
+			}
+		} else {
+			response.sendRedirect(RedirectURLs.HOME_URI);
+		}
+	}
+
+	/**
+	 * Handles the HTTP <code>POST</code> method.
+	 *
+	 * @throws ServletException if a servlet-specific error occurs.
+	 * @throws IOException      if an I/O error occurs.
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Returns a short description of the servlet.
+	 *
+	 * @return a String containing servlet description.
+	 */
+	@Override
+	public String getServletInfo() {
+		return "This servlet is the endpoint to Shibboleth-identityprovider service";
+	}
 
 }

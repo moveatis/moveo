@@ -60,99 +60,106 @@ import org.slf4j.LoggerFactory;
 @Stateless
 public class EventGroupBean extends AbstractBean<EventGroupEntity> implements EventGroup {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventGroupBean.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EventGroupBean.class);
 
-    @PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
-    private EntityManager em;
+	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
+	private EntityManager em;
 
-    @Inject
-    private AnonUser anonUserEJB;
+	@Inject
+	private AnonUser anonUserEJB;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
 
-    public EventGroupBean() {
-        super(EventGroupEntity.class);
-    }
+	public EventGroupBean() {
+		super(EventGroupEntity.class);
+	}
 
-    /**
-     * Finds and returns a list of the event groups belonging to the given user.
-     * @param owner The user whose event groups are searched for.
-     * @return A list of the event groups.
-     */
-    @Override
-    public List<EventGroupEntity> findAllForOwner(AbstractUser owner) {
-        TypedQuery<EventGroupEntity> query = em.createNamedQuery("findEventGroupByOwner", EventGroupEntity.class);
-        query.setParameter("ownerEntity", owner);
-        return query.getResultList();
-    }
+	/**
+	 * Finds and returns a list of the event groups belonging to the given user.
+	 * 
+	 * @param owner The user whose event groups are searched for.
+	 * @return A list of the event groups.
+	 */
+	@Override
+	public List<EventGroupEntity> findAllForOwner(AbstractUser owner) {
+		TypedQuery<EventGroupEntity> query = em.createNamedQuery("findEventGroupByOwner", EventGroupEntity.class);
+		query.setParameter("ownerEntity", owner);
+		return query.getResultList();
+	}
 
-    /**
-     * Finds and returns a list of event groups, which the given user has access to.
-     * @param user The user whose event groups are searched for.
-     * @return A list of the event groups.
-     */
-    @Override
-    public List<EventGroupEntity> findAllForUser(AbstractUser user) {
-        return findAllForAbstractUser(user);
-    }
+	/**
+	 * Finds and returns a list of event groups, which the given user has access to.
+	 * 
+	 * @param user The user whose event groups are searched for.
+	 * @return A list of the event groups.
+	 */
+	@Override
+	public List<EventGroupEntity> findAllForUser(AbstractUser user) {
+		return findAllForAbstractUser(user);
+	}
 
-    /**
-     * Finds and returns the event groups that are allowed for public use.
-     * @return A list of the event groups.
-     */
-    @Override
-    public List<EventGroupEntity> findAllForPublicUser() {
-        return findAllForAbstractUser(anonUserEJB.find());
-    }
+	/**
+	 * Finds and returns the event groups that are allowed for public use.
+	 * 
+	 * @return A list of the event groups.
+	 */
+	@Override
+	public List<EventGroupEntity> findAllForPublicUser() {
+		return findAllForAbstractUser(anonUserEJB.find());
+	}
 
-    /**
-     * The method finds and returns the event groups, which the given user
-     * has access to.
-     * @param user The user to search event groups for.
-     * @return A list of the event groups.
-     */
-    private List<EventGroupEntity> findAllForAbstractUser(AbstractUser user) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
+	/**
+	 * The method finds and returns the event groups, which the given user has
+	 * access to.
+	 * 
+	 * @param user The user to search event groups for.
+	 * @return A list of the event groups.
+	 */
+	private List<EventGroupEntity> findAllForAbstractUser(AbstractUser user) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
 
-        Root<EventGroupEntity> groupRoot = cq.from(EventGroupEntity.class);
+		Root<EventGroupEntity> groupRoot = cq.from(EventGroupEntity.class);
 
-        SetJoin<EventGroupEntity, AbstractUser> userJoin = groupRoot.join(EventGroupEntity_.users);
-        Predicate p = cb.equal(userJoin.get(AbstractUser_.id), user.getId());
+		SetJoin<EventGroupEntity, AbstractUser> userJoin = groupRoot.join(EventGroupEntity_.users);
+		Predicate p = cb.equal(userJoin.get(AbstractUser_.id), user.getId());
 
-        cq.select(groupRoot).where(p);
+		cq.select(groupRoot).where(p);
 
-        TypedQuery<EventGroupEntity> query = em.createQuery(cq);
+		TypedQuery<EventGroupEntity> query = em.createQuery(cq);
 
-        return query.getResultList();
-    }
-    /**
-     * The method removes the given category set from all of the event
-     * groups that have the category set.
-     * @param categorySetEntity The category set to be removed from the event groups.
-     */
-    @Override
-    public void removeCategorySetEntityFromEventGroups(AbstractCategorySetEntity categorySetEntity) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
+		return query.getResultList();
+	}
 
-        Root<EventGroupEntity> groupRoot = cq.from(EventGroupEntity.class);
-        SetJoin<EventGroupEntity, CategorySetEntity> categoryJoin = groupRoot.join(EventGroupEntity_.categorySets);
-        Predicate p = cb.equal(categoryJoin.get(CategorySetEntity_.id), categorySetEntity.getId());
+	/**
+	 * The method removes the given category set from all of the event groups that
+	 * have the category set.
+	 * 
+	 * @param categorySetEntity The category set to be removed from the event
+	 *                          groups.
+	 */
+	@Override
+	public void removeCategorySetEntityFromEventGroups(AbstractCategorySetEntity categorySetEntity) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<EventGroupEntity> cq = cb.createQuery(EventGroupEntity.class);
 
-        cq.select(groupRoot).where(p);
-        TypedQuery<EventGroupEntity> query = em.createQuery(cq);
-        List<EventGroupEntity> eventGroups = query.getResultList();
-        if (!eventGroups.isEmpty()) {
-            for (EventGroupEntity eventGroup : eventGroups) {
-                Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
-                categorySets.remove(categorySetEntity);
-                eventGroup.setCategorySets(categorySets);
-                super.edit(eventGroup);
-            }
-        }
-    }
+		Root<EventGroupEntity> groupRoot = cq.from(EventGroupEntity.class);
+		SetJoin<EventGroupEntity, CategorySetEntity> categoryJoin = groupRoot.join(EventGroupEntity_.categorySets);
+		Predicate p = cb.equal(categoryJoin.get(CategorySetEntity_.id), categorySetEntity.getId());
+
+		cq.select(groupRoot).where(p);
+		TypedQuery<EventGroupEntity> query = em.createQuery(cq);
+		List<EventGroupEntity> eventGroups = query.getResultList();
+		if (!eventGroups.isEmpty()) {
+			for (EventGroupEntity eventGroup : eventGroups) {
+				Set<CategorySetEntity> categorySets = eventGroup.getCategorySets();
+				categorySets.remove(categorySetEntity);
+				eventGroup.setCategorySets(categorySets);
+				super.edit(eventGroup);
+			}
+		}
+	}
 }

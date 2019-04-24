@@ -47,142 +47,141 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * The filter checks that the pages in /app folder are accessed only
- * through the frontpage.
+ * The filter checks that the pages in /app folder are accessed only through the
+ * frontpage.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * 
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = {"/app/*"})
+@WebFilter(filterName = "LoginFilter", urlPatterns = { "/app/*" })
 public class LoginFilter implements Filter {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
-    
-    private static final boolean DEBUG = false;
-    private FilterConfig filterConfig = null;
-    private ServletContext context = null;
-    
-    @Inject
-    private Session sessionBean;
-    
-    public LoginFilter() {
-    }    
-    
-    private void doBeforeProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        
-    }    
-    
-    private void doAfterProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-    
-    }
 
-    /**
-     *
-     * @param request The servlet request to be processed.
-     * @param response The servlet response to be created.
-     * @param chain The filter chain to be processed.
-     *
-     * @exception IOException if an input or output error occurs.
-     * @exception ServletException if a servlet error occurs.
-     */
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
-        
-        doBeforeProcessing(request, response);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
 
-        if(!sessionBean.isLoggedIn()) {
-            ((HttpServletResponse)response).sendRedirect("/" + context.getContextPath() + "/index.xhtml");
-            return;
-        }
-        
-        Throwable problem = null;
-        try {
-            chain.doFilter(request, response);
-        } catch (IOException | ServletException t) {
-            problem = t;
-        }
-        
-        doAfterProcessing(request, response);
+	private static final boolean DEBUG = false;
+	private FilterConfig filterConfig = null;
+	private ServletContext context = null;
 
-        // If there was a problem, we want to rethrow it if it is
-        // a known type, otherwise log it.
-        if (problem != null) {
-            if (problem instanceof ServletException) {
-                throw (ServletException) problem;
-            }
-            if (problem instanceof IOException) {
-                throw (IOException) problem;
-            }
-            sendProcessingError(problem, response);
-        }
-    }
+	@Inject
+	private Session sessionBean;
 
-    /**
-     * Returns the filter configuration object for the filter.
-     */
-    public FilterConfig getFilterConfig() {
-        return (this.filterConfig);
-    }
+	public LoginFilter() {
+	}
 
-    /**
-     * Sets the filter configuration object for the filter.
-     *
-     * @param filterConfig The filter configuration object.
-     */
-    public void setFilterConfig(FilterConfig filterConfig) {
-        this.filterConfig = filterConfig;
-    }
+	private void doBeforeProcessing(ServletRequest request, ServletResponse response)
+			throws IOException, ServletException {
 
-    /**
-     * Destroys the filter.
-     */
-    @Override
-    public void destroy() {        
-    }
+	}
 
-    /**
-     * Initializes the filter.
-     */
-    @Override
-    public void init(FilterConfig filterConfig) {        
-        this.filterConfig = filterConfig;
-        if (filterConfig != null) {
-            if (DEBUG) {                
-                log("LoginFilter:Initializing filter");
-                this.context = filterConfig.getServletContext();
-            }
-        }
-    }
+	private void doAfterProcessing(ServletRequest request, ServletResponse response)
+			throws IOException, ServletException {
 
-    /**
-     * Returns a string representation of the object.
-     */
-    @Override
-    public String toString() {
-        if (filterConfig == null) {
-            return ("LoginFilter()");
-        }
-        StringBuilder sb = new StringBuilder("LoginFilter(");
-        sb.append(filterConfig);
-        sb.append(")");
-        return (sb.toString());
-    }
-    
-    private void sendProcessingError(Throwable t, ServletResponse response) {
-        LOGGER.error("Error in login filtering", t);
-        
-        try {
-            ((HttpServletResponse)response).sendRedirect(RedirectURLs.ERROR_PAGE_URI);
-        } catch (IOException ex) {
-            LOGGER.error("Error in redirecting", ex);
-        }
-    }
+	}
 
-    public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
-    }
+	/**
+	 *
+	 * @param request  The servlet request to be processed.
+	 * @param response The servlet response to be created.
+	 * @param chain    The filter chain to be processed.
+	 *
+	 * @exception IOException      if an input or output error occurs.
+	 * @exception ServletException if a servlet error occurs.
+	 */
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+
+		doBeforeProcessing(request, response);
+
+		if (!sessionBean.isLoggedIn()) {
+			((HttpServletResponse) response).sendRedirect("/" + context.getContextPath() + "/index.xhtml");
+			return;
+		}
+
+		Throwable problem = null;
+		try {
+			chain.doFilter(request, response);
+		} catch (IOException | ServletException t) {
+			problem = t;
+		}
+
+		doAfterProcessing(request, response);
+
+		// If there was a problem, we want to rethrow it if it is
+		// a known type, otherwise log it.
+		if (problem != null) {
+			if (problem instanceof ServletException) {
+				throw (ServletException) problem;
+			}
+			if (problem instanceof IOException) {
+				throw (IOException) problem;
+			}
+			sendProcessingError(problem, response);
+		}
+	}
+
+	/**
+	 * Returns the filter configuration object for the filter.
+	 */
+	public FilterConfig getFilterConfig() {
+		return (this.filterConfig);
+	}
+
+	/**
+	 * Sets the filter configuration object for the filter.
+	 *
+	 * @param filterConfig The filter configuration object.
+	 */
+	public void setFilterConfig(FilterConfig filterConfig) {
+		this.filterConfig = filterConfig;
+	}
+
+	/**
+	 * Destroys the filter.
+	 */
+	@Override
+	public void destroy() {
+	}
+
+	/**
+	 * Initializes the filter.
+	 */
+	@Override
+	public void init(FilterConfig filterConfig) {
+		this.filterConfig = filterConfig;
+		if (filterConfig != null) {
+			if (DEBUG) {
+				log("LoginFilter:Initializing filter");
+				this.context = filterConfig.getServletContext();
+			}
+		}
+	}
+
+	/**
+	 * Returns a string representation of the object.
+	 */
+	@Override
+	public String toString() {
+		if (filterConfig == null) {
+			return ("LoginFilter()");
+		}
+		StringBuilder sb = new StringBuilder("LoginFilter(");
+		sb.append(filterConfig);
+		sb.append(")");
+		return (sb.toString());
+	}
+
+	private void sendProcessingError(Throwable t, ServletResponse response) {
+		LOGGER.error("Error in login filtering", t);
+
+		try {
+			((HttpServletResponse) response).sendRedirect(RedirectURLs.ERROR_PAGE_URI);
+		} catch (IOException ex) {
+			LOGGER.error("Error in redirecting", ex);
+		}
+	}
+
+	public void log(String msg) {
+		filterConfig.getServletContext().log(msg);
+	}
 }

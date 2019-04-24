@@ -1,5 +1,6 @@
 /* 
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Visa Nykänen, Tuomas Moisio, Petra Puumala, Karoliina Lappalainen 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,213 +57,226 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The bean manages actions the user needs in the usage of Moveatis.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Visa Nykänen
  */
 @SessionScoped
 @Named
-public class SessionBean implements Serializable, Session  {
-    
-    private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
-    
-    @Inject
-    private ObservationManagedBean observationManagedBean;
-    @Inject
-    private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
-    private boolean loggedIn = false;
-    private IdentifiedUserEntity userEntity;
-    private TagUserEntity tagEntity;
-    
-    private SortedSet<Long> sessionObservations;
-    
-    private String returnUri;
+public class SessionBean implements Serializable, Session {
 
-    private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
-    private Locale locale; // Locale switching based on BalusC's example: http://stackoverflow.com/a/4830669
-    
+	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
 
-    public SessionBean() {
-        
-    }
-    
-    @Override
-    public void setIdentityProviderUser(IdentifiedUserEntity user) {
-        this.userEntity = user;
-        commonSettingsForLoggedInUsers();
-    }
-    
-    @Override
-    public void setAnonymityUser() {
-        // TODO: Doesn't set abstractUser. Is this ok?
-        tagEntity = null;
-        commonSettingsForLoggedInUsers();
-        // If user wants to observe without selecting existing event group
-        // (in control view or with a group key), we should reset the event.
-        observationManagedBean.setEventEntity(null);
-    }
-    
-    @Override
-    public void setTagUser(TagUserEntity tagUser) {
-        if(tagUser == null) {
-            return;
-        }
-        this.tagEntity = tagUser;
-        commonSettingsForLoggedInUsers();
-        observationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
-        feedbackAnalyzationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
-    }
-    
-    private void commonSettingsForLoggedInUsers() {
-        this.loggedIn = true;
-        // Make sure we don't modify earlier categories.
-        observationManagedBean.resetCategorySetsInUse();
-    }
+	@Inject
+	private ObservationManagedBean observationManagedBean;
+	
+	@Inject
+	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	
+	private boolean loggedIn = false;
+	
+	private IdentifiedUserEntity userEntity;
+	
+	private TagUserEntity tagEntity;
 
-    @Override
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
+	private SortedSet<Long> sessionObservations;
 
-    @Override
-    public String toString() {
-        String userType = this.tagEntity != null ? "tag" : "anonymous";
-        userType = this.userEntity != null ? "identified" : userType;
-        return "SessionBean: userType -> " + userType + ", loggedIn -> " + isLoggedIn();
-    }
+	private String returnUri;
 
-    @Override
-    public SortedSet<Long> getSessionObservationsIds() {
-        if(this.sessionObservations == null) {
-            return new TreeSet<>();
-        }
-        return this.sessionObservations;
-    }
+	private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
+	
+	private Locale locale; // Locale switching based on BalusC's example:
+							// http://stackoverflow.com/a/4830669
 
-    /**
-     * Checks if the observation is in saveable state. It is used in checking if
-     * the Save button can be displayed.
-     * @return true if the observation could be saved.
-     */
-    @Override
-    public boolean isSaveable() {
-        return observationManagedBean.getObservationEntity() != null;
-    }
+	public SessionBean() {
 
-    @Override
-    public void setSessionObservations(SortedSet<Long> observationsIds) {
-        this.sessionObservations = observationsIds;
-    }        
+	}
 
-    @Override
-    public AbstractUser getLoggedInUser() {
-        return this.tagEntity;
-    }
+	@Override
+	public void setIdentityProviderUser(IdentifiedUserEntity user) {
+		this.userEntity = user;
+		commonSettingsForLoggedInUsers();
+	}
 
-    @Override
-    public TimeZone getSessionTimeZone() {
-        return sessionTimeZone;
-    }
+	@Override
+	public void setAnonymityUser() {
+		// TODO: Doesn't set abstractUser. Is this ok?
+		tagEntity = null;
+		commonSettingsForLoggedInUsers();
+		// If user wants to observe without selecting existing event group
+		// (in control view or with a group key), we should reset the event.
+		observationManagedBean.setEventEntity(null);
+		feedbackAnalyzationManagedBean.setEventEntity(null);
+	}
 
-    @Override
-    public void setSessionTimeZone(TimeZone timeZone) {
-        this.sessionTimeZone = timeZone;
-    }
+	@Override
+	public void setTagUser(TagUserEntity tagUser) {
+		if (tagUser == null) {
+			return;
+		}
+		this.tagEntity = tagUser;
+		commonSettingsForLoggedInUsers();
+		observationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
+		feedbackAnalyzationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
+	}
 
-    @Override
-    public IdentifiedUserEntity getLoggedIdentifiedUser() {
-        return this.userEntity;
-    }
-    
-    @Override
-    public GroupKeyEntity getGroupKey() {
-        return this.tagEntity.getGroupKey();
-    }
-    
-    /**
-     * Returns true if the button that resets the current observation
-     * should be available to the user.
-     */
-    public boolean isResetObsAvailable() {
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
-        return result;
-    }
-    
-    /**
-     * Returns true if the button that redirects the user to the category
-     * selection view should be available to the user.
-     */
-    public boolean isBackToCatEdAvailable() {
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        boolean result = (viewId.equals("/app/observer/index.xhtml"));
-        return result;
-    }
-    
-    /**
-     * Returns true if the button that redirects the user to the front page
-     * should be available to the user.
-     */
-    public boolean isToFrontPageAvailable() {
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        boolean result = !(viewId.equals("/index.xhtml"));
-        return result;
-    }
+	private void commonSettingsForLoggedInUsers() {
+		this.loggedIn = true;
+		// Make sure we don't modify earlier categories.
+		observationManagedBean.resetCategorySetsInUse();
+		feedbackAnalyzationManagedBean.resetCategorySetsInUse();
+	}
 
-    /**
-     * Used in development of Moveatis to detect whether the application is running
-     * on the actual production server or on localhost.
-     * @return true if Moveatis is running in localhost, false otherwise.
-     */
-    @Override
-    public boolean getIsLocalhost() {
-        boolean isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
-                .getRequestURL().toString().contains("localhost");
-        return isLocalhost;
-    }
+	@Override
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
 
-    /**
-     * Returns the URI in which the user was before he or she clicked the 
-     * login button when not in the front page. Not implemented in version 1.0.
-     * @return the URI to return the user to.
-     */
-    @Override
-    public String getReturnUri() {
-        return returnUri;
-    }
+	@Override
+	public String toString() {
+		String userType = this.tagEntity != null ? "tag" : "anonymous";
+		userType = this.userEntity != null ? "identified" : userType;
+		return "SessionBean: userType -> " + userType + ", loggedIn -> " + isLoggedIn();
+	}
 
-    /**
-     * Sets the URI into which the user will be returned when he or she
-     * clicks the login button outside of the front page.
-     * Not implemented in version 1.0.
-     * @param returnUri The URI that is set as return URI.
-     */
-    @Override
-    public void setReturnUri(String returnUri) {
-        this.returnUri = returnUri;
-    }
+	@Override
+	public SortedSet<Long> getSessionObservationsIds() {
+		if (this.sessionObservations == null) {
+			return new TreeSet<>();
+		}
+		return this.sessionObservations;
+	}
 
-    @Override
-    public boolean isIdentifiedUser() {
-        return userEntity != null;
-    }
-    
-    @Override
-    public void setCategorySetsInUse(List<ObservationCategorySet> categorySets) {
-        observationManagedBean.setCategorySetsInUse(categorySets);
-    }
-    
-    @Override
-    public List<ObservationCategorySet> getCategorySetsInUse() {
-        return observationManagedBean.getCategorySetsInUse();
-    }
-    
-    @Override
-    public void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> categorySets) {
-    	feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(categorySets);
-    }
-    
-    @Override
-    public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
-        return feedbackAnalyzationManagedBean.getFeedbackAnalysisCategorySetsInUse();
-    }
+	/**
+	 * Checks if the observation is in saveable state. It is used in checking if the
+	 * Save button can be displayed.
+	 * 
+	 * @return true if the observation could be saved.
+	 */
+	@Override
+	public boolean isSaveable() {
+		return observationManagedBean.getObservationEntity() != null;
+	}
+
+	@Override
+	public void setSessionObservations(SortedSet<Long> observationsIds) {
+		this.sessionObservations = observationsIds;
+	}
+
+	@Override
+	public AbstractUser getLoggedInUser() {
+		return this.tagEntity;
+	}
+
+	@Override
+	public TimeZone getSessionTimeZone() {
+		return sessionTimeZone;
+	}
+
+	@Override
+	public void setSessionTimeZone(TimeZone timeZone) {
+		this.sessionTimeZone = timeZone;
+	}
+
+	@Override
+	public IdentifiedUserEntity getLoggedIdentifiedUser() {
+		return this.userEntity;
+	}
+
+	@Override
+	public GroupKeyEntity getGroupKey() {
+		return this.tagEntity.getGroupKey();
+	}
+
+	/**
+	 * Returns true if the button that resets the current observation should be
+	 * available to the user.
+	 */
+	public boolean isResetObsAvailable() {
+		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+		boolean result = (viewId.equals("/app/observer/index.xhtml") || viewId.equals("/app/summary/index.xhtml"));
+		return result;
+	}
+
+	/**
+	 * Returns true if the button that redirects the user to the category selection
+	 * view should be available to the user.
+	 */
+	public boolean isBackToCatEdAvailable() {
+		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+		boolean result = (viewId.equals("/app/observer/index.xhtml"));
+		return result;
+	}
+
+	/**
+	 * Returns true if the button that redirects the user to the front page should
+	 * be available to the user.
+	 */
+	public boolean isToFrontPageAvailable() {
+		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+		boolean result = !(viewId.equals("/index.xhtml"));
+		return result;
+	}
+
+	/**
+	 * Used in development of Moveatis to detect whether the application is running
+	 * on the actual production server or on localhost.
+	 * 
+	 * @return true if Moveatis is running in localhost, false otherwise.
+	 */
+	@Override
+	public boolean getIsLocalhost() {
+		boolean isLocalhost = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+				.getRequestURL().toString().contains("localhost");
+		return isLocalhost;
+	}
+
+	/**
+	 * Returns the URI in which the user was before he or she clicked the login
+	 * button when not in the front page. Not implemented in version 1.0.
+	 * 
+	 * @return the URI to return the user to.
+	 */
+	@Override
+	public String getReturnUri() {
+		return returnUri;
+	}
+
+	/**
+	 * Sets the URI into which the user will be returned when he or she clicks the
+	 * login button outside of the front page. Not implemented in version 1.0.
+	 * 
+	 * @param returnUri The URI that is set as return URI.
+	 */
+	@Override
+	public void setReturnUri(String returnUri) {
+		this.returnUri = returnUri;
+	}
+
+	@Override
+	public boolean isIdentifiedUser() {
+		return userEntity != null;
+	}
+
+	@Override
+	public void setCategorySetsInUse(List<ObservationCategorySet> categorySets) {
+		observationManagedBean.setCategorySetsInUse(categorySets);
+	}
+
+	@Override
+	public List<ObservationCategorySet> getCategorySetsInUse() {
+		return observationManagedBean.getCategorySetsInUse();
+	}
+
+	@Override
+	public void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> categorySets) {
+		feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(categorySets);
+	}
+
+	@Override
+	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
+		return feedbackAnalyzationManagedBean.getFeedbackAnalysisCategorySetsInUse();
+	}
 }

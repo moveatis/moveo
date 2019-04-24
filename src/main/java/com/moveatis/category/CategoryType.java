@@ -31,10 +31,11 @@
 package com.moveatis.category;
 
 /**
- * The enum represents the information of a category. A category can be either
- * a timed category with a time value, or a counted category with an amount value.
+ * The enum represents the information of a category. A category can be either a
+ * timed category with a time value, or a counted category with an amount value.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public enum CategoryType {
-    TIMED, COUNTED
+	TIMED, COUNTED
 }

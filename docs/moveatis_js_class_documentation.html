@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-<html><head>
-	<meta charset='utf-8'/>
-	<title>Moveatis JavaScript Class Documentation</title> 
-	<style>
-		.back-to-top { display: none; }
-		td { padding: 0 0.5em; }
-		footer { padding-top: 2em; }
-	</style>
-</head><body>
-<script>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Moveatis JavaScript Class Documentation</title>
+<style>
+.back-to-top {
+	display: none;
+}
+
+td {
+	padding: 0 0.5em;
+}
+
+footer {
+	padding-top: 2em;
+}
+</style>
+</head>
+<body>
+	<script>
 function appendToc(toc, heading, items) {
 	var h3 = document.createElement('h3');
 	h3.appendChild(document.createTextNode(heading));
@@ -57,4 +67,6 @@ function appendToc(toc, heading, items) {
 		headers = document.getElementsByTagName('header');
 	}
 })();
-</script></body></html>
+</script>
+</body>
+</html>

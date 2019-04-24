@@ -35,55 +35,56 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * The entity represents one public user account in Moveatis. It's used
- * as bookkeeping purposes, as each session must have a user.
+ * The entity represents one public user account in Moveatis. It's used as
+ * bookkeeping purposes, as each session must have a user.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 @Entity
-@Table(name="PUBLIC_USER")
+@Table(name = "PUBLIC_USER")
 public class AnonUserEntity extends AbstractUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @ManyToOne
-    private IdentifiedUserEntity creator;
-    
-    private String label;
+	private static final long serialVersionUID = 1L;
 
-    public IdentifiedUserEntity getCreator() {
-        return creator;
-    }
+	@ManyToOne
+	private IdentifiedUserEntity creator;
 
-    public void setCreator(IdentifiedUserEntity creator) {
-        this.creator = creator;
-    }
+	private String label;
 
-    public String getLabel() {
-        return label;
-    }
+	public IdentifiedUserEntity getCreator() {
+		return creator;
+	}
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public void setCreator(IdentifiedUserEntity creator) {
+		this.creator = creator;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof AnonUserEntity)) {
-            return false;
-        }
-        AnonUserEntity other = (AnonUserEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.user.AnonUserEntity[ id=" + id + " ]";
-    }
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof AnonUserEntity)) {
+			return false;
+		}
+		AnonUserEntity other = (AnonUserEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
+
+	@Override
+	public String toString() {
+		return "com.moveatis.user.AnonUserEntity[ id=" + id + " ]";
+	}
 }

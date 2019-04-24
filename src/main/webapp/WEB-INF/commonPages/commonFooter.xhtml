@@ -6,16 +6,17 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <body>
-        <ui:composition>
-            <h:panelGrid styleClass="naviFooter">
-                <h:outputLink value="#{msg.foot_copyUrl}">
-                    <h:outputText value="#{msg.foot_copyText}" style="text-decoration: underline"/>
-                </h:outputLink>
-            </h:panelGrid>
-        </ui:composition>
-    </body>
+<body>
+	<ui:composition>
+		<h:panelGrid styleClass="naviFooter">
+			<h:outputLink value="#{msg.foot_copyUrl}">
+				<h:outputText value="#{msg.foot_copyText}"
+					style="text-decoration: underline" />
+			</h:outputLink>
+		</h:panelGrid>
+	</ui:composition>
+</body>
 </html>

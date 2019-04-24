@@ -1,5 +1,6 @@
 /* 
  * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Visa Nykänen, Tuomas Moisio, Petra Puumala, Karoliina Lappalainen 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,32 +49,30 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * The entity represents the information for the event groups of the application.
- * The event group has just one event, but the class could be extended to support
- * multiple events. The event group can be identified with a groupkey, which
- * allows semi-public usage.
+ * The entity represents the information for the event groups of the
+ * application. The event group has just one event, but the class could be
+ * extended to support multiple events. The event group can be identified with a
+ * groupkey, which allows semi-public usage.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
+ * @author Visa Nykänen
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(
-            name = "findEventGroupByOwner",
-            query = "SELECT eventGroup FROM EventGroupEntity eventGroup WHERE eventGroup.owner=:ownerEntity "
-            + "AND eventGroup.removed IS NULL"
-    )
-})
+		@NamedQuery(name = "findEventGroupByOwner", query = "SELECT eventGroup FROM EventGroupEntity eventGroup WHERE eventGroup.owner=:ownerEntity "
+				+ "AND eventGroup.removed IS NULL") })
 @Table(name = "EVENTGROUP")
 public class EventGroupEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy = "eventGroupEntity", cascade = PERSIST, fetch = EAGER)
-    private Set<CategorySetEntity> categorySets;
-    
-    @OneToMany(mappedBy = "eventGroupEntity", cascade = PERSIST, fetch = EAGER)
-    private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
+	@OneToMany(mappedBy = "eventGroupEntity", cascade = PERSIST, fetch = EAGER)
+	private Set<CategorySetEntity> categorySets;
 
-    public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
+	@OneToMany(mappedBy = "eventGroupEntity", cascade = PERSIST, fetch = EAGER)
+	private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
+
+	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
 		return feedbackAnalysisCategorySets;
 	}
 
@@ -82,105 +81,105 @@ public class EventGroupEntity extends BaseEntity implements Serializable {
 	}
 
 	@OneToOne(mappedBy = "eventGroup", cascade = PERSIST)
-    private EventEntity event;
+	private EventEntity event;
 
-    @OneToOne(cascade = PERSIST)
-    private GroupKeyEntity groupKey;
+	@OneToOne(cascade = PERSIST)
+	private GroupKeyEntity groupKey;
 
-    @ManyToOne
-    private AbstractUser owner;
+	@ManyToOne
+	private AbstractUser owner;
 
-    @OneToMany
-    private Set<AbstractUser> users;
+	@OneToMany
+	private Set<AbstractUser> users;
 
-    private String label;
-    private String description;
+	private String label;
+	private String description;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public AbstractUser getOwner() {
-        return owner;
-    }
+	public AbstractUser getOwner() {
+		return owner;
+	}
 
-    public void setOwner(AbstractUser owner) {
-        this.owner = owner;
-    }
+	public void setOwner(AbstractUser owner) {
+		this.owner = owner;
+	}
 
-    public Set<AbstractUser> getUsers() {
-        return users;
-    }
+	public Set<AbstractUser> getUsers() {
+		return users;
+	}
 
-    public void setUsers(Set<AbstractUser> users) {
-        this.users = users;
-    }
+	public void setUsers(Set<AbstractUser> users) {
+		this.users = users;
+	}
 
-    public Set<CategorySetEntity> getCategorySets() {
-        return categorySets;
-    }
+	public Set<CategorySetEntity> getCategorySets() {
+		return categorySets;
+	}
 
-    public void setCategorySets(Set<CategorySetEntity> categorySets) {
-        this.categorySets = categorySets;
-    }
+	public void setCategorySets(Set<CategorySetEntity> categorySets) {
+		this.categorySets = categorySets;
+	}
 
-    public String getLabel() {
-        return label;
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public EventEntity getEvent() {
-        return event;
-    }
+	public EventEntity getEvent() {
+		return event;
+	}
 
-    public void setEvent(EventEntity event) {
-        this.event = event;
-    }
+	public void setEvent(EventEntity event) {
+		this.event = event;
+	}
 
-    public GroupKeyEntity getGroupKey() {
-        return groupKey;
-    }
+	public GroupKeyEntity getGroupKey() {
+		return groupKey;
+	}
 
-    public void setGroupKey(GroupKeyEntity groupKey) {
-        this.groupKey = groupKey;
-    }
+	public void setGroupKey(GroupKeyEntity groupKey) {
+		this.groupKey = groupKey;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof EventGroupEntity)) {
-            return false;
-        }
-        EventGroupEntity other = (EventGroupEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof EventGroupEntity)) {
+			return false;
+		}
+		EventGroupEntity other = (EventGroupEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.event.EventGroupEntity[ id=" + id + " ]";
-    }
+	@Override
+	public String toString() {
+		return "com.moveatis.event.EventGroupEntity[ id=" + id + " ]";
+	}
 
 }

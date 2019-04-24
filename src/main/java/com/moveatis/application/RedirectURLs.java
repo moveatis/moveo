@@ -31,25 +31,25 @@
 package com.moveatis.application;
 
 /**
- * The class has the URIs for redirection within the Jyväskylä University login system.
+ * The class has the URIs for redirection within the Jyväskylä University login
+ * system.
+ * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
 public class RedirectURLs {
 
-    public static final String HOME_URI = "https://moveatis.sport.jyu.fi";
-    public static final String SHIBBOLETH_REDIRECT_SECURE_URI = "https://moveatis.sport.jyu.fi/moveatis/secure";
-    public static final String LOCALHOST_REDIRECT_SECURE_URI = "http://localhost:8080/moveatis/jyutesting/";
-    public static final String LOCALHOST_HOME_URI = "http://localhost:8080/moveatis";
-    public static final String SHIBBOLET_LOGOUT_URL = 
-            "https://moveatis.sport.jyu.fi/Shibboleth.sso/Logout?return="
-            + "https://login.jyu.fi/sso/logout.php?return="
-            + "https%3A%2F%2Fmoveatis.sport.jyu.fi";
-    
-    public static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/app/control/";
-    public static final String ERROR_PAGE_URI = "https://moveatis.sport.jyu.fi/error";
-    public static final String SMTP_HOST="localhost";
-    
-    public RedirectURLs() {
-        
-    }
+	public static final String HOME_URI = "https://moveatis.sport.jyu.fi";
+	public static final String SHIBBOLETH_REDIRECT_SECURE_URI = "https://moveatis.sport.jyu.fi/moveatis/secure";
+	public static final String LOCALHOST_REDIRECT_SECURE_URI = "http://localhost:8080/moveatis/jyutesting/";
+	public static final String LOCALHOST_HOME_URI = "http://localhost:8080/moveatis";
+	public static final String SHIBBOLET_LOGOUT_URL = "https://moveatis.sport.jyu.fi/Shibboleth.sso/Logout?return="
+			+ "https://login.jyu.fi/sso/logout.php?return=" + "https%3A%2F%2Fmoveatis.sport.jyu.fi";
+
+	public static final String CONTROL_PAGE_URI = "https://moveatis.sport.jyu.fi/app/control/";
+	public static final String ERROR_PAGE_URI = "https://moveatis.sport.jyu.fi/error";
+	public static final String SMTP_HOST = "localhost";
+
+	public RedirectURLs() {
+
+	}
 }

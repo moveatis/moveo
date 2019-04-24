@@ -47,76 +47,76 @@ import javax.validation.constraints.NotNull;
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  */
-@Table(name="APPLICATION")
+@Table(name = "APPLICATION")
 @Entity
 public class ApplicationEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date applicationInstalled;
-    
-    @OneToMany
-    private List<SuperUserRoleEntity> superUsers;
-    
-    private String reportEmail;
+	@Temporal(TemporalType.DATE)
+	@NotNull
+	private Date applicationInstalled;
 
-    /**
-     * Gets the list of the users with the superuser role.
-     */
-    public List<SuperUserRoleEntity> getSuperUsers() {
-        if(superUsers == null) {
-            superUsers = new ArrayList<>();
-        }
-        return superUsers;
-    }
+	@OneToMany
+	private List<SuperUserRoleEntity> superUsers;
 
-    public void setSuperUsers(List<SuperUserRoleEntity> superUsers) {
-        this.superUsers = superUsers;
-    }
+	private String reportEmail;
 
-    /**
-     * Returns the date when the application was installed.
-     */
-    public Date getApplicationInstalled() {
-        return applicationInstalled;
-    }
+	/**
+	 * Gets the list of the users with the superuser role.
+	 */
+	public List<SuperUserRoleEntity> getSuperUsers() {
+		if (superUsers == null) {
+			superUsers = new ArrayList<>();
+		}
+		return superUsers;
+	}
 
-    /**
-     * Sets the date when the application was installed.
-     */
-    public void setApplicationInstalled(Date applicationInstalled) {
-        this.applicationInstalled = applicationInstalled;
-    }
+	public void setSuperUsers(List<SuperUserRoleEntity> superUsers) {
+		this.superUsers = superUsers;
+	}
 
-    public String getReportEmail() {
-        return reportEmail;
-    }
+	/**
+	 * Returns the date when the application was installed.
+	 */
+	public Date getApplicationInstalled() {
+		return applicationInstalled;
+	}
 
-    public void setReportEmail(String reportEmail) {
-        this.reportEmail = reportEmail;
-    }
+	/**
+	 * Sets the date when the application was installed.
+	 */
+	public void setApplicationInstalled(Date applicationInstalled) {
+		this.applicationInstalled = applicationInstalled;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public String getReportEmail() {
+		return reportEmail;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof ApplicationEntity)) {
-            return false;
-        }
-        ApplicationEntity other = (ApplicationEntity) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
+	public void setReportEmail(String reportEmail) {
+		this.reportEmail = reportEmail;
+	}
 
-    @Override
-    public String toString() {
-        return "com.moveatis.application.ApplicationEntity[ id=" + id + " ]";
-    }
-    
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof ApplicationEntity)) {
+			return false;
+		}
+		ApplicationEntity other = (ApplicationEntity) object;
+		return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+	}
+
+	@Override
+	public String toString() {
+		return "com.moveatis.application.ApplicationEntity[ id=" + id + " ]";
+	}
+
 }
