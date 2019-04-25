@@ -16,6 +16,31 @@
 
 		<ui:define name="mainpage">
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript>
+    		function chartExtenderHideTicks() {   
+this.cfg.grid = {         
+    background: 'transparent',
+    drawGridlines: false,
+    drawBorder: false,
+    shadow: false
+};
+  this.cfg.axes.xaxis.showTicks=false;  
+  this.cfg.axes.yaxis.showTicks=false;
+  this.cfg.axes.yaxis.rendererOptions={drawBaseline:false}; 
+  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
+};
+
+  function chartExtender() {   
+  this.cfg.axes.xaxis.showTicks=false;  
+  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
+    this.cfg.grid = {         
+        background: 'transparent',
+    drawGridlines: false,
+    drawBorder: false,
+    shadow: false
+};}
+			</h:outputScript>
+
 			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
 			<h1>#{msg.ana_title} :
 				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
@@ -43,7 +68,8 @@
 							value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
 							var="tableInformation">
 							<ui:repeat value="#{tableInformation.counts}" var="count">
-								<td align="center">#{count}</td>
+								<td align="center">#{count}
+									(#{feedbackAnalysisSummaryManagedBean.countPercentage(count)}%)</td>
 							</ui:repeat>
 						</ui:repeat>
 					</tr>
@@ -51,11 +77,13 @@
 
 				<h:form id="charts">
 					<p:selectBooleanCheckbox
-						value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}">Barchart
+						value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}">
+						Barchart
 			<p:ajax update="charts" />
 					</p:selectBooleanCheckbox>
 					<p:selectBooleanCheckbox
-						value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}">Piechart
+						value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}">
+						Piechart
 			<p:ajax update="charts" />
 					</p:selectBooleanCheckbox>
 					<h:panelGroup
@@ -64,11 +92,13 @@
 						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}"
 							var="barModel">
 							<span id="barchart"> <p:chart class="chart" type="bar"
-									model="#{barModel}" style="width:100px" />
+									model="#{barModel}" />
 							</span>
 						</ui:repeat>
+						<p:separator/>
 					</h:panelGroup>
-					<br />
+
+					<br/>
 					<h:panelGroup
 						rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
 						id="pieModels">
@@ -78,6 +108,7 @@
 									model="#{pieModel}" style="width:300px; height:300px" />
 							</span>
 						</ui:repeat>
+						<p:separator/>
 					</h:panelGroup>
 				</h:form>
 
@@ -159,7 +190,10 @@
 								required="#{feedbackAnalysisSummaryManagedBean.isSelected('mail')}"
 								requiredMessage="#{msg.dlg_notEmpty}"
 								value="#{feedbackAnalysisSummaryManagedBean.emailAddress}">
-								<f:validator validatorId="emailValidator" />
+								<c:if
+									test="#{feedbackAnalysisSummaryManagedBean.isSelected('mail')}">
+									<f:validator validatorId="emailValidator" />
+								</c:if>
 							</p:inputText>
 						</p:outputPanel>
 						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"

@@ -31,6 +31,7 @@
 package com.moveatis.managedbeans;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -236,6 +237,11 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		selectedSaveOperations=new ArrayList<>();
 		initSummary();
 	}
+	
+	public String countPercentage(int count) {
+		DecimalFormat df=new DecimalFormat("#.#");
+		return df.format(100*(double)count/(double)feedbackAnalyzation.getRecords().size());
+	}
 
 	/**
 	 * Gets the feedback analyzation from the feedbackanalyzatinomanagedbean and
@@ -274,7 +280,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				fullcount += count;
 
 				pieModel.set(cat.getLabel().getText(), count);
-				categorySetChartSeries.set(catSet.getLabel(), count);
+				categorySetChartSeries.set("", count);
 
 				barModel.addSeries(categorySetChartSeries);
 
@@ -290,16 +296,20 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			}
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);
-			pieModel.setLegendPosition("n");
-
+			pieModel.setLegendPosition("s");
+			
+			barModel.setBarWidth(50);
+			barModel.setTitle(catSet.getLabel());
 			barModel.setStacked(true);
 			barModel.setLegendPlacement(OUTSIDE);
-			barModel.setLegendPosition("n");
+			barModel.setLegendPosition("s");
 			Axis yAxis = barModel.getAxis(AxisType.Y);
 			yAxis.setMin(0);
 			yAxis.setTickFormat("%3d");
 			yAxis.setTickInterval("1");
 			yAxis.setMax(maxAxis);
+			if(catSet!=categorySetsInUse.get(0))barModel.setExtender("chartExtenderHideTicks");
+			else barModel.setExtender("chartExtender");
 
 			barModels.add(barModel);
 			pieModels.add(pieModel);
