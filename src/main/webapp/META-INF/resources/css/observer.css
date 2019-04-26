@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujï¿½rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +13,7 @@
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *
- *     3. Neither the name of the copyright holder nor the names of its
+ *     3. Neither the name of the copyright holder nor the names of its 
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -29,15 +30,12 @@
  */
 
 /* 
-    Created on : Feb 17, 2016, 10:29:25 AM
-    Author     : Ilari Paananen
+	last modified: 16.4.2019 by Petra Puumala
+	Author     : Ilari Paananen
 */
-body {
-	font-size: 0; /* NOTE: Removes extra space between elements. */
-}
 
 #naviHead, #Footer {
-	font-size: 16px;
+	font-size: 1em;
 }
 
 #mainPage {
@@ -49,7 +47,7 @@ body {
 }
 
 #growl_container {
-	font-size: 1.1rem;
+	font-size: 1.125em;
 }
 
 #content {
@@ -82,14 +80,20 @@ body {
 
 .no-text-select {
 	/* Disable text selection.
-       Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Chrome/Safari/Opera */
-	-khtml-user-select: none; /* Konqueror */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE/Edge */
-	user-select: none; /* non-prefixed version, currently
-                                    not supported by any browser */
+	   Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
+	-webkit-touch-callout: none;
+	/* iOS Safari */
+	-webkit-user-select: none;
+	/* Chrome/Safari/Opera */
+	-khtml-user-select: none;
+	/* Konqueror */
+	-moz-user-select: none;
+	/* Firefox */
+	-ms-user-select: none;
+	/* IE/Edge */
+	user-select: none;
+	/* non-prefixed version, currently
+		not supported by any browser */
 }
 
 #category-list {
@@ -102,7 +106,7 @@ body {
 	color: white;
 	max-width: 100%;
 	list-style-type: none;
-	background: rgba(85, 102, 119, 0.2);
+	background-color: rgb(85,102,119, 0.2);
 }
 
 .category-item {
@@ -161,17 +165,18 @@ body {
 
 /*
 
-    TODO: Use browser specific calc?
-    http://stackoverflow.com/a/14101451
+	TODO: Use browser specific calc?
+	http://stackoverflow.com/a/14101451
 
 */
+
 #total-time {
-	height: calc(( 100vh - 70px)* 0.12);
+	height: calc((100vh - 4.375em) * 0.12);
 	font-size: 9vh;
 }
 
 #controls {
-	height: calc(( 100vh - 70px)* 0.15);
+	height: calc((100vh - 4.375em) * 0.15);
 }
 
 .control-button {
@@ -186,7 +191,7 @@ body {
 }
 
 .category-item {
-	height: calc(( 100vh - 70px)* 0.73* 0.127);
+	height: calc((100vh - 4.375em) * 0.73 * 0.127);
 	margin: 0;
 	margin-bottom: 1vh;
 	border-radius: 1vh;
@@ -203,64 +208,63 @@ body {
 
 @media screen and (min-height: 480px) {
 	#total-time {
-		height: calc(( 480px - 70px)* 0.12);
-		font-size: calc(480px * 0.09);
+		font-size: calc(30em * 0.09);
 	}
 	#controls {
-		height: calc(( 480px - 70px)* 0.15);
+		height: calc((30em - 4.375em) * 0.15);
 	}
 	.control-button {
-		border-radius: calc(480px * 0.01);
-		font-size: calc(480px * 0.06);
+		border-radius: calc(30em * 0.01);
+		font-size: calc(30em * 0.06);
 	}
 	.category-set {
-		margin: 0 0 calc(480px * 0.015) 0;
-		padding: calc(480px * 0.015);
-		border-radius: calc(480px * 0.01);
+		margin: 0 0 calc(30em * 0.015) 0;
+		padding: calc(30em * 0.015);
+		border-radius: calc(30em * 0.01);
 	}
 	.category-item {
-		height: calc(( 480px - 70px)* 0.73* 0.127);
+		height: calc((30em - 4.375em) * 0.73 * 0.127);
 		margin: 0;
-		margin-bottom: calc(480px * 0.01);
-		border-radius: calc(480px * 0.01);
+		margin-bottom: calc(30em * 0.01);
+		border-radius: calc(30em * 0.01);
 	}
 	.category-name {
-		font-size: calc(480px * 0.05);
+		font-size: calc(30em * 0.05);
 	}
 	.category-value {
-		font-size: calc(480px * 0.04);
-		border-radius: calc(480px * 0.01);
+		font-size: calc(30em * 0.04);
+		border-radius: calc(30em * 0.01);
 	}
 }
 
-@media screen and (max-height: 240px) {
+@media screen and (max-height: 15em) {
 	#total-time {
-		height: calc(( 240px - 70px)* 0.12);
-		font-size: calc(240px * 0.09);
+		height: calc((15em - 4.375em) * 0.12);
+		font-size: calc(15em * 0.09);
 	}
 	#controls {
-		height: calc(( 240px - 70px)* 0.15);
+		height: calc((15em - 4.375em) * 0.15);
 	}
 	.control-button {
-		border-radius: calc(240px * 0.01);
-		font-size: calc(240px * 0.06);
+		border-radius: calc(15em * 0.01);
+		font-size: calc(15em * 0.06);
 	}
 	.category-set {
-		margin: 0 0 calc(240px * 0.015) 0;
-		padding: calc(240px * 0.015);
-		border-radius: calc(240px * 0.01);
+		margin: 0 0 calc(15em * 0.015) 0;
+		padding: calc(15em * 0.015);
+		border-radius: calc(15em * 0.01);
 	}
 	.category-item {
-		height: calc(( 240px - 70px)* 0.73* 0.127);
+		height: calc((15em - 4.375em) * 0.73 * 0.127);
 		margin: 0;
-		margin-bottom: calc(240px * 0.01);
-		border-radius: calc(240px * 0.01);
+		margin-bottom: calc(15em * 0.01);
+		border-radius: calc(15em * 0.01);
 	}
 	.category-name {
-		font-size: calc(240px * 0.05);
+		font-size: calc(15em * 0.05);
 	}
 	.category-value {
-		font-size: calc(240px * 0.04);
-		border-radius: calc(240px * 0.01);
+		font-size: calc(15em * 0.04);
+		border-radius: calc(15em * 0.01);
 	}
 }

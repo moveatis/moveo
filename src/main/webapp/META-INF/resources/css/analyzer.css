@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
- *               2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *
- *     3. Neither the name of the copyright holder nor the names of its
+ *     3. Neither the name of the copyright holder nor the names of its 
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -30,25 +30,72 @@
  */
 
 /* 
-    Created on : Feb 17, 2016, 10:29:25 AM
-    Author     : Ilari Paananen
-    Changed	   : 4.4.2019, Petra Puumala
+		last modified: 16.4.2019 by Petra Puumala
+		Author     : Ilari Paananen
 */
+
 body {
 	text-align: center;
 	/* Disable text selection.
-        Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Chrome/Safari/Opera */
-	-khtml-user-select: none; /* Konqueror */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE/Edge */
-	user-select: none; /* non-prefixed version, currently
-                                     not supported by any browser */
+				Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
+	-webkit-touch-callout: none;
+	/* iOS Safari */
+	-webkit-user-select: none;
+	/* Chrome/Safari/Opera */
+	-khtml-user-select: none;
+	/* Konqueror */
+	-moz-user-select: none;
+	/* Firefox */
+	-ms-user-select: none;
+	/* IE/Edge */
+	user-select: none;
+	/* non-prefixed version, currently
+	 not supported by any browser */
 }
 
 #naviHead, #Footer {
-	font-size: 16px;
+	font-size: 1em;
+}
+
+#timer_div {
+	padding-bottom: 1em;
+
+}
+
+#timer_div .ui-button.ui-state-active {
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+
+}
+
+#timer_div .ui-icon {
+	border-radius: 0;
+	font-size: 1em;
+}
+
+#timer_span {
+	font-size: 2em;
+
+}
+
+#pause_span {
+	padding-left: 0.8em;
+}
+
+#timestamp_div {
+	max-width: 100%;
+	list-style-type: none;
+	background: rgba(85, 102, 119, 0.2);
+	padding: 0.5em;
+	border-radius: 0.5em;
+	position: relative;
+	text-align: center;
+	margin-bottom: 0.5em;
+}
+
+#timestamp_span {
+	padding-left: 2em;
+	font-weight: bold;
 }
 
 #mainPage {
@@ -175,6 +222,7 @@ body {
 		padding-top: 0.5em;
 		vertical-align: top;
 	}
+
 	#buttons {
 		display: inline-block;
 		margin-right: 0;
@@ -190,16 +238,20 @@ body {
 		flex-flow: row wrap;
 		overflow: hidden;
 	}
+
 	#pageNumber {
 		display: block;
 		margin: auto;
 		order: 1;
-		width: 100%;;
+		width: 100%;
+		;
 	}
+
 	.arrows {
 		order: 2;
 		margin: auto;
 	}
+
 	#texts {
 		display: inline-block;
 		width: 100%;
@@ -210,6 +262,7 @@ body {
 		padding-top: 0.5em;
 		vertical-align: top;
 	}
+
 	#buttons {
 		display: inline-block;
 		margin-right: 0;
@@ -222,6 +275,11 @@ body {
 	.arrows .ui-button {
 		margin: 0;
 		width: 2.6em;
+	}
+
+	#timestamp_span {
+		white-space: nowrap;
+		padding-left: 0em;
 	}
 }
 
@@ -236,4 +294,5 @@ body {
 		box-shadow: none;
 		max-width: 8em;
 	}
+
 }

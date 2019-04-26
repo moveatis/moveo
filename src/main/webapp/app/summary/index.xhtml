@@ -8,33 +8,25 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
-
 		<ui:define name="pageTitle">#{msg.sum_title} #{summaryBean.observation.name}</ui:define>
-
 		<ui:define name="mainpage">
-
 			<h:outputStylesheet library="css" name="summary.css" />
 			<h:outputStylesheet library="css" name="timeline.css" />
 			<h:outputStylesheet library="primefaces" name="grid/grid.css" />
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputScript library="js" name="locales.js" />
 			<h:outputScript library="js" name="html2canvas.min.js" />
-
 			<f:event type="preRenderView"
 				listener="#{summaryBean.showObservationSavedMessage()}" />
 			<div id="summary-content">
-
 				<h1>#{msg.sum_title} : #{summaryBean.observation.name}</h1>
-
 			</div>
 			<div id="recordingsPhoto">
 				<div id="recordings-details" class="ui-fluid">
 					<div class="inline-bar">
-
 						<div>
 							<h3>#{msg.sum_recordings}</h3>
 						</div>
-
 						<div class="timeframe">
 							<span>#{msg.sum_timeFrameStart}</span>
 							<p:calendar id="startTime" placeholder="hh:mm:ss" size="8"
@@ -60,7 +52,6 @@
 							</p:calendar>
 						</div>
 					</div>
-
 					<div class="ui-grid ui-grid-responsive-480">
 						<div class="ui-grid-row header-row">
 							<div class="ui-grid-col-5"></div>
@@ -70,22 +61,7 @@
 						</div>
 					</div>
 					<div id="records" class="ui-grid ui-grid-responsive-480" />
-					<div id="hiddenButtons" data-html2canvas-ignore="true">
-						<h:form>
-							<p:commandButton value="#{msg.dlg_saveAndSend}"
-								rendered="#{sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
-								process="@this">
-								<p:ajax update=":saveForm" resetValues="true" />
-							</p:commandButton>
-
-							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
-								rendered="#{!sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();">
-								<p:ajax update=":saveForm" resetValues="true" />
-							</p:commandButton>
-						</h:form>
-					</div>
+					
 					<pe:timeline id="timeline" widgetVar="timelineWdgt"
 						value="#{summaryBean.timeline}"
 						timeZone="#{timeBean.serverTimeZone}"
@@ -100,6 +76,22 @@
 						showMajorLabels="false" stackEvents="false" eventMarginAxis="0"
 						eventMargin="16">
 					</pe:timeline>
+					<div id="hiddenButtons">
+						<h:form>
+							<p:commandButton value="#{msg.dlg_saveAndSend}"
+								rendered="#{sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
+								rendered="#{!sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+						</h:form>
+					</div>
 				</div>
 				<div id="timelineControls" class="bottom">
 					<div>
@@ -146,7 +138,6 @@
 						requiredMessage="#{msg.dlg_notEmpty}"
 						value="#{summaryBean.observation.name}"
 						validator="#{validationBean.validateShortString}" />
-
 					<h:outputLabel for="input-description"
 						value="#{msg.sum_observationDescription}" />
 					<p:message for="input-description" />
@@ -154,14 +145,12 @@
 						value="#{summaryBean.observation.description}"
 						validator="#{validationBean.validateLongString}" rows="3"
 						cols="16" autoResize="true" />
-
 					<h:outputLabel for="input-target"
 						value="#{msg.sum_observationTarget}" />
 					<p:message for="input-target" />
 					<p:inputText id="input-target"
 						value="#{summaryBean.observation.target}"
 						validator="#{validationBean.validateShortString}" />
-
 					<p:outputPanel rendered="#{sessionBean.identifiedUser}">
 						<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
 						<p:message for="input-email" />
@@ -186,27 +175,25 @@
 						onclick="PF('dlgSave').hide();" />
 				</h:form>
 			</p:dialog>
-
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
-
 			<h:outputScript>
-                    var SummaryIndex = {
-                    getObservationDuration: function () {
-                    return #{summaryBean.observation.duration};
-                    },
-                    getMessages: function (){
-                    return msg = {
-                    sum_total: "#{msg.sum_total}",
-                    sum_begin: "#{msg.sum_begin}",
-                    sum_end: "#{msg.sum_end}",
-                    sum_duration: "#{msg.sum_duration}",
-                    sum_countAbr: "#{msg.sum_countAbr}",
-                    dlg_confirmLeave: "#{msg.dlg_confirmLeave}"
-                    };
-                    },
-                    };
-                </h:outputScript>
+					var SummaryIndex = {
+						getObservationDuration: function () {
+							return #{summaryBean.observation.duration};
+						},
+						getMessages: function (){
+							return msg = {
+								sum_total: "#{msg.sum_total}",
+								sum_begin: "#{msg.sum_begin}",
+								sum_end: "#{msg.sum_end}",
+								sum_duration: "#{msg.sum_duration}",
+								sum_countAbr: "#{msg.sum_countAbr}",
+								dlg_confirmLeave: "#{msg.dlg_confirmLeave}"
+							};
+						},
+					};
+				</h:outputScript>
 			<h:outputScript library="js" name="summary.js" />
 			<div id="imageDiv">
 			</div>
