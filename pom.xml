@@ -195,7 +195,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
 		    <warName>ROOT</warName>
-		    <outputDirectory>${basedir}/docker</outputDirectory>
+		    <outputDirectory>C:\MyTemp\wildfly-15.0.1.Final\standalone\deployments</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>

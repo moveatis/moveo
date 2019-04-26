@@ -36,10 +36,6 @@
 					<p:column headerText="Sanallinen Palaute">
 						<h:outputText value="#{record.comment}" />
 					</p:column>
-==== BASE ====
-					<p:column exportable="false" headerText="Delete" data-html2canvas-ignore="true">
-						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash" />
-					</p:column>
 					<p:column headerText="Edit" exportable="false" data-html2canvas-ignore="true">
 						<p:commandButton id="editButton" icon="ui-icon-pencil" action="#{analysisRecordTable.edit(record.orderNumber)}"/>
 					</p:column>
@@ -111,7 +107,6 @@
 				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
 					type="button" />
 			</p:confirmDialog>
-
 			<p:commandButton value="Continue to Summary"
 				action="#{feedbackAnalyzationManagedBean.toSummary()}">
 				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
@@ -120,8 +115,6 @@
 						icon="ui-icon-alert" />
 				</c:if>
 			</p:commandButton>
-
-
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -19,171 +19,197 @@
 			<h:outputScript library="js" name="feedbackanalysissummary.js" />
 			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
 			<h:outputScript library="js" name="html2canvas.min.js" />
-							<h1>#{msg.ana_title} : #{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
-			<div id="container">
-			<div id="tableImage">
-			<table id="summaryTable">
-				<tr>
-					<ui:repeat
-						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-						var="tableInformation">
-						<th align="center" colspan="#{tableInformation.categories.size()}">#{tableInformation.feedbackAnalysisCategorySet}</th>
-					</ui:repeat>
-				</tr>
-				<tr>
-					<ui:repeat
-						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-						var="tableInformation">
-						<ui:repeat value="#{tableInformation.categories}" var="category">
-							<td align="center">#{category}</td>
-						</ui:repeat>
-					</tr>
-					<tr>
-						<ui:repeat
-							value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-							var="tableInformation">
-							<ui:repeat value="#{tableInformation.counts}" var="count">
-								<td align="center">#{count}
-									(#{feedbackAnalysisSummaryManagedBean.countPercentage(count)}%)</td>
-							</ui:repeat>
-						</ui:repeat>
-					</tr>
-				</table>
+			<h:outputScript>
+    		function chartExtenderHideTicks() {   
+this.cfg.grid = {         
+    background: 'transparent',
+    drawGridlines: false,
+    drawBorder: false,
+    shadow: false
+};
+  this.cfg.axes.xaxis.showTicks=false;  
+  this.cfg.axes.yaxis.showTicks=false;
+  this.cfg.axes.yaxis.rendererOptions={drawBaseline:false}; 
+  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
+};
 
-			<h:form id="charts">
-				<p:selectBooleanCheckbox
-					value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}" id="barChart">Barchart
+  function chartExtender() {   
+  this.cfg.axes.xaxis.showTicks=false;  
+  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
+    this.cfg.grid = {         
+        background: 'transparent',
+    drawGridlines: false,
+    drawBorder: false,
+    shadow: false
+};}
+			</h:outputScript>
+			<h1>#{msg.ana_title} :
+				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
+			<div id="container">
+				<div id="tableImage">
+					<table id="summaryTable">
+						<tr>
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+								var="tableInformation">
+								<th align="center"
+									colspan="#{tableInformation.categories.size()}">#{tableInformation.feedbackAnalysisCategorySet}</th>
+							</ui:repeat>
+						</tr>
+						<tr>
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+								var="tableInformation">
+								<ui:repeat value="#{tableInformation.categories}" var="category">
+									<td align="center">#{category}</td>
+								</ui:repeat>
+							</ui:repeat>
+						</tr>
+						<tr>
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+								var="tableInformation">
+								<ui:repeat value="#{tableInformation.counts}" var="count">
+									<td align="center">#{count}
+										(#{feedbackAnalysisSummaryManagedBean.countPercentage(count)}%)</td>
+								</ui:repeat>
+							</ui:repeat>
+						</tr>
+					</table>
+					</div>
+					<h:form id="charts">
+						<p:selectBooleanCheckbox
+							value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+							id="barChart">Barchart
 			<p:ajax update="charts" />
-				</p:selectBooleanCheckbox>
-				<p:selectBooleanCheckbox
-					value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}" id="pieChart">Piechart
+						</p:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox
+							value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+							id="pieChart">Piechart
 			<p:ajax update="charts" />
-				</p:selectBooleanCheckbox>
-				<h:panelGroup
-					rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
-					layout="block" id="barModels">
-					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}"
-						var="barModel" varStatus="myVarStatus">
-						<span id="barchart">
-						<p:chart class="chart" type="bar" model="#{barModel}"
-							style="width:100px" widgetVar="barchart#{myVarStatus.index}"/>
-						</span>
-					</ui:repeat>					
-				</h:panelGroup>
-				<br />
-				<h:panelGroup
-					rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
-					id="pieModels">
-					<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
-						var="pieModel" varStatus="myVarStatus">
-						<span id="piechart">
-						<p:chart class="chart" type="pie" model="#{pieModel}"
-							style="width:300px; height:300px" widgetVar="piechart#{myVarStatus.index}"/>
-						</span>
-					</ui:repeat>					
-				</h:panelGroup>
-			</h:form>
-			<div id="hiddenButtons">
+						</p:selectBooleanCheckbox>
+						<h:panelGroup
+							rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+							layout="block" id="barModels">
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.barModels}"
+								var="barModel" varStatus="myVarStatus">
+								<span id="barchart"> <p:chart class="chart" type="bar"
+										model="#{barModel}" style="width:100px"
+										widgetVar="barchart#{myVarStatus.index}" />
+								</span>
+							</ui:repeat>
+						</h:panelGroup>
+						<br />
+						<h:panelGroup
+							rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+							id="pieModels">
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
+								var="pieModel" varStatus="myVarStatus">
+								<span id="piechart"> <p:chart class="chart" type="pie"
+										model="#{pieModel}" style="width:300px; height:300px"
+										widgetVar="piechart#{myVarStatus.index}" />
+								</span>
+							</ui:repeat>
+						</h:panelGroup>
+					</h:form>
+					<div id="hiddenButtons">
 						<h:form>
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
 								rendered="#{sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="createImage(); PF('dlgSave').show();"
-								process="@this">
+								styleClass="save-button"
+								onclick="createImage(); PF('dlgSave').show();" process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
 
 							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
 								rendered="#{!sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="createImage(); PF('dlgSave').show();"
-								process="@this">
+								styleClass="save-button"
+								onclick="createImage(); PF('dlgSave').show();" process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
 						</h:form>
-			</div>
-			
-			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}" id="saveDialog"
-				widgetVar="dlgSave" position="top" resizable="false"
-				responsive="true" fitViewport="true"
-				visible="#{facesContext.validationFailed}"
-				styleClass="coloredDialog">
-				<h:form id="saveForm" styleClass="dialog-form ui-fluid">
-					<p:selectManyCheckbox id="basic"
-						rendered="#{sessionBean.identifiedUser}" columns="1"
-						required="true" requiredMessage="" layout="grid">
-						<p:ajax update="input-email" />
-						<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
-							itemDisabled="#{!sessionBean.identifiedUser}" />
-						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-							itemDisabled="#{!sessionBean.identifiedUser}"/>	
-						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
-							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
-						<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
-							itemDisabled="#{!sessionBean.identifiedUser}" />						
-					</p:selectManyCheckbox>
-					<p:selectManyCheckbox id="anonymityUserBoxes"
-						rendered="#{!sessionBean.identifiedUser}" columns="1"
-						required="true" requiredMessage="" layout="grid">
-						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
-							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
-						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-							itemDisabled="#{!sessionBean.loggedIn}" />
-					</p:selectManyCheckbox>
-					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}">
-						<h:outputText rendered="#{sessionBean.identifiedUser}"
-							value=" (#{msg.dlg_defaultFileName})" />
-					</h:outputLabel>
-					<p:message for="input-name" />
-					<p:inputText id="input-name" required="true"
-						requiredMessage="#{msg.dlg_notEmpty}"
-						value="asd"
-						validator="#{validationBean.validateShortString}" />
+					</div>
 
-					<h:outputLabel for="input-description"
-						value="#{msg.asum_analyzationDescription}" />
-					<p:message for="input-description" />
-					<p:inputTextarea id="input-description"
-						value="asd"
-						validator="#{validationBean.validateLongString}" rows="3"
-						cols="16" autoResize="true" />
+					<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
+						id="saveDialog" widgetVar="dlgSave" position="top"
+						resizable="false" responsive="true" fitViewport="true"
+						visible="#{facesContext.validationFailed}"
+						styleClass="coloredDialog">
+						<h:form id="saveForm" styleClass="dialog-form ui-fluid">
+							<p:selectManyCheckbox id="basic"
+								rendered="#{sessionBean.identifiedUser}" columns="1"
+								required="true" requiredMessage="" layout="grid">
+								<p:ajax update="input-email" />
+								<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
+									itemDisabled="#{!sessionBean.identifiedUser}" />
+								<f:selectItem itemLabel="#{msg.dlg_imageOption}"
+									itemValue="image" itemDisabled="#{!sessionBean.identifiedUser}" />
+								<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
+									itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
+								<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
+									itemDisabled="#{!sessionBean.identifiedUser}" />
+							</p:selectManyCheckbox>
+							<p:selectManyCheckbox id="anonymityUserBoxes"
+								rendered="#{!sessionBean.identifiedUser}" columns="1"
+								required="true" requiredMessage="" layout="grid">
+								<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
+									itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
+								<f:selectItem itemLabel="#{msg.dlg_imageOption}"
+									itemValue="image" itemDisabled="#{!sessionBean.loggedIn}" />
+							</p:selectManyCheckbox>
+							<h:outputLabel for="input-name"
+								value="#{msg.asum_analyzationName}">
+								<h:outputText rendered="#{sessionBean.identifiedUser}"
+									value=" (#{msg.dlg_defaultFileName})" />
+							</h:outputLabel>
+							<p:message for="input-name" />
+							<p:inputText id="input-name" required="true"
+								requiredMessage="#{msg.dlg_notEmpty}" value="asd"
+								validator="#{validationBean.validateShortString}" />
 
-					<h:outputLabel for="input-target"
-						value="#{msg.asum_analyzationTarget}" />
-					<p:message for="input-target" />
-					<p:inputText id="input-target"
-						value="asd"
-						validator="#{validationBean.validateShortString}" />
+							<h:outputLabel for="input-description"
+								value="#{msg.asum_analyzationDescription}" />
+							<p:message for="input-description" />
+							<p:inputTextarea id="input-description" value="asd"
+								validator="#{validationBean.validateLongString}" rows="3"
+								cols="16" autoResize="true" />
 
-					<p:outputPanel rendered="#{sessionBean.identifiedUser}">
-						<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
-						<p:message for="input-email" />
-						<p:inputText id="input-email" required="true"
-							requiredMessage="#{msg.dlg_notEmpty}"
-							value="asd">
-							<f:validator validatorId="emailValidator" />
-						</p:inputText>
-					</p:outputPanel>
-					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-						onclick="save()"
-						ajax="true"
-						validateClient="true" />
-					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
-						onclick="PF('dlgSave').hide();" />
-				</h:form>
-			</p:dialog>
-			
-			<div id="hiddenFunctionality" >
-			<div id="barimages" >
-			</div>
-			<div id="pieimages" >
-			</div>
-			<div id="chartCountDiv" >
-				<h:outputText value="#{feedbackAnalysisSummaryManagedBean.pieModels.size()}" id="chartCount"/>
-			</div>
-			</div>
-			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-				showDetail="true" sticky="true" escape="false" />
-			
-			</div>
+							<h:outputLabel for="input-target"
+								value="#{msg.asum_analyzationTarget}" />
+							<p:message for="input-target" />
+							<p:inputText id="input-target" value="asd"
+								validator="#{validationBean.validateShortString}" />
+
+							<p:outputPanel rendered="#{sessionBean.identifiedUser}">
+								<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
+								<p:message for="input-email" />
+								<p:inputText id="input-email" required="true"
+									requiredMessage="#{msg.dlg_notEmpty}" value="asd">
+									<f:validator validatorId="emailValidator" />
+								</p:inputText>
+							</p:outputPanel>
+							<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+								onclick="save()" ajax="true" validateClient="true" />
+							<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+								onclick="PF('dlgSave').hide();" />
+						</h:form>
+					</p:dialog>
+
+					<div id="hiddenFunctionality">
+						<div id="barimages"></div>
+						<div id="pieimages"></div>
+						<div id="chartCountDiv">
+							<h:outputText
+								value="#{feedbackAnalysisSummaryManagedBean.pieModels.size()}"
+								id="chartCount" />
+						</div>
+					</div>
+					<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+						showDetail="true" sticky="true" escape="false" />
+
+				</div>
 		</ui:define>
 
 	</ui:composition>
