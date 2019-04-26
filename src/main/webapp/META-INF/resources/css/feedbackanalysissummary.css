@@ -115,7 +115,7 @@ body {
 }
 
 .chart {
-	float: left;
+	display:inline-block;
 	width: 6.25em;
 }
 

@@ -37,20 +37,19 @@
 						<ui:repeat value="#{tableInformation.categories}" var="category">
 							<td align="center">#{category}</td>
 						</ui:repeat>
-					</ui:repeat>
-				</tr>
-				<tr>
-					<ui:repeat
-						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-						var="tableInformation">
-						<ui:repeat value="#{tableInformation.counts}" var="count">
-							<td align="center">#{count}</td>
+					</tr>
+					<tr>
+						<ui:repeat
+							value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+							var="tableInformation">
+							<ui:repeat value="#{tableInformation.counts}" var="count">
+								<td align="center">#{count}
+									(#{feedbackAnalysisSummaryManagedBean.countPercentage(count)}%)</td>
+							</ui:repeat>
 						</ui:repeat>
-					</ui:repeat>
-				</tr>
-			</table>
-			</div>
-			
+					</tr>
+				</table>
+
 			<h:form id="charts">
 				<p:selectBooleanCheckbox
 					value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}" id="barChart">Barchart
@@ -92,6 +91,7 @@
 								process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
+
 							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
 								rendered="#{!sessionBean.identifiedUser}"
 								styleClass="save-button" onclick="createImage(); PF('dlgSave').show();"
@@ -185,7 +185,7 @@
 			
 			</div>
 		</ui:define>
-	
+
 	</ui:composition>
 </h:body>
 </html>

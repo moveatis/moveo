@@ -29,20 +29,16 @@
 						items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 						var="categorySet">
 						<p:column headerText="#{categorySet.label}">
-							<p:commandLink
-								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}"
-								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(record)}"
-								onclick="PF('dlgCategorySet').show()" update=":categorySetForm "
-								styleClass="link-categoryset">
-								<f:actionListener
-									binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(analysisRecordTable.getSelectedCategory(record.getSelectedCategories(), categorySet))}" />
-								<h:outputText
-									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
-							</p:commandLink>
+							<h:outputText
+								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 						</p:column>
 					</c:forEach>
 					<p:column headerText="Sanallinen Palaute">
 						<h:outputText value="#{record.comment}" />
+					</p:column>
+==== BASE ====
+					<p:column exportable="false" headerText="Delete" data-html2canvas-ignore="true">
+						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash" />
 					</p:column>
 					<p:column headerText="Edit" exportable="false" data-html2canvas-ignore="true">
 						<p:commandButton id="editButton" icon="ui-icon-pencil" action="#{analysisRecordTable.edit(record.orderNumber)}"/>
@@ -109,27 +105,22 @@
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
 
-			<p:commandButton value="Continue to Summary"
-				action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+			<p:confirmDialog global="true">
+				<p:commandButton styleClass="ui-confirmdialog-yes" value="Yes"
+					type="button" />
+				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
+					type="button" />
+			</p:confirmDialog>
 
-			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
-				position="top" resizable="false" responsive="true" modal="true"
-				fitViewport="true" class="coloredDialog">
-				<h:form id="categorySetForm">
-					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
-						var="category">
-						<p:selectBooleanButton value="#{category.inRecord}"
-							onLabel="#{category.label.text}"
-							offLabel="#{category.label.text}">
-							<p:ajax update=":categorySetForm" />
-						</p:selectBooleanButton>
-					</ui:repeat>
-					<p:commandButton value="tallenna muutokset"
-						action="#{feedbackAnalyzationManagedBean.editRecord}"
-						onclick="PF('dlgCategorySet').hide()" update=":entries" />
-				</h:form>
-			</p:dialog>
+			<p:commandButton value="Continue to Summary"
+				action="#{feedbackAnalyzationManagedBean.toSummary()}">
+				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+					<p:confirm header="Continue?"
+						message="There are records with no selected categories, are you sure you want to continue?"
+						icon="ui-icon-alert" />
+				</c:if>
+			</p:commandButton>
+
 
 		</ui:define>
 	</ui:composition>
