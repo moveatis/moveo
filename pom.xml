@@ -191,11 +191,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
 		    <warName>ROOT</warName>
-<<<<<<< HEAD
 		    <outputDirectory>C:\moveoprojekti\jaa\projekti\moveo\docker</outputDirectory>
-=======
 		    <outputDirectory>${basedir}/docker</outputDirectory>
->>>>>>> Visa
                 </configuration>
             </plugin>
             <plugin>
