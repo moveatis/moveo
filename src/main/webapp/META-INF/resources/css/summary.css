@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujï¿½rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +13,7 @@
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *
- *     3. Neither the name of the copyright holder nor the names of its
+ *     3. Neither the name of the copyright holder nor the names of its 
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -28,13 +29,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
-    Summary page style.
-    Created on : Feb 24, 2016, 2:10:56 PM
-    Author     : Juha Moisio <juha.pa.moisio at student.jyu.fi>
+/* 
+	last modified: 16.4.2019 by Petra Puumala
+	Author     : Juha Moisio
 */
+
 #mainPage {
-	max-width: 960px;
+	max-width: 60em;
 	margin: 0 auto;
 }
 
@@ -47,8 +48,8 @@
 #recordings-details {
 	font-size: 1.1em;
 	padding: .1em .5em;
-	background: #EFEFEF;
-	border-radius: 10px 10px 10px 10px;
+	background: rgb(0,0,0,0.1);
+	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
 }
@@ -57,13 +58,11 @@
 	display: table;
 }
 
-#recordings-details .categoryNumber, #recordings-details .categoryLabel
-	{
+#recordings-details .categoryNumber, #recordings-details .categoryLabel {
 	display: table-cell;
 }
 
-#recordings-details .categoryNumber, #recordings-details .header-row,
-	#recordings-details .summary-row {
+#recordings-details .categoryNumber, #recordings-details .header-row, #recordings-details .summary-row {
 	font-family: Arial, sans-serif;
 }
 
@@ -73,8 +72,12 @@
 }
 
 #recordings-details .categoryNumber {
-	padding-right: 10px;
+	padding-right: 0.625em;
 	width: 1em;
+}
+
+#recordings-details {
+	margin-bottom: 1em;
 }
 
 .content, .ui-grid-row {
@@ -97,11 +100,10 @@
 }
 
 .timeframe .ui-state-error {
-	border-width: 3px;
+	border-width: 0.188em;
 }
 
-.ui-fluid .timeframe .ui-calendar, .ui-fluid .timeframe .ui-calendar input
-	{
+.ui-fluid .timeframe .ui-calendar, .ui-fluid .timeframe .ui-calendar input {
 	width: auto;
 }
 
@@ -117,9 +119,9 @@
 	padding: 0.4em 0;
 }
 
-.ui-grid-row:not (.header-row ):not (:last-child ):after {
+.ui-grid-row:not(.header-row):after {
 	content: "";
-	border-bottom: 2px solid #005977;
+	border-bottom: 0.125em solid #005977;
 	width: 100%;
 	position: absolute;
 	left: 0;
@@ -135,13 +137,14 @@
 	font-weight: bold;
 }
 
-.ui-grid-row>div:not (:first-child ) {
+.ui-grid-row>div:not(:first-child) {
 	text-align: right;
 }
 
-.summary-row>div:not (:first-child ) {
+.summary-row>div:not(:first-child) {
 	white-space: pre;
 }
+
 
 .ui-grid-col-3 {
 	display: inline-block;
@@ -149,15 +152,10 @@
 }
 
 #timelineControls {
-	position: fixed;
-	bottom: 0.6em;
-	z-index: 1;
-	font-size: .76em;
-	-webkit-transition: bottom 1s;
-	transition: bottom .5s;
-	text-align: right;
+	text-align: center;
 	width: 100%;
-	max-width: 960px;
+	max-width: 60em;
+	padding-bottom: 1em;
 }
 
 #Footer {
@@ -165,15 +163,10 @@
 	position: relative;
 }
 
-#timelineControls.bottom {
-	/*bottom: 3em;*/
-	
-}
-
 #timelineControls>div {
 	background: rgba(42, 29, 29, 0.2) none repeat scroll 0% 0%;
 	display: inline-block;
-	padding: 0.3em;
+	padding: 0.3em 0.3em 0.5em 0.3em;
 	border-radius: 0.3em;
 	margin-right: 0.6em;
 }
@@ -193,7 +186,7 @@
 }
 
 .ui-growl .categoryNumber {
-	display: none !important;
+	display: none!important;
 }
 
 .ui-button>.fa {
@@ -201,7 +194,7 @@
 }
 
 .categorySet {
-	display: none !important;
+	display: none!important;
 }
 
 #records .gapBefore {
@@ -224,6 +217,12 @@
 .ui-selectonebutton.fa span {
 	font-family: FontAwesome;
 	font-weight: normal;
+}
+
+#hiddenButtons {
+margin: auto;
+text-align: right;
+padding-bottom: 0.4em;
 }
 
 #saveDialog {
@@ -255,39 +254,39 @@
 	cursor: pointer;
 	color: white;
 	border: 0;
+	border-radius: 0.4em;
 	text-shadow: none;
-	margin-left: 3px;
-	width: 25px;
-	height: 25px;
-}
-
-#ui-datepicker-div .ui-slider-handle .ui-state-default {
-	background-color: red;
+	margin-left: 0.188em;
+	margin-right: 0.3em;
+	width: 1.8em;
+	height: 1.8em;
+	hyphens: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 #ui-datepicker-div .ui-widget-header {
 	background: white;
 	border: 0;
 	border-radius: 0;
-	border-bottom: 1px solid #A8A8A8;
+	border-bottom: 0.063em solid #A8A8A8;
 }
 
 .ui-datepicker-current {
 	display: none;
 }
 
-.ui-datepicker-trigger {
-	font-size: 0;
-}
 
 .ui-datepicker-trigger:before {
 	content: "\f017";
-	font-size: 1rem;
+	font-size: 1em;
 	font-family: FontAwesome;
+	padding-right: 1em;
 }
 
 /* Responsive */
-@media ( max-width :700px) {
+
+@media (max-width:700px) {
 	.mobileCentered {
 		text-align: center;
 	}
@@ -300,12 +299,11 @@
 	}
 }
 
-#saveDialog .ui-selectonebutton .ui-buttonset.ui-buttonset-3 .ui-button
-	{
+#saveDialog .ui-selectonebutton .ui-buttonset.ui-buttonset-3 .ui-button {
 	width: 33%;
 }
 
-@media ( max-width :480px) {
+@media (max-width:480px) {
 	.ui-grid.ui-grid-responsive-480 .ui-grid-row {
 		display: block;
 	}
@@ -318,13 +316,13 @@
 		float: left;
 		width: auto;
 	}
-	.ui-grid.ui-grid-responsive-480 .ui-grid-row:not (.header-row ):after {
+	.ui-grid.ui-grid-responsive-480 .ui-grid-row:not(.header-row):after {
 		margin-top: .3em;
 	}
 	#recordings-details .ui-grid-col-5 {
 		margin-bottom: .3em;
 	}
-	.ui-grid-row>div:not (:first-child ) {
+	.ui-grid-row>div:not(:first-child) {
 		text-align: right;
 		margin-left: 2em;
 	}

@@ -318,11 +318,8 @@
 							<p:column headerText="#{msg.con_name}" styleClass="column-other-observation-name">
 								<h:outputText value="#{otherObservation.name}" />
 							</p:column>
-
-							<p:column headerText="#{msg.con_event}"
-								styleClass="column-other-eventgroup-name">
-								<h:outputText
-									value="#{controlBean.getAbstractObservationEventGroupName(otherObservation)}" />
+							<p:column headerText="#{msg.con_event}" styleClass="column-other-eventgroup-name">
+								<h:outputText value="#{controlBean.getObservationEventGroupName(otherObservation)}" />
 							</p:column>
 						</p:dataTable>
 					</h:form>
