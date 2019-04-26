@@ -1,0 +1,131 @@
+/*
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* 
+	last modified: 16.4.2019 by Petra Puumala
+	Author     : Ilari Paananen
+*/
+
+html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#mainPage {
+	width: 100%;
+	margin: auto;
+	padding: 0;
+	display: inline-block;
+	text-align: center;
+}
+
+#container {
+	width: 100%;
+	max-width: 60em;
+	margin: 1em;
+	padding: 0;
+	display: inline-block;
+	font-size: 1.1em;
+	padding: .5em .5em;
+	background: rgba(85, 102, 119, 0.2)!important;
+	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
+	z-index: 2;
+}
+
+#entries {
+	margin-top: 0.5em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	border-collapse: collapse;
+	background-color: none!important;
+	background:none!important;
+	background-image:none!important;
+}
+
+#entries td, #entries th {
+	padding: 0.5em;
+	color: black;
+	background-color: transparent!important;
+	background:!important;	
+	background-image:none!important;
+}
+
+#entries td:nth-child(1),#entries th:nth-child(1) {
+	width: 2em!important;
+	text-align: center;
+}
+
+#entries tr {
+	background-color: none!important;
+	background:none!important;
+	background-image:none!important;
+}
+
+#entries td {
+	border-top: 0.063em solid #005977;
+	text-align: left;
+}
+
+#entries th {
+	text-align: left;
+	border-bottom: 0.063em solid #005977;
+}
+
+.ui-button {
+	width: auto!important;
+	margin: .6em 0!important;
+	background-color: #008AB9!important;
+	background: linear-gradient(0deg, #008AB9, #10A1D1)!important;
+	cursor: pointer!important;
+	color: white!important;
+	border: 0!important;
+	text-shadow: none!important;
+}
+
+#entries .ui-button.ui-state-active {
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+
+}
+
+#entries button {
+	width: 2em!important;
+	height: 2em!important;
+	overflow: hidden;
+}
+#entries .ui-icon {
+	border-radius: 0;
+	font-size: 1em;
+	height: 2em;
+	padding-bottom: 1em!important;
+}
