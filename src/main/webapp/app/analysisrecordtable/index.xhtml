@@ -21,7 +21,7 @@
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
 					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" sortBy="#{record.orderNumber}" >
+					var="record" sortBy="#{record.orderNumber}" resizableColumns="true" liveResize="true">
 					<p:column headerText="#">
 						<h:outputText value ="#{record.orderNumber}" />
 					</p:column>
@@ -44,14 +44,22 @@
 					<p:column headerText="Sanallinen Palaute">
 						<h:outputText value="#{record.comment}" />
 					</p:column>
-					<p:column exportable="false" headerText="Delete" data-html2canvas-ignore="true">
-						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash" />
-					</p:column>
 					<p:column headerText="Edit" exportable="false" data-html2canvas-ignore="true">
 						<p:commandButton id="editButton" icon="ui-icon-pencil" action="#{analysisRecordTable.edit(record.orderNumber)}"/>
 					</p:column>
+					<p:column exportable="false" headerText="Delete" data-html2canvas-ignore="true">
+						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash">
+						 	<p:confirm header="Confirmation" message="Are you sure?" icon="pi pi-exclamation-triangle"/>
+						 </p:commandButton>
+					</p:column>
 				</p:dataTable>
 			</div>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        		<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+        		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+    		</p:confirmDialog>      
+			
 			<p:dialog header="Info" widgetVar="rowDialog" modal="true"
 				showEffect="fade" hideEffect="fade" resizable="false">
 				<p:outputPanel id="rowDetail">
@@ -92,7 +100,7 @@
 						onclick="PF('dlgSave').hide();" />
 					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
 						style="display: none;">
-						<p:dataExporter type="csv" target=":entries" fileName="#{analysisRecordTable.fileName}"
+						<p:dataExporter type="xls" target=":entries" fileName="#{analysisRecordTable.fileName}"
 							pageOnly="true" id="exporter" />
 					</p:commandButton>
 				</h:form>

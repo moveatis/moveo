@@ -162,9 +162,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <version>${javaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+    		<groupId>org.apache.poi</groupId>
+    		<artifactId>poi</artifactId>
+    		<version>4.1.0</version>
+		</dependency>
     </dependencies>
-
-    <build>
+        <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
