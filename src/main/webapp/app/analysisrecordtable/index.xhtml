@@ -74,11 +74,15 @@
 				</p:commandButton>
 			</h:form>
 
-			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-				showDetail="true" escape="false" />
-
 			<p:commandButton value="Jatka yhteenvetoon"
-				action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+				action="#{feedbackAnalyzationManagedBean.toSummary()}">
+				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+					<p:confirm header="Continue?"
+						message="There are records with no selected categories, are you sure you want to continue?"
+						icon="ui-icon-alert" />
+				</c:if>
+			</p:commandButton>
+
 			</div>
 			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
 				position="top" resizable="false" responsive="true" modal="true"
@@ -138,15 +142,6 @@
 				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
 					type="button" />
 			</p:confirmDialog>
-
-			<p:commandButton value="Continue to Summary"
-				action="#{feedbackAnalyzationManagedBean.toSummary()}">
-				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-					<p:confirm header="Continue?"
-						message="There are records with no selected categories, are you sure you want to continue?"
-						icon="ui-icon-alert" />
-				</c:if>
-			</p:commandButton>
 
 
 		</ui:define>

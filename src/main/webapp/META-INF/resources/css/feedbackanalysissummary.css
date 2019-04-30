@@ -119,8 +119,19 @@ body {
 }
 
 .jqplot-title{
-	font-size: 1em;
+  white-space: nowrap;
+  font-size: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+table.jqplot-table-legend td{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;	
+  max-width: 6.25em;
+}
+
 
 #pieModels canvas {
 	width: 18.75em;

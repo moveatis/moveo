@@ -61,7 +61,7 @@ this.cfg.grid = {
 									<ui:repeat var="cat" value="#{tableInformation.categories}"
 										varStatus="stat">
 										<tr>
-											<td style="width:50%">#{cat}</td>
+											<td style="width:30%">#{cat}</td>
 											<td>#{tableInformation.counts.get(stat.index)}
 												(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
 												%)</td>
