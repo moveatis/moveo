@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujï¿½rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +13,7 @@
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *
- *     3. Neither the name of the copyright holder nor the names of its
+ *     3. Neither the name of the copyright holder nor the names of its 
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -29,9 +30,10 @@
  */
 
 /* 
-    Created on : Mar 31, 2016, 2:38:10 PM
-    Author     : Ilari Paananen
+	last modified: 16.4.2019 by Petra Puumala
+	Author     : Ilari Paananen
 */
+
 #mainPage {
 	text-align: center;
 	margin-bottom: 1em;
@@ -39,7 +41,7 @@
 }
 
 #container {
-	width: 320px;
+	width: 20em;
 	display: inline-block;
 	text-align: left;
 }
@@ -64,8 +66,8 @@
 }
 
 .ui-confirm-dialog {
-	border-left: 1px solid white;
-	border-top: 1px solid white;
+	border-left: 0.063em solid white;
+	border-top: 0.063em solid white;
 }
 
 .ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
@@ -85,74 +87,26 @@
 	box-shadow: none;
 }
 
-.ui-dialog .ui-button .ui-icon {
-	color: white;
-}
-
-.ui-icon, .ui-widget-content .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon, .ui-button:hover .ui-icon,
-	.ui-button:focus .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-state-active .ui-icon, .ui-button:active .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-state-highlight .ui-icon, .ui-button .ui-state-highlight.ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-button .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
-	background-color: transparent;
-	border: none !important;
-	background-image: none !important;
-	box-shadow: none !important;
-}
-
-.ui-dialog .ui-button {
+.ui-dialog-titlebar-close,  .ui-dialog-titlebar-close:hover {
+	background: none;
+	box-shadow: none;
 	border: none;
 	text-shadow: none;
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	cursor: pointer;
-	color: white;
-	box-shadow: none;
+	font-weight: normal;
 }
 
-.ui-dialog .ui-button .ui-icon {
-	color: white;
-}
-
-.ui-icon-closethick {
-	background-position: -96px -128px;
-	!
-	important
-}
-
-.ui-icon-close {
-	background-position: -80px -128px;
-	!
-	important
+ .ui-icon-closethick {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
 }
 
 .ui-icon-check {
-	background-position: -64px -144px;
-	!
-	important
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
 }
+
+.ui-icon-close {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+}
+
 
 .ui-button {
 	border: none;
@@ -175,18 +129,18 @@
 
 .category-set-list-label {
 	display: inline-block;
-	width: 220px;
+	width: 13.75em;
 	vertical-align: middle;
 }
 
 .category-set-list-select {
-	width: 170px;
+	width: 10.625em;
 	vertical-align: middle;
 	margin-right: 1em;
 }
 
 .category-set-list-input {
-	width: 197px;
+	width: 12.313em;
 	vertical-align: middle;
 	margin-right: 1em;
 }
@@ -195,10 +149,10 @@
 	width: 280px;
 	display: inline-block;
 	vertical-align: top;
-	margin: 0 10px 1em 0;
-	background: rgba(85, 102, 119, 0.1);
-	border-radius: 10px;
-	padding: 10px;
+	margin: 0 0.625em 1em 0;
+	background-color: rgb(85,102,119, 0.2);
+	border-radius: 0.625em;
+	padding: 0.625em;
 }
 
 .category-set h2 {
@@ -246,7 +200,7 @@
 }
 
 .category-text {
-	width: calc(100% - 7.5em - 13px);
+	width: calc(100% - 7.5em - 0.813em);
 	margin-right: 0.5em;
 }
 
@@ -265,7 +219,8 @@
 }
 
 #continue-div {
-	margin-top: 1em;
+	margin-top: 2em;
+	margin-right: 2em;
 	text-align: right;
 }
 
@@ -275,12 +230,21 @@
 
 @media screen and (min-width: 640px) {
 	#container {
-		width: 640px;
+		width: 40em;
 	}
 }
 
 @media screen and (min-width: 960px) {
+
 	#container {
-		width: 960px;
+		width: 60em;
 	}
 }
+
+@media screen and (max-width: 640px) {
+
+	.category-set-list button {
+	margin-top: 0.3em!important;
+	}
+}
+

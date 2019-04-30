@@ -14,16 +14,21 @@
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputScript library="js" name="locales.js" />
 			<h:outputScript library="js" name="html2canvas.min.js" />
+			<h:outputStylesheet library="css" name="analysisrecordtable.css" />
 			<h:outputScript library="js" name="analysisrecordtable.js" />
+			<div id="container">
 			<div id="content">
 				<ui:debug hotkey="x" />
 			</div>
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
 					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" sortBy="#{record.orderNumber}">
-					<p:column headerText="#">
-						<h:outputText value="#{record.orderNumber}" />
+					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable" resizableColumns="true" liveResize="true">
+					<p:column headerText="Nro">
+						<h:outputText value ="#{record.orderNumber}" />
+					</p:column>
+					<p:column headerText="Sanallinen Palaute" id="givenFeedback">
+						<h:outputText value="#{record.comment}" />
 					</p:column>
 					<c:forEach
 						items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
@@ -60,14 +65,40 @@
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
-
+			<div id="reportButtons">
 			<h:form id="buttons">
-				<p:commandButton value="#{msg.dlg_saveDialogHeader}"
+				<p:commandButton value="#{msg.dlg_saveDialogHeader_report}"
 					styleClass="save-button" onclick="PF('dlgSave').show();"
 					process="@this">
 					<p:ajax update=":saveForm" resetValues="true" />
 				</p:commandButton>
 			</h:form>
+
+			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+				showDetail="true" escape="false" />
+
+			<p:commandButton value="Jatka yhteenvetoon"
+				action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+			</div>
+			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
+				position="top" resizable="false" responsive="true" modal="true"
+				fitViewport="true" class="coloredDialog">
+				<h:form id="categorySetForm">
+					<ui:repeat
+						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
+						var="category">
+						<p:selectBooleanButton value="#{category.inRecord}"
+							onLabel="#{category.label.text}"
+							offLabel="#{category.label.text}">
+							<p:ajax update=":categorySetForm" />
+						</p:selectBooleanButton>
+					</ui:repeat>
+					<p:commandButton value="tallenna muutokset"
+						action="#{feedbackAnalyzationManagedBean.editRecord}"
+						onclick="PF('dlgCategorySet').hide()" update=":entries" />
+				</h:form>
+			</p:dialog>
+</div>
 
 			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
 				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
