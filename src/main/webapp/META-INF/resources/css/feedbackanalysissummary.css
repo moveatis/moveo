@@ -78,22 +78,22 @@ body {
 	z-index: 2;
 }
 
-#summaryTable {
+.summaryTable {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-#summaryTable td, #summaryTable th {
+.summaryTable td, .summaryTable th {
 	padding: 8px;
 	color: black;
 }
 
-#summaryTable td {
+.summaryTable td {
 	border-top: 1px solid #005977;
 	text-align: left;
 }
 
-#summaryTable th {
+.summaryTable th {
 	text-align: left;
 	border-bottom: 1px solid #005977;
 }
@@ -117,6 +117,10 @@ body {
 .chart {
 	display:inline-block;
 	width: 6.25em;
+}
+
+.jqplot-title{
+	font-size: 1em;
 }
 
 #pieModels canvas {
