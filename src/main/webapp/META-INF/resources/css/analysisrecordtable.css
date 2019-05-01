@@ -81,7 +81,7 @@ html {
 }
 
 #entries td:nth-child(1),#entries th:nth-child(1) {
-	width: 2em!important;
+	width: 2em;
 	text-align: center;
 }
 

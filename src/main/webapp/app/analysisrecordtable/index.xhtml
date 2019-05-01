@@ -23,7 +23,7 @@
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
 					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable" resizableColumns="true" liveResize="true">
+					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable" resizableColumns="true" liveResize="false" resizeMode="expand">
 					<p:column headerText="Nro">
 						<h:outputText value ="#{record.orderNumber}" />
 					</p:column>
@@ -38,8 +38,8 @@
 								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 						</p:column>
 					</c:forEach>
-					<p:column headerText="Sanallinen Palaute">
-						<h:outputText value="#{record.comment}" />
+					<p:column headerText="Ajankohta">
+						<h:outputText value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}" />
 					</p:column>
 					<p:column exportable="false" headerText="Delete"
 						data-html2canvas-ignore="true">
@@ -49,7 +49,7 @@
 					</p:column>
 					<p:column headerText="Edit" exportable="false"
 						data-html2canvas-ignore="true">
-						<p:commandButton id="editButton" icon="ui-icon-pencil"
+						<p:commandButton id="editButton" icon="fa fa-pencil"
 							action="#{analysisRecordTable.edit(record.orderNumber)}" />
 					</p:column>
 				</p:dataTable>
@@ -84,25 +84,6 @@
 			</p:commandButton>
 
 			</div>
-			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
-				position="top" resizable="false" responsive="true" modal="true"
-				fitViewport="true" class="coloredDialog">
-				<h:form id="categorySetForm">
-					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
-						var="category">
-						<p:selectBooleanButton value="#{category.inRecord}"
-							onLabel="#{category.label.text}"
-							offLabel="#{category.label.text}">
-							<p:ajax update=":categorySetForm" />
-						</p:selectBooleanButton>
-					</ui:repeat>
-					<p:commandButton value="tallenna muutokset"
-						action="#{feedbackAnalyzationManagedBean.editRecord}"
-						onclick="PF('dlgCategorySet').hide()" update=":entries" />
-				</h:form>
-			</p:dialog>
-</div>
 
 			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
 				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
@@ -143,7 +124,7 @@
 					type="button" />
 			</p:confirmDialog>
 
-
+		</div>
 		</ui:define>
 
 

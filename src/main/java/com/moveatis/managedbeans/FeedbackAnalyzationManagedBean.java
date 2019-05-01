@@ -298,11 +298,10 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 	/**
 	 * Sets the starttime of the currently viewed record based on the timer value if
-	 * the record isn't in between other records, its starttime hasn't already been
-	 * set and the timer is running
+	 * the record isn't in between other records and its starttime hasn't already been set
 	 */
 	public void setTimeStamp() {
-		if (currentRecord.getStartTime() == null && !isTimerStopped
+		if (currentRecord.getStartTime() == null 
 				&& currentRecordNumber == feedbackAnalyzationEntity.getRecords().size())
 			currentRecord.setStartTime(duration);
 	}
