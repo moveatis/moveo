@@ -17,49 +17,62 @@
 			<h:outputStylesheet library="css" name="analysisrecordtable.css" />
 			<h:outputScript library="js" name="analysisrecordtable.js" />
 			<div id="container">
-				<div id="content">
-					<ui:debug hotkey="x" />
-				</div>
-				<div id="dataTableImage">
-					<p:dataTable id="entries"
-						value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-						var="record" sortBy="#{record.orderNumber}"
-						resizableColumns="true" liveResize="true">
-						<p:column headerText="Nro">
-							<h:outputText value="#{record.orderNumber}" />
+			<div id="content">
+				<ui:debug hotkey="x" />
+			</div>
+			<div id="dataTableImage">
+				<p:dataTable id="entries"
+					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
+					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable" resizableColumns="true" liveResize="false" resizeMode="expand">
+					<p:column headerText="Nro">
+						<h:outputText value ="#{record.orderNumber}" />
+					</p:column>
+					<p:column headerText="Sanallinen Palaute" id="givenFeedback">
+						<h:outputText value="#{record.comment}" />
+					</p:column>
+					<c:forEach
+						items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+						var="categorySet">
+						<p:column headerText="#{categorySet.label}">
+							<h:outputText
+								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 						</p:column>
-						<p:column headerText="Timestamp">
-							<h:outputText value="#{record.startTime}" />
-						</p:column>
-						<p:column headerText="Sanallinen Palaute" id="givenFeedback">
-							<h:outputText value="#{record.comment}" />
-						</p:column>
-						<c:forEach
-							items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
-							var="categorySet">
-							<p:column headerText="#{categorySet.label}">
-								<h:outputText
-									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
-							</p:column>
-						</c:forEach>
-						<p:column headerText="Edit" exportable="false"
-							data-html2canvas-ignore="true"
-							style="text-align:center; width:2.5em">
-							<p:commandButton id="editButton" icon="ui-icon-pencil"
-								action="#{analysisRecordTable.edit(record.orderNumber)}" />
-						</p:column>
-						<p:column exportable="false" headerText="Delete"
-							data-html2canvas-ignore="true"
-							style="text-align:center; width:2.5em">
-							<p:commandButton
-								action="#{analysisRecordTable.delete(record.orderNumber)}"
-								id="deleteButton" update="entries" icon="fa fa-trash">
-								<p:confirm header="Confirmation" message="Are you sure?"
-									icon="pi pi-exclamation-triangle" />
-							</p:commandButton>
-						</p:column>
-					</p:dataTable>
-				</div>
+					</c:forEach>
+					<p:column headerText="Ajankohta">
+						<h:outputText value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}" />
+					</p:column>
+					<p:column exportable="false" headerText="Delete"
+						data-html2canvas-ignore="true">
+						<p:commandButton
+							action="#{analysisRecordTable.delete(record.orderNumber)}"
+							id="deleteButton" update="entries" icon="fa fa-trash" />
+					</p:column>
+					<p:column headerText="Edit" exportable="false"
+						data-html2canvas-ignore="true">
+						<p:commandButton id="editButton" icon="fa fa-pencil"
+							action="#{analysisRecordTable.edit(record.orderNumber)}" />
+					</p:column>
+				</p:dataTable>
+			</div>
+			<p:dialog header="Info" widgetVar="rowDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="rowDetail">
+					<p:panelGrid columns="2"
+						rendered="#{not empty analysisRecordTable.selectedRow}"
+						columnClasses="label,value">
+						<h:outputText value="Kommentti:" />
+						<h:outputText value="#{analysisRecordTable.selectedRow.comment}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<div id="reportButtons">
+			<h:form id="buttons">
+				<p:commandButton value="#{msg.dlg_saveDialogHeader_report}"
+					styleClass="save-button" onclick="PF('dlgSave').show();"
+					process="@this">
+					<p:ajax update=":saveForm" resetValues="true" />
+				</p:commandButton>
+			</h:form>
 
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Yes" type="button"
@@ -127,7 +140,11 @@
 				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
 					type="button" />
 			</p:confirmDialog>
+
+		</div>
 		</ui:define>
+
+
 	</ui:composition>
 </h:body>
 </html>

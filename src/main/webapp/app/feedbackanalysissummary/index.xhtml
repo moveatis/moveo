@@ -29,6 +29,7 @@ this.cfg.grid = {
 };
   this.cfg.axes.xaxis.showTicks=false;  
   this.cfg.axes.yaxis.showTicks=false;
+  this.cfg.title.fontSize=1;
   this.cfg.axes.yaxis.rendererOptions={drawBaseline:false}; 
   this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
 };
@@ -36,6 +37,7 @@ this.cfg.grid = {
   function chartExtender() {   
   this.cfg.axes.xaxis.showTicks=false;  
   this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
+  this.cfg.title.fontSize=1;
     this.cfg.grid = {         
         background: 'transparent',
     drawGridlines: false,
@@ -43,77 +45,91 @@ this.cfg.grid = {
     shadow: false
 };}
 			</h:outputScript>
+
+			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
 			<h1>#{msg.ana_title} :
 				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
 			<div id="container">
-				<div id="tableImage">
-					<table id="summaryTable">
+				<table class="summaryTable">
+					<ui:repeat
+						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+						var="tableInformation">
 						<tr>
-							<ui:repeat
-								value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-								var="tableInformation">
-								<th align="center"
-									colspan="#{tableInformation.categories.size()}">#{tableInformation.feedbackAnalysisCategorySet}</th>
-							</ui:repeat>
+							<td>
+								<table class="summaryTable">
+									<tr>
+										<th>#{tableInformation.feedbackAnalysisCategorySet}</th>
+										<th>Osuus</th>
+									</tr>
+									<ui:repeat var="cat" value="#{tableInformation.categories}"
+										varStatus="stat">
+										<tr>
+											<td style="width:30%">#{cat}</td>
+											<td>#{tableInformation.counts.get(stat.index)}
+												(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
+												%)</td>
+										</tr>
+									</ui:repeat>
+								</table>
+							</td>
 						</tr>
-						<tr>
-							<ui:repeat
-								value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-								var="tableInformation">
-								<ui:repeat value="#{tableInformation.categories}" var="category">
-									<td align="center">#{category}</td>
-								</ui:repeat>
-							</ui:repeat>
-						</tr>
-						<tr>
-							<ui:repeat
-								value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-								var="tableInformation">
-								<ui:repeat value="#{tableInformation.counts}" var="count">
-									<td align="center">#{count}
-										(#{feedbackAnalysisSummaryManagedBean.countPercentage(count)}%)</td>
-								</ui:repeat>
-							</ui:repeat>
-						</tr>
-					</table>
-					</div>
-					<h:form id="charts">
-						<p:selectBooleanCheckbox
-							value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
-							id="barChart">Barchart
+					</ui:repeat>
+
+				</table>
+
+				<h:form id="charts">
+					<p:selectBooleanCheckbox
+						value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}">
+						Barchart
 			<p:ajax update="charts" />
 						</p:selectBooleanCheckbox>
 						<p:selectBooleanCheckbox
 							value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
 							id="pieChart">Piechart
 			<p:ajax update="charts" />
-						</p:selectBooleanCheckbox>
-						<h:panelGroup
-							rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
-							layout="block" id="barModels">
-							<ui:repeat
-								value="#{feedbackAnalysisSummaryManagedBean.barModels}"
-								var="barModel" varStatus="myVarStatus">
-								<div id="barchart"> <p:chart class="chart" type="bar"
-										model="#{barModel}" style="width:100px"
-										widgetVar="barchart#{myVarStatus.index}" />
-								</div>
-							</ui:repeat>
-						</h:panelGroup>
-						<br />
-						<h:panelGroup
-							rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
-							id="pieModels">
-							<ui:repeat
-								value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
-								var="pieModel" varStatus="myVarStatus">
-								<div id="piechart"> <p:chart class="chart" type="pie"
-										model="#{pieModel}" style="width:300px; height:300px"
-										widgetVar="piechart#{myVarStatus.index}" />
-								</div>
-							</ui:repeat>
-						</h:panelGroup>
-						<br />
+					</p:selectBooleanCheckbox>
+					<h:panelGroup
+						rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+						layout="block" id="barModels">
+						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}"
+							var="barModel">
+							<span id="barchart"> <p:chart class="chart"
+									type="bar" model="#{barModel}"
+									style="margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em" />
+							</span>
+						</ui:repeat>
+						<p:separator />
+					</h:panelGroup>
+
+					<br />
+					<h:panelGroup
+						rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+						id="pieModels">
+						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
+							var="pieModel">
+							<span id="piechart"> <p:chart class="chart" type="pie"
+									model="#{pieModel}"
+									style="width:300px; height:300px; margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em" />
+							</span>
+						</ui:repeat>
+						<p:separator />
+					</h:panelGroup>
+				</h:form>
+
+				<div id="hiddenButtons">
+					<h:form>
+						<p:commandButton value="#{msg.dlg_saveAndSend}"
+							rendered="#{sessionBean.identifiedUser}" styleClass="save-button"
+							onclick="PF('dlgSave').show();" process="@this">
+							<p:ajax update=":saveForm" resetValues="true" />
+						</p:commandButton>
+
+						<p:commandButton value="#{msg.dlg_saveDialogHeader}"
+							rendered="#{!sessionBean.identifiedUser}"
+							styleClass="save-button" onclick="PF('dlgSave').show();"
+							process="@this">
+							<p:ajax update=":saveForm" resetValues="true" />
+						</p:commandButton>
 					</h:form>
 					<div id="hiddenButtons">
 						<h:form>
