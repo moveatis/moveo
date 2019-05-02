@@ -77,22 +77,22 @@ body {
 	z-index: 2;
 }
 
-#summaryTable {
+.summaryTable {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-#summaryTable td, #summaryTable th {
-	padding: 0.5em;
+.summaryTable td, .summaryTable th {
+	padding: 8px;
 	color: black;
 }
 
-#summaryTable td {
-	border-top: 0.063em solid #005977;
+.summaryTable td {
+	border-top: 1px solid #005977;
 	text-align: left;
 }
 
-#summaryTable th {
+.summaryTable th {
 	text-align: left;
 	border-bottom: 0.063em solid #005977;
 }
@@ -117,6 +117,21 @@ body {
 	display:inline-block;
 	width: 6.25em;
 }
+
+.jqplot-title{
+  white-space: nowrap;
+  font-size: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table.jqplot-table-legend td{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;	
+  max-width: 6.25em;
+}
+
 
 #pieModels canvas {
 	width: 18.75em;

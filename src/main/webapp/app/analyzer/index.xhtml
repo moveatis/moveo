@@ -13,30 +13,31 @@
 			<h:outputScript library="js" name="analyzer.js" />
 			<h:outputStylesheet library="css" name="analyzer.css" />
 			<h:form id="timerControls">
-			<div id="timer_div">
-			<span id="timer_span">
-				<h:outputText id="txt_count"
-					value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
+				<div id="timer_div">
+				<span id="pause_span"> <p:selectBooleanButton
+							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
+							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
+							offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
 					</span>
-					<span id="pause_span">
-								<p:selectBooleanButton value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
-									onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
-									offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
-				</span>
-				<p:poll id="timer" interval="1"
-					listener="#{feedbackAnalyzationManagedBean.increment}"
-					update="txt_count" />
+					<span id="timer_span"> <h:outputText id="txt_count"
+							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
+					</span> 
+					<p:poll id="timer" interval="1"
+						listener="#{feedbackAnalyzationManagedBean.increment}"
+						update="txt_count"
+						stop="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.duration>0}" />
+				</div>
 			</h:form>
 			<h:form id="form">
 				<div id="content">
 					<div id="index">
-						<h:panelGrid columns="5">
-							<p:commandButton value=" " id="firstAnalyze"
-								icon="fa fa-fw fa-fast-backward"
+						<span class="arrows" id="toFirst"> <p:commandButton
+								value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}"
 								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(true)}"
 								update=":form" />
-							<p:commandButton value=" " id="previousAnalyze"
+						</span> <span class="arrows" id="toPrevious"> <p:commandButton
+								value=" " id="previousAnalyze"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber-1)}"
 								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(true)}"
 								update=":form" icon="fa fa-fw fa-arrow-left" />
@@ -45,15 +46,13 @@
 							<h:outputText
 								value="#{feedbackAnalyzationManagedBean.currentRecordNumber}/#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records.size()}" />
 						</div>
-						<span class="arrows" id="toNext">
-
-							<p:commandButton value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right"
+						<span class="arrows" id="toNext"> <p:commandButton
+								value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.currentRecordNumber+1)}"
 								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(false)}"
 								update=":form" />
-						</span>
-						<span class="arrows" id="toLast">
-							<p:commandButton value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward"
+						</span> <span class="arrows" id="toLast"> <p:commandButton
+								value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records.size())}"
 								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(false)}"
 								update=":form" />
@@ -83,18 +82,16 @@
 							</div>
 						</ui:repeat>
 						<div id="timestamp_div">
-							<span id="timestamp_name">
-								<h:outputText id="txt_timestamp" value="#{msg.ana_timestamp}" />
+							<span id="timestamp_name"> <h:outputText
+									id="txt_timestamp" value="#{msg.ana_timestamp}" />
 
+							</span> <span id="timestamp_span"> <p:commandLink
+									onclick="PF('dlgTimeSlider').show()" update=":timeSlider">
+									<h:outputText id="timestamp"
+										value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+								</p:commandLink>
 							</span>
-							<span id="timestamp_span">
-						<p:commandLink onclick="PF('dlgTimeSlider').show()"
-							update=":timeSlider">
-							<h:outputText id="timestamp"
-								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
-						</p:commandLink>
-								</span>
-								</div>
+						</div>
 
 
 
@@ -104,7 +101,7 @@
 					<div id="textArea">
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalyzationManagedBean.currentRecord.comment}"
-							pt:placeholder="Kirjaa palaute tähän.">
+							pt:placeholder="Kirjaa palaute tähän." validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
 						</p:inputTextarea>
 					</div>

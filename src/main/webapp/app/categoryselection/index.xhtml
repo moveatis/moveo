@@ -48,7 +48,7 @@
 									<p:selectBooleanButton value="#{category.typeAsBoolean}"
 										onLabel="#{msg.cs_countedCategory}" offLabel="#{msg.cs_timedCategory}"
 										styleClass="category-type-button" />
-									<p:inputText value="#{category.name}" id="category-name-input"
+									<p:inputText value="#{category.name}" id="category-name-input" validator="#{validationBean.validateShortString}"
 										styleClass="category-text" />
 									<p:watermark value="#{msg.cs_categoryName}" for="category-name-input" />
 									<p:commandButton icon="fa fa-remove" class="category-remove-button"
@@ -65,8 +65,8 @@
 					<h:panelGroup layout="block" styleClass="category-set-list">
 						<p:outputLabel for="new-category-set" value="#{msg.cs_newCategorySet}:"
 							styleClass="category-set-list-label" />
-						<p:inputText value="#{categorySelectionBean.newCategorySetName}" id="new-category-set"
-							styleClass="category-set-list-input" />
+						<p:inputText value="#{categorySelectionBean.newCategorySetName}" id="new-category-set" 
+							styleClass="category-set-list-input" validator="#{validationBean.validateShortString}"/>
 						<p:watermark value="#{msg.cs_categorySetName}" for="new-category-set" />
 						<p:commandButton value="#{msg.cs_addCategorySet}" style="vertical-align: middle"
 							action="#{categorySelectionBean.addNewCategorySet}" update="@form" />

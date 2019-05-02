@@ -23,7 +23,7 @@
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
 					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable" resizableColumns="true" liveResize="true">
+					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable" resizableColumns="true" liveResize="false" resizeMode="expand">
 					<p:column headerText="Nro">
 						<h:outputText value ="#{record.orderNumber}" />
 					</p:column>
@@ -38,11 +38,19 @@
 								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 						</p:column>
 					</c:forEach>
-					<p:column exportable="false" headerText="Delete" data-html2canvas-ignore="true"  style="text-align:center; width:2.5em">
-						 <p:commandButton action="#{analysisRecordTable.delete(record.orderNumber)}" id="deleteButton" update="entries" icon="fa fa-trash" />
+					<p:column headerText="Ajankohta">
+						<h:outputText value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}" />
 					</p:column>
-					<p:column headerText="Edit" exportable="false" data-html2canvas-ignore="true" style="text-align:center; width:2.5em">
-						<p:commandButton id="editButton" icon="ui-icon-pencil" action="#{analysisRecordTable.edit(record.orderNumber)}"/>
+					<p:column exportable="false" headerText="Delete"
+						data-html2canvas-ignore="true">
+						<p:commandButton
+							action="#{analysisRecordTable.delete(record.orderNumber)}"
+							id="deleteButton" update="entries" icon="fa fa-trash" />
+					</p:column>
+					<p:column headerText="Edit" exportable="false"
+						data-html2canvas-ignore="true">
+						<p:commandButton id="editButton" icon="fa fa-pencil"
+							action="#{analysisRecordTable.edit(record.orderNumber)}" />
 					</p:column>
 				</p:dataTable>
 			</div>
@@ -66,31 +74,16 @@
 				</p:commandButton>
 			</h:form>
 
-			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-				showDetail="true" escape="false" />
-
 			<p:commandButton value="Jatka yhteenvetoon"
-				action="#{feedbackAnalyzationManagedBean.toSummary()}" />
+				action="#{feedbackAnalyzationManagedBean.toSummary()}">
+				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+					<p:confirm header="Continue?"
+						message="There are records with no selected categories, are you sure you want to continue?"
+						icon="ui-icon-alert" />
+				</c:if>
+			</p:commandButton>
+
 			</div>
-			<p:dialog header="Valitse Kategoriat" widgetVar="dlgCategorySet"
-				position="top" resizable="false" responsive="true" modal="true"
-				fitViewport="true" class="coloredDialog">
-				<h:form id="categorySetForm">
-					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values()}"
-						var="category">
-						<p:selectBooleanButton value="#{category.inRecord}"
-							onLabel="#{category.label.text}"
-							offLabel="#{category.label.text}">
-							<p:ajax update=":categorySetForm" />
-						</p:selectBooleanButton>
-					</ui:repeat>
-					<p:commandButton value="tallenna muutokset"
-						action="#{feedbackAnalyzationManagedBean.editRecord}"
-						onclick="PF('dlgCategorySet').hide()" update=":entries" />
-				</h:form>
-			</p:dialog>
-</div>
 
 			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
 				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
@@ -131,16 +124,7 @@
 					type="button" />
 			</p:confirmDialog>
 
-			<p:commandButton value="Continue to Summary"
-				action="#{feedbackAnalyzationManagedBean.toSummary()}">
-				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-					<p:confirm header="Continue?"
-						message="There are records with no selected categories, are you sure you want to continue?"
-						icon="ui-icon-alert" />
-				</c:if>
-			</p:commandButton>
-
-
+		</div>
 		</ui:define>
 
 
