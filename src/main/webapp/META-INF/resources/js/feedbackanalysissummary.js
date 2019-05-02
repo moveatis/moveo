@@ -36,13 +36,13 @@ html2canvas(document.getElementById('tableImage')).then(function(canvas) {
 if(document.getElementById('charts:barChart_input').checked){
 	html2canvas(document.getElementById('barimages')).then(function(canvas) {
 		arr.push(canvas.toDataURL());
-		document.getElementById('barimages').innerHTML = "";
+		//document.getElementById('barimages').innerHTML = "";
 });
 }
 if(document.getElementById('charts:pieChart_input').checked){
 	html2canvas(document.getElementById('pieimages')).then(function(canvas) {
 	arr.push(canvas.toDataURL());
-	document.getElementById('pieimages').innerHTML = "";
+	//document.getElementById('pieimages').innerHTML = "";
 });
 }
 
@@ -91,12 +91,10 @@ function exportChart2() {
     		let linebreak = document.createElement('br');
     		if(document.getElementById('charts:pieChart_input').checked){
     			document.getElementById('pieimages').append(PF(b).exportAsImage());
-    			document.getElementById('pieimages').appendChild(linebreak);
     			}
     		
     		if(document.getElementById('charts:barChart_input').checked){
     			document.getElementById('barimages').append(PF(a).exportAsImage());
-    			document.getElementById('barimages').appendChild(linebreak);
     			}
     	}
 }

@@ -65,16 +65,7 @@
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
-			<div id="reportButtons">
-			<h:form id="buttons">
-				<p:commandButton value="#{msg.dlg_saveDialogHeader_report}"
-					styleClass="save-button" onclick="PF('dlgSave').show();"
-					process="@this">
-					<p:ajax update=":saveForm" resetValues="true" />
-				</p:commandButton>
-			</h:form>
-
-				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Yes" type="button"
 						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
 					<p:commandButton value="No" type="button"
@@ -140,11 +131,7 @@
 				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
 					type="button" />
 			</p:confirmDialog>
-
-		</div>
 		</ui:define>
-
-
 	</ui:composition>
 </h:body>
 </html>
