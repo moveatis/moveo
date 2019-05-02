@@ -28,6 +28,9 @@
 						<p:column headerText="Nro">
 							<h:outputText value="#{record.orderNumber}" />
 						</p:column>
+						<p:column headerText="Timestamp">
+							<h:outputText value="#{record.startTime}" />
+						</p:column>
 						<p:column headerText="Sanallinen Palaute" id="givenFeedback">
 							<h:outputText value="#{record.comment}" />
 						</p:column>
@@ -111,7 +114,7 @@
 						onclick="PF('dlgSave').hide();" />
 					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
 						style="display: none;">
-						<p:dataExporter type="xls" target=":entries"
+						<p:dataExporter type="csv" target=":entries"
 							fileName="#{analysisRecordTable.fileName}" pageOnly="true"
 							id="exporter" />
 					</p:commandButton>

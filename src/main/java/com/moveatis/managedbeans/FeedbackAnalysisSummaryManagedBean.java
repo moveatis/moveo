@@ -30,6 +30,11 @@
  */
 package com.moveatis.managedbeans;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -38,6 +43,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -50,6 +57,7 @@ import org.primefaces.model.chart.PieChartModel;
 import static org.primefaces.model.chart.LegendPlacement.OUTSIDE;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
@@ -120,7 +128,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private List<FeedbackAnalysisCategorySetEntity> categorySetsInUse;
 
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
-
+	
 	private List<BarChartModel> barModels;
 
 	private List<PieChartModel> pieModels;
@@ -132,6 +140,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private boolean renderBarChart = false;
 	
 	private final String SAVETODATABASE = "save";
+	
+	private final String DOWNLOAD= "download";
 	
 	private final String SAVEASIMAGE = "image";
 	
@@ -224,9 +234,62 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		return false;
 	}
 	
-	public void save() {
-		if(isSelected(SAVETODATABASE))
+	public void save() throws IOException {
+		if(isSelected(SAVETODATABASE)){
 			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
+		}
+		if(isSelected(DOWNLOAD)){ downloadAsCsv();}
+	}
+	
+	
+	
+	
+	
+	private void downloadAsCsv() throws IOException {
+		String fileName = convertToFilename(feedbackAnalyzation.getName()) + ".csv";
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		ExternalContext externalCtx = facesCtx.getExternalContext();
+		externalCtx.responseReset();
+		externalCtx.setResponseContentType("text/plain");
+		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		OutputStream outputStream = externalCtx.getResponseOutputStream();
+		CSVFileBuilder csv = new CSVFileBuilder();
+		csv.buildCSV(outputStream, feedbackAnalyzation, ",");
+		outputStream.flush();
+		facesCtx.responseComplete();
+	}
+	
+	/**
+	 * File name converter.
+	 */
+	private static String convertToFilename(String s) {
+		if (s == null || s.isEmpty()) {
+			return "unnamed";
+		}
+		return s.replaceAll("[^a-zA-Z0-9_]", "_");
+	}
+
+
+	public void createCSV(){
+		StringBuilder sb = new StringBuilder();	
+		for(TableInformation ti : tableInformations){
+			sb.append(ti.feedbackAnalysisCategorySet);
+			sb.append(',');
+		}
+		sb.append('\n');
+		for(TableInformation ti : tableInformations){
+			for(int i = 0; i < ti.categories.size(); i++){
+				sb.append(ti.categories.get(i).toString());
+				sb.append(',');
+			}
+			sb.append('\n');
+			for(int j = 0; j < ti.counts.size(); j++){
+				sb.append(ti.counts.get(j));
+				sb.append(countPercentage(ti.counts.get(j)) + " %");
+				sb.append(',');
+			}
+		}
+		
 	}
 
 	/**
@@ -320,4 +383,5 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		this.pieModels = pieModels;
 		this.tableInformations = tableInformations;
 	}
+
 }
