@@ -65,24 +65,35 @@
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
-			<div id="reportButtons">
-			<h:form id="buttons">
-				<p:commandButton value="#{msg.dlg_saveDialogHeader_report}"
-					styleClass="save-button" onclick="PF('dlgSave').show();"
-					process="@this">
-					<p:ajax update=":saveForm" resetValues="true" />
-				</p:commandButton>
-			</h:form>
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+				</p:confirmDialog>
 
-			<p:commandButton value="Jatka yhteenvetoon"
-				action="#{feedbackAnalyzationManagedBean.toSummary()}">
-				<c:if test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-					<p:confirm header="Continue?"
-						message="There are records with no selected categories, are you sure you want to continue?"
-						icon="ui-icon-alert" />
-				</c:if>
-			</p:commandButton>
+				<div id="reportButtons">
+					<h:form id="buttons">
+						<p:commandButton value="#{msg.dlg_saveDialogHeader_report}"
+							styleClass="save-button" onclick="PF('dlgSave').show();"
+							process="@this">
+							<p:ajax update=":saveForm" resetValues="true" />
+						</p:commandButton>
+					</h:form>
 
+					<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+						showDetail="true" escape="false" />
+
+					<p:commandButton value="Continue to Summary"
+						action="#{feedbackAnalyzationManagedBean.toSummary()}">
+						<c:if
+							test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+							<p:confirm header="Continue?"
+								message="There are records with no selected categories, are you sure you want to continue?"
+								icon="ui-icon-alert" />
+						</c:if>
+					</p:commandButton>
+				</div>
 			</div>
 
 			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
@@ -114,20 +125,13 @@
 				</h:form>
 			</p:dialog>
 
-			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-				showDetail="true" sticky="true" escape="false" />
-
 			<p:confirmDialog global="true">
 				<p:commandButton styleClass="ui-confirmdialog-yes" value="Yes"
 					type="button" />
 				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
 					type="button" />
 			</p:confirmDialog>
-
-		</div>
 		</ui:define>
-
-
 	</ui:composition>
 </h:body>
 </html>
