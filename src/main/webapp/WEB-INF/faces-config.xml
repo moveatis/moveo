@@ -181,9 +181,4 @@
 			<var>errormessages</var>
 		</resource-bundle>
 	</application>
-	<factory>
-		<exception-handler-factory>
-			org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory
-		</exception-handler-factory> 
-	</factory>
 </faces-config>
