@@ -16,7 +16,6 @@
 
 		<ui:define name="mainpage">
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
-			<h:outputScript library="js" name="feedbackanalysissummary.js" />
 			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
 			<h:outputScript library="js" name="html2canvas.min.js" />
 			<h:outputScript>
@@ -117,8 +116,7 @@ this.cfg.grid = {
 							<p:separator />
 						</h:panelGroup>
 					</h:form>
-					
-					
+
 					<div id="hiddenButtons">
 						<h:form>
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
@@ -134,7 +132,7 @@ this.cfg.grid = {
 								onclick="createImage(); PF('dlgSave').show();" process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
-						</h:form>
+							</h:form>
 					</div>
 
 					<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
@@ -171,37 +169,37 @@ this.cfg.grid = {
 							</h:outputLabel>
 							<p:message for="input-name" />
 							<p:inputText id="input-name" required="true"
-								requiredMessage="#{msg.dlg_notEmpty}" value="asd"
+								requiredMessage="#{msg.dlg_notEmpty}" value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.name}"
 								validator="#{validationBean.validateShortString}" />
 
 							<h:outputLabel for="input-description"
 								value="#{msg.asum_analyzationDescription}" />
 							<p:message for="input-description" />
-							<p:inputTextarea id="input-description" value="asd"
+							<p:inputTextarea id="input-description" value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.description}"
 								validator="#{validationBean.validateLongString}" rows="3"
 								cols="16" autoResize="true" />
 
 							<h:outputLabel for="input-target"
 								value="#{msg.asum_analyzationTarget}" />
 							<p:message for="input-target" />
-							<p:inputText id="input-target" value="asd"
+							<p:inputText id="input-target" value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.target}"
 								validator="#{validationBean.validateShortString}" />
 
 							<p:outputPanel rendered="#{sessionBean.identifiedUser}">
 								<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
 								<p:message for="input-email" />
 								<p:inputText id="input-email" required="true"
-									requiredMessage="#{msg.dlg_notEmpty}" value="asd">
+									requiredMessage="#{msg.dlg_notEmpty}" value="#{feedbackAnalysisSummaryManagedBean.emailAddress}">
 									<f:validator validatorId="emailValidator" />
 								</p:inputText>
 							</p:outputPanel>
 							<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-								onclick="save()" ajax="false" validateClient="true" action="#{feedbackAnalysisSummaryManagedBean.save}"/>
+								onclick="save()" ajax="false" validateClient="true" action="#{feedbackAnalysisSummaryManagedBean.save()}"/>
 							<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 								onclick="PF('dlgSave').hide();" />
 						</h:form>
 					</p:dialog>
-
+					
 					<div id="hiddenFunctionality">
 						<p:outputPanel id="barimages"></p:outputPanel>
 						<p:outputPanel id="pieimages"></p:outputPanel>
@@ -210,14 +208,12 @@ this.cfg.grid = {
 								value="#{feedbackAnalysisSummaryManagedBean.pieModels.size()}"
 								id="chartCount" style="display:block"/>
 						</div>
-						<h:outputText value="#{feedackAnalysisSummaryManagedBean.testCSV}" />
 					</div>
 					<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 						showDetail="true" sticky="true" escape="false" />
-
+						<h:outputScript library="js" name="feedbackanalysissummary.js" />
 				</div>
 		</ui:define>
-
 	</ui:composition>
 </h:body>
 </html>

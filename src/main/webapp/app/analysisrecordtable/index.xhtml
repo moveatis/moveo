@@ -9,7 +9,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
-		<ui:define name="pageTitle" />
+		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
 		<ui:define name="mainpage">
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputScript library="js" name="locales.js" />
@@ -22,9 +22,9 @@
 			</div>
 			<div id="dataTableImage">
 				<p:dataTable id="entries"
-					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
-					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable" resizableColumns="true" liveResize="false" resizeMode="expand">
-					<p:column headerText="Nro">
+					value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}" resizableColumns="true" liveResize="false" resizeMode="expand"
+					var="record" sortBy="#{record.orderNumber}" rowStyleClass="datatable">
+					<p:column headerText="Nro" priority="2">
 						<h:outputText value ="#{record.orderNumber}" />
 					</p:column>
 					<p:column headerText="Sanallinen Palaute" id="givenFeedback">
@@ -38,17 +38,17 @@
 								value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 						</p:column>
 					</c:forEach>
-					<p:column headerText="Ajankohta">
+					<p:column headerText="Ajankohta" priority="3">
 						<h:outputText value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}" />
 					</p:column>
 					<p:column exportable="false" headerText="Delete"
-						data-html2canvas-ignore="true">
+						data-html2canvas-ignore="true" priority="4">
 						<p:commandButton
 							action="#{analysisRecordTable.delete(record.orderNumber)}"
 							id="deleteButton" update="entries" icon="fa fa-trash" />
 					</p:column>
 					<p:column headerText="Edit" exportable="false"
-						data-html2canvas-ignore="true">
+						data-html2canvas-ignore="true" priority="5">
 						<p:commandButton id="editButton" icon="fa fa-pencil"
 							action="#{analysisRecordTable.edit(record.orderNumber)}" />
 					</p:column>

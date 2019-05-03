@@ -36,13 +36,13 @@ html2canvas(document.getElementById('tableImage')).then(function(canvas) {
 if(document.getElementById('charts:barChart_input').checked){
 	html2canvas(document.getElementById('barimages')).then(function(canvas) {
 		arr.push(canvas.toDataURL());
-		//document.getElementById('barimages').innerHTML = "";
+		document.getElementById('barimages').innerHTML = "";
 });
 }
 if(document.getElementById('charts:pieChart_input').checked){
 	html2canvas(document.getElementById('pieimages')).then(function(canvas) {
 	arr.push(canvas.toDataURL());
-	//document.getElementById('pieimages').innerHTML = "";
+	document.getElementById('pieimages').innerHTML = "";
 });
 }
 

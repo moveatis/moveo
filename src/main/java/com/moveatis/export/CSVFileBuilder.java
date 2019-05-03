@@ -30,11 +30,14 @@
 package com.moveatis.export;
 
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.managedbeans.FeedbackAnalysisSummaryManagedBean;
+import com.moveatis.managedbeans.FeedbackAnalysisSummaryManagedBean.TableInformation;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -166,9 +169,41 @@ public class CSVFileBuilder {
         public long duration = 0;
     }
 
-	public void buildCSV(OutputStream outputStream, FeedbackAnalyzationEntity feedbackAnalyzation, String separator) {
-		// TODO Auto-generated method stub
+	public void buildCSV(OutputStream outputStream, List<TableInformation> tableInformations, FeedbackAnalyzationEntity ana, String separator) throws IOException{
+		CSVBuilder csv = new CSVBuilder(outputStream, separator);
+		csv.add("Analyzation info").newLine();
+		csv.newLine();
 		
+		csv.add("Attribute").add("Value").newLine();
+		csv.add("name").add(ana.getName()).newLine();
+		csv.add("target").add(ana.getTarget()).newLine();
+		csv.add("description").add(ana.getDescription()).newLine();
+		
+        csv.newLine();
+        csv.newLine();
+        csv.add("Summary").newLine();
+        csv.newLine();
+        
+        csv.add("Category").add("Count").add("Count %").newLine();
+        
+        for(TableInformation ti : tableInformations){
+        	String str = Integer.toString(ti.getCategories().size());
+        	csv.add(ti.getFeedbackAnalysisCategorySet()).add(str).newLine();
+        	for(int i = 0; i < ti.getCategories().size(); i++){
+        		csv.add(ti.getCategories().get(i).toString());
+        	}
+        	csv.newLine();
+        	for(int j = 0; j < ti.getCounts().size(); j++){
+        		csv.add(ti.getCounts().get(j).toString()).add(countPercentage(ti.getCounts().get(j), ana)).add(" %");
+        	}
+        	csv.newLine();
+        }
+        csv.close();
+	}
+	
+	public String countPercentage(int count, FeedbackAnalyzationEntity feedbackAnalyzation) {
+		DecimalFormat df=new DecimalFormat("#.#");
+		return df.format(100*(double)count/(double)feedbackAnalyzation.getRecords().size());
 	}
     
     

@@ -32,13 +32,17 @@ package com.moveatis.managedbeans;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -48,7 +52,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -61,7 +68,12 @@ import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.interfaces.Mailer;
+import com.moveatis.interfaces.Session;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The managed bean to control the summary page
@@ -69,7 +81,7 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  * @author Visa Nykänen
  */
 @Named(value = "feedbackAnalysisSummaryManagedBean")
-@ViewScoped
+@SessionScoped
 public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	/**
@@ -122,6 +134,12 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		}
 
 	}
+	
+	@Inject
+	private Session sessionBean;
+	
+	@Inject
+	private Mailer mailerEJB;
 
 	private static final long serialVersionUID = 1L;
 
@@ -145,17 +163,21 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	
 	private final String SAVEASIMAGE = "image";
 	
+	private final String MAIL = "mail";
+	
 	private String emailAddress;
 	
 	private List<String> selectedSaveOperations;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
+	
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 
 	public String getEmailAddress() {
 		return emailAddress;
 	}
-
+	
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
@@ -234,30 +256,75 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		return false;
 	}
 	
-	public void save() throws IOException {
+	public void save(){
 		if(isSelected(SAVETODATABASE)){
 			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
 		}
-		if(isSelected(DOWNLOAD)){ downloadAsCsv();}
+		if(isSelected(DOWNLOAD)){
+				try {
+					download();
+				} catch (IOException e) {
+					LOGGER.error("Failed to download the observation.", e);
+				}
+		}
+		if(isSelected(SAVETODATABASE)){
+			mailAnalyzation();
+		}
 	}
 	
-	
-	
-	
-	
-	private void downloadAsCsv() throws IOException {
-		String fileName = convertToFilename(feedbackAnalyzation.getName()) + ".csv";
+	public void download() throws IOException {
+		String fileName = convertToFilename(this.feedbackAnalyzation.getName()) + ".csv";
 		FacesContext facesCtx = FacesContext.getCurrentInstance();
 		ExternalContext externalCtx = facesCtx.getExternalContext();
+		
 		externalCtx.responseReset();
 		externalCtx.setResponseContentType("text/plain");
 		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		
 		OutputStream outputStream = externalCtx.getResponseOutputStream();
+		
 		CSVFileBuilder csv = new CSVFileBuilder();
-		csv.buildCSV(outputStream, feedbackAnalyzation, ",");
+		csv.buildCSV(outputStream, tableInformations, feedbackAnalyzation, ",");
+		
 		outputStream.flush();
 		facesCtx.responseComplete();
 	}
+	
+	
+	public void mailAnalyzation(){
+		CSVFileBuilder csv = new CSVFileBuilder();
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
+		try {
+			String fileName = this.feedbackAnalyzation.getName();
+			fileName = fileName.replaceAll("\\W", "_");
+			File f = File.createTempFile(fileName, ".csv");
+			
+			StringBuilder msgBuilder = new StringBuilder();
+			String description = StringUtils.defaultIfEmpty(feedbackAnalyzation.getDescription(),
+					bundle.getString("sum_descriptionNotSet"));
+			String target = StringUtils.defaultIfEmpty(feedbackAnalyzation.getTarget(), bundle.getString("sum_targetNotSet"));
+			String descriptionPartOfMessage = MessageFormat.format(bundle.getString("sum_descriptionWas"), description);
+			String targetPartOfMessage = MessageFormat.format(bundle.getString("sum_targetWas"), target);
+			String messageWithSender = MessageFormat.format(bundle.getString("sum_message"),
+					sessionBean.getLoggedIdentifiedUser().getGivenName());
+			msgBuilder.append(messageWithSender).append("\n\n").append(descriptionPartOfMessage).append("\n\n")
+			.append(targetPartOfMessage).append("\n\n").append(bundle.getString("emailSignature"));
+			FileOutputStream fos = new FileOutputStream(f);
+			csv.buildCSV(fos, tableInformations, feedbackAnalyzation, ",");
+			fos.flush();
+			String[] recipients = { emailAddress };
+			File[] files = { f };
+			mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(),
+					files);
+			// remove the temp file after sending it
+			f.delete();
+		}catch (IOException ex) {
+			LOGGER.error("Failed to create temporary file for sending observeraion by email.", ex);
+		}
+	}
+	
+	
 	
 	/**
 	 * File name converter.
@@ -270,7 +337,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	}
 
 
-	public void createCSV(){
+	public String createCSV(){
 		StringBuilder sb = new StringBuilder();	
 		for(TableInformation ti : tableInformations){
 			sb.append(ti.feedbackAnalysisCategorySet);
@@ -290,7 +357,36 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			}
 		}
 		
+		return sb.toString();
 	}
+	
+	
+	public void writeCSV(){
+		
+		String fileName = "test.csv";
+		String delimiter = ",";
+		String separator = "\n";
+		FileWriter fileWriter = null;
+		try{
+			fileWriter = new FileWriter(fileName);
+			for(TableInformation ti : tableInformations){
+				fileWriter.append(ti.feedbackAnalysisCategorySet);
+				fileWriter.append(delimiter);
+			}
+			fileWriter.append(separator);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
 
 	/**
 	 * calls the initModels function to build the summary table and the charts

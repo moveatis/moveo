@@ -255,7 +255,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		OutputStream outputStream = externalCtx.getResponseOutputStream();
 
 		CSVFileBuilder csv = new CSVFileBuilder();
-		csv.buildCSV(outputStream, feedbackAnalyzation, ",");
+		//csv.buildCSV(outputStream, feedbackAnalyzation, ",");
 		outputStream.flush();
 
 		facesCtx.responseComplete();
