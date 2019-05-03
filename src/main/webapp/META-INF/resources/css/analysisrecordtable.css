@@ -72,7 +72,9 @@ html {
 	background-image:none!important;
 }
 
-#entries td, #entries th {
+#entries td, #entries th {	
+	white-space: normal;
+	max-width:15em;	
 	padding: 0.5em;
 	color: black;
 	background-color: transparent!important;
