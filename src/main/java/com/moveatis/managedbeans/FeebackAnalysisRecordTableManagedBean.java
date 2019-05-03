@@ -103,7 +103,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 			}
 		}
 
-		return "----------";
+		return "empty";
 	}
 
 	/**
