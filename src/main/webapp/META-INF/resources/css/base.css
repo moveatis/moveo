@@ -71,7 +71,6 @@ body {
 
 .wrapper {
 	min-height: 100%;
-	height: auto !important;
 	height: 100%;
 	margin: 0 auto -1.875em;
 	text-align: justify;
@@ -86,6 +85,7 @@ body {
 	font-size: 1em;
 	background-color: #008AB9;
 	clear: both;
+	text-align:center;
 }
 
 #naviHead {
@@ -206,7 +206,7 @@ nav {
 .naviHeader {
 	height: 28px;
 	background: #008AB9;
-	background: #008AB9 linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
 	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	background-size: 100%;
@@ -291,7 +291,7 @@ ul.ui-menu-child {
 /* Dialog style */
 
 .coloredDialog {
-	top: 20%!important;
+	top: 20%;
 	background: #008AB9!important;
 	color: #FEFEFE;
 	/* border: none; */
@@ -299,7 +299,7 @@ ul.ui-menu-child {
 
 .coloredDialog .ui-dialog-titlebar {
 	background: #008AB9;
-	background: #008AB9 linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.3)), to(rgba(255, 255, 255, 0)));
 	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	color: #FEFEFE;
@@ -357,7 +357,7 @@ ul.ui-menu-child {
 
 .naviHeader.ui-menu, .naviHeader.ui-menu .ui-menu-child {
 	background: #008AB9;
-	background: #008AB9 linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.4)), to(rgba(255, 255, 255, 0)));
 	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	color: white!important;
@@ -366,7 +366,7 @@ ul.ui-menu-child {
 .naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover, .naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus, .naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus {
 	border: 0.063em solid #008AB9;
 	background: #008AB9;
-	background: #008AB9 linear-gradient(top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
 	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.6)), to(rgba(255, 255, 255, 0)));
 	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
 	font-weight: normal;
@@ -531,7 +531,6 @@ ul.ui-menu-child {
 	}
 
 	#picture {
-		padding-left: auto;
 		padding-top: 3em;
 		height: auto;
 		width: 80%;
@@ -540,7 +539,6 @@ ul.ui-menu-child {
 	}
 
 	#picture2 {
-		padding-left: auto;
 		padding-top: 3em;
 		height: auto;
 		width: 80%;

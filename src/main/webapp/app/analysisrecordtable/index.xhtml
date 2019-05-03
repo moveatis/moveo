@@ -16,43 +16,43 @@
 			<h:outputScript library="js" name="html2canvas.min.js" />
 			<h:outputStylesheet library="css" name="analysisrecordtable.css" />
 			<h:outputScript library="js" name="analysisrecordtable.js" />
+			<h1>#{msg.repo_title} :
+				#{FeedbackAnalysisSummaryBean.feedbackAnalyzation.name}</h1>
 			<div id="container">
 				<div id="content">
 					<ui:debug hotkey="x" />
 				</div>
 				<div id="dataTableImage">
-					<p:dataTable id="entries"
+					<p:dataTable id="entries" tableStyle="width:auto"
 						value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
 						var="record" sortBy="#{record.orderNumber}"
-						resizableColumns="true" liveResize="true">
-						<p:column headerText="Nro">
+						resizableColumns="true" liveResize="true" styleClass="entries-datatable">
+						<p:column headerText="Nro" styleClass="entries-nro">
 							<h:outputText value="#{record.orderNumber}" />
 						</p:column>
-						<p:column headerText="Sanallinen Palaute" id="givenFeedback">
+						<p:column headerText="Sanallinen Palaute" styleClass="entries-feedback">
 							<h:outputText value="#{record.comment}" />
 						</p:column>
 						<c:forEach
 							items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
-							<p:column headerText="#{categorySet.label}">
+							<p:column headerText="#{categorySet.label}" styleClass="categorysets">
 								<h:outputText
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
 						<p:column headerText="Edit" exportable="false"
-							data-html2canvas-ignore="true"
-							style="text-align:center; width:2.5em">
-							<p:commandButton id="editButton" icon="ui-icon-pencil"
+							data-html2canvas-ignore="true" styleClass="entries-editfield">
+							<p:commandButton id="editButton" icon="fa fa-pencil"
 								action="#{analysisRecordTable.edit(record.orderNumber)}" />
 						</p:column>
 						<p:column exportable="false" headerText="Delete"
-							data-html2canvas-ignore="true"
-							style="text-align:center; width:2.5em">
+							data-html2canvas-ignore="true" styleClass="entries-deletefield">
 							<p:commandButton
 								action="#{analysisRecordTable.delete(record.orderNumber)}"
 								id="deleteButton" update="entries" icon="fa fa-trash">
-								<p:confirm header="Confirmation" message="Are you sure?"
-									icon="pi pi-exclamation-triangle" />
+								<p:confirm header="Confirmation" message="#{msg.repo_confirm}"
+									icon="fas fa-exclamation-triangle" />
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>
@@ -72,21 +72,21 @@
 							process="@this">
 							<p:ajax update=":saveForm" resetValues="true" />
 						</p:commandButton>
+
+						<p:commandButton value="#{msg.ana_continue}"
+							action="#{feedbackAnalyzationManagedBean.toSummary()}">
+							<c:if
+								test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+								<p:confirm header="#{msg.repo_question}"
+									message="#{msg.repo_warning}" icon="ui-icon-alert" />
+							</c:if>
+						</p:commandButton>
 					</h:form>
-
-					<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-						showDetail="true" escape="false" />
-
-					<p:commandButton value="Continue to Summary"
-						action="#{feedbackAnalyzationManagedBean.toSummary()}">
-						<c:if
-							test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-							<p:confirm header="Continue?"
-								message="There are records with no selected categories, are you sure you want to continue?"
-								icon="ui-icon-alert" />
-						</c:if>
-					</p:commandButton>
 				</div>
+
+				<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+					showDetail="true" escape="false" />
+
 			</div>
 
 			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"

@@ -58,6 +58,7 @@ body {
 }
 
 #timer_div {
+	padding-top: 1em;
 	padding-bottom: 1em;
 
 }
@@ -75,17 +76,26 @@ body {
 
 #timer_span {
 	font-size: 2em;
+	display: inline-block;
+	position:relative;
+	vertical-align: middle;
 
 }
 
 #pause_span {
 	padding-left: 0.8em;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+#pause_span button {
+
 }
 
 #timestamp_div {
 	max-width: 100%;
 	list-style-type: none;
-	background: rgba(85, 102, 119, 0.2);
+	background: rgba(85, 102, 119, 0.1);
 	padding: 0.5em;
 	border-radius: 0.5em;
 	position: relative;
@@ -168,7 +178,7 @@ body {
 #categoryContent {
 	max-width: 100%;
 	list-style-type: none;
-	background: rgba(85, 102, 119, 0.2);
+	background: rgba(85, 102, 119, 0.1);
 	padding: 0.5em;
 	border-radius: 0.5em;
 	position: relative;
