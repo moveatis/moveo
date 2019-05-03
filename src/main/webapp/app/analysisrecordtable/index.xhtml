@@ -84,8 +84,6 @@
 					</h:form>
 				</div>
 
-				<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-					showDetail="true" escape="false" />
 
 			</div>
 
@@ -111,12 +109,15 @@
 						onclick="PF('dlgSave').hide();" />
 					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
 						style="display: none;">
-						<p:dataExporter type="xls" target=":entries"
+						<p:dataExporter type="csv" target=":entries"
 							fileName="#{analysisRecordTable.fileName}" pageOnly="true"
 							id="exporter" />
 					</p:commandButton>
 				</h:form>
 			</p:dialog>
+
+			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+				showDetail="true" sticky="true" escape="false" />
 
 			<p:confirmDialog global="true">
 				<p:commandButton styleClass="ui-confirmdialog-yes" value="Yes"

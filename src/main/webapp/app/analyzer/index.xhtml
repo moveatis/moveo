@@ -14,18 +14,18 @@
 			<h:outputStylesheet library="css" name="analyzer.css" />
 			<h:form id="timerControls">
 				<div id="timer_div">
+				<span id="pause_span"> <p:selectBooleanButton
+							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
+							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
+							offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
+					</span>
 					<span id="timer_span"> <h:outputText id="txt_count"
 							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
-					</span>
-					<span id="pause_span"> 
-						<p:selectBooleanButton
-							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
-							onIcon="fa fa-play" offIcon="fa fa-pause" onLabel="" offlabel=""
-							style="width:2em; height:2em" />
-					</span>
+					</span> 
 					<p:poll id="timer" interval="1"
 						listener="#{feedbackAnalyzationManagedBean.increment}"
-						update="txt_count" />
+						update="txt_count"
+						stop="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.duration>0}" />
 				</div>
 			</h:form>
 			<h:form id="form">
@@ -34,6 +34,7 @@
 						<span class="arrows" id="toFirst"> <p:commandButton
 								value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward"
 								action="#{feedbackAnalyzationManagedBean.setCurrentRecord(1)}"
+								disabled="#{feedbackAnalyzationManagedBean.isNavigationDisabled(true)}"
 								update=":form" />
 						</span> <span class="arrows" id="toPrevious"> <p:commandButton
 								value=" " id="previousAnalyze"
@@ -100,7 +101,7 @@
 					<div id="textArea">
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalyzationManagedBean.currentRecord.comment}"
-							pt:placeholder="Kirjaa palaute tähän.">
+							pt:placeholder="Kirjaa palaute tähän." validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
 						</p:inputTextarea>
 					</div>
@@ -114,6 +115,7 @@
 						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
 							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
 					</div>
+
 				</div>
 			</h:form>
 			<p:dialog widgetVar="dlgTimeSlider" position="top" resizable="false"

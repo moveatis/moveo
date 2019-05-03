@@ -320,4 +320,12 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		this.pieModels = pieModels;
 		this.tableInformations = tableInformations;
 	}
+	
+	public int countMaxCategories() {
+		int max=0;
+		for (FeedbackAnalysisCategorySetEntity catSet:categorySetsInUse)
+			if(catSet.getCategoryEntitys().size()>max)
+				max=catSet.getCategoryEntitys().size();
+		return max+1;
+	}
 }
