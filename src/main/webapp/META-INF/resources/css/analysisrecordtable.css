@@ -75,6 +75,7 @@ html {
 #entries td, #entries th {	
 	white-space: normal;
 	max-width:15em;	
+	text-overflow:ellipsis;
 	padding: 0.5em;
 	color: black;
 	background-color: transparent!important;

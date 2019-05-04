@@ -36,6 +36,8 @@ import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
+
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -73,6 +75,8 @@ public class ObservationManagedBean implements Serializable {
 
 	// Tag is used to identify the observationcategories within a observation
 	private Long nextTag;
+
+	private byte[] image;
 
 	public ObservationManagedBean() {
 
@@ -226,4 +230,13 @@ public class ObservationManagedBean implements Serializable {
 		observationEntity.setObservationCategorySets(new HashSet<>(getCategorySetsInUse()));
 		observationEJB.edit(observationEntity);
 	}
+
+	public void setImage(byte[] img) {
+		this.image=img;		
+	}
+	
+	public byte[] getImage() {
+		return image;
+	}
+
 }

@@ -528,5 +528,31 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	public void resetCategorySetsInUse() {
 		this.feedbackAnalysisCategorySetsInUse = null;
 	}
+	
+	private byte[] pieImage,tableImage,barImage;
+	
+	public void setBarImage(byte[] img) {
+		barImage=img;			
+	}	
+	
+	public byte[] getBarImage() {
+		return barImage;
+	}
+	
+	public void setTableImage(byte[] img) {
+		tableImage=img;		
+	}	
+	
+	public byte[] getTableImage() {
+		return tableImage;
+	}
+	
+	public void setPieImage(byte[] img) {
+		pieImage=img;		
+	}
+	
+	public byte[] getPieImage() {
+		return pieImage;
+	}
 
 }

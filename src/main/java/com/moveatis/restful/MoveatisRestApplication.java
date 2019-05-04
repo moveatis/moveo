@@ -52,6 +52,7 @@ public class MoveatisRestApplication extends Application {
 		final Set<Class<?>> classes = new HashSet<>();
 		classes.add(RecordListenerBean.class);
 		classes.add(NotFoundExceptionMapper.class);
+		classes.add(ImageListener.class);
 
 		return classes;
 	}
