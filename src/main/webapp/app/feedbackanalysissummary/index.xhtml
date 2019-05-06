@@ -152,7 +152,7 @@ this.cfg.grid = {
 					<h:form id="saveForm" styleClass="dialog-form ui-fluid">
 						<p:selectManyCheckbox id="basic"
 							rendered="#{sessionBean.identifiedUser}" columns="1"
-							required="true" requiredMessage="" layout="grid">
+							required="true" requiredMessage="" layout="grid" value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
 							<p:ajax update="input-email" />
 							<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
 								itemDisabled="#{!sessionBean.identifiedUser}" />
@@ -165,7 +165,7 @@ this.cfg.grid = {
 						</p:selectManyCheckbox>
 						<p:selectManyCheckbox id="anonymityUserBoxes"
 							rendered="#{!sessionBean.identifiedUser}" columns="1"
-							required="true" requiredMessage="" layout="grid">
+							required="true" requiredMessage="" layout="grid" value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
 							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 							<f:selectItem itemLabel="#{msg.dlg_imageOption}"
