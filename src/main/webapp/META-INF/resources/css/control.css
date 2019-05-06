@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juuj√§rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nyk√§nen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juuj‰rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nyk‰nen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,10 @@
 	margin: 1em 0;
 }
 
+.ui-datatable-tablewrapper {
+	overflow: hidden!important;
+}
+
 #mainPage a.edit-key {
 	color: gold;
 	text-shadow: 0.063em 0.063em 0.063em #333;
@@ -52,6 +56,7 @@
 .key-dialog {
 	max-width: 12em;
 }
+
 
 a.new-key {
 	color: grey;
@@ -78,6 +83,7 @@ a.new-key {
 	border:0px;
 	box-shadow: none;
 }
+
 
 .ui-datatable .ui-row-editor span {
 	float: none;
@@ -134,7 +140,7 @@ a.new-key {
 .ui-datalist-header {
 	background: #EFEFEF;
 	border: 0;
-	border-bottom:1px solid black!important;
+	border-bottom:1px solid #4f4f4f!important;
 }
 
 .ui-datalist-content {
@@ -248,6 +254,16 @@ a.new-key {
 	pointer-events: none;
 }
 
+.ui-widget-content {
+	border: 0px!important;
+}
+
+td { 
+	border: 0px!important;
+}
+
+
+
 .ui-cell-editor-input {
 	pointer-events: auto;
 }
@@ -288,6 +304,19 @@ a.new-key {
 	color: #4f4f4f;
 }
 
+.ui-state-highlight a.ui-commandlink:link {
+	color: #FFFFFF
+}
+
+.ui-state-highlight .list-categorysets li {
+	background: #FFFFFF;
+}
+
+.ui-state-highlight .list-categorysets a.ui-commandlink:link {
+	color: #4f4f4f!important;
+	text-shadow: none;
+}
+
 .ui-selectonemenu, .ui-inputfield {
 	max-width: 100%;
 	box-sizing: border-box;
@@ -298,9 +327,9 @@ a.new-key {
 }
 
 .ui-datatable-empty-message {
-	color: white;
+	color: #4f4f4f;
 	border-color: transparent;
-	background: #131D24;
+	background: #EFEFEF;
 }
 
 .row-editor .ui-icon-close {
@@ -357,7 +386,7 @@ a.new-key {
 }
 
 .link-observation:hover {
-	color: #ff6600 !important;
+	color: #AF2A01 !important;
 }
 
 @media screen and (max-width: 800px) {
