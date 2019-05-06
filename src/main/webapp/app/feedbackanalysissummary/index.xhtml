@@ -55,15 +55,15 @@ this.cfg.grid = {
 							<tr>
 								<td>
 									<table class="summaryTable">
-										<tr>
-											<th>#{tableInformation.feedbackAnalysisCategorySet}</th>
-											<th>#{msg.fbsum_count}</th>
+										<tr class="header_row">
+											<th class="tableheader">#{tableInformation.feedbackAnalysisCategorySet}</th>
+											<th class="tableheader">#{msg.fbsum_count}</th>
 										</tr>
 										<ui:repeat var="cat" value="#{tableInformation.categories}"
 											varStatus="stat">
-											<tr>
-												<td style="width: 30%">#{cat}</td>
-												<td>#{tableInformation.counts.get(stat.index)}
+											<tr class="tr">
+												<td style="width: 30%" class="cat">#{cat}</td>
+												<td class="count">#{tableInformation.counts.get(stat.index)}
 													(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
 													%)</td>
 											</tr>
@@ -84,7 +84,7 @@ this.cfg.grid = {
 								id="barChart">#{msg.fbsum_barchart}
 			<p:ajax update="charts" />
 							</p:selectBooleanCheckbox>
-						</span> <span id="pie"> <p:selectBooleanCheckbox
+						</span> <br /><span id="pie"> <p:selectBooleanCheckbox
 								value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
 								id="pieChart">#{msg.fbsum_piechart}							
 					<p:ajax update="charts" />
@@ -218,7 +218,6 @@ this.cfg.grid = {
 							value="#{feedbackAnalysisSummaryManagedBean.pieModels.size()}"
 							id="chartCount" style="display:block" />
 					</div>
-					<h:outputText value="#{feedackAnalysisSummaryManagedBean.testCSV}" />
 				</div>
 				<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 					showDetail="true" sticky="true" escape="false" />

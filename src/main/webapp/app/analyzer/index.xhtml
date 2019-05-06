@@ -14,14 +14,14 @@
 			<h:outputStylesheet library="css" name="analyzer.css" />
 			<h:form id="timerControls">
 				<div id="timer_div">
+					<span id="timer_span"> <h:outputText id="txt_count"
+							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
+					</span> 
 				<span id="pause_span"> <p:selectBooleanButton
 							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
 							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
 							offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
 					</span>
-					<span id="timer_span"> <h:outputText id="txt_count"
-							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
-					</span> 
 					<p:poll id="timer" interval="1"
 						listener="#{feedbackAnalyzationManagedBean.increment}"
 						update="txt_count"
