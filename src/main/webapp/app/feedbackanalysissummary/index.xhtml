@@ -143,7 +143,7 @@ this.cfg.grid = {
 						<h:form id="saveForm" styleClass="dialog-form ui-fluid">
 							<p:selectManyCheckbox id="basic"
 								rendered="#{sessionBean.identifiedUser}" columns="1"
-								required="true" requiredMessage="" layout="grid">
+								required="true" requiredMessage="" layout="grid" value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
 								<p:ajax update="input-email" />
 								<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
 									itemDisabled="#{!sessionBean.identifiedUser}" />
@@ -156,7 +156,7 @@ this.cfg.grid = {
 							</p:selectManyCheckbox>
 							<p:selectManyCheckbox id="anonymityUserBoxes"
 								rendered="#{!sessionBean.identifiedUser}" columns="1"
-								required="true" requiredMessage="" layout="grid">
+								required="true" requiredMessage="" layout="grid" value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
 								<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 									itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 								<f:selectItem itemLabel="#{msg.dlg_imageOption}"
@@ -203,6 +203,8 @@ this.cfg.grid = {
 					<div id="hiddenFunctionality">
 						<p:outputPanel id="barimages"></p:outputPanel>
 						<p:outputPanel id="pieimages"></p:outputPanel>
+						<h:inputHidden id="pies64" value="#{feedbackAnalysisSummaryManagedBean.pies64}" />
+						<h:inputHidden id="bars64" value="#{feedbackAnalysisSummaryManagedBean.bars64}" />
 						<div id="chartCountDiv">
 							<h:outputText
 								value="#{feedbackAnalysisSummaryManagedBean.pieModels.size()}"

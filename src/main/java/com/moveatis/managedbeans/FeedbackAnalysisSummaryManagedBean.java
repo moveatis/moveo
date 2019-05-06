@@ -30,6 +30,8 @@
  */
 package com.moveatis.managedbeans;
 
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,6 +52,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +64,8 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
+import org.primefaces.util.Base64;
+
 import static org.primefaces.model.chart.LegendPlacement.OUTSIDE;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
@@ -156,6 +161,10 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private boolean renderPieChart = false;
 
 	private boolean renderBarChart = false;
+	
+	private String pies64;
+	
+	private String bars64;
 	
 	private final String SAVETODATABASE = "save";
 	
@@ -270,6 +279,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		if(isSelected(SAVETODATABASE)){
 			mailAnalyzation();
 		}
+		/*if(isSelected(SAVEASIMAGE)){
+			try {
+				testSaveImage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
 	}
 	
 	public void download() throws IOException {
@@ -285,6 +302,33 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		
 		CSVFileBuilder csv = new CSVFileBuilder();
 		csv.buildCSV(outputStream, tableInformations, feedbackAnalyzation, ",");
+		
+		outputStream.flush();
+		facesCtx.responseComplete();
+	}
+	
+	
+	public void testSaveImage() throws IOException{
+		String fileName = convertToFilename(this.feedbackAnalyzation.getName()) + ".png";
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		ExternalContext externalCtx = facesCtx.getExternalContext();
+		
+		externalCtx.responseReset();
+		externalCtx.setResponseContentType("image/png");
+		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		
+		OutputStream outputStream = externalCtx.getResponseOutputStream();
+		
+		byte[] decoded =  Base64.decode(pies64);
+		
+		try{
+			RenderedImage renderedImage = ImageIO.read(new ByteArrayInputStream(decoded));
+			ImageIO.write(renderedImage, "png", outputStream);
+			
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		
 		
 		outputStream.flush();
 		facesCtx.responseComplete();
@@ -336,57 +380,6 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		return s.replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 
-
-	public String createCSV(){
-		StringBuilder sb = new StringBuilder();	
-		for(TableInformation ti : tableInformations){
-			sb.append(ti.feedbackAnalysisCategorySet);
-			sb.append(',');
-		}
-		sb.append('\n');
-		for(TableInformation ti : tableInformations){
-			for(int i = 0; i < ti.categories.size(); i++){
-				sb.append(ti.categories.get(i).toString());
-				sb.append(',');
-			}
-			sb.append('\n');
-			for(int j = 0; j < ti.counts.size(); j++){
-				sb.append(ti.counts.get(j));
-				sb.append(countPercentage(ti.counts.get(j)) + " %");
-				sb.append(',');
-			}
-		}
-		
-		return sb.toString();
-	}
-	
-	
-	public void writeCSV(){
-		
-		String fileName = "test.csv";
-		String delimiter = ",";
-		String separator = "\n";
-		FileWriter fileWriter = null;
-		try{
-			fileWriter = new FileWriter(fileName);
-			for(TableInformation ti : tableInformations){
-				fileWriter.append(ti.feedbackAnalysisCategorySet);
-				fileWriter.append(delimiter);
-			}
-			fileWriter.append(separator);
-			
-		}catch (Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				fileWriter.flush();
-				fileWriter.close();
-			} catch (IOException e){
-				e.printStackTrace();
-			}
-		}
-	}
-	
 
 	/**
 	 * calls the initModels function to build the summary table and the charts
@@ -486,6 +479,22 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			if(catSet.getCategoryEntitys().size()>max)
 				max=catSet.getCategoryEntitys().size();
 		return max+1;
+	}
+
+	public String getPies64() {
+		return pies64;
+	}
+
+	public void setPies64(String pies64) {
+		this.pies64 = pies64;
+	}
+
+	public String getBars64() {
+		return bars64;
+	}
+
+	public void setBars64(String bars64) {
+		this.bars64 = bars64;
 	}
 
 }

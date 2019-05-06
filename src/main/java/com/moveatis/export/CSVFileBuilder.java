@@ -38,8 +38,10 @@ import com.moveatis.records.RecordEntity;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import org.slf4j.Logger;
@@ -175,6 +177,7 @@ public class CSVFileBuilder {
 		csv.newLine();
 		
 		csv.add("Attribute").add("Value").newLine();
+		csv.newLine();
 		csv.add("name").add(ana.getName()).newLine();
 		csv.add("target").add(ana.getTarget()).newLine();
 		csv.add("description").add(ana.getDescription()).newLine();
@@ -184,17 +187,16 @@ public class CSVFileBuilder {
         csv.add("Summary").newLine();
         csv.newLine();
         
-        csv.add("Category").add("Count").add("Count %").newLine();
-        
         for(TableInformation ti : tableInformations){
-        	String str = Integer.toString(ti.getCategories().size());
-        	csv.add(ti.getFeedbackAnalysisCategorySet()).add(str).newLine();
+        	csv.add("Category set");
+        	csv.add(ti.getFeedbackAnalysisCategorySet());
+        	csv.newLine();
+        	csv.add("Category").add("Count").add("Count %").newLine();
         	for(int i = 0; i < ti.getCategories().size(); i++){
         		csv.add(ti.getCategories().get(i).toString());
-        	}
-        	csv.newLine();
-        	for(int j = 0; j < ti.getCounts().size(); j++){
-        		csv.add(ti.getCounts().get(j).toString()).add(countPercentage(ti.getCounts().get(j), ana)).add(" %");
+        		csv.add(ti.getCounts().get(i).toString());
+        		csv.add(countPercentage(ti.getCounts().get(i), ana));
+        		csv.newLine();
         	}
         	csv.newLine();
         }
@@ -202,10 +204,11 @@ public class CSVFileBuilder {
 	}
 	
 	public String countPercentage(int count, FeedbackAnalyzationEntity feedbackAnalyzation) {
-		DecimalFormat df=new DecimalFormat("#.#");
+		Locale locale  = new Locale("en", "UK");
+		String pattern = "##.##";
+		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+		df.applyPattern(pattern);
 		return df.format(100*(double)count/(double)feedbackAnalyzation.getRecords().size());
 	}
-    
-    
     
 }
