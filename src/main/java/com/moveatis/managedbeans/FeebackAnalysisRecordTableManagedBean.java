@@ -39,6 +39,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -59,9 +60,13 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  */
 
 @Named(value = "analysisRecordTable")
-@SessionScoped
+@ViewScoped
 public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 	private FeedbackAnalysisRecordEntity selectedRow;
@@ -103,7 +108,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 			}
 		}
 
-		return "empty";
+		return "------------";
 	}
 
 	/**

@@ -16,6 +16,9 @@
 
 		<ui:define name="mainpage">
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript library="js" name="feedbackanalysissummary.js" />
+			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
+			<h:outputScript library="js" name="html2canvas.min.js" />
 			<h:outputScript>
     		function chartExtenderHideTicks() {   
 this.cfg.grid = {         
@@ -42,89 +45,98 @@ this.cfg.grid = {
     shadow: false
 };}
 			</h:outputScript>
-
-			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
 			<h1>#{msg.ana_title} :
 				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
 			<div id="container">
-				<table class="summaryTable">
-					<ui:repeat
-						value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
-						var="tableInformation">
-						<tr>
-							<td>
-								<table class="summaryTable">
-									<tr>
-										<th>#{tableInformation.feedbackAnalysisCategorySet}</th>
-										<th>Osuus</th>
-									</tr>
-									<ui:repeat var="cat" value="#{tableInformation.categories}"
-										varStatus="stat">
+				<div id="tableImage">
+					<table class="summaryTable">
+						<ui:repeat
+							value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+							var="tableInformation">
+							<tr>
+								<td>
+									<table class="summaryTable">
 										<tr>
-											<td style="width:30%">#{cat}</td>
-											<td>#{tableInformation.counts.get(stat.index)}
-												(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
-												%)</td>
+											<th>#{tableInformation.feedbackAnalysisCategorySet}</th>
+											<th>Osuus</th>
 										</tr>
-									</ui:repeat>
-								</table>
-							</td>
-						</tr>
-					</ui:repeat>
+										<ui:repeat var="cat" value="#{tableInformation.categories}"
+											varStatus="stat">
+											<tr>
+												<td style="width: 30%">#{cat}</td>
+												<td>#{tableInformation.counts.get(stat.index)}
+													(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
+													%)</td>
+											</tr>
+										</ui:repeat>
+									</table>
+								</td>
+							</tr>
+						</ui:repeat>
 
-				</table>
+					</table>
+				</div>
+
 
 				<h:form id="charts">
 					<p:selectBooleanCheckbox
-						value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}">
-						Barchart
+						value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+						id="barChart">Barchart
 			<p:ajax update="charts" />
 					</p:selectBooleanCheckbox>
 					<p:selectBooleanCheckbox
-						value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}">
-						Piechart
+						value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+						id="pieChart">Piechart
 			<p:ajax update="charts" />
 					</p:selectBooleanCheckbox>
 					<h:panelGroup
 						rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
 						layout="block" id="barModels">
-						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.barModels}"
-							var="barModel">
-							<span id="barchart"> <p:chart class="chart"
-									type="bar" model="#{barModel}"
-									style="margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em" />
-							</span>
-						</ui:repeat>
+						<div id="barchartimage">
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.barModels}"
+								var="barModel" varStatus="myVarStatus">
+								<span id="barchart"> <p:chart class="chart" type="bar"
+										model="#{barModel}"
+										style="margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
+										widgetVar="barchart#{myVarStatus.index}" />
+								</span>
+							</ui:repeat>
+						</div>
 						<p:separator />
 					</h:panelGroup>
-
 					<br />
 					<h:panelGroup
 						rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
 						id="pieModels">
-						<ui:repeat value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
-							var="pieModel">
-							<span id="piechart"> <p:chart class="chart" type="pie"
-									model="#{pieModel}"
-									style="width:300px; height:300px; margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em" />
-							</span>
-						</ui:repeat>
+						<div id="piechartimage">
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
+								var="pieModel" varStatus="myVarStatus">
+								<span id="piechart"> <p:chart class="chart" type="pie"
+										model="#{pieModel}"
+										style="width:300px; height:300px; margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
+										widgetVar="piechart#{myVarStatus.index}" />
+								</span>
+							</ui:repeat>
+						</div>
 						<p:separator />
 					</h:panelGroup>
 				</h:form>
+
 
 				<div id="hiddenButtons">
 					<h:form>
 						<p:commandButton value="#{msg.dlg_saveAndSend}"
 							rendered="#{sessionBean.identifiedUser}" styleClass="save-button"
-							onclick="PF('dlgSave').show();" process="@this">
+							onclick="sendImages(); PF('dlgSave').show();" process="@this">
 							<p:ajax update=":saveForm" resetValues="true" />
 						</p:commandButton>
 
 						<p:commandButton value="#{msg.dlg_saveDialogHeader}"
 							rendered="#{!sessionBean.identifiedUser}"
-							styleClass="save-button" onclick="PF('dlgSave').show();"
-							process="@this">
+							styleClass="save-button"
+							onclick="sendImages(); PF('dlgSave').show();" process="@this">
 							<p:ajax update=":saveForm" resetValues="true" />
 						</p:commandButton>
 					</h:form>
@@ -137,10 +149,10 @@ this.cfg.grid = {
 					styleClass="coloredDialog">
 					<h:form id="saveForm" styleClass="dialog-form ui-fluid">
 						<p:selectManyCheckbox id="basic"
-							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}"
 							rendered="#{sessionBean.identifiedUser}" columns="1"
-							required="true" requiredMessage="" layout="grid">
-							<p:ajax update="input-email" process="basic" />
+							required="true" requiredMessage="" layout="grid"
+							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
+							<p:ajax update="input-email" />
 							<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
 								itemDisabled="#{!sessionBean.identifiedUser}" />
 							<f:selectItem itemLabel="#{msg.dlg_imageOption}"
@@ -152,7 +164,8 @@ this.cfg.grid = {
 						</p:selectManyCheckbox>
 						<p:selectManyCheckbox id="anonymityUserBoxes"
 							rendered="#{!sessionBean.identifiedUser}" columns="1"
-							required="true" requiredMessage="" layout="grid">
+							required="true" requiredMessage="" layout="grid"
+							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
 							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 							<f:selectItem itemLabel="#{msg.dlg_imageOption}"
@@ -184,6 +197,7 @@ this.cfg.grid = {
 							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.target}"
 							validator="#{validationBean.validateShortString}" />
 
+
 						<p:outputPanel rendered="#{sessionBean.identifiedUser}">
 							<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
 							<p:message for="input-email" />
@@ -198,18 +212,24 @@ this.cfg.grid = {
 							</p:inputText>
 						</p:outputPanel>
 						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-							action="#{feedbackAnalysisSummaryManagedBean.save()}"
-							rendered="#{sessionBean.identifiedUser}" ajax="false"
-							validateClient="true" />
-						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-							action="#{feedbackAnalysisSummaryManagedBean.save()}"
-							rendered="#{!sessionBean.identifiedUser}" ajax="false"
-							validateClient="true" />
+							ajax="false" validateClient="true"
+							action="#{feedbackAnalysisSummaryManagedBean.save}"
+							update="hiddenFunctionality" />
 						<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 							onclick="PF('dlgSave').hide();" />
 					</h:form>
 				</p:dialog>
 
+				<h:panelGroup id="hiddenFunctionality">
+					<p:outputPanel id="barimages"></p:outputPanel>
+					<p:outputPanel id="pieimages"></p:outputPanel>
+					<div id="chartCountDiv">
+						<h:outputText
+							value="#{feedbackAnalysisSummaryManagedBean.pieModels.size()}"
+							id="chartCount" style="display:block" />
+					</div>
+					<h:outputText value="#{feedackAnalysisSummaryManagedBean.testCSV}" />
+				</h:panelGroup>
 				<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 					showDetail="true" sticky="true" escape="false" />
 

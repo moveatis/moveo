@@ -30,18 +30,34 @@
  */
 package com.moveatis.managedbeans;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -50,9 +66,13 @@ import org.primefaces.model.chart.PieChartModel;
 import static org.primefaces.model.chart.LegendPlacement.OUTSIDE;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.helpers.ZIPFileMaker;
+import com.moveatis.interfaces.Mailer;
+import com.moveatis.mail.MailerBean;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 /**
@@ -130,13 +150,17 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private boolean renderPieChart = false;
 
 	private boolean renderBarChart = false;
-	
+
 	private final String SAVETODATABASE = "save";
-	
+
+	private final String DOWNLOAD = "download";
+
 	private final String SAVEASIMAGE = "image";
-	
+
+	private final String EMAIL = "mail";
+
 	private String emailAddress;
-	
+
 	private List<String> selectedSaveOperations;
 
 	@Inject
@@ -157,7 +181,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public void setSelectedSaveOperations(List<String> selectedSaveOperations) {
 		this.selectedSaveOperations = selectedSaveOperations;
 	}
-	
+
 	public boolean isRenderPieChart() {
 		return renderPieChart;
 	}
@@ -217,16 +241,147 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public FeedbackAnalysisSummaryManagedBean() {
 
 	}
-	
+
 	public boolean isSelected(String saveOperation) {
-		for(String s : selectedSaveOperations)
-			if(s.contentEquals(saveOperation))return true;
+		for (String s : selectedSaveOperations)
+			if (s.contentEquals(saveOperation))
+				return true;
 		return false;
 	}
-	
-	public void save() {
-		if(isSelected(SAVETODATABASE))
+
+	@Inject
+	private Mailer mailerEJB;
+
+	public void mail(List<File> files) {
+		File[] filesArray = files.toArray(new File[files.size()]);
+		FacesContext context = FacesContext.getCurrentInstance();
+		String recipients[] = { emailAddress };
+		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
+
+		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis", "Analysis results from Moveatis",
+				filesArray);
+	}
+
+	public void save() throws IOException {
+		List<File> files = new ArrayList<>();
+		String fileName = feedbackAnalyzation.getName();
+		fileName.replaceAll("\\W", "_");
+		if (isSelected(SAVEASIMAGE) ) {
+			addImages(files, fileName);
+		}
+		if (isSelected(DOWNLOAD)) {
+			files.add(createCSV(fileName));
+		}
+		if (isSelected(SAVETODATABASE)) {
 			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
+		}
+		if (isSelected(DOWNLOAD) || isSelected(SAVEASIMAGE)) {
+			File zipFile = downloadZip(files);
+			zipFile.delete();
+		}
+		if (isSelected(EMAIL)) {
+			if(!isSelected(SAVEASIMAGE)) {
+				addImages(files, fileName);
+			}
+			if(!isSelected(DOWNLOAD))
+				files.add(createCSV(fileName));
+			mail(files);
+		}
+		for (File file : files)
+			file.delete();
+	}
+
+	private void addImages(List<File> files, String fileName) {
+		if (renderBarChart)
+			files.add(getImage(fileName + "_bar", feedbackAnalyzationManagedBean.getBarImage()));
+		if (renderPieChart)
+			files.add(getImage(fileName + "_pie", feedbackAnalyzationManagedBean.getPieImage()));
+		files.add(getImage(fileName + "_table", feedbackAnalyzationManagedBean.getTableImage()));
+	}
+
+	private File downloadZip(List<File> files) {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		ExternalContext ec = fc.getExternalContext();
+
+		ec.responseReset();
+
+		ec.setResponseContentType("application/zip");
+		File zipFile = ZIPFileMaker.makeZipFile(files);
+		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + zipFile.getName() + "\"");
+		try {
+			OutputStream outputStream = ec.getResponseOutputStream();
+			FileInputStream input = new FileInputStream(zipFile);
+			byte[] buffer = new byte[1024];
+
+			while ((input.read(buffer)) != -1) {
+				outputStream.write(buffer);
+			}
+
+			outputStream.flush();
+			input.close();
+			fc.responseComplete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return zipFile;
+	}
+
+	private File getImage(String filename, byte img_bytes[]) {
+		ByteArrayInputStream bis = new ByteArrayInputStream(img_bytes);
+		BufferedImage image;
+		File outputfile = null;
+		try {
+			image = ImageIO.read(bis);
+			bis.close();
+			outputfile = File.createTempFile(filename, ".png");
+			ImageIO.write(image, "png", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return outputfile;
+	}
+
+	/**
+	 * File name converter.
+	 */
+	private static String convertToFilename(String s) {
+		if (s == null || s.isEmpty()) {
+			return "unnamed";
+		}
+		return s.replaceAll("[^a-zA-Z0-9_]", "_");
+	}
+
+	public File createCSV(String fileName) {
+		StringBuilder sb = new StringBuilder();
+		for (TableInformation ti : tableInformations) {
+			sb.append(ti.feedbackAnalysisCategorySet);
+			sb.append(", n");
+			sb.append(", %");
+			sb.append("\n");
+			for (int i = 0; i < ti.categories.size(); i++) {
+				sb.append(ti.categories.get(i).toString());
+				sb.append(", ");
+				sb.append(ti.counts.get(i).toString());
+				sb.append(", ");
+				sb.append(countPercentage(ti.counts.get(i))+"%");
+				sb.append("\n");
+			}
+			sb.append("\n");
+		}
+
+		BufferedWriter writer = null;
+		File csvFile = null;
+		try {
+			csvFile = File.createTempFile(fileName, ".csv");
+			writer = new BufferedWriter(new FileWriter(csvFile));
+			writer.write(sb.toString());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return csvFile;
+
 	}
 
 	/**
@@ -234,13 +389,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	 */
 	@PostConstruct
 	public void init() {
-		selectedSaveOperations=new ArrayList<>();
+		selectedSaveOperations = new ArrayList<>();
 		initSummary();
 	}
-	
+
 	public String countPercentage(int count) {
-		DecimalFormat df=new DecimalFormat("#.#");
-		return df.format(100*(double)count/(double)feedbackAnalyzation.getRecords().size());
+		DecimalFormat df = new DecimalFormat("#.#");
+		return df.format(100 * (double) count / (double) feedbackAnalyzation.getRecords().size());
 	}
 
 	/**
@@ -297,19 +452,25 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);
 			pieModel.setLegendPosition("s");
-			
+			pieModel.setShowDatatip(false);
+			pieModel.setMouseoverHighlight(false);
+
 			barModel.setBarWidth(50);
 			barModel.setTitle(catSet.getLabel());
 			barModel.setStacked(true);
 			barModel.setLegendPlacement(OUTSIDE);
 			barModel.setLegendPosition("s");
+			barModel.setShowDatatip(false);
+			barModel.setMouseoverHighlight(false);
 			Axis yAxis = barModel.getAxis(AxisType.Y);
 			yAxis.setMin(0);
 			yAxis.setTickFormat("%3d");
 			yAxis.setTickInterval("1");
 			yAxis.setMax(maxAxis);
-			if(catSet!=categorySetsInUse.get(0))barModel.setExtender("chartExtenderHideTicks");
-			else barModel.setExtender("chartExtender");
+			if (catSet != categorySetsInUse.get(0))
+				barModel.setExtender("chartExtenderHideTicks");
+			else
+				barModel.setExtender("chartExtender");
 
 			barModels.add(barModel);
 			pieModels.add(pieModel);
@@ -320,12 +481,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		this.pieModels = pieModels;
 		this.tableInformations = tableInformations;
 	}
-	
+
 	public int countMaxCategories() {
-		int max=0;
-		for (FeedbackAnalysisCategorySetEntity catSet:categorySetsInUse)
-			if(catSet.getCategoryEntitys().size()>max)
-				max=catSet.getCategoryEntitys().size();
-		return max+1;
+		int max = 0;
+		for (FeedbackAnalysisCategorySetEntity catSet : categorySetsInUse)
+			if (catSet.getCategoryEntitys().size() > max)
+				max = catSet.getCategoryEntitys().size();
+		return max + 1;
 	}
+
 }
