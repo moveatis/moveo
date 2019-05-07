@@ -413,11 +413,11 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			}
 			if (maxAxis > fullcount) {
 				ChartSeries empty = new ChartSeries();
-				empty.setLabel("empty");
+				empty.setLabel("------");
 				empty.set(catSet.getLabel(), maxAxis - fullcount);
 				barModel.addSeries(empty);
-				pieModel.set("empty", maxAxis - fullcount);
-				tableInformation.addCategoryWithCount("empty", maxAxis - fullcount);
+				pieModel.set("------", maxAxis - fullcount);
+				tableInformation.addCategoryWithCount("------", maxAxis - fullcount);
 			}
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);

@@ -99,6 +99,7 @@
 				</div>
 				<div id="basicContent">
 					<div id="textArea">
+						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalyzationManagedBean.currentRecord.comment}"
 							pt:placeholder="Kirjaa palaute tähän." validator="#{validationBean.validateLongString}">
@@ -115,6 +116,7 @@
 						<p:commandButton id="continue" value="#{msg.ana_continue}"
 							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
 					</div>
+
 				</div>
 			</h:form>
 			<p:dialog widgetVar="dlgTimeSlider" position="top" resizable="false"

@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,6 +80,9 @@ body {
 .summaryTable {
 	border-collapse: collapse;
 	width: 100%;
+	border: 0;
+	border-collapse: collapse;
+	margin-top:1em;
 }
 
 .summaryTable td, .summaryTable th {
@@ -113,6 +116,26 @@ body {
 	padding-bottom: 1em;
 }
 
+#bar_div {
+	margin-top: 1em;
+	background: white;
+	display: inline-block;
+	border: 1px solid black;
+	text-align: left;
+    white-space: nowrap;
+    overflow-x:scroll;
+    max-width: 90%;
+}
+
+#charts_div {
+	text-align: left;
+}
+
+#chartsHeader {
+	font-weight: bold;
+	margin-bottom: 0.3em;
+}
+
 .chart {
 	display:inline-block;
 	width: 6.25em;
@@ -133,7 +156,40 @@ table.jqplot-table-legend td{
   max-width: 6.25em;
 }
 
+#saveForm {
+	text-align: left!important;
+}
+
 
 #pieModels canvas {
 	width: 18.75em;
+}
+
+#hiddenButtons {
+	text-align: right;
+	margin-right: 1.5em;
+}
+
+@media (max-width: 570px) {
+#container {
+	width: 80%;
+}
+
+#bar_div {
+	font-size: 0.8em;
+	padding: 0.5em;
+}
+}
+
+@media (max-width: 400px) {
+#container {
+	width: 90%;
+	font-size: 0.8em;
+}
+
+#bar_div {
+	font-size: 1em;
+	padding: 3em;
+    width:70%;
+}
 }

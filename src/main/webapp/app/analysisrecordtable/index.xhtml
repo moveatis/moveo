@@ -16,7 +16,7 @@
 			<h:outputScript library="js" name="html2canvas.min.js" />
 			<h:outputStylesheet library="css" name="analysisrecordtable.css" />
 			<h:outputScript library="js" name="analysisrecordtable.js" />
-			<h:outputScript library="js" name="table2csv.js" />
+			<h1>#{msg.repo_title}</h1>
 			<div id="container">
 				<div id="content">
 					<ui:debug hotkey="x" />
@@ -26,50 +26,41 @@
 						value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
 						var="record" sortBy="#{record.orderNumber}"
 						rowStyleClass="datatable" resizableColumns="true"
-						liveResize="false" resizeMode="expand">
-						<p:column headerText="Nro">
-							<h:outputText value="#{record.orderNumber}" />
+						liveResize="false" styleClass="entries_dt" reflow="true">
+						<p:column headerText="#{msg.repo_nro}">
+							<h:outputText class="tContent" value="#{record.orderNumber}" />
 						</p:column>
-						<p:column headerText="Sanallinen Palaute" id="givenFeedback">
-							<h:outputText value="#{record.comment}" />
+						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback">
+							<h:outputText class="tContent" value="#{record.comment}" />
 						</p:column>
 						<c:forEach
 							items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
 							<p:column headerText="#{categorySet.label}">
-								<h:outputText
+								<h:outputText class="tContent"
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
-						<p:column headerText="Ajankohta">
+						<p:column headerText="#{msg.repo_timestamp}">
 							<h:outputText
-								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}" />
+								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}"
+								class="tContent" />
 						</p:column>
-						<p:column exportable="false" headerText="Delete"
+						<p:column headerText="#{msg.repo_edit}" exportable="false"
 							data-html2canvas-ignore="true">
-							<p:commandButton
-								action="#{analysisRecordTable.delete(record.orderNumber)}"
-								id="deleteButton" update="entries reportButtons"
-								icon="fa fa-trash" />
+							<span class="tContent"><p:commandButton id="editButton"
+									icon="fa fa-pencil"
+									action="#{analysisRecordTable.edit(record.orderNumber)}" /></span>
 						</p:column>
-						<p:column headerText="Edit" exportable="false"
+						<p:column exportable="false" headerText="#{msg.repo_delete}"
 							data-html2canvas-ignore="true">
-							<p:commandButton id="editButton" icon="fa fa-pencil"
-								action="#{analysisRecordTable.edit(record.orderNumber)}" />
+							<span class="tContent"><p:commandButton
+									action="#{analysisRecordTable.delete(record.orderNumber)}"
+									id="deleteButton" update="entries" icon="fa fa-trash" /></span>
 						</p:column>
 					</p:dataTable>
 				</div>
-				<p:dialog header="Info" widgetVar="rowDialog" modal="true"
-					showEffect="fade" hideEffect="fade" resizable="false">
-					<p:outputPanel id="rowDetail">
-						<p:panelGrid columns="2"
-							rendered="#{not empty analysisRecordTable.selectedRow}"
-							columnClasses="label,value">
-							<h:outputText value="Kommentti:" />
-							<h:outputText value="#{analysisRecordTable.selectedRow.comment}" />
-						</p:panelGrid>
-					</p:outputPanel>
-				</p:dialog>
+
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Yes" type="button"
 						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
@@ -87,8 +78,6 @@
 						<p:commandButton value="Lataa kuva" ajax="false" action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
 					</h:form>
 
-					<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-						showDetail="true" escape="false" />
 
 					<p:commandButton value="Continue to Summary"
 						action="#{feedbackAnalyzationManagedBean.toSummary()}"
@@ -135,10 +124,13 @@
 				</h:form>
 			</p:dialog>
 
+			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+				showDetail="true" sticky="true" escape="false" />
+
 			<p:confirmDialog global="true">
-				<p:commandButton styleClass="ui-confirmdialog-yes" value="Yes"
+				<p:commandButton styleClass="ui-confirmdialog-yes" value="#{msg.repo_yes}"
 					type="button" />
-				<p:commandButton styleClass="ui-confirmdialog-no" value="No"
+				<p:commandButton styleClass="ui-confirmdialog-no" value="#{msg.repo_no}"
 					type="button" />
 			</p:confirmDialog>
 		</ui:define>

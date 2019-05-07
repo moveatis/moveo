@@ -58,6 +58,7 @@ body {
 }
 
 #timer_div {
+	padding-top: 1em;
 	padding-bottom: 1em;
 
 }
@@ -75,11 +76,20 @@ body {
 
 #timer_span {
 	font-size: 2em;
+	display: inline-block;
+	position:relative;
+	vertical-align: middle;
 
 }
 
 #pause_span {
 	padding-left: 0.8em;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+#pause_span button {
+
 }
 
 #timestamp_div {
