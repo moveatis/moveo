@@ -41,19 +41,6 @@ html {
 	padding: 0;
 }
 
-body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	font-size: 100%;
-	color: black;
-	background-color: #FEFEFE;
-	background-image: repeating-linear-gradient( 45deg, #FCFCFC, #FCFCFC 20px, #FEFEFE 20px, #FEFEFE 40px);
-	background-size: 100%;
-	background-attachment: fixed;
-	font-family: 'Roboto', sans-serif;
-}
 
 #mainPage {
 	width: 100%;
@@ -64,40 +51,37 @@ body {
 }
 
 #container {
-	width: 100%;
-	max-width: 60em;
+	width: 90%;
 	margin: 1em;
 	padding: 0;
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background: #EFEFEF;
-	border-radius: 0.625em 0.625em 0.625em 0.625em;
-	position: relative;
+	background-color: rgb(85,102,119, 0.2);
+	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
 	z-index: 2;
 }
 
 .summaryTable {
-	border-collapse: collapse;
 	width: 100%;
 	border: 0;
 	border-collapse: collapse;
 	margin-top:1em;
 }
 
-.summaryTable td, .summaryTable th {
-	padding: 8px;
-	color: black;
+.tableheader {
+	text-align: left;
+	border-bottom: 0.1em solid #005977;
 }
 
-.summaryTable td {
-	border-top: 1px solid #005977;
-	text-align: left;
+.tableheader, .cat {
+	width: 40%;
 }
 
-.summaryTable th {
+.cat, .count {
 	text-align: left;
-	border-bottom: 0.063em solid #005977;
+	padding: 0.5em;
+	border-bottom: 0.09em solid #005977;
 }
 
 .ui-button {
@@ -149,7 +133,6 @@ body {
 }
 
 table.jqplot-table-legend td{
-  text-align:left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;	

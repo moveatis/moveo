@@ -215,7 +215,7 @@ a.new-key {
 }
 
 .link-categoryset {
-	color: white!important;
+	color: white !important;
 	text-shadow: 0.063em 0.063em 0.063em #333;
 }
 
@@ -224,8 +224,8 @@ a.new-key {
 }
 
 .ui-sortable-helper {
-	z-index: 2000!important;
-	font-size: 0.9em!important;
+	z-index: 2000 !important;
+	font-size: 0.9em !important;
 	opacity: 0.4;
 }
 
@@ -250,7 +250,7 @@ a.new-key {
 }
 
 .ui-growl {
-	z-index: 2000!important;
+	z-index: 2000 !important;
 }
 
 .categories-table {
@@ -259,7 +259,8 @@ a.new-key {
 
 #categorySetForm .ui-column-title {
 	font-size: .8em;
-	color: #777;
+	color: white;
+	text-shadow: none;
 }
 
 #categorySetForm .ui-state-highlight .ui-column-title {
@@ -267,10 +268,97 @@ a.new-key {
 }
 
 #categorySetForm .ui-row-editor>.ui-icon-close {
-	display: none!important;
+	display: none !important;
 }
 
-.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
+#categorySetForm th {
+	background: none!important;
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+#categorySetForm tr {
+	background: #008AB9!important;
+	color: white;
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+#categorySetForm  .ui-state-highlight {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	border: 0;
+}
+
+#categorySetForm .ui-state-hover {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	box-shadow: none;
+	border: 0;
+}
+
+#categorySetForm .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+
+}
+
+.observation-dialog  .ui-state-hover {
+	background-color: #FCFCFC!important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
+}
+
+
+.observation-dialog .ui-button{
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+
+}
+
+
+#feedbackAnalysisCategorySetForm th {
+	background: none!important;
+	color: white!important;
+	text-shadow: none!important;
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+#feedbackAnalysisCategorySetForm tr {
+	background: #008AB9!important;
+	color: white;
+	border: 0
+}
+
+#feedbackAnalysisCategorySetForm .ui-state-highlight {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	border: 0;
+}
+
+#feedbackAnalysisCategorySetForm .ui-state-hover {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	box-shadow: none;
+	border: 0;
+}
+
+#feedbackAnalysisCategorySetForm .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+
+}
+
+
+.categorySetCommandButtons {
+	text-align:right!important;
+}
+
+.ui-datatable-selectable:not (.ui-row-editing ) .ui-cell-editor {
 	pointer-events: none;
 }
 
@@ -318,7 +406,9 @@ td {
 	font-size: .9em;
 }
 
-.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited, .ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover {
+.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited,
+	.ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover
+	{
 	color: #4f4f4f;
 }
 
@@ -345,13 +435,13 @@ td {
 }
 
 .ui-datatable-empty-message {
-	color: white;
+	color: #4f4f4f;
 	border-color: transparent;
-	background: #131D24;
+	background: #EFEFEF;
 }
 
 .row-editor .ui-icon-close {
-	display: none!important;
+	display: none !important;
 }
 
 .ui-selectonemenu {
@@ -400,11 +490,11 @@ td {
 }
 
 .link-observation {
-	text-decoration: underline!important;
+	text-decoration: underline !important;
 }
 
 .link-observation:hover {
-	color: #ff6600!important;
+	color: #AF2A01 !important;
 }
 
 	.ui-confirm-dialog{
@@ -452,7 +542,7 @@ td {
 
 @media screen and (max-width: 640px) {
 	.eventGroupsTable thead {
-		display: none!important;
+		display: none !important;
 	}
 	.row-toggler-mobile {
 		display: block;
@@ -472,7 +562,8 @@ td {
 		margin-top: .6em;
 		font-size: 1.3em;
 	}
-	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove, #eventGroupsForm .column-group-keys {
+	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove,
+		#eventGroupsForm .column-group-keys {
 		display: inline-block;
 		float: none;
 		width: auto;
@@ -480,7 +571,8 @@ td {
 	#eventGroupsForm .ui-column-title, #eventGroupsForm .row-toggler {
 		display: none;
 	}
-	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
+	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input
+		{
 		margin-left: .4em;
 	}
 }

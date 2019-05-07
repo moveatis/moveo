@@ -84,53 +84,60 @@ this.cfg.grid = {
 
 
 				<h:form id="charts">
-					<p:selectBooleanCheckbox
-						value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
-						id="barChart">Barchart
+
+					<div id="charts_div">
+						<div id="chartsHeader">#{msg.fbsum_charts}</div>
+						<span id="bar"><p:selectBooleanCheckbox
+								value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+								id="barChart">Barchart
 			<p:ajax update="charts" />
-					</p:selectBooleanCheckbox>
-					<p:selectBooleanCheckbox
-						value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
-						id="pieChart">Piechart
+							</p:selectBooleanCheckbox></span> <span id="pie"> <p:selectBooleanCheckbox
+								value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+								id="pieChart">Piechart
 			<p:ajax update="charts" />
-					</p:selectBooleanCheckbox>
+							</p:selectBooleanCheckbox></span>
+					</div>
 					<h:panelGroup
 						rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
 						layout="block" id="barModels">
 						<div id="barchartimage">
-							<ui:repeat
-								value="#{feedbackAnalysisSummaryManagedBean.barModels}"
-								var="barModel" varStatus="myVarStatus">
-								<span id="barchart"> <p:chart class="chart" type="bar"
-										model="#{barModel}"
-										style="margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
-										widgetVar="barchart#{myVarStatus.index}" />
-								</span>
-							</ui:repeat>
+							<div id="bar_div">
+								<ui:repeat
+									value="#{feedbackAnalysisSummaryManagedBean.barModels}"
+									var="barModel" varStatus="myVarStatus">
+									<span id="barchart"> <p:chart class="chart" type="bar"
+											model="#{barModel}"
+											style="margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
+											widgetVar="barchart#{myVarStatus.index}" />
+									</span>
+								</ui:repeat>
+							</div>
 						</div>
 						<p:commandButton value="Lataa kuva" ajax="false"
 							action="#{feedbackAnalysisSummaryManagedBean.downloadImage('bar')}" />
 						<p:separator />
 					</h:panelGroup>
-					<br />
-					<h:panelGroup
-						rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
-						id="pieModels">
-						<div id="piechartimage">
-							<ui:repeat
-								value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
-								var="pieModel" varStatus="myVarStatus">
-								<span id="piechart"> <p:chart class="chart" type="pie"
-										model="#{pieModel}"
-										style="width:300px; height:300px; margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
-										widgetVar="piechart#{myVarStatus.index}" />
-								</span>
-							</ui:repeat>
-						</div>
-						<p:commandButton value="Lataa kuva" ajax="false"
-							action="#{feedbackAnalysisSummaryManagedBean.downloadImage('pie')}" />
-						<p:separator />
-					</h:panelGroup>
+
+					<div id="pie_div">
+						<h:panelGroup
+							rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+							id="pieModels">
+							<div id="piechartimage">
+								<ui:repeat
+									value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
+									var="pieModel" varStatus="myVarStatus">
+									<span id="piechart"> <p:chart class="chart" type="pie"
+											model="#{pieModel}"
+											style="width:300px; height:300px; margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
+											widgetVar="piechart#{myVarStatus.index}" />
+									</span>
+								</ui:repeat>
+							</div>
+							<p:commandButton value="Lataa kuva" ajax="false"
+								action="#{feedbackAnalysisSummaryManagedBean.downloadImage('pie')}" />
+							<p:separator />
+						</h:panelGroup>
+					</div>
 				</h:form>
 
 
