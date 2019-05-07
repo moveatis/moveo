@@ -95,7 +95,7 @@ body {
 #timestamp_div {
 	max-width: 100%;
 	list-style-type: none;
-	background: rgba(85, 102, 119, 0.1);
+	background: rgba(85, 102, 119, 0.2);
 	padding: 0.5em;
 	border-radius: 0.5em;
 	position: relative;
@@ -178,7 +178,7 @@ body {
 #categoryContent {
 	max-width: 100%;
 	list-style-type: none;
-	background: rgba(85, 102, 119, 0.1);
+	background: rgba(85, 102, 119, 0.2);
 	padding: 0.5em;
 	border-radius: 0.5em;
 	position: relative;

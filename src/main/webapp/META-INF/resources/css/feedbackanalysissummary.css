@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background: #E0E1E3;
+	background-color: rgb(85,102,119, 0.2);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
 	z-index: 2;
 }
@@ -137,6 +137,10 @@ table.jqplot-table-legend td{
   overflow: hidden;
   text-overflow: ellipsis;	
   max-width: 6.25em;
+}
+
+#saveForm {
+	text-align: left!important;
 }
 
 

@@ -16,8 +16,7 @@
 				<div id="timer_div">
 					<span id="timer_span"> <h:outputText id="txt_count"
 							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
-					</span> 
-				<span id="pause_span"> <p:selectBooleanButton
+					</span> <span id="pause_span"> <p:selectBooleanButton
 							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
 							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
 							offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
@@ -99,9 +98,11 @@
 				</div>
 				<div id="basicContent">
 					<div id="textArea">
+						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalyzationManagedBean.currentRecord.comment}"
-							pt:placeholder="Kirjaa palaute tähän." validator="#{validationBean.validateLongString}">
+							pt:placeholder="Kirjaa palaute tähän."
+							validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
 						</p:inputTextarea>
 					</div>

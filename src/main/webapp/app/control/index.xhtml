@@ -297,12 +297,16 @@
 					action="#{controlBean.setCreatingNewEventGroup(true)}" update="newEventGroupPanel @form" />
 			</h:form>
 			<h:form id="startObservationForm">
+			<p>
 				<p:commandButton value="#{msg.con_startObservationForEvent}" icon="fa fa-caret-square-o-right"
 					action="#{controlBean.newObservation}" styleClass="start-button"
 					disabled="#{empty controlBean.selectedEventGroup}" />
+			</p>
+			<p>
 				<p:commandButton value="#{msg.con_startAnalyzationForEvent}" icon="fa fa-caret-square-o-right"
 					action="#{controlBean.newAnalyzation}" styleClass="start-button"
 					disabled="#{empty controlBean.selectedEventGroup}" />
+			</p>
 			</h:form>
 			<p:outputPanel rendered="#{controlBean.otherObservations.size() > 0}">
 				<h2>#{msg.con_titleOtherObservations}</h2>

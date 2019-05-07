@@ -84,17 +84,18 @@ this.cfg.grid = {
 								id="barChart">#{msg.fbsum_barchart}
 			<p:ajax update="charts" />
 							</p:selectBooleanCheckbox>
-						</span> <br /><span id="pie"> <p:selectBooleanCheckbox
+						</span> <br />
+						<span id="pie"> <p:selectBooleanCheckbox
 								value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
 								id="pieChart">#{msg.fbsum_piechart}							
 					<p:ajax update="charts" />
 							</p:selectBooleanCheckbox>
 						</span>
 					</div>
-					<div id="bar_div">
-						<h:panelGroup
-							rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
-							layout="block" id="barModels">
+					<h:panelGroup
+						rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+						layout="block" id="barModels">
+						<div id="bar_div">
 							<ui:repeat
 								value="#{feedbackAnalysisSummaryManagedBean.barModels}"
 								var="barModel" varStatus="myVarStatus">
@@ -104,8 +105,8 @@ this.cfg.grid = {
 										widgetVar="barchart#{myVarStatus.index}" />
 								</span>
 							</ui:repeat>
-						</h:panelGroup>
-					</div>
+						</div>
+					</h:panelGroup>
 					<p:separator />
 					<div id="pie_div">
 						<br />
@@ -152,7 +153,8 @@ this.cfg.grid = {
 					<h:form id="saveForm" styleClass="dialog-form ui-fluid">
 						<p:selectManyCheckbox id="basic"
 							rendered="#{sessionBean.identifiedUser}" columns="1"
-							required="true" requiredMessage="" layout="grid" value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
+							required="true" requiredMessage="" layout="grid"
+							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
 							<p:ajax update="input-email" />
 							<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
 								itemDisabled="#{!sessionBean.identifiedUser}" />
@@ -165,7 +167,8 @@ this.cfg.grid = {
 						</p:selectManyCheckbox>
 						<p:selectManyCheckbox id="anonymityUserBoxes"
 							rendered="#{!sessionBean.identifiedUser}" columns="1"
-							required="true" requiredMessage="" layout="grid" value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
+							required="true" requiredMessage="" layout="grid"
+							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
 							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 							<f:selectItem itemLabel="#{msg.dlg_imageOption}"

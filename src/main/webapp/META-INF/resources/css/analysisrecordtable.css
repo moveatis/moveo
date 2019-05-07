@@ -57,7 +57,7 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background: #E0E1E3;
+	background:#D0D3D7;
 	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
 	z-index: 2;
 }
@@ -282,14 +282,6 @@ tbody {
 
 #container {
 	width: 85%;
-	margin: 1em;
-	padding: 0;
-	display: inline-block;
-	font-size: 1.1em;
-	padding: .5em .5em;
-	background: #E0E1E3;
-	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
-	z-index: 2;
 }
 
 

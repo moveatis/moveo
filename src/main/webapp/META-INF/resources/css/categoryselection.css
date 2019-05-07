@@ -150,9 +150,14 @@
 	display: inline-block;
 	vertical-align: top;
 	margin: 0 0.625em 1em 0;
-	background-color: rgb(85,102,119, 0.1);
+	background-color: rgb(85,102,119, 0.2);
 	border-radius: 0.625em;
 	padding: 0.625em;
+}
+
+
+.ui-selectonemenu-items .ui-state-highlight{
+		background: #008AB9!important;
 }
 
 .category-set h2 {
