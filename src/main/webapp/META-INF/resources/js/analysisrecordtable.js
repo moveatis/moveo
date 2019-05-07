@@ -19,6 +19,43 @@ function save() {
 
 }
 
+
+$(document).ready(function(){sendImageAndCSV();});
+
+function sendImageAndCSV() {
+	$('#entries table').each(function() {
+		var $table = $(this);
+		var csv = $table.table2CSV({
+			delivery : 'value'
+		});
+		sendData(csv,"csv")
+	});
+	html2canvas(document.getElementById('dataTableImage')).then(
+			function(canvas) {
+				URI = canvas.toDataURL();
+				sendData("reporttable,"+URI, "image")
+				}
+			)	
+}
+
+function sendData(URI,page) {
+	$.ajax({
+		url : "../../webapi/summary/"+page,
+		type : "POST",
+		dataType : "text",
+		contentType : "text/plain",
+		cache : false,
+		data : URI,
+		success : function(data) {
+
+		},
+		error : function(xhr, status, error) {
+			showError(msg.obs_errorCouldntSendData + ": " + error);
+			this_.waiting = false;
+		}
+	});
+}
+
 function saveAsCsv() {
 	document.getElementById('saveForm:csvButton').click();
 }

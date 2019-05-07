@@ -1,19 +1,13 @@
 package com.moveatis.restful;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
-import javax.ejb.Stateful;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -22,7 +16,7 @@ import com.moveatis.managedbeans.ObservationManagedBean;
 import com.moveatis.managedbeans.SummaryManagedBean;
 
 @Path("/summary")
-public class ImageListener implements Serializable {
+public class DataReceiver implements Serializable {
 
 	/**
 	 * 
@@ -55,6 +49,15 @@ public class ImageListener implements Serializable {
 			feedbackAnalyzationManagedBean.setBarImage(img);
 		if (info[0].equals("analtable")) 
 			feedbackAnalyzationManagedBean.setTableImage(img);
+		if (info[0].equals("reporttable")) 
+			feedbackAnalyzationManagedBean.setReportImage(img);
+	}
+	
+	@POST
+	@Path("csv")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void receiveCSV(String data){
+		feedbackAnalyzationManagedBean.setReportCSV(data);				
 	}
 
 }

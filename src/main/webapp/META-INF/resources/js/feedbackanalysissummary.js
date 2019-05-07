@@ -86,8 +86,9 @@ function sendImages() {
 		sendImage(URI)
 	});}catch(err){		
 	}
-
 }
+
+$(document).ready(function(){sendImages();});
 
 
 function saveAsImage(dataURL) {

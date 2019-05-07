@@ -30,7 +30,7 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.export.CSVFileBuilder;
-import com.moveatis.helpers.ZIPFileMaker;
+import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.Mailer;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
@@ -40,14 +40,7 @@ import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -101,7 +94,6 @@ public class SummaryManagedBean implements Serializable {
 	private static final String MAIL_OPTION = "mail";
 	private static final String SAVE_OPTION = "save";
 	private static final String DOWNLOAD_OPTION = "download";
-	private static final String IMAGE_OPTION = "image";
 
 	private boolean observationSaved = false;
 
@@ -230,7 +222,7 @@ public class SummaryManagedBean implements Serializable {
 				.append(targetPartOfMessage).append("\n\n").append(bundle.getString("emailSignature"));
 		File f = getCSV(fileName);
 		String[] recipients = { recipientEmail };
-		File img = getImage(fileName);
+		File img = DownloadTools.getImageFromByteArr(fileName,observationManagedBean.getImage());
 		File[] files = { f, img };
 		mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(),
 				files);
@@ -238,6 +230,38 @@ public class SummaryManagedBean implements Serializable {
 		f.delete(); // TODO: Check the return value.
 		img.delete();
 		observationSaved = true;
+	}
+
+    public void downloadCurrentObservation() throws IOException {
+        String fileName = convertToFilename(observation.getName()) + ".csv";
+
+        FacesContext facesCtx = FacesContext.getCurrentInstance();
+        ExternalContext externalCtx = facesCtx.getExternalContext();
+
+        externalCtx.responseReset();
+        externalCtx.setResponseContentType("text/plain");
+        externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+        OutputStream outputStream = externalCtx.getResponseOutputStream();
+
+        CSVFileBuilder csv = new CSVFileBuilder();
+        csv.buildCSV(outputStream, observation, ",");
+        outputStream.flush();
+
+        facesCtx.responseComplete();
+
+        observationSaved = true;
+    }
+
+
+	/**
+	 * File name converter.
+	 */
+	private static String convertToFilename(String s) {
+		if (s == null || s.isEmpty()) {
+			return "unnamed";
+		}
+		return s.replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 
 	private File getCSV(String fileName) {
@@ -258,27 +282,18 @@ public class SummaryManagedBean implements Serializable {
 	}
 
 	/**
-	 * File name converter.
-	 */
-	private static String convertToFilename(String s) {
-		if (s == null || s.isEmpty()) {
-			return "unnamed";
-		}
-		return s.replaceAll("[^a-zA-Z0-9_]", "_");
-	}
-
-
-	/**
 	 * Do all the save operations selected by the user.
 	 */
 	public void doSelectedSaveOperation() {
 		String fileName = convertToFilename(observation.getName());
 		List<File> files=new ArrayList<>();
 		if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
-			 files.add(getCSV(fileName));
-		}
-		if (selectedSaveOptions.contains(IMAGE_OPTION)) {
-			 files.add(getImage(fileName));
+			 try {
+				downloadCurrentObservation();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		if (selectedSaveOptions.contains(MAIL_OPTION)) {
@@ -287,58 +302,12 @@ public class SummaryManagedBean implements Serializable {
 		if (selectedSaveOptions.contains(SAVE_OPTION)) {
 			saveCurrentObservation();
 		}
-		
-		if (selectedSaveOptions.contains(IMAGE_OPTION)||selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
-			File zipFile=downloadZip(files);
-			for(File file:files)
-				file.delete();
-			zipFile.delete();
-		}
-
 	}
-
-	private File downloadZip(List<File> files) {
-		FacesContext fc = FacesContext.getCurrentInstance();
-		ExternalContext ec = fc.getExternalContext();
-
-		ec.responseReset();
-
-		ec.setResponseContentType("application/zip");
-		File zipFile = ZIPFileMaker.makeZipFile(files);
-		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + zipFile.getName() + "\"");
-		try {
-			OutputStream outputStream = ec.getResponseOutputStream();
-			FileInputStream input = new FileInputStream(zipFile);
-			byte[] buffer = new byte[1024];
-
-			while ((input.read(buffer)) != -1) {
-				outputStream.write(buffer);
-			}
-
-			outputStream.flush();
-			input.close();
-			fc.responseComplete();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return zipFile;
-	}
-
-	private File getImage(String filename) {
-		byte[] img_bytes = observationManagedBean.getImage();
-		ByteArrayInputStream bis = new ByteArrayInputStream(img_bytes);
-		BufferedImage image;
-		File outputfile = null;
-		try {
-			image = ImageIO.read(bis);
-			bis.close();
-			outputfile = File.createTempFile(filename, ".png");
-			ImageIO.write(image, "png", outputfile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return outputfile;
+	
+	public void downloadImage() {
+		File img=DownloadTools.getImageFromByteArr(observation.getName(), observationManagedBean.getImage());
+		DownloadTools.downloadFile(img, "image/png");
+		img.delete();
 	}
 
 	/**

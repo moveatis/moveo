@@ -122,6 +122,8 @@ $(function() {
 			hideMessages(timeline, growl);
 		}
 	});
+	
+	saveImage();
 
 	/* Disabled */
 	/*
