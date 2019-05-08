@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo JuujÃ¤rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa NykÃ¤nen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
-
 #mainPage {
 	max-width: 60em;
 	margin: 0 auto;
@@ -45,6 +44,10 @@
 	margin: 1em 0;
 }
 
+.ui-datatable-tablewrapper {
+	overflow: hidden!important;
+}
+
 #mainPage a.edit-key {
 	color: gold;
 	text-shadow: 0.063em 0.063em 0.063em #333;
@@ -53,6 +56,7 @@
 .key-dialog {
 	max-width: 12em;
 }
+
 
 a.new-key {
 	color: grey;
@@ -75,7 +79,11 @@ a.new-key {
 .ui-datatable thead th {
 	text-align: left;
 	font-size: 1em;
+	background:none;
+	border:0px;
+	box-shadow: none;
 }
+
 
 .ui-datatable .ui-row-editor span {
 	float: none;
@@ -115,6 +123,37 @@ a.new-key {
 
 .ui-row-editing .column-remove>.ui-commandlink {
 	display: block;
+}
+
+.ui-datatable-odd {
+	background:#EFEFEF;
+}
+
+.ui-datatable-even {
+	background: #EFEFEF;	
+}
+
+.ui-expanded-row-content {
+	background: #EFEFEF;
+}
+
+.ui-datalist-header {
+	background: #EFEFEF;
+	border: 0;
+	border-bottom:1px solid #4f4f4f!important;
+}
+
+.ui-datalist-content {
+	background: #EFEFEF;
+	border: 0;
+}
+
+.ui-datatable-data .ui-state-highlight {
+	background: #008AB9!important;
+}
+
+.ui-datatable-data .ui-state-hover {
+	background: #008AB9!important;
 }
 
 .row-editor .ui-icon-pencil:before {
@@ -176,7 +215,7 @@ a.new-key {
 }
 
 .link-categoryset {
-	color: white!important;
+	color: white !important;
 	text-shadow: 0.063em 0.063em 0.063em #333;
 }
 
@@ -185,17 +224,33 @@ a.new-key {
 }
 
 .ui-sortable-helper {
-	z-index: 2000!important;
-	font-size: 0.9em!important;
+	z-index: 2000 !important;
+	font-size: 0.9em !important;
 	opacity: 0.4;
 }
+
+.ui-button {
+	border: none;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+.ui-button.ui-state-active {
+	background: linear-gradient(0deg, #007096, #007AA3);
+}
+
+
 
 .row-toggler-mobile {
 	display: none;
 }
 
 .ui-growl {
-	z-index: 2000!important;
+	z-index: 2000 !important;
 }
 
 .categories-table {
@@ -204,7 +259,8 @@ a.new-key {
 
 #categorySetForm .ui-column-title {
 	font-size: .8em;
-	color: #777;
+	color: white;
+	text-shadow: none;
 }
 
 #categorySetForm .ui-state-highlight .ui-column-title {
@@ -212,12 +268,109 @@ a.new-key {
 }
 
 #categorySetForm .ui-row-editor>.ui-icon-close {
-	display: none!important;
+	display: none !important;
 }
 
-.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
+#categorySetForm th {
+	background: none!important;
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+#categorySetForm tr {
+	background: #008AB9!important;
+	color: white;
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+#categorySetForm  .ui-state-highlight {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	border: 0;
+}
+
+#categorySetForm .ui-state-hover {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	box-shadow: none;
+	border: 0;
+}
+
+#categorySetForm .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+
+}
+
+.observation-dialog  .ui-state-hover {
+	background-color: #FCFCFC!important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
+}
+
+
+.observation-dialog .ui-button{
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+
+}
+
+
+#feedbackAnalysisCategorySetForm th {
+	background: none!important;
+	color: white!important;
+	text-shadow: none!important;
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+#feedbackAnalysisCategorySetForm tr {
+	background: #008AB9!important;
+	color: white;
+	border: 0
+}
+
+#feedbackAnalysisCategorySetForm .ui-state-highlight {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	border: 0;
+}
+
+#feedbackAnalysisCategorySetForm .ui-state-hover {
+	background: #FCFCFC!important;
+	color: black;
+	text-shadow: none;
+	box-shadow: none;
+	border: 0;
+}
+
+#feedbackAnalysisCategorySetForm .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+
+}
+
+
+.categorySetCommandButtons {
+	text-align:right!important;
+}
+
+.ui-datatable-selectable:not (.ui-row-editing ) .ui-cell-editor {
 	pointer-events: none;
 }
+
+.ui-widget-content {
+	border: 0px!important;
+}
+
+td { 
+	border: 0px!important;
+}
+
+
 
 .ui-cell-editor-input {
 	pointer-events: auto;
@@ -227,7 +380,7 @@ a.new-key {
 	table-layout: auto;
 }
 
-#commandButtons>button:not(:last-of-type) {
+#commandButtons>button:not (:last-of-type ) {
 	font-size: 100%;
 }
 
@@ -253,8 +406,23 @@ a.new-key {
 	font-size: .9em;
 }
 
-.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited, .ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover {
+.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited,
+	.ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover
+	{
 	color: #4f4f4f;
+}
+
+.ui-state-highlight a.ui-commandlink:link {
+	color: #FFFFFF
+}
+
+.ui-state-highlight .list-categorysets li {
+	background: #FFFFFF;
+}
+
+.ui-state-highlight .list-categorysets a.ui-commandlink:link {
+	color: #4f4f4f!important;
+	text-shadow: none;
 }
 
 .ui-selectonemenu, .ui-inputfield {
@@ -267,13 +435,13 @@ a.new-key {
 }
 
 .ui-datatable-empty-message {
-	color: white;
+	color: #4f4f4f;
 	border-color: transparent;
-	background: #131D24;
+	background: #EFEFEF;
 }
 
 .row-editor .ui-icon-close {
-	display: none!important;
+	display: none !important;
 }
 
 .ui-selectonemenu {
@@ -322,12 +490,45 @@ a.new-key {
 }
 
 .link-observation {
-	text-decoration: underline!important;
+	text-decoration: underline !important;
 }
 
 .link-observation:hover {
-	color: #ff6600!important;
+	color: #AF2A01 !important;
 }
+
+	.ui-confirm-dialog{
+    width: 70%!important;
+    height: auto;
+    position: fixed!important;
+    top: 3em!important;
+    left: 3em!important;
+    display: none;
+    z-index: 1000005;
+	}
+
+	.ui-confirm-dialog .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+
+}
+
+	.ui-confirm-dialog .ui-state-hover {
+	background-color: #FCFCFC!important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
+
+}
+
+	.ui-confirm-dialog .ui-dialog-titlebar {
+		background:none;
+		color:white;
+		text-shadow: none;
+	}
+
+	.ui-confirm-dialog-message {
+		color: white;
+	}
+
 
 @media screen and (max-width: 800px) {
 	#mainPage {
@@ -341,7 +542,7 @@ a.new-key {
 
 @media screen and (max-width: 640px) {
 	.eventGroupsTable thead {
-		display: none!important;
+		display: none !important;
 	}
 	.row-toggler-mobile {
 		display: block;
@@ -361,7 +562,8 @@ a.new-key {
 		margin-top: .6em;
 		font-size: 1.3em;
 	}
-	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove, #eventGroupsForm .column-group-keys {
+	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove,
+		#eventGroupsForm .column-group-keys {
 		display: inline-block;
 		float: none;
 		width: auto;
@@ -369,7 +571,8 @@ a.new-key {
 	#eventGroupsForm .ui-column-title, #eventGroupsForm .row-toggler {
 		display: none;
 	}
-	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
+	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input
+		{
 		margin-left: .4em;
 	}
 }
