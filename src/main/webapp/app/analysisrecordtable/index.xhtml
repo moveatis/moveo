@@ -57,7 +57,10 @@
 							data-html2canvas-ignore="true">
 							<span class="tContent"><p:commandButton
 									action="#{analysisRecordTable.delete(record.orderNumber)}"
-									id="deleteButton" update="entries" icon="fa fa-trash" /></span>
+									id="deleteButton" update="entries" icon="fa fa-trash" oncomplete="sendImageAndCSV()">
+									<p:confirm header="#{msg.repo_confirmheader}" message="#{msg.repo_confirm}"/>
+									
+									</p:commandButton></span>
 						</p:column>
 					</p:dataTable>
 				</div>
@@ -76,7 +79,7 @@
 							onclick="PF('dlgSave').show();" process="@this">
 							<p:ajax update=":saveForm" resetValues="true" />
 						</p:commandButton>
-						<p:commandButton value="Lataa kuva" ajax="false" action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
+						<p:commandButton value="#{msg.downloadImage}"  ajax="false" action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
 					</h:form>
 
 
@@ -87,8 +90,8 @@
 					<p:commandButton value="Continue to Summary"
 						action="#{feedbackAnalyzationManagedBean.toSummary()}"
 						rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-						<p:confirm header="Continue?"
-							message="There are records with no selected categories, are you sure you want to continue?"
+						<p:confirm header="#{msg.repo_question}"
+							message="#{msg.repo_warning}"
 							icon="ui-icon-alert" />
 					</p:commandButton>
 				</h:panelGroup>

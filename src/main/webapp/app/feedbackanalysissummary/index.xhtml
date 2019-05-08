@@ -58,14 +58,14 @@ this.cfg.grid = {
 									<td>
 										<table class="summaryTable">
 											<tr>
-												<th>#{tableInformation.feedbackAnalysisCategorySet}</th>
-												<th>Osuus</th>
+												<th class="tableheader">#{tableInformation.feedbackAnalysisCategorySet}</th>
+												<th class="tableheader">#{msg.fbsum_count}</th>
 											</tr>
 											<ui:repeat var="cat" value="#{tableInformation.categories}"
 												varStatus="stat">
 												<tr>
-													<td style="width: 30%">#{cat}</td>
-													<td>#{tableInformation.counts.get(stat.index)}
+													<td style="width: 30%" class="cat">#{cat}</td>
+													<td class="count">#{tableInformation.counts.get(stat.index)}
 														(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
 														%)</td>
 												</tr>
@@ -77,7 +77,7 @@ this.cfg.grid = {
 
 						</table>
 					</div>
-					<p:commandButton value="Lataa kuva" ajax="false"
+					<p:commandButton value="#{msg.downloadImage}" ajax="false"
 						action="#{feedbackAnalysisSummaryManagedBean.downloadImage('table')}" />
 					<p:separator />
 				</h:form>
@@ -89,19 +89,19 @@ this.cfg.grid = {
 						<div id="chartsHeader">#{msg.fbsum_charts}</div>
 						<span id="bar"><p:selectBooleanCheckbox
 								value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
-								id="barChart">Barchart
+								id="barChart">#{msg.fbsum_barchart}
 			<p:ajax update="charts" />
-							</p:selectBooleanCheckbox></span> <span id="pie"> <p:selectBooleanCheckbox
+							</p:selectBooleanCheckbox></span> <br /> <span id="pie"> <p:selectBooleanCheckbox
 								value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
-								id="pieChart">Piechart
+								id="pieChart">#{msg.fbsum_piechart} 
 			<p:ajax update="charts" />
 							</p:selectBooleanCheckbox></span>
 					</div>
 					<h:panelGroup
 						rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
 						layout="block" id="barModels">
-						<div id="barchartimage">
-							<div id="bar_div">
+						<div id="bar_div">
+							<div id="barchartimage">
 								<ui:repeat
 									value="#{feedbackAnalysisSummaryManagedBean.barModels}"
 									var="barModel" varStatus="myVarStatus">
@@ -113,9 +113,11 @@ this.cfg.grid = {
 								</ui:repeat>
 							</div>
 						</div>
-						<p:commandButton value="Lataa kuva" ajax="false"
-							action="#{feedbackAnalysisSummaryManagedBean.downloadImage('bar')}" />
-						<p:separator />
+						<p>
+							<p:commandButton value="#{msg.downloadImage}" ajax="false"
+								action="#{feedbackAnalysisSummaryManagedBean.downloadImage('bar')}" />
+							<p:separator />
+						</p>
 					</h:panelGroup>
 
 					<div id="pie_div">
@@ -133,7 +135,7 @@ this.cfg.grid = {
 									</span>
 								</ui:repeat>
 							</div>
-							<p:commandButton value="Lataa kuva" ajax="false"
+							<p:commandButton value="#{msg.downloadImage}" ajax="false"
 								action="#{feedbackAnalysisSummaryManagedBean.downloadImage('pie')}" />
 							<p:separator />
 						</h:panelGroup>
@@ -222,16 +224,18 @@ this.cfg.grid = {
 							</p:inputText>
 						</p:outputPanel>
 						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-							ajax="false" validateClient="true"
-							action="#{feedbackAnalysisSummaryManagedBean.save}" />
+							ajax="false" action="#{feedbackAnalysisSummaryManagedBean.save}"
+							process="saveForm:basic saveForm:anonymityUserBoxes saveForm:input-name saveForm:input-target saveForm:input-description saveForm:input-email"
+							validateClient="true">
+						</p:commandButton>
 						<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 							onclick="PF('dlgSave').hide();" />
+
 					</h:form>
 				</p:dialog>
 
-
 				<p:growl id="growl" widgetVar="growlWdgt" severity="info"
-					showDetail="true" sticky="true" escape="false" />
+					showDetail="true" sticky="false" escape="false" />
 
 			</div>
 		</ui:define>

@@ -107,7 +107,7 @@ html {
 	border: 1px solid black;
 	text-align: left;
     white-space: nowrap;
-    overflow-x:scroll;
+    overflow-x:auto;
     max-width: 90%;
 }
 

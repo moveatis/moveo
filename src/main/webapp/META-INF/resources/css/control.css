@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
+
 #mainPage {
 	max-width: 60em;
 	margin: 0 auto;
@@ -57,7 +58,6 @@
 	max-width: 12em;
 }
 
-
 a.new-key {
 	color: grey;
 }
@@ -79,9 +79,13 @@ a.new-key {
 .ui-datatable thead th {
 	text-align: left;
 	font-size: 1em;
-	background:none;
-	border:0px;
+	background: #D0D3D7;
+	border: 0px;
 	box-shadow: none;
+}
+
+.ui-editable-column, .row-toggler, .column-category-groups, .column-group-keys, .row-editor, th:not(.column-remove){
+	border-right: 1px solid black!important;
 }
 
 
@@ -126,26 +130,28 @@ a.new-key {
 }
 
 .ui-datatable-odd {
-	background:#EFEFEF;
+	background: #D0D3D7;
 }
 
 .ui-datatable-even {
-	background: #EFEFEF;	
+	background: #EFEFEF;
 }
 
 .ui-expanded-row-content {
-	background: #EFEFEF;
+	background: #D0D3D7;
 }
 
 .ui-datalist-header {
 	background: #EFEFEF;
 	border: 0;
-	border-bottom:1px solid #4f4f4f!important;
+	border-bottom: 1px solid #4f4f4f!important;
 }
+
 
 .ui-datalist-content {
 	background: #EFEFEF;
 	border: 0;
+
 }
 
 .ui-datatable-data .ui-state-highlight {
@@ -243,8 +249,6 @@ a.new-key {
 	background: linear-gradient(0deg, #007096, #007AA3);
 }
 
-
-
 .row-toggler-mobile {
 	display: none;
 }
@@ -256,7 +260,6 @@ a.new-key {
 .categories-table {
 	margin-top: .5em;
 }
-
 #categorySetForm .ui-column-title {
 	font-size: .8em;
 	color: white;
@@ -284,7 +287,7 @@ a.new-key {
 	border-bottom: 1px solid black;
 }
 
-#categorySetForm  .ui-state-highlight {
+#categorySetForm .ui-state-highlight {
 	background: #FCFCFC!important;
 	color: black;
 	text-shadow: none;
@@ -302,21 +305,17 @@ a.new-key {
 #categorySetForm .ui-button {
 	background-color: #FCFCFC;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
-
 }
 
-.observation-dialog  .ui-state-hover {
+.observation-dialog .ui-state-hover {
 	background-color: #FCFCFC!important;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
 }
 
-
-.observation-dialog .ui-button{
+.observation-dialog .ui-button {
 	background-color: #FCFCFC;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
-
 }
-
 
 #feedbackAnalysisCategorySetForm th {
 	background: none!important;
@@ -350,15 +349,13 @@ a.new-key {
 #feedbackAnalysisCategorySetForm .ui-button {
 	background-color: #FCFCFC;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
-
 }
-
 
 .categorySetCommandButtons {
-	text-align:right!important;
+	text-align: right!important;
 }
 
-.ui-datatable-selectable:not (.ui-row-editing ) .ui-cell-editor {
+.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
 	pointer-events: none;
 }
 
@@ -366,11 +363,9 @@ a.new-key {
 	border: 0px!important;
 }
 
-td { 
+td {
 	border: 0px!important;
 }
-
-
 
 .ui-cell-editor-input {
 	pointer-events: auto;
@@ -380,7 +375,7 @@ td {
 	table-layout: auto;
 }
 
-#commandButtons>button:not (:last-of-type ) {
+#commandButtons>button:not(:last-of-type) {
 	font-size: 100%;
 }
 
@@ -406,9 +401,7 @@ td {
 	font-size: .9em;
 }
 
-.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited,
-	.ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover
-	{
+.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited, .ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover {
 	color: #4f4f4f;
 }
 
@@ -497,38 +490,35 @@ td {
 	color: #AF2A01 !important;
 }
 
-	.ui-confirm-dialog{
-    width: 70%!important;
-    height: auto;
-    position: fixed!important;
-    top: 3em!important;
-    left: 3em!important;
-    display: none;
-    z-index: 1000005;
-	}
+.ui-confirm-dialog {
+	width: 70%!important;
+	height: auto;
+	position: fixed!important;
+	top: 3em!important;
+	left: 3em!important;
+	display: none;
+	z-index: 1000005;
+}
 
-	.ui-confirm-dialog .ui-button {
+.ui-confirm-dialog .ui-button {
 	background-color: #FCFCFC;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
-
 }
 
-	.ui-confirm-dialog .ui-state-hover {
+.ui-confirm-dialog .ui-state-hover {
 	background-color: #FCFCFC!important;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
-
 }
 
-	.ui-confirm-dialog .ui-dialog-titlebar {
-		background:none;
-		color:white;
-		text-shadow: none;
-	}
+.ui-confirm-dialog .ui-dialog-titlebar {
+	background: none;
+	color: white;
+	text-shadow: none;
+}
 
-	.ui-confirm-dialog-message {
-		color: white;
-	}
-
+.ui-confirm-dialog-message {
+	color: white;
+}
 
 @media screen and (max-width: 800px) {
 	#mainPage {
@@ -562,8 +552,7 @@ td {
 		margin-top: .6em;
 		font-size: 1.3em;
 	}
-	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove,
-		#eventGroupsForm .column-group-keys {
+	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove, #eventGroupsForm .column-group-keys {
 		display: inline-block;
 		float: none;
 		width: auto;
@@ -571,8 +560,7 @@ td {
 	#eventGroupsForm .ui-column-title, #eventGroupsForm .row-toggler {
 		display: none;
 	}
-	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input
-		{
+	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
 		margin-left: .4em;
 	}
 }

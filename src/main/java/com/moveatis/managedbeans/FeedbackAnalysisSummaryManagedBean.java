@@ -50,6 +50,7 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -256,15 +257,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		String recipients[] = { emailAddress };
 		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
 
-		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis", "Analysis results from Moveatis",
-				filesArray);
+		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis",
+				"Analysis results from Moveatis", filesArray);
 	}
 
 	public void save() throws IOException {
 		List<File> files = new ArrayList<>();
 		String fileName = feedbackAnalyzation.getName();
 		fileName.replaceAll("\\W", "_");
-
 
 		if (isSelected(SAVETODATABASE)) {
 			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
@@ -276,29 +276,31 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getPieImage()));
 			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getBarImage()));
 			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getTableImage()));
-			
+
 			mail(files);
 		}
-		
-		if(isSelected(DOWNLOAD));
-			DownloadTools.downloadCSV(getCSVData().toString(),fileName);
+
+		if (isSelected(DOWNLOAD))
+			DownloadTools.downloadCSV(getCSVData().toString(), fileName);
 		for (File file : files)
 			file.delete();
 	}
 
-
-	
-	public void downloadImage(String whichFile){
+	public void downloadImage(String whichFile) {
 		byte[] raw_img = null;
-		if(whichFile.contentEquals("pie")) raw_img=	feedbackAnalyzationManagedBean.getPieImage();
-		if(whichFile.contentEquals("bar")) raw_img=	feedbackAnalyzationManagedBean.getBarImage();
-		if(whichFile.contentEquals("table"))raw_img=feedbackAnalyzationManagedBean.getTableImage();
-		File img=DownloadTools.getImageFromByteArr(feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName()+whichFile,raw_img );
+		if (whichFile.contentEquals("pie"))
+			raw_img = feedbackAnalyzationManagedBean.getPieImage();
+		if (whichFile.contentEquals("bar"))
+			raw_img = feedbackAnalyzationManagedBean.getBarImage();
+		if (whichFile.contentEquals("table"))
+			raw_img = feedbackAnalyzationManagedBean.getTableImage();
+		if (raw_img == null)
+			return;
+		File img = DownloadTools.getImageFromByteArr(
+				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName() + whichFile, raw_img);
 		DownloadTools.downloadFile(img, "image/png");
 		img.delete();
 	}
-
-
 
 	/**
 	 * File name converter.
@@ -328,12 +330,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	private StringBuilder getCSVData() {
 		StringBuilder sb = new StringBuilder();
-		
-		sb.append("Name, "+feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName()+"\n");		
-		sb.append("Target, "+feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getTarget()+"\n");
-		sb.append("Description, "+feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getDescription()+"\n");
+
+		sb.append("Name, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName() + "\n");
+		sb.append("Target, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getTarget() + "\n");
+		sb.append("Description, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getDescription()
+				+ "\n");
 		sb.append("\n\n");
-		
+
 		for (TableInformation ti : tableInformations) {
 			sb.append(ti.feedbackAnalysisCategorySet);
 			sb.append(", n");
@@ -344,7 +347,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				sb.append(", ");
 				sb.append(ti.counts.get(i).toString());
 				sb.append(", ");
-				sb.append(countPercentage(ti.counts.get(i))+"%");
+				sb.append(countPercentage(ti.counts.get(i)) + "%");
 				sb.append("\n");
 			}
 			sb.append("\n");
@@ -352,15 +355,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		sb.append(feedbackAnalyzationManagedBean.getReportCSV());
 		return sb;
 	}
-	
 
 	/**
 	 * calls the initModels function to build the summary table and the charts
 	 */
 	@PostConstruct
 	public void init() {
-		selectedSaveOperations = new ArrayList<>();
 		initSummary();
+		selectedSaveOperations=new ArrayList<>();
 	}
 
 	public String countPercentage(int count) {

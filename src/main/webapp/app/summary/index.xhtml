@@ -90,7 +90,7 @@
 								process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
-							<p:commandButton styleClass="save-button" value="Lataa kuva" action="#{summaryBean.downloadImage()}" ajax="false"/>
+							<p:commandButton styleClass="save-button" value="#{msg.downloadImage}"  action="#{summaryBean.downloadImage()}" ajax="false"/>
 						</h:form>
 					</div>
 				</div>
