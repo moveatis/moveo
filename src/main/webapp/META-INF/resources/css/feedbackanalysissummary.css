@@ -57,7 +57,7 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background-color: rgb(85,102,119, 0.2);
+	background-color: rgb(85,102,119, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
 	z-index: 2;
 }

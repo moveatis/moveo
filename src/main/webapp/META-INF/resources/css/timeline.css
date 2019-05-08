@@ -58,10 +58,9 @@
 	text-shadow: none;
 }
 
-#timeline .timeline-axis,
-#timeline .timeline-groups-axis {
+#timeline .timeline-axis, #timeline .timeline-groups-axis {
 	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);    
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
 	opacity: 1;
 }
 
@@ -75,7 +74,7 @@
 	border-top-style: dashed!important;
 }
 
-#timeline .timeline-groups-axis  > .timeline-groups-text {
+#timeline .timeline-groups-axis>.timeline-groups-text {
 	color: white;
 }
 
@@ -105,11 +104,10 @@
 	color: #008AB9;
 }
 
-#timeline .timeline-groups-text,
-#timeline .timeline-axis {
-	font-family: Arial,sans-serif;
+#timeline .timeline-groups-text, #timeline .timeline-axis {
+	font-family: Arial, sans-serif;
 }
+
 .dummyRecord {
 	display: none!important;
 }
-

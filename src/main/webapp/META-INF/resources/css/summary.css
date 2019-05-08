@@ -48,7 +48,7 @@
 #recordings-details {
 	font-size: 1.1em;
 	padding: .1em .5em;
-	background-color: rgb(85,102,119, 0.2);
+	background-color: rgb(85, 102, 119, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -145,7 +145,6 @@
 	white-space: pre;
 }
 
-
 .ui-grid-col-3 {
 	display: inline-block;
 	min-width: 10em;
@@ -164,7 +163,7 @@
 }
 
 #timelineControls>div {
-	background: rgba(42, 29, 29, 0.2) none repeat scroll 0% 0%;
+	background: rgba(42, 29, 29, 0.1) none repeat scroll 0% 0%;
 	display: inline-block;
 	padding: 0.3em 0.3em 0.5em 0.3em;
 	border-radius: 0.3em;
@@ -220,9 +219,9 @@
 }
 
 #hiddenButtons {
-margin: auto;
-text-align: right;
-padding-bottom: 0.4em;
+	margin: auto;
+	text-align: right;
+	padding-bottom: 0.4em;
 }
 
 #saveDialog {
@@ -275,7 +274,6 @@ padding-bottom: 0.4em;
 .ui-datepicker-current {
 	display: none;
 }
-
 
 .ui-datepicker-trigger:before {
 	content: "\f017";
