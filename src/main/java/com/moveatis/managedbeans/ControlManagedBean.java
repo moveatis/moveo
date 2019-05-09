@@ -472,6 +472,7 @@ public class ControlManagedBean implements Serializable {
 			eventGroupEJB.remove(eventGroup);
 			eventGroups.remove(eventGroup);
 		}
+		setSelectedEventGroup(null);
 	}
 
 	/**
@@ -592,6 +593,7 @@ public class ControlManagedBean implements Serializable {
 	 */
 	public String showAnalyzationInSummaryPage() {
 		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(selectedAnalyzation);
+		feedbackAnalyzationManagedBean.setIsTimerEnabled(selectedAnalyzation.getDuration()>0);
 		feedbackAnalyzationManagedBean
 				.setFeedbackAnalysisCategorySetsInUse(selectedAnalyzation.getFeedbackAnalysisCategorySets());
 		feedbackAnalyzationManagedBean.init();

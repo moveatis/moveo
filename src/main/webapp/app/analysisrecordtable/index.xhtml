@@ -42,7 +42,7 @@
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
-						<p:column headerText="#{msg.repo_timestamp}">
+						<p:column rendered="#{feedbackAnalyzationManagedBean.isTimerEnabled}" headerText="#{msg.repo_timestamp}">
 							<h:outputText
 								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}"
 								class="tContent" />
