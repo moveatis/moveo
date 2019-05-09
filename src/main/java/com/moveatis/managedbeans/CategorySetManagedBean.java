@@ -213,7 +213,10 @@ public class CategorySetManagedBean implements Serializable {
 		if (abstractCategorySetEntity instanceof CategorySetEntity) {
 			categorySets.add((CategorySetEntity) abstractCategorySetEntity);
 		} else if (abstractCategorySetEntity instanceof FeedbackAnalysisCategorySetEntity) {
-			feedbackAnalysisCategorySets.add((FeedbackAnalysisCategorySetEntity) abstractCategorySetEntity);
+			boolean add=true;
+			for (FeedbackAnalysisCategorySetEntity catset:feedbackAnalysisCategorySets)
+				if(catset.getId()==abstractCategorySetEntity.getId()) add=false;
+			if(add)feedbackAnalysisCategorySets.add((FeedbackAnalysisCategorySetEntity) abstractCategorySetEntity);
 		}
 		eventGroupEntity.setFeedbackAnalysisCategorySets(feedbackAnalysisCategorySets);
 		eventGroupEntity.setCategorySets(categorySets);

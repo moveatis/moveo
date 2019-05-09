@@ -44,11 +44,51 @@ if(document.getElementById('charts:pieChart_input').checked){
 	arr.push(canvas.toDataURL());
 	//document.getElementById('pieimages').innerHTML = "";
 });
+}	//exportChart3();
 }
 
+function sendImage(URI){
+	$.ajax({
+		url : "../../webapi/summary/image",
+		type : "POST",
+		dataType : "text",
+		contentType : "text/plain",
+		cache : false,
+		data : URI,
+		success : function(data) {
 
-	//exportChart3();
+		},
+		error : function(xhr, status, error) {
+			showError(msg.obs_errorCouldntSendData + ": " + error);
+			this_.waiting = false;
+		}
+	});
 }
+
+function sendImages() {
+
+	
+	html2canvas(document.getElementById('tableImage')).then(function(canvas) {
+		URI="analtable,"+canvas.toDataURL();
+		sendImage(URI)
+	});	
+	try{
+	html2canvas(document.getElementById('piechartimage')).then(function(canvas) {
+		URI="analpie,"+canvas.toDataURL();
+		sendImage(URI)
+	});
+	}catch(err){		
+	}
+	
+	try{
+	html2canvas(document.getElementById('barchartimage')).then(function(canvas) {
+		URI="analbar,"+canvas.toDataURL();
+		sendImage(URI)
+	});}catch(err){		
+	}
+}
+
+$(document).ready(function(){sendImages();});
 
 
 function saveAsImage(dataURL) {

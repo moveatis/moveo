@@ -14,13 +14,14 @@
 			<h:outputStylesheet library="css" name="analyzer.css" />
 			<h:form id="timerControls">
 				<div id="timer_div">
-					<span id="timer_span"> <h:outputText id="txt_count"
-							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
-					</span> <span id="pause_span"> <p:selectBooleanButton
+				<span id="pause_span"> <p:selectBooleanButton
 							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
 							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
 							offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
 					</span>
+					<span id="timer_span"> <h:outputText id="txt_count"
+							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
+					</span> 
 					<p:poll id="timer" interval="1"
 						listener="#{feedbackAnalyzationManagedBean.increment}"
 						update="txt_count"
@@ -101,8 +102,7 @@
 						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalyzationManagedBean.currentRecord.comment}"
-							pt:placeholder="Kirjaa palaute tähän."
-							validator="#{validationBean.validateLongString}">
+							pt:placeholder="Kirjaa palaute tähän." validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
 						</p:inputTextarea>
 					</div>
@@ -113,7 +113,7 @@
 						<p:commandButton id="empty" value="#{msg.ana_empty}"
 							action="#{feedbackAnalyzationManagedBean.resetCurrentRecord()}"
 							update=":form" />
-						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
+						<p:commandButton id="continue" value="#{msg.ana_continue}"
 							action="#{feedbackAnalyzationManagedBean.toRecordTable()}" />
 					</div>
 

@@ -30,15 +30,24 @@
  */
 package com.moveatis.managedbeans;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -50,6 +59,7 @@ import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.FeedbackAnalyzation;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
@@ -59,9 +69,13 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  */
 
 @Named(value = "analysisRecordTable")
-@SessionScoped
+@ViewScoped
 public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 	private FeedbackAnalysisRecordEntity selectedRow;
@@ -88,8 +102,10 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	/**
 	 * Gets the name of selected category from current category set
 	 * 
-	 * @param selectedCategories Users selected categories
-	 * @param categorySet        Category set in use
+	 * @param selectedCategories
+	 *            Users selected categories
+	 * @param categorySet
+	 *            Category set in use
 	 * @return name of the selected category, empty if no category is selected
 	 */
 	public String getSelectedCategorysName(List<FeedbackAnalysisCategoryEntity> selectedCategories,
@@ -109,8 +125,10 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	/**
 	 * Gets the selected category from current category set
 	 * 
-	 * @param selectedCategories Users selected categories
-	 * @param categorySet        Category set in use
+	 * @param selectedCategories
+	 *            Users selected categories
+	 * @param categorySet
+	 *            Category set in use
 	 * @return the selected category, new category if the category is not selected
 	 */
 	public FeedbackAnalysisCategoryEntity getSelectedCategory(List<FeedbackAnalysisCategoryEntity> selectedCategories,
@@ -146,7 +164,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	/**
 	 * Delete's the selected row from the datatable
 	 * 
-	 * @param record selected row
+	 * @param record
+	 *            selected row
 	 */
 	public void delete(Integer orderNumber) {
 		if (feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords().size() == 1) {
@@ -176,7 +195,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	/**
 	 * Sends the user to the analyzer page with the selected record as main record.
 	 * 
-	 * @param orderNumber order number of the selected record
+	 * @param orderNumber
+	 *            order number of the selected record
 	 * @return String that faces-config uses to control navigation
 	 */
 	public String edit(Integer orderNumber) {
@@ -193,7 +213,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	/**
 	 * Updates order numbers to records list
 	 * 
-	 * @param list users records
+	 * @param list
+	 *            users records
 	 */
 	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
 		Integer newOrderNumber = 1;
@@ -221,44 +242,12 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		this.selectedSaveOptions = selectedSaveOptions;
 	}
 
-	/**
-	 * Do all the save operations selected by the user.
-	 */
-	public void doSelectedSaveOperation() {
-		if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
-			try {
-				downloadCurrentObservation();
-			} catch (IOException e) {
-				LOGGER.error("Failed to download the observation.", e);
-			}
-		}
-		if (selectedSaveOptions.contains(IMAGE_OPTION)) {
-			// TODO: saveCurrentObservation();
-		}
-	}
-
-	/**
-	 * Downloads the feedback analyzation as csv
-	 * 
-	 * @throws IOException
-	 */
-	private void downloadCurrentObservation() throws IOException {
-		String fileName = convertToFilename(feedbackAnalyzation.getName()) + ".csv";
-
-		FacesContext facesCtx = FacesContext.getCurrentInstance();
-		ExternalContext externalCtx = facesCtx.getExternalContext();
-
-		externalCtx.responseReset();
-		externalCtx.setResponseContentType("text/plain");
-		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-
-		OutputStream outputStream = externalCtx.getResponseOutputStream();
-
-		CSVFileBuilder csv = new CSVFileBuilder();
-		csv.buildCSV(outputStream, feedbackAnalyzation, ",");
-		outputStream.flush();
-
-		facesCtx.responseComplete();
+	public void downloadImage() {
+		File img = DownloadTools.getImageFromByteArr(
+				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName()+"_report_",
+				feedbackAnalyzationManagedBean.getReportImage());
+		DownloadTools.downloadFile(img, "image/png");
+		img.delete();
 	}
 
 	/**

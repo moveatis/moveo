@@ -16,6 +16,7 @@
 			<h:outputScript library="js" name="html2canvas.min.js" />
 			<h:outputStylesheet library="css" name="analysisrecordtable.css" />
 			<h:outputScript library="js" name="analysisrecordtable.js" />
+			<h:outputScript library="js" name="table2csv.js" />
 			<h1>#{msg.repo_title}</h1>
 			<div id="container">
 				<div id="content">
@@ -56,7 +57,10 @@
 							data-html2canvas-ignore="true">
 							<span class="tContent"><p:commandButton
 									action="#{analysisRecordTable.delete(record.orderNumber)}"
-									id="deleteButton" update="entries" icon="fa fa-trash" /></span>
+									id="deleteButton" update="entries" icon="fa fa-trash" oncomplete="sendImageAndCSV()">
+									<p:confirm header="#{msg.repo_confirmheader}" message="#{msg.repo_confirm}"/>
+									
+									</p:commandButton></span>
 						</p:column>
 					</p:dataTable>
 				</div>
@@ -68,26 +72,29 @@
 						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
 				</p:confirmDialog>
 
-				<div id="reportButtons">
+				<h:panelGroup id="reportButtons">
 					<h:form id="buttons">
-						<p:commandButton value="#{msg.dlg_saveDialogHeader_report}"
-							styleClass="save-button" onclick="PF('dlgSave').show();"
-							process="@this">
+						<p:commandButton rendered="false" value="#{msg.dlg_saveDialogHeader_report}"
+							styleClass="save-button"
+							onclick="PF('dlgSave').show();" process="@this">
 							<p:ajax update=":saveForm" resetValues="true" />
 						</p:commandButton>
-
-						<p:commandButton value="#{msg.ana_continue}"
-							action="#{feedbackAnalyzationManagedBean.toSummary()}">
-							<c:if
-								test="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-								<p:confirm header="#{msg.repo_question}"
-									message="#{msg.repo_warning}" icon="ui-icon-alert" />
-							</c:if>
-						</p:commandButton>
+						<p:commandButton value="#{msg.downloadImage}"  ajax="false" action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
 					</h:form>
-				</div>
 
 
+					<p:commandButton value="Continue to Summary"
+						action="#{feedbackAnalyzationManagedBean.toSummary()}"
+						rendered="#{!feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+					</p:commandButton>
+					<p:commandButton value="Continue to Summary"
+						action="#{feedbackAnalyzationManagedBean.toSummary()}"
+						rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+						<p:confirm header="#{msg.repo_question}"
+							message="#{msg.repo_warning}"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</h:panelGroup>
 			</div>
 
 			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
@@ -96,7 +103,8 @@
 				visible="#{facesContext.validationFailed}">
 				<h:form id="saveForm" styleClass="dialog-form ui-fluid">
 					<p:selectManyCheckbox id="basic" required="true" requiredMessage=""
-						layout="grid" columns="1">
+						layout="grid" columns="1"
+						value="#{analysisRecordTable.selectedSaveOptions}">
 						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image" />
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" />
@@ -107,7 +115,8 @@
 						requiredMessage="#{msg.dlg_notEmpty}"
 						value="#{analysisRecordTable.fileName}" />
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-						onclick="save()" ajax="true" validateClient="true" />
+						action="#{analysisRecordTable.doSelectedSaveOperation()}"
+						ajax="false" validateClient="true" />
 					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 						onclick="PF('dlgSave').hide();" />
 					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
