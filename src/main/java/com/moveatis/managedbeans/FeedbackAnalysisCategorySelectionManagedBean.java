@@ -322,6 +322,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
 		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(null);
 		feedbackAnalyzationManagedBean.init();
+		feedbackAnalyzationManagedBean.setIsTimerEnabled(isTimerEnabled);
 
 		return "analysiscategoriesok";
 	}
@@ -341,6 +342,16 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 			}
 		}
 		return false;
+	}
+	
+	private boolean isTimerEnabled;
+	
+	public boolean getIsTimerEnabled() {
+		return isTimerEnabled;
+	}
+	
+	public void setIsTimerEnabled(boolean timerEnabled) {
+		isTimerEnabled=timerEnabled;
 	}
 
 	public String getNewFeedbackAnalysisCategorySetName() {

@@ -424,7 +424,6 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);
 			pieModel.setLegendPosition("s");
-			pieModel.setShowDatatip(false);
 			pieModel.setMouseoverHighlight(false);
 
 			barModel.setBarWidth(50);
@@ -432,7 +431,6 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			barModel.setStacked(true);
 			barModel.setLegendPlacement(OUTSIDE);
 			barModel.setLegendPosition("s");
-			barModel.setShowDatatip(false);
 			barModel.setMouseoverHighlight(false);
 			Axis yAxis = barModel.getAxis(AxisType.Y);
 			yAxis.setMin(0);
