@@ -155,6 +155,11 @@
 	padding: 0.625em;
 }
 
+
+.ui-selectonemenu-items .ui-state-highlight{
+		background: #008AB9!important;
+}
+
 .category-set h2 {
 	margin-top: 0;
 	white-space: nowrap;
@@ -247,4 +252,3 @@
 	margin-top: 0.3em!important;
 	}
 }
-

@@ -30,11 +30,12 @@
  */
 package com.moveatis.managedbeans;
 
-import java.awt.image.RenderedImage;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -49,14 +50,13 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.chart.Axis;
@@ -64,8 +64,6 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
-import org.primefaces.util.Base64;
-
 import static org.primefaces.model.chart.LegendPlacement.OUTSIDE;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
@@ -73,12 +71,10 @@ import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.Mailer;
-import com.moveatis.interfaces.Session;
+import com.moveatis.mail.MailerBean;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The managed bean to control the summary page
@@ -86,7 +82,7 @@ import org.slf4j.LoggerFactory;
  * @author Visa Nykänen
  */
 @Named(value = "feedbackAnalysisSummaryManagedBean")
-@SessionScoped
+@ViewScoped
 public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	/**
@@ -139,54 +135,40 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		}
 
 	}
-	
-	@Inject
-	private Session sessionBean;
-	
-	@Inject
-	private Mailer mailerEJB;
 
 	private static final long serialVersionUID = 1L;
 
 	private List<FeedbackAnalysisCategorySetEntity> categorySetsInUse;
 
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
-	
+
 	private List<BarChartModel> barModels;
 
 	private List<PieChartModel> pieModels;
 
 	private List<TableInformation> tableInformations;
 
-	private boolean renderPieChart = false;
+	private boolean renderPieChart = true;
 
-	private boolean renderBarChart = false;
-	
-	private String pies64;
-	
-	private String bars64;
-	
+	private boolean renderBarChart = true;
+
 	private final String SAVETODATABASE = "save";
-	
-	private final String DOWNLOAD= "download";
-	
-	private final String SAVEASIMAGE = "image";
-	
-	private final String MAIL = "mail";
-	
+
+	private final String DOWNLOAD = "download";
+
+	private final String EMAIL = "mail";
+
 	private String emailAddress;
-	
+
 	private List<String> selectedSaveOperations;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
-	
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 
 	public String getEmailAddress() {
 		return emailAddress;
 	}
-	
+
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
@@ -198,7 +180,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public void setSelectedSaveOperations(List<String> selectedSaveOperations) {
 		this.selectedSaveOperations = selectedSaveOperations;
 	}
-	
+
 	public boolean isRenderPieChart() {
 		return renderPieChart;
 	}
@@ -258,118 +240,68 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public FeedbackAnalysisSummaryManagedBean() {
 
 	}
-	
+
 	public boolean isSelected(String saveOperation) {
-		for(String s : selectedSaveOperations)
-			if(s.contentEquals(saveOperation))return true;
+		for (String s : selectedSaveOperations)
+			if (s.contentEquals(saveOperation))
+				return true;
 		return false;
 	}
-	
-	public void save(){
-		if(isSelected(SAVETODATABASE)){
+
+	@Inject
+	private Mailer mailerEJB;
+
+	public void mail(List<File> files) {
+		File[] filesArray = files.toArray(new File[files.size()]);
+		FacesContext context = FacesContext.getCurrentInstance();
+		String recipients[] = { emailAddress };
+		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
+
+		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis",
+				"Analysis results from Moveatis", filesArray);
+	}
+
+	public void save() throws IOException {
+		List<File> files = new ArrayList<>();
+		String fileName = feedbackAnalyzation.getName();
+		fileName.replaceAll("\\W", "_");
+
+		if (isSelected(SAVETODATABASE)) {
 			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
 		}
-		if(isSelected(DOWNLOAD)){
-				try {
-					download();
-				} catch (IOException e) {
-					LOGGER.error("Failed to download the observation.", e);
-				}
+
+		if (isSelected(EMAIL)) {
+			files.add(createCSV(fileName));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getReportImage()));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getPieImage()));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getBarImage()));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getTableImage()));
+
+			mail(files);
 		}
-		if(isSelected(SAVETODATABASE)){
-			mailAnalyzation();
-		}
-		/*if(isSelected(SAVEASIMAGE)){
-			try {
-				testSaveImage();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
+
+		if (isSelected(DOWNLOAD))
+			DownloadTools.downloadCSV(getCSVData().toString(), fileName);
+		for (File file : files)
+			file.delete();
 	}
-	
-	public void download() throws IOException {
-		String fileName = convertToFilename(this.feedbackAnalyzation.getName()) + ".csv";
-		FacesContext facesCtx = FacesContext.getCurrentInstance();
-		ExternalContext externalCtx = facesCtx.getExternalContext();
-		
-		externalCtx.responseReset();
-		externalCtx.setResponseContentType("text/plain");
-		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-		
-		OutputStream outputStream = externalCtx.getResponseOutputStream();
-		
-		CSVFileBuilder csv = new CSVFileBuilder();
-		csv.buildCSV(outputStream, tableInformations, feedbackAnalyzation, ",");
-		
-		outputStream.flush();
-		facesCtx.responseComplete();
+
+	public void downloadImage(String whichFile) {
+		byte[] raw_img = null;
+		if (whichFile.contentEquals("pie"))
+			raw_img = feedbackAnalyzationManagedBean.getPieImage();
+		if (whichFile.contentEquals("bar"))
+			raw_img = feedbackAnalyzationManagedBean.getBarImage();
+		if (whichFile.contentEquals("table"))
+			raw_img = feedbackAnalyzationManagedBean.getTableImage();
+		if (raw_img == null)
+			return;
+		File img = DownloadTools.getImageFromByteArr(
+				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName() + whichFile, raw_img);
+		DownloadTools.downloadFile(img, "image/png");
+		img.delete();
 	}
-	
-	
-	public void testSaveImage() throws IOException{
-		String fileName = convertToFilename(this.feedbackAnalyzation.getName()) + ".png";
-		FacesContext facesCtx = FacesContext.getCurrentInstance();
-		ExternalContext externalCtx = facesCtx.getExternalContext();
-		
-		externalCtx.responseReset();
-		externalCtx.setResponseContentType("image/png");
-		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-		
-		OutputStream outputStream = externalCtx.getResponseOutputStream();
-		
-		byte[] decoded =  Base64.decode(pies64);
-		
-		try{
-			RenderedImage renderedImage = ImageIO.read(new ByteArrayInputStream(decoded));
-			ImageIO.write(renderedImage, "png", outputStream);
-			
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-		
-		
-		outputStream.flush();
-		facesCtx.responseComplete();
-	}
-	
-	
-	public void mailAnalyzation(){
-		CSVFileBuilder csv = new CSVFileBuilder();
-		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
-		try {
-			String fileName = this.feedbackAnalyzation.getName();
-			fileName = fileName.replaceAll("\\W", "_");
-			File f = File.createTempFile(fileName, ".csv");
-			
-			StringBuilder msgBuilder = new StringBuilder();
-			String description = StringUtils.defaultIfEmpty(feedbackAnalyzation.getDescription(),
-					bundle.getString("sum_descriptionNotSet"));
-			String target = StringUtils.defaultIfEmpty(feedbackAnalyzation.getTarget(), bundle.getString("sum_targetNotSet"));
-			String descriptionPartOfMessage = MessageFormat.format(bundle.getString("sum_descriptionWas"), description);
-			String targetPartOfMessage = MessageFormat.format(bundle.getString("sum_targetWas"), target);
-			String messageWithSender = MessageFormat.format(bundle.getString("sum_message"),
-					sessionBean.getLoggedIdentifiedUser().getGivenName());
-			msgBuilder.append(messageWithSender).append("\n\n").append(descriptionPartOfMessage).append("\n\n")
-			.append(targetPartOfMessage).append("\n\n").append(bundle.getString("emailSignature"));
-			FileOutputStream fos = new FileOutputStream(f);
-			csv.buildCSV(fos, tableInformations, feedbackAnalyzation, ",");
-			fos.flush();
-			String[] recipients = { emailAddress };
-			File[] files = { f };
-			mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(),
-					files);
-			// remove the temp file after sending it
-			f.delete();
-		}catch (IOException ex) {
-			LOGGER.error("Failed to create temporary file for sending observeraion by email.", ex);
-		}
-	}
-	
-	
-	
+
 	/**
 	 * File name converter.
 	 */
@@ -380,19 +312,62 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		return s.replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 
+	public File createCSV(String fileName) {
+		StringBuilder sb = getCSVData();
+
+		BufferedWriter writer = null;
+		File csvFile = null;
+		try {
+			csvFile = File.createTempFile(fileName, ".csv");
+			writer = new BufferedWriter(new FileWriter(csvFile));
+			writer.write(sb.toString());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return csvFile;
+	}
+
+	private StringBuilder getCSVData() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Name, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName() + "\n");
+		sb.append("Target, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getTarget() + "\n");
+		sb.append("Description, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getDescription()
+				+ "\n");
+		sb.append("\n\n");
+
+		for (TableInformation ti : tableInformations) {
+			sb.append(ti.feedbackAnalysisCategorySet);
+			sb.append(", n");
+			sb.append(", %");
+			sb.append("\n");
+			for (int i = 0; i < ti.categories.size(); i++) {
+				sb.append(ti.categories.get(i).toString());
+				sb.append(", ");
+				sb.append(ti.counts.get(i).toString());
+				sb.append(", ");
+				sb.append(countPercentage(ti.counts.get(i)) + "%");
+				sb.append("\n");
+			}
+			sb.append("\n");
+		}
+		sb.append(feedbackAnalyzationManagedBean.getReportCSV());
+		return sb;
+	}
 
 	/**
 	 * calls the initModels function to build the summary table and the charts
 	 */
 	@PostConstruct
 	public void init() {
-		selectedSaveOperations=new ArrayList<>();
 		initSummary();
+		selectedSaveOperations=new ArrayList<>();
 	}
-	
+
 	public String countPercentage(int count) {
-		DecimalFormat df=new DecimalFormat("#.#");
-		return df.format(100*(double)count/(double)feedbackAnalyzation.getRecords().size());
+		DecimalFormat df = new DecimalFormat("#.#");
+		return df.format(100 * (double) count / (double) feedbackAnalyzation.getRecords().size());
 	}
 
 	/**
@@ -440,28 +415,34 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			}
 			if (maxAxis > fullcount) {
 				ChartSeries empty = new ChartSeries();
-				empty.setLabel("empty");
+				empty.setLabel("------");
 				empty.set(catSet.getLabel(), maxAxis - fullcount);
 				barModel.addSeries(empty);
-				pieModel.set("empty", maxAxis - fullcount);
-				tableInformation.addCategoryWithCount("empty", maxAxis - fullcount);
+				pieModel.set("------", maxAxis - fullcount);
+				tableInformation.addCategoryWithCount("------", maxAxis - fullcount);
 			}
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);
 			pieModel.setLegendPosition("s");
-			
+			pieModel.setShowDatatip(false);
+			pieModel.setMouseoverHighlight(false);
+
 			barModel.setBarWidth(50);
 			barModel.setTitle(catSet.getLabel());
 			barModel.setStacked(true);
 			barModel.setLegendPlacement(OUTSIDE);
 			barModel.setLegendPosition("s");
+			barModel.setShowDatatip(false);
+			barModel.setMouseoverHighlight(false);
 			Axis yAxis = barModel.getAxis(AxisType.Y);
 			yAxis.setMin(0);
 			yAxis.setTickFormat("%3d");
 			yAxis.setTickInterval("1");
 			yAxis.setMax(maxAxis);
-			if(catSet!=categorySetsInUse.get(0))barModel.setExtender("chartExtenderHideTicks");
-			else barModel.setExtender("chartExtender");
+			if (catSet != categorySetsInUse.get(0))
+				barModel.setExtender("chartExtenderHideTicks");
+			else
+				barModel.setExtender("chartExtender");
 
 			barModels.add(barModel);
 			pieModels.add(pieModel);
@@ -472,29 +453,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		this.pieModels = pieModels;
 		this.tableInformations = tableInformations;
 	}
-	
+
 	public int countMaxCategories() {
-		int max=0;
-		for (FeedbackAnalysisCategorySetEntity catSet:categorySetsInUse)
-			if(catSet.getCategoryEntitys().size()>max)
-				max=catSet.getCategoryEntitys().size();
-		return max+1;
-	}
-
-	public String getPies64() {
-		return pies64;
-	}
-
-	public void setPies64(String pies64) {
-		this.pies64 = pies64;
-	}
-
-	public String getBars64() {
-		return bars64;
-	}
-
-	public void setBars64(String bars64) {
-		this.bars64 = bars64;
+		int max = 0;
+		for (FeedbackAnalysisCategorySetEntity catSet : categorySetsInUse)
+			if (catSet.getCategoryEntitys().size() > max)
+				max = catSet.getCategoryEntitys().size();
+		return max + 1;
 	}
 
 }

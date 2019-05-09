@@ -36,17 +36,59 @@ html2canvas(document.getElementById('tableImage')).then(function(canvas) {
 if(document.getElementById('charts:barChart_input').checked){
 	html2canvas(document.getElementById('barimages')).then(function(canvas) {
 		arr.push(canvas.toDataURL());
-		document.getElementById('barimages').innerHTML = "";
+		//document.getElementById('barimages').innerHTML = "";
 });
 }
 if(document.getElementById('charts:pieChart_input').checked){
 	html2canvas(document.getElementById('pieimages')).then(function(canvas) {
 	arr.push(canvas.toDataURL());
-	document.getElementById('pieimages').innerHTML = "";
+	//document.getElementById('pieimages').innerHTML = "";
 });
+}	//exportChart3();
 }
 
+function sendImage(URI){
+	$.ajax({
+		url : "../../webapi/summary/image",
+		type : "POST",
+		dataType : "text",
+		contentType : "text/plain",
+		cache : false,
+		data : URI,
+		success : function(data) {
+
+		},
+		error : function(xhr, status, error) {
+			showError(msg.obs_errorCouldntSendData + ": " + error);
+			this_.waiting = false;
+		}
+	});
 }
+
+function sendImages() {
+
+	
+	html2canvas(document.getElementById('tableImage')).then(function(canvas) {
+		URI="analtable,"+canvas.toDataURL();
+		sendImage(URI)
+	});	
+	try{
+	html2canvas(document.getElementById('piechartimage')).then(function(canvas) {
+		URI="analpie,"+canvas.toDataURL();
+		sendImage(URI)
+	});
+	}catch(err){		
+	}
+	
+	try{
+	html2canvas(document.getElementById('barchartimage')).then(function(canvas) {
+		URI="analbar,"+canvas.toDataURL();
+		sendImage(URI)
+	});}catch(err){		
+	}
+}
+
+$(document).ready(function(){sendImages();});
 
 
 function saveAsImage(dataURL) {
@@ -89,12 +131,31 @@ function exportChart2() {
     		let linebreak = document.createElement('br');
     		if(document.getElementById('charts:pieChart_input').checked){
     			document.getElementById('pieimages').append(PF(b).exportAsImage());
-    			//document.getElementById('pies64').append(PF(b).exportAsImage());
     			}
     		
     		if(document.getElementById('charts:barChart_input').checked){
     			document.getElementById('barimages').append(PF(a).exportAsImage());
-    			//document.getElementById('bars64').append(PF(a).exportAsImage());
     			}
     	}
+}
+
+
+function exportChart3(){
+	let count = document.getElementById('chartCount').innerHTML;
+	for(let i = 0; i < count; i++){
+		let b = 'piechart' + i;
+		let a = 'barchart' + i;
+		if(document.getElementById('charts:pieChart_input').checked){
+		html2canvas(document.getElementById(b)).then(function(canvas) {
+			document.getElementById('pieimages').append(canvas);
+			arr.push(canvas.toDataURL());
+		});
+		}
+		if(document.getElementById('charts:barChart_input').checked){
+		html2canvas(document.getElementById(a)).then(function(canvas) {
+			document.getElementById('barimages').append(canvas);
+			arr.push(canvas.toDataURL());
+		});
+		}
+	}
 }

@@ -31,6 +31,11 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.interfaces.Label;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -367,6 +372,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 			currentRecordNumber = 1;
 			feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
 			feedbackAnalyzationEntity.setCreated();
+			feedbackAnalyzationEntity.setName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
 			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
 			currentRecord = new FeedbackAnalysisRecordEntity();
 			setOrderNumberForRecord();
@@ -506,8 +512,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 
 				categorySetEJB.create(categorySet);
 			}
-			if (feedbackAnalyzationEntity.getName().trim().length() == 0)
-				feedbackAnalyzationEntity.setName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
 			feedbackAnalyzationEntity.setEvent(eventEntity);
 			feedbackAnalyzationEntity.setObserver(sessionBean.getLoggedIdentifiedUser());
 			feedbackAnalyzationEJB.create(feedbackAnalyzationEntity);
@@ -527,6 +531,52 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 */
 	public void resetCategorySetsInUse() {
 		this.feedbackAnalysisCategorySetsInUse = null;
+	}
+	
+	private byte[] pieImage,tableImage,barImage,reportImage;
+	
+	private String reportCSV;
+	
+
+	
+	public void setBarImage(byte[] img) {
+		barImage=img;			
+	}	
+	
+	public byte[] getBarImage() {
+		return barImage;
+	}
+	
+	public void setTableImage(byte[] img) {
+		tableImage=img;		
+	}	
+	
+	public byte[] getTableImage() {
+		return tableImage;
+	}
+	
+	public void setPieImage(byte[] img) {
+		pieImage=img;		
+	}
+	
+	public byte[] getPieImage() {
+		return pieImage;
+	}
+
+	public void setReportCSV(String data) {
+		reportCSV=data;		
+	}
+	
+	public String getReportCSV() {
+		return reportCSV;		
+	}
+
+	public void setReportImage(byte[] img) {
+		this.reportImage=img;
+	}
+	
+	public byte[] getReportImage() {
+		return reportImage;
 	}
 
 }

@@ -80,16 +80,17 @@
 						<h:form>
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
 								rendered="#{sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
+								styleClass="save-button" onclick=" PF('dlgSave').show();"
 								process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
 							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
 								rendered="#{!sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="saveImage(); PF('dlgSave').show();"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
 								process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
+							<p:commandButton styleClass="save-button" value="#{msg.downloadImage}"  action="#{summaryBean.downloadImage()}" ajax="false"/>
 						</h:form>
 					</div>
 				</div>
@@ -113,8 +114,6 @@
 						<p:ajax update="input-email" />
 						<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
 							itemDisabled="#{!sessionBean.identifiedUser}" />
-						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-							itemDisabled="#{!sessionBean.identifiedUser}" />	
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 						<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
@@ -126,8 +125,6 @@
 						required="true" requiredMessage="" layout="grid">
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
-						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image"
-							itemDisabled="#{!sessionBean.loggedIn}" />
 					</p:selectManyCheckbox>
 					<h:outputLabel for="input-name" value="#{msg.sum_observationName}">
 						<h:outputText rendered="#{sessionBean.identifiedUser}"
@@ -164,12 +161,12 @@
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						rendered="#{sessionBean.identifiedUser}"
 						action="#{summaryBean.doSelectedSaveOperation()}"
-						onclick="checkCheckBoxes()" ajax="false"
+						ajax="false"
 						validateClient="true"/>
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						rendered="#{!sessionBean.identifiedUser}"
 						action="#{summaryBean.doSelectedSaveOperation()}"
-						onclick="checkCheckBoxes()" ajax="false"
+						ajax="false"
 						validateClient="true"/>
 					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 						onclick="PF('dlgSave').hide();" />

@@ -247,7 +247,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	 * 
 	 * @param categorySet the categoryset to be removed
 	 */
-	public void removeCategorySet(FeedbackAnalysisCategorySetEntity categorySet) {
+	public void removeCategorySet(int categorySet) {
 		feedbackAnalysisCategorySetsInUse.remove(categorySet);
 	}
 

@@ -135,12 +135,12 @@
 							</p:commandLink>
 						</p:dataList>
 						<p:dataList value="#{controlBean.getAnalyzations(eventGroup)}" var="analyzation"
-							emptyMessage="#{msg.con_emptyMessageObservations}" lazy="true">
+							emptyMessage="#{msg.con_emptyMessageAnalyzations}" lazy="true">
 							<f:facet name="header">
-								#{msg.con_eventObservations}
+								#{msg.con_eventFeedbackAnalyzation}
 							</f:facet>
 							<p:commandLink update=":analyzationDetail :analyzationFormCommands"
-								oncomplete="PF('dlgAnalyzation').show()" title="#{msg.con_showObservationDetails}"
+								oncomplete="PF('dlgAnalyzation').show()" title="#{msg.con_showFeedbackAnalyzationDetails}"
 								styleClass="link-observation">
 								<f:setPropertyActionListener value="#{analyzation}"
 									target="#{controlBean.selectedAnalyzation}" />
@@ -297,12 +297,16 @@
 					action="#{controlBean.setCreatingNewEventGroup(true)}" update="newEventGroupPanel @form" />
 			</h:form>
 			<h:form id="startObservationForm">
+			<p>
 				<p:commandButton value="#{msg.con_startObservationForEvent}" icon="fa fa-caret-square-o-right"
 					action="#{controlBean.newObservation}" styleClass="start-button"
 					disabled="#{empty controlBean.selectedEventGroup}" />
+			</p>
+			<p>
 				<p:commandButton value="#{msg.con_startAnalyzationForEvent}" icon="fa fa-caret-square-o-right"
 					action="#{controlBean.newAnalyzation}" styleClass="start-button"
 					disabled="#{empty controlBean.selectedEventGroup}" />
+			</p>
 			</h:form>
 			<p:outputPanel rendered="#{controlBean.otherObservations.size() > 0}">
 				<h2>#{msg.con_titleOtherObservations}</h2>
@@ -328,6 +332,39 @@
 					</h:form>
 				</p:fieldset>
 			</p:outputPanel>
+			
+			
+			<p:outputPanel rendered="#{controlBean.otherAnalyzations.size() > 0}">
+				<h2>#{msg.con_titleOtherObservations}</h2>
+				<p:fieldset legend="#{msg.con_showHide}" collapsed="true"
+					toggleable="true" styleClass="other-observations-fieldset">
+					<h:form id="otherAnalyzationsForm">
+						<p:dataTable id="otherAnalyzations"
+							value="#{controlBean.otherAnalyzations}" var="otherAnalyzation"
+							selectionMode="single"
+							selection="#{controlBean.selectedAnalyzation}"
+							rowKey="#{otherAnalyzation.id}" sortBy="#{otherAnalyzation.id}"
+							reflow="true" lazy="true">
+
+							<p:ajax process="@this" event="rowSelect"
+								update=":analyzationDetail :analyzationFormCommands"
+								oncomplete="PF('dlgAnalyzation').show()" />
+
+							<p:column headerText="#{msg.con_name}"
+								styleClass="column-other-observation-name">
+								<h:outputText value="#{otherAnalyzation.name}" />
+							</p:column>
+
+							<p:column headerText="#{msg.con_event}"
+								styleClass="column-other-eventgroup-name">
+								<h:outputText
+									value="#{controlBean.getAbstractObservationEventGroupName(otherAnalyzation)}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:fieldset>
+			</p:outputPanel>
+			
 			<p:confirmDialog global="true" closable="false" styleClass="coloredButton">
 				<p:commandButton value="#{msg.dlg_no}" type="button" styleClass="ui-confirmdialog-no"
 					icon="ui-icon-close" />

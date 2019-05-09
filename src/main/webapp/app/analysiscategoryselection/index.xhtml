@@ -38,7 +38,7 @@
 						var="categorySet" varStatus="status">
 						<h:panelGroup id="category-set" styleClass="category-set category-set-#{status.index}">
 							<p:commandLink styleClass="fa fa-remove category-set-remove-button"
-								action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategorySet(categorySet)}"
+								action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategorySet(status.index)}"
 								update="@form">
 								<p:confirm header="#{msg.dialogConfirmTitle}"
 									message="#{msg.facs_confirmRemoveCategorySet}" icon="ui-icon-alert" />

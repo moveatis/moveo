@@ -30,18 +30,13 @@
 package com.moveatis.export;
 
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
-import com.moveatis.managedbeans.FeedbackAnalysisSummaryManagedBean;
-import com.moveatis.managedbeans.FeedbackAnalysisSummaryManagedBean.TableInformation;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import org.slf4j.Logger;
@@ -82,7 +77,7 @@ public class CSVFileBuilder {
         csv.add("name").add(obs.getName()).newLine();
         csv.add("target").add(obs.getTarget()).newLine();
         csv.add("description").add(obs.getDescription()).newLine();
-        csv.add("duration (ms)").add(obsDuration).newLine();
+        csv.add("duration").add(msToTimeStamp(obsDuration)).newLine();
         csv.add("records").add(totalCount).newLine();
         
         csv.newLine();
@@ -91,14 +86,14 @@ public class CSVFileBuilder {
         csv.add("Summary").newLine();
         csv.newLine();
         
-        csv.add("Category").add("Count").add("Count %").add("Duration (ms)").add("Duration %").newLine();
+        csv.add("Category").add("Count").add("Count %").add("Duration").add("Duration %").newLine();
         
         for (Map.Entry<ObservationCategory, CategorySummaryItem> entry : summaryItems.entrySet()) {
             String category = entry.getKey().getName();
             CategorySummaryItem item = entry.getValue();
             long countPercent = (long)(item.count * 100.0 / totalCount + 0.5);
             long durationPercent = (long)(item.duration * 100.0 / obsDuration + 0.5);
-            csv.add(category).add(item.count).addPercent(countPercent).add(item.duration).addPercent(durationPercent).newLine();
+            csv.add(category).add(item.count).addPercent(countPercent).add(msToTimeStamp(item.duration)).addPercent(durationPercent).newLine();
         }
         
         csv.newLine();
@@ -107,18 +102,22 @@ public class CSVFileBuilder {
         csv.add("Recordings").newLine();
         csv.newLine();
         
-        csv.add("Category").add("Start time (ms)").add("End time (ms)").add("Duration (ms)").newLine();
+        csv.add("Category").add("Start time").add("End time").add("Duration").newLine();
         
         for (RecordEntity record : records) {
             String category = record.getCategory().getName();
             Long startTime = record.getStartTime();
             Long endTime = record.getEndTime();
-            csv.add(category).add(startTime).add(endTime).add(endTime - startTime).newLine();
+            csv.add(category).add(msToTimeStamp(startTime)).add(msToTimeStamp(endTime)).add(msToTimeStamp(endTime - startTime)).newLine();
         }
         
         csv.close();
     }
     
+    public String msToTimeStamp(long ms) {
+    	long s=ms/1000;
+    	return s/60+" min" + s%60 + " s";
+    }
     /**
      * Computes category summary items from observation.
      * @param obs Observation
@@ -171,44 +170,11 @@ public class CSVFileBuilder {
         public long duration = 0;
     }
 
-	public void buildCSV(OutputStream outputStream, List<TableInformation> tableInformations, FeedbackAnalyzationEntity ana, String separator) throws IOException{
-		CSVBuilder csv = new CSVBuilder(outputStream, separator);
-		csv.add("Analyzation info").newLine();
-		csv.newLine();
+	public void buildCSV(OutputStream outputStream, FeedbackAnalyzationEntity feedbackAnalyzation, String separator) {
+		// TODO Auto-generated method stub
 		
-		csv.add("Attribute").add("Value").newLine();
-		csv.newLine();
-		csv.add("name").add(ana.getName()).newLine();
-		csv.add("target").add(ana.getTarget()).newLine();
-		csv.add("description").add(ana.getDescription()).newLine();
-		
-        csv.newLine();
-        csv.newLine();
-        csv.add("Summary").newLine();
-        csv.newLine();
-        
-        for(TableInformation ti : tableInformations){
-        	csv.add("Category set");
-        	csv.add(ti.getFeedbackAnalysisCategorySet());
-        	csv.newLine();
-        	csv.add("Category").add("Count").add("Count %").newLine();
-        	for(int i = 0; i < ti.getCategories().size(); i++){
-        		csv.add(ti.getCategories().get(i).toString());
-        		csv.add(ti.getCounts().get(i).toString());
-        		csv.add(countPercentage(ti.getCounts().get(i), ana));
-        		csv.newLine();
-        	}
-        	csv.newLine();
-        }
-        csv.close();
 	}
-	
-	public String countPercentage(int count, FeedbackAnalyzationEntity feedbackAnalyzation) {
-		Locale locale  = new Locale("en", "UK");
-		String pattern = "##.##";
-		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance(locale);
-		df.applyPattern(pattern);
-		return df.format(100*(double)count/(double)feedbackAnalyzation.getRecords().size());
-	}
+    
+    
     
 }

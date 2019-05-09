@@ -8,6 +8,1200 @@
 		footer { padding-top: 2em; }
 	</style>
 </head><body>
+<h3> </h3>
+<section>
+        <article><h1>Moveatis JavaScript Class Documentation</h1><h2>Software version 1.0.0</h2><h2>Documentation version 1.0.0</h2><p>Moveatis is a web application designed to help the analysis of teaching situations by means of systematic observation. It was developed for the Department of Sport Pedagogy at University of Jyväskylä. Moveatis was written in Java and JavaScript programming languages. The JavaScript classes are documented here and the Java classes are described in a separate class documentation.</p>
+<p>(c) Copyright 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio and Ilari Paananen.</p></article>
+    </section>
+<section id="class-inner-module:observer~CategoryItem">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="module-observer-CategoryItem">
+<h2>
+        CategoryItem
+        </h2>
+</header>
+
+<article>
+    <div class="container-overview">
+<h4 class="name" id="module-observer-CategoryItem"><span class="type-signature"></span>new CategoryItem<span class="signature">(name, type, index)</span><span class="type-signature"> &rarr; {<a href="#module-observer-CategoryItem">CategoryItem</a>}</span></h4>
+<div class="description">
+    The class acts as a category button. It creates the HTMLelements it needs and responds to the click events it gets.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>name</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last">The name to be displayed on the button.</td>
+        </tr>
+<tr>
+<td class="name"><code>type</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The type of the category (TIMED or COUNTED).</td>
+        </tr>
+<tr>
+<td class="name"><code>index</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The index of the category button.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+<div class="subsection">
+          <h3 class="subsection-title">Methods (3)</h3>
+<h4 class="name" id="module-observer-CategoryItem-initCountedCategory"><span class="type-signature">(inner) </span>initCountedCategory<span class="signature">(this_)</span><span class="type-signature"></span></h4>
+<div class="description">
+    The private method initializes the category button to behaveas a category that counts the click events it gets.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>this_</code></td>
+<td class="type">
+<span class="param-type"><a href="#module-observer-CategoryItem">CategoryItem</a></span>
+</td>
+<td class="description last">The category button.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-CategoryItem-initTimedCategory"><span class="type-signature">(inner) </span>initTimedCategory<span class="signature">(this_)</span><span class="type-signature"></span></h4>
+<div class="description">
+    The private method initializes the category button to behaveas a time interval category.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>this_</code></td>
+<td class="type">
+<span class="param-type"><a href="#module-observer-CategoryItem">CategoryItem</a></span>
+</td>
+<td class="description last">The category button.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-CategoryItem-updateValueDiv"><span class="type-signature">(inner) </span>updateValueDiv<span class="signature">(this_, text)</span><span class="type-signature"></span></h4>
+<div class="description">
+    The private method replaces the contents of the HTML elementthat displays the value of the category button.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>this_</code></td>
+<td class="type">
+<span class="param-type"><a href="#module-observer-CategoryItem">CategoryItem</a></span>
+</td>
+<td class="description last">The category button.</td>
+        </tr>
+<tr>
+<td class="name"><code>text</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last">The text to replace the contents of the element with.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+</article>
+
+</section>
+<section id="class-inner-module:observer~Clock">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="module-observer-Clock">
+<h2>
+        Clock
+        </h2>
+</header>
+
+<article>
+    <div class="container-overview">
+<h4 class="name" id="module-observer-Clock"><span class="type-signature"></span>new Clock<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    The observation clock that can be paused and resumed.The individual categories get their time from the observation clock.
+</div>
+</div>
+<div class="subsection">
+          <h3 class="subsection-title">Methods (4)</h3>
+<h4 class="name" id="module-observer-Clock-getElapsedTime"><span class="type-signature"></span>getElapsedTime<span class="signature">(now)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Returns the total time the observation clock has been running in milliseconds.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>now</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The time in milliseconds when the elapsed time was wanted.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-Clock-isPaused"><span class="type-signature"></span>isPaused<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Returns true if the observation clock is paused, otherwise false.
+</div>
+<h4 class="name" id="module-observer-Clock-pause"><span class="type-signature"></span>pause<span class="signature">(now)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Pauses the observation clock.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>now</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The time in milliseconds when the observation clock was paused.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-Clock-resume"><span class="type-signature"></span>resume<span class="signature">(now)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Resumes the observation clock.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>now</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The time in milliseconds when the observation clock was resumed.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+</article>
+
+</section>
+<section id="class-inner-module:observer~Observer">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="module-observer-Observer">
+<h2>
+        Observer
+        </h2>
+</header>
+
+<article>
+    <div class="container-overview">
+<h4 class="name" id="module-observer-Observer"><span class="type-signature"></span>new Observer<span class="signature">(category_sets)</span><span class="type-signature"> &rarr; {<a href="#module-observer-Observer">Observer</a>}</span></h4>
+<div class="description">
+    The class does the actual observation. It keeps the recordsmade during the observation and sends them to the backend afterthe observation is stopped.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>category_sets</code></td>
+<td class="type">
+</td>
+<td class="description last">The array of the category sets to be used in the observation.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+<div class="subsection">
+          <h3 class="subsection-title">Methods (8)</h3>
+<h4 class="name" id="module-observer-Observer-categoryClick"><span class="type-signature"></span>categoryClick<span class="signature">(index)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Delegates the click of a category button to the correct category.It adds the (possible) record returned by the category to thelist of all the records made during the observation.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>index</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The index of the category button that was clicked.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-Observer-continueClick"><span class="type-signature"></span>continueClick<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    The event handler continues the observation.
+</div>
+<h4 class="name" id="module-observer-Observer-pauseClick"><span class="type-signature"></span>pauseClick<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    The event handler pauses the observation.
+</div>
+<h4 class="name" id="module-observer-Observer-startClick"><span class="type-signature"></span>startClick<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    The event handler starts the observation. It sends an AJAX notificationto the backend when the observation is started.
+</div>
+<h4 class="name" id="module-observer-Observer-stopClick"><span class="type-signature"></span>stopClick<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    The event handler stops the observation.It disables the continue, pause and category buttons.If some categories were still on, it stops themand creates records accordingly. It sends the recordedinformation to the backend with AJAX andredirects the user to the summary page (on success).
+</div>
+<h4 class="name" id="module-observer-Observer-tick"><span class="type-signature"></span>tick<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Updates the observation clock and all the categories based on it.
+</div>
+<h4 class="name" id="module-observer-Observer-addRecord"><span class="type-signature">(inner) </span>addRecord<span class="signature">(record)</span><span class="type-signature"></span></h4>
+<div class="description">
+    The private method adds the record to the records list if it's not undefined.The method is used by categoryClick() and stopClick().
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>record</code></td>
+<td class="type">
+</td>
+<td class="description last">The record or undefined if there is nothing to be added.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-Observer-initialize"><span class="type-signature">(inner) </span>initialize<span class="signature">(this_)</span><span class="type-signature"></span></h4>
+<div class="description">
+    The private method initializes the observer. It createsthe category buttons and adds them to the HTML element tree.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>this_</code></td>
+<td class="type">
+<span class="param-type"><a href="#module-observer-Observer">Observer</a></span>
+</td>
+<td class="description last">The observer to be initialized.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+</article>
+
+</section>
+<section id="module-undefined-module:analyzer">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="analyzer">
+</header>
+
+<article>
+    <div class="container-overview">
+<h2>analyzer</h2>
+<div class="description">JavaScript logic for feedback analysis view.</div>
+<dl class="details">
+  <dt class="tag-author">Author:</dt>
+  <dd class="tag-author">
+    <ul>
+      <li>Tuomas Moisio &lt;tuomas.s.moisio at student.jyu.fi></li>
+      </ul>
+  </dd>
+</dl>
+</div>
+</article>
+
+</section>
+<section id="module-undefined-module:control">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="control">
+</header>
+
+<article>
+    <div class="container-overview">
+<h2>control</h2>
+<div class="description">JavaScript methods for control view.</div>
+<dl class="details">
+  <dt class="tag-author">Author:</dt>
+  <dd class="tag-author">
+    <ul>
+      <li>Juha Moisio &lt;juha.pa.moisio at student.jyu.fi></li>
+      </ul>
+  </dd>
+</dl>
+</div>
+<div class="subsection">
+          <h3 class="subsection-title">Methods (3)</h3>
+<h4 class="name" id="module-control-focusDataTableEditInput"><span class="type-signature">(inner) </span>focusDataTableEditInput<span class="signature">(table)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Sets the last editable data table row into edit mode and sets the focus to it's first editable input.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>table</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The identifier, id or class name of the data table.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-control-onDialogSuccess"><span class="type-signature">(inner) </span>onDialogSuccess<span class="signature">(args, dialogWidgetVar, message)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Hides the dialog on succesfull submit and displays the given message.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>args</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">Containing the validationFailed attribute.</td>
+        </tr>
+<tr>
+<td class="name"><code>dialogWidgetVar</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The widget variable of the dialog.</td>
+        </tr>
+<tr>
+<td class="name"><code>message</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The given message.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-control-submitDataTableEditInputs"><span class="type-signature">(inner) </span>submitDataTableEditInputs<span class="signature">(table)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Submits the data table rows in edit mode.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>table</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The identifier, id or class name of the data table.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+</article>
+
+</section>
+<section id="module-undefined-module:locales">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="locales">
+</header>
+
+<article>
+    <div class="container-overview">
+<h2>locales</h2>
+<div class="description">PrimeFaces localization file.</div>
+<h5 class="subsection-title">Properties:</h5>
+<table class="props">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>PrimeFaces.locales.fi</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">Finnish localization.</td>
+        </tr>
+</tbody>
+</table>
+<dl class="details">
+  <dt class="tag-author">Author:</dt>
+  <dd class="tag-author">
+    <ul>
+      <li>Juha Moisio &lt;juha.pa.moisio at student.jyu.fi></li>
+      </ul>
+  </dd>
+</dl>
+</div>
+</article>
+
+</section>
+<section id="module-undefined-module:observer">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="observer">
+</header>
+
+<article>
+    <div class="container-overview">
+<h2>observer</h2>
+<div class="description">JavaScript logic for observation view.</div>
+<dl class="details">
+  <dt class="tag-author">Author:</dt>
+  <dd class="tag-author">
+    <ul>
+      <li>Ilari Paananen &lt;ilari.k.paananen at student.jyu.fi></li>
+      </ul>
+  </dd>
+</dl>
+</div>
+<div class="subsection">
+          <h3 class="subsection-title">Classes (3)</h3>
+<dl>
+              <dt><a href="#module-observer-CategoryItem">CategoryItem</a></dt>
+              <dd></dd>
+<dt><a href="#module-observer-Clock">Clock</a></dt>
+              <dd></dd>
+<dt><a href="#module-observer-Observer">Observer</a></dt>
+              <dd></dd>
+          </dl>
+        </div>
+<div class="subsection">
+          <h3 class="subsection-title">Methods (7)</h3>
+<h4 class="name" id="module-observer-countToString"><span class="type-signature">(inner) </span>countToString<span class="signature">(count)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Returns the given count as a string with abbreviation, e.g. "13 ct.".
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>count</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The count to make the string from.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-getDaylightSaving"><span class="type-signature">(inner) </span>getDaylightSaving<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Gets the daylight saving time offset in milliseconds.
+</div>
+<h4 class="name" id="module-observer-getTimeZoneOffset"><span class="type-signature">(inner) </span>getTimeZoneOffset<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Gets the offset of the time zone in milliseconds (in JAVA format).
+</div>
+<h4 class="name" id="module-observer-keepAlive"><span class="type-signature">(inner) </span>keepAlive<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Sends an AJAX keep-alive signal to the backend.
+</div>
+<h4 class="name" id="module-observer-showError"><span class="type-signature">(inner) </span>showError<span class="signature">(error_msg)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Shows an error message in a PrimeFaces growl.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>error_msg</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last">The error message to be shown.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-observer-stopObservation"><span class="type-signature">(inner) </span>stopObservation<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    The function will call observer.stop().It is needed if the stopping of the observation has to be confirmed.
+</div>
+<h4 class="name" id="module-observer-timeToString"><span class="type-signature">(inner) </span>timeToString<span class="signature">(ms)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Converts milliseconds to a string representing time.The time format is hh:mm:ss if the given time is atleast one hour and mm:ss otherwise.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>ms</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The time in milliseconds.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+</article>
+
+</section>
+<section id="module-undefined-module:summary">
+  <a href="#top" class="back-to-top">back to top &#8679;</a>
+
+<header id="summary">
+</header>
+
+<article>
+    <div class="container-overview">
+<h2>summary</h2>
+<div class="description">Javascript methods for the summary page.</div>
+<dl class="details">
+  <dt class="tag-author">Author:</dt>
+  <dd class="tag-author">
+    <ul>
+      <li>Juha Moisio &lt;juha.pa.moisio at student.jyu.fi></li>
+      </ul>
+  </dd>
+</dl>
+</div>
+<div class="subsection">
+          <h3 class="subsection-title">Methods (23)</h3>
+<h4 class="name" id="module-summary-checkCheckBoxes"><span class="type-signature">(inner) </span>checkCheckBoxes<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Checks what checkboxes user has selected and performs action if specific checkbox is selected
+</div>
+<h4 class="name" id="module-summary-convertMsToStr"><span class="type-signature">(inner) </span>convertMsToStr<span class="signature">(ms)</span><span class="type-signature"> &rarr; {string}</span></h4>
+<div class="description">
+    Converts the time in milliseconds to a string hh:mm:ss.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>ms</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The time in milliseconds.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-convertMsToUnits"><span class="type-signature">(inner) </span>convertMsToUnits<span class="signature">(ms)</span><span class="type-signature"> &rarr; {string}</span></h4>
+<div class="description">
+    Converts the time in milliseconds to a string with the time units e.g. 1h 2m 0s.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>ms</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The time in milliseconds.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-convertStrToMs"><span class="type-signature">(inner) </span>convertStrToMs<span class="signature">(str)</span><span class="type-signature"> &rarr; {number}</span></h4>
+<div class="description">
+    Converts the time string in the form hh:mm:ss to milliseconds.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>str</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The time in a string as hh:mm:ss.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-createRecordRow"><span class="type-signature">(inner) </span>createRecordRow<span class="signature">(record)</span><span class="type-signature"> &rarr; {object}</span></h4>
+<div class="description">
+    Creates a HTML element containing the data of a record.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>record</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The object contains record data in the form: {name, count, countPercentage, duration, durationPercentage}</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-encodeHTML"><span class="type-signature">(inner) </span>encodeHTML<span class="signature">(str)</span><span class="type-signature"> &rarr; {str}</span></h4>
+<div class="description">
+    Encodes HTML markup characters to HTML entities.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>str</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The string to be encoded.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-getDurationOfCategories"><span class="type-signature">(inner) </span>getDurationOfCategories<span class="signature">(records, timeframe)</span><span class="type-signature"> &rarr; {number}</span></h4>
+<div class="description">
+    Get total duration of records of all categories in given time frame.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>records</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">object containing the records.</td>
+        </tr>
+<tr>
+<td class="name"><code>timeframe</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The selected start and end time.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-getDurationOfRecords"><span class="type-signature">(inner) </span>getDurationOfRecords<span class="signature">(records)</span><span class="type-signature"> &rarr; {number}</span></h4>
+<div class="description">
+    Gets the total duration of the records in the given time frame.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>records</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The object containing the records.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-getLocalZeroDate"><span class="type-signature">(inner) </span>getLocalZeroDate<span class="signature">()</span><span class="type-signature"> &rarr; {date}</span></h4>
+<div class="description">
+    Gets the "zero" date with the time zone offset.
+</div>
+<h4 class="name" id="module-summary-getRecordDetails"><span class="type-signature">(inner) </span>getRecordDetails<span class="signature">(record)</span><span class="type-signature"> &rarr; {string}</span></h4>
+<div class="description">
+    Gets the record details as a string.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>record</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The record object from the timeline component.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-getRecordsInTimeframe"><span class="type-signature">(inner) </span>getRecordsInTimeframe<span class="signature">(records, timeframe)</span><span class="type-signature"> &rarr; {object}</span></h4>
+<div class="description">
+    Gets all the records that are fully or partially in the given time frame.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>records</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The object containing the records.</td>
+        </tr>
+<tr>
+<td class="name"><code>timeframe</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The selected start and end time.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-getTimeframeDuration"><span class="type-signature">(inner) </span>getTimeframeDuration<span class="signature">(timeframe)</span><span class="type-signature"> &rarr; {number}</span></h4>
+<div class="description">
+    Gets the duration of the given time frame.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>timeframe</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The selected start and end time.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-hideMessages"><span class="type-signature">(inner) </span>hideMessages<span class="signature">(timeline, growl)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Hides all growl messages and removes timeline selection.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>timeline</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The timeline component.</td>
+        </tr>
+<tr>
+<td class="name"><code>growl</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The growl component.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-isBottomOfDocument"><span class="type-signature">(inner) </span>isBottomOfDocument<span class="signature">(padding)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+<div class="description">
+    Checks if the user has scrolled to the bottom of the page.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>padding</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">An extra padding to be checked.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-leadingZero"><span class="type-signature">(inner) </span>leadingZero<span class="signature">(n)</span><span class="type-signature"> &rarr; {string}</span></h4>
+<div class="description">
+    Returns the given number as a string and appends a leading zeroto it if the number is a single digit number.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>n</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The given number.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-percentOf"><span class="type-signature">(inner) </span>percentOf<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {number}</span></h4>
+<div class="description">
+    Calculates the percentage of two values.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>a</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The number of share.</td>
+        </tr>
+<tr>
+<td class="name"><code>b</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The number of total quantity.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-saveAsImage"><span class="type-signature">(inner) </span>saveAsImage<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Saves the canvas as png.
+</div>
+<h4 class="name" id="module-summary-saveImage"><span class="type-signature">(inner) </span>saveImage<span class="signature">()</span><span class="type-signature"></span></h4>
+<div class="description">
+    Creates canvas element where the timeline and datatable are inserted
+</div>
+<h4 class="name" id="module-summary-showRecordDetails"><span class="type-signature">(inner) </span>showRecordDetails<span class="signature">(timeline, growl)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Shows a PrimeFaces growl message with details of the selected record.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>timeline</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The timeline component.</td>
+        </tr>
+<tr>
+<td class="name"><code>growl</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The growl component.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-spanPercentOf"><span class="type-signature">(inner) </span>spanPercentOf<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {string}</span></h4>
+<div class="description">
+    Gets the percentage of two values as a span element string.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>a</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The number of share.</td>
+        </tr>
+<tr>
+<td class="name"><code>b</code></td>
+<td class="type">
+<span class="param-type">number</span>
+</td>
+<td class="description last">The number of total quantity.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-toTimelineTime"><span class="type-signature">(inner) </span>toTimelineTime<span class="signature">(date)</span><span class="type-signature"> &rarr; {number}</span></h4>
+<div class="description">
+    Converts the date object to the timeline component time.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>date</code></td>
+<td class="type">
+<span class="param-type">date</span>
+</td>
+<td class="description last">The date object of the time to be converted.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-updateRecordsTable"><span class="type-signature">(inner) </span>updateRecordsTable<span class="signature">(timeline, timeframe)</span><span class="type-signature"></span></h4>
+<div class="description">
+    Updates the records table information according to the given time frame.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>timeline</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The timeline component.</td>
+        </tr>
+<tr>
+<td class="name"><code>timeframe</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The selected start and end time.</td>
+        </tr>
+</tbody>
+</table>
+<h4 class="name" id="module-summary-updateTimelineTimeframe"><span class="type-signature">(inner) </span>updateTimelineTimeframe<span class="signature">(timeline, strStart, strEnd)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+<div class="description">
+    Updates the time frame of the timeline to the given start and end times.
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+    <thead>
+    <tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+    </tr>
+    </thead>
+<tbody>
+<tr>
+<td class="name"><code>timeline</code></td>
+<td class="type">
+<span class="param-type">object</span>
+</td>
+<td class="description last">The timeline component.</td>
+        </tr>
+<tr>
+<td class="name"><code>strStart</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The time frame starting time in hh:mm:ss format.</td>
+        </tr>
+<tr>
+<td class="name"><code>strEnd</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last">The time frame ending time in hh:mm:ss format.</td>
+        </tr>
+</tbody>
+</table>
+</div>
+</article>
+
+</section><footer>
+  Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Tue Oct 20 2015 11:57:24 GMT-0400 (EDT)
+</footer>
 <script>
 function appendToc(toc, heading, items) {
 	var h3 = document.createElement('h3');

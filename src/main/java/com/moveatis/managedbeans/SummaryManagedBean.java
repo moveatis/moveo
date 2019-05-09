@@ -30,6 +30,7 @@
 package com.moveatis.managedbeans;
 
 import com.moveatis.export.CSVFileBuilder;
+import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.Mailer;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
@@ -39,22 +40,11 @@ import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,10 +66,6 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 /**
  * The bean that serves the summary page. It is responsible for creating the
@@ -108,7 +94,6 @@ public class SummaryManagedBean implements Serializable {
 	private static final String MAIL_OPTION = "mail";
 	private static final String SAVE_OPTION = "save";
 	private static final String DOWNLOAD_OPTION = "download";
-	private static final String IMAGE_OPTION = "image";
 
 	private boolean observationSaved = false;
 
@@ -218,41 +203,56 @@ public class SummaryManagedBean implements Serializable {
 	 *
 	 */
 	public void mailCurrentObservation() {
-		CSVFileBuilder csv = new CSVFileBuilder();
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
-		try {
-			String fileName = this.observation.getName();
-			// replace non-word ![a-ZA-Z_0-9] chars with underscope
-			fileName = fileName.replaceAll("\\W", "_");
-			File f = File.createTempFile(fileName, ".csv");
+		String fileName = this.observation.getName();
+		// replace non-word ![a-ZA-Z_0-9] chars with underscope
+		fileName = fileName.replaceAll("\\W", "_");
 
-			StringBuilder msgBuilder = new StringBuilder();
-			String description = StringUtils.defaultIfEmpty(observation.getDescription(),
-					bundle.getString("sum_descriptionNotSet"));
-			String target = StringUtils.defaultIfEmpty(observation.getTarget(), bundle.getString("sum_targetNotSet"));
-			String descriptionPartOfMessage = MessageFormat.format(bundle.getString("sum_descriptionWas"), description);
-			String targetPartOfMessage = MessageFormat.format(bundle.getString("sum_targetWas"), target);
-			String messageWithSender = MessageFormat.format(bundle.getString("sum_message"),
-					sessionBean.getLoggedIdentifiedUser().getGivenName());
+		StringBuilder msgBuilder = new StringBuilder();
+		String description = StringUtils.defaultIfEmpty(observation.getDescription(),
+				bundle.getString("sum_descriptionNotSet"));
+		String target = StringUtils.defaultIfEmpty(observation.getTarget(), bundle.getString("sum_targetNotSet"));
+		String descriptionPartOfMessage = MessageFormat.format(bundle.getString("sum_descriptionWas"), description);
+		String targetPartOfMessage = MessageFormat.format(bundle.getString("sum_targetWas"), target);
+		String messageWithSender = MessageFormat.format(bundle.getString("sum_message"),
+				sessionBean.getLoggedIdentifiedUser().getGivenName());
 
-			msgBuilder.append(messageWithSender).append("\n\n").append(descriptionPartOfMessage).append("\n\n")
-					.append(targetPartOfMessage).append("\n\n").append(bundle.getString("emailSignature"));
-
-			FileOutputStream fos = new FileOutputStream(f);
-			csv.buildCSV(fos, observation, ",");
-			fos.flush();
-			String[] recipients = { recipientEmail };
-			File[] files = { f };
-			mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(),
-					files);
-			// remove the temp file after sending it
-			f.delete(); // TODO: Check the return value.
-		} catch (IOException ex) {
-			LOGGER.error("Failed to create temporary file for sending observeraion by email.", ex);
-		}
+		msgBuilder.append(messageWithSender).append("\n\n").append(descriptionPartOfMessage).append("\n\n")
+				.append(targetPartOfMessage).append("\n\n").append(bundle.getString("emailSignature"));
+		File f = getCSV(fileName);
+		String[] recipients = { recipientEmail };
+		File img = DownloadTools.getImageFromByteArr(fileName,observationManagedBean.getImage());
+		File[] files = { f, img };
+		mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(),
+				files);
+		// remove the temp file after sending it
+		f.delete(); // TODO: Check the return value.
+		img.delete();
 		observationSaved = true;
 	}
+
+    public void downloadCurrentObservation() throws IOException {
+        String fileName = convertToFilename(observation.getName()) + ".csv";
+
+        FacesContext facesCtx = FacesContext.getCurrentInstance();
+        ExternalContext externalCtx = facesCtx.getExternalContext();
+
+        externalCtx.responseReset();
+        externalCtx.setResponseContentType("text/plain");
+        externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+        OutputStream outputStream = externalCtx.getResponseOutputStream();
+
+        CSVFileBuilder csv = new CSVFileBuilder();
+        csv.buildCSV(outputStream, observation, ",");
+        outputStream.flush();
+
+        facesCtx.responseComplete();
+
+        observationSaved = true;
+    }
+
 
 	/**
 	 * File name converter.
@@ -264,51 +264,50 @@ public class SummaryManagedBean implements Serializable {
 		return s.replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 
-	/**
-	 * Downloads the current observation.
-	 *
-	 * @throws IOException
-	 */
-	public void downloadCurrentObservation() throws IOException {
-		String fileName = convertToFilename(observation.getName()) + ".csv";
-
-		FacesContext facesCtx = FacesContext.getCurrentInstance();
-		ExternalContext externalCtx = facesCtx.getExternalContext();
-
-		externalCtx.responseReset();
-		externalCtx.setResponseContentType("text/plain");
-		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-
-		OutputStream outputStream = externalCtx.getResponseOutputStream();
-
+	private File getCSV(String fileName) {
 		CSVFileBuilder csv = new CSVFileBuilder();
-		csv.buildCSV(outputStream, observation, ",");
-		outputStream.flush();
 
-		facesCtx.responseComplete();
+		File f = null;
+		try {
+			f = File.createTempFile(fileName, ".csv");
 
-		observationSaved = true;
+			FileOutputStream fos = new FileOutputStream(f);
+			csv.buildCSV(fos, observation, ",");
+			fos.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return f;
 	}
 
 	/**
 	 * Do all the save operations selected by the user.
 	 */
 	public void doSelectedSaveOperation() {
+		String fileName = convertToFilename(observation.getName());
+		List<File> files=new ArrayList<>();
 		if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
-			try {
+			 try {
 				downloadCurrentObservation();
 			} catch (IOException e) {
-				// TODO: show error message
-				LOGGER.error("Failed to download the observation.", e);
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
+		
 		if (selectedSaveOptions.contains(MAIL_OPTION)) {
 			mailCurrentObservation();
 		}
 		if (selectedSaveOptions.contains(SAVE_OPTION)) {
 			saveCurrentObservation();
 		}
-
+	}
+	
+	public void downloadImage() {
+		File img=DownloadTools.getImageFromByteArr(observation.getName(), observationManagedBean.getImage());
+		DownloadTools.downloadFile(img, "image/png");
+		img.delete();
 	}
 
 	/**

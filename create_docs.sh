@@ -11,7 +11,7 @@ mkdir docs/js
 mkdir docs/js-onepage
 mkdir docs/java-tex
 
-jsdoc_path="../node_modules/.bin/jsdoc"
+jsdoc_path="../node_modules/jsdoc"
 js_onepage_path="../node_modules/jsdoc-one-page"
 js_out_path="docs/js"
 js_onepage_out_path="docs/js-onepage"
@@ -42,8 +42,8 @@ Moveatis is a web application designed to help the analysis of teaching situatio
 
 # JavaScript documentation
 
-$jsdoc_path -d $js_out_path $(find $js_src_path -name *.js) $js_front_page
-$jsdoc_path -t $js_onepage_path -d $js_onepage_out_path $(find $js_src_path -name *.js) $js_front_page
+$jsdoc_path -d $js_out_path $(find_cyg $js_src_path -name *.js) $js_front_page
+$jsdoc_path -t $js_onepage_path -d $js_onepage_out_path $(find_cyg $js_src_path -name *.js) $js_front_page
 
 echo "<!DOCTYPE html>
 <html><head>
@@ -113,7 +113,7 @@ function appendToc(toc, heading, items) {
 
 # Java documentation
 
-#javadoc -d $java_out_path -sourcepath $java_src_path -subpackages com
+javadoc -d $java_out_path -sourcepath $java_src_path -subpackages com
 mvn generate-sources javadoc:javadoc
 cp -r target/site/apidocs/ docs/java/
 
