@@ -150,6 +150,16 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 * Whether the timer is stopped
 	 */
 	private boolean isTimerStopped;
+	
+	private boolean isTimerEnabled;
+	
+	public void setIsTimerEnabled(boolean timerEnabled) {
+		this.isTimerEnabled=timerEnabled;
+	}
+	
+	public boolean getIsTimerEnabled() {
+		return isTimerEnabled;
+	}
 
 	public void setEventEntity(EventEntity eventEntity) {
 		this.eventEntity = eventEntity;

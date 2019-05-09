@@ -111,7 +111,7 @@
 					</p:column>
 					<p:column headerText="#{msg.dlg_remove}" styleClass="column-remove">
 						<p:commandLink styleClass="fa fa-trash" action="#{controlBean.removeEventGroup(eventGroup)}"
-							title="#{msg.con_removeEvent}" update=":eventGroupsForm:eventGroupsTable">
+							title="#{msg.con_removeEvent}" update=":eventGroupsForm:eventGroupsTable :startObservationForm">
 							<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
 								message="#{msg.dlg_confirmRemoveMessage} #{eventGroup.label}. #{msg.dlg_confirmMessage}" />
 						</p:commandLink>

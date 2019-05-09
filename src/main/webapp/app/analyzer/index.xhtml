@@ -12,16 +12,16 @@
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
 			<h:outputScript library="js" name="analyzer.js" />
 			<h:outputStylesheet library="css" name="analyzer.css" />
-			<h:form id="timerControls">
+			<h:form id="timerControls"
+				rendered="#{feedbackAnalyzationManagedBean.isTimerEnabled}">
 				<div id="timer_div">
-				<span id="pause_span"> <p:selectBooleanButton
+					<span id="pause_span"> <p:selectBooleanButton
 							value="#{feedbackAnalyzationManagedBean.isTimerStopped}"
 							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
 							offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
-					</span>
-					<span id="timer_span"> <h:outputText id="txt_count"
+					</span> <span id="timer_span"> <h:outputText id="txt_count"
 							value="#{feedbackAnalyzationManagedBean.getDurationAsString()}" />
-					</span> 
+					</span>
 					<p:poll id="timer" interval="1"
 						listener="#{feedbackAnalyzationManagedBean.increment}"
 						update="txt_count"
@@ -81,20 +81,20 @@
 								</div>
 							</div>
 						</ui:repeat>
-						<div id="timestamp_div">
-							<span id="timestamp_name"> <h:outputText
-									id="txt_timestamp" value="#{msg.ana_timestamp}" />
+						<h:panelGroup
+							rendered="#{feedbackAnalyzationManagedBean.isTimerEnabled}">
+							<div id="timestamp_div">
+								<span id="timestamp_name"> <h:outputText
+										id="txt_timestamp" value="#{msg.ana_timestamp}" />
 
-							</span> <span id="timestamp_span"> <p:commandLink
-									onclick="PF('dlgTimeSlider').show()" update=":timeSlider">
-									<h:outputText id="timestamp"
-										value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
-								</p:commandLink>
-							</span>
-						</div>
-
-
-
+								</span> <span id="timestamp_span"> <p:commandLink
+										onclick="PF('dlgTimeSlider').show()" update=":timeSlider">
+										<h:outputText id="timestamp"
+											value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(feedbackAnalyzationManagedBean.currentRecord.startTime)}" />
+									</p:commandLink>
+								</span>
+							</div>
+						</h:panelGroup>
 					</h:panelGroup>
 				</div>
 				<div id="basicContent">
@@ -102,7 +102,8 @@
 						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalyzationManagedBean.currentRecord.comment}"
-							pt:placeholder="Kirjaa palaute tähän." validator="#{validationBean.validateLongString}">
+							pt:placeholder="Kirjaa palaute tähän."
+							validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
 						</p:inputTextarea>
 					</div>
