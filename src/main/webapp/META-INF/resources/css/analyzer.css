@@ -116,7 +116,7 @@ body {
 
 #pageNumber {
 	display: inline-block;
-	width: 1.5em;
+	width: 3em;
 }
 
 #buttons {
@@ -290,5 +290,11 @@ body {
 		color: white;
 		box-shadow: none;
 		max-width: 8em;
+	}
+	#categoryContent {
+	padding-left: 0.5em;
+	}
+	#basicControls .ui-button {
+		max-width: 11em;
 	}
 }

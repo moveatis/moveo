@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juuj�rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nyk�nen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,7 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background: #D0D3D7;
+	background: rgba(85, 102, 119, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -139,7 +139,7 @@ th:nth-last-child(2), td:nth-last-child(2) {
 }
 
 th:nth-last-child(3), td:nth-last-child(3) {
-	width: 5em!important;
+	width: 4.5em!important;
 }
 
 tbody {
@@ -153,6 +153,14 @@ tbody {
 
 .ui-datatable-even {
 	background: #D0D3D7;
+}
+
+#downloadImage {
+	text-align: center;
+}
+
+#continueToSummary {
+	padding-right: 0.5em;
 }
 
 .ui-button {
@@ -198,6 +206,9 @@ tbody {
 }
 
 @media screen and (max-width: 1000px) {
+	#container {
+		width: 93%;
+	}
 	#entries {
 		margin-top: 0.5em;
 		margin-left: 0.5em;
@@ -224,10 +235,10 @@ tbody {
 		width: 2.9em!important;
 	}
 	th:nth-last-child(2), td:nth-last-child(2) {
-		width: 2.9em!important;
+		width: 4.2em!important;
 	}
 	th:nth-last-child(3), td:nth-last-child(3) {
-		width: 4.8em!important;
+		width: 4.5em!important;
 	}
 	tbody {
 		border: 0px!important;

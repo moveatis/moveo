@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juuj√§rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nyk√§nen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juuj‰rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nyk‰nen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -132,18 +132,6 @@
 	color: white;
 }
 
-.ui-icon-closethick {
-	background-position: -6em -8em!important;
-}
-
-.ui-icon-close {
-	background-position: -5em -8em!important;
-}
-
-.ui-icon-check {
-	background-position: -4em -9em!important;
-}
-
 .ui-button {
 	border: none;
 	text-shadow: none;
@@ -186,7 +174,7 @@
 	display: inline-block;
 	vertical-align: top;
 	margin: 0 0.625em 16px 0;
-	background: rgba(85, 102, 119, 0.1);
+	background: rgba(85, 102, 119, 0.2);
 	border-radius: 0.625em;
 	padding: 0.625em;
 }

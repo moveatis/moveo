@@ -42,7 +42,9 @@
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
-						<p:column rendered="#{feedbackAnalyzationManagedBean.isTimerEnabled}" headerText="#{msg.repo_timestamp}">
+						<p:column
+							rendered="#{feedbackAnalyzationManagedBean.isTimerEnabled}"
+							headerText="#{msg.repo_timestamp}">
 							<h:outputText
 								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}"
 								class="tContent" />
@@ -57,10 +59,12 @@
 							data-html2canvas-ignore="true">
 							<span class="tContent"><p:commandButton
 									action="#{analysisRecordTable.delete(record.orderNumber)}"
-									id="deleteButton" update="entries" icon="fa fa-trash" oncomplete="sendImageAndCSV()">
-									<p:confirm header="#{msg.repo_confirmheader}" message="#{msg.repo_confirm}"/>
-									
-									</p:commandButton></span>
+									id="deleteButton" update="entries" icon="fa fa-trash"
+									oncomplete="sendImageAndCSV()">
+									<p:confirm header="#{msg.repo_confirmheader}"
+										message="#{msg.repo_confirm}" />
+
+								</p:commandButton></span>
 						</p:column>
 					</p:dataTable>
 				</div>
@@ -74,26 +78,29 @@
 
 				<h:panelGroup id="reportButtons">
 					<h:form id="buttons">
-						<p:commandButton rendered="false" value="#{msg.dlg_saveDialogHeader_report}"
-							styleClass="save-button"
-							onclick="PF('dlgSave').show();" process="@this">
-							<p:ajax update=":saveForm" resetValues="true" />
-						</p:commandButton>
-						<p:commandButton value="#{msg.downloadImage}"  ajax="false" action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
+						<div id="downloadImage">
+							<p:commandButton rendered="false"
+								value="#{msg.dlg_saveDialogHeader_report}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+							<p:commandButton value="#{msg.downloadImage}" ajax="false"
+								action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
+						</div>
 					</h:form>
-
-
-					<p:commandButton value="Continue to Summary"
-						action="#{feedbackAnalyzationManagedBean.toSummary()}"
-						rendered="#{!feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-					</p:commandButton>
-					<p:commandButton value="Continue to Summary"
-						action="#{feedbackAnalyzationManagedBean.toSummary()}"
-						rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
-						<p:confirm header="#{msg.repo_question}"
-							message="#{msg.repo_warning}"
-							icon="ui-icon-alert" />
-					</p:commandButton>
+					<div id="continueToSummary">
+						<p:commandButton value="#{msg.repo_continue}"
+							action="#{feedbackAnalyzationManagedBean.toSummary()}"
+							rendered="#{!feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+						</p:commandButton>
+						<p:commandButton value="#{msg.repo_continue}"
+							action="#{feedbackAnalyzationManagedBean.toSummary()}"
+							rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+							<p:confirm header="#{msg.repo_question}"
+								message="#{msg.repo_warning}" icon="ui-icon-alert" />
+						</p:commandButton>
+					</div>
 				</h:panelGroup>
 			</div>
 
@@ -132,10 +139,10 @@
 				showDetail="true" sticky="true" escape="false" />
 
 			<p:confirmDialog global="true">
-				<p:commandButton styleClass="ui-confirmdialog-yes" value="#{msg.repo_yes}"
-					type="button" />
-				<p:commandButton styleClass="ui-confirmdialog-no" value="#{msg.repo_no}"
-					type="button" />
+				<p:commandButton styleClass="ui-confirmdialog-yes"
+					value="#{msg.repo_yes}" type="button" />
+				<p:commandButton styleClass="ui-confirmdialog-no"
+					value="#{msg.repo_no}" type="button" />
 			</p:confirmDialog>
 		</ui:define>
 	</ui:composition>
