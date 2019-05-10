@@ -144,7 +144,7 @@
 								styleClass="link-observation">
 								<f:setPropertyActionListener value="#{analyzation}"
 									target="#{controlBean.selectedAnalyzation}" />
-								<h:outputText value="#{analyzation.name}" />
+								<h:outputText value="#{analyzation.analyzationName}" />
 							</p:commandLink>
 						</p:dataList>
 					</p:rowExpansion>
@@ -163,7 +163,7 @@
 								<p:ajax event="save" listener="#{controlBean.onEditAnalyzation}"
 									update=":eventGroupsForm" />
 								<p:inputText required="true" requiredMessage="#{msg.dlg_notEmpty}"
-									value="#{controlBean.selectedAnalyzation.name}"
+									value="#{controlBean.selectedAnalyzation.analyzationName}"
 									validator="#{validationBean.validateShortString}" />
 							</p:inplace>
 						</p:outputPanel>
@@ -190,7 +190,7 @@
 								cancelLabel="#{msg.dlg_cancel}">
 								<p:ajax event="save" listener="#{controlBean.onEditObservation}"
 									update=":eventGroupsForm" />
-								<p:inputText value="#{controlBean.selectedAnalyzation.target}"
+								<p:inputText value="#{controlBean.selectedAnalyzation.targetOfAnalyzation}"
 									validator="#{validationBean.validateShortString}" />
 							</p:inplace>
 						</p:outputPanel>
@@ -204,7 +204,7 @@
 						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}')"
 						update=":eventGroupsForm:eventGroupsTable">
 						<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedAnalyzation.name}. #{msg.dlg_confirmMessage}" />
+							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedAnalyzation.analyzationName}. #{msg.dlg_confirmMessage}" />
 					</p:commandButton>
 					<p:commandButton value="#{msg.con_closeObservationDetails}" icon="ui-icon-close"
 						onclick="PF('dlgAnalyzation').hide();" />
@@ -352,7 +352,7 @@
 
 							<p:column headerText="#{msg.con_name}"
 								styleClass="column-other-observation-name">
-								<h:outputText value="#{otherAnalyzation.name}" />
+								<h:outputText value="#{otherAnalyzation.analyzationName}" />
 							</p:column>
 
 							<p:column headerText="#{msg.con_event}"

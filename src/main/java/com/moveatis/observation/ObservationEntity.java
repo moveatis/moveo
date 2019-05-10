@@ -60,6 +60,10 @@ import javax.persistence.Table;
 		@NamedQuery(name = "findByEventsNotOwned", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator<>:observer") })
 @Entity
 public class ObservationEntity extends AbstractObservationEntity implements Serializable {
+	
+	private String name;
+	
+	private String target;
 
 	private static final long serialVersionUID = 1L;
 
@@ -69,6 +73,35 @@ public class ObservationEntity extends AbstractObservationEntity implements Seri
 	@OneToMany(mappedBy = "observation", fetch = FetchType.LAZY, cascade = ALL)
 	private List<RecordEntity> records;
 
+	/**
+	 * Whether the observation should be saved to database
+	 */
+	private Boolean userWantsToSaveToDatabase;
+	
+	public Boolean getUserWantsToSaveToDatabase() {
+		return userWantsToSaveToDatabase;
+	}
+
+	public void setUserWantsToSaveToDatabase(Boolean userWantsToSaveToDatabase) {
+		this.userWantsToSaveToDatabase = userWantsToSaveToDatabase;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+	
 	public List<RecordEntity> getRecords() {
 		return records;
 	}

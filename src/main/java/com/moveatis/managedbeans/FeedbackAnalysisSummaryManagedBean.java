@@ -263,7 +263,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	public void save() throws IOException {
 		List<File> files = new ArrayList<>();
-		String fileName = feedbackAnalyzation.getName();
+		String fileName = feedbackAnalyzation.getAnalyzationName();
 		fileName.replaceAll("\\W", "_");
 
 		if (isSelected(SAVETODATABASE)) {
@@ -297,7 +297,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		if (raw_img == null)
 			return;
 		File img = DownloadTools.getImageFromByteArr(
-				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName() + whichFile, raw_img);
+				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName() + whichFile, raw_img);
 		DownloadTools.downloadFile(img, "image/png");
 		img.delete();
 	}
@@ -331,8 +331,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private StringBuilder getCSVData() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("Name, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName() + "\n");
-		sb.append("Target, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getTarget() + "\n");
+		sb.append("Name, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName() + "\n");
+		sb.append("Target, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getTargetOfAnalyzation() + "\n");
 		sb.append("Description, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getDescription()
 				+ "\n");
 		sb.append("\n\n");

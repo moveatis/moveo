@@ -32,22 +32,16 @@ package com.moveatis.records;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import com.moveatis.abstracts.AbstractRecordEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
-import com.moveatis.observation.ObservationCategorySet;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.ALL;
 
 /**
  * The entity for feedbackanalysis records, corresponds to the
@@ -66,7 +60,9 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	 * The categories selected in this record
 	 */
 	@ManyToMany
-	@JoinTable(name = "FeedbackAnalysisRecordSelectedCategories")
+	@JoinTable(name = "FeedbackAnalysisRecordSelectedCategories",
+			joinColumns=@JoinColumn(name="record_id"),
+			inverseJoinColumns=@JoinColumn(name="category_id"))
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 
 	/**

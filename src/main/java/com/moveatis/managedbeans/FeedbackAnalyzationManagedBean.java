@@ -32,18 +32,11 @@ package com.moveatis.managedbeans;
 
 import com.moveatis.interfaces.Label;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -62,7 +55,6 @@ import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalyzation;
-import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
@@ -70,7 +62,7 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
 /**
  * The managed bean controlling the feedbackanalyzation in view TODO: extract
  * the methods concerning only a certain view to new managed beans controlling
- * said views (analyzer, summary, recordtable)
+ * said views (mostly analyzer, but some recordtable and summary functionalities too)
  * 
  * @author Visa Nykänen
  */
@@ -178,7 +170,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	}
 
 	public void setFeedbackAnalyzationName(String name) {
-		this.feedbackAnalyzationEntity.setName(name);
+		this.feedbackAnalyzationEntity.setAnalyzationName(name);
 	}
 
 	public void setFeedbackAnalyzationDuration(long duration) {
@@ -382,7 +374,7 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 			currentRecordNumber = 1;
 			feedbackAnalyzationEntity = new FeedbackAnalyzationEntity();
 			feedbackAnalyzationEntity.setCreated();
-			feedbackAnalyzationEntity.setName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
+			feedbackAnalyzationEntity.setAnalyzationName("Analyzation - " + feedbackAnalyzationEntity.getCreated().toString());
 			feedbackAnalyzationEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
 			currentRecord = new FeedbackAnalysisRecordEntity();
 			setOrderNumberForRecord();
@@ -504,7 +496,6 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 	 */
 	public void saveFeedbackAnalyzation() {
 		if (feedbackAnalyzationEntity.getId() == null) {
-			feedbackAnalyzationEntity.setUserWantsToSaveToDatabase(true);
 
 			for (FeedbackAnalysisCategorySetEntity categorySet : feedbackAnalysisCategorySetsInUse) {
 

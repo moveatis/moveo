@@ -244,7 +244,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
 	public void downloadImage() {
 		File img = DownloadTools.getImageFromByteArr(
-				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName()+"_report_",
+				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName()+"_report_",
 				feedbackAnalyzationManagedBean.getReportImage());
 		DownloadTools.downloadFile(img, "image/png");
 		img.delete();

@@ -63,6 +63,10 @@ public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
 
 	@OneToMany(mappedBy = "feedbackAnalyzation", fetch = FetchType.LAZY, cascade = ALL)
 	private List<FeedbackAnalysisRecordEntity> records;
+	
+	private String analyzationName;
+	
+	private String targetOfAnalyzation;
 
 	public List<FeedbackAnalysisRecordEntity> getRecords() {
 		return records;
@@ -102,5 +106,21 @@ public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
 			}
 		}
 		return feedbackAnalysisCategorySetsInUse;
+	}
+
+	public String getAnalyzationName() {
+		return analyzationName;
+	}
+
+	public void setAnalyzationName(String name) {
+		this.analyzationName = name;
+	}
+
+	public String getTargetOfAnalyzation() {
+		return targetOfAnalyzation;
+	}
+
+	public void setTargetOfAnalyzation(String target) {
+		this.targetOfAnalyzation = target;
 	}
 }

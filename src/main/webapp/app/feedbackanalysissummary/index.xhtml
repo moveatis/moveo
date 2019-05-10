@@ -46,7 +46,7 @@ this.cfg.grid = {
 };}
 			</h:outputScript>
 			<h1>#{msg.ana_title} :
-				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
+				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.analyzationName}</h1>
 			<div id="container">
 				<h:form>
 					<div id="tableImage">
@@ -193,7 +193,7 @@ this.cfg.grid = {
 						<p:message for="input-name" />
 						<p:inputText id="input-name" required="true"
 							requiredMessage="#{msg.dlg_notEmpty}"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.name}"
+							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.analyzationName}"
 							validator="#{validationBean.validateShortString}" />
 
 						<h:outputLabel for="input-description"
@@ -208,7 +208,7 @@ this.cfg.grid = {
 							value="#{msg.asum_analyzationTarget}" />
 						<p:message for="input-target" />
 						<p:inputText id="input-target"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.target}"
+							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.targetOfAnalyzation}"
 							validator="#{validationBean.validateShortString}" />
 
 

@@ -77,21 +77,6 @@ public abstract class AbstractObservationEntity extends BaseEntity {
 	 */
 	private String description;
 
-	/**
-	 * the name of the observation or analyzation
-	 */
-	private String name;
-
-	/**
-	 * The target being observed
-	 */
-	private String target;
-
-	/**
-	 * Whether the observation or analyzation should be saved to database
-	 */
-	private Boolean userWantsToSaveToDatabase;
-
 	@Override
 	public Long getId() {
 		return id;
@@ -132,30 +117,6 @@ public abstract class AbstractObservationEntity extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getTarget() {
-		return target;
-	}
-
-	public void setTarget(String target) {
-		this.target = target;
-	}
-
-	public Boolean getUserWantsToSaveToDatabase() {
-		return userWantsToSaveToDatabase;
-	}
-
-	public void setUserWantsToSaveToDatabase(Boolean userWantsToSaveToDatabase) {
-		this.userWantsToSaveToDatabase = userWantsToSaveToDatabase;
 	}
 
 	@Override
