@@ -62,7 +62,9 @@ html {
 	z-index: 2;
 }
 
-.html2canvas-container { width: 3000px !important; height: 3000px !important; }
+.html2canvas-container { 
+	width: 1920px !important; 
+}
 
 #entries {
 	margin-top: 0.5em;
@@ -117,12 +119,12 @@ td {
 }
 
 #entries td:nth-child(1),#entries th:nth-child(1) {
-	width: 2em!important;
+	width: 2em;
 	text-align: center;
 }
 
 #entries td:nth-child(2),#entries th:nth-child(2) {
-	width: 12em!important;
+	width: 12em;
 	text-align: left;
 }
 
@@ -133,15 +135,15 @@ tr {
 
 th:last-child, td:last-child {
 	border-right: 0px!important;
-	width: 2.9em!important;
+	width: 2.9em;
 }
 
 th:nth-last-child(2), td:nth-last-child(2) {
-	width: 4.2em!important;
+	width: 4.2em;
 }
 
 th:nth-last-child(3), td:nth-last-child(3) {
-	width: 5em!important;
+	width: 5em;
 }
 
 tbody {
@@ -213,12 +215,12 @@ tbody {
 }
 
 #entries td:nth-child(1),#entries th:nth-child(1) {
-	width: 1.7em!important;
+	width: 1.7em;
 	text-align: center;
 }
 
 #entries td:nth-child(2),#entries th:nth-child(2) {
-	width: 10em!important;
+	width: 10em;
 	text-align: left;
 }
 
@@ -229,15 +231,15 @@ tr {
 
 th:last-child, td:last-child {
 	border-right: 0px!important;
-	width: 2.9em!important;
+	width: 2.9em;
 }
 
 th:nth-last-child(2), td:nth-last-child(2) {
-	width: 2.9em!important;
+	width: 2.9em;
 }
 
 th:nth-last-child(3), td:nth-last-child(3) {
-	width: 4.8em!important;
+	width: 4.8em;
 }
 
 tbody {

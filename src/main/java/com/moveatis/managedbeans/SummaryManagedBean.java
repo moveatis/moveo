@@ -305,8 +305,8 @@ public class SummaryManagedBean implements Serializable {
 	}
 	
 	public void downloadImage() {
-		File img=DownloadTools.getImageFromByteArr(observation.getName(), observationManagedBean.getImage());
-		DownloadTools.downloadFile(img, "image/png");
+		File img=DownloadTools.getImageFromByteArr(observation.getName()+"_", observationManagedBean.getImage());
+		DownloadTools.downloadFile(img, "image/png",img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
 		img.delete();
 	}
 

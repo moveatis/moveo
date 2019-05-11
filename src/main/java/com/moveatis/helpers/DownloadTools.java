@@ -29,14 +29,14 @@ public class DownloadTools {
 	}
 
 	
-	public static void downloadFile(File file, String responseType) {
+	public static void downloadFile(File file, String responseType,String  downloadName) {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext ec = fc.getExternalContext();
 
 		ec.responseReset();
 
 		ec.setResponseContentType(responseType);
-		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + downloadName + "\"");
 		try {
 			OutputStream outputStream = ec.getResponseOutputStream();
 			FileInputStream input = new FileInputStream(file);

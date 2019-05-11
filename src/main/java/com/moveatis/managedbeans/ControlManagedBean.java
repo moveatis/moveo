@@ -81,6 +81,10 @@ import org.slf4j.LoggerFactory;
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
+/**
+ * @author Business Time
+ *
+ */
 @Named(value = "controlBean")
 @ViewScoped
 public class ControlManagedBean implements Serializable {
@@ -95,7 +99,7 @@ public class ControlManagedBean implements Serializable {
 	private List<AbstractCategoryEntity> categories;
 
 	private List<ObservationEntity> otherObservations;
-	
+
 	private List<FeedbackAnalyzationEntity> otherAnalyzations;
 
 	private EventGroupEntity selectedEventGroup;
@@ -136,10 +140,10 @@ public class ControlManagedBean implements Serializable {
 
 	@Inject
 	private Session sessionBean;
-	
+
 	@Inject
 	private ObservationManagedBean observationBean;
-	
+
 	@Inject
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 
@@ -163,6 +167,7 @@ public class ControlManagedBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		user = sessionBean.getLoggedIdentifiedUser();
+		ResourceBundle.clearCache();
 		fetchEventGroups();
 		fetchOtherObservations();
 		fetchOtherAnalyzations();
@@ -203,7 +208,8 @@ public class ControlManagedBean implements Serializable {
 	/**
 	 * Gets the analyzations for the given eventgroup
 	 * 
-	 * @param eventGroup the eventgroup of which the analyzations are being accessed
+	 * @param eventGroup
+	 *            the eventgroup of which the analyzations are being accessed
 	 * @return the analyzations of the given eventgroup
 	 */
 	public Set<FeedbackAnalyzationEntity> getAnalyzations(EventGroupEntity eventGroup) {
@@ -212,10 +218,10 @@ public class ControlManagedBean implements Serializable {
 		}
 		return new TreeSet<>();
 	}
-	
 
 	/**
-	 * Fetches the analyzations of the user not connected to an event or connected to an event that's been accessed through a group key.
+	 * Fetches the analyzations of the user not connected to an event or connected
+	 * to an event that's been accessed through a group key.
 	 */
 	private void fetchOtherAnalyzations() {
 		otherAnalyzations = feedbackAnalyzationEJB.findWithoutEvent(user);
@@ -574,14 +580,20 @@ public class ControlManagedBean implements Serializable {
 	 */
 	public void saveCategorySet() {
 		if (selectedEventGroup != null && selectedCategorySet != null) {
-			if (!hasDuplicate()) {
+			String error;
+			if (!categoryHasDuplicate() && !categorySetHasDuplicate()) {
 				categorySetBean.createAndEditCategorySet(selectedEventGroup, selectedCategorySet, categories);
 				fetchEventGroups();
-			} else {
-				FacesContext.getCurrentInstance().validationFailed();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						messages.getString("dialogErrorTitle"), messages.getString("cs_errorNotUniqueCategories")));
+				return;
+			} else if (categoryHasDuplicate()){
+				error= messages.getString("cs_errorNotUniqueCategories");
 			}
+			else {
+				error= messages.getString("con_errorNotUniqueCategorySets");
+			}			
+			FacesContext.getCurrentInstance().validationFailed();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					messages.getString("dialogErrorTitle"),error));
 		}
 	}
 
@@ -593,7 +605,7 @@ public class ControlManagedBean implements Serializable {
 	 */
 	public String showAnalyzationInSummaryPage() {
 		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(selectedAnalyzation);
-		feedbackAnalyzationManagedBean.setIsTimerEnabled(selectedAnalyzation.getDuration()>0);
+		feedbackAnalyzationManagedBean.setIsTimerEnabled(selectedAnalyzation.getDuration() > 0);
 		feedbackAnalyzationManagedBean
 				.setFeedbackAnalysisCategorySetsInUse(selectedAnalyzation.getFeedbackAnalysisCategorySets());
 		feedbackAnalyzationManagedBean.init();
@@ -603,7 +615,7 @@ public class ControlManagedBean implements Serializable {
 	/**
 	 * Shows the selected observation in the summary page.
 	 *
-	 * @return The navigation rule string that redirects to the summary page.
+	 * @return The navigation rule string that redirects to the summary page
 	 */
 	public String showObservationInSummaryPage() {
 		observationBean.setObservationEntity(selectedObservation);
@@ -614,7 +626,7 @@ public class ControlManagedBean implements Serializable {
 	/**
 	 * Checks if the categories have duplicates.
 	 */
-	private boolean hasDuplicate() {
+	private boolean categoryHasDuplicate() {
 		Set<String> duplicates = new HashSet<>();
 		for (AbstractCategoryEntity categoryEntity : categories) {
 			String categoryText = categoryEntity.getLabel().getText();
@@ -625,11 +637,40 @@ public class ControlManagedBean implements Serializable {
 		}
 		return false;
 	}
+	
+	
+	/**
+	 * Checks if the categoryset has a duplicate within the eventgroup being edited.
+	 * 
+	 * @return Whether the categoryset has a duplicate
+	 */
+	private boolean categorySetHasDuplicate() {
+		boolean hasDuplicate = false;
+		if (selectedCategorySet instanceof FeedbackAnalysisCategorySetEntity) {
+			List<FeedbackAnalysisCategorySetEntity> sets = selectedEventGroup.getFeedbackAnalysisCategorySets();
+			for (AbstractCategorySetEntity catset : sets)
+				if ( !catset.getId().equals(selectedCategorySet.getId())
+						&& catset.getLabel().contentEquals(selectedCategorySet.getLabel())) {
+					hasDuplicate = true;
+					break;
+				}
+		} else {
+			Set<CategorySetEntity> sets = selectedEventGroup.getCategorySets();
+			for (AbstractCategorySetEntity catset : sets)
+				if ( !catset.getId().equals(selectedCategorySet.getId())
+						&& catset.getLabel().contentEquals(selectedCategorySet.getLabel())) {
+					hasDuplicate = true;
+					break;
+				}
+		}
+		return hasDuplicate;
+	}
 
 	/**
 	 * Converts milliseconds to string with time units h, m, s.
 	 *
-	 * @param ms The time to be converted in milliseconds.
+	 * @param ms
+	 *            The time to be converted in milliseconds.
 	 * @return String of the converted time units.
 	 */
 	public String msToUnits(long ms) {

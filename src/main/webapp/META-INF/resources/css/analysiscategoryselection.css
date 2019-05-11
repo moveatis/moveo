@@ -88,7 +88,7 @@
 }
 
 .ui-dialog .ui-button .ui-icon {
-	color: white;
+	color: black;
 }
 
 .ui-icon, .ui-widget-content .ui-icon {
@@ -129,19 +129,7 @@
 }
 
 .ui-dialog .ui-button .ui-icon {
-	color: white;
-}
-
-.ui-icon-closethick {
-	background-position: -6em -8em!important;
-}
-
-.ui-icon-close {
-	background-position: -5em -8em!important;
-}
-
-.ui-icon-check {
-	background-position: -4em -9em!important;
+	color: black;
 }
 
 .ui-button {

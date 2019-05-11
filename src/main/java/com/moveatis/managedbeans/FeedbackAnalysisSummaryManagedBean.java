@@ -297,8 +297,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		if (raw_img == null)
 			return;
 		File img = DownloadTools.getImageFromByteArr(
-				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName() + whichFile, raw_img);
-		DownloadTools.downloadFile(img, "image/png");
+				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName() +"_"+ whichFile+"_", raw_img);
+		DownloadTools.downloadFile(img, "image/png", img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
 		img.delete();
 	}
 

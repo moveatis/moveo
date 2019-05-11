@@ -24,8 +24,7 @@
 					</span>
 					<p:poll id="timer" interval="1"
 						listener="#{feedbackAnalyzationManagedBean.increment}"
-						update="txt_count"
-						stop="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.duration>0}" />
+						update="txt_count" />
 				</div>
 			</h:form>
 			<h:form id="form">
@@ -105,6 +104,9 @@
 							pt:placeholder="Kirjaa palaute tähän."
 							validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
+							<p:ajax event="keyup"
+								listener="#{feedbackAnalyzationManagedBean.setTimeStamp()}"
+								update=":form:timestamp" />
 						</p:inputTextarea>
 					</div>
 					<div id="basicControls">

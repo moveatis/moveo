@@ -443,7 +443,8 @@
 							</p:cellEditor>
 						</p:column>
 						<p:column headerText="#{msg.con_categorySetDetailsType}" styleClass="column-categorytype">
-							<p:cellEditor>
+						<!-- Reloading after editing feedbackanalysiscategorysets would cause an error without this check-->
+							<p:cellEditor  rendered="#{category['class'].simpleName eq 'CategoryEntity'}">
 								<f:facet name="output">
 									<h:outputText value="#{msg['con_' += category.categoryType]}" />
 								</f:facet>
