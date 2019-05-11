@@ -200,23 +200,20 @@ public class CategorySetManagedBean implements Serializable {
 		abstractCategorySetEntity.setEventGroupEntity(eventGroupEntity);
 
 		Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
-		List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets = eventGroupEntity
+		Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets = eventGroupEntity
 				.getFeedbackAnalysisCategorySets();
 
 		if (categorySets == null) {
 			categorySets = new HashSet<>();
 		}
 		if (feedbackAnalysisCategorySets == null) {
-			feedbackAnalysisCategorySets = new ArrayList<FeedbackAnalysisCategorySetEntity>();
+			feedbackAnalysisCategorySets = new HashSet<>();
 		}
 
 		if (abstractCategorySetEntity instanceof CategorySetEntity) {
 			categorySets.add((CategorySetEntity) abstractCategorySetEntity);
 		} else if (abstractCategorySetEntity instanceof FeedbackAnalysisCategorySetEntity) {
-			boolean add=true;
-			for (FeedbackAnalysisCategorySetEntity catset:feedbackAnalysisCategorySets)
-				if(catset.getId()==abstractCategorySetEntity.getId()) add=false;
-			if(add)feedbackAnalysisCategorySets.add((FeedbackAnalysisCategorySetEntity) abstractCategorySetEntity);
+			feedbackAnalysisCategorySets.add((FeedbackAnalysisCategorySetEntity) abstractCategorySetEntity);
 		}
 		eventGroupEntity.setFeedbackAnalysisCategorySets(feedbackAnalysisCategorySets);
 		eventGroupEntity.setCategorySets(categorySets);

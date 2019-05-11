@@ -101,7 +101,7 @@ public class ValidationManagedBean {
 	}
 
 	private void validateStringMinLength(String str, int minLength) {
-		if (str.trim().length() < minLength) {
+		if (str.length() < minLength) {
 			String error = MessageFormat.format(messages.getString("validate_minLength"), minLength);
 			throwError(error);
 		}

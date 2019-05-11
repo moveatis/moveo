@@ -121,8 +121,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 			EventEntity event = feedbackAnalyzationManagedBean.getEventEntity();
 			eventGroup = event.getEventGroup();
 			if (eventGroup.getFeedbackAnalysisCategorySets() == null)
-				eventGroup.setFeedbackAnalysisCategorySets(new ArrayList<FeedbackAnalysisCategorySetEntity>());
-			defaultFeedbackAnalysisCategorySets = eventGroup.getFeedbackAnalysisCategorySets();
+				eventGroup.setFeedbackAnalysisCategorySets(new HashSet<FeedbackAnalysisCategorySetEntity>());
+			defaultFeedbackAnalysisCategorySets.addAll(eventGroup.getFeedbackAnalysisCategorySets());
 		}
 
 		if (sessionEJB.isIdentifiedUser()) {

@@ -271,7 +271,7 @@ public class ControlManagedBean implements Serializable {
 	public void addNewCategory() {
 		CategoryEntity category = new CategoryEntity();
 		LabelEntity label = new LabelEntity();
-		label.setText(messages.getString("con_newCategoryLabel"));
+		label.setText("");
 		category.setOrderNumber(categories.size());
 		category.setLabel(label);
 
@@ -286,7 +286,7 @@ public class ControlManagedBean implements Serializable {
 	public void addNewFeedbackAnalysisCategory() {
 		FeedbackAnalysisCategoryEntity category = new FeedbackAnalysisCategoryEntity();
 		LabelEntity label = new LabelEntity();
-		label.setText(messages.getString("con_newCategoryLabel"));
+		label.setText("");
 		category.setOrderNumber(categories.size());
 		category.setLabel(label);
 
@@ -647,7 +647,8 @@ public class ControlManagedBean implements Serializable {
 	private boolean categorySetHasDuplicate() {
 		boolean hasDuplicate = false;
 		if (selectedCategorySet instanceof FeedbackAnalysisCategorySetEntity) {
-			List<FeedbackAnalysisCategorySetEntity> sets = selectedEventGroup.getFeedbackAnalysisCategorySets();
+			Set<FeedbackAnalysisCategorySetEntity> sets = selectedEventGroup.getFeedbackAnalysisCategorySets();
+			if(sets==null)return false;
 			for (AbstractCategorySetEntity catset : sets)
 				if ( !catset.getId().equals(selectedCategorySet.getId())
 						&& catset.getLabel().contentEquals(selectedCategorySet.getLabel())) {
@@ -656,6 +657,7 @@ public class ControlManagedBean implements Serializable {
 				}
 		} else {
 			Set<CategorySetEntity> sets = selectedEventGroup.getCategorySets();
+			if(sets==null)return false;
 			for (AbstractCategorySetEntity catset : sets)
 				if ( !catset.getId().equals(selectedCategorySet.getId())
 						&& catset.getLabel().contentEquals(selectedCategorySet.getLabel())) {
