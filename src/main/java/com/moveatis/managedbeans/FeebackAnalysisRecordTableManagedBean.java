@@ -165,17 +165,19 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
 		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity()
 				.getRecords();
+		FeedbackAnalysisRecordEntity record=null;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber) {
-				if (list.get(i).getId() != null)
-					feedbackAnalyzationEJB.removeRecordFromAnalyzation(
-							feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity(), list.get(i));
+				record=list.get(i);
 				list.remove(i);
 				break;
 			}
 		}
 		setOrderNumbers(list);
-		feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().setRecords(list);
+		feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().setRecords(list);				
+		if (record!=null&&record.getId() != null)
+					feedbackAnalyzationEJB.removeRecordFromAnalyzation(
+							feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity(),record);
 		feedbackAnalyzationManagedBean.setCurrentRecord(list.size());
 	}
 

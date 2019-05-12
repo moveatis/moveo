@@ -91,7 +91,8 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	/**
 	 * Finds and returns all observations for the specific user.
 	 * 
-	 * @param observer The user, whose analyzations are to be searched.
+	 * @param observer
+	 *            The user, whose analyzations are to be searched.
 	 * @return A list of the analyzations for the user.
 	 */
 	@Override
@@ -105,7 +106,8 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	/**
 	 * Finds the analyzations for the user, which have no event attached to them.
 	 * 
-	 * @param observer The user, whose analyzations are to be searched.
+	 * @param observer
+	 *            The user, whose analyzations are to be searched.
 	 * @return A list of the analyzations.
 	 */
 	@Override
@@ -120,7 +122,8 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	 * Finds the analyzatinos that are made for events that the specified user does
 	 * not own.
 	 * 
-	 * @param observer The user, whose analyzations are to be searched.
+	 * @param observer
+	 *            The user, whose analyzations are to be searched.
 	 * @return A list of the analyzations.
 	 */
 	@Override
@@ -134,7 +137,8 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	/**
 	 * Persists the observations to the database.
 	 * 
-	 * @param feedbackAnalyzation The observatio entity to be persisted.
+	 * @param feedbackAnalyzation
+	 *            The observatio entity to be persisted.
 	 */
 	@Override
 	public void create(FeedbackAnalyzationEntity feedbackAnalyzation) {
@@ -149,7 +153,8 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	/**
 	 * Finds a list of the records for the observation with the given id.
 	 * 
-	 * @param id The id of the analyzation.
+	 * @param id
+	 *            The id of the analyzation.
 	 * @return A list of the records.
 	 */
 	@Override
@@ -165,7 +170,8 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	 * Removes the analyzation and also removes the analyzation from the event it
 	 * was associated with.
 	 * 
-	 * @param feedbackAnalyzationEntity The analyzation to be removed.
+	 * @param feedbackAnalyzationEntity
+	 *            The analyzation to be removed.
 	 */
 	@Override
 	public void remove(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
@@ -183,6 +189,12 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 		record.setFeedbackAnalyzation(null);
 		feedbackAnalyzation.setRecords(records);
 		feedbackAnalysisRecordEJB.remove(record);
+		for (FeedbackAnalysisRecordEntity rec : feedbackAnalyzation.getRecords()) {
+			if (rec.getId() == null)
+				feedbackAnalysisRecordEJB.create(rec);
+			else
+				feedbackAnalysisRecordEJB.edit(rec);
+		}
 		super.edit(feedbackAnalyzation);
 	}
 
@@ -190,7 +202,8 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	 * Permanently removes the analyzation, which the user did not set to be saved
 	 * into the database.
 	 * 
-	 * @param feedbackAnalyzationEntity The analyzation to be removed.
+	 * @param feedbackAnalyzationEntity
+	 *            The analyzation to be removed.
 	 */
 	@Override
 	public void removeUnsavedObservation(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
