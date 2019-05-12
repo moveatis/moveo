@@ -20,33 +20,33 @@
 			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
 			<h:outputScript library="js" name="html2canvas.min.js" />
 			<h:outputScript>
-    		function chartExtenderHideTicks() {   
-this.cfg.grid = {         
-    background: 'transparent',
-    drawGridlines: false,
-    drawBorder: false,
-    shadow: false
-};
-  this.cfg.axes.xaxis.showTicks=false;  
-  this.cfg.axes.yaxis.showTicks=false;
-  this.cfg.title.fontSize=1;
-  this.cfg.axes.yaxis.rendererOptions={drawBaseline:false}; 
-  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
-};
-
-  function chartExtender() {   
-  this.cfg.axes.xaxis.showTicks=false;  
-  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
-  this.cfg.title.fontSize=1;
-    this.cfg.grid = {         
-        background: 'transparent',
-    drawGridlines: false,
-    drawBorder: false,
-    shadow: false
-};}
-			</h:outputScript>
+                function chartExtenderHideTicks() {
+                    this.cfg.grid = {
+                        background: 'transparent',
+                        drawGridlines: false,
+                        drawBorder: false,
+                        shadow: false
+                    };
+                    this.cfg.axes.xaxis.showTicks = false;
+                    this.cfg.axes.yaxis.showTicks = false;
+                    this.cfg.title.fontSize = 1;
+                    this.cfg.axes.yaxis.rendererOptions = {drawBaseline: false};
+                    this.cfg.axes.xaxis.rendererOptions = {drawBaseline: true};
+                }
+                function chartExtender() {
+                    this.cfg.axes.xaxis.showTicks = false;
+                    this.cfg.axes.xaxis.rendererOptions = {drawBaseline: true};
+                    this.cfg.title.fontSize = 1;
+                    this.cfg.grid = {
+                        background: 'transparent',
+                        drawGridlines: false,
+                        drawBorder: false,
+                        shadow: false
+                    };
+                }
+            </h:outputScript>
 			<h1>#{msg.ana_title} :
-				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.analyzationName}</h1>
+				#{feedbackAnalysisSummaryManagedBean.feedbackAnalysis.analysisName}</h1>
 			<div id="container">
 				<h:form>
 					<div id="tableImage">
@@ -160,7 +160,7 @@ this.cfg.grid = {
 					</h:form>
 				</div>
 
-				<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
+				<p:dialog header="#{msg.dlg_saveDialogHeaderAnalysis}"
 					id="saveDialog" widgetVar="dlgSave" position="top"
 					resizable="false" responsive="true" fitViewport="true"
 					visible="#{facesContext.validationFailed}"
@@ -186,29 +186,29 @@ this.cfg.grid = {
 								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 						</p:selectManyCheckbox>
 						<h:outputLabel for="input-name"
-							value="#{msg.asum_analyzationName}">
+							value="#{msg.asum_analysisName}">
 							<h:outputText rendered="#{sessionBean.identifiedUser}"
 								value=" (#{msg.dlg_defaultFileName})" />
 						</h:outputLabel>
 						<p:message for="input-name" />
 						<p:inputText id="input-name" required="true"
 							requiredMessage="#{msg.dlg_notEmpty}"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.analyzationName}"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.analysisName}"
 							validator="#{validationBean.validateShortString}" />
 
 						<h:outputLabel for="input-description"
-							value="#{msg.asum_analyzationDescription}" />
+							value="#{msg.asum_analysisDescription}" />
 						<p:message for="input-description" />
 						<p:inputTextarea id="input-description"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.description}"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.description}"
 							validator="#{validationBean.validateLongString}" rows="3"
 							cols="16" autoResize="true" />
 
 						<h:outputLabel for="input-target"
-							value="#{msg.asum_analyzationTarget}" />
+							value="#{msg.asum_analysisTarget}" />
 						<p:message for="input-target" />
 						<p:inputText id="input-target"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.targetOfAnalyzation}"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.targetOfAnalysis}"
 							validator="#{validationBean.validateShortString}" />
 
 

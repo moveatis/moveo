@@ -42,7 +42,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 
@@ -68,14 +68,14 @@ public class EventEntity extends BaseEntity implements Serializable {
 	private Set<ObservationEntity> observations;
 
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
-	private Set<FeedbackAnalyzationEntity> analyzations;
+	private Set<FeedbackAnalysisEntity> analyses;
 
-	public Set<FeedbackAnalyzationEntity> getAnalyzations() {
-		return analyzations;
+	public Set<FeedbackAnalysisEntity> getAnalyses() {
+		return analyses;
 	}
 
-	public void setAnalyzations(Set<FeedbackAnalyzationEntity> analyzations) {
-		this.analyzations = analyzations;
+	public void setAnalyses(Set<FeedbackAnalysisEntity> analyses) {
+		this.analyses = analyses;
 	}
 
 	private String description;

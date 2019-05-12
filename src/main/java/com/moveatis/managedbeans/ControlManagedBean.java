@@ -59,14 +59,14 @@ import com.moveatis.category.CategorySetEntity;
 import com.moveatis.category.CategoryType;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Event;
 import com.moveatis.interfaces.EventGroup;
-import com.moveatis.interfaces.FeedbackAnalyzation;
+import com.moveatis.interfaces.FeedbackAnalysis;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Observation;
 import com.moveatis.interfaces.Session;
@@ -100,7 +100,7 @@ public class ControlManagedBean implements Serializable {
 
 	private List<ObservationEntity> otherObservations;
 
-	private List<FeedbackAnalyzationEntity> otherAnalyzations;
+	private List<FeedbackAnalysisEntity> otherAnalyses;
 
 	private EventGroupEntity selectedEventGroup;
 
@@ -110,7 +110,7 @@ public class ControlManagedBean implements Serializable {
 
 	private ObservationEntity selectedObservation;
 
-	private FeedbackAnalyzationEntity selectedAnalyzation;
+	private FeedbackAnalysisEntity selectedAnalysis;
 
 	private boolean creatingNewEventGroup = false;
 
@@ -130,7 +130,7 @@ public class ControlManagedBean implements Serializable {
 	private Observation observationEJB;
 
 	@Inject
-	private FeedbackAnalyzation feedbackAnalyzationEJB;
+	private FeedbackAnalysis feedbackAnalysisEJB;
 
 	@Inject
 	private CategorySetManagedBean categorySetBean;
@@ -145,7 +145,7 @@ public class ControlManagedBean implements Serializable {
 	private ObservationManagedBean observationBean;
 
 	@Inject
-	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
 
 	@Inject
 	@MessageBundle
@@ -153,12 +153,12 @@ public class ControlManagedBean implements Serializable {
 
 	private AbstractUser user;
 
-	public List<FeedbackAnalyzationEntity> getOtherAnalyzations() {
-		return otherAnalyzations;
+	public List<FeedbackAnalysisEntity> getOtherAnalyses() {
+		return otherAnalyses;
 	}
 
-	public void setOtherAnalyzations(List<FeedbackAnalyzationEntity> otherAnalyzations) {
-		this.otherAnalyzations = otherAnalyzations;
+	public void setOtherAnalyses(List<FeedbackAnalysisEntity> otherAnalyses) {
+		this.otherAnalyses = otherAnalyses;
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class ControlManagedBean implements Serializable {
 		ResourceBundle.clearCache();
 		fetchEventGroups();
 		fetchOtherObservations();
-		fetchOtherAnalyzations();
+		fetchOtherAnalyses();
 	}
 
 	/**
@@ -206,26 +206,26 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Gets the analyzations for the given eventgroup
+	 * Gets the analyses for the given eventgroup
 	 * 
 	 * @param eventGroup
-	 *            the eventgroup of which the analyzations are being accessed
-	 * @return the analyzations of the given eventgroup
+	 *            the eventgroup of which the analyses are being accessed
+	 * @return the analyses of the given eventgroup
 	 */
-	public Set<FeedbackAnalyzationEntity> getAnalyzations(EventGroupEntity eventGroup) {
+	public Set<FeedbackAnalysisEntity> getAnalyses(EventGroupEntity eventGroup) {
 		if (eventGroup != null && eventGroup.getEvent() != null) {
-			return eventGroup.getEvent().getAnalyzations();
+			return eventGroup.getEvent().getAnalyses();
 		}
 		return new TreeSet<>();
 	}
 
 	/**
-	 * Fetches the analyzations of the user not connected to an event or connected
+	 * Fetches the analyses of the user not connected to an event or connected
 	 * to an event that's been accessed through a group key.
 	 */
-	private void fetchOtherAnalyzations() {
-		otherAnalyzations = feedbackAnalyzationEJB.findWithoutEvent(user);
-		otherAnalyzations.addAll(feedbackAnalyzationEJB.findByEventsNotOwned(user));
+	private void fetchOtherAnalyses() {
+		otherAnalyses = feedbackAnalysisEJB.findWithoutEvent(user);
+		otherAnalyses.addAll(feedbackAnalysisEJB.findByEventsNotOwned(user));
 	}
 
 	/**
@@ -388,12 +388,12 @@ public class ControlManagedBean implements Serializable {
 		this.selectedObservation = selectedObservation;
 	}
 
-	public FeedbackAnalyzationEntity getSelectedAnalyzation() {
-		return selectedAnalyzation;
+	public FeedbackAnalysisEntity getSelectedAnalysis() {
+		return selectedAnalysis;
 	}
 
-	public void setSelectedAnalyzation(FeedbackAnalyzationEntity selectedAnalyzation) {
-		this.selectedAnalyzation = selectedAnalyzation;
+	public void setSelectedAnalysis(FeedbackAnalysisEntity selectedAnalysis) {
+		this.selectedAnalysis = selectedAnalysis;
 	}
 
 	/**
@@ -431,10 +431,10 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	public String getAnalyzerName() {
-		if (selectedAnalyzation == null) {
+		if (selectedAnalysis == null) {
 			return "";
-		} else if (selectedAnalyzation.getObserver() instanceof IdentifiedUserEntity) {
-			return ((IdentifiedUserEntity) selectedAnalyzation.getObserver()).getGivenName();
+		} else if (selectedAnalysis.getObserver() instanceof IdentifiedUserEntity) {
+			return ((IdentifiedUserEntity) selectedAnalysis.getObserver()).getGivenName();
 		} else {
 			return messages.getString("con_publicUser");
 		}
@@ -454,16 +454,16 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Initializes a new analyzation and redirects to the category selection view.
+	 * Initializes a new analysis and redirects to the category selection view.
 	 *
 	 * @return The navigation rule string that redirects to the category selection
 	 *         view.
 	 */
-	public String newAnalyzation() {
-		feedbackAnalyzationManagedBean.setEventEntity(selectedEventGroup.getEvent());
+	public String newAnalysis() {
+		feedbackAnalysisManagedBean.setEventEntity(selectedEventGroup.getEvent());
 		// Make sure we don't modify earlier categories.
-		feedbackAnalyzationManagedBean.resetCategorySetsInUse();
-		return "newanalyzation";
+		feedbackAnalysisManagedBean.resetCategorySetsInUse();
+		return "newanalysis";
 	}
 
 	/**
@@ -529,12 +529,12 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * removes the currently selected analyzation
+	 * removes the currently selected analysis
 	 */
-	public void removeAnalyzation() {
-		if (selectedAnalyzation != null) {
-			feedbackAnalyzationEJB.remove(selectedAnalyzation);
-			selectedAnalyzation = null;
+	public void removeAnalysis() {
+		if (selectedAnalysis != null) {
+			feedbackAnalysisEJB.remove(selectedAnalysis);
+			selectedAnalysis = null;
 			fetchEventGroups();
 		}
 	}
@@ -560,11 +560,11 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Listener for analyzation editing
+	 * Listener for analysis editing
 	 */
-	public void onEditAnalyzation() {
+	public void onEditAnalysis() {
 		if (selectedObservation != null) {
-			feedbackAnalyzationEJB.edit(selectedAnalyzation);
+			feedbackAnalysisEJB.edit(selectedAnalysis);
 		}
 	}
 
@@ -598,17 +598,17 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Sets the analyzation for feedbackanalyzationmanagedbean and shows it in
+	 * Sets the analysis for feedbackanalysismanagedbean and shows it in
 	 * summary view
 	 * 
 	 * @return navigation rule string to navigate to the summary page
 	 */
-	public String showAnalyzationInSummaryPage() {
-		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(selectedAnalyzation);
-		feedbackAnalyzationManagedBean.setIsTimerEnabled(selectedAnalyzation.getDuration() > 0);
-		feedbackAnalyzationManagedBean
-				.setFeedbackAnalysisCategorySetsInUse(selectedAnalyzation.getFeedbackAnalysisCategorySets());
-		feedbackAnalyzationManagedBean.init();
+	public String showAnalysisInSummaryPage() {
+		feedbackAnalysisManagedBean.setFeedbackAnalysisEntity(selectedAnalysis);
+		feedbackAnalysisManagedBean.setIsTimerEnabled(selectedAnalysis.getDuration() > 0);
+		feedbackAnalysisManagedBean
+				.setFeedbackAnalysisCategorySetsInUse(selectedAnalysis.getFeedbackAnalysisCategorySets());
+		feedbackAnalysisManagedBean.init();
 		return "feedbackanalysissummary";
 	}
 
@@ -691,7 +691,7 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Gets the name of the event group of the observation or analyzation.
+	 * Gets the name of the event group of the observation or analysis.
 	 */
 	public String getAbstractObservationEventGroupName(AbstractObservationEntity observationEntity) {
 		EventEntity eventEntity = observationEntity.getEvent();
@@ -706,7 +706,7 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Starts a new analyzation in the selected event
+	 * Starts a new analysis in the selected event
 	 * 
 	 * @return navigation rule string to redirect to the categoryselection page
 	 */

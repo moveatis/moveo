@@ -28,7 +28,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.feedbackanalyzation;
+package com.moveatis.feedbackanalysis;
 
 import static javax.persistence.CascadeType.ALL;
 
@@ -48,25 +48,25 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 /**
- * The entity for the feedback analyzation, corresponds to the
- * feedbackanalyzation-table in the database
+ * The entity for the feedback analysis, corresponds to the
+ * feedbackanalysis-table in the database
  * 
  * @author Visa Nykänen
  */
-@Table(name = "FEEDBACKANALYZATION")
+@Table(name = "FEEDBACKANALYSIS")
 @NamedQueries({
-		@NamedQuery(name = "findFeedbackAnalyzationsByObserver", query = "SELECT observation FROM FeedbackAnalyzationEntity observation WHERE observation.observer=:observer"),
-		@NamedQuery(name = "findFeedbackAnalyzationsWithoutEvent", query = "SELECT observation FROM FeedbackAnalyzationEntity observation WHERE observation.observer=:observer AND observation.event is null"),
-		@NamedQuery(name = "findFeedbackAnalyzationsByEventsNotOwned", query = "SELECT observation FROM FeedbackAnalyzationEntity observation WHERE observation.observer=:observer AND observation.event.creator<>:observer") })
+		@NamedQuery(name = "findFeedbackAnalysesByObserver", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer"),
+		@NamedQuery(name = "findFeedbackAnalysesWithoutEvent", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer AND analysis.event is null"),
+		@NamedQuery(name = "findFeedbackAnalysesByEventsNotOwned", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer AND analysis.event.creator<>:observer") })
 @Entity
-public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
+public class FeedbackAnalysisEntity extends AbstractObservationEntity {
 
-	@OneToMany(mappedBy = "feedbackAnalyzation", fetch = FetchType.LAZY, cascade = ALL)
+	@OneToMany(mappedBy = "feedbackAnalysis", fetch = FetchType.LAZY, cascade = ALL)
 	private List<FeedbackAnalysisRecordEntity> records;
 	
-	private String analyzationName;
+	private String analysisName;
 	
-	private String targetOfAnalyzation;
+	private String targetOfAnalysis;
 
 	public List<FeedbackAnalysisRecordEntity> getRecords() {
 		return records;
@@ -81,17 +81,17 @@ public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
 			this.records = new ArrayList<>();
 		}
 		getRecords().add(record);
-		record.setFeedbackAnalyzation(this);
+		record.setFeedbackAnalysis(this);
 	}
 
 	/**
-	 * The feedbackanalysiscategorysets for the feedback analyzation aren't saved so
+	 * The feedbackanalysiscategorysets for the feedback analysis aren't saved so
 	 * they have to be fetched by getting the categorysets to which all the selected
-	 * categories belong to This means that if an analyzation has a categoryset that
-	 * is not used in the analyzation, it won't be accessible when loading the
-	 * analyzation later.
+	 * categories belong to This means that if an analysis has a categoryset that
+	 * is not used in the analysis, it won't be accessible when loading the
+	 * analysis later.
 	 * 
-	 * @return the feedbackanalysiscategorysets used by the analyzation
+	 * @return the feedbackanalysiscategorysets used by the analysis
 	 */
 	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
 		List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse = new ArrayList<FeedbackAnalysisCategorySetEntity>();
@@ -108,19 +108,19 @@ public class FeedbackAnalyzationEntity extends AbstractObservationEntity {
 		return feedbackAnalysisCategorySetsInUse;
 	}
 
-	public String getAnalyzationName() {
-		return analyzationName;
+	public String getAnalysisName() {
+		return analysisName;
 	}
 
-	public void setAnalyzationName(String name) {
-		this.analyzationName = name;
+	public void setAnalysisName(String name) {
+		this.analysisName = name;
 	}
 
-	public String getTargetOfAnalyzation() {
-		return targetOfAnalyzation;
+	public String getTargetOfAnalysis() {
+		return targetOfAnalysis;
 	}
 
-	public void setTargetOfAnalyzation(String target) {
-		this.targetOfAnalyzation = target;
+	public void setTargetOfAnalysis(String target) {
+		this.targetOfAnalysis = target;
 	}
 }

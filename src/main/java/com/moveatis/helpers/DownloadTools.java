@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 
 public class DownloadTools {
-	public static File getImageFromByteArr(String filename, byte img_bytes[]) {
+	public static File getImageFromByteArr(String filename, byte[] img_bytes) {
 		ByteArrayInputStream bis = new ByteArrayInputStream(img_bytes);
 		BufferedImage image;
 		File outputfile = null;

@@ -55,9 +55,9 @@ import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.Mailer;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
@@ -126,7 +126,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	private List<FeedbackAnalysisCategorySetEntity> categorySetsInUse;
 
-	private FeedbackAnalyzationEntity feedbackAnalyzation;
+	private FeedbackAnalysisEntity feedbackAnalysis;
 
 	private List<BarChartModel> barModels;
 
@@ -149,7 +149,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private List<String> selectedSaveOperations;
 
 	@Inject
-	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
 
 	public String getEmailAddress() {
 		return emailAddress;
@@ -215,12 +215,12 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		this.categorySetsInUse = categorySetsInUse;
 	}
 
-	public FeedbackAnalyzationEntity getFeedbackAnalyzation() {
-		return feedbackAnalyzation;
+	public FeedbackAnalysisEntity getFeedbackAnalysis() {
+		return feedbackAnalysis;
 	}
 
-	public void setFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation) {
-		this.feedbackAnalyzation = feedbackAnalyzation;
+	public void setFeedbackAnalysis(FeedbackAnalysisEntity feedbackAnalysis) {
+		this.feedbackAnalysis = feedbackAnalysis;
 	}
 
 	public FeedbackAnalysisSummaryManagedBean() {
@@ -240,7 +240,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public void mail(List<File> files) {
 		File[] filesArray = files.toArray(new File[files.size()]);
 		FacesContext context = FacesContext.getCurrentInstance();
-		String recipients[] = { emailAddress };
+		String[] recipients = {emailAddress};
 		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
 
 		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis",
@@ -249,19 +249,19 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	public void save() throws IOException {
 		List<File> files = new ArrayList<>();
-		String fileName = feedbackAnalyzation.getAnalyzationName();
+		String fileName = feedbackAnalysis.getAnalysisName();
 		fileName.replaceAll("\\W", "_");
 
 		if (isSelected(SAVETODATABASE)) {
-			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
+			feedbackAnalysisManagedBean.saveFeedbackAnalysis();
 		}
 
 		if (isSelected(EMAIL)) {
 			files.add(createCSV(fileName));
-			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getReportImage()));
-			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getPieImage()));
-			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getBarImage()));
-			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getTableImage()));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalysisManagedBean.getReportImage()));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalysisManagedBean.getPieImage()));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalysisManagedBean.getBarImage()));
+			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalysisManagedBean.getTableImage()));
 
 			mail(files);
 		}
@@ -275,15 +275,15 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public void downloadImage(String whichFile) {
 		byte[] raw_img = null;
 		if (whichFile.contentEquals("pie"))
-			raw_img = feedbackAnalyzationManagedBean.getPieImage();
+			raw_img = feedbackAnalysisManagedBean.getPieImage();
 		if (whichFile.contentEquals("bar"))
-			raw_img = feedbackAnalyzationManagedBean.getBarImage();
+			raw_img = feedbackAnalysisManagedBean.getBarImage();
 		if (whichFile.contentEquals("table"))
-			raw_img = feedbackAnalyzationManagedBean.getTableImage();
+			raw_img = feedbackAnalysisManagedBean.getTableImage();
 		if (raw_img == null)
 			return;
 		File img = DownloadTools.getImageFromByteArr(
-				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName() +"_"+ whichFile+"_", raw_img);
+				feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getAnalysisName() +"_"+ whichFile+"_", raw_img);
 		DownloadTools.downloadFile(img, "image/png", img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
 		img.delete();
 	}
@@ -317,9 +317,9 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private StringBuilder getCSVData() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("Name, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName() + "\n");
-		sb.append("Target, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getTargetOfAnalyzation() + "\n");
-		sb.append("Description, " + feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getDescription()
+		sb.append("Name, " + feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getAnalysisName() + "\n");
+		sb.append("Target, " + feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getTargetOfAnalysis() + "\n");
+		sb.append("Description, " + feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getDescription()
 				+ "\n");
 		sb.append("\n\n");
 
@@ -329,7 +329,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			sb.append(", %");
 			sb.append("\n");
 			for (int i = 0; i < ti.categories.size(); i++) {
-				sb.append(ti.categories.get(i).toString());
+				sb.append(ti.categories.get(i));
 				sb.append(", ");
 				sb.append(ti.counts.get(i).toString());
 				sb.append(", ");
@@ -338,7 +338,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			}
 			sb.append("\n");
 		}
-		sb.append(feedbackAnalyzationManagedBean.getReportCSV());
+		sb.append(feedbackAnalysisManagedBean.getReportCSV());
 		return sb;
 	}
 
@@ -353,20 +353,20 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	public String countPercentage(int count) {
 		DecimalFormat df = new DecimalFormat("#.#");
-		return df.format(100 * (double) count / (double) feedbackAnalyzation.getRecords().size());
+		return df.format(100 * (double) count / (double) feedbackAnalysis.getRecords().size());
 	}
 
 	/**
-	 * Gets the feedback analyzation from the feedbackanalyzatinomanagedbean and
+	 * Gets the feedback analysis from the feedbackanalyzatinomanagedbean and
 	 * builds the summary table and the charts based on the information contained in
 	 * it
 	 */
 	private void initSummary() {
 		List<FeedbackAnalysisCategoryEntity> allSelectedCategories = new ArrayList<FeedbackAnalysisCategoryEntity>();
-		feedbackAnalyzation = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity();
-		categorySetsInUse = feedbackAnalyzationManagedBean.getFeedbackAnalysisCategorySetsInUse();
-		int maxAxis = feedbackAnalyzation.getRecords().size();
-		for (FeedbackAnalysisRecordEntity record : feedbackAnalyzation.getRecords()) {
+		feedbackAnalysis = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity();
+		categorySetsInUse = feedbackAnalysisManagedBean.getFeedbackAnalysisCategorySetsInUse();
+		int maxAxis = feedbackAnalysis.getRecords().size();
+		for (FeedbackAnalysisRecordEntity record : feedbackAnalysis.getRecords()) {
 			allSelectedCategories.addAll(record.getSelectedCategories());
 		}
 
@@ -383,7 +383,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				ChartSeries categorySetChartSeries = new ChartSeries();
 				categorySetChartSeries.setLabel(cat.getLabel().getText());
 				int count = 0;
-				// Comparison by category name and categoryset-name, because if the analyzation
+				// Comparison by category name and categoryset-name, because if the analysis
 				// hasn't yet been saved to the database the ID is null
 				// categoryset-category pairs have to be unique
 				for (FeedbackAnalysisCategoryEntity cat_comp : allSelectedCategories)

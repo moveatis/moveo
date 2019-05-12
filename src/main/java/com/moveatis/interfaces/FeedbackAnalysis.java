@@ -34,41 +34,41 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 import com.moveatis.user.AbstractUser;
 
 /**
- * The interface for the feedback analyzation enterprise java bean
+ * The interface for the feedback analysis enterprise java bean
  * 
  * @author Visa Nykänen
  */
-@Local(FeedbackAnalyzation.class)
-public interface FeedbackAnalyzation {
-	void create(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
+@Local(FeedbackAnalysis.class)
+public interface FeedbackAnalysis {
+	void create(FeedbackAnalysisEntity feedbackAnalysisEntity);
 
-	void edit(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
+	void edit(FeedbackAnalysisEntity feedbackAnalysisEntity);
 
-	void remove(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
+	void remove(FeedbackAnalysisEntity feedbackAnalysisEntity);
 
-	void removeUnsavedObservation(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
+	void removeUnsavedObservation(FeedbackAnalysisEntity feedbackAnalysisEntity);
 
-	FeedbackAnalyzationEntity find(Object id);
+	FeedbackAnalysisEntity find(Object id);
 
-	List<FeedbackAnalyzationEntity> findAll();
+	List<FeedbackAnalysisEntity> findAll();
 
-	List<FeedbackAnalyzationEntity> findAllByObserver(AbstractUser analyzer);
+	List<FeedbackAnalysisEntity> findAllByObserver(AbstractUser analyzer);
 
-	List<FeedbackAnalyzationEntity> findWithoutEvent(AbstractUser analyzer);
+	List<FeedbackAnalysisEntity> findWithoutEvent(AbstractUser analyzer);
 
-	List<FeedbackAnalyzationEntity> findByEventsNotOwned(AbstractUser analyzer);
+	List<FeedbackAnalysisEntity> findByEventsNotOwned(AbstractUser analyzer);
 
-	List<FeedbackAnalyzationEntity> findRange(int[] range);
+	List<FeedbackAnalysisEntity> findRange(int[] range);
 
 	List<FeedbackAnalysisRecordEntity> findRecords(Object id);
 
 	int count();
 
-	void removeRecordFromAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation,
-			FeedbackAnalysisRecordEntity record);
+	void removeRecordFromAnalysis(FeedbackAnalysisEntity feedbackAnalysis,
+                                     FeedbackAnalysisRecordEntity record);
 }

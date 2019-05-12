@@ -181,9 +181,9 @@ public class CategorySetManagedBean implements Serializable {
 			categoryEntity.setLabel(labelEntity);
 
 			if (categoryEntity instanceof CategoryEntity)
-				((CategoryEntity) categoryEntity).setCategorySet(abstractCategorySetEntity);
+				categoryEntity.setCategorySet(abstractCategorySetEntity);
 			else if (categoryEntity instanceof FeedbackAnalysisCategoryEntity)
-				((FeedbackAnalysisCategoryEntity) categoryEntity).setCategorySet(abstractCategorySetEntity);
+				categoryEntity.setCategorySet(abstractCategorySetEntity);
 
 			if (categoryEntity.getOrderNumber() == null) {
 				unorderedCategories.add(categoryEntity);

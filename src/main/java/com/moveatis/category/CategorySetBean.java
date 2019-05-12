@@ -52,7 +52,7 @@ import com.moveatis.interfaces.EventGroup;
 
 /**
  * The EJB manages the CategorySet entities for both observation and
- * analyzation.
+ * analysis.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Visa Nykänen

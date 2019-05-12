@@ -39,7 +39,7 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
@@ -172,7 +172,7 @@ public class CSVFileBuilder {
         public long duration = 0;
     }
 
-	public void buildCSV(OutputStream outputStream, FeedbackAnalyzationEntity feedbackAnalyzation, String separator) {
+	public void buildCSV(OutputStream outputStream, FeedbackAnalysisEntity feedbackAnalysis, String separator) {
 		// TODO Auto-generated method stub
 		
 	}

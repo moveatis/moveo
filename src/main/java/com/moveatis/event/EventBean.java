@@ -44,7 +44,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 
 import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.interfaces.Event;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.observation.ObservationEntity_;
@@ -126,7 +126,7 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
 	}
 
 	@Override
-	public void removeFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
+	public void removeFeedbackAnalysis(FeedbackAnalysisEntity feedbackAnalysisEntity) {
 		// TODO Auto-generated method stub
 
 	}

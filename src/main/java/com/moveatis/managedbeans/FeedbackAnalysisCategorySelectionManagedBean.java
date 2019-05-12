@@ -98,7 +98,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	@Inject
 	private EventGroup eventGroupEJB;
 	@Inject
-	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
 
 	private CategorySet categorySetEJB;
 
@@ -112,8 +112,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		defaultFeedbackAnalysisCategorySets = new ArrayList<FeedbackAnalysisCategorySetEntity>();
 		privateFeedbackAnalysisCategorySets = new ArrayList<FeedbackAnalysisCategorySetEntity>();
 		feedbackAnalysisCategorySetsInUse = new ArrayList<FeedbackAnalysisCategorySetEntity>();
-		if (feedbackAnalyzationManagedBean.getEventEntity() != null) {
-			EventEntity event = feedbackAnalyzationManagedBean.getEventEntity();
+		if (feedbackAnalysisManagedBean.getEventEntity() != null) {
+			EventEntity event = feedbackAnalysisManagedBean.getEventEntity();
 			eventGroup = event.getEventGroup();
 			if (eventGroup.getFeedbackAnalysisCategorySets() == null)
 				eventGroup.setFeedbackAnalysisCategorySets(new HashSet<FeedbackAnalysisCategorySetEntity>());
@@ -138,7 +138,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	}
 
 	/**
-	 * Adds a new category set for the analyzation if
+	 * Adds a new category set for the analysis if
 	 * newFeedbackAnalysisCategorySetName isn't empty.
 	 */
 	public void addNewCategorySet() {
@@ -216,7 +216,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	}
 
 	/**
-	 * Adds the selected default category set for the analyzation.
+	 * Adds the selected default category set for the analysis.
 	 */
 	public void addDefaultCategorySet() {
 		FeedbackAnalysisCategorySetEntity sdc = findById(defaultFeedbackAnalysisCategorySets,
@@ -227,7 +227,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	}
 
 	/**
-	 * Adds the selected private category set for the analyzation.
+	 * Adds the selected private category set for the analysis.
 	 */
 	public void addPrivateCategorySet() {
 		FeedbackAnalysisCategorySetEntity spc = findById(privateFeedbackAnalysisCategorySets,
@@ -314,10 +314,10 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 			showErrorMessage(messages.getString("cs_errorNoneSelected"));
 			return "";
 		}
-		feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
-		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(null);
-		feedbackAnalyzationManagedBean.init();
-		feedbackAnalyzationManagedBean.setIsTimerEnabled(isTimerEnabled);
+		feedbackAnalysisManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
+		feedbackAnalysisManagedBean.setFeedbackAnalysisEntity(null);
+		feedbackAnalysisManagedBean.init();
+		feedbackAnalysisManagedBean.setIsTimerEnabled(isTimerEnabled);
 
 		return "analysiscategoriesok";
 	}
@@ -408,12 +408,12 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		this.eventGroup = eventGroup;
 	}
 
-	public FeedbackAnalyzationManagedBean getFeedbackAnalyzationManagedBean() {
-		return feedbackAnalyzationManagedBean;
+	public FeedbackAnalysisManagedBean getFeedbackAnalysisManagedBean() {
+		return feedbackAnalysisManagedBean;
 	}
 
-	public void setFeedbackAnalyzationManagedBean(FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean) {
-		this.feedbackAnalyzationManagedBean = feedbackAnalyzationManagedBean;
+	public void setFeedbackAnalysisManagedBean(FeedbackAnalysisManagedBean feedbackAnalysisManagedBean) {
+		this.feedbackAnalysisManagedBean = feedbackAnalysisManagedBean;
 	}
 
 }

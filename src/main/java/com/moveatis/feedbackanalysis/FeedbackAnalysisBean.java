@@ -28,7 +28,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.moveatis.feedbackanalyzation;
+package com.moveatis.feedbackanalysis;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,20 +47,20 @@ import org.slf4j.LoggerFactory;
 import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.interfaces.Event;
 import com.moveatis.interfaces.FeedbackAnalysisRecord;
-import com.moveatis.interfaces.FeedbackAnalyzation;
+import com.moveatis.interfaces.FeedbackAnalysis;
 import com.moveatis.observation.ObservationBean;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 import com.moveatis.session.SessionBean;
 import com.moveatis.user.AbstractUser;
 
 /**
- * Manages the database connection for the feedback analyzations
+ * Manages the database connection for the feedback analyses
  * 
  * @author Visa Nykänen
  */
 @Stateful
-public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEntity>
-		implements FeedbackAnalyzation, Serializable {
+public class FeedbackAnalysisBean extends AbstractBean<FeedbackAnalysisEntity>
+		implements FeedbackAnalysis, Serializable {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ObservationBean.class);
 
 	private static final long serialVersionUID = 1L;
@@ -71,7 +71,7 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	@EJB
 	private Event eventEJB;
 
-	private FeedbackAnalyzationEntity feedbackAnalyzationEntity;
+	private FeedbackAnalysisEntity feedbackAnalysisEntity;
 
 	@PersistenceContext(unitName = "MOVEATIS_PERSISTENCE")
 	private EntityManager em;
@@ -84,36 +84,36 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 		return em;
 	}
 
-	public FeedbackAnalyzationBean() {
-		super(FeedbackAnalyzationEntity.class);
+	public FeedbackAnalysisBean() {
+		super(FeedbackAnalysisEntity.class);
 	}
 
 	/**
 	 * Finds and returns all observations for the specific user.
 	 * 
 	 * @param observer
-	 *            The user, whose analyzations are to be searched.
-	 * @return A list of the analyzations for the user.
+	 *            The user, whose analyses are to be searched.
+	 * @return A list of the analyses for the user.
 	 */
 	@Override
-	public List<FeedbackAnalyzationEntity> findAllByObserver(AbstractUser observer) {
-		TypedQuery<FeedbackAnalyzationEntity> query = em.createNamedQuery("findFeedbackAnalyzationsByObserver",
-				FeedbackAnalyzationEntity.class);
+	public List<FeedbackAnalysisEntity> findAllByObserver(AbstractUser observer) {
+		TypedQuery<FeedbackAnalysisEntity> query = em.createNamedQuery("findFeedbackAnalysesByObserver",
+				FeedbackAnalysisEntity.class);
 		query.setParameter("observer", observer);
 		return query.getResultList();
 	}
 
 	/**
-	 * Finds the analyzations for the user, which have no event attached to them.
+	 * Finds the analyses for the user, which have no event attached to them.
 	 * 
 	 * @param observer
-	 *            The user, whose analyzations are to be searched.
-	 * @return A list of the analyzations.
+	 *            The user, whose analyses are to be searched.
+	 * @return A list of the analyses.
 	 */
 	@Override
-	public List<FeedbackAnalyzationEntity> findWithoutEvent(AbstractUser observer) {
-		TypedQuery<FeedbackAnalyzationEntity> query = em.createNamedQuery("findFeedbackAnalyzationsWithoutEvent",
-				FeedbackAnalyzationEntity.class);
+	public List<FeedbackAnalysisEntity> findWithoutEvent(AbstractUser observer) {
+		TypedQuery<FeedbackAnalysisEntity> query = em.createNamedQuery("findFeedbackAnalysesWithoutEvent",
+				FeedbackAnalysisEntity.class);
 		query.setParameter("observer", observer);
 		return query.getResultList();
 	}
@@ -123,13 +123,13 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	 * not own.
 	 * 
 	 * @param observer
-	 *            The user, whose analyzations are to be searched.
-	 * @return A list of the analyzations.
+	 *            The user, whose analyses are to be searched.
+	 * @return A list of the analyses.
 	 */
 	@Override
-	public List<FeedbackAnalyzationEntity> findByEventsNotOwned(AbstractUser observer) {
-		TypedQuery<FeedbackAnalyzationEntity> query = em.createNamedQuery("findFeedbackAnalyzationsByEventsNotOwned",
-				FeedbackAnalyzationEntity.class);
+	public List<FeedbackAnalysisEntity> findByEventsNotOwned(AbstractUser observer) {
+		TypedQuery<FeedbackAnalysisEntity> query = em.createNamedQuery("findFeedbackAnalysesByEventsNotOwned",
+				FeedbackAnalysisEntity.class);
 		query.setParameter("observer", observer);
 		return query.getResultList();
 	}
@@ -137,76 +137,76 @@ public class FeedbackAnalyzationBean extends AbstractBean<FeedbackAnalyzationEnt
 	/**
 	 * Persists the observations to the database.
 	 * 
-	 * @param feedbackAnalyzation
+	 * @param feedbackAnalysis
 	 *            The observatio entity to be persisted.
 	 */
 	@Override
-	public void create(FeedbackAnalyzationEntity feedbackAnalyzation) {
-		super.create(feedbackAnalyzation);
+	public void create(FeedbackAnalysisEntity feedbackAnalysis) {
+		super.create(feedbackAnalysis);
 	}
 
 	@Override
-	public void edit(FeedbackAnalyzationEntity feedbackAnalyzation) {
-		super.edit(feedbackAnalyzation);
+	public void edit(FeedbackAnalysisEntity feedbackAnalysis) {
+		super.edit(feedbackAnalysis);
 	}
 
 	/**
 	 * Finds a list of the records for the observation with the given id.
 	 * 
 	 * @param id
-	 *            The id of the analyzation.
+	 *            The id of the analysis.
 	 * @return A list of the records.
 	 */
 	@Override
 	public List<FeedbackAnalysisRecordEntity> findRecords(Object id) {
-		feedbackAnalyzationEntity = em.find(FeedbackAnalyzationEntity.class, id);
-		if (feedbackAnalyzationEntity != null) {
-			return feedbackAnalyzationEntity.getRecords();
+		feedbackAnalysisEntity = em.find(FeedbackAnalysisEntity.class, id);
+		if (feedbackAnalysisEntity != null) {
+			return feedbackAnalysisEntity.getRecords();
 		}
 		return new ArrayList<>(); // return empty list
 	}
 
 	/**
-	 * Removes the analyzation and also removes the analyzation from the event it
+	 * Removes the analysis and also removes the analysis from the event it
 	 * was associated with.
 	 * 
-	 * @param feedbackAnalyzationEntity
-	 *            The analyzation to be removed.
+	 * @param feedbackAnalysisEntity
+	 *            The analysis to be removed.
 	 */
 	@Override
-	public void remove(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
-		super.remove(feedbackAnalyzationEntity);
-		eventEJB.removeFeedbackAnalyzation(feedbackAnalyzationEntity);
-		feedbackAnalyzationEntity.setEvent(null);
-		super.edit(feedbackAnalyzationEntity);
+	public void remove(FeedbackAnalysisEntity feedbackAnalysisEntity) {
+		super.remove(feedbackAnalysisEntity);
+		eventEJB.removeFeedbackAnalysis(feedbackAnalysisEntity);
+		feedbackAnalysisEntity.setEvent(null);
+		super.edit(feedbackAnalysisEntity);
 	}
 
 	@Override
-	public void removeRecordFromAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation,
-			FeedbackAnalysisRecordEntity record) {
-		List<FeedbackAnalysisRecordEntity> records = feedbackAnalyzation.getRecords();
+	public void removeRecordFromAnalysis(FeedbackAnalysisEntity feedbackAnalysis,
+                                            FeedbackAnalysisRecordEntity record) {
+		List<FeedbackAnalysisRecordEntity> records = feedbackAnalysis.getRecords();
 		records.remove(record);
-		record.setFeedbackAnalyzation(null);
-		feedbackAnalyzation.setRecords(records);
+		record.setFeedbackAnalysis(null);
+		feedbackAnalysis.setRecords(records);
 		feedbackAnalysisRecordEJB.remove(record);
-		for (FeedbackAnalysisRecordEntity rec : feedbackAnalyzation.getRecords()) {
+		for (FeedbackAnalysisRecordEntity rec : feedbackAnalysis.getRecords()) {
 			if (rec.getId() == null)
 				feedbackAnalysisRecordEJB.create(rec);
 			else
 				feedbackAnalysisRecordEJB.edit(rec);
 		}
-		super.edit(feedbackAnalyzation);
+		super.edit(feedbackAnalysis);
 	}
 
 	/**
-	 * Permanently removes the analyzation, which the user did not set to be saved
+	 * Permanently removes the analysis, which the user did not set to be saved
 	 * into the database.
 	 * 
-	 * @param feedbackAnalyzationEntity
-	 *            The analyzation to be removed.
+	 * @param feedbackAnalysisEntity
+	 *            The analysis to be removed.
 	 */
 	@Override
-	public void removeUnsavedObservation(FeedbackAnalyzationEntity feedbackAnalyzationEntity) {
-		em.remove(em.merge(feedbackAnalyzationEntity));
+	public void removeUnsavedObservation(FeedbackAnalysisEntity feedbackAnalysisEntity) {
+		em.remove(em.merge(feedbackAnalysisEntity));
 	}
 }

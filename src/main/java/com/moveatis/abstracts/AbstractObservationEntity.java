@@ -39,7 +39,7 @@ import com.moveatis.user.AbstractUser;
 
 /**
  * @author Visa Nykänen Superclass for the common features of feedback
- *         analyzations and observations
+ *         analyses and observations
  */
 @MappedSuperclass
 public abstract class AbstractObservationEntity extends BaseEntity {
@@ -51,18 +51,18 @@ public abstract class AbstractObservationEntity extends BaseEntity {
 	private AbstractUser observer;
 
 	/**
-	 * The event for which the analyzation or observation is made
+	 * The event for which the analysis or observation is made
 	 */
 	@ManyToOne
 	private EventEntity event;
 
 	/**
-	 * The duration of the analyzation or observation event
+	 * The duration of the analysis or observation event
 	 */
 	private long duration;
 
 	/**
-	 * The description of the analyzation or observation event
+	 * The description of the analysis or observation event
 	 */
 	private String description;
 

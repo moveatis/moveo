@@ -138,6 +138,26 @@ public class RecordListenerBean implements Serializable {
 	public String keepAlive() {
 		return "keep-alive";
 	}
+	
+	@POST
+	@Path("settimezone")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void setTimezone(String data) {
+		StringReader stringReader = new StringReader(data);
+
+		jsonReader = Json.createReader(stringReader);
+
+		JsonObject jObject = jsonReader.readObject();
+		JsonNumber timeZoneOffset = jObject.getJsonNumber("timeZoneOffsetInMs");
+		JsonNumber DSTOffset = jObject.getJsonNumber("daylightSavingInMs");
+
+		jsonReader.close();
+
+		TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(timeZoneOffset.intValue(), DSTOffset.intValue());
+
+		sessionBean.setSessionTimeZone(timeZone);
+		
+	}
 
 	/**
 	 * Adds the observation data coming from the observation view. It could be used

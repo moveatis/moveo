@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.interfaces.Session;
-import com.moveatis.managedbeans.FeedbackAnalyzationManagedBean;
+import com.moveatis.managedbeans.FeedbackAnalysisManagedBean;
 import com.moveatis.managedbeans.ObservationManagedBean;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.timezone.TimeZoneInformation;
@@ -75,7 +75,7 @@ public class SessionBean implements Serializable, Session {
 	private ObservationManagedBean observationManagedBean;
 	
 	@Inject
-	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
 	
 	private boolean loggedIn = false;
 	
@@ -110,7 +110,7 @@ public class SessionBean implements Serializable, Session {
 		// If user wants to observe without selecting existing event group
 		// (in control view or with a group key), we should reset the event.
 		observationManagedBean.setEventEntity(null);
-		feedbackAnalyzationManagedBean.setEventEntity(null);
+		feedbackAnalysisManagedBean.setEventEntity(null);
 	}
 
 	@Override
@@ -121,14 +121,14 @@ public class SessionBean implements Serializable, Session {
 		this.tagEntity = tagUser;
 		commonSettingsForLoggedInUsers();
 		observationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
-		feedbackAnalyzationManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
+		feedbackAnalysisManagedBean.setEventEntity(tagUser.getGroupKey().getEventGroup().getEvent());
 	}
 
 	private void commonSettingsForLoggedInUsers() {
 		this.loggedIn = true;
 		// Make sure we don't modify earlier categories.
 		observationManagedBean.resetCategorySetsInUse();
-		feedbackAnalyzationManagedBean.resetCategorySetsInUse();
+		feedbackAnalysisManagedBean.resetCategorySetsInUse();
 	}
 
 	@Override
@@ -274,11 +274,11 @@ public class SessionBean implements Serializable, Session {
 
 	@Override
 	public void setFeedbackAnalysisCategorySetsInUse(List<FeedbackAnalysisCategorySetEntity> categorySets) {
-		feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(categorySets);
+		feedbackAnalysisManagedBean.setFeedbackAnalysisCategorySetsInUse(categorySets);
 	}
 
 	@Override
 	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySetsInUse() {
-		return feedbackAnalyzationManagedBean.getFeedbackAnalysisCategorySetsInUse();
+		return feedbackAnalysisManagedBean.getFeedbackAnalysisCategorySetsInUse();
 	}
 }

@@ -118,7 +118,7 @@
 		<from-view-id>/app/control/index.xhtml</from-view-id>
 		<navigation-case>
 			<to-view-id>/app/analysiscategoryselection/index.xhtml</to-view-id>
-			<from-outcome>newanalyzation</from-outcome>
+			<from-outcome>newanalysis</from-outcome>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

@@ -24,7 +24,7 @@
 				</div>
 				<div id="dataTableImage">
 					<p:dataTable id="entries"
-						value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"
+						value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.records}"
 						var="record" sortBy="#{record.orderNumber}"
 						rowStyleClass="datatable" resizableColumns="true"
 						liveResize="false" styleClass="entries_dt" reflow="true">
@@ -35,16 +35,16 @@
 							<h:outputText class="tContent" value="#{record.comment}" />
 						</p:column>
 						<c:forEach
-							items="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+							items="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
 							<p:column headerText="#{categorySet.label}">
 								<h:outputText class="tContent"
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
-						<p:column rendered="#{feedbackAnalyzationManagedBean.isTimerEnabled}" headerText="#{msg.repo_timestamp}">
+						<p:column rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}" headerText="#{msg.repo_timestamp}">
 							<h:outputText
-								value="#{feedbackAnalyzationManagedBean.getLongAsTimeStamp(record.startTime)}"
+								value="#{feedbackAnalysisManagedBean.getLongAsTimeStamp(record.startTime)}"
 								class="tContent" />
 						</p:column>
 						<p:column headerText="#{msg.repo_edit}" exportable="false"
@@ -84,12 +84,12 @@
 
 
 					<p:commandButton value="Continue to Summary"
-						action="#{feedbackAnalyzationManagedBean.toSummary()}"
-						rendered="#{!feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+						action="#{feedbackAnalysisManagedBean.toSummary()}"
+						rendered="#{!feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
 					</p:commandButton>
 					<p:commandButton value="Continue to Summary"
-						action="#{feedbackAnalyzationManagedBean.toSummary()}"
-						rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+						action="#{feedbackAnalysisManagedBean.toSummary()}"
+						rendered="#{feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
 						<p:confirm header="#{msg.repo_question}"
 							message="#{msg.repo_warning}"
 							icon="ui-icon-alert" />
@@ -97,7 +97,7 @@
 				</h:panelGroup>
 			</div>
 
-			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
+			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalysis}"
 				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
 				responsive="true" fitViewport="true" styleClass="coloredDialog"
 				visible="#{facesContext.validationFailed}">
@@ -109,7 +109,7 @@
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" />
 					</p:selectManyCheckbox>
-					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}" />
+					<h:outputLabel for="input-name" value="#{msg.asum_analysisName}" />
 					<p:message for="input-name" />
 					<p:inputText id="input-name" required="true"
 						requiredMessage="#{msg.dlg_notEmpty}"

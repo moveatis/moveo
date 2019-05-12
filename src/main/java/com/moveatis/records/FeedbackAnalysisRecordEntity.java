@@ -41,8 +41,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.moveatis.abstracts.AbstractRecordEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 
 /**
  * The entity for feedbackanalysis records, corresponds to the
@@ -55,7 +55,7 @@ import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 
 	@ManyToOne
-	private FeedbackAnalyzationEntity feedbackAnalyzation;
+	private FeedbackAnalysisEntity feedbackAnalysis;
 
 	/**
 	 * The categories selected in this record
@@ -67,7 +67,7 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 
 	/**
-	 * Maintains the order of the records within an analyzation
+	 * Maintains the order of the records within an analysis
 	 */
 	private Integer orderNumber;
 
@@ -108,11 +108,11 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 			addSelectedCategory(selectedCategory);
 	}
 
-	public FeedbackAnalyzationEntity getFeedbackAnalyzation() {
-		return feedbackAnalyzation;
+	public FeedbackAnalysisEntity getFeedbackAnalysis() {
+		return feedbackAnalysis;
 	}
 
-	public void setFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation) {
-		this.feedbackAnalyzation = feedbackAnalyzation;
+	public void setFeedbackAnalysis(FeedbackAnalysisEntity feedbackAnalysis) {
+		this.feedbackAnalysis = feedbackAnalysis;
 	}
 }
