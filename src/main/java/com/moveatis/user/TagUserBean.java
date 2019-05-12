@@ -29,14 +29,15 @@
  */
 package com.moveatis.user;
 
-import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.interfaces.TagUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.interfaces.TagUser;
 
 /**
  * The EJB is used in managing of TagUser, which represents the user account for

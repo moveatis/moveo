@@ -29,18 +29,14 @@
  */
 package com.moveatis.category;
 
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.label.LabelEntity;
-import java.io.Serializable;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import javax.persistence.Entity;
-import static javax.persistence.FetchType.EAGER;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 /**
  * The entity represents the categories of an observation in the database.

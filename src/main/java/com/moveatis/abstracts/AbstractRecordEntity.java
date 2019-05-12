@@ -1,12 +1,7 @@
 package com.moveatis.abstracts;
 
-import java.io.File;
-
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 
 /**

@@ -29,11 +29,13 @@
  */
 package com.moveatis.interfaces;
 
+import java.util.List;
+
+import javax.ejb.Local;
+
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.records.RecordEntity;
 import com.moveatis.user.AbstractUser;
-import java.util.List;
-import javax.ejb.Local;
 
 /**
  * The interface to manage the observation entity. The observation contains the

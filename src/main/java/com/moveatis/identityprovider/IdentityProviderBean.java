@@ -29,12 +29,13 @@
  */
 package com.moveatis.identityprovider;
 
-import com.moveatis.abstracts.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import com.moveatis.abstracts.AbstractBean;
 
 /**
  * An example EJB that implements the custom identity provider service.

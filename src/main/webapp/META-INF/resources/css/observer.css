@@ -33,7 +33,6 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
-
 #naviHead, #Footer {
 	font-size: 1em;
 }
@@ -106,7 +105,7 @@
 	color: white;
 	max-width: 100%;
 	list-style-type: none;
-	background-color: rgb(85,102,119, 0.2);
+	background-color: rgb(85, 102, 119, 0.2);
 }
 
 .category-item {
@@ -169,14 +168,13 @@
 	http://stackoverflow.com/a/14101451
 
 */
-
 #total-time {
-	height: calc((100vh - 4.375em) * 0.12);
+	height: calc(( 100vh - 4.375em)* 0.12);
 	font-size: 9vh;
 }
 
 #controls {
-	height: calc((100vh - 4.375em) * 0.15);
+	height: calc(( 100vh - 4.375em)* 0.15);
 }
 
 .control-button {
@@ -191,7 +189,7 @@
 }
 
 .category-item {
-	height: calc((100vh - 4.375em) * 0.73 * 0.127);
+	height: calc(( 100vh - 4.375em)* 0.73* 0.127);
 	margin: 0;
 	margin-bottom: 1vh;
 	border-radius: 1vh;
@@ -211,7 +209,7 @@
 		font-size: calc(30em * 0.09);
 	}
 	#controls {
-		height: calc((30em - 4.375em) * 0.15);
+		height: calc(( 30em - 4.375em)* 0.15);
 	}
 	.control-button {
 		border-radius: calc(30em * 0.01);
@@ -223,7 +221,7 @@
 		border-radius: calc(30em * 0.01);
 	}
 	.category-item {
-		height: calc((30em - 4.375em) * 0.73 * 0.127);
+		height: calc(( 30em - 4.375em)* 0.73* 0.127);
 		margin: 0;
 		margin-bottom: calc(30em * 0.01);
 		border-radius: calc(30em * 0.01);
@@ -239,11 +237,11 @@
 
 @media screen and (max-height: 15em) {
 	#total-time {
-		height: calc((15em - 4.375em) * 0.12);
+		height: calc(( 15em - 4.375em)* 0.12);
 		font-size: calc(15em * 0.09);
 	}
 	#controls {
-		height: calc((15em - 4.375em) * 0.15);
+		height: calc(( 15em - 4.375em)* 0.15);
 	}
 	.control-button {
 		border-radius: calc(15em * 0.01);
@@ -255,7 +253,7 @@
 		border-radius: calc(15em * 0.01);
 	}
 	.category-item {
-		height: calc((15em - 4.375em) * 0.73 * 0.127);
+		height: calc(( 15em - 4.375em)* 0.73* 0.127);
 		margin: 0;
 		margin-bottom: calc(15em * 0.01);
 		border-radius: calc(15em * 0.01);

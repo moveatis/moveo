@@ -33,7 +33,6 @@
 		last modified: 16.4.2019 by Petra Puumala
 		Author     : Ilari Paananen
 */
-
 body {
 	text-align: center;
 	/* Disable text selection.
@@ -60,13 +59,11 @@ body {
 #timer_div {
 	padding-top: 1em;
 	padding-bottom: 1em;
-
 }
 
 #timer_div .ui-button.ui-state-active {
 	background-color: #008AB9;
 	background: linear-gradient(0deg, #008AB9, #10A1D1);
-
 }
 
 #timer_div .ui-icon {
@@ -77,9 +74,8 @@ body {
 #timer_span {
 	font-size: 2em;
 	display: inline-block;
-	position:relative;
+	position: relative;
 	vertical-align: middle;
-
 }
 
 #pause_span {
@@ -89,7 +85,7 @@ body {
 }
 
 #pause_span button {
-
+	
 }
 
 #timestamp_div {
@@ -232,7 +228,6 @@ body {
 		padding-top: 0.5em;
 		vertical-align: top;
 	}
-
 	#buttons {
 		display: inline-block;
 		margin-right: 0;
@@ -248,7 +243,6 @@ body {
 		flex-flow: row wrap;
 		overflow: hidden;
 	}
-
 	#pageNumber {
 		display: block;
 		margin: auto;
@@ -256,12 +250,10 @@ body {
 		width: 100%;
 		;
 	}
-
 	.arrows {
 		order: 2;
 		margin: auto;
 	}
-
 	#texts {
 		display: inline-block;
 		width: 100%;
@@ -272,7 +264,6 @@ body {
 		padding-top: 0.5em;
 		vertical-align: top;
 	}
-
 	#buttons {
 		display: inline-block;
 		margin-right: 0;
@@ -286,7 +277,6 @@ body {
 		margin: 0;
 		width: 2.6em;
 	}
-
 	#timestamp_span {
 		white-space: nowrap;
 		padding-left: 0em;
@@ -304,5 +294,4 @@ body {
 		box-shadow: none;
 		max-width: 8em;
 	}
-
 }

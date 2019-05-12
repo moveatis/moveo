@@ -29,14 +29,17 @@
  */
 package com.moveatis.user;
 
-import com.moveatis.identityprovider.IdentityProviderInformationEntity;
-import java.io.Serializable;
 import static javax.persistence.CascadeType.PERSIST;
+
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.moveatis.identityprovider.IdentityProviderInformationEntity;
 
 /**
  * The entity represents the individual user, which is identified using the

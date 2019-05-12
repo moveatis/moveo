@@ -29,6 +29,17 @@
  */
 package com.moveatis.managedbeans;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
@@ -38,14 +49,6 @@ import com.moveatis.interfaces.GroupKey;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.TagUserEntity;
-import java.util.HashSet;
-import java.util.Set;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The bean is used to manage event groups in the appropriate views.

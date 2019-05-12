@@ -30,8 +30,6 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.interfaces.Label;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +53,7 @@ import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalyzation;
+import com.moveatis.interfaces.Label;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
@@ -505,12 +504,13 @@ public class FeedbackAnalyzationManagedBean implements Serializable {
 				for (AbstractCategoryEntity cat : categorySet.getCategoryEntitys().values()) {
 					LabelEntity label = labelEJB.findByLabel(cat.getLabel().getText());
 					cat.setCategorySet(categorySet);
-					if (label == null)
+					if (label == null) {
+						cat.setLabel(new LabelEntity(cat.getLabel().getText()));
 						labelEJB.create(cat.getLabel());
+						}
 					else
 						cat.setLabel(label);
 				}
-
 				categorySetEJB.create(categorySet);
 			}
 			feedbackAnalyzationEntity.setEvent(eventEntity);

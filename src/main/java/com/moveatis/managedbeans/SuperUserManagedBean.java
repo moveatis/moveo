@@ -29,14 +29,16 @@
  */
 package com.moveatis.managedbeans;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import com.moveatis.interfaces.Role;
 import com.moveatis.roles.SuperUserRoleEntity;
 import com.moveatis.user.IdentifiedUserEntity;
-import javax.inject.Named;
-import java.util.Date;
-import java.util.List;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 
 /**
  * The bean sets the superuser role for the identified users. It is not used in

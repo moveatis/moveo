@@ -8,15 +8,11 @@
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/src/main/webapp/META-INF/resources/js/analyzer.js"
 				afterDir="false" />
-			<change
-				beforePath="$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml"
+			<change beforePath="$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml"
+				beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml"
 				afterDir="false" />
-			<change
-				beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties"
+			<change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties"
+				beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties"
 				afterDir="false" />
 		</list>
 		<ignored path="$PROJECT_DIR$/target/" />
@@ -33,8 +29,8 @@
 					file="file://$PROJECT_DIR$/src/main/webapp/META-INF/resources/js/analyzer.js">
 					<provider selected="true" editor-type-id="text-editor">
 						<state relative-caret-position="340">
-							<caret line="20" lean-forward="true"
-								selection-start-line="20" selection-end-line="20" />
+							<caret line="20" lean-forward="true" selection-start-line="20"
+								selection-end-line="20" />
 						</state>
 					</provider>
 				</entry>
@@ -61,8 +57,7 @@
 			<list>
 				<option
 					value="$PROJECT_DIR$/src/main/webapp/META-INF/resources/js/analyzer.js" />
-				<option
-					value="$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml" />
+				<option value="$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml" />
 			</list>
 		</option>
 	</component>
@@ -71,15 +66,12 @@
 			<expand>
 				<path>
 					<item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-					<item name="Moveatis"
-						type="9519ce18:MavenProjectsStructure$ProjectNode" />
+					<item name="Moveatis" type="9519ce18:MavenProjectsStructure$ProjectNode" />
 				</path>
 				<path>
 					<item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-					<item name="Moveatis"
-						type="9519ce18:MavenProjectsStructure$ProjectNode" />
-					<item name="Lifecycle"
-						type="58874e2:MavenProjectsStructure$LifecycleNode" />
+					<item name="Moveatis" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+					<item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
 				</path>
 			</expand>
 			<select />
@@ -119,12 +111,10 @@
 		</panes>
 	</component>
 	<component name="PropertiesComponent">
-		<property name="WebServerToolWindowFactoryState"
-			value="false" />
+		<property name="WebServerToolWindowFactoryState" value="false" />
 		<property name="aspect.path.notification.shown" value="true" />
 		<property name="last_opened_file_path" value="$PROJECT_DIR$" />
-		<property
-			name="nodejs_interpreter_path.stuck_in_default_project"
+		<property name="nodejs_interpreter_path.stuck_in_default_project"
 			value="undefined stuck path" />
 		<property name="nodejs_npm_path_reset_for_default_project"
 			value="true" />
@@ -133,8 +123,7 @@
 		<option name="ruleStates">
 			<list>
 				<RuleState>
-					<option name="name"
-						value="ConfigurationTypeDashboardGroupingRule" />
+					<option name="name" value="ConfigurationTypeDashboardGroupingRule" />
 				</RuleState>
 				<RuleState>
 					<option name="name" value="StatusDashboardGroupingRule" />
@@ -170,8 +159,7 @@
 		</todo-panel>
 	</component>
 	<component name="ToolWindowManager">
-		<frame x="-8" y="-8" width="1696" height="1026"
-			extended-state="6" />
+		<frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
 		<layout>
 			<window_info id="Web" side_tool="true" />
 			<window_info id="Designer" />
@@ -187,19 +175,16 @@
 				sideWeight="0.49938875" weight="0.32922733" />
 			<window_info anchor="bottom" id="Java Enterprise" />
 			<window_info anchor="bottom" id="Terminal" />
-			<window_info anchor="bottom" id="Event Log"
-				sideWeight="0.50061125" side_tool="true" visible="true"
+			<window_info anchor="bottom" id="Event Log" sideWeight="0.50061125"
+				side_tool="true" visible="true" weight="0.32922733" />
+			<window_info anchor="bottom" id="Messages" sideWeight="0.49938875"
 				weight="0.32922733" />
-			<window_info anchor="bottom" id="Messages"
-				sideWeight="0.49938875" weight="0.32922733" />
 			<window_info anchor="bottom" id="Message" order="0" />
 			<window_info anchor="bottom" id="Find" order="1" />
 			<window_info anchor="bottom" id="Run" order="2"
 				sideWeight="0.49938875" weight="0.32922733" />
-			<window_info anchor="bottom" id="Debug" order="3"
-				weight="0.4" />
-			<window_info anchor="bottom" id="Cvs" order="4"
-				weight="0.25" />
+			<window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+			<window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
 			<window_info anchor="bottom" id="Inspection" order="5"
 				weight="0.4" />
 			<window_info anchor="bottom" id="TODO" order="6"
@@ -211,12 +196,12 @@
 			<window_info anchor="right" id="Palette&#9;" />
 			<window_info anchor="right" id="CDI" />
 			<window_info anchor="right" id="Database" />
-			<window_info anchor="right" id="Commander"
-				internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+			<window_info anchor="right" id="Commander" internal_type="SLIDING"
+				order="0" type="SLIDING" weight="0.4" />
 			<window_info anchor="right" id="Ant Build" order="1"
 				weight="0.25" />
-			<window_info anchor="right" content_ui="combo"
-				id="Hierarchy" order="2" weight="0.25" />
+			<window_info anchor="right" content_ui="combo" id="Hierarchy"
+				order="2" weight="0.25" />
 		</layout>
 	</component>
 	<component name="TypeScriptGeneratedFilesManager">
@@ -262,13 +247,12 @@
 			file="file://$PROJECT_DIR$/src/main/webapp/META-INF/resources/js/analyzer.js">
 			<provider selected="true" editor-type-id="text-editor">
 				<state relative-caret-position="340">
-					<caret line="20" lean-forward="true"
-						selection-start-line="20" selection-end-line="20" />
+					<caret line="20" lean-forward="true" selection-start-line="20"
+						selection-end-line="20" />
 				</state>
 			</provider>
 		</entry>
-		<entry
-			file="file://$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml">
+		<entry file="file://$PROJECT_DIR$/src/main/webapp/app/analyzer/index.xhtml">
 			<provider selected="true" editor-type-id="text-editor">
 				<state relative-caret-position="370">
 					<caret line="88" column="92" selection-start-line="88"

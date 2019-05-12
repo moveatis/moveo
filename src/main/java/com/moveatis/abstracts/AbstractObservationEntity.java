@@ -30,22 +30,11 @@
  */
 package com.moveatis.abstracts;
 
-import static javax.persistence.CascadeType.ALL;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 import com.moveatis.event.EventEntity;
-import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
-import com.moveatis.records.RecordEntity;
 import com.moveatis.user.AbstractUser;
 
 /**

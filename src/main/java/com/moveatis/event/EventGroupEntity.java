@@ -30,25 +30,25 @@
  */
 package com.moveatis.event;
 
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.category.CategorySetEntity;
-import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
-import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.user.AbstractUser;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import static javax.persistence.CascadeType.PERSIST;
-import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.user.AbstractUser;
 
 /**
  * The entity represents the information for the event groups of the

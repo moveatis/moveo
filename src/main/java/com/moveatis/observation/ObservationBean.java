@@ -29,23 +29,26 @@
  */
 package com.moveatis.observation;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.interfaces.Event;
-import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import com.moveatis.interfaces.Observation;
-import com.moveatis.records.RecordEntity;
 import java.io.Serializable;
-import javax.ejb.EJB;
-import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.moveatis.session.SessionBean;
-import com.moveatis.user.AbstractUser;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.interfaces.Event;
+import com.moveatis.interfaces.Observation;
+import com.moveatis.records.RecordEntity;
+import com.moveatis.session.SessionBean;
+import com.moveatis.user.AbstractUser;
 
 /**
  * The EJB manages observations..

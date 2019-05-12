@@ -29,12 +29,14 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.interfaces.Session;
-import com.moveatis.timezone.TimeZoneInformation;
 import java.util.TimeZone;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.moveatis.interfaces.Session;
+import com.moveatis.timezone.TimeZoneInformation;
 
 /**
  * Provides time related attributes like time zone.

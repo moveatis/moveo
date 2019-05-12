@@ -33,7 +33,6 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
-
 html {
 	width: 100%;
 	height: 100%;
@@ -41,7 +40,10 @@ html {
 	padding: 0;
 }
 
-.html2canvas-container { width: 3000px !important; height: 3000px !important; }
+.html2canvas-container {
+	width: 3000px !important;
+	height: 3000px !important;
+}
 
 #mainPage {
 	width: 100%;
@@ -58,8 +60,9 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background-color: rgb(85,102,119, 0.2);
-	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
+	background-color: rgb(85, 102, 119, 0.2);
+	border-radius: 0.625em 0.625em 0.625em 0.625em;
+	position: relative;
 	z-index: 2;
 }
 
@@ -67,7 +70,7 @@ html {
 	width: 100%;
 	border: 0;
 	border-collapse: collapse;
-	margin-top:1em;
+	margin-top: 1em;
 }
 
 .tableheader {
@@ -107,9 +110,9 @@ html {
 	display: inline-block;
 	border: 1px solid black;
 	text-align: left;
-    white-space: nowrap;
-    overflow-x:auto;
-    max-width: 90%;
+	white-space: nowrap;
+	overflow-x: auto;
+	max-width: 90%;
 }
 
 #charts_div {
@@ -122,28 +125,27 @@ html {
 }
 
 .chart {
-	display:inline-block;
+	display: inline-block;
 	width: 6.25em;
 }
 
-.jqplot-title{
-  white-space: nowrap;
-  font-size: 1em;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.jqplot-title {
+	white-space: nowrap;
+	font-size: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-table.jqplot-table-legend td{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;	
-  max-width: 6.25em;
+table.jqplot-table-legend td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 6.25em;
 }
 
 #saveForm {
-	text-align: left!important;
+	text-align: left !important;
 }
-
 
 #pieModels canvas {
 	width: 18.75em;
@@ -154,26 +156,24 @@ table.jqplot-table-legend td{
 	margin-right: 1.5em;
 }
 
-@media (max-width: 570px) {
-#container {
-	width: 80%;
+@media ( max-width : 570px) {
+	#container {
+		width: 80%;
+	}
+	#bar_div {
+		font-size: 0.8em;
+		padding: 0.5em;
+	}
 }
 
-#bar_div {
-	font-size: 0.8em;
-	padding: 0.5em;
-}
-}
-
-@media (max-width: 400px) {
-#container {
-	width: 90%;
-	font-size: 0.8em;
-}
-
-#bar_div {
-	font-size: 1em;
-	padding: 3em;
-    width:70%;
-}
+@media ( max-width : 400px) {
+	#container {
+		width: 90%;
+		font-size: 0.8em;
+	}
+	#bar_div {
+		font-size: 1em;
+		padding: 3em;
+		width: 70%;
+	}
 }

@@ -29,17 +29,6 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.export.CSVFileBuilder;
-import com.moveatis.helpers.DownloadTools;
-import com.moveatis.interfaces.Mailer;
-import com.moveatis.interfaces.MessageBundle;
-import com.moveatis.interfaces.Observation;
-import com.moveatis.interfaces.Session;
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.observation.ObservationEntity;
-import com.moveatis.records.RecordEntity;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -50,22 +39,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.extensions.model.timeline.TimelineEvent;
-import org.primefaces.extensions.model.timeline.TimelineModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import javax.faces.view.ViewScoped;
-import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
+import org.primefaces.extensions.model.timeline.TimelineModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.moveatis.export.CSVFileBuilder;
+import com.moveatis.helpers.DownloadTools;
+import com.moveatis.interfaces.Mailer;
+import com.moveatis.interfaces.MessageBundle;
+import com.moveatis.interfaces.Observation;
+import com.moveatis.interfaces.Session;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
+import com.moveatis.observation.ObservationEntity;
+import com.moveatis.records.RecordEntity;
 
 /**
  * The bean that serves the summary page. It is responsible for creating the

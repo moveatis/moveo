@@ -29,18 +29,20 @@
  */
 package com.moveatis.export;
 
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationEntity;
-import com.moveatis.records.RecordEntity;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationEntity;
+import com.moveatis.records.RecordEntity;
 
 /**
  * Builds a CSV file from an observation.

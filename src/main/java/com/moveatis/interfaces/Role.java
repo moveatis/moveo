@@ -29,10 +29,11 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.roles.SuperUserRoleEntity;
-import com.moveatis.user.IdentifiedUserEntity;
 import java.util.Date;
 import java.util.List;
+
+import com.moveatis.roles.SuperUserRoleEntity;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The interface to manage the role entity. A role grants more finegrained

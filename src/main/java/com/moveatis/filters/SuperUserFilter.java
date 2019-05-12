@@ -29,12 +29,10 @@
  */
 package com.moveatis.filters;
 
-import com.moveatis.application.RedirectURLs;
-import com.moveatis.interfaces.Role;
-import com.moveatis.interfaces.Session;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -45,8 +43,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.application.RedirectURLs;
+import com.moveatis.interfaces.Role;
+import com.moveatis.interfaces.Session;
 
 /**
  * The filter allows only identified users that have the superuser role to

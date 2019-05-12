@@ -31,16 +31,12 @@
 package com.moveatis.abstracts;
 
 import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.EAGER;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import com.moveatis.abstracts.BaseEntity;
 import com.moveatis.category.CategoryEntity;
-import com.moveatis.category.CategorySetEntity;
-import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.label.LabelEntity;
 
 /**

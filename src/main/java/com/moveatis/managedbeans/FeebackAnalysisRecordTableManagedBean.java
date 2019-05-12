@@ -30,32 +30,23 @@
  */
 package com.moveatis.managedbeans;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.moveatis.abstracts.AbstractCategoryEntity;
-import com.moveatis.export.CSVFileBuilder;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
@@ -80,8 +71,6 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
 	private FeedbackAnalysisRecordEntity selectedRow;
 	private List<String> selectedSaveOptions;
-	private static final String DOWNLOAD_OPTION = "download";
-	private static final String IMAGE_OPTION = "image";
 	private FeedbackAnalyzationEntity feedbackAnalyzation;
 
 	private String fileName;
@@ -167,7 +156,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	 * @param record
 	 *            selected row
 	 */
-	public void delete(Integer orderNumber) {
+	public void delete(int orderNumber) {
 		if (feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getRecords().size() == 1) {
 			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Deletion failed", "There needs to be at least one record in an analyzation."));
@@ -177,9 +166,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		List<FeedbackAnalysisRecordEntity> list = feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity()
 				.getRecords();
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getOrderNumber() != null
-					&& list.get(i).getOrderNumber().intValue() == orderNumber.intValue()) {
-				list.get(i).setFeedbackAnalyzation(null);
+			if (list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber) {
 				if (list.get(i).getId() != null)
 					feedbackAnalyzationEJB.removeRecordFromAnalyzation(
 							feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity(), list.get(i));
@@ -187,8 +174,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 				break;
 			}
 		}
-		feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().setRecords(list);
 		setOrderNumbers(list);
+		feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().setRecords(list);
 		feedbackAnalyzationManagedBean.setCurrentRecord(list.size());
 	}
 
@@ -211,12 +198,26 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	}
 
 	/**
+	 * Comparator for feedbackanalysisrecords, compares the ordernumber
+	 * 
+	 * @author Visa Nykänen
+	 *
+	 */
+	private class compareRecords implements Comparator<FeedbackAnalysisRecordEntity> {
+		@Override
+		public int compare(FeedbackAnalysisRecordEntity a, FeedbackAnalysisRecordEntity b) {
+			return a.getOrderNumber().compareTo(b.getOrderNumber());
+		}
+	}
+
+	/**
 	 * Updates order numbers to records list
 	 * 
 	 * @param list
 	 *            users records
 	 */
 	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
+		list.sort(new compareRecords());
 		Integer newOrderNumber = 1;
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setOrderNumber(i + 1);
@@ -244,9 +245,10 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 
 	public void downloadImage() {
 		File img = DownloadTools.getImageFromByteArr(
-				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName()+"_report_",
+				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getAnalyzationName() + "_report_",
 				feedbackAnalyzationManagedBean.getReportImage());
-		DownloadTools.downloadFile(img, "image/png", img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
+		DownloadTools.downloadFile(img, "image/png",
+				img.getName().substring(0, img.getName().lastIndexOf("_")) + ".png");
 		img.delete();
 	}
 

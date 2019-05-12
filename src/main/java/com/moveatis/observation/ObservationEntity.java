@@ -29,24 +29,23 @@
  */
 package com.moveatis.observation;
 
-import com.moveatis.abstracts.AbstractObservationEntity;
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.records.RecordEntity;
-import com.moveatis.event.EventEntity;
-import com.moveatis.user.AbstractUser;
+import static javax.persistence.CascadeType.ALL;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import static javax.persistence.CascadeType.ALL;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.moveatis.abstracts.AbstractObservationEntity;
+import com.moveatis.records.RecordEntity;
 
 /**
  * The entity represents the observation data, that is saved to the database.

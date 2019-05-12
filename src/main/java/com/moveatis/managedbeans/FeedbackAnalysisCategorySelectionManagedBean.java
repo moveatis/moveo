@@ -50,21 +50,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
-import com.moveatis.abstracts.AbstractCategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.EventGroup;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
 
 /**

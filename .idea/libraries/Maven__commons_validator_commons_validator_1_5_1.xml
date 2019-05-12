@@ -1,6 +1,5 @@
 <component name="libraryTable">
-	<library
-		name="Maven: commons-validator:commons-validator:1.5.1">
+	<library name="Maven: commons-validator:commons-validator:1.5.1">
 		<CLASSES>
 			<root
 				url="jar://$MAVEN_REPOSITORY$/commons-validator/commons-validator/1.5.1/commons-validator-1.5.1.jar!/" />

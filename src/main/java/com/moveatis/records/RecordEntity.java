@@ -29,15 +29,16 @@
  */
 package com.moveatis.records;
 
-import com.moveatis.abstracts.AbstractRecordEntity;
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationEntity;
 import java.io.File;
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.moveatis.abstracts.AbstractRecordEntity;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationEntity;
 
 /**
  * The entity represent the data of a record, which will be persisted to the

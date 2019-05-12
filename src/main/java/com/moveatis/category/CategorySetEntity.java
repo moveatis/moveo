@@ -29,25 +29,23 @@
  */
 package com.moveatis.category;
 
-import com.moveatis.abstracts.AbstractCategoryEntity;
-import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.event.EventGroupEntity;
-import com.moveatis.user.IdentifiedUserEntity;
-import java.io.Serializable;
-import java.util.Map;
+import static javax.persistence.CascadeType.DETACH;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.DETACH;
+
+import java.io.Serializable;
+import java.util.Map;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.abstracts.AbstractCategorySetEntity;
 
 /**
  * The entity represents a category set in the database.

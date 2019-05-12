@@ -30,24 +30,14 @@
  */
 package com.moveatis.abstracts;
 
-import com.moveatis.abstracts.AbstractCategoryEntity;
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.event.EventGroupEntity;
-import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.Map;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.moveatis.event.EventGroupEntity;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * Common features of the categorysets for feedback analysis and observations

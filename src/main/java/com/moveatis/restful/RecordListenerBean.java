@@ -29,17 +29,6 @@
  */
 package com.moveatis.restful;
 
-import com.moveatis.interfaces.Category;
-import com.moveatis.interfaces.Label;
-import com.moveatis.interfaces.Observation;
-import com.moveatis.interfaces.Record;
-import com.moveatis.interfaces.Session;
-import com.moveatis.managedbeans.ObservationManagedBean;
-import com.moveatis.managedbeans.UserManagedBean;
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.records.RecordEntity;
-import com.moveatis.timezone.TimeZoneInformation;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -49,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -64,8 +54,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.interfaces.Category;
+import com.moveatis.interfaces.Label;
+import com.moveatis.interfaces.Observation;
+import com.moveatis.interfaces.Record;
+import com.moveatis.interfaces.Session;
+import com.moveatis.managedbeans.ObservationManagedBean;
+import com.moveatis.managedbeans.UserManagedBean;
+import com.moveatis.observation.ObservationCategory;
+import com.moveatis.observation.ObservationCategorySet;
+import com.moveatis.records.RecordEntity;
+import com.moveatis.timezone.TimeZoneInformation;
 
 /**
  * The bean manages REST API for adding records to an observation as well as

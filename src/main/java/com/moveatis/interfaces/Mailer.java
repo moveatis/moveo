@@ -29,9 +29,11 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.enums.MailStatus;
 import java.io.File;
+
 import javax.ejb.Local;
+
+import com.moveatis.enums.MailStatus;
 
 /**
  * The interface to send mails.

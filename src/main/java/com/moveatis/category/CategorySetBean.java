@@ -29,23 +29,26 @@
  */
 package com.moveatis.category;
 
-import com.moveatis.event.EventGroupEntity;
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.abstracts.AbstractCategoryEntity;
-import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.interfaces.AnonUser;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import com.moveatis.interfaces.CategorySet;
-import com.moveatis.interfaces.EventGroup;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.abstracts.AbstractCategorySetEntity;
+import com.moveatis.event.EventGroupEntity;
+import com.moveatis.interfaces.AnonUser;
+import com.moveatis.interfaces.CategorySet;
+import com.moveatis.interfaces.EventGroup;
 
 /**
  * The EJB manages the CategorySet entities for both observation and
@@ -81,9 +84,9 @@ public class CategorySetBean extends AbstractBean<AbstractCategorySetEntity> imp
 		em.detach(categorySetEntity);
 		categorySetEntity.setId(null);
 		categorySetEntity.setEventGroupEntity(null);
-		for (AbstractCategoryEntity cat : categorySetEntity.getCategoryEntitys().values())
+		for (AbstractCategoryEntity cat : categorySetEntity.getCategoryEntitys().values()) {
 			cat.setId(null);
-	}
+	}}
 
 	/**
 	 * Sets the category set removal date and removes the category set from event

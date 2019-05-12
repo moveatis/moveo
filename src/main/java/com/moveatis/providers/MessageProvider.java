@@ -30,11 +30,13 @@
 
 package com.moveatis.providers;
 
-import com.moveatis.interfaces.MessageBundle;
 import java.util.ResourceBundle;
+
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
+
+import com.moveatis.interfaces.MessageBundle;
 
 /**
  * The CDI bean produces a resource bundle for the transient CDI beans.

@@ -28,9 +28,11 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.groupkey.GroupKeyEntity;
 import java.util.List;
+
 import javax.ejb.Local;
+
+import com.moveatis.groupkey.GroupKeyEntity;
 
 /**
  * The interface to manage the group key entity. A group key is used to identify

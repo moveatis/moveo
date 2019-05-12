@@ -36,7 +36,6 @@ import javax.ejb.Local;
 
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
-import com.moveatis.records.RecordEntity;
 import com.moveatis.user.AbstractUser;
 
 /**

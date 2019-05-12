@@ -30,12 +30,14 @@
 
 package com.moveatis.user;
 
-import com.moveatis.abstracts.BaseEntity;
 import java.io.Serializable;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+
+import com.moveatis.abstracts.BaseEntity;
 
 /**
  * The base user entity for TagUser and IdentifiendUser. TagUser is the user

@@ -29,25 +29,30 @@
  */
 package com.moveatis.servlet;
 
-import com.moveatis.application.InstallationBean;
-import com.moveatis.application.RedirectURLs;
-import com.moveatis.enums.ApplicationStatusCode;
-import com.moveatis.identityprovider.IdentityProviderBean;
-import com.moveatis.identityprovider.IdentityProviderInformationEntity;
-import com.moveatis.interfaces.Application;
-import com.moveatis.interfaces.Role;
-import com.moveatis.interfaces.Session;
-import com.moveatis.interfaces.User;
-import com.moveatis.user.IdentifiedUserEntity;
 import java.io.IOException;
+
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.application.InstallationBean;
+import com.moveatis.application.RedirectURLs;
+import com.moveatis.enums.ApplicationStatusCode;
+import com.moveatis.identityprovider.IdentityProvider;
+import com.moveatis.identityprovider.IdentityProviderBean;
+import com.moveatis.identityprovider.IdentityProviderInformationEntity;
+import com.moveatis.identityprovider.IdentityProviderRegistrationBean;
+import com.moveatis.interfaces.Application;
+import com.moveatis.interfaces.Role;
+import com.moveatis.interfaces.Session;
+import com.moveatis.interfaces.User;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The servlet handles the identification of a user using the Shibboleth service

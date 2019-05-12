@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.moveatis.managedbeans.FeedbackAnalyzationManagedBean;
 import com.moveatis.managedbeans.ObservationManagedBean;
-import com.moveatis.managedbeans.SummaryManagedBean;
 
 @Path("/summary")
 public class DataReceiver implements Serializable {

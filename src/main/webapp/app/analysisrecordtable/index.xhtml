@@ -57,7 +57,7 @@
 							data-html2canvas-ignore="true">
 							<span class="tContent"><p:commandButton
 									action="#{analysisRecordTable.delete(record.orderNumber)}"
-									id="deleteButton" update="entries" icon="fa fa-trash" oncomplete="sendImageAndCSV()">
+									id="deleteButton" update="entries reportButtons" icon="fa fa-trash" oncomplete="sendImageAndCSV()">
 									<p:confirm header="#{msg.repo_confirmheader}" message="#{msg.repo_confirm}"/>
 									
 									</p:commandButton></span>

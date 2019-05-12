@@ -29,9 +29,9 @@
  */
 package com.moveatis.abstracts;
 
-import com.moveatis.timezone.TimeZoneInformation;
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,6 +40,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import com.moveatis.timezone.TimeZoneInformation;
 
 /**
  * The entity is the base of all the entities of the application. It has the id

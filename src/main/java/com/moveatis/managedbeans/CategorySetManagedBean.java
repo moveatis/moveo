@@ -29,6 +29,21 @@
  */
 package com.moveatis.managedbeans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
 import com.moveatis.category.CategoryEntity;
@@ -41,19 +56,6 @@ import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Label;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The bean for managing category sets in the appropriate views.

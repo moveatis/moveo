@@ -29,25 +29,26 @@
  */
 package com.moveatis.event;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
-
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import com.moveatis.user.IdentifiedUserEntity;
-import javax.ejb.Stateful;
-import javax.persistence.TypedQuery;
-import com.moveatis.interfaces.Event;
-import com.moveatis.observation.ObservationEntity;
-import com.moveatis.observation.ObservationEntity_;
 import java.util.Set;
+
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.interfaces.Event;
+import com.moveatis.observation.ObservationEntity;
+import com.moveatis.observation.ObservationEntity_;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The EJB manages the events of an user.

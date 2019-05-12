@@ -29,21 +29,24 @@
  */
 package com.moveatis.managedbeans;
 
+import java.io.Serializable;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.Label;
 import com.moveatis.label.LabelEntity;
-import java.io.Serializable;
-import java.util.Map;
-import java.util.TreeMap;
-import javax.faces.event.ActionEvent;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The bean that serves category management in the appropriate views.

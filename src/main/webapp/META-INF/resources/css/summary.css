@@ -33,7 +33,6 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
-
 #mainPage {
 	max-width: 60em;
 	margin: 0 auto;
@@ -48,7 +47,7 @@
 #recordings-details {
 	font-size: 1.1em;
 	padding: .1em .5em;
-	background: rgb(0,0,0,0.1);
+	background: rgb(0, 0, 0, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -58,11 +57,13 @@
 	display: table;
 }
 
-#recordings-details .categoryNumber, #recordings-details .categoryLabel {
+#recordings-details .categoryNumber, #recordings-details .categoryLabel
+	{
 	display: table-cell;
 }
 
-#recordings-details .categoryNumber, #recordings-details .header-row, #recordings-details .summary-row {
+#recordings-details .categoryNumber, #recordings-details .header-row,
+	#recordings-details .summary-row {
 	font-family: Arial, sans-serif;
 }
 
@@ -103,7 +104,8 @@
 	border-width: 0.188em;
 }
 
-.ui-fluid .timeframe .ui-calendar, .ui-fluid .timeframe .ui-calendar input {
+.ui-fluid .timeframe .ui-calendar, .ui-fluid .timeframe .ui-calendar input
+	{
 	width: auto;
 }
 
@@ -119,7 +121,7 @@
 	padding: 0.4em 0;
 }
 
-.ui-grid-row:not(.header-row):after {
+.ui-grid-row:not (.header-row ):after {
 	content: "";
 	border-bottom: 0.125em solid #005977;
 	width: 100%;
@@ -137,14 +139,13 @@
 	font-weight: bold;
 }
 
-.ui-grid-row>div:not(:first-child) {
+.ui-grid-row>div:not (:first-child ) {
 	text-align: right;
 }
 
-.summary-row>div:not(:first-child) {
+.summary-row>div:not (:first-child ) {
 	white-space: pre;
 }
-
 
 .ui-grid-col-3 {
 	display: inline-block;
@@ -186,7 +187,7 @@
 }
 
 .ui-growl .categoryNumber {
-	display: none!important;
+	display: none !important;
 }
 
 .ui-button>.fa {
@@ -194,7 +195,7 @@
 }
 
 .categorySet {
-	display: none!important;
+	display: none !important;
 }
 
 #records .gapBefore {
@@ -220,9 +221,9 @@
 }
 
 #hiddenButtons {
-margin: auto;
-text-align: right;
-padding-bottom: 0.4em;
+	margin: auto;
+	text-align: right;
+	padding-bottom: 0.4em;
 }
 
 #saveDialog {
@@ -276,7 +277,6 @@ padding-bottom: 0.4em;
 	display: none;
 }
 
-
 .ui-datepicker-trigger:before {
 	content: "\f017";
 	font-size: 1em;
@@ -285,8 +285,7 @@ padding-bottom: 0.4em;
 }
 
 /* Responsive */
-
-@media (max-width:700px) {
+@media ( max-width :700px) {
 	.mobileCentered {
 		text-align: center;
 	}
@@ -299,11 +298,12 @@ padding-bottom: 0.4em;
 	}
 }
 
-#saveDialog .ui-selectonebutton .ui-buttonset.ui-buttonset-3 .ui-button {
+#saveDialog .ui-selectonebutton .ui-buttonset.ui-buttonset-3 .ui-button
+	{
 	width: 33%;
 }
 
-@media (max-width:480px) {
+@media ( max-width :480px) {
 	.ui-grid.ui-grid-responsive-480 .ui-grid-row {
 		display: block;
 	}
@@ -316,13 +316,13 @@ padding-bottom: 0.4em;
 		float: left;
 		width: auto;
 	}
-	.ui-grid.ui-grid-responsive-480 .ui-grid-row:not(.header-row):after {
+	.ui-grid.ui-grid-responsive-480 .ui-grid-row:not (.header-row ):after {
 		margin-top: .3em;
 	}
 	#recordings-details .ui-grid-col-5 {
 		margin-bottom: .3em;
 	}
-	.ui-grid-row>div:not(:first-child) {
+	.ui-grid-row>div:not (:first-child ) {
 		text-align: right;
 		margin-left: 2em;
 	}

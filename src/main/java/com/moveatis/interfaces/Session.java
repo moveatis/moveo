@@ -29,17 +29,18 @@
  */
 package com.moveatis.interfaces;
 
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TimeZone;
+
+import javax.ejb.Local;
+
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.user.AbstractUser;
 import com.moveatis.user.IdentifiedUserEntity;
 import com.moveatis.user.TagUserEntity;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TimeZone;
-import javax.ejb.Local;
 
 /**
  * The interface to manage the session entity. The session is a context, in
