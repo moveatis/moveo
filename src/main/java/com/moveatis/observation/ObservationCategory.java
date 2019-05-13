@@ -30,9 +30,10 @@
 
 package com.moveatis.observation;
 
+import java.io.Serializable;
+
 import com.moveatis.category.CategoryType;
 import com.moveatis.helpers.Validation;
-import java.io.Serializable;
 
 /**
  * The observation has its own categories, so renaming the original category

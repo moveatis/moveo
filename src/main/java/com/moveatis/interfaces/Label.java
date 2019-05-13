@@ -28,9 +28,11 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.label.LabelEntity;
 import java.util.List;
+
 import javax.ejb.Local;
+
+import com.moveatis.label.LabelEntity;
 
 /**
  * The interface to manage the label entity. A label is a name for a category.

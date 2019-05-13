@@ -13,7 +13,7 @@
 			<!-- 	<script type="text/javascript">
         function getCategorySets() {
             return [
-                   <ui:repeat value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse}" var="categorySet">
+                   <ui:repeat value="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse}" var="categorySet">
                        {name: "#{categorySet.name}"}
                    </ui:repeat>
                    ];                        
@@ -22,18 +22,18 @@
 
 			<div id="content">
 				<ui:debug hotkey="x" />
-				<!-- <ui:repeat var="FeedbackAnalysisRecordEntity" value="feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.getRecords()"> 
+				<!-- <ui:repeat var="FeedbackAnalysisRecordEntity" value="feedbackAnalysisManagedBean.feedbackAnalysisEntity.getRecords()">
 					<h:outputText value="#{FeedbackAnalysisRecordEntity.getSelectedCategories()}"></h:outputText>  -->
 				<h:form id="table">
 					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+						value="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 						var="categorySet">
 						<h:outputText value="#{categorySet.label}" />
 						<br />
 					</ui:repeat>
 					<br />
 					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.getRecords()}"
+						value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.getRecords()}"
 						var="feedbackAnalysisRecordEntity">
 						<ul>
 							<ui:repeat
@@ -41,11 +41,11 @@
 								var="selectedCategory">
 								<li value="#{selectedCategory.label.text}"><p:commandLink
 										value="#{selectedCategory.label.text}"
-										action="#{feedbackAnalyzationManagedBean.setCurrentRecord(feedbackAnalysisRecordEntity)}"
+										action="#{feedbackAnalysisManagedBean.setCurrentRecord(feedbackAnalysisRecordEntity)}"
 										onclick="PF('dlgCategorySet').show()"
 										styleClass="link-categoryset" update=":categorySetForm ">
 										<f:actionListener
-											binding="#{feedbackAnalyzationManagedBean.setSelectedCategory(selectedCategory)}" />
+											binding="#{feedbackAnalysisManagedBean.setSelectedCategory(selectedCategory)}" />
 
 									</p:commandLink></li>
 							</ui:repeat>
@@ -67,7 +67,7 @@
 
 				<h:form id="categorySetForm">
 					<ui:repeat
-						value="#{feedbackAnalyzationManagedBean.selectedCategory.categorySet.categoryEntitys.values().toArray()}"
+						value="#{feedbackAnalysisManagedBean.selectedCategory.categorySet.categoryEntitys.values().toArray()}"
 						var="category">
 						<p:selectBooleanButton value="#{category.inRecord}"
 							onLabel="#{category.label.text}"
@@ -77,7 +77,7 @@
 
 					</ui:repeat>
 						<p:commandButton value="tallenna muutokset"
-							action="#{feedbackAnalyzationManagedBean.editRecord}"
+							action="#{feedbackAnalysisManagedBean.editRecord}"
 							onclick="PF('dlgCategorySet').hide()"
 							update=":table" />
 				</h:form>

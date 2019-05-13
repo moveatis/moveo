@@ -29,13 +29,13 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.abstracts.AbstractCategoryEntity;
-import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.category.CategoryEntity;
-import com.moveatis.category.CategorySetEntity;
 import java.util.List;
 import java.util.Set;
+
 import javax.ejb.Local;
+
+import com.moveatis.abstracts.AbstractCategoryEntity;
+import com.moveatis.abstracts.AbstractCategorySetEntity;
 
 /**
  *

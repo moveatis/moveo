@@ -29,14 +29,12 @@
  */
 package com.moveatis.groupkey;
 
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.event.EventGroupEntity;
-import com.moveatis.user.IdentifiedUserEntity;
-import com.moveatis.user.TagUserEntity;
-import java.io.Serializable;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
+
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -45,6 +43,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.event.EventGroupEntity;
+import com.moveatis.user.IdentifiedUserEntity;
+import com.moveatis.user.TagUserEntity;
 
 /**
  * The entity presents the group key that the event groups can be identified

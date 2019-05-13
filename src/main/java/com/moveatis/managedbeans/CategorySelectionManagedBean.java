@@ -29,6 +29,23 @@
  */
 package com.moveatis.managedbeans;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.category.CategoryEntity;
 import com.moveatis.category.CategorySetEntity;
@@ -36,26 +53,12 @@ import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.EventGroup;
-import javax.inject.Named;
-import java.io.Serializable;
-import java.util.List;
-import java.util.ResourceBundle;
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.observation.ObservationCategory;
 import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import javax.faces.view.ViewScoped;
 
 /**
  * The bean that serves the category selection view.

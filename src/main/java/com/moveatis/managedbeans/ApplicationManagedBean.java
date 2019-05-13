@@ -29,11 +29,12 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.interfaces.Application;
-import com.moveatis.interfaces.Session;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+
+import com.moveatis.interfaces.Application;
+import com.moveatis.interfaces.Session;
 
 /**
  * The bean that serves the application installation view.

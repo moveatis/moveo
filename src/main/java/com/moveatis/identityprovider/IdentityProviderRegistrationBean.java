@@ -30,16 +30,19 @@
 
 package com.moveatis.identityprovider;
 
-import com.moveatis.application.RedirectURLs;
-import com.moveatis.user.IdentifiedUserEntity;
 import java.io.IOException;
 import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.application.RedirectURLs;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * An example managed bean for customizing an identity service.

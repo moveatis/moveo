@@ -50,21 +50,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
-import com.moveatis.abstracts.AbstractCategorySetEntity;
 import com.moveatis.event.EventEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.helpers.Validation;
 import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.EventGroup;
 import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
-import com.moveatis.observation.ObservationCategory;
-import com.moveatis.observation.ObservationCategorySet;
-import com.moveatis.observation.ObservationCategorySetList;
 import com.moveatis.user.IdentifiedUserEntity;
 
 /**
@@ -103,7 +98,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	@Inject
 	private EventGroup eventGroupEJB;
 	@Inject
-	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
 
 	private CategorySet categorySetEJB;
 
@@ -117,12 +112,12 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		defaultFeedbackAnalysisCategorySets = new ArrayList<FeedbackAnalysisCategorySetEntity>();
 		privateFeedbackAnalysisCategorySets = new ArrayList<FeedbackAnalysisCategorySetEntity>();
 		feedbackAnalysisCategorySetsInUse = new ArrayList<FeedbackAnalysisCategorySetEntity>();
-		if (feedbackAnalyzationManagedBean.getEventEntity() != null) {
-			EventEntity event = feedbackAnalyzationManagedBean.getEventEntity();
+		if (feedbackAnalysisManagedBean.getEventEntity() != null) {
+			EventEntity event = feedbackAnalysisManagedBean.getEventEntity();
 			eventGroup = event.getEventGroup();
 			if (eventGroup.getFeedbackAnalysisCategorySets() == null)
-				eventGroup.setFeedbackAnalysisCategorySets(new ArrayList<FeedbackAnalysisCategorySetEntity>());
-			defaultFeedbackAnalysisCategorySets = eventGroup.getFeedbackAnalysisCategorySets();
+				eventGroup.setFeedbackAnalysisCategorySets(new HashSet<FeedbackAnalysisCategorySetEntity>());
+			defaultFeedbackAnalysisCategorySets.addAll(eventGroup.getFeedbackAnalysisCategorySets());
 		}
 
 		if (sessionEJB.isIdentifiedUser()) {
@@ -143,7 +138,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	}
 
 	/**
-	 * Adds a new category set for the analyzation if
+	 * Adds a new category set for the analysis if
 	 * newFeedbackAnalysisCategorySetName isn't empty.
 	 */
 	public void addNewCategorySet() {
@@ -221,7 +216,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	}
 
 	/**
-	 * Adds the selected default category set for the analyzation.
+	 * Adds the selected default category set for the analysis.
 	 */
 	public void addDefaultCategorySet() {
 		FeedbackAnalysisCategorySetEntity sdc = findById(defaultFeedbackAnalysisCategorySets,
@@ -232,7 +227,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	}
 
 	/**
-	 * Adds the selected private category set for the analyzation.
+	 * Adds the selected private category set for the analysis.
 	 */
 	public void addPrivateCategorySet() {
 		FeedbackAnalysisCategorySetEntity spc = findById(privateFeedbackAnalysisCategorySets,
@@ -319,10 +314,10 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 			showErrorMessage(messages.getString("cs_errorNoneSelected"));
 			return "";
 		}
-		feedbackAnalyzationManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
-		feedbackAnalyzationManagedBean.setFeedbackAnalyzationEntity(null);
-		feedbackAnalyzationManagedBean.init();
-		feedbackAnalyzationManagedBean.setIsTimerEnabled(isTimerEnabled);
+		feedbackAnalysisManagedBean.setFeedbackAnalysisCategorySetsInUse(feedbackAnalysisCategorySetsInUse);
+		feedbackAnalysisManagedBean.setFeedbackAnalysisEntity(null);
+		feedbackAnalysisManagedBean.init();
+		feedbackAnalysisManagedBean.setIsTimerEnabled(isTimerEnabled);
 
 		return "analysiscategoriesok";
 	}
@@ -413,12 +408,12 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		this.eventGroup = eventGroup;
 	}
 
-	public FeedbackAnalyzationManagedBean getFeedbackAnalyzationManagedBean() {
-		return feedbackAnalyzationManagedBean;
+	public FeedbackAnalysisManagedBean getFeedbackAnalysisManagedBean() {
+		return feedbackAnalysisManagedBean;
 	}
 
-	public void setFeedbackAnalyzationManagedBean(FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean) {
-		this.feedbackAnalyzationManagedBean = feedbackAnalyzationManagedBean;
+	public void setFeedbackAnalysisManagedBean(FeedbackAnalysisManagedBean feedbackAnalysisManagedBean) {
+		this.feedbackAnalysisManagedBean = feedbackAnalysisManagedBean;
 	}
 
 }

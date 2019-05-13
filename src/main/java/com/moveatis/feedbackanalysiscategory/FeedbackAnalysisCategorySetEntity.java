@@ -40,16 +40,12 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
-
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.category.CategorySetEntity;
 
 /**
  * The categorysets for feedback analysis

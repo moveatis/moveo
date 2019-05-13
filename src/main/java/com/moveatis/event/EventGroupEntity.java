@@ -30,23 +30,25 @@
  */
 package com.moveatis.event;
 
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.category.CategorySetEntity;
-import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
-import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.user.AbstractUser;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 import static javax.persistence.CascadeType.PERSIST;
-import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
+import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.user.AbstractUser;
 
 /**
  * The entity represents the information for the event groups of the
@@ -70,14 +72,14 @@ public class EventGroupEntity extends BaseEntity implements Serializable {
 	private Set<CategorySetEntity> categorySets;
 
 	@OneToMany(mappedBy = "eventGroupEntity", cascade = PERSIST, fetch = EAGER)
-	private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
+	private Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets;
 
-	public List<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
+	public Set<FeedbackAnalysisCategorySetEntity> getFeedbackAnalysisCategorySets() {
 		return feedbackAnalysisCategorySets;
 	}
 
-	public void setFeedbackAnalysisCategorySets(List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets) {
-		this.feedbackAnalysisCategorySets = feedbackAnalysisCategorySets;
+	public void setFeedbackAnalysisCategorySets(Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets) {
+			this.feedbackAnalysisCategorySets = feedbackAnalysisCategorySets;
 	}
 
 	@OneToOne(mappedBy = "eventGroup", cascade = PERSIST)

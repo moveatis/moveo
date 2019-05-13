@@ -29,9 +29,11 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.records.RecordEntity;
 import java.util.List;
+
 import javax.ejb.Local;
+
+import com.moveatis.records.RecordEntity;
 
 /**
  * The interface to manage the record entity. A record is a single instance of a

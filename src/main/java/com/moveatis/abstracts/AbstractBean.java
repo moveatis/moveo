@@ -29,15 +29,17 @@
  */
 package com.moveatis.abstracts;
 
-import com.moveatis.timezone.TimeZoneInformation;
 import java.util.Calendar;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import com.moveatis.timezone.TimeZoneInformation;
 
 /**
  * The super class to the enterprise beans manages the persistent connection and

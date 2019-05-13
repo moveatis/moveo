@@ -30,10 +30,11 @@
 
 package com.moveatis.observation;
 
-import com.moveatis.category.CategoryType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.moveatis.category.CategoryType;
 
 /**
  * The observation has its own category sets, so renaming or removing original

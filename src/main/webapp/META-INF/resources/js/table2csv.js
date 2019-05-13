@@ -71,7 +71,7 @@ jQuery.fn.table2CSV = function(options) {
     }
 
     function row2CSV(tmpRow) {
-        var tmp = tmpRow.join('') // to remove any blank rows
+        var tmp = tmpRow.join(''); // to remove any blank rows
         // alert(tmp);
         if (tmpRow.length > 0 && tmp != '') {
         	tmpRow.pop();tmpRow.pop();

@@ -28,13 +28,14 @@
  */
 package com.moveatis.groupkey;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.interfaces.GroupKey;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.interfaces.GroupKey;
 
 /**
  * The EJB manages group keys that are used to access the event groups in a

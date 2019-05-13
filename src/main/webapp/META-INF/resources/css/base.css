@@ -37,8 +37,8 @@
 /*
 The base stylesheet for Moveatis-webapplication
 */
-
 @import url(https://fonts.googleapis.com/css?family=Roboto);
+
 html {
 	width: 100%;
 	height: 100%;
@@ -61,14 +61,12 @@ body {
 
 /* Use same font family on widgets for consistency
 	(excluding .fa elements) */
-
-.ui-widget:not(.fa) {
+.ui-widget:not (.fa ) {
 	font-family: 'Roboto', sans-serif;
 }
 
 /* Sticky footer based on this:
    http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ */
-
 .wrapper {
 	min-height: 100%;
 	height: auto !important;
@@ -207,14 +205,18 @@ nav {
 .naviHeader {
 	height: 28px;
 	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8),
+		rgba(255, 255, 255, 0));
+	background: #008AB9
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		0.8)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8),
+		rgba(255, 255, 255, 0));
 	background-size: 100%;
 	text-align: center;
 	border: 0;
 	border-radius: 0;
-	color: white!important;
+	color: white !important;
 }
 
 #naviHead .ui-icon.fa {
@@ -230,13 +232,13 @@ nav {
 }
 
 .ui-menu .ui-menuitem-link {
-	line-height: 1.21em!important;
+	line-height: 1.21em !important;
 }
 
 .ui-menubar>.ui-menuitem-link {
 	width: auto;
 	padding: 0.3em 0.9em;
-	line-height: 1.21em!important;
+	line-height: 1.21em !important;
 }
 
 .ui-menu .ui-menu-parent .ui-icon-triangle-1-s {
@@ -249,7 +251,7 @@ nav {
 
 ul.ui-menu-child {
 	white-space: nowrap;
-	width: 15em!important;
+	width: 15em !important;
 }
 
 .naviButtons {
@@ -275,8 +277,8 @@ ul.ui-menu-child {
 .coloredButton {
 	letter-spacing: 0.063em;
 	background: #008AB9;
-	color: white!important;
-	font-size: 100%!important;
+	color: white !important;
+	font-size: 100% !important;
 	text-shadow: none;
 	border: none;
 	color: #fff;
@@ -290,25 +292,29 @@ ul.ui-menu-child {
 }
 
 /* Dialog style */
-
 .coloredDialog {
 	top: 20%;
-	background: #008AB9!important;
+	background: #008AB9 !important;
 	color: #FEFEFE;
 	/* border: none; */
 }
 
 .coloredDialog .ui-dialog-titlebar {
 	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.3)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8),
+		rgba(255, 255, 255, 0));
+	background: #008AB9
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		0.3)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8),
+		rgba(255, 255, 255, 0));
 	color: #FEFEFE;
 	text-shadow: none;
 	font-weight: normal;
 }
 
-.coloredDialog .ui-dialog-titlebar-close, .ui-dialog-titlebar-close:hover {
+.coloredDialog .ui-dialog-titlebar-close, .ui-dialog-titlebar-close:hover
+	{
 	background: none;
 	box-shadow: none;
 	border: none;
@@ -317,7 +323,9 @@ ul.ui-menu-child {
 }
 
 .coloredDialog .ui-icon-closethick {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+	background-image:
+		url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png)
+		!important;
 }
 
 .coloredDialog form label {
@@ -336,7 +344,8 @@ ul.ui-menu-child {
 	border: 0;
 }
 
-.coloredDialog form input, .coloredDialog form textarea, .coloredDialog form table {
+.coloredDialog form input, .coloredDialog form textarea, .coloredDialog form table
+	{
 	margin-bottom: 0.8em;
 }
 
@@ -355,21 +364,31 @@ ul.ui-menu-child {
 }
 
 /* Naviheader styles menu */
-
 .naviHeader.ui-menu, .naviHeader.ui-menu .ui-menu-child {
 	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.4)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-	color: white!important;
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8),
+		rgba(255, 255, 255, 0));
+	background: #008AB9
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		0.4)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8),
+		rgba(255, 255, 255, 0));
+	color: white !important;
 }
 
-.naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover, .naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus, .naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus {
+.naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover,
+	.naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus,
+	.naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus
+	{
 	border: 0.063em solid #008AB9;
 	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
-	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.6)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.6),
+		rgba(255, 255, 255, 0));
+	background: #008AB9
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		0.6)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.6),
+		rgba(255, 255, 255, 0));
 	font-weight: normal;
 	color: black;
 	-moz-box-shadow: none;
@@ -414,7 +433,7 @@ ul.ui-menu-child {
 }
 
 .fa-user {
-	float: right!important;
+	float: right !important;
 }
 
 .ui-dialog-footer {
@@ -443,9 +462,8 @@ ul.ui-menu-child {
 }
 
 /* Error icon change */
-
 .ui-message-error-icon {
-	background: none!important;
+	background: none !important;
 }
 
 .ui-message-error-icon:before {

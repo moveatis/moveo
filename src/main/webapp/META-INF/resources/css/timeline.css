@@ -35,7 +35,6 @@
 */
 
 /* Custom styles for the Timeline component. */
-
 #timeline {
 	clear: both;
 	margin-bottom: 1em;
@@ -70,8 +69,8 @@
 }
 
 #timeline .timeline-axis-grid {
-	border-left-style: dashed!important;
-	border-top-style: dashed!important;
+	border-left-style: dashed !important;
+	border-top-style: dashed !important;
 }
 
 #timeline .timeline-groups-axis>.timeline-groups-text {
@@ -88,7 +87,7 @@
 }
 
 #timeline .categoryLabel {
-	display: none!important;
+	display: none !important;
 }
 
 #timeline .timeline-frame {
@@ -96,7 +95,7 @@
 	border: none;
 }
 
-#timeline .ui-widget-content:not(.timeline-axis) {
+#timeline .ui-widget-content:not (.timeline-axis ) {
 	color: #000;
 }
 
@@ -104,10 +103,11 @@
 	color: #008AB9;
 }
 
-#timeline .timeline-groups-text, #timeline .timeline-axis {
-	font-family: Arial, sans-serif;
+==== BASE ====
+#timeline .timeline-groups-text,
+#timeline .timeline-axis {
+	font-family: Arial,sans-serif;
 }
-
 .dummyRecord {
 	display: none!important;
 }

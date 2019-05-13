@@ -33,7 +33,6 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
-
 html {
 	width: 100%;
 	height: 100%;
@@ -41,7 +40,10 @@ html {
 	padding: 0;
 }
 
-.html2canvas-container { width: 3000px !important; height: 3000px !important; }
+.html2canvas-container {
+	width: 1920px !important;
+	height: 3000px !important;
+}
 
 #mainPage {
 	width: 100%;
@@ -108,9 +110,9 @@ html {
 	display: inline-block;
 	border: 1px solid black;
 	text-align: left;
-    white-space: nowrap;
-    overflow-x:auto;
-    max-width: 90%;
+	white-space: nowrap;
+	overflow-x: auto;
+	max-width: 90%;
 }
 
 #charts_div {
@@ -123,22 +125,22 @@ html {
 }
 
 .chart {
-	display:inline-block;
+	display: inline-block;
 	width: 6.25em;
 }
 
-.jqplot-title{
-  white-space: nowrap;
-  font-size: 1em;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.jqplot-title {
+	white-space: nowrap;
+	font-size: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-table.jqplot-table-legend td{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;	
-  max-width: 6.25em;
+table.jqplot-table-legend td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 6.25em;
 }
 
 #piechart .jqplot-table-legend{
@@ -156,9 +158,8 @@ table.jqplot-table-legend td{
 
 
 #saveForm {
-	text-align: left!important;
+	text-align: left !important;
 }
-
 
 #pieModels canvas {
 	width: 18.75em;

@@ -29,19 +29,22 @@
  */
 package com.moveatis.roles;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.interfaces.Role;
-import com.moveatis.user.IdentifiedUserEntity;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.interfaces.Role;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The EJB manages the roles, which can be added to the users to allow the

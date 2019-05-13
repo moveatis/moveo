@@ -29,11 +29,12 @@
  */
 package com.moveatis.records;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.interfaces.Record;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.interfaces.Record;
 
 /**
  * The EJB for managing records. Holds the information for the analysis of an

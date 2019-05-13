@@ -30,6 +30,7 @@
 package com.moveatis.user;
 
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;

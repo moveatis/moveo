@@ -20,33 +20,35 @@
 			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
 			<h:outputScript library="js" name="html2canvas.min.js" />
 			<h:outputScript>
-    		function chartExtenderHideTicks() {   
-this.cfg.grid = {         
-    background: 'transparent',
-    drawGridlines: false,
-    drawBorder: false,
-    shadow: false
-};
-  this.cfg.axes.xaxis.showTicks=false;  
-  this.cfg.axes.yaxis.showTicks=false;
-  this.cfg.title.fontSize=1;
-  this.cfg.axes.yaxis.rendererOptions={drawBaseline:false}; 
-  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
-};
-
-  function chartExtender() {   
-  this.cfg.axes.xaxis.showTicks=false;  
-  this.cfg.axes.xaxis.rendererOptions={drawBaseline:true}; 
-  this.cfg.title.fontSize=1;
-    this.cfg.grid = {         
-        background: 'transparent',
-    drawGridlines: false,
-    drawBorder: false,
-    shadow: false
-};}
-			</h:outputScript>
+                function chartExtenderHideTicks() {
+                    this.cfg.grid = {
+                        background: 'transparent',
+                        drawGridlines: false,
+                        drawBorder: false,
+                        shadow: false
+                    };
+                    this.cfg.axes.xaxis.showTicks = false;
+                    this.cfg.axes.yaxis.showTicks = false;
+                    this.cfg.title.fontSize = 1;
+                    this.cfg.axes.yaxis.rendererOptions = {drawBaseline: false};
+                    this.cfg.axes.xaxis.rendererOptions = {drawBaseline: true};
+                }
+                function chartExtender() {
+                    this.cfg.axes.xaxis.showTicks = false;
+                    this.cfg.axes.xaxis.rendererOptions = {drawBaseline: true};
+                    this.cfg.title.fontSize = 1;
+                    this.cfg.grid = {
+                        background: 'transparent',
+                        drawGridlines: false,
+                        drawBorder: false,
+                        shadow: false
+                    };
+                }
+            </h:outputScript>
+			<f:event type="preRenderView"
+				listener="#{feedbackAnalysisSummaryManagedBean.showObservationSavedMessage()}" />
 			<h1>#{msg.ana_title} :
-				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
+				#{feedbackAnalysisSummaryManagedBean.feedbackAnalysis.analysisName}</h1>
 			<div id="container">
 				<div id="hiddenButtons">
 					<h:form>
@@ -230,14 +232,14 @@ this.cfg.grid = {
 						<p:message for="input-name" />
 						<p:inputText id="input-name" required="true"
 							requiredMessage="#{msg.dlg_notEmpty}"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.name}"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.analysisName}"
 							validator="#{validationBean.validateShortString}" />
 
 						<h:outputLabel for="input-description"
 							value="#{msg.asum_analyzationDescription}" />
 						<p:message for="input-description" />
 						<p:inputTextarea id="input-description"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.description}"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.description}"
 							validator="#{validationBean.validateLongString}" rows="3"
 							cols="16" autoResize="true" />
 
@@ -245,7 +247,7 @@ this.cfg.grid = {
 							value="#{msg.asum_analyzationTarget}" />
 						<p:message for="input-target" />
 						<p:inputText id="input-target"
-							value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.target}"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.targetOfAnalysis}"
 							validator="#{validationBean.validateShortString}" />
 
 

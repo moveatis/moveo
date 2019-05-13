@@ -29,8 +29,6 @@
  */
 package com.moveatis.user;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.interfaces.AnonUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +36,9 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.interfaces.AnonUser;
 
 /**
  * The EJB manages the anonymity user, which represents the public user of

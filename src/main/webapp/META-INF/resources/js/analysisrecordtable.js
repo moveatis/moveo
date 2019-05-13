@@ -23,6 +23,8 @@ function save() {
 $(document).ready(function(){sendImageAndCSV();});
 
 function sendImageAndCSV() {
+	var tmpclass=$('#entries').attr('class');
+	$('#entries').attr('class',"");
 	$('#entries table').each(function() {
 		var $table = $(this);
 		var csv = $table.table2CSV({
@@ -30,6 +32,7 @@ function sendImageAndCSV() {
 		});
 		sendData(csv,"csv")
 	});
+	$('#entries').attr('class',tmpclass);
 	html2canvas(document.getElementById('dataTableImage')).then(
 			function(canvas) {
 				URI = canvas.toDataURL();

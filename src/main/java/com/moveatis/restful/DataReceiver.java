@@ -11,9 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.moveatis.managedbeans.FeedbackAnalyzationManagedBean;
+import com.moveatis.managedbeans.FeedbackAnalysisManagedBean;
 import com.moveatis.managedbeans.ObservationManagedBean;
-import com.moveatis.managedbeans.SummaryManagedBean;
 
 @Path("/summary")
 public class DataReceiver implements Serializable {
@@ -27,7 +26,7 @@ public class DataReceiver implements Serializable {
 	private ObservationManagedBean observationManagedBean;
 
 	@Inject
-	private FeedbackAnalyzationManagedBean feedbackAnalyzationManagedBean;
+	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
 	
 	@Context
 	private HttpServletRequest httpRequest;
@@ -44,20 +43,20 @@ public class DataReceiver implements Serializable {
 		if (info[0].equals("obsimg"))
 			observationManagedBean.setImage(img);
 		if (info[0].equals("analpie"))
-			feedbackAnalyzationManagedBean.setPieImage(img);
+			feedbackAnalysisManagedBean.setPieImage(img);
 		if (info[0].equals("analbar"))
-			feedbackAnalyzationManagedBean.setBarImage(img);
+			feedbackAnalysisManagedBean.setBarImage(img);
 		if (info[0].equals("analtable")) 
-			feedbackAnalyzationManagedBean.setTableImage(img);
+			feedbackAnalysisManagedBean.setTableImage(img);
 		if (info[0].equals("reporttable")) 
-			feedbackAnalyzationManagedBean.setReportImage(img);
+			feedbackAnalysisManagedBean.setReportImage(img);
 	}
 	
 	@POST
 	@Path("csv")
 	@Consumes(MediaType.TEXT_PLAIN)
 	public void receiveCSV(String data){
-		feedbackAnalyzationManagedBean.setReportCSV(data);				
+		feedbackAnalysisManagedBean.setReportCSV(data);
 	}
 
 }

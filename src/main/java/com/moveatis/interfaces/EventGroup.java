@@ -29,12 +29,13 @@
  */
 package com.moveatis.interfaces;
 
+import java.util.List;
+
+import javax.ejb.Local;
+
 import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.category.CategorySetEntity;
 import com.moveatis.event.EventGroupEntity;
 import com.moveatis.user.AbstractUser;
-import java.util.List;
-import javax.ejb.Local;
 
 /**
  * The interface to manage the event group entity. The event group contains

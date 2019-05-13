@@ -29,12 +29,12 @@
  */
 package com.moveatis.interfaces;
 
+import java.util.List;
+
+import javax.ejb.Local;
+
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.category.CategoryEntity;
-import com.moveatis.category.CategorySetEntity;
-import java.util.List;
-import javax.ejb.Local;
 
 /**
  * The interface to manage the category entity. The category specifies the type

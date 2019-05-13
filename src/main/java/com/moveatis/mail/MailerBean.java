@@ -29,15 +29,13 @@
  */
 package com.moveatis.mail;
 
-import com.moveatis.application.RedirectURLs;
-import com.moveatis.enums.MailStatus;
-import javax.ejb.Stateless;
-import com.moveatis.interfaces.Mailer;
 import java.io.File;
 import java.util.Properties;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -46,8 +44,13 @@ import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.application.RedirectURLs;
+import com.moveatis.enums.MailStatus;
+import com.moveatis.interfaces.Mailer;
 
 /**
  * The class implements the Mailer interface, and takes care of mailing to the

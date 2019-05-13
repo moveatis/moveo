@@ -30,15 +30,17 @@
 
 package com.moveatis.roles;
 
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
+
+import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The entity is the base for the roles in Moveatis. The roles can be used to

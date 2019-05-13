@@ -29,9 +29,10 @@
  */
 package com.moveatis.interfaces;
 
+import java.util.List;
+
 import com.moveatis.groupkey.GroupKeyEntity;
 import com.moveatis.user.TagUserEntity;
-import java.util.List;
 
 /**
  * The interface to manage the tag user entity. A tag user is the user account

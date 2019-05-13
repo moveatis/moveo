@@ -29,13 +29,15 @@
  */
 package com.moveatis.user;
 
-import com.moveatis.abstracts.AbstractBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.moveatis.interfaces.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.interfaces.User;
 
 /**
  * The EJB manages an identified user. It is not used much in version 1.0

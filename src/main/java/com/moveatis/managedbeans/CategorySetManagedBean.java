@@ -29,6 +29,21 @@
  */
 package com.moveatis.managedbeans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
 import com.moveatis.category.CategoryEntity;
@@ -41,19 +56,6 @@ import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.Label;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The bean for managing category sets in the appropriate views.
@@ -179,9 +181,9 @@ public class CategorySetManagedBean implements Serializable {
 			categoryEntity.setLabel(labelEntity);
 
 			if (categoryEntity instanceof CategoryEntity)
-				((CategoryEntity) categoryEntity).setCategorySet(abstractCategorySetEntity);
+				categoryEntity.setCategorySet(abstractCategorySetEntity);
 			else if (categoryEntity instanceof FeedbackAnalysisCategoryEntity)
-				((FeedbackAnalysisCategoryEntity) categoryEntity).setCategorySet(abstractCategorySetEntity);
+				categoryEntity.setCategorySet(abstractCategorySetEntity);
 
 			if (categoryEntity.getOrderNumber() == null) {
 				unorderedCategories.add(categoryEntity);
@@ -200,23 +202,20 @@ public class CategorySetManagedBean implements Serializable {
 		abstractCategorySetEntity.setEventGroupEntity(eventGroupEntity);
 
 		Set<CategorySetEntity> categorySets = eventGroupEntity.getCategorySets();
-		List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets = eventGroupEntity
+		Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets = eventGroupEntity
 				.getFeedbackAnalysisCategorySets();
 
 		if (categorySets == null) {
 			categorySets = new HashSet<>();
 		}
 		if (feedbackAnalysisCategorySets == null) {
-			feedbackAnalysisCategorySets = new ArrayList<FeedbackAnalysisCategorySetEntity>();
+			feedbackAnalysisCategorySets = new HashSet<>();
 		}
 
 		if (abstractCategorySetEntity instanceof CategorySetEntity) {
 			categorySets.add((CategorySetEntity) abstractCategorySetEntity);
 		} else if (abstractCategorySetEntity instanceof FeedbackAnalysisCategorySetEntity) {
-			boolean add=true;
-			for (FeedbackAnalysisCategorySetEntity catset:feedbackAnalysisCategorySets)
-				if(catset.getId()==abstractCategorySetEntity.getId()) add=false;
-			if(add)feedbackAnalysisCategorySets.add((FeedbackAnalysisCategorySetEntity) abstractCategorySetEntity);
+			feedbackAnalysisCategorySets.add((FeedbackAnalysisCategorySetEntity) abstractCategorySetEntity);
 		}
 		eventGroupEntity.setFeedbackAnalysisCategorySets(feedbackAnalysisCategorySets);
 		eventGroupEntity.setCategorySets(categorySets);

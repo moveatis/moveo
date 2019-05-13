@@ -59,14 +59,10 @@
 								value="#{categorySet.categoryEntitys.values().toArray()}"
 								var="category">
 								<div class="category">
-									<p:inputText value="#{category.label.text}"
-										id="category-name-input" styleClass="category-text"
-										validator="#{validationBean.validateShortString}">
-									</p:inputText>
-									<p:watermark value="#{msg.facs_categoryName}"
-										for="category-name-input" />
-									<p:commandButton icon="fa fa-remove"
-										class="category-remove-button"
+									<p:inputText value="#{category.label.text}" id="category-name-input"
+										styleClass="category-text" validator="#{validationBean.validateShortString}" onblur="this.value=this.value.trim()"> </p:inputText>
+									<p:watermark value="#{msg.facs_categoryName}" for="category-name-input" />
+									<p:commandButton icon="fa fa-remove" class="category-remove-button"
 										action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}"
 										update=":form" />
 								</div>
@@ -85,12 +81,9 @@
 							styleClass="category-set-list-label" />
 						<p:inputText
 							value="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName}"
-							id="new-category-set" styleClass="category-set-list-input"
-							validator="#{validationBean.validateShortString}" />
-						<p:watermark value="#{msg.facs_categorySetName}"
-							for="new-category-set" />
-						<p:commandButton value="#{msg.facs_addCategorySet}"
-							style="vertical-align: middle"
+							id="new-category-set" styleClass="category-set-list-input" validator="#{validationBean.validateShortString}" onblur="this.value=this.value.trim()"/>
+						<p:watermark value="#{msg.facs_categorySetName}" for="new-category-set" />
+						<p:commandButton value="#{msg.facs_addCategorySet}" style="vertical-align: middle"
 							action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategorySet()}"
 							update="@form" />
 					</h:panelGroup>

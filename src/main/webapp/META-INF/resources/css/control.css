@@ -33,7 +33,6 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
-
 #mainPage {
 	max-width: 60em;
 	margin: 0 auto;
@@ -46,7 +45,7 @@
 }
 
 .ui-datatable-tablewrapper {
-	overflow: hidden!important;
+	overflow: hidden !important;
 }
 
 #mainPage a.edit-key {
@@ -84,10 +83,10 @@ a.new-key {
 	box-shadow: none;
 }
 
-.ui-editable-column, .row-toggler, .column-category-groups, .column-group-keys, .row-editor, th:not(.column-remove){
-	border-right: 1px solid black!important;
+.ui-editable-column, .row-toggler, .column-category-groups,
+	.column-group-keys, .row-editor, th:not (.column-remove ){
+	border-right: 1px solid black !important;
 }
-
 
 .ui-datatable .ui-row-editor span {
 	float: none;
@@ -144,22 +143,21 @@ a.new-key {
 .ui-datalist-header {
 	background: #EFEFEF;
 	border: 0;
-	border-bottom: 1px solid #4f4f4f!important;
+	border-bottom: 1px solid #4f4f4f !important;
 }
 
 
 .ui-datalist-content {
 	background: #EFEFEF;
 	border: 0;
-
 }
 
 .ui-datatable-data .ui-state-highlight {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 }
 
 .ui-datatable-data .ui-state-hover {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 }
 
 .row-editor .ui-icon-pencil:before {
@@ -260,6 +258,7 @@ a.new-key {
 .categories-table {
 	margin-top: .5em;
 }
+
 #categorySetForm .ui-column-title {
 	font-size: .8em;
 	color: white;
@@ -275,27 +274,27 @@ a.new-key {
 }
 
 #categorySetForm th {
-	background: none!important;
+	background: none !important;
 	border: 0;
 	border-bottom: 1px solid black;
 }
 
 #categorySetForm tr {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 	color: white;
 	border: 0;
 	border-bottom: 1px solid black;
 }
 
 #categorySetForm .ui-state-highlight {
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 	text-shadow: none;
 	border: 0;
 }
 
 #categorySetForm .ui-state-hover {
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 	text-shadow: none;
 	box-shadow: none;
@@ -308,8 +307,8 @@ a.new-key {
 }
 
 .observation-dialog .ui-state-hover {
-	background-color: #FCFCFC!important;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
+	background-color: #FCFCFC !important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
 }
 
 .observation-dialog .ui-button {
@@ -326,20 +325,20 @@ a.new-key {
 }
 
 #feedbackAnalysisCategorySetForm tr {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 	color: white;
 	border: 0
 }
 
 #feedbackAnalysisCategorySetForm .ui-state-highlight {
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 	text-shadow: none;
 	border: 0;
 }
 
 #feedbackAnalysisCategorySetForm .ui-state-hover {
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 	text-shadow: none;
 	box-shadow: none;
@@ -352,19 +351,19 @@ a.new-key {
 }
 
 .categorySetCommandButtons {
-	text-align: right!important;
+	text-align: right !important;
 }
 
-.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
+.ui-datatable-selectable:not (.ui-row-editing ) .ui-cell-editor {
 	pointer-events: none;
 }
 
 .ui-widget-content {
-	border: 0px!important;
+	border: 0px !important;
 }
 
 td {
-	border: 0px!important;
+	border: 0px !important;
 }
 
 .ui-cell-editor-input {
@@ -375,7 +374,7 @@ td {
 	table-layout: auto;
 }
 
-#commandButtons>button:not(:last-of-type) {
+#commandButtons>button:not (:last-of-type ) {
 	font-size: 100%;
 }
 
@@ -401,7 +400,9 @@ td {
 	font-size: .9em;
 }
 
-.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited, .ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover {
+.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited,
+	.ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover
+	{
 	color: #4f4f4f;
 }
 
@@ -414,7 +415,7 @@ td {
 }
 
 .ui-state-highlight .list-categorysets a.ui-commandlink:link {
-	color: #4f4f4f!important;
+	color: #4f4f4f !important;
 	text-shadow: none;
 }
 
@@ -517,11 +518,11 @@ td {
 }
 
 .ui-confirm-dialog {
-	width: 70%!important;
+	width: 70% !important;
 	height: auto;
-	position: fixed!important;
-	top: 3em!important;
-	left: 3em!important;
+	position: fixed !important;
+	top: 3em !important;
+	left: 3em !important;
 	display: none;
 	z-index: 1000005;
 }
@@ -532,8 +533,8 @@ td {
 }
 
 .ui-confirm-dialog .ui-state-hover {
-	background-color: #FCFCFC!important;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
+	background-color: #FCFCFC !important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
 }
 
 .ui-confirm-dialog .ui-dialog-titlebar {
@@ -578,7 +579,8 @@ td {
 		margin-top: .6em;
 		font-size: 1.3em;
 	}
-	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove, #eventGroupsForm .column-group-keys {
+	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove,
+		#eventGroupsForm .column-group-keys {
 		display: inline-block;
 		float: none;
 		width: auto;
@@ -586,7 +588,8 @@ td {
 	#eventGroupsForm .ui-column-title, #eventGroupsForm .row-toggler {
 		display: none;
 	}
-	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
+	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input
+		{
 		margin-left: .4em;
 	}
 }

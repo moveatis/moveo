@@ -29,15 +29,10 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.application.RedirectURLs;
-import com.moveatis.groupkey.GroupKeyEntity;
-import com.moveatis.interfaces.GroupKey;
-import com.moveatis.interfaces.Session;
-import com.moveatis.interfaces.TagUser;
-import com.moveatis.user.TagUserEntity;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -46,10 +41,18 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+
 import org.primefaces.component.menuitem.UIMenuItem;
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.application.RedirectURLs;
+import com.moveatis.groupkey.GroupKeyEntity;
+import com.moveatis.interfaces.GroupKey;
+import com.moveatis.interfaces.Session;
+import com.moveatis.interfaces.TagUser;
+import com.moveatis.user.TagUserEntity;
 
 /**
  * The bean that manages the login for three types of users: the public user,

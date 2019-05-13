@@ -29,28 +29,31 @@
  */
 package com.moveatis.event;
 
-import com.moveatis.abstracts.AbstractBean;
-import com.moveatis.abstracts.AbstractCategorySetEntity;
-import com.moveatis.category.CategorySetEntity;
-import com.moveatis.category.CategorySetEntity_;
-import com.moveatis.interfaces.AnonUser;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import com.moveatis.interfaces.EventGroup;
-import com.moveatis.user.AbstractUser;
-import com.moveatis.user.AbstractUser_;
 import java.util.List;
 import java.util.Set;
+
+import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.abstracts.AbstractCategorySetEntity;
+import com.moveatis.category.CategorySetEntity;
+import com.moveatis.category.CategorySetEntity_;
+import com.moveatis.interfaces.AnonUser;
+import com.moveatis.interfaces.EventGroup;
+import com.moveatis.user.AbstractUser;
+import com.moveatis.user.AbstractUser_;
 
 /**
  * The EJB manages the event group entities.

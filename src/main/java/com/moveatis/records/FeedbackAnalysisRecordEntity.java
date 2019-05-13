@@ -32,22 +32,17 @@ package com.moveatis.records;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.moveatis.abstracts.AbstractRecordEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
-import com.moveatis.observation.ObservationCategorySet;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.ALL;
 
 /**
  * The entity for feedbackanalysis records, corresponds to the
@@ -60,17 +55,19 @@ import static javax.persistence.CascadeType.ALL;
 public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 
 	@ManyToOne
-	private FeedbackAnalyzationEntity feedbackAnalyzation;
+	private FeedbackAnalysisEntity feedbackAnalysis;
 
 	/**
 	 * The categories selected in this record
 	 */
 	@ManyToMany
-	@JoinTable(name = "FeedbackAnalysisRecordSelectedCategories")
+	@JoinTable(name = "FeedbackAnalysisRecordSelectedCategories",
+			joinColumns=@JoinColumn(name="record_id"),
+			inverseJoinColumns=@JoinColumn(name="category_id"))
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 
 	/**
-	 * Maintains the order of the records within an analyzation
+	 * Maintains the order of the records within an analysis
 	 */
 	private Integer orderNumber;
 
@@ -111,11 +108,11 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 			addSelectedCategory(selectedCategory);
 	}
 
-	public FeedbackAnalyzationEntity getFeedbackAnalyzation() {
-		return feedbackAnalyzation;
+	public FeedbackAnalysisEntity getFeedbackAnalysis() {
+		return feedbackAnalysis;
 	}
 
-	public void setFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzation) {
-		this.feedbackAnalyzation = feedbackAnalyzation;
+	public void setFeedbackAnalysis(FeedbackAnalysisEntity feedbackAnalysis) {
+		this.feedbackAnalysis = feedbackAnalysis;
 	}
 }

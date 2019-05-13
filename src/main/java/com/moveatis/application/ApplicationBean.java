@@ -29,14 +29,16 @@
  */
 package com.moveatis.application;
 
-import com.moveatis.abstracts.AbstractBean;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import com.moveatis.interfaces.Application;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.abstracts.AbstractBean;
+import com.moveatis.interfaces.Application;
 
 /**
  * The Application enterprise bean controls access to the application entity. It

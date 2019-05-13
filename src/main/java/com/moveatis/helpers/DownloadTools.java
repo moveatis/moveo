@@ -6,14 +6,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 
 public class DownloadTools {
-	public static File getImageFromByteArr(String filename, byte img_bytes[]) {
+	public static File getImageFromByteArr(String filename, byte[] img_bytes) {
 		ByteArrayInputStream bis = new ByteArrayInputStream(img_bytes);
 		BufferedImage image;
 		File outputfile = null;
@@ -29,14 +28,14 @@ public class DownloadTools {
 	}
 
 	
-	public static void downloadFile(File file, String responseType) {
+	public static void downloadFile(File file, String responseType,String  downloadName) {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext ec = fc.getExternalContext();
 
 		ec.responseReset();
 
 		ec.setResponseContentType(responseType);
-		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + downloadName + "\"");
 		try {
 			OutputStream outputStream = ec.getResponseOutputStream();
 			FileInputStream input = new FileInputStream(file);

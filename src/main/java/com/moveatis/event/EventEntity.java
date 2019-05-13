@@ -29,12 +29,9 @@
  */
 package com.moveatis.event;
 
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
-import com.moveatis.observation.ObservationEntity;
-import com.moveatis.user.AbstractUser;
 import java.io.Serializable;
 import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -43,6 +40,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
+import com.moveatis.observation.ObservationEntity;
+import com.moveatis.user.AbstractUser;
 
 /**
  * The entity represents the information of the events.
@@ -66,14 +68,14 @@ public class EventEntity extends BaseEntity implements Serializable {
 	private Set<ObservationEntity> observations;
 
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
-	private Set<FeedbackAnalyzationEntity> analyzations;
+	private Set<FeedbackAnalysisEntity> analyses;
 
-	public Set<FeedbackAnalyzationEntity> getAnalyzations() {
-		return analyzations;
+	public Set<FeedbackAnalysisEntity> getAnalyses() {
+		return analyses;
 	}
 
-	public void setAnalyzations(Set<FeedbackAnalyzationEntity> analyzations) {
-		this.analyzations = analyzations;
+	public void setAnalyses(Set<FeedbackAnalysisEntity> analyses) {
+		this.analyses = analyses;
 	}
 
 	private String description;

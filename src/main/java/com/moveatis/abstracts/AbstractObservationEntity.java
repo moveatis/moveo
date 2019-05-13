@@ -30,27 +30,16 @@
  */
 package com.moveatis.abstracts;
 
-import static javax.persistence.CascadeType.ALL;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 import com.moveatis.event.EventEntity;
-import com.moveatis.observation.ObservationCategorySet;
 import com.moveatis.observation.ObservationEntity;
-import com.moveatis.records.RecordEntity;
 import com.moveatis.user.AbstractUser;
 
 /**
  * @author Visa Nykänen Superclass for the common features of feedback
- *         analyzations and observations
+ *         analyses and observations
  */
 @MappedSuperclass
 public abstract class AbstractObservationEntity extends BaseEntity {
@@ -62,35 +51,20 @@ public abstract class AbstractObservationEntity extends BaseEntity {
 	private AbstractUser observer;
 
 	/**
-	 * The event for which the analyzation or observation is made
+	 * The event for which the analysis or observation is made
 	 */
 	@ManyToOne
 	private EventEntity event;
 
 	/**
-	 * The duration of the analyzation or observation event
+	 * The duration of the analysis or observation event
 	 */
 	private long duration;
 
 	/**
-	 * The description of the analyzation or observation event
+	 * The description of the analysis or observation event
 	 */
 	private String description;
-
-	/**
-	 * the name of the observation or analyzation
-	 */
-	private String name;
-
-	/**
-	 * The target being observed
-	 */
-	private String target;
-
-	/**
-	 * Whether the observation or analyzation should be saved to database
-	 */
-	private Boolean userWantsToSaveToDatabase;
 
 	@Override
 	public Long getId() {
@@ -132,30 +106,6 @@ public abstract class AbstractObservationEntity extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getTarget() {
-		return target;
-	}
-
-	public void setTarget(String target) {
-		this.target = target;
-	}
-
-	public Boolean getUserWantsToSaveToDatabase() {
-		return userWantsToSaveToDatabase;
-	}
-
-	public void setUserWantsToSaveToDatabase(Boolean userWantsToSaveToDatabase) {
-		this.userWantsToSaveToDatabase = userWantsToSaveToDatabase;
 	}
 
 	@Override

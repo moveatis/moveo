@@ -29,18 +29,20 @@
  */
 package com.moveatis.managedbeans;
 
-import com.moveatis.helpers.Validation;
-import com.moveatis.interfaces.GroupKey;
-import com.moveatis.interfaces.MessageBundle;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-import javax.inject.Named;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.inject.Named;
+
+import com.moveatis.helpers.Validation;
+import com.moveatis.interfaces.GroupKey;
+import com.moveatis.interfaces.MessageBundle;
 
 /**
  * The bean implements commonly used methods to validate user input.

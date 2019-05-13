@@ -30,14 +30,16 @@
 
 package com.moveatis.identityprovider;
 
-import com.moveatis.abstracts.BaseEntity;
-import com.moveatis.user.IdentifiedUserEntity;
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.moveatis.abstracts.BaseEntity;
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The entity represents the data needed to identify an existing user. The

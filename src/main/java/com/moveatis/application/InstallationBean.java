@@ -30,18 +30,21 @@
 
 package com.moveatis.application;
 
+import java.io.Serializable;
+import java.util.Calendar;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moveatis.enums.ApplicationStatusCode;
 import com.moveatis.interfaces.AnonUser;
 import com.moveatis.interfaces.Application;
 import com.moveatis.interfaces.Role;
 import com.moveatis.interfaces.Session;
 import com.moveatis.user.AnonUserEntity;
-import java.io.Serializable;
-import java.util.Calendar;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The class does the installation task of the Moveatis application.

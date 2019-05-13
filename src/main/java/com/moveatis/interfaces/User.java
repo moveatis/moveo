@@ -29,9 +29,11 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.user.IdentifiedUserEntity;
 import java.util.List;
+
 import javax.ejb.Local;
+
+import com.moveatis.user.IdentifiedUserEntity;
 
 /**
  * The interface to manage the user entity. A user is the identified user, which

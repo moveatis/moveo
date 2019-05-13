@@ -29,8 +29,9 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.user.AnonUserEntity;
 import java.util.List;
+
+import com.moveatis.user.AnonUserEntity;
 
 /**
  * The interface to manage public users within the Moveatis.

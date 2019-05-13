@@ -30,15 +30,18 @@
 
 package com.moveatis.session;
 
-import com.moveatis.application.RedirectURLs;
 import java.io.IOException;
-import javax.inject.Named;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Named;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.moveatis.application.RedirectURLs;
 
 /**
  * The bean manages logging out of Moveatis, which includes invalidating the

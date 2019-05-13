@@ -30,6 +30,17 @@
 
 package com.moveatis.devel;
 
+import java.io.IOException;
+
+import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moveatis.application.InstallationBean;
 import com.moveatis.enums.ApplicationStatusCode;
 import com.moveatis.identityprovider.IdentityProviderBean;
@@ -39,14 +50,6 @@ import com.moveatis.interfaces.Role;
 import com.moveatis.interfaces.Session;
 import com.moveatis.interfaces.User;
 import com.moveatis.user.IdentifiedUserEntity;
-import java.io.IOException;
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The bean is a dummy login bean for development purposes, as it mocks the

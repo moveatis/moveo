@@ -29,12 +29,14 @@
 
 package com.moveatis.interfaces;
 
+import java.util.List;
+
+import javax.ejb.Local;
+
 import com.moveatis.event.EventEntity;
-import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
+import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
 import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.IdentifiedUserEntity;
-import java.util.List;
-import javax.ejb.Local;
 
 /**
  * The interface to manage the event entity. Event specifies the situation that
@@ -65,6 +67,6 @@ public interface Event {
 
 	int count();
 
-	void removeFeedbackAnalyzation(FeedbackAnalyzationEntity feedbackAnalyzationEntity);
+	void removeFeedbackAnalysis(FeedbackAnalysisEntity feedbackAnalysisEntity);
 
 }

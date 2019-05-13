@@ -29,8 +29,9 @@
  */
 package com.moveatis.interfaces;
 
-import com.moveatis.application.ApplicationEntity;
 import javax.ejb.Local;
+
+import com.moveatis.application.ApplicationEntity;
 
 /**
  * The interface to manage the application entity.

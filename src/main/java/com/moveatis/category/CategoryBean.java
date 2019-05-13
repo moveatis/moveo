@@ -30,17 +30,16 @@
  */
 package com.moveatis.category;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import com.moveatis.abstracts.AbstractBean;
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.abstracts.AbstractCategorySetEntity;
 import com.moveatis.interfaces.Category;
 import com.moveatis.interfaces.CategorySet;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 /**
  * The EJB manages categories for both feedbackanalysis and observation.
