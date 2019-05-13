@@ -22,6 +22,18 @@
 				<div id="content">
 					<ui:debug hotkey="x" />
 				</div>
+				<div id="continueToSummary">
+					<p:commandButton value="#{msg.repo_continue}"
+						action="#{feedbackAnalyzationManagedBean.toSummary()}"
+						rendered="#{!feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+					</p:commandButton>
+					<p:commandButton value="#{msg.repo_continue}"
+						action="#{feedbackAnalyzationManagedBean.toSummary()}"
+						rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+						<p:confirm header="#{msg.repo_question}"
+							message="#{msg.repo_warning}" icon="ui-icon-alert" />
+					</p:commandButton>
+				</div>
 				<div id="dataTableImage">
 					<p:dataTable id="entries"
 						value="#{feedbackAnalyzationManagedBean.feedbackAnalyzationEntity.records}"

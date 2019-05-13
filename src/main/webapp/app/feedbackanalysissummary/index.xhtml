@@ -48,6 +48,33 @@ this.cfg.grid = {
 			<h1>#{msg.ana_title} :
 				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
 			<div id="container">
+				<div id="hiddenButtons">
+					<h:form>
+						<div id="back">
+							<p:commandButton value="#{msg.fbsum_back}"  onclick="window.history.back();" />
+						</div>
+						<div id="save">
+							<p:commandButton value="#{msg.dlg_saveAndSend}"
+								rendered="#{sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+
+							<p:commandButton value="#{msg.dlg_saveDialogHeaderAnalyzation}"
+								rendered="#{!sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+						</div>
+						<div id="end">
+							<p:commandButton value="#{msg.fbsum_end}" ajax="false"
+								action="/index.xhtml"></p:commandButton>
+						</div>
+					</h:form>
+				</div>
+
 				<h:form>
 					<div id="tableImage">
 						<table class="summaryTable">
@@ -145,18 +172,28 @@ this.cfg.grid = {
 
 				<div id="hiddenButtons">
 					<h:form>
-						<p:commandButton value="#{msg.dlg_saveAndSend}"
-							rendered="#{sessionBean.identifiedUser}" styleClass="save-button"
-							onclick="PF('dlgSave').show();" process="@this">
-							<p:ajax update=":saveForm" resetValues="true" />
-						</p:commandButton>
+						<div id="back">
+							<p:commandButton value="#{msg.fbsum_back}"  onclick="window.history.back();" />
+						</div>
+						<div id="save">
+							<p:commandButton value="#{msg.dlg_saveAndSend}"
+								rendered="#{sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
 
-						<p:commandButton value="#{msg.dlg_saveDialogHeader}"
-							rendered="#{!sessionBean.identifiedUser}"
-							styleClass="save-button" onclick="PF('dlgSave').show();"
-							process="@this">
-							<p:ajax update=":saveForm" resetValues="true" />
-						</p:commandButton>
+							<p:commandButton value="#{msg.dlg_saveDialogHeaderAnalyzation}"
+								rendered="#{!sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+						</div>
+						<div id="end">
+							<p:commandButton value="#{msg.fbsum_end}" ajax="false"
+								action="/index.xhtml"></p:commandButton>
+						</div>
 					</h:form>
 				</div>
 

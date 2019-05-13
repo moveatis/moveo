@@ -59,7 +59,8 @@ html {
 	font-size: 1.1em;
 	padding: .5em .5em;
 	background-color: rgb(85,102,119, 0.1);
-	border-radius: 0.625em 0.625em 0.625em 0.625em;	position: relative;
+	border-radius: 0.625em 0.625em 0.625em 0.625em;
+	position: relative;
 	z-index: 2;
 }
 
@@ -140,6 +141,20 @@ table.jqplot-table-legend td{
   max-width: 6.25em;
 }
 
+#piechart .jqplot-table-legend{
+	left: 2em!important;
+	width: 70%!important;
+}
+
+#piechart .jqplot-table-legend-swatch{
+	width: 3%!important;
+}
+#piechart .jqplot-table-legend-label{
+	width: 97%!important;
+	text-align: left;
+}
+
+
 #saveForm {
 	text-align: left!important;
 }
@@ -150,8 +165,24 @@ table.jqplot-table-legend td{
 }
 
 #hiddenButtons {
-	text-align: right;
+	margin-left: 1.5em;
 	margin-right: 1.5em;
+}
+
+#back, #end, #save{
+	display: inline-block;
+}
+
+#back {
+	float:left;
+}
+
+#end, #save {
+	float: right;
+}
+
+#end{
+	padding-right: 0.5em;
 }
 
 @media (max-width: 570px) {
@@ -163,6 +194,24 @@ table.jqplot-table-legend td{
 	font-size: 0.8em;
 	padding: 0.5em;
 }
+
+#hiddenButtons {
+	margin-left: 0em;
+	margin-right: 0em;
+}
+
+#back, #end, #save{
+	display: inline-block;
+}
+#back {
+	width: 100%;
+	text-align: right;
+}
+#end {
+	width: 100%;
+	text-align: right;
+	padding: 0em;
+}
 }
 
 @media (max-width: 400px) {
@@ -170,10 +219,19 @@ table.jqplot-table-legend td{
 	width: 90%;
 	font-size: 0.8em;
 }
-
 #bar_div {
 	font-size: 1em;
 	padding: 3em;
     width:70%;
+}
+#piechart .jqplot-table-legend-swatch{
+	width: 3%!important;
+}
+#piechart .jqplot-table-legend-label{
+	width: 97%!important;
+	text-align: left;
+}
+#piechart{
+	width: 80%;
 }
 }

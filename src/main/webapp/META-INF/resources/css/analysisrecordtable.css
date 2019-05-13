@@ -52,7 +52,6 @@ html {
 #container {
 	width: 95%;
 	margin: 1em;
-	padding: 0;
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
@@ -60,6 +59,7 @@ html {
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
+	padding-bottom: 0em;
 }
 
 .html2canvas-container { width: 3000px !important; height: 3000px !important; }
@@ -161,6 +161,7 @@ tbody {
 
 #continueToSummary {
 	padding-right: 0.5em;
+	text-align: right;
 }
 
 .ui-button {
