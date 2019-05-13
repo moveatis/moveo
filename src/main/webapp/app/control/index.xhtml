@@ -135,12 +135,12 @@
 							</p:commandLink>
 						</p:dataList>
 						<p:dataList value="#{controlBean.getAnalyses(eventGroup)}" var="analysis"
-							emptyMessage="#{msg.con_emptyMessageAnalyses}" lazy="true">
+							emptyMessage="#{msg.con_emptyMessageAnalyzations}" lazy="true">
 							<f:facet name="header">
-								#{msg.con_eventFeedbackAnalysis}
+								#{msg.con_eventFeedbackAnalyzation}
 							</f:facet>
 							<p:commandLink update=":analysisDetail :analysisFormCommands"
-								oncomplete="PF('dlgAnalysis').show()" title="#{msg.con_showFeedbackAnalysisDetails}"
+								oncomplete="PF('dlgAnalysis').show()" title="#{msg.con_showFeedbackAnalyzationDetails}"
 								styleClass="link-observation">
 								<f:setPropertyActionListener value="#{analysis}"
 									target="#{controlBean.selectedAnalysis}" />
@@ -303,7 +303,7 @@
 					disabled="#{empty controlBean.selectedEventGroup}" />
 			</p>
 			<p>
-				<p:commandButton value="#{msg.con_startAnalysisForEvent}" icon="fa fa-caret-square-o-right"
+				<p:commandButton value="#{msg.con_startAnalyzationForEvent}" icon="fa fa-caret-square-o-right"
 					action="#{controlBean.newAnalysis}" styleClass="start-button"
 					disabled="#{empty controlBean.selectedEventGroup}" />
 			</p>

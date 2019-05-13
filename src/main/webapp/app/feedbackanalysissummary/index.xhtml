@@ -160,7 +160,7 @@
 					</h:form>
 				</div>
 
-				<p:dialog header="#{msg.dlg_saveDialogHeaderAnalysis}"
+				<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
 					id="saveDialog" widgetVar="dlgSave" position="top"
 					resizable="false" responsive="true" fitViewport="true"
 					visible="#{facesContext.validationFailed}"
@@ -186,7 +186,7 @@
 								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 						</p:selectManyCheckbox>
 						<h:outputLabel for="input-name"
-							value="#{msg.asum_analysisName}">
+							value="#{msg.asum_analyzationName}">
 							<h:outputText rendered="#{sessionBean.identifiedUser}"
 								value=" (#{msg.dlg_defaultFileName})" />
 						</h:outputLabel>
@@ -197,7 +197,7 @@
 							validator="#{validationBean.validateShortString}" />
 
 						<h:outputLabel for="input-description"
-							value="#{msg.asum_analysisDescription}" />
+							value="#{msg.asum_analyzationDescription}" />
 						<p:message for="input-description" />
 						<p:inputTextarea id="input-description"
 							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.description}"
@@ -205,7 +205,7 @@
 							cols="16" autoResize="true" />
 
 						<h:outputLabel for="input-target"
-							value="#{msg.asum_analysisTarget}" />
+							value="#{msg.asum_analyzationTarget}" />
 						<p:message for="input-target" />
 						<p:inputText id="input-target"
 							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.targetOfAnalysis}"

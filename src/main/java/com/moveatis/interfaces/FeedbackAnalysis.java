@@ -69,6 +69,14 @@ public interface FeedbackAnalysis {
 
 	int count();
 
+	/**
+	 * Removes the given feedbackanalysisrecord from the given analysis and saves the changes to the database
+	 * Assumes that all the required changes such as updating the ordernumbers of the remaining 
+	 * records have been done before this method is called 
+	 * 
+	 * @param feedbackAnalysis the analysis from which the record is removed
+	 * @param record the record to be removed
+	 */
 	void removeRecordFromAnalysis(FeedbackAnalysisEntity feedbackAnalysis,
                                      FeedbackAnalysisRecordEntity record);
 }

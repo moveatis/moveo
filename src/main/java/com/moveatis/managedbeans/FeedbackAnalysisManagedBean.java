@@ -31,25 +31,17 @@
 package com.moveatis.managedbeans;
 
 import java.io.Serializable;
-import java.io.StringReader;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonNumber;
-import javax.json.JsonObject;
 
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
@@ -64,10 +56,10 @@ import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalysis;
 import com.moveatis.interfaces.Label;
+import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
-import com.moveatis.timezone.TimeZoneInformation;
 
 /**
  * The managed bean controlling the feedbackanalysis in view TODO: extract the
@@ -158,6 +150,50 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	@Inject
 	private UserManagedBean userManagedBean;
 
+	private byte[] pieImage, tableImage, barImage, reportImage;
+
+	private String reportCSV;
+
+	public void setBarImage(byte[] img) {
+		barImage = img;
+	}
+
+	public byte[] getBarImage() {
+		return barImage;
+	}
+
+	public void setTableImage(byte[] img) {
+		tableImage = img;
+	}
+
+	public byte[] getTableImage() {
+		return tableImage;
+	}
+
+	public void setPieImage(byte[] img) {
+		pieImage = img;
+	}
+
+	public byte[] getPieImage() {
+		return pieImage;
+	}
+
+	public void setReportCSV(String data) {
+		reportCSV = data;
+	}
+
+	public String getReportCSV() {
+		return reportCSV;
+	}
+
+	public void setReportImage(byte[] img) {
+		this.reportImage = img;
+	}
+
+	public byte[] getReportImage() {
+		return reportImage;
+	}
+
 	public void setIsTimerEnabled(boolean timerEnabled) {
 		this.isTimerEnabled = timerEnabled;
 	}
@@ -238,12 +274,43 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
 		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
+	
+	/**
+	 * Initializes all the necessary information for the analysis
+	 */
+	public void init() {
+		if (feedbackAnalysisEntity == null) {
+			Locale locale = userManagedBean.getLocale();
+			ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+			currentRecordNumber = 1;
+			feedbackAnalysisEntity = new FeedbackAnalysisEntity();
+			feedbackAnalysisEntity.setCreated();
+
+			DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
+			dateFormat.setTimeZone(sessionBean.getSessionTimeZone());
+
+			feedbackAnalysisEntity.setAnalysisName(messages.getString("asum_anatitle") + " - "
+					+ dateFormat.format(feedbackAnalysisEntity.getCreated()));
+			feedbackAnalysisEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
+			currentRecord = new FeedbackAnalysisRecordEntity();
+			setOrderNumberForRecord();
+			if (feedbackAnalysisCategorySetsInUse != null)
+				for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
+					for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
+						((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
+			currentRecord.setFeedbackAnalysis(feedbackAnalysisEntity);
+			feedbackAnalysisEntity.addRecord(currentRecord);
+		} else
+			setCurrentRecord(feedbackAnalysisEntity.getRecords().size());
+		isTimerStopped = true;
+		duration = feedbackAnalysisEntity.getDuration();
+	}
 
 	public void resetCurrentRecord() {
 		currentRecord.setComment(null);
-		for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
-			for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
-				((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
+		currentRecord.setStartTime(null);
+		resetSelectedCategories();
+		editRecord();
 	}
 
 	public long getMaxTimeStampForCurrentRecord() {
@@ -326,7 +393,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 */
 	public void setTimeStamp() {
 		if (currentRecord.getStartTime() == null && currentRecordNumber == feedbackAnalysisEntity.getRecords().size())
-			currentRecord.setStartTime(duration);		
+			currentRecord.setStartTime(duration);
 		editRecord();
 	}
 
@@ -381,40 +448,6 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 
 	}
 
-	public FeedbackAnalysisManagedBean() {
-
-	}
-
-	/**
-	 * Initializes all the necessary information for the analysis
-	 */
-	public void init() {
-		if (feedbackAnalysisEntity == null) {
-			currentRecordNumber = 1;
-			feedbackAnalysisEntity = new FeedbackAnalysisEntity();
-			feedbackAnalysisEntity.setCreated();
-
-			Locale locale = userManagedBean.getLocale();
-			DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
-			dateFormat.setTimeZone(sessionBean.getSessionTimeZone());
-
-			feedbackAnalysisEntity
-					.setAnalysisName("Analysis - " + dateFormat.format(feedbackAnalysisEntity.getCreated()));
-			feedbackAnalysisEntity.setRecords(new ArrayList<FeedbackAnalysisRecordEntity>());
-			currentRecord = new FeedbackAnalysisRecordEntity();
-			setOrderNumberForRecord();
-			if (feedbackAnalysisCategorySetsInUse != null)
-				for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse)
-					for (AbstractCategoryEntity fac : facs.getCategoryEntitys().values())
-						((FeedbackAnalysisCategoryEntity) fac).setInRecord(false);
-			currentRecord.setFeedbackAnalysis(feedbackAnalysisEntity);
-			feedbackAnalysisEntity.addRecord(currentRecord);
-		} else
-			setCurrentRecord(feedbackAnalysisEntity.getRecords().size());
-		isTimerStopped = true;
-		duration = feedbackAnalysisEntity.getDuration();
-	}
-
 	public boolean isNavigationDisabled(boolean isLeft) {
 		if (isLeft)
 			return currentRecordNumber == 1;
@@ -440,7 +473,6 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		currentRecord.setFeedbackAnalysis(feedbackAnalysisEntity);
 		feedbackAnalysisEntity.addRecord(currentRecord);
 	}
-
 
 	/**
 	 * Resets the selected categories to not be selected
@@ -492,10 +524,10 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 */
 	public String toSummary() {
 		if (checkNoCategoriesSelected()) {
-			RequestContext.getCurrentInstance()
-					.showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Can't continue to summary if no categories are selected",
-							"At least one record has to have at least one category selected to continue."));
+			Locale locale = userManagedBean.getLocale();
+			ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					messages.getString("ana_continuefailheader"), messages.getString("ana_continuefail")));
 			return "";
 		}
 		return "summary";
@@ -510,18 +542,15 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 */
 	public String toRecordTable() {
 		editRecord();
-		resetSelectedCategories();
 		if (checkNoCategoriesSelected()) {
-			RequestContext.getCurrentInstance()
-					.showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Can't continue to summary if no categories are selected",
-							"At least one record has to have at least one category selected to continue."));
+			Locale locale = userManagedBean.getLocale();
+			ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					messages.getString("ana_continuefailheader"), messages.getString("ana_continuefail")));
 			return "";
 		}
 		feedbackAnalysisEntity.setDuration(duration);
 		isTimerStopped = true;
-		for (FeedbackAnalysisCategoryEntity cat : currentRecord.getSelectedCategories())
-			cat.setInRecord(true);
 		return "recordtable";
 	}
 
@@ -568,50 +597,6 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 */
 	public void resetCategorySetsInUse() {
 		this.feedbackAnalysisCategorySetsInUse = null;
-	}
-
-	private byte[] pieImage, tableImage, barImage, reportImage;
-
-	private String reportCSV;
-
-	public void setBarImage(byte[] img) {
-		barImage = img;
-	}
-
-	public byte[] getBarImage() {
-		return barImage;
-	}
-
-	public void setTableImage(byte[] img) {
-		tableImage = img;
-	}
-
-	public byte[] getTableImage() {
-		return tableImage;
-	}
-
-	public void setPieImage(byte[] img) {
-		pieImage = img;
-	}
-
-	public byte[] getPieImage() {
-		return pieImage;
-	}
-
-	public void setReportCSV(String data) {
-		reportCSV = data;
-	}
-
-	public String getReportCSV() {
-		return reportCSV;
-	}
-
-	public void setReportImage(byte[] img) {
-		this.reportImage = img;
-	}
-
-	public byte[] getReportImage() {
-		return reportImage;
 	}
 
 }

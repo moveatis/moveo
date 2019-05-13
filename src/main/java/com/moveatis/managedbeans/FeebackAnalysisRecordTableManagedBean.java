@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -52,6 +53,7 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.FeedbackAnalysis;
+import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 /**
@@ -67,16 +69,24 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	@Inject
 	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
+	
 	private FeedbackAnalysisRecordEntity selectedRow;
+	
 	private List<String> selectedSaveOptions;
+	
 	private FeedbackAnalysisEntity feedbackAnalysis;
 
 	private String fileName;
 
 	@Inject
-	private FeedbackAnalysis feedbackAnalysisEJB;
+	private FeedbackAnalysis feedbackAnalysisEJB;	
+	
+	@Inject
+	@MessageBundle
+	private transient ResourceBundle messages;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
@@ -159,7 +169,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	public void delete(int orderNumber) {
 		if (feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getRecords().size() == 1) {
 			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Deletion failed", "There needs to be at least one record in an analysis."));
+					messages.getString("repo_deletefailheader"), messages.getString("repo_deletefail")));
 			return;
 		}
 
@@ -189,8 +199,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	 * @return String that faces-config uses to control navigation
 	 */
 	public String edit(Integer orderNumber) {
-		List<FeedbackAnalysisRecordEntity> list = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity()
-				.getRecords();
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getRecords();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getOrderNumber().intValue() == orderNumber.intValue()) {
 				feedbackAnalysisManagedBean.setCurrentRecord(i + 1);

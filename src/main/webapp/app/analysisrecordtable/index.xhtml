@@ -97,7 +97,7 @@
 				</h:panelGroup>
 			</div>
 
-			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalysis}"
+			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
 				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
 				responsive="true" fitViewport="true" styleClass="coloredDialog"
 				visible="#{facesContext.validationFailed}">
@@ -109,7 +109,7 @@
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" />
 					</p:selectManyCheckbox>
-					<h:outputLabel for="input-name" value="#{msg.asum_analysisName}" />
+					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}" />
 					<p:message for="input-name" />
 					<p:inputText id="input-name" required="true"
 						requiredMessage="#{msg.dlg_notEmpty}"
