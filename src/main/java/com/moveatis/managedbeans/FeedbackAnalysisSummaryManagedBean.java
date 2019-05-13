@@ -159,6 +159,9 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 	@Inject
 	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
+	
+	@Inject
+	private Mailer mailerEJB;
 
 	public String getEmailAddress() {
 		return emailAddress;
@@ -250,9 +253,6 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				return true;
 		return false;
 	}
-
-	@Inject
-	private Mailer mailerEJB;
 
 	public void mail(List<File> files) {
 		File[] filesArray = files.toArray(new File[files.size()]);

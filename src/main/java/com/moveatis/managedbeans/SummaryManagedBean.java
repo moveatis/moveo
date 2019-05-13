@@ -270,7 +270,6 @@ public class SummaryManagedBean implements Serializable {
 		File f = null;
 		try {
 			f = File.createTempFile(fileName, ".csv");
-
 			FileOutputStream fos = new FileOutputStream(f);
 			csv.buildCSV(fos, observation, ",");
 			fos.flush();

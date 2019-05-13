@@ -24,12 +24,12 @@
 				</div>
 				<div id="continueToSummary">
 					<p:commandButton value="#{msg.repo_continue}"
-						action="#{feedbackAnalyzationManagedBean.toSummary()}"
-						rendered="#{!feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+						action="#{feedbackAnalysisManagedBean.toSummary()}"
+						rendered="#{!feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
 					</p:commandButton>
 					<p:commandButton value="#{msg.repo_continue}"
-						action="#{feedbackAnalyzationManagedBean.toSummary()}"
-						rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+						action="#{feedbackAnalysisManagedBean.toSummary()}"
+						rendered="#{feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
 						<p:confirm header="#{msg.repo_question}"
 							message="#{msg.repo_warning}" icon="ui-icon-alert" />
 					</p:commandButton>
@@ -99,12 +99,12 @@
 					</h:form>
 					<div id="continueToSummary">
 						<p:commandButton value="#{msg.repo_continue}"
-							action="#{feedbackAnalyzationManagedBean.toSummary()}"
-							rendered="#{!feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+							action="#{feedbackAnalysisManagedBean.toSummary()}"
+							rendered="#{!feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
 						</p:commandButton>
 						<p:commandButton value="#{msg.repo_continue}"
-							action="#{feedbackAnalyzationManagedBean.toSummary()}"
-							rendered="#{feedbackAnalyzationManagedBean.containsUnclassifiedRecords()}">
+							action="#{feedbackAnalysisManagedBean.toSummary()}"
+							rendered="#{feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
 							<p:confirm header="#{msg.repo_question}"
 								message="#{msg.repo_warning}" icon="ui-icon-alert" />
 						</p:commandButton>
