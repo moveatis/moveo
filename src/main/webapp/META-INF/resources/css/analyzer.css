@@ -84,14 +84,10 @@ body {
 	display: inline-block;
 }
 
-#pause_span button {
-	
-}
-
 #timestamp_div {
 	max-width: 100%;
 	list-style-type: none;
-	background: rgba(85, 102, 119, 0.2);
+	background: rgba(85, 102, 119, 0.1);
 	padding: 0.5em;
 	border-radius: 0.5em;
 	position: relative;
@@ -119,7 +115,7 @@ body {
 
 #pageNumber {
 	display: inline-block;
-	width: 1.5em;
+	width: 3em;
 }
 
 #buttons {
@@ -174,7 +170,7 @@ body {
 #categoryContent {
 	max-width: 100%;
 	list-style-type: none;
-	background: rgba(85, 102, 119, 0.2);
+	background: rgba(85, 102, 119, 0.1);
 	padding: 0.5em;
 	border-radius: 0.5em;
 	position: relative;
@@ -293,5 +289,11 @@ body {
 		color: white;
 		box-shadow: none;
 		max-width: 8em;
+	}
+	#categoryContent {
+	padding-left: 0.5em;
+	}
+	#basicControls .ui-button {
+		max-width: 11em;
 	}
 }

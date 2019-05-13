@@ -47,7 +47,7 @@
 #recordings-details {
 	font-size: 1.1em;
 	padding: .1em .5em;
-	background: rgb(0, 0, 0, 0.1);
+	background-color: rgb(85, 102, 119, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -165,7 +165,7 @@
 }
 
 #timelineControls>div {
-	background: rgba(42, 29, 29, 0.2) none repeat scroll 0% 0%;
+	background: rgba(42, 29, 29, 0.1) none repeat scroll 0% 0%;
 	display: inline-block;
 	padding: 0.3em 0.3em 0.5em 0.3em;
 	border-radius: 0.3em;

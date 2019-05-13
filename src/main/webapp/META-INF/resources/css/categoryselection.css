@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujï¿½rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykï¿½nen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -95,9 +95,7 @@
 }
 
 .ui-icon-closethick {
-	background-image:
-		url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png)
-		!important;
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
 }
 
 .ui-icon-check {
@@ -154,13 +152,13 @@
 	display: inline-block;
 	vertical-align: top;
 	margin: 0 0.625em 1em 0;
-	background-color: rgb(85, 102, 119, 0.2);
+	background-color: rgb(85, 102, 119, 0.1);
 	border-radius: 0.625em;
 	padding: 0.625em;
 }
 
 .ui-selectonemenu-items .ui-state-highlight {
-	background: #008AB9 !important;
+	background: #008AB9!important;
 }
 
 .category-set h2 {
@@ -250,6 +248,6 @@
 
 @media screen and (max-width: 640px) {
 	.category-set-list button {
-		margin-top: 0.3em !important;
+		margin-top: 0.3em!important;
 	}
 }

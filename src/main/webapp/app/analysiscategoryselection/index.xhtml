@@ -1,14 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
 		<ui:define name="pageTitle">#{msg.facs_title}</ui:define>
 		<ui:define name="mainpage">
-			<h:outputStylesheet library="css" name="analysiscategoryselection.css" />
+			<h:outputStylesheet library="css"
+				name="analysiscategoryselection.css" />
 			<div id="container">
 				<h:panelGroup layout="block"
 					rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.eventGroup}">
@@ -18,7 +21,8 @@
 					rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.eventGroup}">
 					<h1>
 						<h:outputFormat value="#{msg.facs_headingEvent}">
-							<f:param value="#{feedbackAnalysisCategorySelectionManagedBean.eventGroup.label}" />
+							<f:param
+								value="#{feedbackAnalysisCategorySelectionManagedBean.eventGroup.label}" />
 						</h:outputFormat>
 					</h1>
 				</h:panelGroup>
@@ -26,29 +30,34 @@
 				<h:form id="form" onkeypress="return captureEnter(event);">
 					<p:growl id="growl" showDetail="true" />
 					<p:confirmDialog global="true">
-						<p:commandButton value="#{msg.dialogConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
-							icon="ui-icon-check" />
-						<p:commandButton value="#{msg.dialogConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
-							icon="ui-icon-close" />
+						<p:commandButton value="#{msg.dialogConfirmYes}" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="#{msg.dialogConfirmNo}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 					<h:outputText value="#{msg.facs_noCategorySetsText}"
 						rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse}" />
 					<ui:repeat
 						value="#{feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 						var="categorySet" varStatus="status">
-						<h:panelGroup id="category-set" styleClass="category-set category-set-#{status.index}">
-							<p:commandLink styleClass="fa fa-remove category-set-remove-button"
+						<h:panelGroup id="category-set"
+							styleClass="category-set category-set-#{status.index}">
+							<p:commandLink
+								styleClass="fa fa-remove category-set-remove-button"
 								action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategorySet(status.index)}"
 								update="@form">
 								<p:confirm header="#{msg.dialogConfirmTitle}"
-									message="#{msg.facs_confirmRemoveCategorySet}" icon="ui-icon-alert" />
+									message="#{msg.facs_confirmRemoveCategorySet}"
+									icon="ui-icon-alert" />
 							</p:commandLink>
 							<h2>#{categorySet.label}</h2>
 							<h:panelGroup layout="block" styleClass="no-categories-text"
 								rendered="#{empty categorySet.categoryEntitys}">
 								<h:outputText value="#{msg.facs_noCategoriesText}" />
 							</h:panelGroup>
-							<ui:repeat value="#{categorySet.categoryEntitys.values().toArray()}" var="category">
+							<ui:repeat
+								value="#{categorySet.categoryEntitys.values().toArray()}"
+								var="category">
 								<div class="category">
 									<p:inputText value="#{category.label.text}" id="category-name-input"
 										styleClass="category-text" validator="#{validationBean.validateShortString}" onblur="this.value=this.value.trim()"> </p:inputText>
@@ -58,17 +67,17 @@
 										update=":form" />
 								</div>
 							</ui:repeat>
-							<p:commandButton value="#{msg.facs_newCategory}" icon="fa fa-plus"
-								styleClass="new-category-button"
+							<p:commandButton value="#{msg.facs_newCategory}"
+								icon="fa fa-plus" styleClass="new-category-button"
 								action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategoryToCategorySet(categorySet)}"
 								update="category-set :form:continue-button"
 								oncomplete="focusCategory('.category-set-#{status.index}');" />
 						</h:panelGroup>
 					</ui:repeat>
 					<h2>#{msg.facs_addCategorySets}</h2>
-					<p:selectBooleanCheckbox value="#{feedbackAnalysisCategorySelectionManagedBean.isTimerEnabled}" itemLabel="#{msg.facs_timer}"/>
 					<h:panelGroup layout="block" styleClass="category-set-list">
-						<p:outputLabel for="new-category-set" value="#{msg.facs_newCategorySet}:"
+						<p:outputLabel for="new-category-set"
+							value="#{msg.facs_newCategorySet}:"
 							styleClass="category-set-list-label" />
 						<p:inputText
 							value="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName}"
@@ -80,38 +89,50 @@
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="category-set-list"
 						rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.privateFeedbackAnalysisCategorySets.toArray()}">
-						<p:outputLabel for="private-category-sets" value="#{msg.facs_privateCategorySets}:"
+						<p:outputLabel for="private-category-sets"
+							value="#{msg.facs_privateCategorySets}:"
 							styleClass="category-set-list-label" />
 						<p:selectOneMenu id="private-category-sets"
 							value="#{feedbackAnalysisCategorySelectionManagedBean.selectedPrivateFeedbackAnalysisCategorySet}"
 							styleClass="category-set-list-select">
 							<f:selectItems
 								value="#{feedbackAnalysisCategorySelectionManagedBean.privateFeedbackAnalysisCategorySets.toArray()}"
-								var="categorySet" itemLabel="#{categorySet.label}" itemValue="#{categorySet.id}" />
+								var="categorySet" itemLabel="#{categorySet.label}"
+								itemValue="#{categorySet.id}" />
 						</p:selectOneMenu>
-						<p:commandButton value="#{msg.facs_addCategorySet}" style="vertical-align: middle"
+						<p:commandButton value="#{msg.facs_addCategorySet}"
+							style="vertical-align: middle"
 							action="#{feedbackAnalysisCategorySelectionManagedBean.addPrivateCategorySet}"
 							update="@form" />
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="category-set-list-last"
 						rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.defaultFeedbackAnalysisCategorySets.toArray()}">
-						<p:outputLabel for="default-category-sets" value="#{msg.facs_defaultCategorySets}:"
+						<p:outputLabel for="default-category-sets"
+							value="#{msg.facs_defaultCategorySets}:"
 							styleClass="category-set-list-label" />
 						<p:selectOneMenu id="default-category-sets"
 							value="#{feedbackAnalysisCategorySelectionManagedBean.selectedDefaultFeedbackAnalysisCategorySet}"
 							styleClass="category-set-list-select">
 							<f:selectItems
 								value="#{feedbackAnalysisCategorySelectionManagedBean.defaultFeedbackAnalysisCategorySets.toArray()}"
-								var="categorySet" itemLabel="#{categorySet.label}" itemValue="#{categorySet.id}" />
+								var="categorySet" itemLabel="#{categorySet.label}"
+								itemValue="#{categorySet.id}" />
 						</p:selectOneMenu>
-						<p:commandButton value="#{msg.facs_addCategorySet}" style="vertical-align: middle"
+						<p:commandButton value="#{msg.facs_addCategorySet}"
+							style="vertical-align: middle"
 							action="#{feedbackAnalysisCategorySelectionManagedBean.addDefaultCategorySet}"
 							update="@form" />
 					</h:panelGroup>
+					<br />
+					<p:selectBooleanCheckbox
+						value="#{feedbackAnalysisCategorySelectionManagedBean.isTimerEnabled}"
+						itemLabel="#{msg.facs_timer}" />
 					<div id="continue-div">
-						<p:commandButton value="#{msg.facs_continueToAnalysis}" id="continue-button"
+						<p:commandButton value="#{msg.facs_continueToAnalysis}"
+							id="continue-button"
 							disabled="#{feedbackAnalysisCategorySelectionManagedBean.isContinueDisabled()}"
-							action="#{feedbackAnalysisCategorySelectionManagedBean.checkCategories}" update="@form" />
+							action="#{feedbackAnalysisCategorySelectionManagedBean.checkCategories}"
+							update="@form" />
 					</div>
 				</h:form>
 			</div>

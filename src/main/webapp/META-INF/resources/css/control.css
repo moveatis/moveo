@@ -37,6 +37,8 @@
 	max-width: 60em;
 	margin: 0 auto;
 	margin-bottom: 3em;
+	padding-left: 1em;
+	padding-right: 1em;
 }
 
 #mainPage>form, #mainPage .other-observations-fieldset {
@@ -144,6 +146,14 @@ a.new-key {
 	background: #EFEFEF;
 	border: 0;
 	border-bottom: 1px solid #4f4f4f !important;
+}
+
+#eventGroupsForm .ui-datalist {
+	background: #EFEFEF;
+}
+
+#eventGroupsForm .ui-datalist-data {
+	padding-bottom: 1em;
 }
 
 .ui-datalist-content {
@@ -275,14 +285,21 @@ a.new-key {
 #categorySetForm th {
 	background: none !important;
 	border: 0;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid white;
+	border-right: 0px!important;
 }
 
 #categorySetForm tr {
 	background: #008AB9 !important;
 	color: white;
 	border: 0;
-	border-bottom: 1px solid black;
+	border-bottom: 0px solid black;
+}
+
+#categorySetForm .ui-editable-column, #categorySetForm .row-editor {
+	background: #008AB9!important;
+	border-right: 0px!important;
+	color: white;
 }
 
 #categorySetForm .ui-state-highlight {
@@ -315,19 +332,41 @@ a.new-key {
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
+#feedbackAnalysisCategorySetForm .ui-column-title {
+	font-size: .8em;
+	color: white;
+	text-shadow: none;
+}
+
+#feedbackAnalysisCategorySetForm .ui-state-highlight .ui-column-title {
+	color: white;
+}
+
+#feedbackAnalysisCategorySetForm .ui-row-editor>.ui-icon-close {
+	display: none !important;
+}
+
 #feedbackAnalysisCategorySetForm th {
-	background: none !important;
-	color: white !important;
-	text-shadow: none !important;
+	background: none!important;
 	border: 0;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid white;
+	border-right: 0px!important;
 }
 
 #feedbackAnalysisCategorySetForm tr {
 	background: #008AB9 !important;
 	color: white;
-	border: 0
+	border: 0;
+	border-bottom: 0px solid black;
 }
+
+
+#feedbackAnalysisCategorySetForm .ui-editable-column, #feedbackAnalysisCategorySetForm .row-editor {
+	background: #008AB9!important;
+	border-right: 0px!important;
+	color: white;
+}
+
 
 #feedbackAnalysisCategorySetForm .ui-state-highlight {
 	background: #FCFCFC !important;
