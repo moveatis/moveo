@@ -81,10 +81,6 @@ import com.moveatis.user.IdentifiedUserEntity;
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Juha Moisio <juha.pa.moisio at student.jyu.fi>
  */
-/**
- * @author Business Time
- *
- */
 @Named(value = "controlBean")
 @ViewScoped
 public class ControlManagedBean implements Serializable {

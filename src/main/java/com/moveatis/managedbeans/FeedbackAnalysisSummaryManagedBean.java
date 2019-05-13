@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -60,6 +61,8 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategoryEntity;
 import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.Mailer;
+import com.moveatis.interfaces.MessageBundle;
+import com.moveatis.mail.MailerBean;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 /**
@@ -121,6 +124,10 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		}
 
 	}
+	
+	@Inject
+	@MessageBundle
+	private transient ResourceBundle messages;
 
 	private static final long serialVersionUID = 1L;
 
@@ -145,6 +152,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private final String EMAIL = "mail";
 
 	private String emailAddress;
+	
+	private boolean analyzationSaved = false;
 
 	private List<String> selectedSaveOperations;
 
@@ -226,6 +235,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public FeedbackAnalysisSummaryManagedBean() {
 
 	}
+	
+	public void showObservationSavedMessage() {
+		if (analyzationSaved) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("asum_analyzationSaved"), ""));
+			analyzationSaved = false;
+		}
+	}
 
 	public boolean isSelected(String saveOperation) {
 		for (String s : selectedSaveOperations)
@@ -245,6 +262,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis",
 				"Analysis results from Moveatis", filesArray);
+		
+		analyzationSaved = false;
 	}
 
 	public void save() throws IOException {
@@ -254,6 +273,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 		if (isSelected(SAVETODATABASE)) {
 			feedbackAnalysisManagedBean.saveFeedbackAnalysis();
+			analyzationSaved = true;
 		}
 
 		if (isSelected(EMAIL)) {
@@ -264,10 +284,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalysisManagedBean.getTableImage()));
 
 			mail(files);
+			analyzationSaved = true;
 		}
 
-		if (isSelected(DOWNLOAD))
+		if (isSelected(DOWNLOAD)){
 			DownloadTools.downloadCSV(getCSVData().toString(), fileName);
+			analyzationSaved = true;
+		}
 		for (File file : files)
 			file.delete();
 	}
@@ -286,6 +309,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getAnalysisName() +"_"+ whichFile+"_", raw_img);
 		DownloadTools.downloadFile(img, "image/png", img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
 		img.delete();
+		analyzationSaved = true;
 	}
 
 	/**

@@ -144,7 +144,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 * Whether the timer is stopped
 	 */
 	private boolean isTimerStopped;
-
+	
 	private boolean isTimerEnabled;
 
 	@Inject
@@ -153,7 +153,15 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	private byte[] pieImage, tableImage, barImage, reportImage;
 
 	private String reportCSV;
-
+	
+	public void setIsTimerEnabled(boolean timerEnabled) {
+		this.isTimerEnabled=timerEnabled;
+	}
+	
+	public boolean getIsTimerEnabled() {
+		return isTimerEnabled;
+	}
+	
 	public void setBarImage(byte[] img) {
 		barImage = img;
 	}
@@ -192,14 +200,6 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 
 	public byte[] getReportImage() {
 		return reportImage;
-	}
-
-	public void setIsTimerEnabled(boolean timerEnabled) {
-		this.isTimerEnabled = timerEnabled;
-	}
-
-	public boolean getIsTimerEnabled() {
-		return isTimerEnabled;
 	}
 
 	public void setEventEntity(EventEntity eventEntity) {

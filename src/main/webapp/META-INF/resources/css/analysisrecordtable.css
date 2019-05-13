@@ -65,6 +65,8 @@ html {
 	z-index: 2;
 }
 
+.html2canvas-container { width: 3000px !important; height: 3000px !important; }
+
 #entries {
 	margin-top: 0.5em;
 	margin-left: 0.5em;
