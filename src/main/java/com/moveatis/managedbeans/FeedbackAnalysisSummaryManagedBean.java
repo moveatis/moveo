@@ -73,6 +73,7 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.feedbackanalyzation.FeedbackAnalyzationEntity;
 import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.Mailer;
+import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.mail.MailerBean;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
@@ -135,6 +136,10 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		}
 
 	}
+	
+	@Inject
+	@MessageBundle
+	private transient ResourceBundle messages;
 
 	private static final long serialVersionUID = 1L;
 
@@ -159,6 +164,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private final String EMAIL = "mail";
 
 	private String emailAddress;
+	
+	private boolean analyzationSaved = false;
 
 	private List<String> selectedSaveOperations;
 
@@ -240,6 +247,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public FeedbackAnalysisSummaryManagedBean() {
 
 	}
+	
+	public void showObservationSavedMessage() {
+		if (analyzationSaved) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, messages.getString("asum_analyzationSaved"), ""));
+			analyzationSaved = false;
+		}
+	}
 
 	public boolean isSelected(String saveOperation) {
 		for (String s : selectedSaveOperations)
@@ -259,6 +274,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis",
 				"Analysis results from Moveatis", filesArray);
+		
+		analyzationSaved = false;
 	}
 
 	public void save() throws IOException {
@@ -268,6 +285,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 
 		if (isSelected(SAVETODATABASE)) {
 			feedbackAnalyzationManagedBean.saveFeedbackAnalyzation();
+			analyzationSaved = true;
 		}
 
 		if (isSelected(EMAIL)) {
@@ -278,10 +296,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			files.add(DownloadTools.getImageFromByteArr(fileName, feedbackAnalyzationManagedBean.getTableImage()));
 
 			mail(files);
+			analyzationSaved = true;
 		}
 
-		if (isSelected(DOWNLOAD))
+		if (isSelected(DOWNLOAD)){
 			DownloadTools.downloadCSV(getCSVData().toString(), fileName);
+			analyzationSaved = true;
+		}
 		for (File file : files)
 			file.delete();
 	}
@@ -300,6 +321,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				feedbackAnalyzationManagedBean.getFeedbackAnalyzationEntity().getName() + whichFile, raw_img);
 		DownloadTools.downloadFile(img, "image/png");
 		img.delete();
+		analyzationSaved = true;
 	}
 
 	/**

@@ -45,6 +45,8 @@ this.cfg.grid = {
     shadow: false
 };}
 			</h:outputScript>
+			<f:event type="preRenderView"
+				listener="#{feedbackAnalysisSummaryManagedBean.showObservationSavedMessage()}" />
 			<h1>#{msg.ana_title} :
 				#{feedbackAnalysisSummaryManagedBean.feedbackAnalyzation.name}</h1>
 			<div id="container">
