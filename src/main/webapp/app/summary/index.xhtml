@@ -175,22 +175,22 @@
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
 			<h:outputScript>
-                var SummaryIndex = {
-                    getObservationDuration: function () {
-
-                    },
-                    getMessages: function () {
-                        return msg = {
-                            sum_total: "#{msg.sum_total}",
-                            sum_begin: "#{msg.sum_begin}",
-                            sum_end: "#{msg.sum_end}",
-                            sum_duration: "#{msg.sum_duration}",
-                            sum_countAbr: "#{msg.sum_countAbr}",
-                            dlg_confirmLeave: "#{msg.dlg_confirmLeave}"
-                        };
-                    },
-                };
-            </h:outputScript>
+					var SummaryIndex = {
+						getObservationDuration: function () {
+							return #{summaryBean.observation.duration};
+						},
+						getMessages: function (){
+							return msg = {
+								sum_total: "#{msg.sum_total}",
+								sum_begin: "#{msg.sum_begin}",
+								sum_end: "#{msg.sum_end}",
+								sum_duration: "#{msg.sum_duration}",
+								sum_countAbr: "#{msg.sum_countAbr}",
+								dlg_confirmLeave: "#{msg.dlg_confirmLeave}"
+							};
+						},
+					};
+				</h:outputScript>
 			<h:outputScript library="js" name="summary.js" />
 			<div id="imageDiv">
 			</div>

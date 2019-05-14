@@ -258,7 +258,6 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		File[] filesArray = files.toArray(new File[files.size()]);
 		FacesContext context = FacesContext.getCurrentInstance();
 		String[] recipients = {emailAddress};
-		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
 
 		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis",
 				"Analysis results from Moveatis", filesArray);
@@ -357,7 +356,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				sb.append(", ");
 				sb.append(ti.counts.get(i).toString());
 				sb.append(", ");
-				sb.append(countPercentage(ti.counts.get(i)) + "%");
+				sb.append(getPercentageAsString(ti.counts.get(i)) + "%");
 				sb.append("\n");
 			}
 			sb.append("\n");
@@ -375,9 +374,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		selectedSaveOperations=new ArrayList<>();
 	}
 
-	public String countPercentage(int count) {
+	public String getPercentageAsString(int count) {
 		DecimalFormat df = new DecimalFormat("#.#");
-		return df.format(100 * (double) count / (double) feedbackAnalysis.getRecords().size());
+		return df.format(countPercentage(count));
+	}
+
+	private double countPercentage(int count) {
+		return 100 * (double) count / (double) feedbackAnalysis.getRecords().size();
 	}
 
 	/**
@@ -389,7 +392,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		List<FeedbackAnalysisCategoryEntity> allSelectedCategories = new ArrayList<FeedbackAnalysisCategoryEntity>();
 		feedbackAnalysis = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity();
 		categorySetsInUse = feedbackAnalysisManagedBean.getFeedbackAnalysisCategorySetsInUse();
-		int maxAxis = feedbackAnalysis.getRecords().size();
+		int numberOfRecords = feedbackAnalysis.getRecords().size();
 		for (FeedbackAnalysisRecordEntity record : feedbackAnalysis.getRecords()) {
 			allSelectedCategories.addAll(record.getSelectedCategories());
 		}
@@ -416,20 +419,20 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 						count++;
 				fullcount += count;
 
-				pieModel.set(cat.getLabel().getText(), count);
-				categorySetChartSeries.set("", count);
+				pieModel.set(cat.getLabel().getText(), countPercentage(count));
+				categorySetChartSeries.set("", countPercentage(count));
 
 				barModel.addSeries(categorySetChartSeries);
 
 				tableInformation.addCategoryWithCount(cat.getLabel().getText(), count);
 			}
-			if (maxAxis > fullcount) {
+			if (numberOfRecords > fullcount) {
 				ChartSeries empty = new ChartSeries();
 				empty.setLabel("------");
-				empty.set(catSet.getLabel(), maxAxis - fullcount);
+				empty.set(catSet.getLabel(), countPercentage(numberOfRecords - fullcount));
 				barModel.addSeries(empty);
-				pieModel.set("------", maxAxis - fullcount);
-				tableInformation.addCategoryWithCount("------", maxAxis - fullcount);
+				pieModel.set("------", countPercentage(numberOfRecords - fullcount));
+				tableInformation.addCategoryWithCount("------", numberOfRecords - fullcount);
 			}
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);
@@ -445,8 +448,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			Axis yAxis = barModel.getAxis(AxisType.Y);
 			yAxis.setMin(0);
 			yAxis.setTickFormat("%3d");
-			yAxis.setTickInterval("1");
-			yAxis.setMax(maxAxis);
+			yAxis.setTickInterval("10");
+			yAxis.setMax(100);
 			if (catSet != categorySetsInUse.get(0))
 				barModel.setExtender("chartExtenderHideTicks");
 			else

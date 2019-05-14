@@ -95,7 +95,7 @@
 												<tr>
 													<td style="width: 30%" class="cat">#{cat}</td>
 													<td class="count">#{tableInformation.counts.get(stat.index)}
-														(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
+														(#{feedbackAnalysisSummaryManagedBean.getPercentageAsString(tableInformation.counts.get(stat.index))}
 														%)</td>
 												</tr>
 											</ui:repeat>
