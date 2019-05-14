@@ -78,6 +78,14 @@ html {
 	border-bottom: 0.1em solid #005977;
 }
 
+.ui-growl-message {
+	padding-top: 2em;
+}
+
+.ui-growl-image-info {
+	margin-top: 1.5em;
+}
+
 .tableheader, .cat {
 	width: 40%;
 }

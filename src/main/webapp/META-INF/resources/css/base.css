@@ -167,10 +167,14 @@ a:hover {
 #picture2 {
 	padding-left: 10%;
 	padding-top: 3em;
-	height: auto;
-	width: 40%;
+	width: 90%;
 	margin: auto;
 	display: inline-block;
+	text-align: center;
+}
+
+#picture2 img {
+	width: 40%;
 }
 
 #picture2 img {
@@ -478,12 +482,11 @@ ul.ui-menu-child {
 		width: 96%;
 		margin: 1% auto 1% auto;
 		border: none;
-		padding-bottom: 0em;
+		height: 4em;
 	}
 	.welcomeContent {
 		width: 92%;
-		margin: 1% auto 1% auto;
-		padding: 0.5em;
+		padding-top: 1em;
 	}
 	.textContentArea {
 		width: 70%;
@@ -506,9 +509,6 @@ ul.ui-menu-child {
 		float: right;
 	}
 	.accessButtons {
-		width: 9.5em;
-		height: 2.0em;
-		/*        margin: 2.5% auto 2.5% auto;*/
 		display: table;
 		text-align: center;
 		padding: 0.2em;
@@ -548,10 +548,14 @@ ul.ui-menu-child {
 		display: inline-block;
 	}
 	#picture2 {
-		padding-top: 3em;
+		padding-top: 1em;
 		height: auto;
 		width: 80%;
 		margin: auto;
 		display: inline-block;
+	}
+
+	#picture2 img {
+		width: 80%!important;
 	}
 }
