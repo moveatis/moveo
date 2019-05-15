@@ -78,7 +78,8 @@
 					</pe:timeline>
 					<div id="hiddenButtons">
 						<h:form>
-							<p:commandButton value="#{msg.dlg_saveAndSend}"
+							<div id="download-button"><p:commandButton styleClass="save-button" value="#{msg.downloadImage}"  action="#{summaryBean.downloadImage()}" ajax="false"/></div>
+							<div id="save-button"><p:commandButton value="#{msg.dlg_saveAndSend}"
 								rendered="#{sessionBean.identifiedUser}"
 								styleClass="save-button" onclick=" PF('dlgSave').show();"
 								process="@this">
@@ -90,7 +91,7 @@
 								process="@this">
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
-							<p:commandButton styleClass="save-button" value="#{msg.downloadImage}"  action="#{summaryBean.downloadImage()}" ajax="false"/>
+							</div>
 						</h:form>
 					</div>
 				</div>

@@ -257,6 +257,18 @@
 	text-shadow: none;
 }
 
+#save-button .save-button {
+	margin-right: 0.5em;
+}
+
+#download-button {
+	text-align: center;
+}
+
+#download-button .save-button {
+	margin-top: 0em!important;
+}
+
 .ui-datepicker-trigger {
 	background-color: #008AB9;
 	background: linear-gradient(0deg, #008AB9, #10A1D1);
