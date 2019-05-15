@@ -668,6 +668,11 @@ td {
 	#eventGroupsForm .ui-column-title, #eventGroupsForm .row-toggler {
 		display: none;
 	}
+
+	#eventGroupsForm td:nth-child(3) .ui-column-title, #eventGroupsForm td:nth-child(4) .ui-column-title {
+		display:block!important;
+	}
+
 	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
 		margin-left: .4em;
 	}

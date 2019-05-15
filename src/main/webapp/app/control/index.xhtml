@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
@@ -33,11 +34,11 @@
 							<f:facet name="input">
 								<p:message for="input-name-eg" />
 								<p:inputText id="input-name-eg" required="true" requiredMessage="#{msg.dlg_notEmpty}"
-									placeholder="#{msg.con_eventName}" styleClass="input-name"
+									pt:placeholder="#{msg.con_eventName}" styleClass="input-name"
 									value="#{eventGroup.label}" validator="#{validationBean.validateShortString}" />
 								<p:message for="input-description-eg" />
 								<p:inputTextarea id="input-description-eg" styleClass="input-description"
-									placeholder="#{msg.con_eventDescription}" value="#{eventGroup.description}"
+									pt:placeholder="#{msg.con_eventDescription}" value="#{eventGroup.description}"
 									validator="#{validationBean.validateLongString}" rows="2" cols="10"
 									autoResize="true" />
 							</f:facet>
@@ -280,7 +281,7 @@
 					<p:message for="input-name-eventgroup" />
 					<p:inputText id="input-name-eventgroup" required="true" requiredMessage="#{msg.dlg_notEmpty}"
 						value="#{eventGroupManagedBean.eventGroupName}" styleClass="input-name"
-						placeholder="#{msg.con_eventName}" validator="#{validationBean.validateShortString}" />
+						pt:placeholder="#{msg.con_eventName}" validator="#{validationBean.validateShortString}" />
 					<p:commandButton value="#{msg.dlg_add}" icon="fa fa-plus"
 						action="#{eventGroupManagedBean.createNewEventGroup}"
 						update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel :newEventGroupButton"
@@ -440,7 +441,7 @@
 									<p:inputText id="input-name-category" required="true"
 										requiredMessage="#{msg.dlg_notEmpty}" value="#{category.label.text}"
 										onblur="this.value=this.value.trim()"
-										placeholder="#{msg.con_newCategoryLabel}"
+										pt:placeholder="#{msg.con_newCategoryLabel}"
 										validator="#{validationBean.validateShortString}" />
 								</f:facet>
 							</p:cellEditor>
@@ -531,7 +532,7 @@
 								</f:facet>
 								<f:facet name="input">
 									<p:inputText id="input-name-feedbackanalysiscategory" required="true"
-										placeholder="#{msg.con_newCategoryLabel}"
+										pt:placeholder="#{msg.con_newCategoryLabel}"
 										requiredMessage="#{msg.dlg_notEmpty}" value="#{category.label.text}"
 										onblur="this.value=this.value.trim()"
 										validator="#{validationBean.validateShortString}" />

@@ -267,3 +267,10 @@
 		width: 60em;
 	}
 }
+
+@media screen and (max-width: 639px) {
+	#container {
+		width: 100%;
+		text-align: center;
+	}
+}

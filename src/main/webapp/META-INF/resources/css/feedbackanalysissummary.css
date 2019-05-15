@@ -176,6 +176,7 @@ table.jqplot-table-legend td {
 #hiddenButtons {
 	margin-left: 1.5em;
 	margin-right: 1.5em;
+	text-align: right;
 }
 
 #back, #end, #save{
@@ -186,13 +187,10 @@ table.jqplot-table-legend td {
 	float:left;
 }
 
-#end, #save {
-	float: right;
+#save {
+	margin-right: 1em;
 }
 
-#end{
-	padding-right: 0.5em;
-}
 
 @media (max-width: 570px) {
 #container {
@@ -220,6 +218,12 @@ table.jqplot-table-legend td {
 	width: 100%;
 	text-align: right;
 	padding: 0em;
+}
+}
+
+@media (max-width: 750px) {
+#save {
+	margin-right: 0em;
 }
 }
 
