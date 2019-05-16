@@ -45,6 +45,11 @@ if(document.getElementById('charts:pieChart_input').checked){
 }
 }
 
+/**
+ * Sends an image through ajax to the servlet that handles images.
+ * 
+ * @param URI the base64-encoded image to be sent
+ */
 function sendImage(URI){
 	$.ajax({
 		url : "../../webapi/summary/image",
@@ -63,6 +68,9 @@ function sendImage(URI){
 	});
 }
 
+/**
+ * Sends all the images created on the summary-page to the servlet that handles them
+ */
 function sendImages() {
 	html2canvas(document.getElementById('tableImage')).then(function(canvas) {
 		URI="analtable,"+canvas.toDataURL();

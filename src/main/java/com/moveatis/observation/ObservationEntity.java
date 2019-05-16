@@ -59,9 +59,9 @@ import com.moveatis.records.RecordEntity;
 		@NamedQuery(name = "findByEventsNotOwned", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator<>:observer") })
 @Entity
 public class ObservationEntity extends AbstractObservationEntity implements Serializable {
-	
+
 	private String name;
-	
+
 	private String target;
 
 	private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class ObservationEntity extends AbstractObservationEntity implements Seri
 	 * Whether the observation should be saved to database
 	 */
 	private Boolean userWantsToSaveToDatabase;
-	
+
 	public Boolean getUserWantsToSaveToDatabase() {
 		return userWantsToSaveToDatabase;
 	}
@@ -100,7 +100,7 @@ public class ObservationEntity extends AbstractObservationEntity implements Seri
 	public void setTarget(String target) {
 		this.target = target;
 	}
-	
+
 	public List<RecordEntity> getRecords() {
 		return records;
 	}

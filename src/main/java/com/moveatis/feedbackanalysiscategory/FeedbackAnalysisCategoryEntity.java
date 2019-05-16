@@ -102,7 +102,8 @@ public class FeedbackAnalysisCategoryEntity extends AbstractCategoryEntity imple
 	 * Sets the category to be in the currently shown record, makes sure that no
 	 * other categories from the same categoryset are also selected
 	 * 
-	 * @param inRecord whether the category is in the currently shown record
+	 * @param inRecord
+	 *            whether the category is in the currently shown record
 	 */
 	public void setInRecord(boolean inRecord) {
 		if (inRecord)

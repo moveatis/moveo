@@ -95,7 +95,9 @@
 }
 
 .ui-icon-closethick {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+	background-image:
+		url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png)
+		!important;
 }
 
 .ui-icon-check {
@@ -158,7 +160,7 @@
 }
 
 .ui-selectonemenu-items .ui-state-highlight {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 }
 
 .category-set h2 {
@@ -248,6 +250,6 @@
 
 @media screen and (max-width: 640px) {
 	.category-set-list button {
-		margin-top: 0.3em!important;
+		margin-top: 0.3em !important;
 	}
 }

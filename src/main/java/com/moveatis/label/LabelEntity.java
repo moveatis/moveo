@@ -72,11 +72,11 @@ public class LabelEntity extends BaseEntity implements Serializable {
 	private List<FeedbackAnalysisCategoryEntity> feedbackAnalysisCategoryEntities;
 
 	public LabelEntity() {
-		
+
 	}
-	
+
 	public LabelEntity(String text) {
-		this.text=text;
+		this.text = text;
 	}
 
 	public void setFeedbackAnalysisCategoryEntities(

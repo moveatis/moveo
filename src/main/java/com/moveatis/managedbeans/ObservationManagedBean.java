@@ -180,7 +180,8 @@ public class ObservationManagedBean implements Serializable {
 	/**
 	 * Adds a record to the observation.
 	 * 
-	 * @param record The record to be added to the observation.
+	 * @param record
+	 *            The record to be added to the observation.
 	 */
 	public void addRecord(RecordEntity record) {
 		List<RecordEntity> records = observationEntity.getRecords();
@@ -233,9 +234,9 @@ public class ObservationManagedBean implements Serializable {
 	}
 
 	public void setImage(byte[] img) {
-		this.image=img;		
+		this.image = img;
 	}
-	
+
 	public byte[] getImage() {
 		return image;
 	}

@@ -61,8 +61,25 @@ body {
 
 /* Use same font family on widgets for consistency
 	(excluding .fa elements) */
-.ui-widget:not (.fa ) {
-	font-family: 'Roboto', sans-serif;
+.ui-widget
+:not
+ 
+(
+.fa
+ 
+)
+{
+font-family
+:
+ 
+'
+Roboto
+'
+,
+sans-serif
+;
+
+
 }
 
 /* Sticky footer based on this:
@@ -187,7 +204,7 @@ nav {
 	border: none;
 	margin-right: 0.5em;
 	padding-right: 0.5em;
-	height: 8em!important;
+	height: 8em !important;
 }
 
 .welcomeContent {
@@ -482,7 +499,6 @@ ul.ui-menu-child {
 		border: none;
 		height: 4em;
 	}
-
 	.welcomeContent {
 		width: 85%;
 		padding-top: 1em;
@@ -552,8 +568,7 @@ ul.ui-menu-child {
 		margin: auto;
 		display: inline-block;
 	}
-
 	#picture2 img {
-		width: 80%!important;
+		width: 80% !important;
 	}
 }

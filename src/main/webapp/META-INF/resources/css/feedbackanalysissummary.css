@@ -60,7 +60,7 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background-color: rgb(85,102,119, 0.1);
+	background-color: rgb(85, 102, 119, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -70,7 +70,7 @@ html {
 	width: 100%;
 	border: 0;
 	border-collapse: collapse;
-	margin-top:1em;
+	margin-top: 1em;
 }
 
 .tableheader {
@@ -151,19 +151,19 @@ table.jqplot-table-legend td {
 	max-width: 6.25em;
 }
 
-#piechart .jqplot-table-legend{
-	left: 2em!important;
-	width: 70%!important;
+#piechart .jqplot-table-legend {
+	left: 2em !important;
+	width: 70% !important;
 }
 
-#piechart .jqplot-table-legend-swatch{
-	width: 3%!important;
+#piechart .jqplot-table-legend-swatch {
+	width: 3% !important;
 }
-#piechart .jqplot-table-legend-label{
-	width: 97%!important;
+
+#piechart .jqplot-table-legend-label {
+	width: 97% !important;
 	text-align: left;
 }
-
 
 #saveForm {
 	text-align: left !important;
@@ -179,72 +179,68 @@ table.jqplot-table-legend td {
 	text-align: right;
 }
 
-#back, #end, #save{
+#back, #end, #save {
 	display: inline-block;
 }
 
 #back {
-	float:left;
+	float: left;
 }
 
 #save {
 	margin-right: 1em;
 }
 
-
-@media (max-width: 570px) {
-#container {
-	width: 80%;
+@media ( max-width : 570px) {
+	#container {
+		width: 80%;
+	}
+	#bar_div {
+		font-size: 0.8em;
+		padding: 0.5em;
+	}
+	#hiddenButtons {
+		margin-left: 0em;
+		margin-right: 0em;
+	}
+	#back, #end, #save {
+		display: inline-block;
+	}
+	#back {
+		width: 100%;
+		text-align: right;
+	}
+	#end {
+		width: 100%;
+		text-align: right;
+		padding: 0em;
+	}
 }
 
-#bar_div {
-	font-size: 0.8em;
-	padding: 0.5em;
+@media ( max-width : 750px) {
+	#save {
+		margin-right: 0em;
+	}
 }
 
-#hiddenButtons {
-	margin-left: 0em;
-	margin-right: 0em;
-}
-
-#back, #end, #save{
-	display: inline-block;
-}
-#back {
-	width: 100%;
-	text-align: right;
-}
-#end {
-	width: 100%;
-	text-align: right;
-	padding: 0em;
-}
-}
-
-@media (max-width: 750px) {
-#save {
-	margin-right: 0em;
-}
-}
-
-@media (max-width: 400px) {
-#container {
-	width: 90%;
-	font-size: 0.8em;
-}
-#bar_div {
-	font-size: 1em;
-	padding: 3em;
-    width:70%;
-}
-#piechart .jqplot-table-legend-swatch{
-	width: 3%!important;
-}
-#piechart .jqplot-table-legend-label{
-	width: 97%!important;
-	text-align: left;
-}
-#piechart{
-	width: 80%;
-}
+@media ( max-width : 400px) {
+	#container {
+		width: 90%;
+		font-size: 0.8em;
+	}
+	#bar_div {
+		font-size: 1em;
+		padding: 3em;
+		width: 70%;
+	}
+	#piechart .jqplot-table-legend-swatch {
+		width: 3% !important;
+	}
+	#piechart .jqplot-table-legend-label {
+		width: 97% !important;
+		text-align: left;
+	}
+	#piechart {
+		width: 80%;
+	}
 }

@@ -46,7 +46,8 @@ import com.moveatis.timezone.TimeZoneInformation;
  * entities.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
- * @param <T> The entity the child of this bean uses
+ * @param <T>
+ *            The entity the child of this bean uses
  * 
  */
 public abstract class AbstractBean<T extends BaseEntity> {
@@ -62,7 +63,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
 	/**
 	 * Creates a new entity.
 	 * 
-	 * @param entity The entity to be created.
+	 * @param entity
+	 *            The entity to be created.
 	 */
 	public void create(T entity) {
 		getEntityManager().persist(entity);
@@ -71,7 +73,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
 	/**
 	 * Edits the entity.
 	 * 
-	 * @param entity The entity to be edited.
+	 * @param entity
+	 *            The entity to be edited.
 	 */
 	public void edit(T entity) {
 		getEntityManager().merge(entity);
@@ -80,7 +83,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
 	/**
 	 * Removes the entity.
 	 * 
-	 * @param entity The entity to be removed.
+	 * @param entity
+	 *            The entity to be removed.
 	 */
 	public void remove(T entity) {
 		entity.setRemoved(); // entity is not actually removed, only the removed-date is set
@@ -90,7 +94,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
 	/**
 	 * Finds an entity and returns it if it's not out of date.
 	 * 
-	 * @param id The id of the entity to be found.
+	 * @param id
+	 *            The id of the entity to be found.
 	 * @return The entity, if it is found. Otherwise null.
 	 */
 	public T find(Object id) {
@@ -131,7 +136,8 @@ public abstract class AbstractBean<T extends BaseEntity> {
 	 * Finds and returns the list of entities in the specified range. The range
 	 * array has two elements: the minimum and the maximum of the range.
 	 * 
-	 * @param range An array with two elements.
+	 * @param range
+	 *            An array with two elements.
 	 * @return A list of the entities in the range.
 	 */
 	public List<T> findRange(int[] range) {

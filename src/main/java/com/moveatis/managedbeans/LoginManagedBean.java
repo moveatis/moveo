@@ -139,7 +139,8 @@ public class LoginManagedBean {
 	 * Allows users to login from different views. On May 2016, it's not working as
 	 * supposed, since Shibboleth nulls the session on redirect.
 	 * 
-	 * @param actionEvent The action event that activated the login button.
+	 * @param actionEvent
+	 *            The action event that activated the login button.
 	 */
 	public void doIdentityLogin(ActionEvent actionEvent) {
 

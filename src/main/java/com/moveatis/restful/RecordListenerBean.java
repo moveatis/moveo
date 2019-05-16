@@ -138,7 +138,7 @@ public class RecordListenerBean implements Serializable {
 	public String keepAlive() {
 		return "keep-alive";
 	}
-	
+
 	@POST
 	@Path("settimezone")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -156,14 +156,15 @@ public class RecordListenerBean implements Serializable {
 		TimeZone timeZone = TimeZoneInformation.getTimeZoneFromOffset(timeZoneOffset.intValue(), DSTOffset.intValue());
 
 		sessionBean.setSessionTimeZone(timeZone);
-		
+
 	}
 
 	/**
 	 * Adds the observation data coming from the observation view. It could be used
 	 * to take data from other clients, but not yet implemented or even planned.
 	 * 
-	 * @param data The JSON data containing the records of the observation.
+	 * @param data
+	 *            The JSON data containing the records of the observation.
 	 * @return "success" if the action succeeded and "failed" if it failed.
 	 */
 	@POST

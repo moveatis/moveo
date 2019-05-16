@@ -49,8 +49,10 @@ public class CSVBuilder {
 	/**
 	 * Constructs a builder with the given stream and separator.
 	 * 
-	 * @param output    The stream to write the CSV data to.
-	 * @param separator The separator to be used between the fields.
+	 * @param output
+	 *            The stream to write the CSV data to.
+	 * @param separator
+	 *            The separator to be used between the fields.
 	 */
 	public CSVBuilder(OutputStream output, String separator) {
 		out = new OutputStreamWriter(output, StandardCharsets.UTF_8);
@@ -61,7 +63,8 @@ public class CSVBuilder {
 	/**
 	 * Adds the long field to the stream.
 	 * 
-	 * @param value The field value.
+	 * @param value
+	 *            The field value.
 	 * @return The instance of the CSVBuilder for convenience.
 	 * @throws IOException
 	 */
@@ -74,7 +77,8 @@ public class CSVBuilder {
 	/**
 	 * Adds the long field followed by a percent character (%) to the stream.
 	 * 
-	 * @param value Field value.
+	 * @param value
+	 *            Field value.
 	 * @return The instance of the CSVBuilder for convenience.
 	 * @throws IOException
 	 */
@@ -87,7 +91,8 @@ public class CSVBuilder {
 	/**
 	 * Escapes the string field and adds it to the stream.
 	 * 
-	 * @param value The field value.
+	 * @param value
+	 *            The field value.
 	 * @return The instance of the CSVBuilder for convenience.
 	 * @throws IOException
 	 */
@@ -125,7 +130,8 @@ public class CSVBuilder {
 	 * Writes a string to the output stream. Makes it easier to replace member
 	 * OutputStreamWriter with something else if needed.
 	 * 
-	 * @param s String to write.
+	 * @param s
+	 *            String to write.
 	 * @throws IOException
 	 */
 	private void write(String s) throws IOException {

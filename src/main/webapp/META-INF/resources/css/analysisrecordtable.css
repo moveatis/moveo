@@ -33,7 +33,6 @@
 	last modified: 16.4.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
-
 html {
 	width: 100%;
 	height: 100%;
@@ -49,6 +48,10 @@ html {
 	text-align: center;
 }
 
+.html2canvas-container {
+	width: 1920px !important;
+}
+
 #container {
 	width: 95%;
 	margin: 1em;
@@ -62,22 +65,20 @@ html {
 	padding-bottom: 0em;
 }
 
-.html2canvas-container { width: 1920px !important;}
-
 #saveForm {
 	text-align: left;
 }
 
 #saveForm .ui-button {
-	margin-right: 1em!important;
-	background-color: #FCFCFC!important;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
-	color: black!important;
+	margin-right: 1em !important;
+	background-color: #FCFCFC !important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
+	color: black !important;
 }
 
 #saveForm td {
-	border: 0!important;
-	width: auto!important;
+	border: 0 !important;
+	width: auto !important;
 }
 
 #entries td:nth-child(1), #entries th:nth-child(1) {
@@ -114,7 +115,7 @@ td {
 	hyphens: auto;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	white-space: normal!important;
+	white-space: normal !important;
 }
 
 
@@ -146,14 +147,14 @@ tbody {
 }
 
 .ui-button {
-	width: auto!important;
-	margin: .6em 0!important;
-	background-color: #008AB9!important;
-	background: linear-gradient(0deg, #008AB9, #10A1D1)!important;
-	cursor: pointer!important;
-	color: white!important;
-	border: 0!important;
-	text-shadow: none!important;
+	width: auto !important;
+	margin: .6em 0 !important;
+	background-color: #008AB9 !important;
+	background: linear-gradient(0deg, #008AB9, #10A1D1) !important;
+	cursor: pointer !important;
+	color: white !important;
+	border: 0 !important;
+	text-shadow: none !important;
 }
 
 #entries .ui-button.ui-state-active {
@@ -166,8 +167,8 @@ tbody {
 }
 
 #entries button {
-	width: 2em!important;
-	height: 2em!important;
+	width: 2em !important;
+	height: 2em !important;
 	overflow: hidden;
 }
 
@@ -175,12 +176,16 @@ tbody {
 	border-radius: 0;
 	font-size: 1em;
 	height: 2em;
-	padding-bottom: 1em!important;
+	padding-bottom: 1em !important;
 }
 
 #reportButtons {
 	text-align: right;
 	margin-right: 0.6em;
+}
+
+#reportButtons .save-button {
+	margin-right: 2em!important;
 }
 
 @media screen and (max-width: 1000px) {
@@ -235,7 +240,6 @@ tbody {
 		text-align: left;
 		display: block;
 		border: 0px none;
-		width: 100%;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -251,7 +255,6 @@ tbody {
 	}
 	.entries_dt .ui-datatable-data td .ui-column-title {
 		padding: .4em;
-		min-width: 30%;
 		display: inline-block;
 		margin: -.4em 1em -.4em -.4em;
 	}
@@ -313,7 +316,6 @@ tbody {
 		display: inline!important;
 	}
 	#entries td .ui-column-title {
-		width: 30%!important;
 		display: inline-block;
 		overflow:hidden;
 		hyphens: none;
@@ -322,7 +324,6 @@ tbody {
 	}
 
 	th {
-		max-width: 100%!important;
 		background: #E0E1E3!important;
 		border: 0px!important;
 		box-shadow: none!important;
@@ -334,7 +335,6 @@ tbody {
 		white-space: nowrap;
 	}
 	td {
-		max-width: 100%!important;
 		border: 0px!important;
 		border-right: 0px solid #005977!important;
 		box-shadow: none!important;
@@ -345,16 +345,13 @@ tbody {
 	}
 	#entries td {
 		border-right: 0px!important;
-		width: 100%!important;
 	}
 
 	
 	#entries th {
 		border-right: 0px!important;
-		width: 100%!important;
 	}
 	#entries td:nth-child(1), #entries th:nth-child(1), #entries td:nth-child(2), #entries th:nth-child(2) {
-		width: 100%!important;
 		text-align: left;
 	}
 
@@ -382,7 +379,4 @@ tbody {
 	#container {
 		width: 80%;
 	}
-}
-#reportButtons .save-button {
-	margin-right: 2em!important;
 }

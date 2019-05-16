@@ -122,7 +122,7 @@
 }
 
 .summary-row {
-	border-bottom: 0em!important;
+	border-bottom: 0em !important;
 }
 
 .ui-grid-row {
@@ -138,14 +138,42 @@
 	font-weight: bold;
 }
 
-.ui-grid-row>div:not (:first-child ) {
-	text-align: right;
-}
+.ui-grid-row
+>
+div
+:not
+ 
+(
+:first-child
+ 
+)
+{
+text-align
+:
+ 
+right
+;
 
-.summary-row>div:not (:first-child ) {
-	white-space: pre;
-}
 
+}
+.summary-row
+>
+div
+:not
+ 
+(
+:first-child
+ 
+)
+{
+white-space
+:
+ 
+pre
+;
+
+
+}
 .ui-grid-col-3 {
 	display: inline-block;
 	min-width: 10em;
@@ -266,7 +294,7 @@
 }
 
 #download-button .save-button {
-	margin-top: 0em!important;
+	margin-top: 0em !important;
 }
 
 .ui-datepicker-trigger {
@@ -342,8 +370,30 @@
 	#recordings-details .ui-grid-col-5 {
 		margin-bottom: .3em;
 	}
-	.ui-grid-row>div:not (:first-child ) {
-		text-align: right;
-		margin-left: 2em;
-	}
+	.ui-grid-row
+	>
+	div
+	:not
+	 
+	(
+	:first-child
+	 
+	)
+	{
+	text-align
+	:
+	 
+	right
+	;
+	
+		
+	margin-left
+	:
+	 
+	2
+	em
+	;
+	
+	
+}
 }

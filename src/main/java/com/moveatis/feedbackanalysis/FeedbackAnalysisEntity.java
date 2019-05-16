@@ -63,9 +63,9 @@ public class FeedbackAnalysisEntity extends AbstractObservationEntity {
 
 	@OneToMany(mappedBy = "feedbackAnalysis", fetch = FetchType.LAZY, cascade = ALL)
 	private List<FeedbackAnalysisRecordEntity> records;
-	
+
 	private String analysisName;
-	
+
 	private String targetOfAnalysis;
 
 	public List<FeedbackAnalysisRecordEntity> getRecords() {
@@ -87,9 +87,9 @@ public class FeedbackAnalysisEntity extends AbstractObservationEntity {
 	/**
 	 * The feedbackanalysiscategorysets for the feedback analysis aren't saved so
 	 * they have to be fetched by getting the categorysets to which all the selected
-	 * categories belong to This means that if an analysis has a categoryset that
-	 * is not used in the analysis, it won't be accessible when loading the
-	 * analysis later.
+	 * categories belong to This means that if an analysis has a categoryset that is
+	 * not used in the analysis, it won't be accessible when loading the analysis
+	 * later.
 	 * 
 	 * @return the feedbackanalysiscategorysets used by the analysis
 	 */
@@ -97,12 +97,14 @@ public class FeedbackAnalysisEntity extends AbstractObservationEntity {
 		List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse = new ArrayList<FeedbackAnalysisCategorySetEntity>();
 		for (FeedbackAnalysisRecordEntity record : records) {
 			for (FeedbackAnalysisCategoryEntity cat : record.getSelectedCategories()) {
-				boolean contained=false;
-				for(FeedbackAnalysisCategorySetEntity facs:feedbackAnalysisCategorySetsInUse){
-						contained=facs.getId().equals(cat.getCategorySet().getId());
-						if(contained) break;						
-					}
-				if(!contained)feedbackAnalysisCategorySetsInUse.add(cat.getCategorySet());
+				boolean contained = false;
+				for (FeedbackAnalysisCategorySetEntity facs : feedbackAnalysisCategorySetsInUse) {
+					contained = facs.getId().equals(cat.getCategorySet().getId());
+					if (contained)
+						break;
+				}
+				if (!contained)
+					feedbackAnalysisCategorySetsInUse.add(cat.getCategorySet());
 			}
 		}
 		return feedbackAnalysisCategorySetsInUse;

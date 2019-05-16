@@ -216,8 +216,8 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Fetches the analyses of the user not connected to an event or connected
-	 * to an event that's been accessed through a group key.
+	 * Fetches the analyses of the user not connected to an event or connected to an
+	 * event that's been accessed through a group key.
 	 */
 	private void fetchOtherAnalyses() {
 		otherAnalyses = feedbackAnalysisEJB.findWithoutEvent(user);
@@ -581,21 +581,20 @@ public class ControlManagedBean implements Serializable {
 				categorySetBean.createAndEditCategorySet(selectedEventGroup, selectedCategorySet, categories);
 				fetchEventGroups();
 				return;
-			} else if (categoryHasDuplicate()){
-				error= messages.getString("cs_errorNotUniqueCategories");
+			} else if (categoryHasDuplicate()) {
+				error = messages.getString("cs_errorNotUniqueCategories");
+			} else {
+				error = messages.getString("con_errorNotUniqueCategorySets");
 			}
-			else {
-				error= messages.getString("con_errorNotUniqueCategorySets");
-			}			
 			FacesContext.getCurrentInstance().validationFailed();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					messages.getString("dialogErrorTitle"),error));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), error));
 		}
 	}
 
 	/**
-	 * Sets the analysis for feedbackanalysismanagedbean and shows it in
-	 * summary view
+	 * Sets the analysis for feedbackanalysismanagedbean and shows it in summary
+	 * view
 	 * 
 	 * @return navigation rule string to navigate to the summary page
 	 */
@@ -633,8 +632,7 @@ public class ControlManagedBean implements Serializable {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * Checks if the categoryset has a duplicate within the eventgroup being edited.
 	 * 
@@ -644,18 +642,20 @@ public class ControlManagedBean implements Serializable {
 		boolean hasDuplicate = false;
 		if (selectedCategorySet instanceof FeedbackAnalysisCategorySetEntity) {
 			Set<FeedbackAnalysisCategorySetEntity> sets = selectedEventGroup.getFeedbackAnalysisCategorySets();
-			if(sets==null)return false;
+			if (sets == null)
+				return false;
 			for (AbstractCategorySetEntity catset : sets)
-				if ( !catset.getId().equals(selectedCategorySet.getId())
+				if (!catset.getId().equals(selectedCategorySet.getId())
 						&& catset.getLabel().contentEquals(selectedCategorySet.getLabel())) {
 					hasDuplicate = true;
 					break;
 				}
 		} else {
 			Set<CategorySetEntity> sets = selectedEventGroup.getCategorySets();
-			if(sets==null)return false;
+			if (sets == null)
+				return false;
 			for (AbstractCategorySetEntity catset : sets)
-				if ( !catset.getId().equals(selectedCategorySet.getId())
+				if (!catset.getId().equals(selectedCategorySet.getId())
 						&& catset.getLabel().contentEquals(selectedCategorySet.getLabel())) {
 					hasDuplicate = true;
 					break;

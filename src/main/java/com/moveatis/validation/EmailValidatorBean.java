@@ -57,10 +57,14 @@ public class EmailValidatorBean implements Validator, ClientValidator {
 	/**
 	 * Validates the email address.
 	 * 
-	 * @param context   The FacesContext for the session.
-	 * @param component The component to be validated.
-	 * @param value     The value for the component.
-	 * @throws ValidatorException if the email address was not valid.
+	 * @param context
+	 *            The FacesContext for the session.
+	 * @param component
+	 *            The component to be validated.
+	 * @param value
+	 *            The value for the component.
+	 * @throws ValidatorException
+	 *             if the email address was not valid.
 	 */
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {

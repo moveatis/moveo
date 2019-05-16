@@ -67,6 +67,10 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  * 
  * @author Visa Nykänen
  */
+/**
+ * @author Business Time
+ *
+ */
 @Named(value = "feedbackAnalysisManagedBean")
 @SessionScoped
 public class FeedbackAnalysisManagedBean implements Serializable {
@@ -143,7 +147,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 * Whether the timer is stopped
 	 */
 	private boolean isTimerStopped;
-	
+
 	private boolean isTimerEnabled;
 
 	@Inject
@@ -152,15 +156,15 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	private byte[] pieImage, tableImage, barImage, reportImage;
 
 	private String reportCSV;
-	
+
 	public void setIsTimerEnabled(boolean timerEnabled) {
-		this.isTimerEnabled=timerEnabled;
+		this.isTimerEnabled = timerEnabled;
 	}
-	
+
 	public boolean getIsTimerEnabled() {
 		return isTimerEnabled;
 	}
-	
+
 	public void setBarImage(byte[] img) {
 		barImage = img;
 	}
@@ -273,7 +277,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 			List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse) {
 		this.feedbackAnalysisCategorySetsInUse = feedbackAnalysisCategorySetsInUse;
 	}
-	
+
 	/**
 	 * Initializes all the necessary information for the analysis
 	 */
@@ -305,6 +309,10 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		duration = feedbackAnalysisEntity.getDuration();
 	}
 
+	/**
+	 * Resets the start time selected categories and the comment for the record
+	 * currently in view
+	 */
 	public void resetCurrentRecord() {
 		currentRecord.setComment(null);
 		currentRecord.setStartTime(null);
@@ -312,6 +320,13 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		editRecord();
 	}
 
+	/**
+	 * Finds the next record after the currently viewed one with timestamp set and
+	 * returns its timestamp. If no such record exists returns currently elapsed
+	 * time.
+	 * 
+	 * @return The maximum value for the currently shown records timestamp
+	 */
 	public long getMaxTimeStampForCurrentRecord() {
 		if (currentRecordNumber == feedbackAnalysisEntity.getRecords().size())
 			return duration;
@@ -323,6 +338,12 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		return duration;
 	}
 
+	/**
+	 * Finds the previous record before the currently viewed one with timestamp set
+	 * and returns its timestamp. If no such record exists returns 0.
+	 * 
+	 * @return The minimum value for the currently shown records timestamp
+	 */
 	public long getMinTimeStampForCurrentRecord() {
 		if (currentRecordNumber == 1)
 			return 0;
@@ -346,8 +367,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		if (seconds == 0)
 			return "--:--";
 		return String.format("%02d:%02d", (seconds / 60), (seconds % 60));
-		
-		
+
 	}
 
 	/**
@@ -356,16 +376,6 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	public void increment() {
 		if (!isTimerStopped)
 			duration += 1;
-	}
-
-	/**
-	 * adds a category to the currently shown record
-	 * 
-	 * @param category
-	 *            the category to be added
-	 */
-	public void addCategoryToCurrentRecord(FeedbackAnalysisCategoryEntity category) {
-		currentRecord.addSelectedCategory(category);
 	}
 
 	/**
@@ -448,6 +458,14 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 
 	}
 
+	/**
+	 * Tells whether there are records before or after the one currently shown based
+	 * on the parameter.
+	 * 
+	 * @param isLeft
+	 *            whether to check before or after the current record
+	 * @return whether there are records before or after the one currently shown
+	 */
 	public boolean isNavigationDisabled(boolean isLeft) {
 		if (isLeft)
 			return currentRecordNumber == 1;
@@ -498,6 +516,13 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		currentRecord.setSelectedCategories(selectedCategories);
 	}
 
+	/**
+	 * Checks if the analysis has any categories selected, prevents the user from
+	 * making empty analyses.
+	 * 
+	 * @return True if there are no categories selected in any of the records,
+	 *         otherwise false
+	 */
 	public boolean checkNoCategoriesSelected() {
 		for (FeedbackAnalysisRecordEntity record : feedbackAnalysisEntity.getRecords()) {
 			if (record.getSelectedCategories() == null || record.getSelectedCategories().size() == 0)
@@ -508,6 +533,13 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Checks if the analysis has records with no categories selected. The user is
+	 * asked to confirm that they want to continue if that is the case
+	 * 
+	 * @return True if there is at least one record that has not been classified
+	 *         based on at least one categoryset, false otherwise
+	 */
 	public boolean containsUnclassifiedRecords() {
 		for (FeedbackAnalysisRecordEntity record : feedbackAnalysisEntity.getRecords()) {
 			if (feedbackAnalysisCategorySetsInUse.size() > record.getSelectedCategories().size())
@@ -557,7 +589,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	/**
 	 * The method saves the analysis to the database. Copies are made of all the
 	 * categorysets used by the analysis, so that later edits to the categorysets
-	 * won't effect old analyses
+	 * won't affect old analyses.
 	 */
 	public void saveFeedbackAnalysis() {
 		if (feedbackAnalysisEntity.getId() == null) {

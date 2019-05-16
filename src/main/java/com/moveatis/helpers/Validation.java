@@ -40,7 +40,8 @@ public class Validation {
 	 * Validates the given string so that it can be placed as a JavaScript string in
 	 * an HTML script tag.
 	 * 
-	 * @param s The string to be validated.
+	 * @param s
+	 *            The string to be validated.
 	 * @return The validated string that contains only accepted characters.
 	 */
 	public static String validateForJsAndHtml(String s) {

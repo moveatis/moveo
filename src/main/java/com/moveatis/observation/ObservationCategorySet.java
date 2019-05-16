@@ -78,9 +78,12 @@ public class ObservationCategorySet implements Serializable {
 	/**
 	 * Adds a new category to the list of the categories.
 	 * 
-	 * @param type The type of the new category.
-	 * @param tag  The tag of the new category.
-	 * @param name The name of the new category.
+	 * @param type
+	 *            The type of the new category.
+	 * @param tag
+	 *            The tag of the new category.
+	 * @param name
+	 *            The name of the new category.
 	 */
 	public void add(CategoryType type, Long tag, String name) {
 		ObservationCategory category = new ObservationCategory();
@@ -101,7 +104,8 @@ public class ObservationCategorySet implements Serializable {
 	/**
 	 * Adds the given category to the list of the categories.
 	 * 
-	 * @param category The category to be added.
+	 * @param category
+	 *            The category to be added.
 	 */
 	public void add(ObservationCategory category) {
 		categories.add(category);
@@ -119,7 +123,8 @@ public class ObservationCategorySet implements Serializable {
 	/**
 	 * Removes the given category from the list of the categories.
 	 * 
-	 * @param category The category to be removed.
+	 * @param category
+	 *            The category to be removed.
 	 */
 	public void remove(ObservationCategory category) {
 		categories.remove(category);

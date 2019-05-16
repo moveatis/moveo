@@ -69,7 +69,9 @@ public class ValidationManagedBean {
 		String s = (String) value;
 		String valid = Validation.validateForJsAndHtml(s);
 		if (!s.equals(valid)) {
-//            String error = MessageFormat.format(messages.getString("validate_invalidChars"), invalidChars);
+			// String error =
+			// MessageFormat.format(messages.getString("validate_invalidChars"),
+			// invalidChars);
 			String error = messages.getString("validate_invalidChars");
 			throwError(error);
 		}

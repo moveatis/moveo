@@ -143,7 +143,8 @@ public class EventGroupManagedBean {
 	 * Adds the group key to the specified event group. The group key is used to
 	 * identify the event group.
 	 * 
-	 * @param eventGroup The event group into which the the group key is added.
+	 * @param eventGroup
+	 *            The event group into which the the group key is added.
 	 */
 	public void addGroupKey(EventGroupEntity eventGroup) {
 
@@ -172,8 +173,10 @@ public class EventGroupManagedBean {
 	/**
 	 * Sets a new group key for the event group.
 	 * 
-	 * @param eventGroup  The event group to edit.
-	 * @param newGroupKey The new group key for the event group.
+	 * @param eventGroup
+	 *            The event group to edit.
+	 * @param newGroupKey
+	 *            The new group key for the event group.
 	 */
 	public void editGroupKey(EventGroupEntity eventGroup, String newGroupKey) {
 		if (newGroupKey != null) {

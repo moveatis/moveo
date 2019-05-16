@@ -97,7 +97,8 @@ public class RecordEntity extends AbstractRecordEntity implements Serializable {
 	/**
 	 * Not used in version 1.0.
 	 * 
-	 * @param voiceComment The file that holds the voice comment.
+	 * @param voiceComment
+	 *            The file that holds the voice comment.
 	 */
 	public void setVoiceComment(File voiceComment) {
 		this.voiceComment = voiceComment;

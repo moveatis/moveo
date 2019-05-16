@@ -61,7 +61,8 @@ public class LabelBean extends AbstractBean<LabelEntity> implements Label {
 	/**
 	 * Finds and returns the label entity with the given string as its value.
 	 * 
-	 * @param label The string to search for.
+	 * @param label
+	 *            The string to search for.
 	 * @return the LabelEntity or null.
 	 */
 	@Override

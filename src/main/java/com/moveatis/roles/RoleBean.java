@@ -72,7 +72,8 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
 	/**
 	 * Adds the superuser rights to the user.
 	 * 
-	 * @param user The user to whom the superuser rights are granted.
+	 * @param user
+	 *            The user to whom the superuser rights are granted.
 	 */
 	@Override
 	public void addSuperuserRoleToUser(IdentifiedUserEntity user) {
@@ -83,9 +84,12 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
 	/**
 	 * Adds the superuser rights to the user with the start and end date.
 	 * 
-	 * @param user      The user to whom the superuser rights are granted.
-	 * @param startDate The date when te role is actived.
-	 * @param endDate   The date when the role is deactived.
+	 * @param user
+	 *            The user to whom the superuser rights are granted.
+	 * @param startDate
+	 *            The date when te role is actived.
+	 * @param endDate
+	 *            The date when the role is deactived.
 	 */
 	@Override
 	public void addSuperuserRoleToUser(IdentifiedUserEntity user, Date startDate, Date endDate) {
@@ -96,7 +100,8 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
 	/**
 	 * Removes the superuser rights from the user.
 	 * 
-	 * @param user The user whose superuser rights should be removed.
+	 * @param user
+	 *            The user whose superuser rights should be removed.
 	 */
 	@Override
 	public void removeSuperuserRoleFromUser(IdentifiedUserEntity user) {
@@ -139,7 +144,8 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
 	 * Finds and returns the users with the given role. Not implemented in version
 	 * 1.0.
 	 * 
-	 * @param role The role to be searched for.
+	 * @param role
+	 *            The role to be searched for.
 	 * @return A list of the users with the role.
 	 */
 	public List<? extends AbstractRole> listRoleUsers(AbstractRole role) {
@@ -149,7 +155,8 @@ public class RoleBean extends AbstractBean<AbstractRole> implements Role {
 	/**
 	 * Checks if the user has the superuser rights.
 	 * 
-	 * @param user The user to be checked for the superuser rights.
+	 * @param user
+	 *            The user to be checked for the superuser rights.
 	 * @return true if the user had the superuser rights, false otherwise.
 	 */
 	@Override

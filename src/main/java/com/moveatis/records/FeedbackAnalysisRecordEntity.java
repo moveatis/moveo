@@ -61,9 +61,7 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	 * The categories selected in this record
 	 */
 	@ManyToMany
-	@JoinTable(name = "FeedbackAnalysisRecordSelectedCategories",
-			joinColumns=@JoinColumn(name="record_id"),
-			inverseJoinColumns=@JoinColumn(name="category_id"))
+	@JoinTable(name = "FeedbackAnalysisRecordSelectedCategories", joinColumns = @JoinColumn(name = "record_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private List<FeedbackAnalysisCategoryEntity> selectedCategories;
 
 	/**
@@ -84,7 +82,8 @@ public class FeedbackAnalysisRecordEntity extends AbstractRecordEntity {
 	 * is maintained by also editing the recordscontainingthiscategory-list of the
 	 * category to be added
 	 * 
-	 * @param category the category to be added
+	 * @param category
+	 *            the category to be added
 	 */
 	public void addSelectedCategory(FeedbackAnalysisCategoryEntity category) {
 		selectedCategories.add(category);

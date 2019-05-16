@@ -83,7 +83,8 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 	/**
 	 * Finds and returns a list of the event groups belonging to the given user.
 	 * 
-	 * @param owner The user whose event groups are searched for.
+	 * @param owner
+	 *            The user whose event groups are searched for.
 	 * @return A list of the event groups.
 	 */
 	@Override
@@ -96,7 +97,8 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 	/**
 	 * Finds and returns a list of event groups, which the given user has access to.
 	 * 
-	 * @param user The user whose event groups are searched for.
+	 * @param user
+	 *            The user whose event groups are searched for.
 	 * @return A list of the event groups.
 	 */
 	@Override
@@ -118,7 +120,8 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 	 * The method finds and returns the event groups, which the given user has
 	 * access to.
 	 * 
-	 * @param user The user to search event groups for.
+	 * @param user
+	 *            The user to search event groups for.
 	 * @return A list of the event groups.
 	 */
 	private List<EventGroupEntity> findAllForAbstractUser(AbstractUser user) {
@@ -141,8 +144,8 @@ public class EventGroupBean extends AbstractBean<EventGroupEntity> implements Ev
 	 * The method removes the given category set from all of the event groups that
 	 * have the category set.
 	 * 
-	 * @param categorySetEntity The category set to be removed from the event
-	 *                          groups.
+	 * @param categorySetEntity
+	 *            The category set to be removed from the event groups.
 	 */
 	@Override
 	public void removeCategorySetEntityFromEventGroups(AbstractCategorySetEntity categorySetEntity) {

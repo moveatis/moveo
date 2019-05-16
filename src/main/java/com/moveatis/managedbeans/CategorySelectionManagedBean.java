@@ -101,7 +101,7 @@ public class CategorySelectionManagedBean implements Serializable {
 	private Long addedCategorySetTag = 0L;
 
 	/**
-	 * Creates a new instance of CategoryManagedBean.
+	 * Creates a new instance of CategorySelectionManagedBean.
 	 */
 	public CategorySelectionManagedBean() {
 	}
@@ -316,7 +316,8 @@ public class CategorySelectionManagedBean implements Serializable {
 	/**
 	 * Shows given error message in primefaces message popup.
 	 * 
-	 * @param message Error message to show.
+	 * @param message
+	 *            Error message to show.
 	 */
 	private void showErrorMessage(String message) {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -373,7 +374,8 @@ public class CategorySelectionManagedBean implements Serializable {
 	/**
 	 * Checks if given categories contain duplicate names.
 	 * 
-	 * @param categories List of categories to check.
+	 * @param categories
+	 *            List of categories to check.
 	 * @return True if categories contain duplicates, otherwise false.
 	 */
 	private static boolean hasDuplicate(List<ObservationCategory> categories) {

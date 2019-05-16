@@ -30,7 +30,6 @@
  */
 package com.moveatis.managedbeans;
 
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.Collections;
@@ -60,6 +59,10 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  *
  */
 
+/**
+ * @author Business Time
+ *
+ */
 @Named(value = "analysisRecordTable")
 @ViewScoped
 public class FeebackAnalysisRecordTableManagedBean implements Serializable {
@@ -68,21 +71,19 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
-	
-	private FeedbackAnalysisRecordEntity selectedRow;
-	
+
 	private List<String> selectedSaveOptions;
-	
+
 	private FeedbackAnalysisEntity feedbackAnalysis;
 
 	private String fileName;
 
 	@Inject
-	private FeedbackAnalysis feedbackAnalysisEJB;	
-	
+	private FeedbackAnalysis feedbackAnalysisEJB;
+
 	@Inject
 	@MessageBundle
 	private transient ResourceBundle messages;
@@ -142,23 +143,8 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	}
 
 	/**
-	 * Gets the selected row from datatable
-	 * 
-	 * @return seleceted row
-	 */
-	public FeedbackAnalysisRecordEntity getSelectedRow() {
-		return selectedRow;
-	}
-
-	/**
-	 * Sets the selected row to datatable
-	 */
-	public void setSelectedRow(FeedbackAnalysisRecordEntity selectedRow) {
-		this.selectedRow = selectedRow;
-	}
-
-	/**
-	 * Delete's the selected row from the datatable
+	 * Delete's the selected row from the datatable and the database, if the
+	 * analysis has already been saved.
 	 * 
 	 * @param record
 	 *            selected row
@@ -170,21 +156,20 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 			return;
 		}
 
-		List<FeedbackAnalysisRecordEntity> list = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity()
-				.getRecords();
-		FeedbackAnalysisRecordEntity record=null;
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getRecords();
+		FeedbackAnalysisRecordEntity record = null;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber) {
-				record=list.get(i);
+				record = list.get(i);
 				list.remove(i);
 				break;
 			}
 		}
 		setOrderNumbers(list);
 		feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().setRecords(list);
-		if (record!=null&&record.getId() != null)
-					feedbackAnalysisEJB.removeRecordFromAnalysis(
-							feedbackAnalysisManagedBean.getFeedbackAnalysisEntity(),record);
+		if (record != null && record.getId() != null)
+			feedbackAnalysisEJB.removeRecordFromAnalysis(feedbackAnalysisManagedBean.getFeedbackAnalysisEntity(),
+					record);
 		feedbackAnalysisManagedBean.setCurrentRecord(list.size());
 	}
 
@@ -206,7 +191,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	}
 
 	/**
-	 * Comparator for feedbackanalysisrecords, compares the ordernumber
+	 * Comparator for feedbackanalysisrecords, comparison based on the ordernumber
 	 * 
 	 * @author Visa Nykänen
 	 *
@@ -219,13 +204,13 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	}
 
 	/**
-	 * Updates order numbers to records list
+	 * Updates order numbers to records list.
 	 * 
 	 * @param list
 	 *            users records
 	 */
 	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
-		Collections.sort(list,new compareRecords());
+		Collections.sort(list, new compareRecords());
 		Integer newOrderNumber = 1;
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setOrderNumber(i + 1);
@@ -233,42 +218,27 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		}
 	}
 
-	/**
-	 * Getter
-	 * 
-	 * @return
-	 */
 	public List<String> getSelectedSaveOptions() {
 		return selectedSaveOptions;
 	}
 
-	/**
-	 * Setter
-	 * 
-	 * @param selectedSaveOptions
-	 */
 	public void setSelectedSaveOptions(List<String> selectedSaveOptions) {
 		this.selectedSaveOptions = selectedSaveOptions;
 	}
 
+	/**
+	 * Downloads the report-page table as an image.
+	 */
 	public void downloadImage() {
-		String fileName=feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getAnalysisName() + "_report_";
-		fileName=convertToFilename(fileName);
-		
-		File img = DownloadTools.getImageFromByteArr(
-				fileName,
-				feedbackAnalysisManagedBean.getReportImage());
+		String fileName = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getAnalysisName() + "_report_";
+		fileName = convertToFilename(fileName);
+
+		File img = DownloadTools.getImageFromByteArr(fileName, feedbackAnalysisManagedBean.getReportImage());
 		DownloadTools.downloadFile(img, "image/png",
 				img.getName().substring(0, img.getName().lastIndexOf("_")) + ".png");
 		img.delete();
 	}
 
-	/**
-	 * Converts feedback analysis's name to filename
-	 * 
-	 * @param s
-	 * @return
-	 */
 	private static String convertToFilename(String s) {
 		if (s == null || s.isEmpty()) {
 			return "unnamed";

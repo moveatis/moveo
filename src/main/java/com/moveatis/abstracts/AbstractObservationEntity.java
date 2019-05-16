@@ -38,8 +38,8 @@ import com.moveatis.observation.ObservationEntity;
 import com.moveatis.user.AbstractUser;
 
 /**
- * @author Visa Nykänen Superclass for the common features of feedback
- *         analyses and observations
+ * @author Visa Nykänen Superclass for the common features of feedback analyses
+ *         and observations
  */
 @MappedSuperclass
 public abstract class AbstractObservationEntity extends BaseEntity {

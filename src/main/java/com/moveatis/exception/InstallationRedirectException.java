@@ -50,7 +50,8 @@ public class InstallationRedirectException extends RuntimeException {
 	 * Constructs an instance of <code>InstallationRedirectException</code> with the
 	 * specified detailed message.
 	 *
-	 * @param msg the detailed message.
+	 * @param msg
+	 *            the detailed message.
 	 */
 	public InstallationRedirectException(String msg) {
 		super(msg);

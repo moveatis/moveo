@@ -95,19 +95,33 @@
 	border: none;
 }
 
-#timeline .ui-widget-content:not (.timeline-axis ) {
-	color: #000;
-}
+#timeline
+ 
+.ui-widget-content
+:not
+ 
+(
+.timeline-axis
+ 
+)
+{
+color
+:
+ 
+#000
+;
 
+
+}
 #timeline .timeline-axis {
 	color: #008AB9;
 }
 
-==== BASE ====
-#timeline .timeline-groups-text,
-#timeline .timeline-axis {
-	font-family: Arial,sans-serif;
+====
+BASE ==== #timeline .timeline-groups-text, #timeline .timeline-axis {
+	font-family: Arial, sans-serif;
 }
+
 .dummyRecord {
-	display: none!important;
+	display: none !important;
 }
