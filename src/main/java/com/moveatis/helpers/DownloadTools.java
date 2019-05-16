@@ -61,8 +61,9 @@ public class DownloadTools {
 		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName+".csv" + "\"");
 		try {
 			OutputStream outputStream = ec.getResponseOutputStream();
-			for (char c: data.toCharArray()) {
-				outputStream.write(c);
+			byte bytes[]=data.getBytes("UTF8");
+			for (byte b: bytes){
+				outputStream.write(b);
 			}
 			outputStream.flush();
 			fc.responseComplete();
