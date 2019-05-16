@@ -202,11 +202,9 @@ tbody {
 		font-size: 0.8em;
 	}
 	#entries td:nth-child(1), #entries th:nth-child(1) {
-		width: 1.7em!important;
 		text-align: center;
 	}
 	#entries td:nth-child(2), #entries th:nth-child(2) {
-		width: 10em!important;
 		text-align: left;
 	}
 	tr {
@@ -215,13 +213,6 @@ tbody {
 	}
 	th:last-child, td:last-child {
 		border-right: 0px!important;
-		width: 2.9em!important;
-	}
-	th:nth-last-child(2), td:nth-last-child(2) {
-		width: 4.2em!important;
-	}
-	th:nth-last-child(3), td:nth-last-child(3) {
-		width: 4.5em!important;
 	}
 	tbody {
 		border: 0px!important;
