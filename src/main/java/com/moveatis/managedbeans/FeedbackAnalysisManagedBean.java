@@ -345,7 +345,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 */
 	public String getLongAsTimeStamp(long seconds) {
 		if (seconds == 0)
-			return "-- min";
+			return "--:--";
 		return String.format("%02d:%02d", (seconds / 60), (seconds % 60));
 		
 		

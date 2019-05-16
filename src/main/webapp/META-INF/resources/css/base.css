@@ -152,25 +152,28 @@ a:hover {
 }
 
 #picture {
-	padding-left: 10%;
 	height: auto;
-	width: 40%;
+	width: 100%;
 	margin: auto;
-	float: left;
+	text-align: center;
 }
 
 #picture img {
-	max-width: 100%;
+	max-width: 40%;
 	max-height: 100%;
 }
 
 #picture2 {
 	padding-left: 10%;
 	padding-top: 3em;
-	height: auto;
-	width: 40%;
+	width: 90%;
 	margin: auto;
 	display: inline-block;
+	text-align: center;
+}
+
+#picture2 img {
+	width: 40%;
 }
 
 #picture2 img {
@@ -181,11 +184,10 @@ a:hover {
 nav {
 	float: left;
 	width: 24%;
-	height: 40%;
 	border: none;
 	margin-right: 0.5em;
-	padding-bottom: 1.5em;
 	padding-right: 0.5em;
+	height: 8em!important;
 }
 
 .welcomeContent {
@@ -478,12 +480,12 @@ ul.ui-menu-child {
 		width: 96%;
 		margin: 1% auto 1% auto;
 		border: none;
-		padding-bottom: 0em;
+		height: 4em;
 	}
+
 	.welcomeContent {
-		width: 92%;
-		margin: 1% auto 1% auto;
-		padding: 0.5em;
+		width: 85%;
+		padding-top: 1em;
 	}
 	.textContentArea {
 		width: 70%;
@@ -506,9 +508,6 @@ ul.ui-menu-child {
 		float: right;
 	}
 	.accessButtons {
-		width: 9.5em;
-		height: 2.0em;
-		/*        margin: 2.5% auto 2.5% auto;*/
 		display: table;
 		text-align: center;
 		padding: 0.2em;
@@ -541,17 +540,20 @@ ul.ui-menu-child {
 		color: white !important;
 	}
 	#picture {
-		padding-top: 3em;
+		height: auto;
+		width: 90%;
+		margin: auto;
+		display: inline-block;
+	}
+	#picture2 {
+		padding-top: 1em;
 		height: auto;
 		width: 80%;
 		margin: auto;
 		display: inline-block;
 	}
-	#picture2 {
-		padding-top: 3em;
-		height: auto;
-		width: 80%;
-		margin: auto;
-		display: inline-block;
+
+	#picture2 img {
+		width: 80%!important;
 	}
 }

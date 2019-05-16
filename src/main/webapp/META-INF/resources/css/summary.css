@@ -113,22 +113,21 @@
 	text-align: center;
 }
 
+#hiddenButtons .ui-button {
+	margin-left: 1em;
+}
+
 .ui-grid {
 	position: relative;
 }
 
-.ui-grid-row {
-	padding: 0.4em 0;
+.summary-row {
+	border-bottom: 0em!important;
 }
 
-.ui-grid-row:not (.header-row ):after {
-	content: "";
+.ui-grid-row {
+	padding: 0.4em 0;
 	border-bottom: 0.125em solid #005977;
-	width: 100%;
-	position: absolute;
-	left: 0;
-	margin-top: -0.4em;
-	opacity: 0.5;
 }
 
 .header-row {
@@ -228,10 +227,19 @@
 
 #saveDialog {
 	max-width: 19em;
+	text-align: left;
 }
 
 #saveDialog .ui-selectonebutton .ui-button-text {
 	padding: .1em;
+}
+
+.ui-growl-message {
+	padding-top: 2em;
+}
+
+.ui-growl-image-info {
+	margin-top: 1.5em;
 }
 
 .ui-timepicker-div .ui-slider {
@@ -247,6 +255,18 @@
 	color: white;
 	border: 0;
 	text-shadow: none;
+}
+
+#save-button .save-button {
+	margin-right: 0.5em;
+}
+
+#download-button {
+	text-align: center;
+}
+
+#download-button .save-button {
+	margin-top: 0em!important;
 }
 
 .ui-datepicker-trigger {

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
@@ -33,11 +34,11 @@
 							<f:facet name="input">
 								<p:message for="input-name-eg" />
 								<p:inputText id="input-name-eg" required="true" requiredMessage="#{msg.dlg_notEmpty}"
-									placeholder="#{msg.con_eventName}" styleClass="input-name"
+									pt:placeholder="#{msg.con_eventName}" styleClass="input-name"
 									value="#{eventGroup.label}" validator="#{validationBean.validateShortString}" />
 								<p:message for="input-description-eg" />
 								<p:inputTextarea id="input-description-eg" styleClass="input-description"
-									placeholder="#{msg.con_eventDescription}" value="#{eventGroup.description}"
+									pt:placeholder="#{msg.con_eventDescription}" value="#{eventGroup.description}"
 									validator="#{validationBean.validateLongString}" rows="2" cols="10"
 									autoResize="true" />
 							</f:facet>
@@ -117,8 +118,8 @@
 						</p:commandLink>
 					</p:column>
 					<p:column styleClass="row-toggler-mobile">
-						<p:rowToggler expandLabel="#{msg.con_showObservations}"
-							collapseLabel="#{msg.con_hideObservations}" />
+						<p:rowToggler expandLabel="#{msg.con_showEvents}"
+							collapseLabel="#{msg.con_hideEvents}" />
 					</p:column>
 					<p:rowExpansion>
 						<p:dataList value="#{controlBean.getObservations(eventGroup)}" var="observation"
@@ -150,7 +151,7 @@
 					</p:rowExpansion>
 				</p:dataTable>
 			</h:form>
-			<p:dialog header="#{msg.con_observationDetails}" widgetVar="dlgAnalysis" position="top" resizable="false"
+			<p:dialog header="#{msg.con_analyzationDetails}" widgetVar="dlgAnalysis" position="top" resizable="false"
 				responsive="true" modal="true" fitViewport="true" styleClass="coloredDialog observation-dialog">
 				<h:form id="analysisDetail">
 					<p:panelGrid layout="grid" columns="2" rendered="#{not empty controlBean.selectedAnalysis}"
@@ -180,7 +181,7 @@
 									autoResize="true" />
 							</p:inplace>
 						</p:outputPanel>
-						<h:outputText value="#{msg.con_observationDetailsObserver}" />
+						<h:outputText value="#{msg.con_analyzationDetailsAnalyzer}" />
 						<h:outputText value="#{controlBean.getAnalyzerName()}" />
 						<h:outputText value="#{msg.con_observationDetailsTarget}" />
 						<p:outputPanel styleClass="editable">
@@ -197,11 +198,11 @@
 					</p:panelGrid>
 				</h:form>
 				<h:form id="analysisFormCommands">
-					<p:commandButton value="#{msg.con_showSummary}" icon="fa fa-bar-chart"
+					<p:commandButton value="#{msg.con_showReport}" icon="fa fa-bar-chart"
 						action="#{controlBean.showAnalysisInSummaryPage()}" />
 					<p:commandButton value="#{msg.con_removeObservation}" icon="fa fa-trash"
 						action="#{controlBean.removeAnalysis}"
-						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}')"
+						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_analyzationRemoved}')"
 						update=":eventGroupsForm:eventGroupsTable">
 						<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
 							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedAnalysis.analysisName}. #{msg.dlg_confirmMessage}" />
@@ -280,7 +281,7 @@
 					<p:message for="input-name-eventgroup" />
 					<p:inputText id="input-name-eventgroup" required="true" requiredMessage="#{msg.dlg_notEmpty}"
 						value="#{eventGroupManagedBean.eventGroupName}" styleClass="input-name"
-						placeholder="#{msg.con_eventName}" validator="#{validationBean.validateShortString}" />
+						pt:placeholder="#{msg.con_eventName}" validator="#{validationBean.validateShortString}" />
 					<p:commandButton value="#{msg.dlg_add}" icon="fa fa-plus"
 						action="#{eventGroupManagedBean.createNewEventGroup}"
 						update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel :newEventGroupButton"
@@ -335,7 +336,7 @@
 			
 			
 			<p:outputPanel rendered="#{controlBean.otherAnalyses.size() > 0}">
-				<h2>#{msg.con_titleOtherObservations}</h2>
+				<h2>#{msg.con_titleOtherAnalyzations}</h2>
 				<p:fieldset legend="#{msg.con_showHide}" collapsed="true"
 					toggleable="true" styleClass="other-observations-fieldset">
 					<h:form id="otherAnalysesForm">
@@ -440,7 +441,7 @@
 									<p:inputText id="input-name-category" required="true"
 										requiredMessage="#{msg.dlg_notEmpty}" value="#{category.label.text}"
 										onblur="this.value=this.value.trim()"
-										placeholder="#{msg.con_newCategoryLabel}"
+										pt:placeholder="#{msg.con_newCategoryLabel}"
 										validator="#{validationBean.validateShortString}" />
 								</f:facet>
 							</p:cellEditor>
@@ -531,7 +532,7 @@
 								</f:facet>
 								<f:facet name="input">
 									<p:inputText id="input-name-feedbackanalysiscategory" required="true"
-										placeholder="#{msg.con_newCategoryLabel}"
+										pt:placeholder="#{msg.con_newCategoryLabel}"
 										requiredMessage="#{msg.dlg_notEmpty}" value="#{category.label.text}"
 										onblur="this.value=this.value.trim()"
 										validator="#{validationBean.validateShortString}" />
