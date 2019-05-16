@@ -284,8 +284,6 @@ public class SummaryManagedBean implements Serializable {
 	 * Do all the save operations selected by the user.
 	 */
 	public void doSelectedSaveOperation() {
-		String fileName = convertToFilename(observation.getName());
-		List<File> files=new ArrayList<>();
 		if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
 			 try {
 				downloadCurrentObservation();
@@ -304,7 +302,9 @@ public class SummaryManagedBean implements Serializable {
 	}
 	
 	public void downloadImage() {
-		File img=DownloadTools.getImageFromByteArr(observation.getName()+"_", observationManagedBean.getImage());
+		String fileName=observation.getName()+"_";
+		fileName=convertToFilename(fileName);
+		File img=DownloadTools.getImageFromByteArr(fileName, observationManagedBean.getImage());
 		DownloadTools.downloadFile(img, "image/png",img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
 		img.delete();
 	}

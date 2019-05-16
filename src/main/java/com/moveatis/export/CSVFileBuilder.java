@@ -118,7 +118,7 @@ public class CSVFileBuilder {
     
     public String msToTimeStamp(long ms) {
     	long s=ms/1000;
-    	return s/60+" min" + s%60 + " s";
+    	return s/60+" min " + s%60 + " s";
     }
     /**
      * Computes category summary items from observation.
