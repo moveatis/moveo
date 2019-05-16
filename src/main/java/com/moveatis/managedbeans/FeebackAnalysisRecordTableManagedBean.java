@@ -33,6 +33,7 @@ package com.moveatis.managedbeans;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -224,7 +225,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	 *            users records
 	 */
 	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
-		list.sort(new compareRecords());
+		Collections.sort(list,new compareRecords());
 		Integer newOrderNumber = 1;
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setOrderNumber(i + 1);
