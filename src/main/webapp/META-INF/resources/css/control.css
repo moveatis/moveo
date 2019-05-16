@@ -278,12 +278,12 @@ a.new-key {
 #categorySetForm th {
 	background: none!important;
 	border: 0;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid white;
+	border-right: 0px!important;
 }
 
 #categorySetForm tr {
-==== BASE ====
-	background: #008AB9 !important;
+	background: #008AB9!important;
 	color: white;
 }
 
@@ -354,14 +354,20 @@ a.new-key {
 	background: none!important;
 	color: white!important;
 	text-shadow: none!important;
+	border: 0!important;
+	border-bottom: 1px solid white!important;
+}
+
+#feedbackAnalysisCategorySetForm th {
+	background: none!important;
 	border: 0;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid white;
+	border-right: 0px!important;
 }
 
 #feedbackAnalysisCategorySetForm tr {
 	background: #008AB9!important;
 	color: white;
-	border: 0
 }
 
 #feedbackAnalysisCategorySetForm td {
@@ -692,10 +698,6 @@ td {
 				position: absolute!important;
 				top: -1.2em;
 			}
-
-
-
-
 }
 
 @media screen and (max-width: 480px) {

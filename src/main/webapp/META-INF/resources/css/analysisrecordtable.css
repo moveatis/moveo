@@ -183,10 +183,6 @@ tbody {
 	margin-right: 0.6em;
 }
 
-#reportButtons .save-button {
-	margin-right: 2em!important;
-}
-
 @media screen and (max-width: 1000px) {
 	#container {
 		width: 93%;
@@ -283,6 +279,29 @@ tbody {
 		font-weight: bold;
 		content: "";
 	}
+
+		#entries td:last-child .ui-column-title {
+		display: none;
+	}
+
+		#entries td:nth-last-child(2) .ui-column-title {
+		display: none;
+	}
+
+#entries td:nth-last-child(2) {
+	width: auto!important;
+	display: inline-block;
+	float: right;
+	margin-right: 1em;
+}
+
+#entries td:last-child {
+	width: auto!important;
+	display: inline-block;
+	float: right;
+	margin-right: 1em;
+}
+
 	#entries td:nth-child(2) .ui-column-title {
 		display: block;
 	}
@@ -363,4 +382,7 @@ tbody {
 	#container {
 		width: 80%;
 	}
+}
+#reportButtons .save-button {
+	margin-right: 2em!important;
 }
