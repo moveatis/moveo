@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujï¿½rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykï¿½nen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,9 +30,10 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
+
 #naviHead, #Footer {
 	font-size: 1em;
 }
@@ -105,7 +106,7 @@
 	color: white;
 	max-width: 100%;
 	list-style-type: none;
-	background-color: rgb(85, 102, 119, 0.1);
+	background-color: rgba(85, 102, 119, 0.1);
 }
 
 .category-item {
@@ -168,6 +169,7 @@
 	http://stackoverflow.com/a/14101451
 
 */
+
 #total-time {
 	height: calc(( 100vh - 4.375em)* 0.12);
 	font-size: 9vh;

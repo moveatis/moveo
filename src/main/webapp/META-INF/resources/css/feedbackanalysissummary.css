@@ -30,9 +30,10 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
+
 html {
 	width: 100%;
 	height: 100%;
@@ -41,8 +42,8 @@ html {
 }
 
 .html2canvas-container {
-	width: 1920px !important;
-	height: 3000px !important;
+	width: 120em !important;
+	height: 187.5em !important;
 }
 
 #mainPage {
@@ -60,7 +61,7 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background-color: rgb(85, 102, 119, 0.1);
+	background-color: rgba(85, 102, 119, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -116,7 +117,7 @@ html {
 	margin-top: 1em;
 	background: white;
 	display: inline-block;
-	border: 1px solid black;
+	border: 0.063em solid black;
 	text-align: left;
 	white-space: nowrap;
 	overflow-x: auto;
@@ -191,7 +192,7 @@ table.jqplot-table-legend td {
 	margin-right: 1em;
 }
 
-@media ( max-width : 570px) {
+@media ( max-width: 570px) {
 	#container {
 		width: 80%;
 	}
@@ -217,13 +218,13 @@ table.jqplot-table-legend td {
 	}
 }
 
-@media ( max-width : 750px) {
+@media ( max-width: 750px) {
 	#save {
 		margin-right: 0em;
 	}
 }
 
-@media ( max-width : 400px) {
+@media ( max-width: 400px) {
 	#container {
 		width: 90%;
 		font-size: 0.8em;

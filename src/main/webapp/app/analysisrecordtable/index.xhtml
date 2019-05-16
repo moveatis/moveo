@@ -39,22 +39,27 @@
 						value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.records}"
 						var="record" sortBy="#{record.orderNumber}"
 						rowStyleClass="datatable" resizableColumns="true"
-						liveResize="false" styleClass="entries_dt" reflow="true" style="width:99%">
+						liveResize="false" styleClass="entries_dt" reflow="true"
+						style="width:99%">
 						<p:column headerText="#{msg.repo_nro}" style="width:4em">
 							<h:outputText class="tContent" value="#{record.orderNumber}" />
 						</p:column>
-						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback" style="width:25em">
+						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback"
+							style="width:25em">
 							<h:outputText class="tContent" value="#{record.comment}" />
 						</p:column>
 						<c:forEach
 							items="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
-							<p:column id="categories" headerText="#{categorySet.label}" style="width:100%">
+							<p:column id="categories" headerText="#{categorySet.label}"
+								style="width:100%">
 								<h:outputText class="tContent"
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
-						<p:column id="time" style="width:5em" rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}" headerText="#{msg.repo_timestamp}">
+						<p:column id="time" style="width:5em"
+							rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}"
+							headerText="#{msg.repo_timestamp}">
 							<h:outputText
 								value="#{feedbackAnalysisManagedBean.getLongAsTimeStamp(record.startTime)}"
 								class="tContent" />
@@ -69,9 +74,11 @@
 							data-html2canvas-ignore="true" style="width:4em">
 							<span class="tContent"><p:commandButton
 									action="#{analysisRecordTable.delete(record.orderNumber)}"
-									id="deleteButton" update="entries reportButtons" icon="fa fa-trash" oncomplete="sendImageAndCSV()">
-									<p:confirm header="#{msg.repo_confirmheader}" message="#{msg.repo_confirm}"/>
-									</p:commandButton></span>
+									id="deleteButton" update="entries reportButtons"
+									icon="fa fa-trash" oncomplete="sendImageAndCSV()">
+									<p:confirm header="#{msg.repo_confirmheader}"
+										message="#{msg.repo_confirm}" />
+								</p:commandButton></span>
 						</p:column>
 					</p:dataTable>
 				</div>
@@ -82,10 +89,9 @@
 					<p:commandButton value="No" type="button"
 						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
 				</p:confirmDialog>
-
 				<h:panelGroup id="reportButtons">
 					<h:form id="buttons">
-						<div id="downloadImage">			
+						<div id="downloadImage">
 							<p:commandButton value="#{msg.downloadImage}" ajax="false"
 								action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
 						</div>
@@ -104,10 +110,8 @@
 					</div>
 				</h:panelGroup>
 			</div>
-
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
-
 			<p:confirmDialog global="true">
 				<p:commandButton styleClass="ui-confirmdialog-yes"
 					value="#{msg.repo_yes}" type="button" />

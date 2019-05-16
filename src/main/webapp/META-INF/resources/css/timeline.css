@@ -30,11 +30,12 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
 
 /* Custom styles for the Timeline component. */
+
 #timeline {
 	clear: both;
 	margin-bottom: 1em;
@@ -95,30 +96,15 @@
 	border: none;
 }
 
-#timeline
- 
-.ui-widget-content
-:not
- 
-(
-.timeline-axis
- 
-)
-{
-color
-:
- 
-#000
-;
-
-
+#timeline .ui-widget-content:not( .timeline-axis) {
+	color: #000;
 }
+
 #timeline .timeline-axis {
 	color: #008AB9;
 }
 
-====
-BASE ==== #timeline .timeline-groups-text, #timeline .timeline-axis {
+#timeline .timeline-groups-text, #timeline .timeline-axis {
 	font-family: Arial, sans-serif;
 }
 

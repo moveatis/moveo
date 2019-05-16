@@ -30,9 +30,10 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
+
 html {
 	width: 100%;
 	height: 100%;
@@ -49,7 +50,7 @@ html {
 }
 
 .html2canvas-container {
-	width: 1920px !important;
+	width: 120em !important;
 }
 
 #container {
@@ -88,8 +89,9 @@ html {
 #entries td:nth-child(2), #entries th:nth-child(2) {
 	text-align: left;
 }
+
 th:last-child, td:last-child {
-	border-right: 0px !important;
+	border-right: 0em !important;
 }
 
 #entries {
@@ -100,7 +102,7 @@ th {
 	background: #E0E1E3!important;
 	border: 0px!important;
 	box-shadow: none!important;
-	border-right: 1px solid #005977!important;
+	border-right: 0.063em solid #005977!important;
 	color: black!important;
 	hyphens: auto;
 	overflow: hidden;
@@ -108,8 +110,8 @@ th {
 }
 
 td {
-	border: 0px!important;
-	border-right: 1px solid #005977!important;
+	border: 0em!important;
+	border-right: 0.063em solid #005977!important;
 	box-shadow: none!important;
 	color: black!important;
 	hyphens: auto;
@@ -118,14 +120,13 @@ td {
 	white-space: normal !important;
 }
 
-
 tr {
-	border: 0px!important;
+	border: 0em!important;
 	box-shadow: none!important;
 }
 
 tbody {
-	border: 0px!important;
+	border: 0em!important;
 	box-shadow: none!important;
 }
 
@@ -208,14 +209,14 @@ tbody {
 		text-align: left;
 	}
 	tr {
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
 	}
 	th:last-child, td:last-child {
-		border-right: 0px!important;
+		border-right: 0em!important;
 	}
 	tbody {
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
 	}
 }
@@ -230,7 +231,7 @@ tbody {
 	.entries_dt .ui-datatable-data td {
 		text-align: left;
 		display: block;
-		border: 0px none;
+		border: 0em none;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -238,11 +239,11 @@ tbody {
 		clear: left;
 	}
 	.entries_dt .ui-datatable-data.ui-widget-content {
-		border: 0px none;
+		border: 0em none;
 	}
 	.entries_dt .ui-datatable-data tr.ui-widget-content {
-		border-left: 0px none;
-		border-right: 0px none;
+		border-left: 0em none;
+		border-right: 0em none;
 	}
 	.entries_dt .ui-datatable-data td .ui-column-title {
 		padding: .4em;
@@ -273,29 +274,24 @@ tbody {
 		font-weight: bold;
 		content: "";
 	}
-
-		#entries td:last-child .ui-column-title {
+	#entries td:last-child .ui-column-title {
 		display: none;
 	}
-
-		#entries td:nth-last-child(2) .ui-column-title {
+	#entries td:nth-last-child(2) .ui-column-title {
 		display: none;
 	}
-
-#entries td:nth-last-child(2) {
-	width: auto!important;
-	display: inline-block;
-	float: right;
-	margin-right: 1em;
-}
-
-#entries td:last-child {
-	width: auto!important;
-	display: inline-block;
-	float: right;
-	margin-right: 1em;
-}
-
+	#entries td:nth-last-child(2) {
+		width: auto!important;
+		display: inline-block;
+		float: right;
+		margin-right: 1em;
+	}
+	#entries td:last-child {
+		width: auto!important;
+		display: inline-block;
+		float: right;
+		margin-right: 1em;
+	}
 	#entries td:nth-child(2) .ui-column-title {
 		display: block;
 	}
@@ -308,17 +304,16 @@ tbody {
 	}
 	#entries td .ui-column-title {
 		display: inline-block;
-		overflow:hidden;
+		overflow: hidden;
 		hyphens: none;
 		white-space: none;
 		text-overflow: ellipsis;
 	}
-
 	th {
 		background: #E0E1E3!important;
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
-		border-right: 0px solid #005977!important;
+		border-right: 0em solid #005977!important;
 		color: black!important;
 		hyphens: auto;
 		text-overflow: ellipsis;
@@ -326,8 +321,8 @@ tbody {
 		white-space: nowrap;
 	}
 	td {
-		border: 0px!important;
-		border-right: 0px solid #005977!important;
+		border: 0em!important;
+		border-right: 0em!important;
 		box-shadow: none!important;
 		color: black!important;
 		hyphens: none;
@@ -335,20 +330,16 @@ tbody {
 		padding: 0!important;
 	}
 	#entries td {
-		border-right: 0px!important;
+		border-right: 0em!important;
 	}
-
-	
 	#entries th {
-		border-right: 0px!important;
+		border-right: 0em!important;
 	}
 	#entries td:nth-child(1), #entries th:nth-child(1), #entries td:nth-child(2), #entries th:nth-child(2) {
 		text-align: left;
 	}
-
-
 	#entries tr {
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
 	}
 	#entries .tContent {

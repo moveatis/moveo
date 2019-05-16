@@ -30,9 +30,10 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
+
 #mainPage {
 	text-align: center;
 	margin-bottom: 1em;
@@ -91,29 +92,23 @@
 }
 
 .ui-icon, .ui-widget-content .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
 }
 
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon, .ui-button:hover .ui-icon,
-	.ui-button:focus .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon, .ui-button:hover .ui-icon, .ui-button:focus .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
 }
 
 .ui-state-active .ui-icon, .ui-button:active .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
 }
 
 .ui-state-highlight .ui-icon, .ui-button .ui-state-highlight.ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
 }
 
 .ui-button .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
 }
 
 .ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
@@ -178,7 +173,7 @@
 	width: 14em;
 	display: inline-block;
 	vertical-align: top;
-	margin: 0 0.625em 16px 0;
+	margin: 0 0.625em 1em 0;
 	background: rgba(85, 102, 119, 0.1);
 	border-radius: 0.625em;
 	padding: 0.625em;
