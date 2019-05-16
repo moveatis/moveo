@@ -44,8 +44,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.moveatis.abstracts.AbstractCategoryEntity;
 import com.moveatis.feedbackanalysis.FeedbackAnalysisEntity;
@@ -87,8 +85,6 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	@Inject
 	@MessageBundle
 	private transient ResourceBundle messages;
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryManagedBean.class);
 
 	/**
 	 * The post constructor creates the feedback analysis

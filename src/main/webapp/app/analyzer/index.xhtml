@@ -10,7 +10,6 @@
 		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
 		<ui:define name="mainpage">
 			<h:outputScript library="primefaces" name="jquery/jquery.js" />
-			<h:outputScript library="js" name="analyzer.js" />
 			<h:outputStylesheet library="css" name="analyzer.css" />
 			<h:form id="timerControls"
 				rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}">
@@ -101,7 +100,7 @@
 						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalysisManagedBean.currentRecord.comment}"
-							pt:placeholder="Kirjaa palaute tähän."
+							pt:placeholder="#{msg.ana_comment}"
 							validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
 							<p:ajax event="keyup"

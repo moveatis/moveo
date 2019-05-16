@@ -38,8 +38,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -377,8 +379,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	}
 
 	public String getPercentageAsString(int count) {
-		DecimalFormat df = new DecimalFormat("#.#");
+		Locale locale  = new Locale("en", "UK");
+		String pattern = "##.##";
+		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+		df.applyPattern(pattern);
 		return df.format(countPercentage(count));
+		
+		//DecimalFormat df = new DecimalFormat("#.#");
+		//return df.format(countPercentage(count));
 	}
 
 	private double countPercentage(int count) {

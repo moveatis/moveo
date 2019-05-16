@@ -56,7 +56,6 @@ import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.FeedbackAnalysisRecord;
 import com.moveatis.interfaces.FeedbackAnalysis;
 import com.moveatis.interfaces.Label;
-import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.interfaces.Session;
 import com.moveatis.label.LabelEntity;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
