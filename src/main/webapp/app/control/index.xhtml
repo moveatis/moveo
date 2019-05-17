@@ -237,7 +237,7 @@
 						action="#{controlBean.showAnalysisInSummaryPage()}" />
 					<p:commandButton value="#{msg.con_removeObservation}"
 						icon="fa fa-trash" action="#{controlBean.removeAnalysis}"
-						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_analyzationRemoved}')"
+						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_analyzationRemoved}'); PF('dlgAnalysis').hide();"
 						update=":eventGroupsForm:eventGroupsTable">
 						<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
 							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedAnalysis.analysisName}. #{msg.dlg_confirmMessage}" />
@@ -309,7 +309,7 @@
 						action="#{controlBean.showObservationInSummaryPage()}" />
 					<p:commandButton value="#{msg.con_removeObservation}"
 						icon="fa fa-trash" action="#{controlBean.removeObservation}"
-						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}')"
+						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}');PF('dlgObservation').hide();"
 						update=":eventGroupsForm:eventGroupsTable">
 						<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
 							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedObservation.name}. #{msg.dlg_confirmMessage}" />

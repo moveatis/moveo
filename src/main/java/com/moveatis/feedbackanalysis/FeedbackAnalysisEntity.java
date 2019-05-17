@@ -55,9 +55,9 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  */
 @Table(name = "FEEDBACKANALYSIS")
 @NamedQueries({
-		@NamedQuery(name = "findFeedbackAnalysesByObserver", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer"),
-		@NamedQuery(name = "findFeedbackAnalysesWithoutEvent", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer AND analysis.event is null"),
-		@NamedQuery(name = "findFeedbackAnalysesByEventsNotOwned", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer AND analysis.event.creator<>:observer") })
+		@NamedQuery(name = "findFeedbackAnalysesByObserver", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer AND analysis.removed is null"),
+		@NamedQuery(name = "findFeedbackAnalysesWithoutEvent", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer AND analysis.event is null AND analysis.removed is null"),
+		@NamedQuery(name = "findFeedbackAnalysesByEventsNotOwned", query = "SELECT analysis FROM FeedbackAnalysisEntity analysis WHERE analysis.observer=:observer AND analysis.event.creator<>:observer AND analysis.removed is null") })
 @Entity
 public class FeedbackAnalysisEntity extends AbstractObservationEntity {
 
