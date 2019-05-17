@@ -37,48 +37,53 @@
 					</p:confirmDialog>
 					<h:outputText value="#{msg.facs_noCategorySetsText}"
 						rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse}" />
-					<ui:repeat
-						value="#{feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
-						var="categorySet" varStatus="status">
-						<h:panelGroup id="category-set"
-							styleClass="category-set category-set-#{status.index}">
-							<p:commandLink
-								styleClass="fa fa-remove category-set-remove-button"
-								action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategorySet(status.index)}"
-								update="@form">
-								<p:confirm header="#{msg.dialogConfirmTitle}"
-									message="#{msg.facs_confirmRemoveCategorySet}"
-									icon="ui-icon-alert" />
-							</p:commandLink>
-							<h2>#{categorySet.label}</h2>
-							<h:panelGroup layout="block" styleClass="no-categories-text"
-								rendered="#{empty categorySet.categoryEntitys}">
-								<h:outputText value="#{msg.facs_noCategoriesText}" />
+					<h:panelGroup id="category-sets">
+						<ui:repeat
+							value="#{feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+							var="categorySet" varStatus="status">
+							<h:panelGroup id="category-set"
+								styleClass="category-set category-set-#{status.index}">
+								<p:commandLink
+									styleClass="fa fa-remove category-set-remove-button"
+									action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategorySet(status.index)}"
+									immediate="true" update="@form">
+									<p:confirm header="#{msg.dialogConfirmTitle}"
+										message="#{msg.facs_confirmRemoveCategorySet}"
+										icon="ui-icon-alert" />
+								</p:commandLink>
+								<h2>#{categorySet.label}</h2>
+								<h:panelGroup layout="block" styleClass="no-categories-text"
+									rendered="#{empty categorySet.categoryEntitys}">
+									<h:outputText value="#{msg.facs_noCategoriesText}" />
+								</h:panelGroup>
+								<ui:repeat
+									value="#{categorySet.categoryEntitys.values().toArray()}"
+									var="category">
+									<div class="category">
+										<p:inputText value="#{category.label.text}"
+											id="category-name-input" styleClass="category-text"
+											validator="#{validationBean.validateShortString}"
+											onblur="this.value=this.value.trim()">
+											<p:ajax event="blur" render="category-set" />
+										</p:inputText>
+										<p:watermark value="#{msg.facs_categoryName}"
+											for="category-name-input" />
+										<p:commandButton icon="fa fa-remove"
+											class="category-remove-button"
+											action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}"
+											update=":form">
+											<f:param name="skipValidator" value="true" />
+										</p:commandButton>
+									</div>
+								</ui:repeat>
+								<p:commandButton value="#{msg.facs_newCategory}"
+									icon="fa fa-plus" styleClass="new-category-button"
+									action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategoryToCategorySet(categorySet)}"
+									update="@form" process="@this category-set"
+									oncomplete="focusCategory('.category-set-#{status.index}');" />
 							</h:panelGroup>
-							<ui:repeat
-								value="#{categorySet.categoryEntitys.values().toArray()}"
-								var="category">
-								<div class="category">
-									<p:inputText value="#{category.label.text}"
-										id="category-name-input" styleClass="category-text"
-										validator="#{validationBean.validateShortString}"
-										onblur="this.value=this.value.trim()">
-									</p:inputText>
-									<p:watermark value="#{msg.facs_categoryName}"
-										for="category-name-input" />
-									<p:commandButton icon="fa fa-remove"
-										class="category-remove-button"
-										action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}"
-										update=":form" />
-								</div>
-							</ui:repeat>
-							<p:commandButton value="#{msg.facs_newCategory}"
-								icon="fa fa-plus" styleClass="new-category-button"
-								action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategoryToCategorySet(categorySet)}"
-								update="category-set :form:continue-button"
-								oncomplete="focusCategory('.category-set-#{status.index}');" />
-						</h:panelGroup>
-					</ui:repeat>
+						</ui:repeat>
+					</h:panelGroup>
 					<h2>#{msg.facs_addCategorySets}</h2>
 					<h:panelGroup layout="block" styleClass="category-set-list">
 						<p:outputLabel for="new-category-set"
@@ -92,7 +97,7 @@
 						<p:watermark value="#{msg.facs_categorySetName}"
 							for="new-category-set" />
 						<p:commandButton value="#{msg.facs_addCategorySet}"
-							style="vertical-align: middle"
+							style="vertical-align: middle" process="@this new-category-set"
 							action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategorySet()}"
 							update="@form" />
 					</h:panelGroup>
@@ -141,7 +146,7 @@
 							id="continue-button"
 							disabled="#{feedbackAnalysisCategorySelectionManagedBean.isContinueDisabled()}"
 							action="#{feedbackAnalysisCategorySelectionManagedBean.checkCategories}"
-							update="@form" />
+							process="@this category-sets" update="@form" />
 					</div>
 				</h:form>
 			</div>

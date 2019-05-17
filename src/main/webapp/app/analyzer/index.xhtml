@@ -114,6 +114,8 @@
 							update=":form" />
 						<p:commandButton id="empty" value="#{msg.ana_empty}"
 							action="#{feedbackAnalysisManagedBean.resetCurrentRecord()}"
+							oncomplete="$('#form:currentRecordComment').value=''"
+							immediate="true"
 							update=":form" />
 						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
 							action="#{feedbackAnalysisManagedBean.toRecordTable()}" />

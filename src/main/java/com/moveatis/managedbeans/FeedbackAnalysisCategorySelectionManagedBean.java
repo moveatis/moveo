@@ -32,6 +32,7 @@ package com.moveatis.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -195,8 +196,11 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		Map<Integer, AbstractCategoryEntity> tmp_categories = new TreeMap<Integer, AbstractCategoryEntity>();
 
 		categories.remove(category.getOrderNumber());
+		List<Integer> keys=new ArrayList<>();
+		keys.addAll(categories.keySet());
+		Collections.sort(keys);
 		int i = 0;
-		for (int key : categories.keySet()) {
+		for (int key : keys) {
 			categories.get(key).setOrderNumber(i);
 			tmp_categories.put(i, categories.get(key));
 			i++;

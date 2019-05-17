@@ -88,6 +88,8 @@ public class ValidationManagedBean {
 	}
 
 	public void validateShortString(FacesContext context, UIComponent component, Object value) {
+	    String skipValidator= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("skipValidator");
+	    if (skipValidator != null && skipValidator.equalsIgnoreCase("true")) return;
 		validateStringForJsAndHtml(context, component, value);
 		validateStringMaxLength((String) value, 64);
 	}
