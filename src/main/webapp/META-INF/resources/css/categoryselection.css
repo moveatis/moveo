@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juuj�rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nyk�nen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,84 +46,24 @@
 	text-align: left;
 }
 
+#continue-div {
+	margin-top: 2em;
+	margin-right: 2em;
+	text-align: right;
+}
+
+.helpText {
+	font-size: 1.15em;
+}
+
+/* categorysets and categories */
+
 .category-set-list {
 	margin-bottom: 0.5em;
 }
 
 .category-set-list-last {
 	margin-bottom: 2em;
-}
-
-.fa-remove {
-	color: black;
-}
-
-.ui-dialog-titlebar {
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	color: white;
-	text-shadow: none;
-}
-
-.ui-confirm-dialog {
-	border-left: 0.063em solid white;
-	border-top: 0.063em solid white;
-}
-
-.ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
-	background-color: transparent !important;
-	border: none !important;
-	background-image: none !important;
-	box-shadow: none !important;
-}
-
-.ui-dialog .ui-button {
-	border: none;
-	text-shadow: none;
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	cursor: pointer;
-	color: white;
-	box-shadow: none;
-}
-
-.ui-dialog-titlebar-close, .ui-dialog-titlebar-close:hover {
-	background: none;
-	box-shadow: none;
-	border: none;
-	text-shadow: none;
-	font-weight: normal;
-}
-
-.ui-icon-closethick {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
-}
-
-.ui-icon-check {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
-}
-
-.ui-icon-close {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
-}
-
-.ui-button {
-	border: none;
-	text-shadow: none;
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	cursor: pointer;
-	color: white;
-	box-shadow: none;
-}
-
-.ui-button .fa-remove {
-	color: white;
-}
-
-.ui-button.ui-state-active {
-	background-color: #AF2A01;
-	background: linear-gradient(0deg, #007096, #007AA3);
 }
 
 .category-set-list-label {
@@ -221,15 +161,85 @@
 	text-align: left;
 }
 
-#continue-div {
-	margin-top: 2em;
-	margin-right: 2em;
-	text-align: right;
+/* icons */
+
+.fa-remove {
+	color: black;
 }
 
-.helpText {
-	font-size: 1.15em;
+.ui-icon-closethick {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
 }
+
+.ui-icon-check {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+}
+
+.ui-icon-close {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+}
+
+/* buttons */
+
+.ui-button {
+	border: none;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+.ui-button .fa-remove {
+	color: white;
+}
+
+.ui-button.ui-state-active {
+	background-color: #AF2A01;
+	background: linear-gradient(0deg, #007096, #007AA3);
+}
+
+/* dialogs */
+
+.ui-dialog-titlebar {
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	color: white;
+	text-shadow: none;
+}
+
+.ui-confirm-dialog {
+	border-left: 0.063em solid white;
+	border-top: 0.063em solid white;
+}
+
+.ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
+	background-color: transparent !important;
+	border: none !important;
+	background-image: none !important;
+	box-shadow: none !important;
+}
+
+.ui-dialog .ui-button {
+	border: none;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+.ui-dialog-titlebar-close, .ui-dialog-titlebar-close:hover {
+	background: none;
+	box-shadow: none;
+	border: none;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+/* responsivity */
 
 @media screen and (min-width: 640px) {
 	#container {

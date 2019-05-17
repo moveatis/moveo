@@ -66,6 +66,8 @@ html {
 	padding-bottom: 0em;
 }
 
+/* save form */
+
 #saveForm {
 	text-align: left;
 }
@@ -81,6 +83,8 @@ html {
 	border: 0 !important;
 	width: auto !important;
 }
+
+/* entries table */
 
 #entries td:nth-child(1), #entries th:nth-child(1) {
 	text-align: center;
@@ -138,6 +142,15 @@ tbody {
 	background: #D0D3D7;
 }
 
+#entries .ui-icon {
+	border-radius: 0;
+	font-size: 1em;
+	height: 2em;
+	padding-bottom: 1em !important;
+}
+
+/* buttons */
+
 #downloadImage {
 	text-align: center;
 }
@@ -173,13 +186,6 @@ tbody {
 	overflow: hidden;
 }
 
-#entries .ui-icon {
-	border-radius: 0;
-	font-size: 1em;
-	height: 2em;
-	padding-bottom: 1em !important;
-}
-
 #reportButtons {
 	text-align: right;
 	margin-right: 0.6em;
@@ -189,6 +195,8 @@ tbody {
 	margin-right: 2em!important;
 }
 
+/* responsivity */
+
 @media screen and (max-width: 1000px) {
 	#container {
 		width: 93%;
@@ -197,9 +205,6 @@ tbody {
 		margin-top: 0.5em;
 		margin-left: 0.5em;
 		margin-right: 0.5em;
-		background-color: none!important;
-		background: none!important;
-		background-image: none!important;
 		font-size: 0.8em;
 	}
 	#entries td:nth-child(1), #entries th:nth-child(1) {
@@ -257,9 +262,6 @@ tbody {
 		margin-top: 0.5em;
 		margin-left: 0.5em;
 		margin-right: 0.5em;
-		background-color: none!important;
-		background: none!important;
-		background-image: none!important;
 		font-size: 1em;
 	}
 	#entries .ui-column-title {
@@ -306,7 +308,6 @@ tbody {
 		display: inline-block;
 		overflow: hidden;
 		hyphens: none;
-		white-space: none;
 		text-overflow: ellipsis;
 	}
 	th {

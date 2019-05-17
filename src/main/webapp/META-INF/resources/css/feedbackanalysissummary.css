@@ -108,6 +108,8 @@ html {
 	text-shadow: none;
 }
 
+/* charts */
+
 #charts {
 	padding-top: 1em;
 	padding-bottom: 1em;
@@ -166,13 +168,15 @@ table.jqplot-table-legend td {
 	text-align: left;
 }
 
+#pieModels canvas {
+	width: 18.75em;
+}
+
 #saveForm {
 	text-align: left !important;
 }
 
-#pieModels canvas {
-	width: 18.75em;
-}
+/* button positioning */
 
 #hiddenButtons {
 	margin-left: 1.5em;
@@ -191,6 +195,8 @@ table.jqplot-table-legend td {
 #save {
 	margin-right: 1em;
 }
+
+/* responsivity */
 
 @media ( max-width: 570px) {
 	#container {

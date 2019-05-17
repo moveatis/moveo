@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juuj�rvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nyk�nen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,10 +53,81 @@ body {
 	 not supported by any browser */
 }
 
+#mainPage {
+	width: 100%;
+	margin: auto;
+	padding: 0;
+	display: inline-block;
+	text-align: center;
+}
+
+#index {
+	padding-top: 0.625em;
+	padding-bottom: 0.625em;
+}
+
+
 #naviHead, #Footer {
 	font-size: 1em;
 }
 
+#texts {
+	display: inline-block;
+	width: 25%;
+	hyphens: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-top: 0.5em;
+	vertical-align: top;
+}
+
+#content {
+	width: 60%;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#content .ui-state-active {
+	background: #AF2A01;
+}
+
+#textArea {
+	text-align: center;
+}
+
+#textArea textarea {
+	max-width: 100%;
+	min-width: 98%;
+	border-radius: 0.5em;
+	margin-bottom: 0.1em;
+}
+
+#categoryContent {
+	max-width: 100%;
+	list-style-type: none;
+	background: rgba(85, 102, 119, 0.1);
+	padding: 0.5em;
+	border-radius: 0.5em;
+	position: relative;
+}
+
+#basicContent {
+	width: 60%;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	padding-bottom: 1em;
+}
+
+#categoryContent {
+	margin-bottom: 0.625em;
+	text-align: left;
+	padding-left: 2em;
+}
+
+/* timer and timer buttons */
 #timer_div {
 	padding-top: 1em;
 	padding-bottom: 1em;
@@ -101,48 +172,14 @@ body {
 	font-weight: bold;
 }
 
-#mainPage {
-	width: 100%;
-	margin: auto;
-	padding: 0;
-	display: inline-block;
-	text-align: center;
-}
-
-#index {
-	padding-top: 0.625em;
-	padding-bottom: 0.625em;
-}
+/* page number */
 
 #pageNumber {
 	display: inline-block;
 	width: 3em;
 }
 
-#buttons {
-	display: inline-block;
-	margin-right: 0;
-	margin-left: auto;
-	width: 74%;
-}
-
-#texts {
-	display: inline-block;
-	width: 25%;
-	hyphens: auto;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-	padding-top: 0.5em;
-	vertical-align: top;
-}
-
-#content {
-	width: 60%;
-	margin: 0;
-	padding: 0;
-	display: inline-block;
-}
+/* buttons */
 
 #content button {
 	padding: 0.5em;
@@ -153,36 +190,11 @@ body {
 	max-width: 5em;
 }
 
-#content .ui-state-active {
-	background: #AF2A01;
-}
-
-#textArea {
-	text-align: center;
-}
-
-#textArea textarea {
-	max-width: 100%;
-	min-width: 98%;
-	border-radius: 0.5em;
-	margin-bottom: 0.1em;
-}
-
-#categoryContent {
-	max-width: 100%;
-	list-style-type: none;
-	background: rgba(85, 102, 119, 0.1);
-	padding: 0.5em;
-	border-radius: 0.5em;
-	position: relative;
-}
-
-#basicContent {
-	width: 60%;
-	margin: 0;
-	padding: 0;
+#buttons {
 	display: inline-block;
-	padding-bottom: 1em;
+	margin-right: 0;
+	margin-left: auto;
+	width: 74%;
 }
 
 .ui-button {
@@ -208,11 +220,7 @@ body {
 	background: #AF2A01;
 }
 
-#categoryContent {
-	margin-bottom: 0.625em;
-	text-align: left;
-	padding-left: 2em;
-}
+/* responsivity */
 
 @media screen and (max-width: 1050px) {
 	#texts {

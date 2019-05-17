@@ -46,13 +46,15 @@
 	margin: 1em 0;
 }
 
-.ui-datatable-tablewrapper {
-	overflow: hidden !important;
-}
+/* control page table styling */
 
 #mainPage a.edit-key {
 	color: gold;
 	text-shadow: 0.063em 0.063em 0.063em #333;
+}
+
+.ui-datatable-tablewrapper {
+	overflow: hidden !important;
 }
 
 .key-dialog {
@@ -137,21 +139,6 @@ a.new-key {
 	background: #EFEFEF;
 }
 
-.ui-expanded-row-content {
-	background: #D0D3D7;
-}
-
-.ui-datalist-header {
-	background: #EFEFEF;
-	border: 0;
-	border-bottom: 0.063em solid #4f4f4f !important;
-}
-
-.ui-datalist-content {
-	background: #EFEFEF;
-	border: 0;
-}
-
 .ui-datatable-data .ui-state-highlight {
 	background: #008AB9 !important;
 }
@@ -233,6 +220,24 @@ a.new-key {
 	opacity: 0.4;
 }
 
+
+/* table's expanded row styling */
+
+.ui-expanded-row-content {
+	background: #D0D3D7;
+}
+
+.ui-datalist-header {
+	background: #EFEFEF;
+	border: 0;
+	border-bottom: 0.063em solid #4f4f4f !important;
+}
+
+.ui-datalist-content {
+	background: #EFEFEF;
+	border: 0;
+}
+
 .ui-button {
 	border: none;
 	text-shadow: none;
@@ -258,6 +263,8 @@ a.new-key {
 .categories-table {
 	margin-top: .5em;
 }
+
+/* observation categorysetform */
 
 #categorySetForm .ui-column-title {
 	font-size: .8em;
@@ -314,29 +321,6 @@ a.new-key {
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
-#analysisDetail .ui-grid {
-	background: none;
-	color: white;
-	padding-bottom: 1em;
-}
-
-#analysisDetail .label {
-	width: 30% !important;
-}
-
-#analysisDetail .value {
-	width: auto !important;
-}
-
-#analysisDetail .value .ui-state-highlight {
-	background: none;
-	text-decoration: underline;
-}
-
-#analysisDetail .ui-inputfield {
-	width: 100%;
-}
-
 .observation-dialog .ui-state-hover {
 	background-color: #FCFCFC !important;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
@@ -346,6 +330,8 @@ a.new-key {
 	background-color: #FCFCFC;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
+
+/* feedback analysis categorysetform */
 
 #feedbackAnalysisCategorySetForm th {
 	background: none !important;
@@ -435,18 +421,6 @@ td {
 	margin: 0.3em 1%;
 }
 
-#observationDetail .ui-panelgrid-cell.label {
-	width: 7em;
-}
-
-#observationDetail .ui-panelgrid-cell.value {
-	width: auto;
-}
-
-#observationDetail .ui-inplace-content .ui-inputfield {
-	display: block;
-}
-
 #observationFormCommands {
 	font-size: .9em;
 }
@@ -503,6 +477,8 @@ td {
 	background: none;
 }
 
+/* other observations and analyses forms */
+
 #otherObservationsForm th {
 	background: none;
 	border: 0;
@@ -546,6 +522,43 @@ td {
 	text-align: right;
 }
 
+/* analysis and observation details */
+
+#analysisDetail .ui-grid {
+	background: none;
+	color: white;
+	padding-bottom: 1em;
+}
+
+#analysisDetail .label {
+	width: 30% !important;
+}
+
+#analysisDetail .value {
+	width: auto !important;
+}
+
+#analysisDetail .value .ui-state-highlight {
+	background: none;
+	text-decoration: underline;
+}
+
+#analysisDetail .ui-inputfield {
+	width: 100%;
+}
+
+#observationDetail .ui-panelgrid-cell.label {
+	width: 7em;
+}
+
+#observationDetail .ui-panelgrid-cell.value {
+	width: auto;
+}
+
+#observationDetail .ui-inplace-content .ui-inputfield {
+	display: block;
+}
+
 #observationDetail {
 	margin-bottom: .6em;
 }
@@ -581,6 +594,8 @@ td {
 	color: #AF2A01 !important;
 }
 
+/* confirm dialog */
+
 .ui-confirm-dialog {
 	width: 70% !important;
 	height: auto;
@@ -611,8 +626,9 @@ td {
 	color: white;
 }
 
+/* responsivity */
+
 @media screen and (max-width: 800px) {
-	#mainPage {}
 	#mainPage>form {
 		margin-left: auto;
 		margin-right: auto;
