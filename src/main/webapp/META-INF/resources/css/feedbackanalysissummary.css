@@ -123,6 +123,7 @@ html {
 	text-align: left;
 	white-space: nowrap;
 	overflow-x: auto;
+	min-width:8em;
 	max-width: 90%;
 }
 

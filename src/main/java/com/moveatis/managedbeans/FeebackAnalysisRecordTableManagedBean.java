@@ -32,6 +32,7 @@ package com.moveatis.managedbeans;
 
 import java.io.File;
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -244,6 +246,11 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 			return "unnamed";
 		}
 		return s.replaceAll("[^a-zA-Z0-9_]", "_");
+	}
+	
+	public String getConfirm(int orderNumber) {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		return MessageFormat.format(currentInstance.getApplication().getResourceBundle(currentInstance, "msg").getString("repo_confirm"),orderNumber);
 	}
 
 	public String getFileName() {

@@ -161,15 +161,11 @@
 			<from-outcome>analysisselected</from-outcome>
 			<redirect />
 		</navigation-case>
-	</navigation-rule>
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
 			<supported-locale>fi</supported-locale>
 		</locale-config>
-	  <message-bundle>
-	  	com.moveatis.messages.Messages
-	  </message-bundle>
 		<resource-bundle>
 			<base-name>com.moveatis.messages.Messages</base-name>
 			<var>msg</var>
