@@ -512,8 +512,7 @@
 										requiredMessage="#{msg.dlg_notEmpty}"
 										value="#{category.label.text}"
 										onblur="this.value=this.value.trim()"
-										pt:placeholder="#{msg.con_newCategoryLabel}"
-										validator="#{validationBean.validateShortString}" />
+										pt:placeholder="#{msg.con_newCategoryLabel}" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -621,8 +620,7 @@
 										required="true" pt:placeholder="#{msg.con_newCategoryLabel}"
 										requiredMessage="#{msg.dlg_notEmpty}"
 										value="#{category.label.text}"
-										onblur="this.value=this.value.trim()"
-										validator="#{validationBean.validateShortString}" />
+										onblur="this.value=this.value.trim()" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>

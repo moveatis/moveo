@@ -64,22 +64,23 @@
 											id="category-name-input" styleClass="category-text"
 											validator="#{validationBean.validateShortString}"
 											onblur="this.value=this.value.trim()">
-											<p:ajax event="blur" render="category-set" />
+											<p:ajax event="blur" process="@this" />
+											<f:param name="skipValidator" value="true"></f:param>
 										</p:inputText>
 										<p:watermark value="#{msg.facs_categoryName}"
 											for="category-name-input" />
 										<p:commandButton icon="fa fa-remove"
 											class="category-remove-button"
+											immediate="true"
 											action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}"
-											update=":form">
-											<f:param name="skipValidator" value="true" />
+											update="form:category-sets form:continue-button">
 										</p:commandButton>
 									</div>
 								</ui:repeat>
 								<p:commandButton value="#{msg.facs_newCategory}"
 									icon="fa fa-plus" styleClass="new-category-button"
 									action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategoryToCategorySet(categorySet)}"
-									update="@form" process="@this category-set"
+									update="category-set form:continue-button form:growl" process="@this category-set"
 									oncomplete="focusCategory('.category-set-#{status.index}');" />
 							</h:panelGroup>
 						</ui:repeat>

@@ -147,6 +147,10 @@ html {
 	text-overflow: ellipsis;
 }
 
+.jqplot-highlighter-tooltip{
+	background: white;
+}
+
 table.jqplot-table-legend td {
 	white-space: nowrap;
 	overflow: hidden;

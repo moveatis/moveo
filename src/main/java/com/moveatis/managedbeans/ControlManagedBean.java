@@ -44,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -577,14 +578,20 @@ public class ControlManagedBean implements Serializable {
 	public void saveCategorySet() {
 		if (selectedEventGroup != null && selectedCategorySet != null) {
 			String error;
-			if (!categoryHasDuplicate() && !categorySetHasDuplicate()) {
+			if (!categoryHasDuplicate() && !categorySetHasDuplicate()&& unallowedCharsInCategories()==null) {
 				categorySetBean.createAndEditCategorySet(selectedEventGroup, selectedCategorySet, categories);
 				fetchEventGroups();
 				return;
 			} else if (categoryHasDuplicate()) {
 				error = messages.getString("cs_errorNotUniqueCategories");
-			} else {
+			} 
+			else if(categorySetHasDuplicate()){
 				error = messages.getString("con_errorNotUniqueCategorySets");
+			}else {
+				FacesContext.getCurrentInstance().validationFailed();
+				FacesContext.getCurrentInstance().addMessage(null,
+						unallowedCharsInCategories());
+				return;
 			}
 			FacesContext.getCurrentInstance().validationFailed();
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -607,6 +614,9 @@ public class ControlManagedBean implements Serializable {
 		return "feedbackanalysissummary";
 	}
 
+	@Inject
+	private ValidationManagedBean validationManagedBean;
+	
 	/**
 	 * Shows the selected observation in the summary page.
 	 *
@@ -618,6 +628,18 @@ public class ControlManagedBean implements Serializable {
 		return "summary";
 	}
 
+	public FacesMessage unallowedCharsInCategories() {
+		for  (AbstractCategoryEntity categoryEntity : categories) {
+			String categoryText = categoryEntity.getLabel().getText();
+			try{
+				validationManagedBean.validateShortString(null, null, categoryText);
+				}catch(ValidatorException e) {
+					return e.getFacesMessage();
+				};
+		}
+		return null;
+	}
+	
 	/**
 	 * Checks if the categories have duplicates.
 	 */
@@ -625,7 +647,7 @@ public class ControlManagedBean implements Serializable {
 		Set<String> duplicates = new HashSet<>();
 		for (AbstractCategoryEntity categoryEntity : categories) {
 			String categoryText = categoryEntity.getLabel().getText();
-			if (!categoryText.isEmpty() && !duplicates.add(categoryText)) {
+			if ( !duplicates.add(categoryText)) {
 				selectedCategory = categoryEntity;
 				return true;
 			}

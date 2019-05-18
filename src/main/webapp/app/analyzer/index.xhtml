@@ -4,7 +4,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
 		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
@@ -100,8 +101,8 @@
 						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalysisManagedBean.currentRecord.comment}"
-							pt:placeholder="#{msg.ana_comment}"
-							validator="#{validationBean.validateLongString}">
+							pt:placeholder="#{msg.ana_comment}">
+							<f:validateLength maximum="256" />
 							<p:ajax event="blur" process="currentRecordComment" />
 							<p:ajax event="keyup"
 								listener="#{feedbackAnalysisManagedBean.setTimeStamp()}"
@@ -114,9 +115,8 @@
 							update=":form" />
 						<p:commandButton id="empty" value="#{msg.ana_empty}"
 							action="#{feedbackAnalysisManagedBean.resetCurrentRecord()}"
-							oncomplete="$('#form:currentRecordComment').value=''"
-							immediate="true"
-							update=":form" />
+							onclick="document.getElementById('form:currentRecordComment').value=''"
+							immediate="true" update=":form" />
 						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
 							action="#{feedbackAnalysisManagedBean.toRecordTable()}" />
 					</div>

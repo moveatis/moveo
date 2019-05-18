@@ -167,12 +167,15 @@
 			<default-locale>en</default-locale>
 			<supported-locale>fi</supported-locale>
 		</locale-config>
+	  <message-bundle>
+	  	com.moveatis.messages.Messages
+	  </message-bundle>
 		<resource-bundle>
 			<base-name>com.moveatis.messages.Messages</base-name>
 			<var>msg</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>com.moveatis.messages.IdentityProviderMessages</base-name>
+			<base-name>com.moveatis.1s.IdentityProviderMessages</base-name>
 			<var>identitymessages</var>
 		</resource-bundle>
 		<resource-bundle>
