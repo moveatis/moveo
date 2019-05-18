@@ -55,6 +55,10 @@
 	font-size: 1.15em;
 }
 
+h1{
+	padding-bottom: 1em;
+}
+
 /* categorysets and categories */
 
 .category-set-list {
@@ -217,6 +221,8 @@
 	color: black;
 }
 
+.ui-growl .ui-icon{width:16px;height:16px;background-image:url("/javax.faces.resource/images/ui-icons_616161_256x240.png.xhtml?ln=primefaces-aristo")!important;}
+
 .ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
 	background-color: transparent;
 	border: none !important;
@@ -236,6 +242,10 @@
 
 .ui-dialog .ui-button .ui-icon {
 	color: white;
+}
+
+.ui-growl-icon-close {
+	background-image: ;
 }
 
 /* buttons */

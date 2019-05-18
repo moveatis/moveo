@@ -46,6 +46,8 @@
 	text-align: left;
 }
 
+
+
 #continue-div {
 	margin-top: 2em;
 	margin-right: 2em;
@@ -54,6 +56,10 @@
 
 .helpText {
 	font-size: 1.15em;
+}
+
+h1{
+	padding-bottom: 1em;
 }
 
 /* categorysets and categories */
@@ -167,7 +173,7 @@
 	color: black;
 }
 
-.ui-icon-closethick {
+.ui-icon-closethick:not(.ui-helper-hidden .ui-icon-closethick) {
 	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
 }
 

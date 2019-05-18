@@ -101,8 +101,8 @@
 						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalysisManagedBean.currentRecord.comment}"
-							pt:placeholder="#{msg.ana_comment}">
-							<f:validateLength maximum="256" />
+							pt:placeholder="#{msg.ana_comment}"
+							validator="#{validationBean.validateLongString}">
 							<p:ajax event="blur" process="currentRecordComment" />
 							<p:ajax event="keyup"
 								listener="#{feedbackAnalysisManagedBean.setTimeStamp()}"

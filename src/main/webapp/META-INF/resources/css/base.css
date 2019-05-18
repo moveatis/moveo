@@ -63,14 +63,15 @@ body {
 	(excluding .fa elements) */
 
 .ui-widget:not(.fa) {
-	font-family: 'Roboto', sans-serif;
-}
+	font-family: 'Roboto', sans-serif;}
 
 /* Sticky footer based on this:
    http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ */
 
 .wrapper {
 	min-height: 100%;
+	height: auto !important;
+	height: 100%;
 	margin: 0 auto -1.875em;
 	text-align: justify;
 }
@@ -143,7 +144,7 @@ body {
 	text-align: center;
 	border: 0;
 	border-radius: 0;
-	color: white;
+	color: white !important;
 }
 
 #naviHead .ui-icon.fa {
@@ -234,7 +235,7 @@ ul.ui-menu-child {
 	background-color: #008AB9;
 	align-content: flex-end;
 	text-align: center;
-	color: white;
+	color: white !important;
 }
 
 .facetLeft {
@@ -324,6 +325,11 @@ a:hover {
 	width: 40%;
 }
 
+#picture2 img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
 /* left side navigation */
 
 nav {
@@ -332,16 +338,17 @@ nav {
 	border: none;
 	margin-right: 0.5em;
 	padding-right: 0.5em;
-	height: 8em;
+	height: 8em !important;
 }
 
 /* content divs */
 
 .welcomeContent {
 	float: left;
-	width: 70%;
+	width: 65%;
 	display: block;
 	padding: 1em;
+	margin-left: 1em;
 }
 
 .textContentArea {
@@ -370,10 +377,12 @@ nav {
 .coloredButton {
 	letter-spacing: 0.063em;
 	background: #008AB9;
-	color: white;
-	font-size: 100%;
+	color: white !important;
+	font-size: 100% !important;
 	text-shadow: none;
 	border: none;
+	color: #fff;
+	background: #008AB9;
 	font-weight: 700;
 	outline: none;
 	position: relative;
@@ -415,6 +424,10 @@ nav {
 
 .coloredDialog form label {
 	color: #FEFEFE;
+}
+
+.coloredDialog .ui-fluid .ui-button {
+	width: auto;
 }
 
 .coloredDialog .ui-fluid .ui-button {
@@ -463,6 +476,7 @@ nav {
 		width: 96%;
 		margin: 1% auto 1% auto;
 		border: none;
+		height: 4em;
 	}
 	.welcomeContent {
 		width: 85%;
@@ -479,7 +493,7 @@ nav {
 		background-color: #008AB9;
 		background-size: 100%;
 		text-align: center;
-		color: white;
+		color: white !important;
 	}
 	.naviButtons {
 		width: 3.125em;
@@ -501,6 +515,7 @@ nav {
 	.coloredButton {
 		letter-spacing: 0.063em;
 		border: none;
+		background: #008AB9;
 		color: #fff;
 		background: #008AB9;
 		font-weight: 700;
@@ -517,7 +532,7 @@ nav {
 		background-size: 50%;
 		background-color: #008AB9;
 		text-align: center;
-		color: white;
+		color: white !important;
 	}
 	#picture {
 		height: auto;
