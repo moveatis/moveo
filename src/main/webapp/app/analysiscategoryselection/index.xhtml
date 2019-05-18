@@ -64,8 +64,7 @@
 											id="category-name-input" styleClass="category-text"
 											validator="#{validationBean.validateShortString}"
 											onblur="this.value=this.value.trim()">
-											<p:ajax event="blur" process="@this" />
-											<f:param name="skipValidator" value="true"></f:param>
+											<p:ajax event="blur" process="@this" update="@this form:growl" />
 										</p:inputText>
 										<p:watermark value="#{msg.facs_categoryName}"
 											for="category-name-input" />
@@ -94,11 +93,14 @@
 							value="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName}"
 							id="new-category-set" styleClass="category-set-list-input"
 							validator="#{validationBean.validateShortString}"
-							onblur="this.value=this.value.trim()" />
+							onblur="this.value=this.value.trim()" >
+							<p:ajax event="keyup" update="addCategorySetButton"/>
+							</p:inputText>
 						<p:watermark value="#{msg.facs_categorySetName}"
 							for="new-category-set" />
-						<p:commandButton value="#{msg.facs_addCategorySet}"
+						<p:commandButton id="addCategorySetButton" value="#{msg.facs_addCategorySet}"
 							style="vertical-align: middle" process="@this new-category-set"
+							disabled="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName==null||feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName.isEmpty()}"
 							action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategorySet()}"
 							update="@form" />
 					</h:panelGroup>
