@@ -578,20 +578,17 @@ public class ControlManagedBean implements Serializable {
 	public void saveCategorySet() {
 		if (selectedEventGroup != null && selectedCategorySet != null) {
 			String error;
-			if (!categoryHasDuplicate() && !categorySetHasDuplicate()&& unallowedCharsInCategories()==null) {
+			if (!categoryHasDuplicate() && !categorySetHasDuplicate()&& !unallowedCharsInCategories()) {
 				categorySetBean.createAndEditCategorySet(selectedEventGroup, selectedCategorySet, categories);
 				fetchEventGroups();
 				return;
 			} else if (categoryHasDuplicate()) {
-				error = messages.getString("cs_errorNotUniqueCategories");
+				error = messages.getString("facs_errorNotUniqueCategories");
 			} 
 			else if(categorySetHasDuplicate()){
-				error = messages.getString("con_errorNotUniqueCategorySets");
+				error = messages.getString("cs_errorNotUniqueCategorySet");
 			}else {
-				FacesContext.getCurrentInstance().validationFailed();
-				FacesContext.getCurrentInstance().addMessage(null,
-						unallowedCharsInCategories());
-				return;
+				error=messages.getString("con_errorInvalidCharsInCategories");
 			}
 			FacesContext.getCurrentInstance().validationFailed();
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -628,16 +625,16 @@ public class ControlManagedBean implements Serializable {
 		return "summary";
 	}
 
-	public FacesMessage unallowedCharsInCategories() {
+	public boolean unallowedCharsInCategories() {
 		for  (AbstractCategoryEntity categoryEntity : categories) {
 			String categoryText = categoryEntity.getLabel().getText();
 			try{
 				validationManagedBean.validateShortString(null, null, categoryText);
 				}catch(ValidatorException e) {
-					return e.getFacesMessage();
+					return true;
 				};
 		}
-		return null;
+		return false;
 	}
 	
 	/**

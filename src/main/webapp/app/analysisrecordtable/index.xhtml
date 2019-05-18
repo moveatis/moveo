@@ -77,7 +77,7 @@
 									id="deleteButton" update="entries reportButtons"
 									icon="fa fa-trash" oncomplete="sendImageAndCSV()">
 									<p:confirm header="#{msg.repo_confirmheader}"
-										message="#{msg.repo_confirm}" />
+										message="#{analysisRecordTable.getConfirm(record.orderNumber)}" />
 								</p:commandButton></span>
 						</p:column>
 					</p:dataTable>
