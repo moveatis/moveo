@@ -142,7 +142,9 @@
 					<br />
 					<p:selectBooleanCheckbox
 						value="#{feedbackAnalysisCategorySelectionManagedBean.isTimerEnabled}"
-						itemLabel="#{msg.facs_timer}" />
+						itemLabel="#{msg.facs_timer}" >
+						<p:ajax process="@this"/>
+						</p:selectBooleanCheckbox>
 					<div id="continue-div">
 						<p:commandButton value="#{msg.facs_continueToAnalysis}"
 							id="continue-button"
