@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
@@ -101,8 +100,8 @@
 						<p:message for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalysisManagedBean.currentRecord.comment}"
-							pt:placeholder="#{msg.ana_comment}"
 							validator="#{validationBean.validateLongString}">
+							<p:watermark for="currentRecordComment" value="#{msg.ana_comment}" />
 							<p:ajax event="blur" process="currentRecordComment" />
 							<p:ajax event="keyup"
 								listener="#{feedbackAnalysisManagedBean.setTimeStamp()}"

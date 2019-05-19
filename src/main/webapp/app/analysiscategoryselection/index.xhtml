@@ -66,8 +66,7 @@
 											onblur="this.value=this.value.trim()">
 											<p:ajax event="blur" process="@this" update="@this form:growl" />
 										</p:inputText>
-										<p:watermark value="#{msg.facs_categoryName}"
-											for="category-name-input" />
+										<p:watermark for="category-name-input" value="#{msg.facs_categoryName}" />
 										<p:commandButton icon="fa fa-remove"
 											class="category-remove-button"
 											immediate="true"
@@ -97,8 +96,7 @@
 							onblur="this.value=this.value.trim()" >
 							<p:ajax event="keyup" update="addCategorySetButton"/>
 							</p:inputText>
-						<p:watermark value="#{msg.facs_categorySetName}"
-							for="new-category-set" />
+						<p:watermark for="new-category-set" value="#{msg.facs_categorySetName}"/>
 						<p:commandButton id="addCategorySetButton" value="#{msg.facs_addCategorySet}"
 							style="vertical-align: middle" process="@this new-category-set"
 							disabled="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName==null||feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName.isEmpty()}"
