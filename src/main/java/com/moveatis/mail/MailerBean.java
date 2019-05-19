@@ -74,9 +74,12 @@ public class MailerBean implements Mailer {
 	/**
 	 * Sends email to the recipients.
 	 * 
-	 * @param recipients An array of the users to whom the mail is sent.
-	 * @param subject    The subject of the mail.
-	 * @param message    The message for the mail.
+	 * @param recipients
+	 *            An array of the users to whom the mail is sent.
+	 * @param subject
+	 *            The subject of the mail.
+	 * @param message
+	 *            The message for the mail.
 	 * @return enum that states if the mail was sent successfully or not.
 	 */
 	@Override
@@ -104,10 +107,14 @@ public class MailerBean implements Mailer {
 	/**
 	 * Sends email with the given attachment files.
 	 * 
-	 * @param recipients      An array of the users to whom the mail is sent.
-	 * @param subject         The subject of the mail.
-	 * @param message         The message for the mail.
-	 * @param attachmentFiles An array of the files to be attached to the mail.
+	 * @param recipients
+	 *            An array of the users to whom the mail is sent.
+	 * @param subject
+	 *            The subject of the mail.
+	 * @param message
+	 *            The message for the mail.
+	 * @param attachmentFiles
+	 *            An array of the files to be attached to the mail.
 	 * @return enum that states if the mail was sent successfully or not.
 	 */
 	@Override
@@ -146,12 +153,16 @@ public class MailerBean implements Mailer {
 	/**
 	 * Creates the mime message, which is sent to the recipients.
 	 * 
-	 * @param recipients An array of the users to whom the mail is sent.
-	 * @param subject    The subject of the mail.
-	 * @param message    The message for the mail.
+	 * @param recipients
+	 *            An array of the users to whom the mail is sent.
+	 * @param subject
+	 *            The subject of the mail.
+	 * @param message
+	 *            The message for the mail.
 	 * @return The MimeMessage containing the necessary information for sending the
 	 *         email.
-	 * @throws MessagingException If there is an error in sending the email.
+	 * @throws MessagingException
+	 *             If there is an error in sending the email.
 	 */
 	private MimeMessage setMessage(final String[] recipients, final String subject) throws MessagingException {
 		Properties props = System.getProperties();

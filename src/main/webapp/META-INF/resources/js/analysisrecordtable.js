@@ -41,6 +41,12 @@ function sendImageAndCSV() {
 			)	
 }
 
+/**
+ * Sends the given data to the given page through ajax
+ * 
+ * @param URI the data to be sent 
+ * @param page the page to which the data should be sent, currently either csv or image
+ */
 function sendData(URI,page) {
 	$.ajax({
 		url : "../../webapi/summary/"+page,

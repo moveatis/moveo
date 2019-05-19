@@ -85,7 +85,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 	/**
 	 * Finds and returns all observations for the specific user.
 	 * 
-	 * @param observer The user, whose observations are to be searched.
+	 * @param observer
+	 *            The user, whose observations are to be searched.
 	 * @return A list of the observations for the user.
 	 */
 	@Override
@@ -98,7 +99,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 	/**
 	 * Finds the observations for the user, which have no event attached to them.
 	 * 
-	 * @param observer The user, whose observations are to be searched.
+	 * @param observer
+	 *            The user, whose observations are to be searched.
 	 * @return A list of the observations.
 	 */
 	@Override
@@ -112,7 +114,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 	 * Finds the observations that are made for events that the specified user does
 	 * not own.
 	 * 
-	 * @param observer The user, whose observations are to be searched.
+	 * @param observer
+	 *            The user, whose observations are to be searched.
 	 * @return A list of the observations.
 	 */
 	@Override
@@ -125,7 +128,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 	/**
 	 * Persists the observations to the database.
 	 * 
-	 * @param observationEntity The observatio entity to be persisted.
+	 * @param observationEntity
+	 *            The observatio entity to be persisted.
 	 */
 	@Override
 	public void create(ObservationEntity observationEntity) {
@@ -135,7 +139,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 	/**
 	 * Finds a list of the records for the observation with the given id.
 	 * 
-	 * @param id The id of the observation.
+	 * @param id
+	 *            The id of the observation.
 	 * @return A list of the records.
 	 */
 	@Override
@@ -151,7 +156,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 	 * Removes the observation and also removes the observation from the event it
 	 * was associated with.
 	 * 
-	 * @param observationEntity The observation to be removed.
+	 * @param observationEntity
+	 *            The observation to be removed.
 	 */
 	@Override
 	public void remove(ObservationEntity observationEntity) {
@@ -165,7 +171,8 @@ public class ObservationBean extends AbstractBean<ObservationEntity> implements 
 	 * Permanently removes the observation, which the user did not set to be saved
 	 * into the database.
 	 * 
-	 * @param observationEntity The observation to be removed.
+	 * @param observationEntity
+	 *            The observation to be removed.
 	 */
 	@Override
 	public void removeUnsavedObservation(ObservationEntity observationEntity) {

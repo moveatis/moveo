@@ -36,17 +36,20 @@ html2canvas(document.getElementById('tableImage')).then(function(canvas) {
 if(document.getElementById('charts:barChart_input').checked){
 	html2canvas(document.getElementById('barimages')).then(function(canvas) {
 		arr.push(canvas.toDataURL());
-		//document.getElementById('barimages').innerHTML = "";
 });
 }
 if(document.getElementById('charts:pieChart_input').checked){
 	html2canvas(document.getElementById('pieimages')).then(function(canvas) {
 	arr.push(canvas.toDataURL());
-	//document.getElementById('pieimages').innerHTML = "";
 });
-}	//exportChart3();
+}
 }
 
+/**
+ * Sends an image through ajax to the servlet that handles images.
+ * 
+ * @param URI the base64-encoded image to be sent
+ */
 function sendImage(URI){
 	$.ajax({
 		url : "../../webapi/summary/image",
@@ -65,9 +68,10 @@ function sendImage(URI){
 	});
 }
 
+/**
+ * Sends all the images created on the summary-page to the servlet that handles them
+ */
 function sendImages() {
-
-	
 	html2canvas(document.getElementById('tableImage')).then(function(canvas) {
 		URI="analtable,"+canvas.toDataURL();
 		sendImage(URI)
@@ -137,25 +141,4 @@ function exportChart2() {
     			document.getElementById('barimages').append(PF(a).exportAsImage());
     			}
     	}
-}
-
-
-function exportChart3(){
-	let count = document.getElementById('chartCount').innerHTML;
-	for(let i = 0; i < count; i++){
-		let b = 'piechart' + i;
-		let a = 'barchart' + i;
-		if(document.getElementById('charts:pieChart_input').checked){
-		html2canvas(document.getElementById(b)).then(function(canvas) {
-			document.getElementById('pieimages').append(canvas);
-			arr.push(canvas.toDataURL());
-		});
-		}
-		if(document.getElementById('charts:barChart_input').checked){
-		html2canvas(document.getElementById(a)).then(function(canvas) {
-			document.getElementById('barimages').append(canvas);
-			arr.push(canvas.toDataURL());
-		});
-		}
-	}
 }

@@ -83,12 +83,17 @@ public class ControlFilter implements Filter {
 
 	/**
 	 *
-	 * @param request  The servlet request to be processed.
-	 * @param response The servlet response to be created.
-	 * @param chain    The filter chain to be processed.
+	 * @param request
+	 *            The servlet request to be processed.
+	 * @param response
+	 *            The servlet response to be created.
+	 * @param chain
+	 *            The filter chain to be processed.
 	 *
-	 * @exception IOException      if an input or output error occurs.
-	 * @exception ServletException if a servlet error occurs.
+	 * @exception IOException
+	 *                if an input or output error occurs.
+	 * @exception ServletException
+	 *                if a servlet error occurs.
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -145,7 +150,8 @@ public class ControlFilter implements Filter {
 	/**
 	 * Sets the filter configuration object for the filter.
 	 *
-	 * @param filterConfig The filter configuration object.
+	 * @param filterConfig
+	 *            The filter configuration object.
 	 */
 	public void setFilterConfig(FilterConfig filterConfig) {
 		this.filterConfig = filterConfig;

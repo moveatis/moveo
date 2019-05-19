@@ -30,9 +30,10 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
+
 html {
 	width: 100%;
 	height: 100%;
@@ -41,8 +42,8 @@ html {
 }
 
 .html2canvas-container {
-	width: 1920px !important;
-	height: 3000px !important;
+	width: 120em !important;
+	height: 187.5em !important;
 }
 
 #mainPage {
@@ -60,7 +61,7 @@ html {
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
-	background-color: rgb(85,102,119, 0.1);
+	background-color: rgba(85, 102, 119, 0.1);
 	border-radius: 0.625em 0.625em 0.625em 0.625em;
 	position: relative;
 	z-index: 2;
@@ -70,7 +71,7 @@ html {
 	width: 100%;
 	border: 0;
 	border-collapse: collapse;
-	margin-top:1em;
+	margin-top: 1em;
 }
 
 .tableheader {
@@ -107,6 +108,8 @@ html {
 	text-shadow: none;
 }
 
+/* charts */
+
 #charts {
 	padding-top: 1em;
 	padding-bottom: 1em;
@@ -116,10 +119,11 @@ html {
 	margin-top: 1em;
 	background: white;
 	display: inline-block;
-	border: 1px solid black;
+	border: 0.063em solid black;
 	text-align: left;
 	white-space: nowrap;
 	overflow-x: auto;
+	min-width:8em;
 	max-width: 90%;
 }
 
@@ -145,6 +149,10 @@ html {
 	text-overflow: ellipsis;
 }
 
+.jqplot-highlighter-tooltip{
+	background: white;
+}
+
 table.jqplot-table-legend td {
 	white-space: nowrap;
 	overflow: hidden;
@@ -152,27 +160,29 @@ table.jqplot-table-legend td {
 	max-width: 6.25em;
 }
 
-#piechart .jqplot-table-legend{
-	left: 2em!important;
-	width: 70%!important;
+#piechart .jqplot-table-legend {
+	left: 2em !important;
+	width: 70% !important;
 }
 
-#piechart .jqplot-table-legend-swatch{
-	width: 3%!important;
+#piechart .jqplot-table-legend-swatch {
+	width: 3% !important;
 }
-#piechart .jqplot-table-legend-label{
-	width: 97%!important;
+
+#piechart .jqplot-table-legend-label {
+	width: 97% !important;
 	text-align: left;
-}
-
-
-#saveForm {
-	text-align: left !important;
 }
 
 #pieModels canvas {
 	width: 18.75em;
 }
+
+#saveForm {
+	text-align: left !important;
+}
+
+/* button positioning */
 
 #hiddenButtons {
 	margin-left: 1.5em;
@@ -180,72 +190,70 @@ table.jqplot-table-legend td {
 	text-align: right;
 }
 
-#back, #end, #save{
+#back, #end, #save {
 	display: inline-block;
 }
 
 #back {
-	float:left;
+	float: left;
 }
 
 #save {
 	margin-right: 1em;
 }
 
+/* responsivity */
 
-@media (max-width: 570px) {
-#container {
-	width: 80%;
-}
-
-#bar_div {
-	font-size: 0.8em;
-	padding: 0.5em;
-}
-
-#hiddenButtons {
-	margin-left: 0em;
-	margin-right: 0em;
-}
-
-#back, #end, #save{
-	display: inline-block;
-}
-#back {
-	width: 100%;
-	text-align: right;
-}
-#end {
-	width: 100%;
-	text-align: right;
-	padding: 0em;
-}
+@media ( max-width: 570px) {
+	#container {
+		width: 80%;
+	}
+	#bar_div {
+		font-size: 0.8em;
+		padding: 0.5em;
+	}
+	#hiddenButtons {
+		margin-left: 0em;
+		margin-right: 0em;
+	}
+	#back, #end, #save {
+		display: inline-block;
+	}
+	#back {
+		width: 100%;
+		text-align: right;
+	}
+	#end {
+		width: 100%;
+		text-align: right;
+		padding: 0em;
+	}
 }
 
-@media (max-width: 750px) {
-#save {
-	margin-right: 0em;
-}
+@media ( max-width: 750px) {
+	#save {
+		margin-right: 0em;
+	}
 }
 
-@media (max-width: 400px) {
-#container {
-	width: 90%;
-	font-size: 0.8em;
-}
-#bar_div {
-	font-size: 1em;
-	padding: 3em;
-    width:70%;
-}
-#piechart .jqplot-table-legend-swatch{
-	width: 3%!important;
-}
-#piechart .jqplot-table-legend-label{
-	width: 97%!important;
-	text-align: left;
-}
-#piechart{
-	width: 80%;
-}
+@media ( max-width: 400px) {
+	#container {
+		width: 90%;
+		font-size: 0.8em;
+	}
+	#bar_div {
+		font-size: 1em;
+		padding: 3em;
+		width: 70%;
+	}
+	#piechart .jqplot-table-legend-swatch {
+		width: 3% !important;
+	}
+	#piechart .jqplot-table-legend-label {
+		width: 97% !important;
+		text-align: left;
+	}
+	#piechart {
+		width: 80%;
+	}
 }

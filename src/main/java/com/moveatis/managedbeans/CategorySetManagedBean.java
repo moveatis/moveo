@@ -98,10 +98,12 @@ public class CategorySetManagedBean implements Serializable {
 	 * complex, see the comments in the code to get better understanding what it
 	 * does.
 	 * 
-	 * @param eventGroupEntity          The event group the category set belongs to.
-	 * @param abstractCategorySetEntity The category set to be created or edited.
-	 * @param abstractCategories2       The categories belonging to the category
-	 *                                  set.
+	 * @param eventGroupEntity
+	 *            The event group the category set belongs to.
+	 * @param abstractCategorySetEntity
+	 *            The category set to be created or edited.
+	 * @param abstractCategories2
+	 *            The categories belonging to the category set.
 	 */
 	public void createAndEditCategorySet(EventGroupEntity eventGroupEntity,
 			AbstractCategorySetEntity abstractCategorySetEntity, List<AbstractCategoryEntity> abstractCategories2) {

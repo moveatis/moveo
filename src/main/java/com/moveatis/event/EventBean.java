@@ -75,7 +75,8 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
 	/**
 	 * Returns a list of the events belonging to the requested user.
 	 * 
-	 * @param user The user for which the events should be searched for.
+	 * @param user
+	 *            The user for which the events should be searched for.
 	 * @return A list of the user's events.
 	 */
 	@Override
@@ -100,7 +101,8 @@ public class EventBean extends AbstractBean<EventEntity> implements Event {
 	 * The method removes the observations from the event of the instance of the
 	 * eventBean.
 	 * 
-	 * @param observationEntity The observation to be removed from the event.
+	 * @param observationEntity
+	 *            The observation to be removed from the event.
 	 */
 	@Override
 	public void removeObservation(ObservationEntity observationEntity) {

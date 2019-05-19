@@ -61,7 +61,7 @@
 						</div>
 					</div>
 					<div id="records" class="ui-grid ui-grid-responsive-480" />
-					
+
 					<pe:timeline id="timeline" widgetVar="timelineWdgt"
 						value="#{summaryBean.timeline}"
 						timeZone="#{timeBean.serverTimeZone}"
@@ -78,19 +78,24 @@
 					</pe:timeline>
 					<div id="hiddenButtons">
 						<h:form>
-							<div id="download-button"><p:commandButton styleClass="save-button" value="#{msg.downloadImage}"  action="#{summaryBean.downloadImage()}" ajax="false"/></div>
-							<div id="save-button"><p:commandButton value="#{msg.dlg_saveAndSend}"
-								rendered="#{sessionBean.identifiedUser}"
-								styleClass="save-button" onclick=" PF('dlgSave').show();"
-								process="@this">
-								<p:ajax update=":saveForm" resetValues="true" />
-							</p:commandButton>
-							<p:commandButton value="#{msg.dlg_saveDialogHeader}"
-								rendered="#{!sessionBean.identifiedUser}"
-								styleClass="save-button" onclick="PF('dlgSave').show();"
-								process="@this">
-								<p:ajax update=":saveForm" resetValues="true" />
-							</p:commandButton>
+							<div id="download-button">
+								<p:commandButton styleClass="save-button"
+									value="#{msg.downloadImage}"
+									action="#{summaryBean.downloadImage()}" ajax="false" />
+							</div>
+							<div id="save-button">
+								<p:commandButton value="#{msg.dlg_saveAndSend}"
+									rendered="#{sessionBean.identifiedUser}"
+									styleClass="save-button" onclick=" PF('dlgSave').show();"
+									process="@this">
+									<p:ajax update=":saveForm" resetValues="true" />
+								</p:commandButton>
+								<p:commandButton value="#{msg.dlg_saveDialogHeader}"
+									rendered="#{!sessionBean.identifiedUser}"
+									styleClass="save-button" onclick="PF('dlgSave').show();"
+									process="@this">
+									<p:ajax update=":saveForm" resetValues="true" />
+								</p:commandButton>
 							</div>
 						</h:form>
 					</div>
@@ -118,7 +123,7 @@
 						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 							itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 						<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
-							itemDisabled="#{!sessionBean.identifiedUser}" />						
+							itemDisabled="#{!sessionBean.identifiedUser}" />
 					</p:selectManyCheckbox>
 					<p:selectManyCheckbox id="anonymityUserBoxes"
 						value="#{summaryBean.selectedSaveOptions}"
@@ -161,14 +166,12 @@
 					</p:outputPanel>
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						rendered="#{sessionBean.identifiedUser}"
-						action="#{summaryBean.doSelectedSaveOperation()}"
-						ajax="false"
-						validateClient="true"/>
+						action="#{summaryBean.doSelectedSaveOperation()}" ajax="false"
+						validateClient="true" />
 					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 						rendered="#{!sessionBean.identifiedUser}"
-						action="#{summaryBean.doSelectedSaveOperation()}"
-						ajax="false"
-						validateClient="true"/>
+						action="#{summaryBean.doSelectedSaveOperation()}" ajax="false"
+						validateClient="true" />
 					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
 						onclick="PF('dlgSave').hide();" />
 				</h:form>
@@ -176,25 +179,24 @@
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
 			<h:outputScript>
-                var SummaryIndex = {
-                    getObservationDuration: function () {
-
-                    },
-                    getMessages: function () {
-                        return msg = {
-                            sum_total: "#{msg.sum_total}",
-                            sum_begin: "#{msg.sum_begin}",
-                            sum_end: "#{msg.sum_end}",
-                            sum_duration: "#{msg.sum_duration}",
-                            sum_countAbr: "#{msg.sum_countAbr}",
-                            dlg_confirmLeave: "#{msg.dlg_confirmLeave}"
-                        };
-                    },
-                };
-            </h:outputScript>
+					var SummaryIndex = {
+						getObservationDuration: function () {
+							return #{summaryBean.observation.duration};
+						},
+						getMessages: function (){
+							return msg = {
+								sum_total: "#{msg.sum_total}",
+								sum_begin: "#{msg.sum_begin}",
+								sum_end: "#{msg.sum_end}",
+								sum_duration: "#{msg.sum_duration}",
+								sum_countAbr: "#{msg.sum_countAbr}",
+								dlg_confirmLeave: "#{msg.dlg_confirmLeave}"
+							};
+						},
+					};
+				</h:outputScript>
 			<h:outputScript library="js" name="summary.js" />
-			<div id="imageDiv">
-			</div>
+			<div id="imageDiv"></div>
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -39,40 +39,46 @@
 						value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.records}"
 						var="record" sortBy="#{record.orderNumber}"
 						rowStyleClass="datatable" resizableColumns="true"
-						liveResize="false" styleClass="entries_dt" reflow="true" style="width:100%">
-						<p:column headerText="#{msg.repo_nro}" style="width:100%">
+						liveResize="false" styleClass="entries_dt" reflow="true"
+						style="min-width:99%">
+						<p:column headerText="#{msg.repo_nro}" style="width:4em">
 							<h:outputText class="tContent" value="#{record.orderNumber}" />
 						</p:column>
-						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback" style="width:200px">
+						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback"
+							style="width:25em">
 							<h:outputText class="tContent" value="#{record.comment}" />
 						</p:column>
 						<c:forEach
 							items="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
-							<p:column id="categories" headerText="#{categorySet.label}" style="width:100%">
+							<p:column id="categories" headerText="#{categorySet.label}"
+								style="width:100%">
 								<h:outputText class="tContent"
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
-						<p:column id="time" style="width:100%" rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}" headerText="#{msg.repo_timestamp}">
+						<p:column id="time" style="width:5em"
+							rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}"
+							headerText="#{msg.repo_timestamp}">
 							<h:outputText
 								value="#{feedbackAnalysisManagedBean.getLongAsTimeStamp(record.startTime)}"
 								class="tContent" />
 						</p:column>
 						<p:column headerText="#{msg.repo_edit}" exportable="false"
-							data-html2canvas-ignore="true" style="width:100%">
+							data-html2canvas-ignore="true" style="width:4em">
 							<span class="tContent"><p:commandButton id="editButton"
 									icon="fa fa-pencil"
 									action="#{analysisRecordTable.edit(record.orderNumber)}" /></span>
 						</p:column>
 						<p:column exportable="false" headerText="#{msg.repo_delete}"
-							data-html2canvas-ignore="true" style="width:100%">
+							data-html2canvas-ignore="true" style="width:4em">
 							<span class="tContent"><p:commandButton
 									action="#{analysisRecordTable.delete(record.orderNumber)}"
-									id="deleteButton" update="entries reportButtons" icon="fa fa-trash" oncomplete="sendImageAndCSV()">
-									<p:confirm header="#{msg.repo_confirmheader}" message="#{msg.repo_confirm}"/>
-									
-									</p:commandButton></span>
+									id="deleteButton" update="entries reportButtons"
+									icon="fa fa-trash" oncomplete="sendImageAndCSV()">
+									<p:confirm header="#{msg.repo_confirmheader}"
+										message="#{analysisRecordTable.getConfirm(record.orderNumber)}" />
+								</p:commandButton></span>
 						</p:column>
 					</p:dataTable>
 				</div>
@@ -83,16 +89,9 @@
 					<p:commandButton value="No" type="button"
 						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
 				</p:confirmDialog>
-
 				<h:panelGroup id="reportButtons">
 					<h:form id="buttons">
 						<div id="downloadImage">
-							<p:commandButton rendered="false"
-								value="#{msg.dlg_saveDialogHeader_report}"
-								styleClass="save-button" onclick="PF('dlgSave').show();"
-								process="@this">
-								<p:ajax update=":saveForm" resetValues="true" />
-							</p:commandButton>
 							<p:commandButton value="#{msg.downloadImage}" ajax="false"
 								action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
 						</div>
@@ -111,41 +110,8 @@
 					</div>
 				</h:panelGroup>
 			</div>
-
-			<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
-				id="saveDialog" widgetVar="dlgSave" position="top" resizable="false"
-				responsive="true" fitViewport="true" styleClass="coloredDialog"
-				visible="#{facesContext.validationFailed}">
-				<h:form id="saveForm" styleClass="dialog-form ui-fluid">
-					<p:selectManyCheckbox id="basic" required="true" requiredMessage=""
-						layout="grid" columns="1"
-						value="#{analysisRecordTable.selectedSaveOptions}">
-						<f:selectItem itemLabel="#{msg.dlg_imageOption}" itemValue="image" />
-						<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
-							itemValue="download" />
-					</p:selectManyCheckbox>
-					<h:outputLabel for="input-name" value="#{msg.asum_analyzationName}" />
-					<p:message for="input-name" />
-					<p:inputText id="input-name" required="true"
-						requiredMessage="#{msg.dlg_notEmpty}"
-						value="#{analysisRecordTable.fileName}" />
-					<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
-						action="#{analysisRecordTable.doSelectedSaveOperation()}"
-						ajax="false" validateClient="true" />
-					<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
-						onclick="PF('dlgSave').hide();" />
-					<p:commandButton value="Export as CSV" ajax="false" id="csvButton"
-						style="display: none;">
-						<p:dataExporter type="csv" target=":entries"
-							fileName="#{analysisRecordTable.fileName}" pageOnly="true"
-							id="exporter" />
-					</p:commandButton>
-				</h:form>
-			</p:dialog>
-
 			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
 				showDetail="true" sticky="true" escape="false" />
-
 			<p:confirmDialog global="true">
 				<p:commandButton styleClass="ui-confirmdialog-yes"
 					value="#{msg.repo_yes}" type="button" />

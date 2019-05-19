@@ -38,8 +38,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -62,13 +64,24 @@ import com.moveatis.feedbackanalysiscategory.FeedbackAnalysisCategorySetEntity;
 import com.moveatis.helpers.DownloadTools;
 import com.moveatis.interfaces.Mailer;
 import com.moveatis.interfaces.MessageBundle;
-import com.moveatis.mail.MailerBean;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 /**
  * The managed bean to control the summary page
  * 
  * @author Visa Nykänen
+ */
+/**
+ * @author Business Time
+ *
+ */
+/**
+ * @author Business Time
+ *
+ */
+/**
+ * @author Business Time
+ *
  */
 @Named(value = "feedbackAnalysisSummaryManagedBean")
 @ViewScoped
@@ -94,7 +107,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			this.setFeedbackAnalysisCategorySet(feedbackAnalysisCategorySet);
 		}
 
-		public void addCategoryWithCount(String category, Integer count) {
+		private void addCategoryWithCount(String category, Integer count) {
 			this.categories.add(category);
 			this.counts.add(count);
 		}
@@ -124,7 +137,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		}
 
 	}
-	
+
 	@Inject
 	@MessageBundle
 	private transient ResourceBundle messages;
@@ -152,14 +165,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	private final String EMAIL = "mail";
 
 	private String emailAddress;
-	
+
 	private boolean analyzationSaved = false;
 
 	private List<String> selectedSaveOperations;
 
 	@Inject
 	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
-	
+
 	@Inject
 	private Mailer mailerEJB;
 
@@ -238,7 +251,10 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	public FeedbackAnalysisSummaryManagedBean() {
 
 	}
-	
+
+	/**
+	 * Shows a dialog to tell that the analysis has been saved
+	 */
 	public void showObservationSavedMessage() {
 		if (analyzationSaved) {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -247,6 +263,13 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		}
 	}
 
+	/**
+	 * Tells whether the given keystring is in selectedSaveOperations.
+	 * 
+	 * @param saveOperation
+	 *            The keystring of the selected save operation
+	 * @return whether the given operation is selected
+	 */
 	public boolean isSelected(String saveOperation) {
 		for (String s : selectedSaveOperations)
 			if (s.contentEquals(saveOperation))
@@ -254,22 +277,32 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		return false;
 	}
 
-	public void mail(List<File> files) {
+	/**
+	 * Sends the email with the given files as an attachment
+	 * 
+	 * @param files
+	 *            the files to be sent as an attachment
+	 */
+	private void mail(List<File> files) {
 		File[] filesArray = files.toArray(new File[files.size()]);
-		FacesContext context = FacesContext.getCurrentInstance();
-		String[] recipients = {emailAddress};
-		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
+		String[] recipients = { emailAddress };
 
 		mailerEJB.sendEmailWithAttachment(recipients, "Analysis results from Moveatis",
 				"Analysis results from Moveatis", filesArray);
-		
+
 		analyzationSaved = false;
 	}
 
+	/**
+	 * Does the selected save operations, saves to database, sends email or
+	 * downloads the csv
+	 * 
+	 * @throws IOException
+	 */
 	public void save() throws IOException {
 		List<File> files = new ArrayList<>();
 		String fileName = feedbackAnalysis.getAnalysisName();
-		fileName.replaceAll("\\W", "_");
+		fileName = convertToFilename(fileName);
 
 		if (isSelected(SAVETODATABASE)) {
 			feedbackAnalysisManagedBean.saveFeedbackAnalysis();
@@ -287,7 +320,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			analyzationSaved = true;
 		}
 
-		if (isSelected(DOWNLOAD)){
+		if (isSelected(DOWNLOAD)) {
 			DownloadTools.downloadCSV(getCSVData().toString(), fileName);
 			analyzationSaved = true;
 		}
@@ -295,8 +328,16 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			file.delete();
 	}
 
+	/**
+	 * Downloads the right image based on the given keystring.
+	 * 
+	 * @param whichFile
+	 *            the keystring that tells which image to download
+	 */
 	public void downloadImage(String whichFile) {
 		byte[] raw_img = null;
+		String fileName = feedbackAnalysis.getAnalysisName();
+		fileName = convertToFilename(fileName);
 		if (whichFile.contentEquals("pie"))
 			raw_img = feedbackAnalysisManagedBean.getPieImage();
 		if (whichFile.contentEquals("bar"))
@@ -305,9 +346,9 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			raw_img = feedbackAnalysisManagedBean.getTableImage();
 		if (raw_img == null)
 			return;
-		File img = DownloadTools.getImageFromByteArr(
-				feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getAnalysisName() +"_"+ whichFile+"_", raw_img);
-		DownloadTools.downloadFile(img, "image/png", img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
+		File img = DownloadTools.getImageFromByteArr(fileName + "_" + whichFile + "_", raw_img);
+		DownloadTools.downloadFile(img, "image/png",
+				img.getName().substring(0, img.getName().lastIndexOf("_")) + ".png");
 		img.delete();
 		analyzationSaved = true;
 	}
@@ -322,7 +363,14 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		return s.replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 
-	public File createCSV(String fileName) {
+	/**
+	 * Creates a csv-file from the summary and report page information
+	 * 
+	 * @param fileName
+	 *            the name with which the file should be made
+	 * @return
+	 */
+	private File createCSV(String fileName) {
 		StringBuilder sb = getCSVData();
 
 		BufferedWriter writer = null;
@@ -338,13 +386,18 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		return csvFile;
 	}
 
+	/**
+	 * Builds the csv out of the summary page information and appends the
+	 * information from the report page to it
+	 * 
+	 * @return the csv-data in a StringBuilder
+	 */
 	private StringBuilder getCSVData() {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Name, " + feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getAnalysisName() + "\n");
 		sb.append("Target, " + feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getTargetOfAnalysis() + "\n");
-		sb.append("Description, " + feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getDescription()
-				+ "\n");
+		sb.append("Description, " + feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getDescription() + "\n");
 		sb.append("\n\n");
 
 		for (TableInformation ti : tableInformations) {
@@ -357,7 +410,7 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 				sb.append(", ");
 				sb.append(ti.counts.get(i).toString());
 				sb.append(", ");
-				sb.append(countPercentage(ti.counts.get(i)) + "%");
+				sb.append(getPercentageAsString(ti.counts.get(i)) + "%");
 				sb.append("\n");
 			}
 			sb.append("\n");
@@ -372,24 +425,48 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		initSummary();
-		selectedSaveOperations=new ArrayList<>();
-	}
-
-	public String countPercentage(int count) {
-		DecimalFormat df = new DecimalFormat("#.#");
-		return df.format(100 * (double) count / (double) feedbackAnalysis.getRecords().size());
+		selectedSaveOperations = new ArrayList<>();
 	}
 
 	/**
-	 * Gets the feedback analysis from the feedbackanalyzatinomanagedbean and
-	 * builds the summary table and the charts based on the information contained in
-	 * it
+	 * Returns the counted percentage as a formatted string
+	 * 
+	 * @param count
+	 *            number of records with a certain category selected
+	 * @return formatted string containing the percentage
+	 */
+	public String getPercentageAsString(int count) {
+		Locale locale = new Locale("en", "UK");
+		String pattern = "##.##";
+		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+		df.applyPattern(pattern);
+		return df.format(countPercentage(count));
+
+		// DecimalFormat df = new DecimalFormat("#.#");
+		// return df.format(countPercentage(count));
+	}
+
+	/**
+	 * Counts the percentage of the given count out of the amount of records in the
+	 * analysis
+	 * 
+	 * @param count
+	 *            number of records with a certain category selected
+	 * @return The percentage of the given count out of the amount of records
+	 */
+	private double countPercentage(int count) {
+		return 100 * (double) count / (double) feedbackAnalysis.getRecords().size();
+	}
+
+	/**
+	 * Gets the feedback analysis from the feedbackanalyzatinomanagedbean and builds
+	 * the summary table and the charts based on the information contained in it
 	 */
 	private void initSummary() {
 		List<FeedbackAnalysisCategoryEntity> allSelectedCategories = new ArrayList<FeedbackAnalysisCategoryEntity>();
 		feedbackAnalysis = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity();
 		categorySetsInUse = feedbackAnalysisManagedBean.getFeedbackAnalysisCategorySetsInUse();
-		int maxAxis = feedbackAnalysis.getRecords().size();
+		int numberOfRecords = feedbackAnalysis.getRecords().size();
 		for (FeedbackAnalysisRecordEntity record : feedbackAnalysis.getRecords()) {
 			allSelectedCategories.addAll(record.getSelectedCategories());
 		}
@@ -416,20 +493,20 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 						count++;
 				fullcount += count;
 
-				pieModel.set(cat.getLabel().getText(), count);
-				categorySetChartSeries.set("", count);
+				pieModel.set(cat.getLabel().getText(), countPercentage(count));
+				categorySetChartSeries.set("", countPercentage(count));
 
 				barModel.addSeries(categorySetChartSeries);
 
 				tableInformation.addCategoryWithCount(cat.getLabel().getText(), count);
 			}
-			if (maxAxis > fullcount) {
+			if (numberOfRecords > fullcount) {
 				ChartSeries empty = new ChartSeries();
 				empty.setLabel("------");
-				empty.set(catSet.getLabel(), maxAxis - fullcount);
+				empty.set(catSet.getLabel(), countPercentage(numberOfRecords - fullcount));
 				barModel.addSeries(empty);
-				pieModel.set("------", maxAxis - fullcount);
-				tableInformation.addCategoryWithCount("------", maxAxis - fullcount);
+				pieModel.set("------", countPercentage(numberOfRecords - fullcount));
+				tableInformation.addCategoryWithCount("------", numberOfRecords - fullcount);
 			}
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);
@@ -445,8 +522,8 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 			Axis yAxis = barModel.getAxis(AxisType.Y);
 			yAxis.setMin(0);
 			yAxis.setTickFormat("%3d");
-			yAxis.setTickInterval("1");
-			yAxis.setMax(maxAxis);
+			yAxis.setTickInterval("10");
+			yAxis.setMax(100);
 			if (catSet != categorySetsInUse.get(0))
 				barModel.setExtender("chartExtenderHideTicks");
 			else
@@ -462,6 +539,11 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 		this.tableInformations = tableInformations;
 	}
 
+	/**
+	 * Counts the maximum number of categories in a categoryset.
+	 * 
+	 * @return The maximum number of categories in a categoryset.
+	 */
 	public int countMaxCategories() {
 		int max = 0;
 		for (FeedbackAnalysisCategorySetEntity catSet : categorySetsInUse)

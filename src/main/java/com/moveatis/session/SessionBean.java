@@ -68,19 +68,19 @@ import com.moveatis.user.TagUserEntity;
 public class SessionBean implements Serializable, Session {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionBean.class);
 
 	@Inject
 	private ObservationManagedBean observationManagedBean;
-	
+
 	@Inject
 	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
-	
+
 	private boolean loggedIn = false;
-	
+
 	private IdentifiedUserEntity userEntity;
-	
+
 	private TagUserEntity tagEntity;
 
 	private SortedSet<Long> sessionObservations;
@@ -88,7 +88,7 @@ public class SessionBean implements Serializable, Session {
 	private String returnUri;
 
 	private TimeZone sessionTimeZone = TimeZoneInformation.getTimeZone();
-	
+
 	private Locale locale; // Locale switching based on BalusC's example:
 							// http://stackoverflow.com/a/4830669
 
@@ -250,7 +250,8 @@ public class SessionBean implements Serializable, Session {
 	 * Sets the URI into which the user will be returned when he or she clicks the
 	 * login button outside of the front page. Not implemented in version 1.0.
 	 * 
-	 * @param returnUri The URI that is set as return URI.
+	 * @param returnUri
+	 *            The URI that is set as return URI.
 	 */
 	@Override
 	public void setReturnUri(String returnUri) {

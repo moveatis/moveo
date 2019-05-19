@@ -51,8 +51,7 @@ import com.moveatis.interfaces.CategorySet;
 import com.moveatis.interfaces.EventGroup;
 
 /**
- * The EJB manages the CategorySet entities for both observation and
- * analysis.
+ * The EJB manages the CategorySet entities for both observation and analysis.
  * 
  * @author Sami Kallio <phinaliumz at outlook.com>
  * @author Visa Nykänen
@@ -86,13 +85,15 @@ public class CategorySetBean extends AbstractBean<AbstractCategorySetEntity> imp
 		categorySetEntity.setEventGroupEntity(null);
 		for (AbstractCategoryEntity cat : categorySetEntity.getCategoryEntitys().values()) {
 			cat.setId(null);
-	}}
+		}
+	}
 
 	/**
 	 * Sets the category set removal date and removes the category set from event
 	 * groups.
 	 * 
-	 * @param categorySetEntity The category set entity to be removed.
+	 * @param categorySetEntity
+	 *            The category set entity to be removed.
 	 */
 	@Override
 	public void remove(AbstractCategorySetEntity categorySetEntity) {
@@ -124,9 +125,10 @@ public class CategorySetBean extends AbstractBean<AbstractCategorySetEntity> imp
 	/**
 	 * Removes the category from the category set.
 	 * 
-	 * @param categorySet    The category set from which the category is removed
-	 *                       from.
-	 * @param categoryEntity The category to be removed from the category set.
+	 * @param categorySet
+	 *            The category set from which the category is removed from.
+	 * @param categoryEntity
+	 *            The category to be removed from the category set.
 	 */
 	@Override
 	public void removeCategoryFromCategorySet(AbstractCategorySetEntity categorySet,

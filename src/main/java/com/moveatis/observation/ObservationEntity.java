@@ -54,14 +54,14 @@ import com.moveatis.records.RecordEntity;
  */
 @Table(name = "OBSERVATION")
 @NamedQueries({
-		@NamedQuery(name = "findByObserver", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer"),
-		@NamedQuery(name = "findWithoutEvent", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event is null"),
-		@NamedQuery(name = "findByEventsNotOwned", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator<>:observer") })
+		@NamedQuery(name = "findByObserver", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.removed is null"),
+		@NamedQuery(name = "findWithoutEvent", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event is null AND observation.removed is null"),
+		@NamedQuery(name = "findByEventsNotOwned", query = "SELECT observation FROM ObservationEntity observation WHERE observation.observer=:observer AND observation.event.creator<>:observer AND observation.removed is null") })
 @Entity
 public class ObservationEntity extends AbstractObservationEntity implements Serializable {
-	
+
 	private String name;
-	
+
 	private String target;
 
 	private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class ObservationEntity extends AbstractObservationEntity implements Seri
 	 * Whether the observation should be saved to database
 	 */
 	private Boolean userWantsToSaveToDatabase;
-	
+
 	public Boolean getUserWantsToSaveToDatabase() {
 		return userWantsToSaveToDatabase;
 	}
@@ -100,7 +100,7 @@ public class ObservationEntity extends AbstractObservationEntity implements Seri
 	public void setTarget(String target) {
 		this.target = target;
 	}
-	
+
 	public List<RecordEntity> getRecords() {
 		return records;
 	}

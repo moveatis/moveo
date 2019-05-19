@@ -75,7 +75,8 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
 	 * The method finds and returns the group key, which has the same value as the
 	 * specified parameter.
 	 * 
-	 * @param key String-representation of the key.
+	 * @param key
+	 *            String-representation of the key.
 	 * @return the group key or null.
 	 */
 	@Override
@@ -98,7 +99,8 @@ public class GroupKeyBean extends AbstractBean<GroupKeyEntity> implements GroupK
 	 * removed from the database, as only their removal date is set. If the group
 	 * key need to be reused, they need to be removed permanently before reuse.
 	 * 
-	 * @param groupKeyEntity The group key to be removed.
+	 * @param groupKeyEntity
+	 *            The group key to be removed.
 	 */
 	@Override
 	public void removePermanently(GroupKeyEntity groupKeyEntity) {

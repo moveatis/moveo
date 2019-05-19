@@ -78,6 +78,10 @@ import com.moveatis.records.RecordEntity;
 @ViewScoped
 public class SummaryManagedBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TimelineModel timeline;
 	private final Date min;
 	private final Date start;
@@ -106,9 +110,6 @@ public class SummaryManagedBean implements Serializable {
 	private ObservationManagedBean observationManagedBean;
 	@Inject
 	private Mailer mailerEJB;
-
-	@Inject
-	private ValidationManagedBean validationBean;
 
 	@Inject
 	@MessageBundle
@@ -222,37 +223,35 @@ public class SummaryManagedBean implements Serializable {
 				.append(targetPartOfMessage).append("\n\n").append(bundle.getString("emailSignature"));
 		File f = getCSV(fileName);
 		String[] recipients = { recipientEmail };
-		File img = DownloadTools.getImageFromByteArr(fileName,observationManagedBean.getImage());
+		File img = DownloadTools.getImageFromByteArr(fileName, observationManagedBean.getImage());
 		File[] files = { f, img };
-		mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(),
-				files);
+		mailerEJB.sendEmailWithAttachment(recipients, bundle.getString("sum_subject"), msgBuilder.toString(), files);
 		// remove the temp file after sending it
 		f.delete(); // TODO: Check the return value.
 		img.delete();
 		observationSaved = true;
 	}
 
-    public void downloadCurrentObservation() throws IOException {
-        String fileName = convertToFilename(observation.getName()) + ".csv";
+	public void downloadCurrentObservation() throws IOException {
+		String fileName = convertToFilename(observation.getName()) + ".csv";
 
-        FacesContext facesCtx = FacesContext.getCurrentInstance();
-        ExternalContext externalCtx = facesCtx.getExternalContext();
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		ExternalContext externalCtx = facesCtx.getExternalContext();
 
-        externalCtx.responseReset();
-        externalCtx.setResponseContentType("text/plain");
-        externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		externalCtx.responseReset();
+		externalCtx.setResponseContentType("text/plain");
+		externalCtx.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
-        OutputStream outputStream = externalCtx.getResponseOutputStream();
+		OutputStream outputStream = externalCtx.getResponseOutputStream();
 
-        CSVFileBuilder csv = new CSVFileBuilder();
-        csv.buildCSV(outputStream, observation, ",");
-        outputStream.flush();
+		CSVFileBuilder csv = new CSVFileBuilder();
+		csv.buildCSV(outputStream, observation, ",");
+		outputStream.flush();
 
-        facesCtx.responseComplete();
+		facesCtx.responseComplete();
 
-        observationSaved = true;
-    }
-
+		observationSaved = true;
+	}
 
 	/**
 	 * File name converter.
@@ -284,17 +283,15 @@ public class SummaryManagedBean implements Serializable {
 	 * Do all the save operations selected by the user.
 	 */
 	public void doSelectedSaveOperation() {
-		String fileName = convertToFilename(observation.getName());
-		List<File> files=new ArrayList<>();
 		if (selectedSaveOptions.contains(DOWNLOAD_OPTION)) {
-			 try {
+			try {
 				downloadCurrentObservation();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (selectedSaveOptions.contains(MAIL_OPTION)) {
 			mailCurrentObservation();
 		}
@@ -302,10 +299,13 @@ public class SummaryManagedBean implements Serializable {
 			saveCurrentObservation();
 		}
 	}
-	
+
 	public void downloadImage() {
-		File img=DownloadTools.getImageFromByteArr(observation.getName()+"_", observationManagedBean.getImage());
-		DownloadTools.downloadFile(img, "image/png",img.getName().substring(0,img.getName().lastIndexOf("_"))+".png");
+		String fileName = observation.getName() + "_";
+		fileName = convertToFilename(fileName);
+		File img = DownloadTools.getImageFromByteArr(fileName, observationManagedBean.getImage());
+		DownloadTools.downloadFile(img, "image/png",
+				img.getName().substring(0, img.getName().lastIndexOf("_")) + ".png");
 		img.delete();
 	}
 

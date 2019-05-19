@@ -53,7 +53,8 @@
 				<div id="hiddenButtons">
 					<h:form>
 						<div id="back">
-							<p:commandButton value="#{msg.fbsum_back}"  onclick="window.history.back();" />
+							<p:commandButton value="#{msg.fbsum_back}"
+								onclick="window.history.back();" />
 						</div>
 						<div id="save">
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
@@ -71,8 +72,10 @@
 							</p:commandButton>
 						</div>
 						<div id="end">
-							<p:commandButton value="#{msg.fbsum_end}" ajax="false"
-								action="/index.xhtml"></p:commandButton>
+							<p:commandButton value="#{msg.fbsum_end}" action="/index.xhtml">
+								<p:confirm header="#{msg.repo_confirmheader}"
+									message="#{msg.fbsum_endconfirm}" />
+							</p:commandButton>
 						</div>
 					</h:form>
 				</div>
@@ -95,7 +98,7 @@
 												<tr>
 													<td style="width: 30%" class="cat">#{cat}</td>
 													<td class="count">#{tableInformation.counts.get(stat.index)}
-														(#{feedbackAnalysisSummaryManagedBean.countPercentage(tableInformation.counts.get(stat.index))}
+														(#{feedbackAnalysisSummaryManagedBean.getPercentageAsString(tableInformation.counts.get(stat.index))}
 														%)</td>
 												</tr>
 											</ui:repeat>
@@ -175,7 +178,8 @@
 				<div id="hiddenButtons">
 					<h:form>
 						<div id="back">
-							<p:commandButton value="#{msg.fbsum_back}"  onclick="window.history.back();" />
+							<p:commandButton value="#{msg.fbsum_back}"
+								onclick="window.history.back();" />
 						</div>
 						<div id="save">
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
@@ -193,8 +197,10 @@
 							</p:commandButton>
 						</div>
 						<div id="end">
-							<p:commandButton value="#{msg.fbsum_end}" ajax="false"
-								action="/index.xhtml"></p:commandButton>
+							<p:commandButton value="#{msg.fbsum_end}" action="/index.xhtml">
+								<p:confirm header="#{msg.repo_confirmheader}"
+									message="#{msg.fbsum_endconfirm}" />
+							</p:commandButton>
 						</div>
 					</h:form>
 				</div>
@@ -277,6 +283,12 @@
 					showDetail="true" sticky="false" escape="false" />
 
 			</div>
+			<p:confirmDialog global="true">
+				<p:commandButton styleClass="ui-confirmdialog-yes"
+					value="#{msg.repo_yes}" type="button" />
+				<p:commandButton styleClass="ui-confirmdialog-no"
+					value="#{msg.repo_no}" type="button" />
+			</p:confirmDialog>
 		</ui:define>
 
 	</ui:composition>

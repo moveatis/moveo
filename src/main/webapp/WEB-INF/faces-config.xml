@@ -161,7 +161,6 @@
 			<from-outcome>analysisselected</from-outcome>
 			<redirect />
 		</navigation-case>
-	</navigation-rule>
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
@@ -172,7 +171,7 @@
 			<var>msg</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>com.moveatis.messages.IdentityProviderMessages</base-name>
+			<base-name>com.moveatis.1s.IdentityProviderMessages</base-name>
 			<var>identitymessages</var>
 		</resource-bundle>
 		<resource-bundle>

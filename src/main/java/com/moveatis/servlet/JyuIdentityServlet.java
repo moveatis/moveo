@@ -92,8 +92,10 @@ public class JyuIdentityServlet extends HttpServlet {
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
 	 *
-	 * @throws ServletException if a servlet-specific error occurs.
-	 * @throws IOException      if an I/O error occurs.
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs.
+	 * @throws IOException
+	 *             if an I/O error occurs.
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -153,8 +155,10 @@ public class JyuIdentityServlet extends HttpServlet {
 	/**
 	 * Handles the HTTP <code>POST</code> method.
 	 *
-	 * @throws ServletException if a servlet-specific error occurs.
-	 * @throws IOException      if an I/O error occurs.
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs.
+	 * @throws IOException
+	 *             if an I/O error occurs.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

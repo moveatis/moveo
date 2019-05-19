@@ -79,7 +79,7 @@ public class EventGroupEntity extends BaseEntity implements Serializable {
 	}
 
 	public void setFeedbackAnalysisCategorySets(Set<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySets) {
-			this.feedbackAnalysisCategorySets = feedbackAnalysisCategorySets;
+		this.feedbackAnalysisCategorySets = feedbackAnalysisCategorySets;
 	}
 
 	@OneToOne(mappedBy = "eventGroup", cascade = PERSIST)

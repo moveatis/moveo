@@ -167,8 +167,8 @@ public class FeedbackAnalysisBean extends AbstractBean<FeedbackAnalysisEntity>
 	}
 
 	/**
-	 * Removes the analysis and also removes the analysis from the event it
-	 * was associated with.
+	 * Removes the analysis and also removes the analysis from the event it was
+	 * associated with.
 	 * 
 	 * @param feedbackAnalysisEntity
 	 *            The analysis to be removed.
@@ -182,8 +182,7 @@ public class FeedbackAnalysisBean extends AbstractBean<FeedbackAnalysisEntity>
 	}
 
 	@Override
-	public void removeRecordFromAnalysis(FeedbackAnalysisEntity feedbackAnalysis,
-                                            FeedbackAnalysisRecordEntity record) {
+	public void removeRecordFromAnalysis(FeedbackAnalysisEntity feedbackAnalysis, FeedbackAnalysisRecordEntity record) {
 		List<FeedbackAnalysisRecordEntity> records = feedbackAnalysis.getRecords();
 		records.remove(record);
 		record.setFeedbackAnalysis(null);
@@ -199,8 +198,8 @@ public class FeedbackAnalysisBean extends AbstractBean<FeedbackAnalysisEntity>
 	}
 
 	/**
-	 * Permanently removes the analysis, which the user did not set to be saved
-	 * into the database.
+	 * Permanently removes the analysis, which the user did not set to be saved into
+	 * the database.
 	 * 
 	 * @param feedbackAnalysisEntity
 	 *            The analysis to be removed.

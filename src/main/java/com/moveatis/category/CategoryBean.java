@@ -67,8 +67,10 @@ public class CategoryBean extends AbstractBean<AbstractCategoryEntity> implement
 	/**
 	 * Removes the category from the category set.
 	 * 
-	 * @param whichCategorySet The category set the category belongs to.
-	 * @param whichCategory    The category to be removed.
+	 * @param whichCategorySet
+	 *            The category set the category belongs to.
+	 * @param whichCategory
+	 *            The category to be removed.
 	 */
 	@Override
 	public void removeFromCategorySet(AbstractCategorySetEntity whichCategorySet,

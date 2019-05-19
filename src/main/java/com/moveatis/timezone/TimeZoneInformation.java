@@ -57,8 +57,10 @@ public class TimeZoneInformation {
 	/**
 	 * Gets a TimeZone from the time zone offset and the daylight saving time.
 	 *
-	 * @param offset    the time zone offset in milliseconds.
-	 * @param DSTSaving the daylight saving time in milliseconds.
+	 * @param offset
+	 *            the time zone offset in milliseconds.
+	 * @param DSTSaving
+	 *            the daylight saving time in milliseconds.
 	 */
 	public static TimeZone getTimeZoneFromOffset(int offset, int DSTSaving) {
 		if (DSTSaving > 0) {

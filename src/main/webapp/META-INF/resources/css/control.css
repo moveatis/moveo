@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
 
@@ -46,13 +46,15 @@
 	margin: 1em 0;
 }
 
-.ui-datatable-tablewrapper {
-	overflow: hidden!important;
-}
+/* control page table styling */
 
 #mainPage a.edit-key {
 	color: gold;
 	text-shadow: 0.063em 0.063em 0.063em #333;
+}
+
+.ui-datatable-tablewrapper {
+	overflow: hidden !important;
 }
 
 .key-dialog {
@@ -81,14 +83,13 @@ a.new-key {
 	text-align: left;
 	font-size: 1em;
 	background: #D0D3D7;
-	border: 0px;
+	border: 0em;
 	box-shadow: none;
 }
 
-.ui-editable-column, .row-toggler, .column-category-groups, .column-group-keys, .row-editor, th:not(.column-remove){
-	border-right: 1px solid black!important;
+.ui-editable-column, .row-toggler, .column-category-groups, .column-group-keys, .row-editor, th:not(.column-remove) {
+	border-right: 0.063em solid black !important;
 }
-
 
 .ui-datatable .ui-row-editor span {
 	float: none;
@@ -138,29 +139,12 @@ a.new-key {
 	background: #EFEFEF;
 }
 
-.ui-expanded-row-content {
-	background: #D0D3D7;
-}
-
-.ui-datalist-header {
-	background: #EFEFEF;
-	border: 0;
-	border-bottom: 1px solid #4f4f4f!important;
-}
-
-
-.ui-datalist-content {
-	background: #EFEFEF;
-	border: 0;
-
-}
-
 .ui-datatable-data .ui-state-highlight {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 }
 
 .ui-datatable-data .ui-state-hover {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 }
 
 .row-editor .ui-icon-pencil:before {
@@ -184,7 +168,7 @@ a.new-key {
 .row-editor .ui-icon-close:before {
 	display: inline-block;
 	vertical-align: middle;
-	margin-top: -4px;
+	margin-top: -0.25em;
 }
 
 .row-editor .ui-icon-check:hover {
@@ -205,12 +189,12 @@ a.new-key {
 	display: inline-block;
 	padding: .2em;
 	background: #2D363F;
-	border-radius: 5px;
+	border-radius: 0.313em;
 	margin: .2em;
-	border: 1px solid rgba(79, 79, 79, .4);
+	border: 0.063em solid rgba(79, 79, 79, .4);
 	pointer-events: auto;
 	font-size: .9em;
-	box-shadow: 1px 1px 1px grey;
+	box-shadow: 0.063em 0.063em 0.063em grey;
 }
 
 .list-categorysets>li:hover {
@@ -234,6 +218,24 @@ a.new-key {
 	z-index: 2000 !important;
 	font-size: 0.9em !important;
 	opacity: 0.4;
+}
+
+
+/* table's expanded row styling */
+
+.ui-expanded-row-content {
+	background: #D0D3D7;
+}
+
+.ui-datalist-header {
+	background: #EFEFEF;
+	border: 0;
+	border-bottom: 0.063em solid #4f4f4f !important;
+}
+
+.ui-datalist-content {
+	background: #EFEFEF;
+	border: 0;
 }
 
 .ui-button {
@@ -261,6 +263,9 @@ a.new-key {
 .categories-table {
 	margin-top: .5em;
 }
+
+/* observation categorysetform */
+
 #categorySetForm .ui-column-title {
 	font-size: .8em;
 	color: white;
@@ -276,36 +281,35 @@ a.new-key {
 }
 
 #categorySetForm th {
-	background: none!important;
+	background: none !important;
 	border: 0;
-	border-bottom: 1px solid white;
-	border-right: 0px!important;
+	border-bottom: 0.063em solid white;
+	border-right: 0em !important;
 }
 
 #categorySetForm tr {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 	color: white;
 }
 
 #categorySetForm td {
-	border: 0px!important;
+	border: 0em !important;
 }
 
 #categorySetForm .ui-state-highlight {
 	text-shadow: none;
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 }
-
 
 #categorySetForm .ui-row-editing {
 	color: white;
 	text-shadow: none;
-	background: #008AB9!important;
+	background: #008AB9 !important;
 }
 
 #categorySetForm .ui-state-hover {
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 	text-shadow: none;
 	box-shadow: none;
@@ -317,32 +321,9 @@ a.new-key {
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
-#analysisDetail .ui-grid {
-	background: none;
-	color: white;
-	padding-bottom: 1em;
-}
-
-#analysisDetail .label {
-	width: 30%!important;
-}
-
-#analysisDetail .value {
-	width: auto!important;
-}
-
-#analysisDetail .value .ui-state-highlight {
-	background: none;
-	text-decoration:underline;
-}
-
-#analysisDetail .ui-inputfield {
-	width:100%;
-}
-
 .observation-dialog .ui-state-hover {
-	background-color: #FCFCFC!important;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
+	background-color: #FCFCFC !important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
 }
 
 .observation-dialog .ui-button {
@@ -350,45 +331,46 @@ a.new-key {
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
+/* feedback analysis categorysetform */
+
 #feedbackAnalysisCategorySetForm th {
-	background: none!important;
-	color: white!important;
-	text-shadow: none!important;
-	border: 0!important;
-	border-bottom: 1px solid white!important;
+	background: none !important;
+	color: white !important;
+	text-shadow: none !important;
+	border: 0 !important;
+	border-bottom: 0.063em solid white !important;
 }
 
 #feedbackAnalysisCategorySetForm th {
-	background: none!important;
+	background: none !important;
 	border: 0;
-	border-bottom: 1px solid white;
-	border-right: 0px!important;
+	border-bottom: 0.063em solid white;
+	border-right: 0em !important;
 }
 
 #feedbackAnalysisCategorySetForm tr {
-	background: #008AB9!important;
+	background: #008AB9 !important;
 	color: white;
 }
 
 #feedbackAnalysisCategorySetForm td {
-	border: 0px!important;
+	border: 0em !important;
 }
 
 #feedbackAnalysisCategorySetForm .ui-state-highlight {
 	text-shadow: none;
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 }
-
 
 #feedbackAnalysisCategorySetForm .ui-row-editing {
 	color: white;
 	text-shadow: none;
-	background: #008AB9!important;
+	background: #008AB9 !important;
 }
 
 #feedbackAnalysisCategorySetForm .ui-state-hover {
-	background: #FCFCFC!important;
+	background: #FCFCFC !important;
 	color: black;
 	text-shadow: none;
 	box-shadow: none;
@@ -406,7 +388,7 @@ a.new-key {
 }
 
 .categorySetCommandButtons {
-	text-align: right!important;
+	text-align: right !important;
 }
 
 .ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
@@ -414,11 +396,11 @@ a.new-key {
 }
 
 .ui-widget-content {
-	border: 0px!important;
+	border: 0em !important;
 }
 
 td {
-	border: 0px!important;
+	border: 0em !important;
 }
 
 .ui-cell-editor-input {
@@ -439,18 +421,6 @@ td {
 	margin: 0.3em 1%;
 }
 
-#observationDetail .ui-panelgrid-cell.label {
-	width: 7em;
-}
-
-#observationDetail .ui-panelgrid-cell.value {
-	width: auto;
-}
-
-#observationDetail .ui-inplace-content .ui-inputfield {
-	display: block;
-}
-
 #observationFormCommands {
 	font-size: .9em;
 }
@@ -468,7 +438,7 @@ td {
 }
 
 .ui-state-highlight .list-categorysets a.ui-commandlink:link {
-	color: #4f4f4f!important;
+	color: #4f4f4f !important;
 	text-shadow: none;
 }
 
@@ -507,11 +477,13 @@ td {
 	background: none;
 }
 
+/* other observations and analyses forms */
+
 #otherObservationsForm th {
 	background: none;
 	border: 0;
-	border-right: 0px!important;
-	border-bottom: 1px solid black;
+	border-right: 0em !important;
+	border-bottom: 0.063em solid black;
 }
 
 #otherObservationsForm {
@@ -527,19 +499,19 @@ td {
 #otherAnalysesForm th {
 	background: none;
 	border: 0;
-	border-right: 0px!important;
-	border-bottom: 1px solid black;
+	border-right: 0em !important;
+	border-bottom: 0.063em solid black;
 }
 
 .ui-fieldset-legend {
 	font-size: .8em;
-	border: none!important;
-	text-shadow: none!important;
-	background-color: #008AB9!important;
-	background: linear-gradient(0deg, #008AB9, #10A1D1)!important;
-	cursor: pointer!important;
-	color: white!important;
-	box-shadow: none!important;
+	border: none !important;
+	text-shadow: none !important;
+	background-color: #008AB9 !important;
+	background: linear-gradient(0deg, #008AB9, #10A1D1) !important;
+	cursor: pointer !important;
+	color: white !important;
+	box-shadow: none !important;
 }
 
 #eventGroupsForm .ui-datalist-header, #otherObservationsForm thead {
@@ -548,6 +520,43 @@ td {
 
 #startObservationForm {
 	text-align: right;
+}
+
+/* analysis and observation details */
+
+#analysisDetail .ui-grid {
+	background: none;
+	color: white;
+	padding-bottom: 1em;
+}
+
+#analysisDetail .label {
+	width: 30% !important;
+}
+
+#analysisDetail .value {
+	width: auto !important;
+}
+
+#analysisDetail .value .ui-state-highlight {
+	background: none;
+	text-decoration: underline;
+}
+
+#analysisDetail .ui-inputfield {
+	width: 100%;
+}
+
+#observationDetail .ui-panelgrid-cell.label {
+	width: 7em;
+}
+
+#observationDetail .ui-panelgrid-cell.value {
+	width: auto;
+}
+
+#observationDetail .ui-inplace-content .ui-inputfield {
+	display: block;
 }
 
 #observationDetail {
@@ -572,7 +581,6 @@ td {
 	border-radius: 0.188em;
 }
 
-
 #observationDetail .ui-inplace-display.ui-state-highlight {
 	background: none;
 	text-decoration: underline;
@@ -586,12 +594,14 @@ td {
 	color: #AF2A01 !important;
 }
 
+/* confirm dialog */
+
 .ui-confirm-dialog {
-	width: 70%!important;
+	width: 70% !important;
 	height: auto;
-	position: fixed!important;
-	top: 3em!important;
-	left: 3em!important;
+	position: fixed !important;
+	top: 3em !important;
+	left: 3em !important;
 	display: none;
 	z-index: 1000005;
 }
@@ -602,8 +612,8 @@ td {
 }
 
 .ui-confirm-dialog .ui-state-hover {
-	background-color: #FCFCFC!important;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE)!important;
+	background-color: #FCFCFC !important;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
 }
 
 .ui-confirm-dialog .ui-dialog-titlebar {
@@ -616,9 +626,9 @@ td {
 	color: white;
 }
 
+/* responsivity */
+
 @media screen and (max-width: 800px) {
-	#mainPage {
-	}
 	#mainPage>form {
 		margin-left: auto;
 		margin-right: auto;
@@ -629,15 +639,12 @@ td {
 }
 
 @media screen and (max-width: 640px) {
-
-		#eventGroupsForm {
+	#eventGroupsForm {
 		font-size: 1em;
 	}
-
-			#eventGroupsForm td {
-		border-right: 0px!important;
+	#eventGroupsForm td {
+		border-right: 0em !important;
 	}
-
 	.eventGroupsTable thead {
 		display: none !important;
 	}
@@ -664,61 +671,48 @@ td {
 		float: none;
 		width: auto;
 	}
-
 	#eventGroupsForm .ui-column-title, #eventGroupsForm .row-toggler {
 		display: none;
 	}
-
 	#eventGroupsForm td:nth-child(3) .ui-column-title, #eventGroupsForm td:nth-child(4) .ui-column-title {
-		display:block!important;
+		display: block !important;
 	}
-
 	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
 		margin-left: .4em;
 	}
 	#categorySetForm {
 		font-size: 0.8em;
 	}
-			#categorySetForm .row-editor .ui-icon {
-				position: absolute!important;
-				top: -1.2em;
-			}
-
-			#categorySetForm .ui-state-hover .ui-column-title, #categorySetForm .ui-state-highlight .ui-column-title {
-				color: black!important;
-			}
-
-							#feedbackAnalysisCategorySetForm .ui-cell-editing .ui-column-title, #feedbackAnalysisCategorySetForm .ui-cell-editing .ui-cell-editor-input {
+	#categorySetForm .row-editor .ui-icon {
+		position: absolute !important;
+		top: -1.2em;
+	}
+	#categorySetForm .ui-state-hover .ui-column-title, #categorySetForm .ui-state-highlight .ui-column-title {
+		color: black !important;
+	}
+	#feedbackAnalysisCategorySetForm .ui-cell-editing .ui-column-title, #feedbackAnalysisCategorySetForm .ui-cell-editing .ui-cell-editor-input {
 		margin-left: .4em;
 	}
-#feedbackAnalysisCategorySetForm {
+	#feedbackAnalysisCategorySetForm {
 		font-size: 0.8em;
 	}
-#feedbackAnalysisCategorySetForm .row-editor .ui-icon {
-				position: absolute!important;
-				top: -1.2em;
-			}
-
-
-
-
+	#feedbackAnalysisCategorySetForm .row-editor .ui-icon {
+		position: absolute !important;
+		top: -1.2em;
+	}
 }
 
 @media screen and (max-width: 480px) {
 	#mainPage {
 		text-align: left;
 	}
-
 	#commandButtons button {
 		width: 100%;
 		text-align: left;
 	}
-
 	#otherAnalysesForm .ui-column-title {
 		display: none;
 	}
-
-	
 	#otherObservationsForm .ui-column-title {
 		display: none;
 	}

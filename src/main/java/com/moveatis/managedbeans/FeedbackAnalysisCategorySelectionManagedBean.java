@@ -32,6 +32,7 @@ package com.moveatis.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,7 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private String newFeedbackAnalysisCategorySetName;
 
 	@Inject
@@ -83,24 +85,26 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	private transient ResourceBundle messages; // RequestBundle is not serializable
 
 	private long selectedDefaultFeedbackAnalysisCategorySet;
+
 	private long selectedPrivateFeedbackAnalysisCategorySet;
 
 	private List<FeedbackAnalysisCategorySetEntity> defaultFeedbackAnalysisCategorySets; // From group key or event that
 																							// was selected in control
-																							// page.
+																							// page // page.
 	private List<FeedbackAnalysisCategorySetEntity> privateFeedbackAnalysisCategorySets;
+
 	private List<FeedbackAnalysisCategorySetEntity> feedbackAnalysisCategorySetsInUse;
 
 	private EventGroupEntity eventGroup;
 
 	@Inject
 	private Session sessionEJB;
+
 	@Inject
 	private EventGroup eventGroupEJB;
+
 	@Inject
 	private FeedbackAnalysisManagedBean feedbackAnalysisManagedBean;
-
-	private CategorySet categorySetEJB;
 
 	/**
 	 * Gets the categorysets from the given groupkey, and if the user is logged in
@@ -164,7 +168,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	/**
 	 * Adds a new category to the given categoryset
 	 * 
-	 * @param categorySet the categoryset to which the new category is added
+	 * @param categorySet
+	 *            the categoryset to which the new category is added
 	 */
 	public void addNewCategoryToCategorySet(FeedbackAnalysisCategorySetEntity categorySet) {
 		FeedbackAnalysisCategoryEntity fac = new FeedbackAnalysisCategoryEntity();
@@ -179,8 +184,10 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	/**
 	 * removes the given category from the given categoryset
 	 * 
-	 * @param categorySet the categoryset from which a category is to be removed
-	 * @param category    the category to be removed
+	 * @param categorySet
+	 *            the categoryset from which a category is to be removed
+	 * @param category
+	 *            the category to be removed
 	 */
 	public void removeCategoryFromCategorySet(FeedbackAnalysisCategorySetEntity categorySet,
 			FeedbackAnalysisCategoryEntity category) {
@@ -189,8 +196,11 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		Map<Integer, AbstractCategoryEntity> tmp_categories = new TreeMap<Integer, AbstractCategoryEntity>();
 
 		categories.remove(category.getOrderNumber());
+		List<Integer> keys=new ArrayList<>();
+		keys.addAll(categories.keySet());
+		Collections.sort(keys);
 		int i = 0;
-		for (int key : categories.keySet()) {
+		for (int key : keys) {
 			categories.get(key).setOrderNumber(i);
 			tmp_categories.put(i, categories.get(key));
 			i++;
@@ -201,8 +211,10 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	/**
 	 * Finds the categoryset with the given id from the given list
 	 * 
-	 * @param categorySets list of categorysets
-	 * @param id           the ID of the categoryset that needs to be accessed
+	 * @param categorySets
+	 *            list of categorysets
+	 * @param id
+	 *            the ID of the categoryset that needs to be accessed
 	 * @return the found categoryset or a new categoryset if one with the given ID
 	 *         isn't found
 	 */
@@ -240,7 +252,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	/**
 	 * Removes the given categoryset from use
 	 * 
-	 * @param categorySet the categoryset to be removed
+	 * @param categorySet
+	 *            the categoryset to be removed
 	 */
 	public void removeCategorySet(int categorySet) {
 		feedbackAnalysisCategorySetsInUse.remove(categorySet);
@@ -264,7 +277,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	/**
 	 * Shows given error message in primefaces message popup.
 	 * 
-	 * @param message Error message to show.
+	 * @param message
+	 *            Error message to show.
 	 */
 	private void showErrorMessage(String message) {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -325,7 +339,8 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 	/**
 	 * Checks if given categories contain duplicate names.
 	 * 
-	 * @param categories List of categories to check.
+	 * @param categories
+	 *            List of categories to check.
 	 * @return True if categories contain duplicates, otherwise false.
 	 */
 	private static boolean hasDuplicate(Map<Integer, AbstractCategoryEntity> categories) {
@@ -338,15 +353,15 @@ public class FeedbackAnalysisCategorySelectionManagedBean implements Serializabl
 		}
 		return false;
 	}
-	
+
 	private boolean isTimerEnabled;
-	
+
 	public boolean getIsTimerEnabled() {
 		return isTimerEnabled;
 	}
-	
+
 	public void setIsTimerEnabled(boolean timerEnabled) {
-		isTimerEnabled=timerEnabled;
+		isTimerEnabled = timerEnabled;
 	}
 
 	public String getNewFeedbackAnalysisCategorySetName() {

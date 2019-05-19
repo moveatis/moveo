@@ -69,7 +69,9 @@ public class ValidationManagedBean {
 		String s = (String) value;
 		String valid = Validation.validateForJsAndHtml(s);
 		if (!s.equals(valid)) {
-//            String error = MessageFormat.format(messages.getString("validate_invalidChars"), invalidChars);
+			// String error =
+			// MessageFormat.format(messages.getString("validate_invalidChars"),
+			// invalidChars);
 			String error = messages.getString("validate_invalidChars");
 			throwError(error);
 		}
@@ -86,6 +88,8 @@ public class ValidationManagedBean {
 	}
 
 	public void validateShortString(FacesContext context, UIComponent component, Object value) {
+	    String skipValidator= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("skipValidator");
+	    if (skipValidator != null && skipValidator.equalsIgnoreCase("true")) return;
 		validateStringForJsAndHtml(context, component, value);
 		validateStringMaxLength((String) value, 64);
 	}

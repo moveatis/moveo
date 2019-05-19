@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Jarmo Juujärvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
- * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykänen, Petra Puumala 
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,15 +30,15 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Jarmo Juujarvi (based on base.css by Sami kallio)
 */
 
 /*
 The base stylesheet for Moveatis-webapplication
 */
-@import url(https://fonts.googleapis.com/css?family=Roboto);
 
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 html {
 	width: 100%;
 	height: 100%;
@@ -61,12 +61,13 @@ body {
 
 /* Use same font family on widgets for consistency
 	(excluding .fa elements) */
-.ui-widget:not (.fa ) {
-	font-family: 'Roboto', sans-serif;
-}
+
+.ui-widget:not(.fa) {
+	font-family: 'Roboto', sans-serif;}
 
 /* Sticky footer based on this:
    http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ */
+
 .wrapper {
 	min-height: 100%;
 	height: auto !important;
@@ -78,6 +79,8 @@ body {
 .push {
 	height: 1.875em;
 }
+
+/* footer and header */
 
 #Footer {
 	height: 1.875em;
@@ -131,89 +134,12 @@ body {
 	color: #FEFEFE;
 }
 
-a:link {
-	text-decoration: none;
-	color: #000000;
-}
-
-a:visited {
-	text-decoration: none;
-	color: #000000;
-}
-
-a:active {
-	text-decoration: none;
-	color: #000000;
-}
-
-a:hover {
-	text-decoration: none;
-	color: #AF2A01;
-}
-
-#picture {
-	height: auto;
-	width: 100%;
-	margin: auto;
-	text-align: center;
-}
-
-#picture img {
-	max-width: 40%;
-	max-height: 100%;
-}
-
-#picture2 {
-	padding-left: 10%;
-	padding-top: 3em;
-	width: 90%;
-	margin: auto;
-	display: inline-block;
-	text-align: center;
-}
-
-#picture2 img {
-	width: 40%;
-}
-
-#picture2 img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-nav {
-	float: left;
-	width: 24%;
-	border: none;
-	margin-right: 0.5em;
-	padding-right: 0.5em;
-	height: 8em!important;
-}
-
-.welcomeContent {
-	float: left;
-	width: 70%;
-	display: block;
-	padding: 1em;
-}
-
-.textContentArea {
-	width: 70%;
-	margin: 1% auto 1% auto;
-	display: block;
-	padding: 2.5em;
-}
-
 .naviHeader {
-	height: 28px;
+	height: 1.75em;
 	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8),
-		rgba(255, 255, 255, 0));
-	background: #008AB9
-		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
-		0.8)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8),
-		rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	background-size: 100%;
 	text-align: center;
 	border: 0;
@@ -262,135 +188,22 @@ ul.ui-menu-child {
 	float: right;
 }
 
-.accessButtons {
-	width: 9.5em;
-	height: 2.0em;
-	margin: auto auto auto auto;
-	/*    display: block;*/
-	text-align: center;
-	padding: 1.0em;
-}
-
-.coloredButton:hover, .coloredButton:active {
-	color: white;
-	background: #008AB9;
-}
-
-.coloredButton {
-	letter-spacing: 0.063em;
-	background: #008AB9;
-	color: white !important;
-	font-size: 100% !important;
-	text-shadow: none;
-	border: none;
-	color: #fff;
-	background: #008AB9;
-	font-weight: 700;
-	outline: none;
-	position: relative;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	transition: all 0.3s;
-}
-
-/* Dialog style */
-.coloredDialog {
-	top: 20%;
-	background: #008AB9 !important;
-	color: #FEFEFE;
-	/* border: none; */
-}
-
-.coloredDialog .ui-dialog-titlebar {
-	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8),
-		rgba(255, 255, 255, 0));
-	background: #008AB9
-		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
-		0.3)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8),
-		rgba(255, 255, 255, 0));
-	color: #FEFEFE;
-	text-shadow: none;
-	font-weight: normal;
-}
-
-.coloredDialog .ui-dialog-titlebar-close, .ui-dialog-titlebar-close:hover
-	{
-	background: none;
-	box-shadow: none;
-	border: none;
-	text-shadow: none;
-	font-weight: normal;
-}
-
-.coloredDialog .ui-icon-closethick {
-	background-image:
-		url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png)
-		!important;
-}
-
-.coloredDialog form label {
-	color: #FEFEFE;
-}
-
-.coloredDialog .ui-fluid .ui-button {
-	width: auto;
-}
-
-.coloredDialog .ui-fluid .ui-button {
-	width: auto;
-	background-color: #FCFCFC;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
-	margin-right: 0.5em;
-	border: 0;
-}
-
-.coloredDialog form input, .coloredDialog form textarea, .coloredDialog form table
-	{
-	margin-bottom: 0.8em;
-}
-
-.coloredDialog form button {
-	margin-bottom: 0.4em;
-}
-
-.ui-dialog-content {
-	overflow-y: auto;
-	max-height: calc(100vh - 65px);
-	max-width: 24em;
-}
-
-.ui-dialog-content .ui-state-error {
-	border-width: 0.125em;
-}
-
 /* Naviheader styles menu */
+
 .naviHeader.ui-menu, .naviHeader.ui-menu .ui-menu-child {
 	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8),
-		rgba(255, 255, 255, 0));
-	background: #008AB9
-		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
-		0.4)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8),
-		rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.4)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	color: white !important;
 }
 
-.naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover,
-	.naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus,
-	.naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus
-	{
+.naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover, .naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus, .naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus {
 	border: 0.063em solid #008AB9;
 	background: #008AB9;
-	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.6),
-		rgba(255, 255, 255, 0));
-	background: #008AB9
-		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
-		0.6)), to(rgba(255, 255, 255, 0)));
-	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.6),
-		rgba(255, 255, 255, 0));
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.6)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
 	font-weight: normal;
 	color: black;
 	-moz-box-shadow: none;
@@ -463,7 +276,188 @@ ul.ui-menu-child {
 	opacity: 1;
 }
 
+/* basic link styling */
+
+a:link {
+	text-decoration: none;
+	color: #000000;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #000000;
+}
+
+a:active {
+	text-decoration: none;
+	color: #000000;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #AF2A01;
+}
+
+/* pictures */
+
+#picture {
+	height: auto;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+#picture img {
+	max-width: 40%;
+	max-height: 100%;
+}
+
+#picture2 {
+	padding-left: 10%;
+	padding-top: 3em;
+	width: 90%;
+	margin: auto;
+	display: inline-block;
+	text-align: center;
+}
+
+#picture2 img {
+	width: 40%;
+}
+
+#picture2 img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* left side navigation */
+
+nav {
+	float: left;
+	width: 24%;
+	border: none;
+	margin-right: 0.5em;
+	padding-right: 0.5em;
+	height: 8em !important;
+}
+
+/* content divs */
+
+.welcomeContent {
+	float: left;
+	width: 65%;
+	display: block;
+	padding: 1em;
+	margin-left: 1em;
+}
+
+.textContentArea {
+	width: 70%;
+	margin: 1% auto 1% auto;
+	display: block;
+	padding: 2.5em;
+}
+
+/* buttons */
+
+.accessButtons {
+	width: 9.5em;
+	height: 2.0em;
+	margin: auto auto auto auto;
+	/*    display: block;*/
+	text-align: center;
+	padding: 1.0em;
+}
+
+.coloredButton:hover, .coloredButton:active {
+	color: white;
+	background: #008AB9;
+}
+
+.coloredButton {
+	letter-spacing: 0.063em;
+	background: #008AB9;
+	color: white !important;
+	font-size: 100% !important;
+	text-shadow: none;
+	border: none;
+	color: #fff;
+	background: #008AB9;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+/* Dialog style */
+
+.coloredDialog {
+	top: 20%;
+	background: #008AB9 !important;
+	color: #FEFEFE;
+	/* border: none; */
+}
+
+.coloredDialog .ui-dialog-titlebar {
+	background: #008AB9;
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.3)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	color: #FEFEFE;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+.coloredDialog .ui-dialog-titlebar-close, .ui-dialog-titlebar-close:hover {
+	background: none;
+	box-shadow: none;
+	border: none;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+.coloredDialog .ui-icon-closethick {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+}
+
+.coloredDialog form label {
+	color: #FEFEFE;
+}
+
+.coloredDialog .ui-fluid .ui-button {
+	width: auto;
+}
+
+.coloredDialog .ui-fluid .ui-button {
+	width: auto;
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+	margin-right: 0.5em;
+	border: 0;
+}
+
+.coloredDialog form input, .coloredDialog form textarea, .coloredDialog form table {
+	margin-bottom: 0.8em;
+}
+
+.coloredDialog form button {
+	margin-bottom: 0.4em;
+}
+
+.ui-dialog-content {
+	overflow-y: auto;
+	max-height: calc(100vh - 4.063em);
+	max-width: 24em;
+}
+
+.ui-dialog-content .ui-state-error {
+	border-width: 0.125em;
+}
+
 /* Error icon change */
+
 .ui-message-error-icon {
 	background: none !important;
 }
@@ -474,6 +468,8 @@ ul.ui-menu-child {
 	margin-left: .2em;
 }
 
+/* responsivity */
+
 @media screen and (max-width: 800px) {
 	nav {
 		padding-top: 1.0em;
@@ -482,7 +478,6 @@ ul.ui-menu-child {
 		border: none;
 		height: 4em;
 	}
-
 	.welcomeContent {
 		width: 85%;
 		padding-top: 1em;
@@ -552,8 +547,7 @@ ul.ui-menu-child {
 		margin: auto;
 		display: inline-block;
 	}
-
 	#picture2 img {
-		width: 80%!important;
+		width: 80% !important;
 	}
 }
