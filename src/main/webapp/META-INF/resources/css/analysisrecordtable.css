@@ -30,9 +30,10 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
+
 html {
 	width: 100%;
 	height: 100%;
@@ -49,7 +50,7 @@ html {
 }
 
 .html2canvas-container {
-	width: 1920px !important;
+	width: 120em !important;
 }
 
 #container {
@@ -65,7 +66,7 @@ html {
 	padding-bottom: 0em;
 }
 
-.html2canvas-container { width: 3000px !important; height: 3000px !important; }
+/* save form */
 
 #saveForm {
 	text-align: left;
@@ -83,6 +84,8 @@ html {
 	width: auto !important;
 }
 
+/* entries table */
+
 #entries td:nth-child(1), #entries th:nth-child(1) {
 	text-align: center;
 }
@@ -90,8 +93,9 @@ html {
 #entries td:nth-child(2), #entries th:nth-child(2) {
 	text-align: left;
 }
+
 th:last-child, td:last-child {
-	border-right: 0px !important;
+	border-right: 0em !important;
 }
 
 #entries {
@@ -102,16 +106,17 @@ th {
 	background: #E0E1E3!important;
 	border: 0px!important;
 	box-shadow: none!important;
-	border-right: 1px solid #005977!important;
+	border-right: 0.063em solid #005977!important;
 	color: black!important;
 	hyphens: auto;
+	text-overflow: ellipsis;
 	overflow: hidden;
-	white-space: nowrap;
+	white-space: normal !important;
 }
 
 td {
-	border: 0px!important;
-	border-right: 1px solid #005977!important;
+	border: 0em!important;
+	border-right: 0.063em solid #005977!important;
 	box-shadow: none!important;
 	color: black!important;
 	hyphens: auto;
@@ -120,14 +125,13 @@ td {
 	white-space: normal !important;
 }
 
-
 tr {
-	border: 0px!important;
+	border: 0em!important;
 	box-shadow: none!important;
 }
 
 tbody {
-	border: 0px!important;
+	border: 0em!important;
 	box-shadow: none!important;
 }
 
@@ -138,6 +142,15 @@ tbody {
 .ui-datatable-even {
 	background: #D0D3D7;
 }
+
+#entries .ui-icon {
+	border-radius: 0;
+	font-size: 1em;
+	height: 2em;
+	padding-bottom: 1em !important;
+}
+
+/* buttons */
 
 #downloadImage {
 	text-align: center;
@@ -174,13 +187,6 @@ tbody {
 	overflow: hidden;
 }
 
-#entries .ui-icon {
-	border-radius: 0;
-	font-size: 1em;
-	height: 2em;
-	padding-bottom: 1em !important;
-}
-
 #reportButtons {
 	text-align: right;
 	margin-right: 0.6em;
@@ -190,6 +196,8 @@ tbody {
 	margin-right: 2em!important;
 }
 
+/* responsivity */
+
 @media screen and (max-width: 1000px) {
 	#container {
 		width: 93%;
@@ -198,35 +206,23 @@ tbody {
 		margin-top: 0.5em;
 		margin-left: 0.5em;
 		margin-right: 0.5em;
-		background-color: none!important;
-		background: none!important;
-		background-image: none!important;
 		font-size: 0.8em;
 	}
 	#entries td:nth-child(1), #entries th:nth-child(1) {
-		width: 1.7em!important;
 		text-align: center;
 	}
 	#entries td:nth-child(2), #entries th:nth-child(2) {
-		width: 10em!important;
 		text-align: left;
 	}
 	tr {
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
 	}
 	th:last-child, td:last-child {
-		border-right: 0px!important;
-		width: 2.9em!important;
-	}
-	th:nth-last-child(2), td:nth-last-child(2) {
-		width: 4.2em!important;
-	}
-	th:nth-last-child(3), td:nth-last-child(3) {
-		width: 4.5em!important;
+		border-right: 0em!important;
 	}
 	tbody {
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
 	}
 }
@@ -241,8 +237,7 @@ tbody {
 	.entries_dt .ui-datatable-data td {
 		text-align: left;
 		display: block;
-		border: 0px none;
-		width: 100%;
+		border: 0em none;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -250,15 +245,14 @@ tbody {
 		clear: left;
 	}
 	.entries_dt .ui-datatable-data.ui-widget-content {
-		border: 0px none;
+		border: 0em none;
 	}
 	.entries_dt .ui-datatable-data tr.ui-widget-content {
-		border-left: 0px none;
-		border-right: 0px none;
+		border-left: 0em none;
+		border-right: 0em none;
 	}
 	.entries_dt .ui-datatable-data td .ui-column-title {
 		padding: .4em;
-		min-width: 30%;
 		display: inline-block;
 		margin: -.4em 1em -.4em -.4em;
 	}
@@ -269,9 +263,6 @@ tbody {
 		margin-top: 0.5em;
 		margin-left: 0.5em;
 		margin-right: 0.5em;
-		background-color: none!important;
-		background: none!important;
-		background-image: none!important;
 		font-size: 1em;
 	}
 	#entries .ui-column-title {
@@ -286,29 +277,24 @@ tbody {
 		font-weight: bold;
 		content: "";
 	}
-
-		#entries td:last-child .ui-column-title {
+	#entries td:last-child .ui-column-title {
 		display: none;
 	}
-
-		#entries td:nth-last-child(2) .ui-column-title {
+	#entries td:nth-last-child(2) .ui-column-title {
 		display: none;
 	}
-
-#entries td:nth-last-child(2) {
-	width: auto!important;
-	display: inline-block;
-	float: right;
-	margin-right: 1em;
-}
-
-#entries td:last-child {
-	width: auto!important;
-	display: inline-block;
-	float: right;
-	margin-right: 1em;
-}
-
+	#entries td:nth-last-child(2) {
+		width: auto!important;
+		display: inline-block;
+		float: right;
+		margin-right: 1em;
+	}
+	#entries td:last-child {
+		width: auto!important;
+		display: inline-block;
+		float: right;
+		margin-right: 1em;
+	}
 	#entries td:nth-child(2) .ui-column-title {
 		display: block;
 	}
@@ -320,20 +306,16 @@ tbody {
 		display: inline!important;
 	}
 	#entries td .ui-column-title {
-		width: 30%!important;
 		display: inline-block;
-		overflow:hidden;
+		overflow: hidden;
 		hyphens: none;
-		white-space: none;
 		text-overflow: ellipsis;
 	}
-
 	th {
-		max-width: 100%!important;
 		background: #E0E1E3!important;
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
-		border-right: 0px solid #005977!important;
+		border-right: 0em solid #005977!important;
 		color: black!important;
 		hyphens: auto;
 		text-overflow: ellipsis;
@@ -341,9 +323,8 @@ tbody {
 		white-space: nowrap;
 	}
 	td {
-		max-width: 100%!important;
-		border: 0px!important;
-		border-right: 0px solid #005977!important;
+		border: 0em!important;
+		border-right: 0em!important;
 		box-shadow: none!important;
 		color: black!important;
 		hyphens: none;
@@ -351,23 +332,16 @@ tbody {
 		padding: 0!important;
 	}
 	#entries td {
-		border-right: 0px!important;
-		width: 100%!important;
+		border-right: 0em!important;
 	}
-
-	
 	#entries th {
-		border-right: 0px!important;
-		width: 100%!important;
+		border-right: 0em!important;
 	}
 	#entries td:nth-child(1), #entries th:nth-child(1), #entries td:nth-child(2), #entries th:nth-child(2) {
-		width: 100%!important;
 		text-align: left;
 	}
-
-
 	#entries tr {
-		border: 0px!important;
+		border: 0em!important;
 		box-shadow: none!important;
 	}
 	#entries .tContent {

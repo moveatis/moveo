@@ -30,9 +30,10 @@
  */
 
 /* 
-	last modified: 16.4.2019 by Petra Puumala
+	last modified: 17.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
+
 #mainPage {
 	text-align: center;
 	margin-bottom: 1em;
@@ -45,115 +46,27 @@
 	text-align: left;
 }
 
+#continue-div {
+	margin-top: 1em;
+	text-align: right;
+}
+
+.helpText {
+	font-size: 1.15em;
+}
+
+h1{
+	padding-bottom: 1em;
+}
+
+/* categorysets and categories */
+
 .category-set-list {
 	margin-bottom: 0.5em;
 }
 
 .category-set-list-last {
 	margin-bottom: 2em;
-}
-
-.fa-remove {
-	color: black;
-}
-
-.ui-dialog-titlebar {
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	color: white;
-	text-shadow: none;
-}
-
-.ui-confirm-dialog {
-	border-left: 0.063em solid white;
-	border-top: 0.063em solid white;
-}
-
-.ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
-	background-color: transparent !important;
-	border: none !important;
-	background-image: none !important;
-	box-shadow: none !important;
-}
-
-.ui-dialog .ui-button {
-	border: none;
-	text-shadow: none;
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	cursor: pointer;
-	color: white;
-	box-shadow: none;
-}
-
-.ui-dialog .ui-button .ui-icon {
-	color: black;
-}
-
-.ui-icon, .ui-widget-content .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon, .ui-button:hover .ui-icon,
-	.ui-button:focus .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-state-active .ui-icon, .ui-button:active .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-state-highlight .ui-icon, .ui-button .ui-state-highlight.ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-button .ui-icon {
-	background-image:
-		url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
-}
-
-.ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
-	background-color: transparent;
-	border: none !important;
-	background-image: none !important;
-	box-shadow: none !important;
-}
-
-.ui-dialog .ui-button {
-	border: none;
-	text-shadow: none;
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	cursor: pointer;
-	color: white;
-	box-shadow: none;
-}
-
-.ui-dialog .ui-button .ui-icon {
-	color: white;
-}
-
-.ui-button {
-	border: none;
-	text-shadow: none;
-	background-color: #008AB9;
-	background: linear-gradient(0deg, #008AB9, #10A1D1);
-	cursor: pointer;
-	color: white;
-	box-shadow: none;
-}
-
-.ui-button .fa-remove {
-	color: white;
-}
-
-.ui-button.ui-state-active {
-	background-color: #AF2A01;
-	background: linear-gradient(0deg, #007096, #007AA3);
 }
 
 .category-set-list-label {
@@ -178,7 +91,7 @@
 	width: 14em;
 	display: inline-block;
 	vertical-align: top;
-	margin: 0 0.625em 16px 0;
+	margin: 0 0.625em 1em 0;
 	background: rgba(85, 102, 119, 0.1);
 	border-radius: 0.625em;
 	padding: 0.625em;
@@ -247,14 +160,116 @@
 	text-align: left;
 }
 
-#continue-div {
-	margin-top: 1em;
-	text-align: right;
+/* icons */
+
+.fa-remove {
+	color: black;
 }
 
-.helpText {
-	font-size: 1.15em;
+.ui-icon, .ui-widget-content .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
 }
+
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon, .ui-button:hover .ui-icon, .ui-button:focus .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+
+.ui-state-active .ui-icon, .ui-button:active .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+
+.ui-state-highlight .ui-icon, .ui-button .ui-state-highlight.ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+
+.ui-button .ui-icon {
+	background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_FFFFFF_256x240.png");
+}
+
+/* dialogs */
+
+.ui-dialog-titlebar {
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	color: white;
+	text-shadow: none;
+}
+
+.ui-confirm-dialog {
+	border-left: 0.063em solid white;
+	border-top: 0.063em solid white;
+}
+
+.ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
+	background-color: transparent !important;
+	border: none !important;
+	background-image: none !important;
+	box-shadow: none !important;
+}
+
+.ui-dialog .ui-button {
+	border: none;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+.ui-dialog .ui-button .ui-icon {
+	color: black;
+}
+
+.ui-growl .ui-icon{width:16px;height:16px;background-image:url("/javax.faces.resource/images/ui-icons_616161_256x240.png.xhtml?ln=primefaces-aristo")!important;}
+
+.ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
+	background-color: transparent;
+	border: none !important;
+	background-image: none !important;
+	box-shadow: none !important;
+}
+
+.ui-dialog .ui-button {
+	border: none;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+.ui-dialog .ui-button .ui-icon {
+	color: white;
+}
+
+.ui-growl-icon-close {
+	background-image: ;
+}
+
+/* buttons */
+
+.ui-button {
+	border: none;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+.ui-button .fa-remove {
+	color: white;
+}
+
+.ui-button.ui-state-active {
+	background-color: #AF2A01;
+	background: linear-gradient(0deg, #007096, #007AA3);
+}
+
+/* responsivity */
 
 @media screen and (min-width: 640px) {
 	#container {
@@ -269,6 +284,13 @@
 }
 
 @media screen and (max-width: 639px) {
+	.category-set-list .ui-button{
+		display: block!important;
+		margin: auto;
+		margin-top: 0.5em;
+
+	}
+
 	#container {
 		width: 100%;
 		text-align: center;
