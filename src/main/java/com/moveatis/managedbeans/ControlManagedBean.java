@@ -573,12 +573,13 @@ public class ControlManagedBean implements Serializable {
 	}
 
 	/**
-	 * Saves the selected category set.
+	 * Validates and saves the selected categoryset.
+	 * Validation includes checking for invalid characters and duplicate categories and categorysets
 	 */
 	public void saveCategorySet() {
 		if (selectedEventGroup != null && selectedCategorySet != null) {
 			String error;
-			if (!categoryHasDuplicate() && !categorySetHasDuplicate()&& !unallowedCharsInCategories()) {
+			if (!categoryHasDuplicate() && !categorySetHasDuplicate()&& getCategoryError().isEmpty()) {
 				categorySetBean.createAndEditCategorySet(selectedEventGroup, selectedCategorySet, categories);
 				fetchEventGroups();
 				return;
@@ -588,7 +589,7 @@ public class ControlManagedBean implements Serializable {
 			else if(categorySetHasDuplicate()){
 				error = messages.getString("cs_errorNotUniqueCategorySet");
 			}else {
-				error=messages.getString("con_errorInvalidCharsInCategories");
+				error=getCategoryError();
 			}
 			FacesContext.getCurrentInstance().validationFailed();
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -625,16 +626,22 @@ public class ControlManagedBean implements Serializable {
 		return "summary";
 	}
 
-	public boolean unallowedCharsInCategories() {
+	/**
+	 * Checks if the categories have too long names, or invalid characters and returns the error message accordingly
+	 * if no problems are present returns an empty string
+	 * 
+	 * @return
+	 */
+	public String getCategoryError() {
 		for  (AbstractCategoryEntity categoryEntity : categories) {
 			String categoryText = categoryEntity.getLabel().getText();
 			try{
 				validationManagedBean.validateShortString(null, null, categoryText);
 				}catch(ValidatorException e) {
-					return true;
+					return e.getFacesMessage().getDetail();
 				};
 		}
-		return false;
+		return "";
 	}
 	
 	/**
