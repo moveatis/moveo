@@ -33,11 +33,13 @@
 								value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward"
 								action="#{feedbackAnalysisManagedBean.setCurrentRecord(1)}"
 								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(true)}"
+								process="@this :form:currentRecordComment :form:categories"
 								update=":form" />
 						</span> <span class="arrows" id="toPrevious"> <p:commandButton
 								value=" " id="previousAnalyze"
 								action="#{feedbackAnalysisManagedBean.setCurrentRecord(feedbackAnalysisManagedBean.currentRecordNumber-1)}"
 								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(true)}"
+								process="@this :form:currentRecordComment :form:categories"
 								update=":form" icon="fa fa-fw fa-arrow-left" />
 						</span>
 						<div id="pageNumber">
@@ -48,11 +50,13 @@
 								value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right"
 								action="#{feedbackAnalysisManagedBean.setCurrentRecord(feedbackAnalysisManagedBean.currentRecordNumber+1)}"
 								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(false)}"
+								process="@this :form:currentRecordComment :form:categories"
 								update=":form" />
 						</span> <span class="arrows" id="toLast"> <p:commandButton
 								value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward"
 								action="#{feedbackAnalysisManagedBean.setCurrentRecord(feedbackAnalysisManagedBean.feedbackAnalysisEntity.records.size())}"
 								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(false)}"
+								process="@this :form:currentRecordComment :form:categories"
 								update=":form" />
 						</span>
 					</div>
@@ -97,12 +101,13 @@
 				</div>
 				<div id="basicContent">
 					<div id="textArea">
-						<p:message for="currentRecordComment" />
+						<p:message id="commentError" for="currentRecordComment" />
 						<p:inputTextarea id="currentRecordComment"
 							value="#{feedbackAnalysisManagedBean.currentRecord.comment}"
 							validator="#{validationBean.validateLongString}">
-							<p:watermark for="currentRecordComment" value="#{msg.ana_comment}" />
-							<p:ajax event="blur" process="currentRecordComment" />
+							<p:watermark for="currentRecordComment"
+								value="#{msg.ana_comment}" />
+							<p:ajax event="blur" process="@this" update="commentError @this" />
 							<p:ajax event="keyup"
 								listener="#{feedbackAnalysisManagedBean.setTimeStamp()}"
 								update=":form:timestamp" />
@@ -117,10 +122,14 @@
 							onclick="document.getElementById('form:currentRecordComment').value=''"
 							immediate="true" update=":form" />
 						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
+							update=":form"
 							action="#{feedbackAnalysisManagedBean.toRecordTable()}" />
 					</div>
 
 				</div>
+				<h:inputHidden
+					validator="#{feedbackAnalysisManagedBean.validateNonEmptyRecord}" />
+				<p:growl id="growl" showDetail="true" />
 			</h:form>
 			<p:dialog widgetVar="dlgTimeSlider" position="top" resizable="false"
 				responsive="true" modal="true" fitViewport="true"

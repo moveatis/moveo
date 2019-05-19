@@ -40,6 +40,9 @@ import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -563,6 +566,22 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 			return "";
 		}
 		return "summary";
+	}
+
+	/**
+	 * Tells whether the current record doesn't have eny categories selected or
+	 * comment set
+	 * 
+	 * @return whether the current record is empty
+	 */
+	public void validateNonEmptyRecord(FacesContext context, UIComponent component, Object value) {
+		Locale locale = userManagedBean.getLocale();
+		ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+		String message=messages.getString("ana_emptyRecord");
+		if ((currentRecord.getSelectedCategories() == null || currentRecord.getSelectedCategories().isEmpty())
+				&& (currentRecord.getComment() == null || currentRecord.getComment().isEmpty()))
+			throw new ValidatorException(
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
 	}
 
 	/**

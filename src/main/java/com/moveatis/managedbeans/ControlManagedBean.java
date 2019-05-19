@@ -638,7 +638,7 @@ public class ControlManagedBean implements Serializable {
 			try{
 				validationManagedBean.validateShortString(null, null, categoryText);
 				}catch(ValidatorException e) {
-					return e.getFacesMessage().getDetail();
+					return categoryText+": "+ e.getFacesMessage().getDetail() ;
 				};
 		}
 		return "";
