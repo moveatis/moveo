@@ -569,15 +569,17 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	}
 
 	/**
-	 * Tells whether the current record doesn't have eny categories selected or
-	 * comment set
+	 * Validates the current record, checks if it has no selected categories or no
+	 * written feedback and throws an error if that is the case
 	 * 
-	 * @return whether the current record is empty
+	 * @param context
+	 * @param component
+	 * @param value
 	 */
 	public void validateNonEmptyRecord(FacesContext context, UIComponent component, Object value) {
 		Locale locale = userManagedBean.getLocale();
 		ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
-		String message=messages.getString("ana_emptyRecord");
+		String message = messages.getString("ana_emptyRecord");
 		if ((currentRecord.getSelectedCategories() == null || currentRecord.getSelectedCategories().isEmpty())
 				&& (currentRecord.getComment() == null || currentRecord.getComment().isEmpty()))
 			throw new ValidatorException(

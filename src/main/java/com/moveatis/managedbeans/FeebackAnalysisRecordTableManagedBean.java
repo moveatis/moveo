@@ -95,6 +95,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	 */
 	@PostConstruct
 	protected void initialize() {
+		feedbackAnalysisManagedBean.setIsTimerStopped(true);
 		feedbackAnalysis = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity();
 	}
 
