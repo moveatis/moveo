@@ -284,6 +284,13 @@ h1{
 }
 
 @media screen and (max-width: 639px) {
+	.category-set-list .ui-button{
+		display: block!important;
+		margin: auto;
+		margin-top: 0.5em;
+
+	}
+
 	#container {
 		width: 100%;
 		text-align: center;

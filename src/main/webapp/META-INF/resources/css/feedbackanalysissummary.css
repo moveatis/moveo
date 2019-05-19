@@ -129,6 +129,7 @@ html {
 
 #charts_div {
 	text-align: left;
+	padding-left: 2em;
 }
 
 #chartsHeader {

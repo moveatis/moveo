@@ -109,8 +109,9 @@ th {
 	border-right: 0.063em solid #005977!important;
 	color: black!important;
 	hyphens: auto;
+	text-overflow: ellipsis;
 	overflow: hidden;
-	white-space: nowrap;
+	white-space: normal !important;
 }
 
 td {
