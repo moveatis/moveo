@@ -4,7 +4,6 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
 	<ui:composition template="/WEB-INF/template.xhtml">
@@ -41,17 +40,20 @@
 							<f:facet name="input">
 								<p:message for="input-name-eg" />
 								<p:inputText id="input-name-eg" required="true"
-									requiredMessage="#{msg.dlg_notEmpty}"
-									pt:placeholder="#{msg.con_eventName}" styleClass="input-name"
+									requiredMessage="#{msg.dlg_notEmpty}" styleClass="input-name"
 									value="#{eventGroup.label}"
 									validator="#{validationBean.validateShortString}" />
+								<p:watermark for="input-name-eg" value="#{msg.con_eventnName}" />
+
 								<p:message for="input-description-eg" />
 								<p:inputTextarea id="input-description-eg"
 									styleClass="input-description"
-									pt:placeholder="#{msg.con_eventDescription}"
 									value="#{eventGroup.description}"
 									validator="#{validationBean.validateLongString}" rows="2"
 									cols="10" autoResize="true" />
+								<p:watermark for="input-description-eg"
+									value="#{msg.con_eventDescription}" />
+
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -326,8 +328,11 @@
 					<p:inputText id="input-name-eventgroup" required="true"
 						requiredMessage="#{msg.dlg_notEmpty}"
 						value="#{eventGroupManagedBean.eventGroupName}"
-						styleClass="input-name" pt:placeholder="#{msg.con_eventName}"
+						styleClass="input-name" 
 						validator="#{validationBean.validateShortString}" />
+						
+									<p:watermark for="input-name-eventgroup"
+										value="#{msg.con_eventName}" />
 					<p:commandButton value="#{msg.dlg_add}" icon="fa fa-plus"
 						action="#{eventGroupManagedBean.createNewEventGroup}"
 						update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel :newEventGroupButton"
@@ -511,8 +516,9 @@
 									<p:inputText id="input-name-category" required="true"
 										requiredMessage="#{msg.dlg_notEmpty}"
 										value="#{category.label.text}"
-										onblur="this.value=this.value.trim()"
-										pt:placeholder="#{msg.con_newCategoryLabel}" />
+										onblur="this.value=this.value.trim()" />
+									<p:watermark for="input-name-category"
+										value="#{msg.con_newCategoryLabel}" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -617,10 +623,13 @@
 								</f:facet>
 								<f:facet name="input">
 									<p:inputText id="input-name-feedbackanalysiscategory"
-										required="true" pt:placeholder="#{msg.con_newCategoryLabel}"
+										required="true" 
 										requiredMessage="#{msg.dlg_notEmpty}"
 										value="#{category.label.text}"
 										onblur="this.value=this.value.trim()" />
+										
+									<p:watermark for="input-name-feedbackanalysiscategory"
+										value="#{msg.con_newCategoryLabel}" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>

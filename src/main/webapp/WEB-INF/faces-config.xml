@@ -161,6 +161,7 @@
 			<from-outcome>analysisselected</from-outcome>
 			<redirect />
 		</navigation-case>
+	</navigation-rule>
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
