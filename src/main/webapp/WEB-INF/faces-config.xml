@@ -172,7 +172,7 @@
 			<var>msg</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>com.moveatis.1s.IdentityProviderMessages</base-name>
+			<base-name>com.moveatis.messages.IdentityProviderMessages</base-name>
 			<var>identitymessages</var>
 		</resource-bundle>
 		<resource-bundle>
