@@ -3,7 +3,11 @@ jQuery.fn.table2CSV = function(options) {
 		separator : ',',
 		header : [],
 		headerSelector : 'th',
-		columnSelector : 'td',
+		columnSelector : 'td span.tContent',// selects only spans with the
+											// class tContent because if the
+											// table is reflowed the td also has
+											// the header with class
+											// .ui-column-title
 		delivery : 'popup', // popup, value, download
 		// filename: 'powered_by_sinri.csv', // filename to download
 		transform_gt_lt : true

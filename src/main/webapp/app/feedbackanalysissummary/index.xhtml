@@ -217,7 +217,7 @@
 							rendered="#{sessionBean.identifiedUser}" columns="1"
 							required="true" requiredMessage="" layout="grid"
 							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
-							<p:ajax update="input-email" />
+							<p:ajax process="@this" update="@this input-email" />
 							<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
 								itemDisabled="#{!sessionBean.identifiedUser}" />
 							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
@@ -229,6 +229,7 @@
 							rendered="#{!sessionBean.identifiedUser}" columns="1"
 							required="true" requiredMessage="" layout="grid"
 							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
+							<p:ajax process="@this" update="@this" />
 							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 						</p:selectManyCheckbox>

@@ -23,6 +23,7 @@ function save() {
 $(document).ready(function(){sendImageAndCSV();});
 
 function sendImageAndCSV() {
+	//makes sure the header isn't hidden
 	var tmpclass=$('#entries').attr('class');
 	$('#entries').attr('class',"");
 	$('#entries table').each(function() {

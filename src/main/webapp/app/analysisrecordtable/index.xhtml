@@ -99,6 +99,7 @@
 					<div id="continueToSummary">
 						<p:commandButton value="#{msg.repo_continue}"
 							action="#{feedbackAnalysisManagedBean.toSummary()}"
+							onclick="sendImageAndCSV()"
 							rendered="#{!feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
 						</p:commandButton>
 						<p:commandButton value="#{msg.repo_continue}"
