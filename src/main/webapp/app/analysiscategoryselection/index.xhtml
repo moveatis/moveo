@@ -95,6 +95,7 @@
 							validator="#{validationBean.validateShortString}"
 							onblur="this.value=this.value.trim()" >
 							<p:ajax event="keyup" update="addCategorySetButton"/>
+							<p:ajax event="blur" update="@this :form:growl"/>
 							</p:inputText>
 						<p:watermark for="new-category-set" value="#{msg.facs_categorySetName}"/>
 						<p:commandButton id="addCategorySetButton" value="#{msg.facs_addCategorySet}"
@@ -142,7 +143,9 @@
 					<br />
 					<p:selectBooleanCheckbox
 						value="#{feedbackAnalysisCategorySelectionManagedBean.isTimerEnabled}"
-						itemLabel="#{msg.facs_timer}" />
+						itemLabel="#{msg.facs_timer}" >
+						<p:ajax process="@this"/>
+						</p:selectBooleanCheckbox>
 					<div id="continue-div">
 						<p:commandButton value="#{msg.facs_continueToAnalysis}"
 							id="continue-button"

@@ -53,7 +53,7 @@
 					<h:form>
 						<div id="back">
 							<p:commandButton value="#{msg.fbsum_back}"
-								onclick="window.history.back();" />
+								action="/app/analysisrecordtable/index.xhtml" ajax="false" />
 						</div>
 						<div id="save">
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
@@ -117,7 +117,9 @@
 				<h:form id="charts">
 
 					<div id="charts_div">
-						<div id="chartsHeader"><h2>#{msg.fbsum_charts}</h2></div>
+						<div id="chartsHeader">
+							<h2>#{msg.fbsum_charts}</h2>
+						</div>
 						<span id="bar"><p:selectBooleanCheckbox
 								value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
 								id="barChart">#{msg.fbsum_barchart}
@@ -178,7 +180,7 @@
 					<h:form>
 						<div id="back">
 							<p:commandButton value="#{msg.fbsum_back}"
-								onclick="window.history.back();" />
+								action="/app/analysisrecordtable/index.xhtml" ajax="false" />
 						</div>
 						<div id="save">
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
@@ -214,7 +216,7 @@
 							rendered="#{sessionBean.identifiedUser}" columns="1"
 							required="true" requiredMessage="" layout="grid"
 							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
-							<p:ajax update="input-email" />
+							<p:ajax process="@this" update="@this input-email" />
 							<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
 								itemDisabled="#{!sessionBean.identifiedUser}" />
 							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
@@ -226,6 +228,7 @@
 							rendered="#{!sessionBean.identifiedUser}" columns="1"
 							required="true" requiredMessage="" layout="grid"
 							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
+							<p:ajax process="@this" update="@this" />
 							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
 								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
 						</p:selectManyCheckbox>
@@ -234,42 +237,49 @@
 							<h:outputText rendered="#{sessionBean.identifiedUser}"
 								value=" (#{msg.dlg_defaultFileName})" />
 						</h:outputLabel>
-						<p:message for="input-name" />
+						<p:message id="nameError" for="input-name" />
 						<p:inputText id="input-name" required="true"
 							requiredMessage="#{msg.dlg_notEmpty}"
 							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.analysisName}"
-							validator="#{validationBean.validateShortString}" />
+							validator="#{validationBean.validateShortString}">
+
+							<f:ajax event="keyup" execute="@this" render="nameError" />
+						</p:inputText>
 
 						<h:outputLabel for="input-description"
 							value="#{msg.asum_analyzationDescription}" />
-						<p:message for="input-description" />
+						<p:message id="descriptionError" for="input-description" />
 						<p:inputTextarea id="input-description"
 							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.description}"
 							validator="#{validationBean.validateLongString}" rows="3"
-							cols="16" autoResize="true" />
+							cols="16" autoResize="true">
+							<f:ajax event="keyup" execute="@this" render="descriptionError" />
+						</p:inputTextarea>
 
 						<h:outputLabel for="input-target"
 							value="#{msg.asum_analyzationTarget}" />
-						<p:message for="input-target" />
+						<p:message id="targetError" for="input-target" />
 						<p:inputText id="input-target"
 							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.targetOfAnalysis}"
-							validator="#{validationBean.validateShortString}" />
+							validator="#{validationBean.validateShortString}">
+							<f:ajax event="keyup" execute="@this" render="targetError" />
+						</p:inputText>
 
 
 						<p:outputPanel rendered="#{sessionBean.identifiedUser}">
 							<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
-							<p:message for="input-email" />
+							<p:message id="emailError" for="input-email" />
 							<p:inputText id="input-email"
 								required="#{feedbackAnalysisSummaryManagedBean.isSelected('mail')}"
 								requiredMessage="#{msg.dlg_notEmpty}"
 								disabled="#{!feedbackAnalysisSummaryManagedBean.isSelected('mail')}"
 								value="#{feedbackAnalysisSummaryManagedBean.emailAddress}">
 								<f:validator validatorId="emailValidator" />
+								<f:ajax event="blur" execute="@this" render="emailError" />
 							</p:inputText>
 						</p:outputPanel>
 						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
 							ajax="false" action="#{feedbackAnalysisSummaryManagedBean.save}"
-							process="saveForm:basic saveForm:anonymityUserBoxes saveForm:input-name saveForm:input-target saveForm:input-description saveForm:input-email"
 							validateClient="true">
 						</p:commandButton>
 						<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"

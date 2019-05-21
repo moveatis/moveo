@@ -95,6 +95,7 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	 */
 	@PostConstruct
 	protected void initialize() {
+		feedbackAnalysisManagedBean.setIsTimerStopped(true);
 		feedbackAnalysis = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity();
 	}
 
@@ -248,6 +249,12 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 		return s.replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 	
+	/**
+	 * Gets the confirmation message for deletion, includes the orderNumber of the row to be deleted
+	 * 
+	 * @param orderNumber
+	 * @return
+	 */
 	public String getConfirm(int orderNumber) {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		return MessageFormat.format(currentInstance.getApplication().getResourceBundle(currentInstance, "msg").getString("repo_confirm"),orderNumber);

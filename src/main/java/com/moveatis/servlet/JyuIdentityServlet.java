@@ -30,6 +30,7 @@
 package com.moveatis.servlet;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -101,8 +102,13 @@ public class JyuIdentityServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String userName = (String) request.getAttribute("eppn");
+	    userName=new String(userName.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
+	    
 		String affiliation = (String) request.getAttribute("unscoped-affiliation");
-		String displayName = (String) request.getAttribute("displayName");
+	    affiliation=new String(affiliation.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
+	    
+	    String displayName = (String) request.getAttribute("displayName");		
+	    displayName=new String(displayName.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
 
 		if (userName != null && affiliation != null && displayName != null) {
 			IdentityProviderInformationEntity ipInformationEntity = ipBean.findIpEntityByUsername(userName);
