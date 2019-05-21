@@ -56,9 +56,7 @@ $(function() {
 	var timeframe = timeline.getVisibleChartRange();
 	var startTimePicker = $("#startTime_input");
 	var endTimePicker = $("#endTime_input");
-
-	// $('.qwe').on('click', function(e ){e.preventDefault();alert("jee")})
-
+	
 	timeline.options.showCurrentTime = false; // NOTE: setting this did not
 	// work from Summary Bean.
 
@@ -125,25 +123,7 @@ $(function() {
 	
 	saveImage();
 
-	/* Disabled */
-	/*
-	 * $("#total-records").text(getRecordsInTimeframe(timeline.items,
-	 * timeframe).length);
-	 * $("#total-duration").text(convertMsToUnits(OBSERVATION_DURATION));
-	 * $("#button-zoom-in").click(function () { timeline.zoom(0.2,
-	 * TIMELINE_BEGIN); }); $("#button-zoom-out").click(function () {
-	 * timeline.zoom(-0.2); }); $(window).on('scroll resize', function () {
-	 * $("#timelineControls").toggleClass("bottom",
-	 * isBottomOfDocument($("#Footer").height())); });
-	 * $("#timelineControls").toggleClass("bottom",
-	 * isBottomOfDocument($("#Footer").height()));
-	 */
-
-	/* Ask confirmation before leaving unsaved observation data */
-	/*
-	 * window.onbeforeunload = function () { return msg.dlg_confirmLeave; };
-	 */
-});
+	});
 
 /**
  * Updates the records table information according to the given time frame.
