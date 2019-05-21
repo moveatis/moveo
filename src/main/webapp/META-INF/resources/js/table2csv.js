@@ -3,11 +3,7 @@ jQuery.fn.table2CSV = function(options) {
 		separator : ',',
 		header : [],
 		headerSelector : 'th',
-		columnSelector : 'td span.tContent',// selects only spans with the
-											// class tContent because if the
-											// table is reflowed the td also has
-											// the header with class
-											// .ui-column-title
+		columnSelector : 'td',
 		delivery : 'popup', // popup, value, download
 		// filename: 'powered_by_sinri.csv', // filename to download
 		transform_gt_lt : true
@@ -81,12 +77,6 @@ jQuery.fn.table2CSV = function(options) {
 		var tmp = tmpRow.join(''); // to remove any blank rows
 		// alert(tmp);
 		if (tmpRow.length > 0 && tmp != '') {
-			tmpRow.pop();
-			tmpRow.pop();// removes the last two columns from the table, this
-			// is only useful because the table that this is
-			// currently used for has ui-buttons in the last two columns, if
-			// some other table needs to be converted to csv, discarding of the
-			// last two columns should be done in some other way...
 			var mystr = tmpRow.join(options.separator);
 
 			csvData[csvData.length] = mystr;

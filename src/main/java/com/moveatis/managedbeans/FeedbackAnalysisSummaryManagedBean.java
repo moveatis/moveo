@@ -492,21 +492,23 @@ public class FeedbackAnalysisSummaryManagedBean implements Serializable {
 							&& catSet.getLabel().contentEquals(cat_comp.getCategorySet().getLabel()))
 						count++;
 				fullcount += count;
-
-				pieModel.set(cat.getLabel().getText(), countPercentage(count));
+				
+				categorySetChartSeries.setLabel(cat.getLabel().getText() +", "+getPercentageAsString(count)+"%");
+				pieModel.set(cat.getLabel().getText() +", "+getPercentageAsString(count)+"%", countPercentage(count));
+				
 				categorySetChartSeries.set("", countPercentage(count));
-
 				barModel.addSeries(categorySetChartSeries);
 
 				tableInformation.addCategoryWithCount(cat.getLabel().getText(), count);
 			}
 			if (numberOfRecords > fullcount) {
+				int count=numberOfRecords-fullcount;
 				ChartSeries empty = new ChartSeries();
-				empty.setLabel("------");
-				empty.set(catSet.getLabel(), countPercentage(numberOfRecords - fullcount));
+				empty.setLabel("------"+", "+getPercentageAsString(count)+"%");
+				empty.set(catSet.getLabel() , countPercentage(count));
 				barModel.addSeries(empty);
-				pieModel.set("------", countPercentage(numberOfRecords - fullcount));
-				tableInformation.addCategoryWithCount("------", numberOfRecords - fullcount);
+				pieModel.set("------"+", "+getPercentageAsString(count)+"%", countPercentage(count));
+				tableInformation.addCategoryWithCount("------", count);
 			}
 			pieModel.setTitle(catSet.getLabel());
 			pieModel.setLegendPlacement(OUTSIDE);
