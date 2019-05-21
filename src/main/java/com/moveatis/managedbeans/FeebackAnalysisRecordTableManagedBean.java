@@ -60,11 +60,6 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  * @author tusamois
  *
  */
-
-/**
- * @author Business Time
- *
- */
 @Named(value = "analysisRecordTable")
 @ViewScoped
 public class FeebackAnalysisRecordTableManagedBean implements Serializable {

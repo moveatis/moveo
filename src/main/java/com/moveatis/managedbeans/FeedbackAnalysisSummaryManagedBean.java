@@ -71,18 +71,6 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  * 
  * @author Visa Nykänen
  */
-/**
- * @author Business Time
- *
- */
-/**
- * @author Business Time
- *
- */
-/**
- * @author Business Time
- *
- */
 @Named(value = "feedbackAnalysisSummaryManagedBean")
 @ViewScoped
 public class FeedbackAnalysisSummaryManagedBean implements Serializable {
