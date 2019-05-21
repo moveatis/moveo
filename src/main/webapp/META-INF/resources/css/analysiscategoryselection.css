@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 21.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
 
@@ -201,10 +201,10 @@ h1{
 }
 
 .ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
-	background-color: transparent !important;
-	border: none !important;
-	background-image: none !important;
-	box-shadow: none !important;
+	background-color: transparent;
+	border: none;
+	background-image: none;
+	box-shadow: none;
 }
 
 .ui-dialog .ui-button {
@@ -221,13 +221,13 @@ h1{
 	color: black;
 }
 
-.ui-growl .ui-icon{width:16px;height:16px;background-image:url("/javax.faces.resource/images/ui-icons_616161_256x240.png.xhtml?ln=primefaces-aristo")!important;}
+.ui-growl .ui-icon{width:16px;height:16px;background-image:url("/javax.faces.resource/images/ui-icons_616161_256x240.png.xhtml?ln=primefaces-aristo");}
 
 .ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
 	background-color: transparent;
-	border: none !important;
-	background-image: none !important;
-	box-shadow: none !important;
+	border: none;
+	background-image: none;
+	box-shadow: none;
 }
 
 .ui-dialog .ui-button {
@@ -242,10 +242,6 @@ h1{
 
 .ui-dialog .ui-button .ui-icon {
 	color: white;
-}
-
-.ui-growl-icon-close {
-	background-image: ;
 }
 
 /* buttons */
@@ -285,7 +281,7 @@ h1{
 
 @media screen and (max-width: 639px) {
 	.category-set-list .ui-button{
-		display: block!important;
+		display: block;
 		margin: auto;
 		margin-top: 0.5em;
 

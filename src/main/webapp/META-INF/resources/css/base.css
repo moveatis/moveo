@@ -30,10 +30,9 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 21.5.2019 by Petra Puumala
 	Author     : Jarmo Juujarvi (based on base.css by Sami kallio)
 */
-
 /*
 The base stylesheet for Moveatis-webapplication
 */
@@ -70,8 +69,6 @@ body {
 
 .wrapper {
 	min-height: 100%;
-	height: auto !important;
-	height: 100%;
 	margin: 0 auto -1.875em;
 	text-align: justify;
 }
@@ -144,7 +141,7 @@ body {
 	text-align: center;
 	border: 0;
 	border-radius: 0;
-	color: white !important;
+	color: white;
 }
 
 #naviHead .ui-icon.fa {
@@ -160,13 +157,13 @@ body {
 }
 
 .ui-menu .ui-menuitem-link {
-	line-height: 1.21em !important;
+	line-height: 1.21em;
 }
 
 .ui-menubar>.ui-menuitem-link {
 	width: auto;
 	padding: 0.3em 0.9em;
-	line-height: 1.21em !important;
+	line-height: 1.21em;
 }
 
 .ui-menu .ui-menu-parent .ui-icon-triangle-1-s {
@@ -177,9 +174,9 @@ body {
 	display: none;
 }
 
-ul.ui-menu-child {
+div > ul > li.ui-widget.ui-menuitem.ui-corner-all.ui-menu-parent.ui-menuitem-active > ul {
 	white-space: nowrap;
-	width: 15em !important;
+	width: 15em;
 }
 
 .naviButtons {
@@ -195,7 +192,7 @@ ul.ui-menu-child {
 	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
 	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.4)), to(rgba(255, 255, 255, 0)));
 	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-	color: white !important;
+	color: white;
 }
 
 .naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover, .naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus, .naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus {
@@ -235,7 +232,7 @@ ul.ui-menu-child {
 	background-color: #008AB9;
 	align-content: flex-end;
 	text-align: center;
-	color: white !important;
+	color: white;
 }
 
 .facetLeft {
@@ -248,7 +245,7 @@ ul.ui-menu-child {
 }
 
 .fa-user {
-	float: right !important;
+	float: right;
 }
 
 .ui-dialog-footer {
@@ -262,7 +259,7 @@ ul.ui-menu-child {
 }
 
 .ui-growl .ui-growl-icon-close {
-	display: block !important;
+	display: block;
 	background-color: white;
 	opacity: 0.7;
 	-webkit-box-shadow: 0.125em 0.125em 0.063em -0.063em rgba(0, 0, 0, 0.6);
@@ -338,7 +335,10 @@ nav {
 	border: none;
 	margin-right: 0.5em;
 	padding-right: 0.5em;
-	height: 8em !important;
+}
+
+#mainPage > nav {
+	height: 8em;
 }
 
 /* content divs */
@@ -377,8 +377,8 @@ nav {
 .coloredButton {
 	letter-spacing: 0.063em;
 	background: #008AB9;
-	color: white !important;
-	font-size: 100% !important;
+	color: white;
+	font-size: 100%;
 	text-shadow: none;
 	border: none;
 	color: #fff;
@@ -395,9 +395,8 @@ nav {
 
 .coloredDialog {
 	top: 20%;
-	background: #008AB9 !important;
+	background: #008AB9;
 	color: #FEFEFE;
-	/* border: none; */
 }
 
 .coloredDialog .ui-dialog-titlebar {
@@ -419,7 +418,7 @@ nav {
 }
 
 .coloredDialog .ui-icon-closethick {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png);
 }
 
 .coloredDialog form label {
@@ -459,7 +458,7 @@ nav {
 /* Error icon change */
 
 .ui-message-error-icon {
-	background: none !important;
+	background: none;
 }
 
 .ui-message-error-icon:before {
@@ -493,7 +492,7 @@ nav {
 		background-color: #008AB9;
 		background-size: 100%;
 		text-align: center;
-		color: white !important;
+		color: white;
 	}
 	.naviButtons {
 		width: 3.125em;
@@ -532,7 +531,7 @@ nav {
 		background-size: 50%;
 		background-color: #008AB9;
 		text-align: center;
-		color: white !important;
+		color: white;
 	}
 	#picture {
 		height: auto;
@@ -548,6 +547,6 @@ nav {
 		display: inline-block;
 	}
 	#picture2 img {
-		width: 80% !important;
+		width: 80%;
 	}
 }
