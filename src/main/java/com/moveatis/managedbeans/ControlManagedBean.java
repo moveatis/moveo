@@ -522,6 +522,7 @@ public class ControlManagedBean implements Serializable {
 			observationEJB.remove(selectedObservation);
 			selectedObservation = null;
 			fetchEventGroups();
+			fetchOtherObservations();
 		}
 	}
 
@@ -533,6 +534,7 @@ public class ControlManagedBean implements Serializable {
 			feedbackAnalysisEJB.remove(selectedAnalysis);
 			selectedAnalysis = null;
 			fetchEventGroups();
+			fetchOtherAnalyses();
 		}
 	}
 
