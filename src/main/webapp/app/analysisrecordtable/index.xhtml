@@ -34,30 +34,27 @@
 							message="#{msg.repo_warning}" icon="ui-icon-alert" />
 					</p:commandButton>
 				</div>
-				<div id="dataTableImage">
+				<div id="dataTableImage" >
 					<p:dataTable id="entries"
 						value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.records}"
 						var="record" sortBy="#{record.orderNumber}"
 						rowStyleClass="datatable" resizableColumns="true"
-						liveResize="false" styleClass="entries_dt" reflow="true"
-						style="min-width:99%">
-						<p:column headerText="#{msg.repo_nro}" style="width:4em">
+						liveResize="false" styleClass="entries_dt" reflow="true" tableStyle="width:auto">
+						<p:column headerText="#{msg.repo_nro}" >
 							<h:outputText class="tContent" value="#{record.orderNumber}" />
 						</p:column>
-						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback"
-							style="width:25em">
+						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback">
 							<h:outputText class="tContent" value="#{record.comment}" />
 						</p:column>
 						<c:forEach
 							items="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
 							var="categorySet">
-							<p:column id="categories" headerText="#{categorySet.label}"
-								style="width:100%">
+							<p:column id="categories" headerText="#{categorySet.label}">
 								<h:outputText class="tContent"
 									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
 							</p:column>
 						</c:forEach>
-						<p:column id="time" style="width:5em"
+						<p:column id="time" 
 							rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}"
 							headerText="#{msg.repo_timestamp}">
 							<h:outputText
@@ -65,13 +62,13 @@
 								class="tContent" />
 						</p:column>
 						<p:column headerText="#{msg.repo_edit}" exportable="false"
-							data-html2canvas-ignore="true" style="width:4.2em">
+							data-html2canvas-ignore="true" >
 							<span class="tContent"><p:commandButton id="editButton"
 									icon="fa fa-pencil"
 									action="#{analysisRecordTable.edit(record.orderNumber)}" /></span>
 						</p:column>
 						<p:column exportable="false" headerText="#{msg.repo_delete}"
-							data-html2canvas-ignore="true" style="width:4em">
+							data-html2canvas-ignore="true" >
 							<span class="tContent"><p:commandButton
 									action="#{analysisRecordTable.delete(record.orderNumber)}"
 									id="deleteButton" update="entries reportButtons"
