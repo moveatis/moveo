@@ -377,8 +377,10 @@ a.new-key {
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
+
+/* Didn't find out how to override element.style otherwise, so had to use important. Using exact selectors didn't work here */
 #feedbackAnalysisCategorySetForm .ui-icon-close {
-	display: none;
+	display: none !important;
 }
 
 .key-dialog .ui-button {
