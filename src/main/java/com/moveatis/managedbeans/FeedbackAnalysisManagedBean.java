@@ -70,10 +70,6 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  * 
  * @author Visa Nykänen
  */
-/**
- * @author Business Time
- *
- */
 @Named(value = "feedbackAnalysisManagedBean")
 @SessionScoped
 public class FeedbackAnalysisManagedBean implements Serializable {
@@ -436,13 +432,15 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	}
 
 	/**
-	 * Sets the record to be shown in the view based on the given ordernumber
+	 * Saves the changes made to the current record if it exists, then sets record to be
+	 * shown in the view based on the given ordernumber
 	 * 
 	 * @param recordNumber
 	 *            The ordernumber of the record to be accessed
 	 */
 	public void setCurrentRecord(int recordNumber) {
-		editRecord();
+		if (currentRecord != null)
+			editRecord();
 		resetSelectedCategories();
 		currentRecordNumber = recordNumber;
 		currentRecord = findRecordByOrderNumber(recordNumber);

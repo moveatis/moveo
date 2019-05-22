@@ -19,38 +19,52 @@ function save() {
 
 }
 
-
-$(document).ready(function(){sendImageAndCSV();});
+$(document).ready(function() {
+	sendImageAndCSV();
+});
 
 function sendImageAndCSV() {
-	//makes sure the header isn't hidden
-	var tmpclass=$('#entries').attr('class');
-	$('#entries').attr('class',"");
-	$('#entries table').each(function() {
-		var $table = $(this);
-		var csv = $table.table2CSV({
-			delivery : 'value'
-		});
-		sendData(csv,"csv")
-	});
-	$('#entries').attr('class',tmpclass);
+	// makes sure the header isn't hidden
+	let tmpclass = $('#entries').attr('class');
+	$('#entries').attr('class', "");
+	$('#entries table')
+			.each(
+					function() {
+						let $table = $(this);
+						// settings for table2csv
+						// the two last columns are edit and remove, so we don't
+						// really want them in our csv
+						// if the page is too narrow the table puts the header
+						// into each of the cells so only spans with the class
+						// tContent should be printed into the csv
+						let csv = $table
+								.table2CSV({
+									delivery : 'value',
+									headerSelector : 'th:not(:nth-last-child(1)):not(:nth-last-child(2))',
+									columnSelector : 'td:not(:nth-last-child(1)):not(:nth-last-child(2)) span.tContent'
+								});
+						sendData(csv, "csv")
+					});
+	$('#entries').attr('class', tmpclass);
 	html2canvas(document.getElementById('dataTableImage')).then(
 			function(canvas) {
 				URI = canvas.toDataURL();
-				sendData("reporttable,"+URI, "image")
-				}
-			)	
+				sendData("reporttable," + URI, "image")
+			})
 }
 
 /**
  * Sends the given data to the given page through ajax
  * 
- * @param URI the data to be sent 
- * @param page the page to which the data should be sent, currently either csv or image
+ * @param URI
+ *            the data to be sent
+ * @param page
+ *            the page to which the data should be sent, currently either csv or
+ *            image
  */
-function sendData(URI,page) {
+function sendData(URI, page) {
 	$.ajax({
-		url : "../../webapi/summary/"+page,
+		url : "../../webapi/summary/" + page,
 		type : "POST",
 		dataType : "text",
 		contentType : "text/plain",

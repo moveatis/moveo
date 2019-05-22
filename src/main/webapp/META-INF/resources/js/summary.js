@@ -573,7 +573,7 @@ function checkCheckBoxes() {
 function saveImage() {
 	html2canvas(document.getElementById('recordingsPhoto')).then(
 			function(canvas) {
-				URI = canvas.toDataURL();
+				let URI = canvas.toDataURL();
 				sendImage(URI);
 			});
 }
