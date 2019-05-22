@@ -119,8 +119,8 @@
 	position: relative;
 }
 
-.summary-row {
-	border-bottom: 0em !important;
+#records > div.ui-grid-row.summary-row {
+	border-bottom: 0;
 }
 
 .ui-grid-row {
@@ -156,7 +156,7 @@
 	padding-bottom: 1em;
 }
 
-#Footer {
+#footer {
 	z-index: 2;
 	position: relative;
 }
@@ -184,7 +184,7 @@
 }
 
 .ui-growl .categoryNumber {
-	display: none !important;
+	display: none;
 }
 
 .ui-button>.fa {
@@ -192,7 +192,7 @@
 }
 
 .categorySet {
-	display: none !important;
+	display: none;
 }
 
 #records .gapBefore {
@@ -264,7 +264,7 @@
 }
 
 #download-button .save-button {
-	margin-top: 0em !important;
+	margin-top: 0em;
 }
 
 .ui-datepicker-trigger {

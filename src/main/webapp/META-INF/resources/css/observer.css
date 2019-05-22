@@ -30,11 +30,11 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 22.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
 
-#naviHead, #Footer {
+#naviHead, #footer {
 	font-size: 1em;
 }
 
@@ -145,8 +145,7 @@
 }
 
 .category-value {
-	margin: 0;
-	margin-left: 0.3em;
+	margin: 0 0 0 0.3em;
 	padding: 0 0.15em;
 	float: right;
 	position: relative;
@@ -169,12 +168,12 @@
 */
 
 #total-time {
-	height: calc(( 100vh - 4.375em)* 0.12);
+	height: calc((100vh - 4.375em)* 0.12);
 	font-size: 9vh;
 }
 
 #controls {
-	height: calc(( 100vh - 4.375em)* 0.15);
+	height: calc((100vh - 4.375em)* 0.15);
 }
 
 .control-button {
@@ -189,7 +188,7 @@
 }
 
 .category-item {
-	height: calc(( 100vh - 4.375em)* 0.73* 0.127);
+	height: calc((100vh - 4.375em)* 0.73* 0.127);
 	margin: 0;
 	margin-bottom: 1vh;
 	border-radius: 1vh;
@@ -209,7 +208,7 @@
 		font-size: calc(30em * 0.09);
 	}
 	#controls {
-		height: calc(( 30em - 4.375em)* 0.15);
+		height: calc((30em - 4.375em)* 0.15);
 	}
 	.control-button {
 		border-radius: calc(30em * 0.01);
@@ -221,7 +220,7 @@
 		border-radius: calc(30em * 0.01);
 	}
 	.category-item {
-		height: calc(( 30em - 4.375em)* 0.73* 0.127);
+		height: calc((30em - 4.375em)* 0.73* 0.127);
 		margin: 0;
 		margin-bottom: calc(30em * 0.01);
 		border-radius: calc(30em * 0.01);
@@ -237,11 +236,11 @@
 
 @media screen and (max-height: 15em) {
 	#total-time {
-		height: calc(( 15em - 4.375em)* 0.12);
+		height: calc((15em - 4.375em)* 0.12);
 		font-size: calc(15em * 0.09);
 	}
 	#controls {
-		height: calc(( 15em - 4.375em)* 0.15);
+		height: calc((15em - 4.375em)* 0.15);
 	}
 	.control-button {
 		border-radius: calc(15em * 0.01);
@@ -253,7 +252,7 @@
 		border-radius: calc(15em * 0.01);
 	}
 	.category-item {
-		height: calc(( 15em - 4.375em)* 0.73* 0.127);
+		height: calc((15em - 4.375em)* 0.73* 0.127);
 		margin: 0;
 		margin-bottom: calc(15em * 0.01);
 		border-radius: calc(15em * 0.01);

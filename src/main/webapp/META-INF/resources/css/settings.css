@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 22.5.2019 by Petra Puumala
 	Author     : jaanjuuj
 */
 
@@ -109,7 +109,6 @@ a:hover {
 	.accessButtons {
 		width: 9.5em;
 		height: 2.0em;
-		/*        margin: 2.5% auto 2.5% auto;*/
 		display: table;
 		text-align: center;
 		padding: 1.0em;

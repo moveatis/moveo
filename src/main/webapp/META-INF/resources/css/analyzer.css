@@ -30,7 +30,7 @@
  */
 
 /* 
-		last modified: 17.5.2019 by Petra Puumala
+		last modified: 22.5.2019 by Petra Puumala
 		Author     : Ilari Paananen
 */
 
@@ -66,8 +66,7 @@ body {
 	padding-bottom: 0.625em;
 }
 
-
-#naviHead, #Footer {
+#naviHead, #footer {
 	font-size: 1em;
 }
 
@@ -117,9 +116,8 @@ body {
 #basicContent {
 	width: 60%;
 	margin: 0;
-	padding: 0;
+	padding: 0 0 1em 0;
 	display: inline-block;
-	padding-bottom: 1em;
 }
 
 #categoryContent {
@@ -285,7 +283,7 @@ body {
 	}
 	#timestamp_span {
 		white-space: nowrap;
-		padding-left: 0em;
+		padding-left: 0;
 	}
 }
 

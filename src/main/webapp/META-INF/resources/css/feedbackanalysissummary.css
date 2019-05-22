@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 22.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
 
@@ -42,8 +42,8 @@ html {
 }
 
 .html2canvas-container {
-	width: 120em !important;
-	height: 187.5em !important;
+	width: 120em;
+	height: 187.5em;
 }
 
 #mainPage {
@@ -57,7 +57,6 @@ html {
 #container {
 	width: 90%;
 	margin: 1em;
-	padding: 0;
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
@@ -161,16 +160,16 @@ table.jqplot-table-legend td {
 }
 
 #piechart .jqplot-table-legend {
-	left: 2em !important;
-	width: 70% !important;
+	left: 2em;
+	width: 70%;
 }
 
 #piechart .jqplot-table-legend-swatch {
-	width: 3% !important;
+	width: 3%;
 }
 
 #piechart .jqplot-table-legend-label {
-	width: 97% !important;
+	width: 97%;
 	text-align: left;
 }
 
@@ -179,7 +178,7 @@ table.jqplot-table-legend td {
 }
 
 #saveForm {
-	text-align: left !important;
+	text-align: left;
 }
 
 /* button positioning */
@@ -213,8 +212,8 @@ table.jqplot-table-legend td {
 		padding: 0.5em;
 	}
 	#hiddenButtons {
-		margin-left: 0em;
-		margin-right: 0em;
+		margin-left: 0;
+		margin-right: 0;
 	}
 	#back, #end, #save {
 		display: inline-block;
@@ -226,13 +225,13 @@ table.jqplot-table-legend td {
 	#end {
 		width: 100%;
 		text-align: right;
-		padding: 0em;
+		padding: 0;
 	}
 }
 
 @media ( max-width: 750px) {
 	#save {
-		margin-right: 0em;
+		margin-right: 0;
 	}
 }
 
@@ -247,10 +246,10 @@ table.jqplot-table-legend td {
 		width: 70%;
 	}
 	#piechart .jqplot-table-legend-swatch {
-		width: 3% !important;
+		width: 3%;
 	}
 	#piechart .jqplot-table-legend-label {
-		width: 97% !important;
+		width: 97%;
 		text-align: left;
 	}
 	#piechart {
