@@ -54,7 +54,6 @@ html {
 }
 
 #container {
-	width: 95%;
 	margin: 1em;
 	display: inline-block;
 	font-size: 1.1em;
@@ -81,7 +80,7 @@ html {
 }
 
 #entries {
-	font-size: 0.9em;
+	font-size: 1.0em;
 }
 
 #entries th {
@@ -186,7 +185,7 @@ html {
 
 @media screen and (max-width: 1000px) {
 	#container {
-		width: 93%;
+		width: 100%;
 	}
 	#entries {
 		margin-top: 0.5em;
@@ -217,6 +216,7 @@ html {
 	.entries_dt .ui-datatable-data td .ui-column-title {
 		display: none;
 	}
+	#entries table{width:100%!important;} /* Width has been defined in xhtml, so this must be important*/
 	.entries_dt thead th, .entries_dt tfoot td {
 		display: none;
 	}
@@ -329,6 +329,6 @@ html {
 		font-size: 0.8em;
 	}
 	#container {
-		width: 80%;
+		width: 100%;
 	}
 }
