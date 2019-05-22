@@ -42,8 +42,8 @@ html {
 }
 
 .html2canvas-container {
-	width: 120em !important;
-	height: 187.5em !important;
+	width: 120em;
+	height: 187.5em;
 }
 
 #mainPage {
@@ -161,16 +161,16 @@ table.jqplot-table-legend td {
 }
 
 #piechart .jqplot-table-legend {
-	left: 2em !important;
-	width: 70% !important;
+	left: 2em;
+	width: 70%;
 }
 
 #piechart .jqplot-table-legend-swatch {
-	width: 3% !important;
+	width: 3%;
 }
 
 #piechart .jqplot-table-legend-label {
-	width: 97% !important;
+	width: 97%;
 	text-align: left;
 }
 
@@ -179,7 +179,7 @@ table.jqplot-table-legend td {
 }
 
 #saveForm {
-	text-align: left !important;
+	text-align: left;
 }
 
 /* button positioning */
@@ -247,10 +247,10 @@ table.jqplot-table-legend td {
 		width: 70%;
 	}
 	#piechart .jqplot-table-legend-swatch {
-		width: 3% !important;
+		width: 3%;
 	}
 	#piechart .jqplot-table-legend-label {
-		width: 97% !important;
+		width: 97%;
 		text-align: left;
 	}
 	#piechart {

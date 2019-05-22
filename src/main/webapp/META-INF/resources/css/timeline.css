@@ -70,8 +70,8 @@
 }
 
 #timeline .timeline-axis-grid {
-	border-left-style: dashed !important;
-	border-top-style: dashed !important;
+	border-left-style: dashed;
+	border-top-style: dashed;
 }
 
 #timeline .timeline-groups-axis>.timeline-groups-text {
@@ -88,7 +88,7 @@
 }
 
 #timeline .categoryLabel {
-	display: none !important;
+	display: none;
 }
 
 #timeline .timeline-frame {
@@ -108,6 +108,6 @@
 	font-family: Arial, sans-serif;
 }
 
-.dummyRecord {
-	display: none !important;
+#timeline .dummyRecord {
+	display: none;
 }

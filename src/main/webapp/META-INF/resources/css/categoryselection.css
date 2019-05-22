@@ -100,10 +100,6 @@ h1{
 	padding: 0.625em;
 }
 
-.ui-selectonemenu-items .ui-state-highlight {
-	background: #008AB9 !important;
-}
-
 .category-set h2 {
 	margin-top: 0;
 	white-space: nowrap;
@@ -173,16 +169,16 @@ h1{
 	color: black;
 }
 
-.ui-icon-closethick:not(.ui-helper-hidden .ui-icon-closethick) {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+.ui-confirm-dialog .ui-icon-closethick {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png);
 }
 
-.ui-icon-check {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+.ui-confirm-dialog .ui-icon-check {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png);
 }
 
-.ui-icon-close {
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png) !important;
+.ui-confirm-dialog .ui-icon-close {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png);
 }
 
 /* buttons */
@@ -221,10 +217,10 @@ h1{
 }
 
 .ui-dialog-titlebar-close:hover, .ui-dialog-titlebar-close:focus {
-	background-color: transparent !important;
-	border: none !important;
-	background-image: none !important;
-	box-shadow: none !important;
+	background-color: transparent;
+	border: none;
+	background-image: none;
+	box-shadow: none;
 }
 
 .ui-dialog .ui-button {
@@ -261,6 +257,6 @@ h1{
 
 @media screen and (max-width: 640px) {
 	.category-set-list button {
-		margin-top: 0.3em !important;
+		margin-top: 0.3em;
 	}
 }

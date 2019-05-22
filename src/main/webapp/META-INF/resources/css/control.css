@@ -54,7 +54,7 @@
 }
 
 .ui-datatable-tablewrapper {
-	overflow: hidden !important;
+	overflow: hidden;
 }
 
 .key-dialog {
@@ -83,12 +83,21 @@ a.new-key {
 	text-align: left;
 	font-size: 1em;
 	background: #D0D3D7;
-	border: 0em;
+	border: 0;
 	box-shadow: none;
 }
 
-.ui-editable-column, .row-toggler, .column-category-groups, .column-group-keys, .row-editor, th:not(.column-remove) {
-	border-right: 0.063em solid black !important;
+.ui-datatable thead th:not(.column-remove) {
+	border-right: 0.05em solid black;	
+}
+
+.ui-datatable tbody td:not(.column-remove) {
+	border: 0;
+	border-right: 0.05em solid black;	
+}
+
+.ui-datatable tbody .column-remove {
+	border: 0;
 }
 
 .ui-datatable .ui-row-editor span {
@@ -140,11 +149,11 @@ a.new-key {
 }
 
 .ui-datatable-data .ui-state-highlight {
-	background: #008AB9 !important;
+	background: #008AB9;
 }
 
 .ui-datatable-data .ui-state-hover {
-	background: #008AB9 !important;
+	background: #008AB9;
 }
 
 .row-editor .ui-icon-pencil:before {
@@ -205,8 +214,8 @@ a.new-key {
 	font-family: "Roboto", sans-serif;
 }
 
-.link-categoryset {
-	color: white !important;
+.ui-datatable .link-categoryset {
+	color: white;
 	text-shadow: 0.063em 0.063em 0.063em #333;
 }
 
@@ -215,8 +224,8 @@ a.new-key {
 }
 
 .ui-sortable-helper {
-	z-index: 2000 !important;
-	font-size: 0.9em !important;
+	z-index: 2000;
+	font-size: 0.9em;
 	opacity: 0.4;
 }
 
@@ -227,10 +236,10 @@ a.new-key {
 	background: #D0D3D7;
 }
 
-.ui-datalist-header {
+.ui-datatable .ui-datalist-header {
 	background: #EFEFEF;
 	border: 0;
-	border-bottom: 0.063em solid #4f4f4f !important;
+	border-bottom: 0.063em solid #4f4f4f;
 }
 
 .ui-datalist-content {
@@ -257,7 +266,7 @@ a.new-key {
 }
 
 .ui-growl {
-	z-index: 2000 !important;
+	z-index: 2000;
 }
 
 .categories-table {
@@ -276,44 +285,36 @@ a.new-key {
 	color: white;
 }
 
-#categorySetForm .ui-row-editor>.ui-icon-close {
-	display: none !important;
+#categorySetForm .ui-icon-close {
+	display: none!important;
 }
 
 #categorySetForm th {
-	background: none !important;
+	background: none;
 	border: 0;
 	border-bottom: 0.063em solid white;
-	border-right: 0em !important;
+	border-right: 0em;
 }
 
 #categorySetForm tr {
-	background: #008AB9 !important;
+	background: #008AB9;
 	color: white;
 }
 
 #categorySetForm td {
-	border: 0em !important;
+	border: 0em;
 }
 
 #categorySetForm .ui-state-highlight {
 	text-shadow: none;
-	background: #FCFCFC !important;
+	background: #FCFCFC;
 	color: black;
 }
 
 #categorySetForm .ui-row-editing {
 	color: white;
 	text-shadow: none;
-	background: #008AB9 !important;
-}
-
-#categorySetForm .ui-state-hover {
-	background: #FCFCFC !important;
-	color: black;
-	text-shadow: none;
-	box-shadow: none;
-	border: 0;
+	background: #008AB9;
 }
 
 #categorySetForm .ui-button {
@@ -322,8 +323,8 @@ a.new-key {
 }
 
 .observation-dialog .ui-state-hover {
-	background-color: #FCFCFC !important;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
 .observation-dialog .ui-button {
@@ -334,44 +335,37 @@ a.new-key {
 /* feedback analysis categorysetform */
 
 #feedbackAnalysisCategorySetForm th {
-	background: none !important;
-	color: white !important;
-	text-shadow: none !important;
-	border: 0 !important;
-	border-bottom: 0.063em solid white !important;
+	background: none;
+	color: white;
+	text-shadow: none;
+	border: 0;
+	border-bottom: 0.063em solid white;
 }
 
 #feedbackAnalysisCategorySetForm th {
-	background: none !important;
+	background: none;
 	border: 0;
 	border-bottom: 0.063em solid white;
-	border-right: 0em !important;
+	border-right: 0;
 }
 
 #feedbackAnalysisCategorySetForm tr {
-	background: #008AB9 !important;
+	background: #008AB9;
 	color: white;
 }
 
 #feedbackAnalysisCategorySetForm td {
-	border: 0em !important;
+	border: 0;
 }
 
-#feedbackAnalysisCategorySetForm .ui-state-highlight {
-	text-shadow: none;
-	background: #FCFCFC !important;
-	color: black;
-}
 
 #feedbackAnalysisCategorySetForm .ui-row-editing {
 	color: white;
 	text-shadow: none;
-	background: #008AB9 !important;
+	background: #008AB9;
 }
 
 #feedbackAnalysisCategorySetForm .ui-state-hover {
-	background: #FCFCFC !important;
-	color: black;
 	text-shadow: none;
 	box-shadow: none;
 	border: 0;
@@ -382,25 +376,30 @@ a.new-key {
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
+#feedbackAnalysisCategorySetForm .ui-icon-close {
+	display: none;
+}
+
 .key-dialog .ui-button {
 	background-color: #FCFCFC;
 	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
-.categorySetCommandButtons {
-	text-align: right !important;
+#feedbackAnalysisCategorySetForm .categorySetCommandButtons {
+	text-align: right;
 }
+
 
 .ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
 	pointer-events: none;
 }
 
-.ui-widget-content {
-	border: 0em !important;
+.ui-datatable .ui-widget-content {
+	border: 0;
 }
 
-td {
-	border: 0em !important;
+#eventGroupsForm > td {
+	border: 0;
 }
 
 .ui-cell-editor-input {
@@ -438,7 +437,7 @@ td {
 }
 
 .ui-state-highlight .list-categorysets a.ui-commandlink:link {
-	color: #4f4f4f !important;
+	color: #4f4f4f;
 	text-shadow: none;
 }
 
@@ -458,7 +457,7 @@ td {
 }
 
 .row-editor .ui-icon-close {
-	display: none !important;
+	display: none;
 }
 
 .ui-selectonemenu {
@@ -482,7 +481,7 @@ td {
 #otherObservationsForm th {
 	background: none;
 	border: 0;
-	border-right: 0em !important;
+	border-right: 0;
 	border-bottom: 0.063em solid black;
 }
 
@@ -496,22 +495,35 @@ td {
 	background: #D0D3D7;
 }
 
+#otherObservationsForm td {
+	border: 0;
+}
+
 #otherAnalysesForm th {
 	background: none;
 	border: 0;
-	border-right: 0em !important;
+	border-right: 0;
 	border-bottom: 0.063em solid black;
 }
 
-.ui-fieldset-legend {
+#otherAnalysesForm td {
+	border: 0;
+}
+
+
+#otherAnalysesAndObservations fieldset {
+	border: 0;
+}
+
+#otherAnalysesAndObservations .ui-fieldset-legend {
 	font-size: .8em;
-	border: none !important;
-	text-shadow: none !important;
-	background-color: #008AB9 !important;
-	background: linear-gradient(0deg, #008AB9, #10A1D1) !important;
-	cursor: pointer !important;
-	color: white !important;
-	box-shadow: none !important;
+	border: 0;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
 }
 
 #eventGroupsForm .ui-datalist-header, #otherObservationsForm thead {
@@ -531,11 +543,11 @@ td {
 }
 
 #analysisDetail .label {
-	width: 30% !important;
+	width: 30%;
 }
 
 #analysisDetail .value {
-	width: auto !important;
+	width: auto;
 }
 
 #analysisDetail .value .ui-state-highlight {
@@ -587,21 +599,21 @@ td {
 }
 
 .link-observation {
-	text-decoration: underline !important;
+	text-decoration: underline;
 }
 
 .link-observation:hover {
-	color: #AF2A01 !important;
+	color: #AF2A01;
 }
 
 /* confirm dialog */
 
 .ui-confirm-dialog {
-	width: 70% !important;
+	width: 70%;
 	height: auto;
-	position: fixed !important;
-	top: 3em !important;
-	left: 3em !important;
+	position: fixed;
+	top: 3em;
+	left: 3em;
 	display: none;
 	z-index: 1000005;
 }
@@ -612,8 +624,8 @@ td {
 }
 
 .ui-confirm-dialog .ui-state-hover {
-	background-color: #FCFCFC !important;
-	background: linear-gradient(0deg, #F2F2F2, #FEFEFE) !important;
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
 }
 
 .ui-confirm-dialog .ui-dialog-titlebar {
@@ -643,10 +655,10 @@ td {
 		font-size: 1em;
 	}
 	#eventGroupsForm td {
-		border-right: 0em !important;
+		border-right: 0;
 	}
 	.eventGroupsTable thead {
-		display: none !important;
+		display: none;
 	}
 	.row-toggler-mobile {
 		display: block;
@@ -675,7 +687,7 @@ td {
 		display: none;
 	}
 	#eventGroupsForm td:nth-child(3) .ui-column-title, #eventGroupsForm td:nth-child(4) .ui-column-title {
-		display: block !important;
+		display: block;
 	}
 	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
 		margin-left: .4em;
@@ -684,11 +696,11 @@ td {
 		font-size: 0.8em;
 	}
 	#categorySetForm .row-editor .ui-icon {
-		position: absolute !important;
+		position: absolute;
 		top: -1.2em;
 	}
 	#categorySetForm .ui-state-hover .ui-column-title, #categorySetForm .ui-state-highlight .ui-column-title {
-		color: black !important;
+		color: black;
 	}
 	#feedbackAnalysisCategorySetForm .ui-cell-editing .ui-column-title, #feedbackAnalysisCategorySetForm .ui-cell-editing .ui-cell-editor-input {
 		margin-left: .4em;
@@ -697,7 +709,7 @@ td {
 		font-size: 0.8em;
 	}
 	#feedbackAnalysisCategorySetForm .row-editor .ui-icon {
-		position: absolute !important;
+		position: absolute;
 		top: -1.2em;
 	}
 }
