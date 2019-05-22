@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 22.5.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
 
@@ -38,10 +38,7 @@
 
 #timeline {
 	clear: both;
-	margin-bottom: 1em;
-	margin-right: 0.125em;
-	margin-left: 0.125em;
-	margin-top: 2em;
+	margin: 2em 0.125em 1em 0.125em;
 }
 
 #timeline .timeline-event {
@@ -70,8 +67,8 @@
 }
 
 #timeline .timeline-axis-grid {
-	border-left-style: dashed !important;
-	border-top-style: dashed !important;
+	border-left-style: dashed;
+	border-top-style: dashed;
 }
 
 #timeline .timeline-groups-axis>.timeline-groups-text {
@@ -88,7 +85,7 @@
 }
 
 #timeline .categoryLabel {
-	display: none !important;
+	display: none;
 }
 
 #timeline .timeline-frame {
@@ -108,6 +105,6 @@
 	font-family: Arial, sans-serif;
 }
 
-.dummyRecord {
-	display: none !important;
+#timeline .dummyRecord {
+	display: none;
 }

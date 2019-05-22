@@ -79,7 +79,7 @@ body {
 
 /* footer and header */
 
-#Footer {
+#footer {
 	height: 1.875em;
 	font-size: 1em;
 	background-color: #008AB9;
@@ -91,22 +91,22 @@ body {
 	letter-spacing: 0.063em;
 }
 
-#Footer a:link {
+#footer a:link {
 	text-decoration: none;
 	color: #FEFEFE;
 }
 
-#Footer a:visited {
+#footer a:visited {
 	text-decoration: none;
 	color: #FEFEFE;
 }
 
-#Footer a:active {
+#footer a:active {
 	text-decoration: none;
 	color: #FEFEFE;
 }
 
-#Footer a:hover {
+#footer a:hover {
 	text-decoration: none;
 	color: #FEFEFE;
 }
