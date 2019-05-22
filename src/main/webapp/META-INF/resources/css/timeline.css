@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 22.5.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
 
@@ -38,10 +38,7 @@
 
 #timeline {
 	clear: both;
-	margin-bottom: 1em;
-	margin-right: 0.125em;
-	margin-left: 0.125em;
-	margin-top: 2em;
+	margin: 2em 0.125em 1em 0.125em;
 }
 
 #timeline .timeline-event {

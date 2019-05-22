@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 22.5.2019 by Petra Puumala
 	Author     : Ilari Paananen
 */
 
@@ -57,7 +57,6 @@ html {
 #container {
 	width: 90%;
 	margin: 1em;
-	padding: 0;
 	display: inline-block;
 	font-size: 1.1em;
 	padding: .5em .5em;
@@ -213,8 +212,8 @@ table.jqplot-table-legend td {
 		padding: 0.5em;
 	}
 	#hiddenButtons {
-		margin-left: 0em;
-		margin-right: 0em;
+		margin-left: 0;
+		margin-right: 0;
 	}
 	#back, #end, #save {
 		display: inline-block;
@@ -226,13 +225,13 @@ table.jqplot-table-legend td {
 	#end {
 		width: 100%;
 		text-align: right;
-		padding: 0em;
+		padding: 0;
 	}
 }
 
 @media ( max-width: 750px) {
 	#save {
-		margin-right: 0em;
+		margin-right: 0;
 	}
 }
 

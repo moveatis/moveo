@@ -30,7 +30,7 @@
  */
 
 /* 
-	last modified: 17.5.2019 by Petra Puumala
+	last modified: 22.5.2019 by Petra Puumala
 	Author     : Juha Moisio
 */
 
@@ -285,6 +285,7 @@ a.new-key {
 	color: white;
 }
 
+/* Didn't find out how to override element.style otherwise, so had to use important. Using exact selectors didn't work here */
 #categorySetForm .ui-icon-close {
 	display: none!important;
 }

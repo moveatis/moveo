@@ -30,7 +30,7 @@
  */
 
 /* 
-		last modified: 17.5.2019 by Petra Puumala
+		last modified: 22.5.2019 by Petra Puumala
 		Author     : Ilari Paananen
 */
 
@@ -283,7 +283,7 @@ body {
 	}
 	#timestamp_span {
 		white-space: nowrap;
-		padding-left: 0em;
+		padding-left: 0;
 	}
 }
 
