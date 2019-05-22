@@ -139,7 +139,7 @@ html {
 
 .chart {
 	display: inline-block;
-	width: 6.25em;
+	width: 9em;
 }
 
 .jqplot-title {
@@ -157,7 +157,7 @@ table.jqplot-table-legend td {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 6.25em;
+	max-width: 9em;
 }
 
 #piechart .jqplot-table-legend {

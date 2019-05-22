@@ -488,19 +488,23 @@
 					<div class="ui-fluid">
 						<h:outputLabel for="input-name-categoryset"
 							value="#{msg.con_categorySetDetailsName}" />
-						<p:message for="input-name-categoryset" />
+						<p:message id="category-set-name-message" for="input-name-categoryset" />
 						<p:inputText id="input-name-categoryset" required="true"
 							requiredMessage="#{msg.dlg_notEmpty}"
 							value="#{controlBean.selectedCategorySet.label}"
 							onblur="this.value=this.value.trim()"
-							validator="#{validationBean.validateShortString}" />
+							validator="#{validationBean.validateShortString}" >
+							<p:ajax event="blur" process="@this" update="@this category-set-name-message"/>
+							</p:inputText>
 						<h:outputLabel for="input-description-categoryset"
 							value="#{msg.con_categorySetDetailsDescription}" />
-						<p:message for="input-description-categoryset" />
+						<p:message id="description-message" for="input-description-categoryset" />
 						<p:inputTextarea id="input-description-categoryset"
 							value="#{controlBean.selectedCategorySet.description}"
 							validator="#{validationBean.validateLongString}" rows="2"
-							cols="16" autoResize="true" />
+							cols="16" autoResize="true" >							
+							<p:ajax event="blur" process="@this" update="@this description-message"/>
+							</p:inputTextarea>
 					</div>
 					<p:dataTable id="categoriesTable" var="category"
 						value="#{controlBean.categories}" selectionMode="single"
@@ -595,20 +599,26 @@
 					<div class="ui-fluid">
 						<h:outputLabel for="input-name-feedbackanalysiscategoryset"
 							value="#{msg.con_categorySetDetailsName}" />
-						<p:message for="input-name-feedbackanalysiscategoryset" />
+						<p:message id="category-set-name-message" for="input-name-feedbackanalysiscategoryset" />
 						<p:inputText id="input-name-feedbackanalysiscategoryset"
 							required="true" requiredMessage="#{msg.dlg_notEmpty}"
 							value="#{controlBean.selectedCategorySet.label}"
 							onblur="this.value=this.value.trim()"
-							validator="#{validationBean.validateShortString}" />
+							validator="#{validationBean.validateShortString}" >
+							
+							<p:ajax event="blur" process="@this" update="@this category-set-name-message"/>
+							</p:inputText>
 						<h:outputLabel for="input-description-feedbackanalysiscategoryset"
 							value="#{msg.con_categorySetDetailsDescription}" />
-						<p:message for="input-description-feedbackanalysiscategoryset" />
+						<p:message id="description-message" for="input-description-feedbackanalysiscategoryset" />
 						<p:inputTextarea
 							id="input-description-feedbackanalysiscategoryset"
 							value="#{controlBean.selectedCategorySet.description}"
 							validator="#{validationBean.validateLongString}" rows="2"
-							cols="16" autoResize="true" />
+							cols="16" autoResize="true" >
+							
+							<p:ajax event="blur" process="@this" update="@this description-message"/>
+							</p:inputTextarea>
 					</div>
 					<p:dataTable id="feedbackAnalysisCategoriesTable" var="category"
 						value="#{controlBean.categories}" selectionMode="single"
