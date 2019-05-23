@@ -95,7 +95,7 @@
 							validator="#{validationBean.validateShortString}"
 							onblur="this.value=this.value.trim()" >
 							<p:ajax event="keyup" update="addCategorySetButton"/>
-							<p:ajax event="blur" update="@this :form:growl"/>
+							<p:ajax event="change" update="@this :form:growl"/>
 							</p:inputText>
 						<p:watermark for="new-category-set" value="#{msg.facs_categorySetName}"/>
 						<p:commandButton id="addCategorySetButton" value="#{msg.facs_addCategorySet}"
