@@ -25,6 +25,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<to-view-id>/index.xhtml</to-view-id>
+			<from-outcome>tofrontpage</from-outcome>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
 		<from-view-id>/install.xhtml</from-view-id>
 		<navigation-case>
 			<to-view-id>/index.xhtml</to-view-id>
@@ -95,6 +103,14 @@
 		<navigation-case>
 			<to-view-id>/app/feedbackanalysissummary/index.xhtml</to-view-id>
 			<from-outcome>summary</from-outcome>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+		<navigation-rule>
+		<from-view-id>/app/feedbackanalysissummary/index.xhtml</from-view-id>
+		<navigation-case>
+			<to-view-id>/app/analysisrecordtable/index.xhtml</to-view-id>
+			<from-outcome>backtorecordtable</from-outcome>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
