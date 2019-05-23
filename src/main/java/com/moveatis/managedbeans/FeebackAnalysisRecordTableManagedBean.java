@@ -57,8 +57,9 @@ import com.moveatis.interfaces.MessageBundle;
 import com.moveatis.records.FeedbackAnalysisRecordEntity;
 
 /**
- * @author tusamois
- *
+ * The managed bean in control of the record table for feedback analysis
+ * 
+ * @author Tuomas Moisio
  */
 @Named(value = "analysisRecordTable")
 @ViewScoped

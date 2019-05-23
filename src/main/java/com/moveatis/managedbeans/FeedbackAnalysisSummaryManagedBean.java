@@ -69,7 +69,8 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
 /**
  * The managed bean to control the summary page
  * 
- * @author Visa Nykänen
+ * @author Visa Nykänen, Tuomas Moisio
+ * 
  */
 @Named(value = "feedbackAnalysisSummaryManagedBean")
 @ViewScoped

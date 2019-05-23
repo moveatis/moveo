@@ -69,6 +69,7 @@ import com.moveatis.records.FeedbackAnalysisRecordEntity;
  * views (mostly analyzer, but some recordtable and summary functionalities too)
  * 
  * @author Visa Nykänen
+ * 
  */
 @Named(value = "feedbackAnalysisManagedBean")
 @SessionScoped

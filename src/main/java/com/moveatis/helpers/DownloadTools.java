@@ -122,7 +122,7 @@ public class DownloadTools {
 		ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + ".csv" + "\"");
 		try {
 			OutputStream outputStream = ec.getResponseOutputStream();
-			byte bytes[] = data.getBytes("Windows-1252");
+			byte[] bytes = data.getBytes("Windows-1252");
 			for (byte b : bytes) {
 				outputStream.write(b);
 			}

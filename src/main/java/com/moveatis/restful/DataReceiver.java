@@ -52,9 +52,6 @@ import com.moveatis.managedbeans.ObservationManagedBean;
 @Path("/summary")
 public class DataReceiver implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Inject

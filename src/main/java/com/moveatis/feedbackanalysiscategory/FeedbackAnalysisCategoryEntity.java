@@ -83,7 +83,7 @@ public class FeedbackAnalysisCategoryEntity extends AbstractCategoryEntity imple
 	 * sets the records that contain this category, makes sure that the connections
 	 * between the category and feedbackanalysisrecord are correct
 	 * 
-	 * @param recordsContainingThisFeedbackAnalysisCategory
+	 * @param recordsContainingThisFeedbackAnalysisCategory list that stores the records containing this category.
 	 */
 	public void setRecordsContainingThisFeedbackAnalysisCategory(
 			List<FeedbackAnalysisRecordEntity> recordsContainingThisFeedbackAnalysisCategory) {

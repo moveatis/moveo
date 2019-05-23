@@ -49,13 +49,13 @@
 			<h1>#{msg.ana_title} :
 				#{feedbackAnalysisSummaryManagedBean.feedbackAnalysis.analysisName}</h1>
 			<div id="container">
-				<div id="hiddenButtons">
+				<div class="hiddenButtons">
 					<h:form>
-						<div id="back">
+						<div class="back">
 							<p:commandButton value="#{msg.fbsum_back}"
 								action="/app/analysisrecordtable/index.xhtml" ajax="false" />
 						</div>
-						<div id="save">
+						<div class="save">
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
 								rendered="#{sessionBean.identifiedUser}"
 								styleClass="save-button" onclick="PF('dlgSave').show();"
@@ -70,7 +70,7 @@
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
 						</div>
-						<div id="end">
+						<div class="end">
 							<p:commandButton value="#{msg.fbsum_end}" action="/index.xhtml">
 								<p:confirm header="#{msg.repo_confirmheader}"
 									message="#{msg.fbsum_endconfirm}" />
@@ -176,13 +176,13 @@
 				</h:form>
 
 
-				<div id="hiddenButtons">
+				<div class="hiddenButtons">
 					<h:form>
-						<div id="back">
+						<div class="back">
 							<p:commandButton value="#{msg.fbsum_back}"
 								action="/app/analysisrecordtable/index.xhtml" ajax="false" />
 						</div>
-						<div id="save">
+						<div class="save">
 							<p:commandButton value="#{msg.dlg_saveAndSend}"
 								rendered="#{sessionBean.identifiedUser}"
 								styleClass="save-button" onclick="PF('dlgSave').show();"
@@ -197,7 +197,7 @@
 								<p:ajax update=":saveForm" resetValues="true" />
 							</p:commandButton>
 						</div>
-						<div id="end">
+						<div class="end">
 							<p:commandButton value="#{msg.fbsum_end}" action="/index.xhtml">
 								<p:confirm header="#{msg.repo_confirmheader}"
 									message="#{msg.fbsum_endconfirm}" />
