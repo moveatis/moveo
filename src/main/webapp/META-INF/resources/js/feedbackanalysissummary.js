@@ -6,7 +6,7 @@ function save() {
 			.getElementById('saveForm:anonymityUserBoxes:1');
 
 	let filename = document.getElementById('saveForm:input-name').value;
-	if (filename == "") {
+	if (filename === "") {
 		return;
 	}
 	if (checkBoxImage != null) {
@@ -114,7 +114,7 @@ function saveAsImage(dataURL) {
 	var filenameRaw;
 	try {
 		filenameRaw = document.getElementById('saveForm:input-name').value;
-		if (filenameRaw == "") {
+		if (filenameRaw === "") {
 			return;
 		}
 		filename = filenameRaw.replace(/\./g, '-');

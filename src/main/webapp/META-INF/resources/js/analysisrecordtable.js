@@ -4,7 +4,7 @@ function save() {
 	var checkBoxCsv = document.getElementById('saveForm:basic:1');
 	var checkBoxImage = document.getElementById('saveForm:basic:0');
 	var filename = document.getElementById('saveForm:input-name').value;
-	if (filename == "") {
+	if (filename === "") {
 		return;
 	}
 
@@ -94,7 +94,7 @@ function saveAsImage() {
 				try {
 					filenameRaw = document
 							.getElementById('saveForm:input-name').value;
-					if (filenameRaw == "") {
+					if (filenameRaw === "") {
 						return;
 					}
 					filename = filenameRaw.replace(/\./g, '-');
