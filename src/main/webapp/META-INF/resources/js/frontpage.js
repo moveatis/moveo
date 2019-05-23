@@ -1,8 +1,16 @@
-
+/**
+ * @fileOverview Javascript methods for the front page
+ * @module frontpage
+ * @author Visa Nykänen
+ * @author Juha Moisio
+ */
 $(document).ready(function() {
 	sendTimezone();
 });
 
+/**
+ * Sends the timezone information to the server that stores it in a session.
+ */
 function sendTimezone(){
 	$.ajax({
 		url : "../../webapi/records/settimezone",
