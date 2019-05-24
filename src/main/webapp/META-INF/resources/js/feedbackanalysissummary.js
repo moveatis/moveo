@@ -1,3 +1,9 @@
+/**
+ * @fileOverview JavaScript methods for feedbackanalysis summary view.
+ * @module feedbackanalysissummary
+ * @author Tuomas Moisio
+ * @author Visa Nykänen
+ */
 var URI;
 var arr = [];
 function save() {

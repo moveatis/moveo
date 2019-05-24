@@ -1,5 +1,11 @@
-var URI;
+/**
+ * @fileOverview JavaScript methods for report view.
+ * @module analysisrecordtable
+ * @author Visa Nykänen
+ * @author Tuomas Moisio
+ */
 
+var URI;
 function save() {
 	var checkBoxCsv = document.getElementById('saveForm:basic:1');
 	var checkBoxImage = document.getElementById('saveForm:basic:0');
@@ -23,6 +29,9 @@ $(document).ready(function() {
 	sendImageAndCSV();
 });
 
+/**
+ * Creates the csv using table2csv.js, sends the csv and the image of the report page to the server via AJAX
+ */
 function sendImageAndCSV() {
 	// makes sure the header isn't hidden
 	let tmpclass = $('#entries').attr('class');
@@ -31,7 +40,7 @@ function sendImageAndCSV() {
 			.each(
 					function() {
 						let $table = $(this);
-						// settings for table2csv
+						// selector-settings for table2csv explained:
 						// the two last columns are edit and remove, so we don't
 						// really want them in our csv
 						// if the page is too narrow the table puts the header

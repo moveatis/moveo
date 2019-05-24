@@ -183,21 +183,21 @@ table.jqplot-table-legend td {
 
 /* button positioning */
 
-#hiddenButtons {
+.hiddenButtons {
 	margin-left: 1.5em;
 	margin-right: 1.5em;
 	text-align: right;
 }
 
-#back, #end, #save {
+.back, .end, .save {
 	display: inline-block;
 }
 
-#back {
+.back {
 	float: left;
 }
 
-#save {
+.save {
 	margin-right: 1em;
 }
 
@@ -215,14 +215,14 @@ table.jqplot-table-legend td {
 		margin-left: 0;
 		margin-right: 0;
 	}
-	#back, #end, #save {
+	.back, .end, .save {
 		display: inline-block;
 	}
-	#back {
+	.back {
 		width: 100%;
 		text-align: right;
 	}
-	#end {
+	.end {
 		width: 100%;
 		text-align: right;
 		padding: 0;
@@ -230,7 +230,7 @@ table.jqplot-table-legend td {
 }
 
 @media ( max-width: 750px) {
-	#save {
+	.save {
 		margin-right: 0;
 	}
 }
