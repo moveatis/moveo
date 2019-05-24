@@ -142,37 +142,6 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 	}
 
 	/**
-	 * Delete's the selected row from the datatable and the database, if the
-	 * analysis has already been saved.
-	 * 
-	 * @param record
-	 *            selected row
-	 */
-	public void delete(int orderNumber) {
-		if (feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getRecords().size() == 1) {
-			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					messages.getString("repo_deletefailheader"), messages.getString("repo_deletefail")));
-			return;
-		}
-
-		List<FeedbackAnalysisRecordEntity> list = feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().getRecords();
-		FeedbackAnalysisRecordEntity record = null;
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber) {
-				record = list.get(i);
-				list.remove(i);
-				break;
-			}
-		}
-		setOrderNumbers(list);
-		feedbackAnalysisManagedBean.getFeedbackAnalysisEntity().setRecords(list);
-		if (record != null && record.getId() != null)
-			feedbackAnalysisEJB.removeRecordFromAnalysis(feedbackAnalysisManagedBean.getFeedbackAnalysisEntity(),
-					record);
-		feedbackAnalysisManagedBean.setCurrentRecord(list.size());
-	}
-
-	/**
 	 * Sends the user to the analyzer page with the selected record as main record.
 	 * 
 	 * @param orderNumber
@@ -187,34 +156,6 @@ public class FeebackAnalysisRecordTableManagedBean implements Serializable {
 			}
 		}
 		return "editrow";
-	}
-
-	/**
-	 * Comparator for feedbackanalysisrecords, comparison based on the ordernumber
-	 * 
-	 * @author Visa Nykänen
-	 *
-	 */
-	private class compareRecords implements Comparator<FeedbackAnalysisRecordEntity> {
-		@Override
-		public int compare(FeedbackAnalysisRecordEntity a, FeedbackAnalysisRecordEntity b) {
-			return a.getOrderNumber().compareTo(b.getOrderNumber());
-		}
-	}
-
-	/**
-	 * Updates order numbers to records list.
-	 * 
-	 * @param list
-	 *            users records
-	 */
-	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
-		Collections.sort(list, new compareRecords());
-		Integer newOrderNumber = 1;
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setOrderNumber(i + 1);
-			newOrderNumber++;
-		}
 	}
 
 	public List<String> getSelectedSaveOptions() {

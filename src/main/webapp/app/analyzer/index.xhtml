@@ -121,6 +121,12 @@
 							action="#{feedbackAnalysisManagedBean.resetCurrentRecord()}"
 							onclick="document.getElementById('form:currentRecordComment').value=''"
 							immediate="true" update=":form" />
+						<p:commandButton id="remove" value="#{msg.dlg_remove}"
+							action="#{feedbackAnalysisManagedBean.delete(feedbackAnalysisManagedBean.currentRecord.orderNumber)}"
+							immediate="true" update=":form">
+							<p:confirm header="#{msg.repo_confirmheader}"
+								message="#{analysisRecordTable.getConfirm(feedbackAnalysisManagedBean.currentRecord.orderNumber)}" />
+						</p:commandButton>
 						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
 							update=":form"
 							action="#{feedbackAnalysisManagedBean.toRecordTable()}" />
@@ -130,7 +136,14 @@
 				<h:inputHidden
 					validator="#{feedbackAnalysisManagedBean.validateNonEmptyRecord}" />
 				<p:growl id="growl" showDetail="true" />
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes"  />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no"  />
+			</p:confirmDialog>
 			</h:form>
+
 			<p:dialog widgetVar="dlgTimeSlider" position="top" resizable="false"
 				responsive="true" modal="true" fitViewport="true"
 				class="coloredDialog">

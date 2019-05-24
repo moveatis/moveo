@@ -169,6 +169,7 @@ body {
 #timestamp_span {
 	padding-left: 2em;
 	font-weight: bold;
+	text-decoration:underline;
 }
 
 /* page number */

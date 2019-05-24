@@ -611,7 +611,7 @@ a.new-key {
 
 /* confirm dialog */
 
-.ui-confirm-dialog {
+#confirm {
 	width: 70%;
 	height: auto;
 	position: fixed;

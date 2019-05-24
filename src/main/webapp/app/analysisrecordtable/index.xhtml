@@ -70,7 +70,7 @@
 						<p:column exportable="false" headerText="#{msg.repo_delete}"
 							data-html2canvas-ignore="true" >
 							<span class="tContent"><p:commandButton
-									action="#{analysisRecordTable.delete(record.orderNumber)}"
+									action="#{feedbackAnalysisManagedBean.delete(record.orderNumber)}"
 									id="deleteButton" update="entries reportButtons"
 									icon="fa fa-trash" oncomplete="sendImageAndCSV()">
 									<p:confirm header="#{msg.repo_confirmheader}"

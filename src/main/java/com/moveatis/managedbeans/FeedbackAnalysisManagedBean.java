@@ -32,7 +32,9 @@ package com.moveatis.managedbeans;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -46,6 +48,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.logging.annotations.Message;
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -433,8 +436,8 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	}
 
 	/**
-	 * Saves the changes made to the current record if it exists, then sets record to be
-	 * shown in the view based on the given ordernumber
+	 * Saves the changes made to the current record if it exists, then sets record
+	 * to be shown in the view based on the given ordernumber
 	 * 
 	 * @param recordNumber
 	 *            The ordernumber of the record to be accessed
@@ -579,31 +582,110 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		Locale locale = userManagedBean.getLocale();
 		ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
 		String message = messages.getString("ana_emptyRecord");
-		if ((currentRecord.getSelectedCategories() == null || currentRecord.getSelectedCategories().isEmpty())
-				&& (currentRecord.getComment() == null || currentRecord.getComment().isEmpty()))
+		if (isRecordEmpty(currentRecord))
 			throw new ValidatorException(
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, messages.getString("dialogErrorTitle"), message));
 	}
 
 	/**
+	 * Checks whether the given record has categories selected
+	 * 
+	 * @param record the record to check
+	 * @return whether the given record has categories selected
+	 */
+	private boolean isRecordEmpty(FeedbackAnalysisRecordEntity record) {
+		return (record.getSelectedCategories() == null || record.getSelectedCategories().isEmpty())
+				&& (record.getComment() == null || record.getComment().isEmpty());
+	}
+	
+	/**
+	 * Checks if there are empty records returns the order number of the first found empty record, if they exist
+	 * -1 if all no empty records are present
+	 * @return order number of the first empty record
+	 */
+	private int getEmptyRecordNumber() {
+		for(FeedbackAnalysisRecordEntity rec:feedbackAnalysisEntity.getRecords())
+			if(isRecordEmpty(rec))return rec.getOrderNumber();
+		return -1;
+	}
+
+	/**
 	 * Makes sure changes to the currently shown record are saved, stops the timer,
 	 * sets the duration of the analysis and navigates to the recordtable page
+	 * removes any records that have no categories selected or feedback written
 	 * 
 	 * @return the key string that is used by facesconfig.xml to navigate to the
 	 *         correct page
 	 */
 	public String toRecordTable() {
+		Locale locale = userManagedBean.getLocale();
+		ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
 		editRecord();
 		if (checkNoCategoriesSelected()) {
-			Locale locale = userManagedBean.getLocale();
-			ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
 			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					messages.getString("ana_continuefailheader"), messages.getString("ana_continuefail")));
 			return "";
 		}
+		if (getEmptyRecordNumber()>0) {
+			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					messages.getString("ana_continuefailheader"), MessageFormat.format(messages.getString("ana_emptyRecordWithNumber"),getEmptyRecordNumber())));
+			return "";
+		}
+
 		feedbackAnalysisEntity.setDuration(duration);
 		isTimerStopped = true;
 		return "recordtable";
+	}
+	
+	/**
+	 * Delete's the selected record from the datatable and the database, if the
+	 * analysis has already been saved.
+	 * 
+	 * @param record
+	 *            selected row
+	 */
+	public void delete(int orderNumber) {
+		Locale locale = userManagedBean.getLocale();
+		ResourceBundle messages = ResourceBundle.getBundle("com.moveatis.messages.Messages", locale);
+		if (feedbackAnalysisEntity.getRecords().size() == 1) {
+			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					messages.getString("repo_deletefailheader"), messages.getString("repo_deletefail")));
+			return;
+		}
+
+		List<FeedbackAnalysisRecordEntity> list = feedbackAnalysisEntity.getRecords();
+		FeedbackAnalysisRecordEntity record = null;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getOrderNumber() != null && list.get(i).getOrderNumber().intValue() == orderNumber) {
+				record = list.get(i);
+				list.remove(i);
+				break;
+			}
+		}
+		setOrderNumbers(list);
+		feedbackAnalysisEntity.setRecords(list);
+		if (record != null && record.getId() != null)
+			feedbackAnalysisEJB.removeRecordFromAnalysis(feedbackAnalysisEntity,
+					record);
+		if(orderNumber>list.size())
+			setCurrentRecord(list.size());
+		else 
+			setCurrentRecord(orderNumber);
+	}
+	
+	/**
+	 * Updates order numbers to records list.
+	 * 
+	 * @param list
+	 *            users records
+	 */
+	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
+		list.sort((a,b)->a.getOrderNumber().compareTo(b.getOrderNumber()));
+		Integer newOrderNumber = 1;
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setOrderNumber(i + 1);
+			newOrderNumber++;
+		}
 	}
 
 	/**
