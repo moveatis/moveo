@@ -317,7 +317,7 @@
 						<p:commandButton value="#{msg.con_removeObservation}"
 							icon="fa fa-trash" action="#{controlBean.removeObservation}"
 							oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}');PF('dlgObservation').hide();"
-							update=":eventGroupsForm:eventGroupsTable otherObservations">
+							update=":eventGroupsForm:eventGroupsTable otherAnalysesAndObservations">
 							<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
 								message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedObservation.name}. #{msg.dlg_confirmMessage}" />
 						</p:commandButton>
