@@ -590,29 +590,33 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	/**
 	 * Checks whether the given record has categories selected
 	 * 
-	 * @param record the record to check
+	 * @param record
+	 *            the record to check
 	 * @return whether the given record has categories selected
 	 */
 	private boolean isRecordEmpty(FeedbackAnalysisRecordEntity record) {
 		return (record.getSelectedCategories() == null || record.getSelectedCategories().isEmpty())
 				&& (record.getComment() == null || record.getComment().isEmpty());
 	}
-	
+
 	/**
-	 * Checks if there are empty records returns the order number of the first found empty record, if they exist
-	 * -1 if all no empty records are present
+	 * Checks if there are empty records returns the order number of the first found
+	 * empty record, if they exist -1 if all no empty records are present
+	 * 
 	 * @return order number of the first empty record
 	 */
 	private int getEmptyRecordNumber() {
-		for(FeedbackAnalysisRecordEntity rec:feedbackAnalysisEntity.getRecords())
-			if(isRecordEmpty(rec))return rec.getOrderNumber();
+		for (FeedbackAnalysisRecordEntity rec : feedbackAnalysisEntity.getRecords())
+			if (isRecordEmpty(rec))
+				return rec.getOrderNumber();
 		return -1;
 	}
 
 	/**
 	 * Makes sure changes to the currently shown record are saved, stops the timer,
-	 * sets the duration of the analysis and navigates to the recordtable page
-	 * removes any records that have no categories selected or feedback written
+	 * sets the duration of the analysis and checks wheter there are some empty
+	 * records and whether none of the records has any categories selected navigates
+	 * to the recordtable page if not.
 	 * 
 	 * @return the key string that is used by facesconfig.xml to navigate to the
 	 *         correct page
@@ -626,9 +630,10 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 					messages.getString("ana_continuefailheader"), messages.getString("ana_continuefail")));
 			return "";
 		}
-		if (getEmptyRecordNumber()>0) {
+		if (getEmptyRecordNumber() > 0) {
 			RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					messages.getString("ana_continuefailheader"), MessageFormat.format(messages.getString("ana_emptyRecordWithNumber"),getEmptyRecordNumber())));
+					messages.getString("ana_continuefailheader"),
+					MessageFormat.format(messages.getString("ana_emptyRecordWithNumber"), getEmptyRecordNumber())));
 			return "";
 		}
 
@@ -636,7 +641,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		isTimerStopped = true;
 		return "recordtable";
 	}
-	
+
 	/**
 	 * Delete's the selected record from the datatable and the database, if the
 	 * analysis has already been saved.
@@ -665,14 +670,13 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 		setOrderNumbers(list);
 		feedbackAnalysisEntity.setRecords(list);
 		if (record != null && record.getId() != null)
-			feedbackAnalysisEJB.removeRecordFromAnalysis(feedbackAnalysisEntity,
-					record);
-		if(orderNumber>list.size())
+			feedbackAnalysisEJB.removeRecordFromAnalysis(feedbackAnalysisEntity, record);
+		if (orderNumber > list.size())
 			setCurrentRecord(list.size());
-		else 
+		else
 			setCurrentRecord(orderNumber);
 	}
-	
+
 	/**
 	 * Updates order numbers to records list.
 	 * 
@@ -680,7 +684,7 @@ public class FeedbackAnalysisManagedBean implements Serializable {
 	 *            users records
 	 */
 	private void setOrderNumbers(List<FeedbackAnalysisRecordEntity> list) {
-		list.sort((a,b)->a.getOrderNumber().compareTo(b.getOrderNumber()));
+		list.sort((a, b) -> a.getOrderNumber().compareTo(b.getOrderNumber()));
 		Integer newOrderNumber = 1;
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setOrderNumber(i + 1);
