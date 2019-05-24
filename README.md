@@ -1,7 +1,7 @@
 # moveatis 2.0
 
-Moveatis is a web-based software for making observations and feedback analyzations. It was first developed in 
-University of Jyväskylä, as part of student project in spring 2016. That project developed the observation feature. 
+Moveatis is a web-based software for making observations and feedback analyzations. 
+It was first developed in University of Jyväskylä, as part of student project in spring 2016 and the version 1.0 was released. That project developed the observation feature. 
 
 Later, in spring 2019, we developed the software further by adding the feedback analyzation as a new feature and refreshed the layout of the software in Moveo-project. Moveo-project was also a student project implemented in University of Jyväskylä.
 
