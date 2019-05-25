@@ -85,17 +85,17 @@
 					</h:panelGroup>
 					<br /><br /><br />
 					<h2>#{msg.facs_addCategorySets}</h2>
-					<h:panelGroup layout="block" styleClass="category-set-list">
+					<h:panelGroup layout="block" styleClass="category-set-list">	
+						<p:message id="new-category-set-error" for="new-category-set" />
 						<p:outputLabel for="new-category-set"
 							value="#{msg.facs_newCategorySet}:"
-							styleClass="category-set-list-label" />
+							styleClass="category-set-list-label" />						
 						<p:inputText
 							value="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName}"
 							id="new-category-set" styleClass="category-set-list-input"
 							validator="#{validationBean.validateShortString}"
 							onblur="this.value=this.value.trim()" >
-							<p:ajax event="keyup" update="addCategorySetButton"/>
-							<p:ajax event="change" update="@this :form:growl"/>
+							<p:ajax event="keyup" process="@this" update="addCategorySetButton new-category-set-error"/>
 							</p:inputText>
 						<p:watermark for="new-category-set" value="#{msg.facs_categorySetName}"/>
 						<p:commandButton id="addCategorySetButton" value="#{msg.facs_addCategorySet}"

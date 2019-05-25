@@ -152,7 +152,7 @@ a.new-key {
 	background: #008AB9;
 }
 
-.ui-datatable-data .ui-state-hover {
+#eventGroupsForm .ui-datatable-data .ui-state-hover {
 	background: #008AB9;
 }
 
@@ -369,7 +369,6 @@ a.new-key {
 #feedbackAnalysisCategorySetForm .ui-state-hover {
 	text-shadow: none;
 	box-shadow: none;
-	border: 0;
 }
 
 #feedbackAnalysisCategorySetForm .ui-button {
