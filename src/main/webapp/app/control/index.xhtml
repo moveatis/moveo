@@ -494,7 +494,7 @@
 							value="#{controlBean.selectedCategorySet.label}"
 							onblur="this.value=this.value.trim()"
 							validator="#{validationBean.validateShortString}" >
-							<p:ajax event="blur" process="@this" update="@this category-set-name-message"/>
+							<p:ajax event="change" process="@this" update="@this category-set-name-message"/>
 							</p:inputText>
 						<h:outputLabel for="input-description-categoryset"
 							value="#{msg.con_categorySetDetailsDescription}" />
@@ -606,7 +606,7 @@
 							onblur="this.value=this.value.trim()"
 							validator="#{validationBean.validateShortString}" >
 							
-							<p:ajax event="blur" process="@this" update="@this category-set-name-message"/>
+							<p:ajax event="change" process="@this" update="@this category-set-name-message"/>
 							</p:inputText>
 						<h:outputLabel for="input-description-feedbackanalysiscategoryset"
 							value="#{msg.con_categorySetDetailsDescription}" />
