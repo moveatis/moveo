@@ -30,7 +30,7 @@
  */
 
 /* 
-		last modified: 22.5.2019 by Petra Puumala
+		last modified: 25.5.2019 by Petra Puumala
 		Author     : Ilari Paananen
 */
 
@@ -219,6 +219,17 @@ body {
 .ui-button.ui-state-active {
 	background: #AF2A01;
 }
+
+/* timeslider */
+#timeSlider\:timeOutput {
+	color: white;
+	margin: 1em;
+}
+
+#timeSlider > div {
+	margin: 0.5em 0;
+}
+
 
 /* responsivity */
 
