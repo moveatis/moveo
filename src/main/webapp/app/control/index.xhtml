@@ -11,364 +11,359 @@
 			listener="#{facesContext.externalContext.response.setHeader('Cache-Control', 'no-cache, no-store')}" />
 		<ui:define name="pageTitle"> - #{msg.con_title}</ui:define>
 		<ui:define name="mainpage">
-				<h:outputStylesheet library="css" name="control.css" />
-				<h:outputScript library="js" name="control.js" />
-				<h1>#{msg.con_title}</h1>
-				<p>#{msg.con_introduction}</p>
-				<h2>#{msg.con_titleOwnEvents}</h2>
-				<h:form id="eventGroupsForm">
-					<p:dataTable id="eventGroupsTable" var="eventGroup"
-						value="#{controlBean.eventGroups}" widgetVar="eventsWdgt"
-						selectionMode="single"
-						selection="#{controlBean.selectedEventGroup}"
-						rowKey="#{eventGroup.id}" editable="true"
-						styleClass="eventGroupsTable"
-						emptyMessage="#{msg.con_emptyMessageEvents}"
-						sortBy="#{eventGroup.id}" reflow="true">
-						<p:ajax event="rowEdit" listener="#{controlBean.onEditEventGroup}" />
-						<p:ajax event="rowSelect" update=":startObservationForm" />
-						<p:ajax event="rowUnselect" update=":startObservationForm" />
-						<p:column styleClass="row-toggler">
-							<p:rowToggler expandLabel="&#xf138;" collapseLabel="&#xf13a;" />
-						</p:column>
-						<p:column headerText="#{msg.con_event}" styleClass="column-name">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{eventGroup.label}"
-										title="#{eventGroup.description}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:message for="input-name-eg" />
-									<p:inputText id="input-name-eg" required="true"
-										requiredMessage="#{msg.dlg_notEmpty}" styleClass="input-name"
-										value="#{eventGroup.label}"
-										validator="#{validationBean.validateShortString}" />
-									<p:watermark for="input-name-eg" value="#{msg.con_eventnName}" />
+			<h:outputStylesheet library="css" name="control.css" />
+			<h:outputScript library="js" name="control.js" />
+			<h1>#{msg.con_title}</h1>
+			<p>#{msg.con_introduction}</p>
+			<h2>#{msg.con_titleOwnEvents}</h2>
+			<h:form id="eventGroupsForm">
+				<p:dataTable id="eventGroupsTable" var="eventGroup"
+					value="#{controlBean.eventGroups}" widgetVar="eventsWdgt"
+					selectionMode="single"
+					selection="#{controlBean.selectedEventGroup}"
+					rowKey="#{eventGroup.id}" editable="true"
+					styleClass="eventGroupsTable"
+					emptyMessage="#{msg.con_emptyMessageEvents}"
+					sortBy="#{eventGroup.id}" reflow="true">
+					<p:ajax event="rowEdit" listener="#{controlBean.onEditEventGroup}" />
+					<p:ajax event="rowSelect" update=":startObservationForm" />
+					<p:ajax event="rowUnselect" update=":startObservationForm" />
+					<p:column styleClass="row-toggler">
+						<p:rowToggler expandLabel="&#xf138;" collapseLabel="&#xf13a;" />
+					</p:column>
+					<p:column headerText="#{msg.con_event}" styleClass="column-name">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{eventGroup.label}"
+									title="#{eventGroup.description}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:message for="input-name-eg" />
+								<p:inputText id="input-name-eg" required="true"
+									requiredMessage="#{msg.dlg_notEmpty}" styleClass="input-name"
+									value="#{eventGroup.label}"
+									validator="#{validationBean.validateShortString}" />
+								<p:watermark for="input-name-eg" value="#{msg.con_eventnName}" />
 
-									<p:message for="input-description-eg" />
-									<p:inputTextarea id="input-description-eg"
-										styleClass="input-description"
-										value="#{eventGroup.description}"
-										validator="#{validationBean.validateLongString}" rows="2"
-										cols="10" autoResize="true" />
-									<p:watermark for="input-description-eg"
-										value="#{msg.con_eventDescription}" />
+								<p:message for="input-description-eg" />
+								<p:inputTextarea id="input-description-eg"
+									styleClass="input-description"
+									value="#{eventGroup.description}"
+									validator="#{validationBean.validateLongString}" rows="2"
+									cols="10" autoResize="true" />
+								<p:watermark for="input-description-eg"
+									value="#{msg.con_eventDescription}" />
 
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
-						<p:column headerText="#{msg.con_categorySets}"
-							styleClass="column-category-groups">
-							<h:outputText rendered="#{eventGroup.categorySets.size() == 0}"
-								value="" />
-							<ul class="list-categorysets">
-								<ui:repeat value="#{eventGroup.categorySets.toArray()}"
-									var="categorySet">
-									<li><p:commandLink value="#{categorySet.label}"
-											title="#{categorySet.description}"
-											action="#{controlBean.setSelectedCategorySet(categorySet)}"
-											onclick="PF('dlgCategorySet').show()"
-											styleClass="link-categoryset"
-											update=":categorySetForm :eventGroupsForm:eventGroupsTable :startObservationForm">
-											<f:actionListener
-												binding="#{controlBean.setSelectedEventGroup(eventGroup)}" />
-										</p:commandLink></li>
-								</ui:repeat>
-								<li><p:commandLink
-										styleClass="fa fa-plus link-new-categoryset link-categoryset"
-										action="#{controlBean.setSelectedEventGroup(eventGroup)}"
-										oncomplete="PF('dlgCategorySet').show()"
-										update=":categorySetForm :eventGroupsForm:eventGroupsTable">
-										<span>#{msg.dlg_add}</span>
-										<f:actionListener binding="#{controlBean.addNewCategorySet()}" />
-									</p:commandLink></li>
-							</ul>
-						</p:column>
-						<p:column headerText="#{msg.con_feedbackAnalysisCategorySets}"
-							styleClass="column-category-groups">
-							<h:outputText
-								rendered="#{eventGroup.feedbackAnalysisCategorySets.size() == 0}"
-								value="" />
-							<ul class="list-categorysets">
-								<ui:repeat
-									value="#{eventGroup.feedbackAnalysisCategorySets.toArray()}"
-									var="feedbackAnalysisCategorySet">
-									<li><p:commandLink
-											value="#{feedbackAnalysisCategorySet.label}"
-											title="#{feedbackAnalysisCategorySet.description}"
-											action="#{controlBean.setSelectedCategorySet(feedbackAnalysisCategorySet)}"
-											onclick="PF('dlgFeedbackAnalysisCategorySet').show()"
-											styleClass="link-categoryset"
-											update=":feedbackAnalysisCategorySetForm :eventGroupsForm:eventGroupsTable :startObservationForm">
-											<f:actionListener
-												binding="#{controlBean.setSelectedEventGroup(eventGroup)}" />
-										</p:commandLink></li>
-								</ui:repeat>
-								<li><p:commandLink
-										styleClass="fa fa-plus link-new-categoryset link-categoryset"
-										action="#{controlBean.setSelectedEventGroup(eventGroup)}"
-										oncomplete="PF('dlgFeedbackAnalysisCategorySet').show()"
-										update=":feedbackAnalysisCategorySetForm :eventGroupsForm:eventGroupsTable">
-										<span>#{msg.dlg_add}</span>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="#{msg.con_categorySets}"
+						styleClass="column-category-groups">
+						<h:outputText rendered="#{eventGroup.categorySets.size() == 0}"
+							value="" />
+						<ul class="list-categorysets">
+							<ui:repeat value="#{eventGroup.categorySets.toArray()}"
+								var="categorySet">
+								<li><p:commandLink value="#{categorySet.label}"
+										title="#{categorySet.description}"
+										action="#{controlBean.setSelectedCategorySet(categorySet)}"
+										onclick="PF('dlgCategorySet').show()"
+										styleClass="link-categoryset"
+										update=":categorySetForm :eventGroupsForm:eventGroupsTable :startObservationForm">
 										<f:actionListener
-											binding="#{controlBean.addNewFeedbackAnalysisCategorySet()}" />
+											binding="#{controlBean.setSelectedEventGroup(eventGroup)}" />
 									</p:commandLink></li>
-							</ul>
-						</p:column>
-						<p:column headerText="#{msg.con_key}"
-							styleClass="column-group-keys">
-							<p:commandLink styleClass="fa fa-key new-key"
-								action="#{controlBean.setSelectedEventGroup(eventGroup)}"
-								rendered="#{!controlBean.hasGroupKey(eventGroup)}"
-								title="#{msg.con_setGroupKey}" onclick="PF('dlgNewKey').show();"
-								update=":newKeyForm :eventGroupsForm:eventGroupsTable" />
-							<p:commandLink class="fa fa-key edit-key"
-								action="#{controlBean.setSelectedEventGroup(eventGroup)}"
-								rendered="#{controlBean.hasGroupKey(eventGroup)}"
-								title="#{msg.con_manageGroupKey}"
-								onclick="PF('dlgEditKey').show();"
-								update=":editKeyForm :eventGroupsForm:eventGroupsTable" />
-						</p:column>
-						<p:column headerText="#{msg.dlg_edit}" styleClass="row-editor">
-							<p:rowEditor styleClass="fa" editTitle="#{msg.con_editEvent}"
-								saveTitle="#{msg.dlg_save}" cancelTitle="#{msg.dlg_cancel}" />
-						</p:column>
-						<p:column headerText="#{msg.dlg_remove}"
-							styleClass="column-remove">
-							<p:commandLink styleClass="fa fa-trash"
-								action="#{controlBean.removeEventGroup(eventGroup)}"
-								title="#{msg.con_removeEvent}"
-								update=":eventGroupsForm:eventGroupsTable :startObservationForm">
-								<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-									message="#{msg.dlg_confirmRemoveMessage} #{eventGroup.label}. #{msg.dlg_confirmMessage}" />
-							</p:commandLink>
-						</p:column>
-						<p:column styleClass="row-toggler-mobile">
-							<p:rowToggler expandLabel="#{msg.con_showEvents}"
-								collapseLabel="#{msg.con_hideEvents}" />
-						</p:column>
-						<p:rowExpansion>
-							<p:dataList value="#{controlBean.getObservations(eventGroup)}"
-								var="observation"
-								emptyMessage="#{msg.con_emptyMessageObservations}" lazy="true">
-								<f:facet name="header">
+							</ui:repeat>
+							<li><p:commandLink
+									styleClass="fa fa-plus link-new-categoryset link-categoryset"
+									action="#{controlBean.setSelectedEventGroup(eventGroup)}"
+									oncomplete="PF('dlgCategorySet').show()"
+									update=":categorySetForm :eventGroupsForm:eventGroupsTable">
+									<span>#{msg.dlg_add}</span>
+									<f:actionListener binding="#{controlBean.addNewCategorySet()}" />
+								</p:commandLink></li>
+						</ul>
+					</p:column>
+					<p:column headerText="#{msg.con_feedbackAnalysisCategorySets}"
+						styleClass="column-category-groups">
+						<h:outputText
+							rendered="#{eventGroup.feedbackAnalysisCategorySets.size() == 0}"
+							value="" />
+						<ul class="list-categorysets">
+							<ui:repeat
+								value="#{eventGroup.feedbackAnalysisCategorySets.toArray()}"
+								var="feedbackAnalysisCategorySet">
+								<li><p:commandLink
+										value="#{feedbackAnalysisCategorySet.label}"
+										title="#{feedbackAnalysisCategorySet.description}"
+										action="#{controlBean.setSelectedCategorySet(feedbackAnalysisCategorySet)}"
+										onclick="PF('dlgFeedbackAnalysisCategorySet').show()"
+										styleClass="link-categoryset"
+										update=":feedbackAnalysisCategorySetForm :eventGroupsForm:eventGroupsTable :startObservationForm">
+										<f:actionListener
+											binding="#{controlBean.setSelectedEventGroup(eventGroup)}" />
+									</p:commandLink></li>
+							</ui:repeat>
+							<li><p:commandLink
+									styleClass="fa fa-plus link-new-categoryset link-categoryset"
+									action="#{controlBean.setSelectedEventGroup(eventGroup)}"
+									oncomplete="PF('dlgFeedbackAnalysisCategorySet').show()"
+									update=":feedbackAnalysisCategorySetForm :eventGroupsForm:eventGroupsTable">
+									<span>#{msg.dlg_add}</span>
+									<f:actionListener
+										binding="#{controlBean.addNewFeedbackAnalysisCategorySet()}" />
+								</p:commandLink></li>
+						</ul>
+					</p:column>
+					<p:column headerText="#{msg.con_key}"
+						styleClass="column-group-keys">
+						<p:commandLink styleClass="fa fa-key new-key"
+							action="#{controlBean.setSelectedEventGroup(eventGroup)}"
+							rendered="#{!controlBean.hasGroupKey(eventGroup)}"
+							title="#{msg.con_setGroupKey}" onclick="PF('dlgNewKey').show();"
+							update=":newKeyForm :eventGroupsForm:eventGroupsTable" />
+						<p:commandLink class="fa fa-key edit-key"
+							action="#{controlBean.setSelectedEventGroup(eventGroup)}"
+							rendered="#{controlBean.hasGroupKey(eventGroup)}"
+							title="#{msg.con_manageGroupKey}"
+							onclick="PF('dlgEditKey').show();"
+							update=":editKeyForm :eventGroupsForm:eventGroupsTable" />
+					</p:column>
+					<p:column headerText="#{msg.dlg_edit}" styleClass="row-editor">
+						<p:rowEditor styleClass="fa" editTitle="#{msg.con_editEvent}"
+							saveTitle="#{msg.dlg_save}" cancelTitle="#{msg.dlg_cancel}" />
+					</p:column>
+					<p:column headerText="#{msg.dlg_remove}" styleClass="column-remove">
+						<p:commandLink styleClass="fa fa-trash"
+							action="#{controlBean.removeEventGroup(eventGroup)}"
+							title="#{msg.con_removeEvent}"
+							update=":eventGroupsForm:eventGroupsTable :startObservationForm">
+							<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+								message="#{msg.dlg_confirmRemoveMessage} #{eventGroup.label}. #{msg.dlg_confirmMessage}" />
+						</p:commandLink>
+					</p:column>
+					<p:column styleClass="row-toggler-mobile">
+						<p:rowToggler expandLabel="#{msg.con_showEvents}"
+							collapseLabel="#{msg.con_hideEvents}" />
+					</p:column>
+					<p:rowExpansion>
+						<p:dataList value="#{controlBean.getObservations(eventGroup)}"
+							var="observation"
+							emptyMessage="#{msg.con_emptyMessageObservations}" lazy="true">
+							<f:facet name="header">
 								#{msg.con_eventObservations}
 							</f:facet>
-								<p:commandLink
-									update=":observationDetail :observationFormCommands"
-									oncomplete="PF('dlgObservation').show()"
-									title="#{msg.con_showObservationDetails}"
-									styleClass="link-observation">
-									<f:setPropertyActionListener value="#{observation}"
-										target="#{controlBean.selectedObservation}" />
-									<h:outputText value="#{observation.name}" />
-								</p:commandLink>
-							</p:dataList>
-							<p:dataList value="#{controlBean.getAnalyses(eventGroup)}"
-								var="analysis"
-								emptyMessage="#{msg.con_emptyMessageAnalyzations}" lazy="true">
-								<f:facet name="header">
+							<p:commandLink
+								update=":observationDetail :observationFormCommands"
+								oncomplete="PF('dlgObservation').show()"
+								title="#{msg.con_showObservationDetails}"
+								styleClass="link-observation">
+								<f:setPropertyActionListener value="#{observation}"
+									target="#{controlBean.selectedObservation}" />
+								<h:outputText value="#{observation.name}" />
+							</p:commandLink>
+						</p:dataList>
+						<p:dataList value="#{controlBean.getAnalyses(eventGroup)}"
+							var="analysis" emptyMessage="#{msg.con_emptyMessageAnalyzations}"
+							lazy="true">
+							<f:facet name="header">
 								#{msg.con_eventFeedbackAnalyzation}
 							</f:facet>
-								<p:commandLink update=":analysisDetail :analysisFormCommands"
-									oncomplete="PF('dlgAnalysis').show()"
-									title="#{msg.con_showFeedbackAnalyzationDetails}"
-									styleClass="link-observation">
-									<f:setPropertyActionListener value="#{analysis}"
-										target="#{controlBean.selectedAnalysis}" />
-									<h:outputText value="#{analysis.analysisName}" />
-								</p:commandLink>
-							</p:dataList>
-						</p:rowExpansion>
-					</p:dataTable>
+							<p:commandLink update=":analysisDetail :analysisFormCommands"
+								oncomplete="PF('dlgAnalysis').show()"
+								title="#{msg.con_showFeedbackAnalyzationDetails}"
+								styleClass="link-observation">
+								<f:setPropertyActionListener value="#{analysis}"
+									target="#{controlBean.selectedAnalysis}" />
+								<h:outputText value="#{analysis.analysisName}" />
+							</p:commandLink>
+						</p:dataList>
+					</p:rowExpansion>
+				</p:dataTable>
+			</h:form>
+			<p:dialog header="#{msg.con_analyzationDetails}"
+				widgetVar="dlgAnalysis" position="top" resizable="false"
+				responsive="true" modal="true" fitViewport="true"
+				styleClass="coloredDialog observation-dialog">
+				<h:form id="analysisDetail">
+					<p:panelGrid layout="grid" columns="2"
+						rendered="#{not empty controlBean.selectedAnalysis}"
+						columnClasses="label,value">
+						<h:outputText value="#{msg.con_observationDetailsName}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-name-observation" />
+							<p:inplace id="input-name-observation" editor="true"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditAnalysis}"
+									update=":eventGroupsForm" />
+								<p:inputText required="true"
+									requiredMessage="#{msg.dlg_notEmpty}"
+									value="#{controlBean.selectedAnalysis.analysisName}"
+									validator="#{validationBean.validateShortString}" />
+							</p:inplace>
+						</p:outputPanel>
+						<h:outputText value="#{msg.con_observationDetailsDescription}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-description-observation" />
+							<p:inplace id="input-description-observation" editor="true"
+								emptyLabel="#{msg.con_observationDetailsDescriptionEmptyLabel}"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditAnalysis}"
+									update=":eventGroupsForm" />
+								<p:inputTextarea
+									value="#{controlBean.selectedAnalysis.description}"
+									validator="#{validationBean.validateLongString}" rows="2"
+									cols="16" autoResize="true" />
+							</p:inplace>
+						</p:outputPanel>
+						<h:outputText value="#{msg.con_analyzationDetailsAnalyzer}" />
+						<h:outputText value="#{controlBean.getAnalyzerName()}" />
+						<h:outputText value="#{msg.con_observationDetailsTarget}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-target-observation" />
+							<p:inplace id="input-target-observation" editor="true"
+								emptyLabel="#{msg.con_observationDetailsTargetEmptyLabel}"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditObservation}"
+									update=":eventGroupsForm" />
+								<p:inputText
+									value="#{controlBean.selectedAnalysis.targetOfAnalysis}"
+									validator="#{validationBean.validateShortString}" />
+							</p:inplace>
+						</p:outputPanel>
+					</p:panelGrid>
 				</h:form>
-				<p:dialog header="#{msg.con_analyzationDetails}"
-					widgetVar="dlgAnalysis" position="top" resizable="false"
-					responsive="true" modal="true" fitViewport="true"
-					styleClass="coloredDialog observation-dialog">
-					<h:form id="analysisDetail">
-						<p:panelGrid layout="grid" columns="2"
-							rendered="#{not empty controlBean.selectedAnalysis}"
-							columnClasses="label,value">
-							<h:outputText value="#{msg.con_observationDetailsName}" />
-							<p:outputPanel styleClass="editable">
-								<p:message for="input-name-observation" />
-								<p:inplace id="input-name-observation" editor="true"
-									saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
-									<p:ajax event="save" listener="#{controlBean.onEditAnalysis}"
-										update=":eventGroupsForm" />
-									<p:inputText required="true"
-										requiredMessage="#{msg.dlg_notEmpty}"
-										value="#{controlBean.selectedAnalysis.analysisName}"
-										validator="#{validationBean.validateShortString}" />
-								</p:inplace>
-							</p:outputPanel>
-							<h:outputText value="#{msg.con_observationDetailsDescription}" />
-							<p:outputPanel styleClass="editable">
-								<p:message for="input-description-observation" />
-								<p:inplace id="input-description-observation" editor="true"
-									emptyLabel="#{msg.con_observationDetailsDescriptionEmptyLabel}"
-									saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
-									<p:ajax event="save" listener="#{controlBean.onEditAnalysis}"
-										update=":eventGroupsForm" />
-									<p:inputTextarea
-										value="#{controlBean.selectedAnalysis.description}"
-										validator="#{validationBean.validateLongString}" rows="2"
-										cols="16" autoResize="true" />
-								</p:inplace>
-							</p:outputPanel>
-							<h:outputText value="#{msg.con_analyzationDetailsAnalyzer}" />
-							<h:outputText value="#{controlBean.getAnalyzerName()}" />
-							<h:outputText value="#{msg.con_observationDetailsTarget}" />
-							<p:outputPanel styleClass="editable">
-								<p:message for="input-target-observation" />
-								<p:inplace id="input-target-observation" editor="true"
-									emptyLabel="#{msg.con_observationDetailsTargetEmptyLabel}"
-									saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
-									<p:ajax event="save"
-										listener="#{controlBean.onEditObservation}"
-										update=":eventGroupsForm" />
-									<p:inputText
-										value="#{controlBean.selectedAnalysis.targetOfAnalysis}"
-										validator="#{validationBean.validateShortString}" />
-								</p:inplace>
-							</p:outputPanel>
-						</p:panelGrid>
-					</h:form>
-					<h:form id="analysisFormCommands">
-						<p:commandButton value="#{msg.con_showReport}"
-							icon="fa fa-bar-chart"
-							action="#{controlBean.showAnalysisInSummaryPage()}" />
-						<p:commandButton value="#{msg.con_removeObservation}"
-							icon="fa fa-trash" action="#{controlBean.removeAnalysis}"
-							oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_analyzationRemoved}'); PF('dlgAnalysis').hide();"
-							update=":eventGroupsForm:eventGroupsTable otherAnalysesAndObservations">
-							<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-								message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedAnalysis.analysisName}. #{msg.dlg_confirmMessage}" />
-						</p:commandButton>
-						<p:commandButton value="#{msg.con_closeObservationDetails}"
-							icon="ui-icon-close" onclick="PF('dlgAnalysis').hide();" />
-					</h:form>
-				</p:dialog>
-				<p:dialog header="#{msg.con_observationDetails}"
-					widgetVar="dlgObservation" position="top" resizable="false"
-					responsive="true" modal="true" fitViewport="true"
-					styleClass="coloredDialog observation-dialog">
-					<h:form id="observationDetail">
-						<p:panelGrid layout="grid" columns="2"
-							rendered="#{not empty controlBean.selectedObservation}"
-							columnClasses="label,value">
-							<h:outputText value="#{msg.con_observationDetailsName}" />
-							<p:outputPanel styleClass="editable">
-								<p:message for="input-name-observation" />
-								<p:inplace id="input-name-observation" editor="true"
-									saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
-									<p:ajax event="save"
-										listener="#{controlBean.onEditObservation}"
-										update=":eventGroupsForm" />
-									<p:inputText required="true"
-										requiredMessage="#{msg.dlg_notEmpty}"
-										value="#{controlBean.selectedObservation.name}"
-										validator="#{validationBean.validateShortString}" />
-								</p:inplace>
-							</p:outputPanel>
-							<h:outputText value="#{msg.con_observationDetailsDescription}" />
-							<p:outputPanel styleClass="editable">
-								<p:message for="input-description-observation" />
-								<p:inplace id="input-description-observation" editor="true"
-									emptyLabel="#{msg.con_observationDetailsDescriptionEmptyLabel}"
-									saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
-									<p:ajax event="save"
-										listener="#{controlBean.onEditObservation}"
-										update=":eventGroupsForm" />
-									<p:inputTextarea
-										value="#{controlBean.selectedObservation.description}"
-										validator="#{validationBean.validateLongString}" rows="2"
-										cols="16" autoResize="true" />
-								</p:inplace>
-							</p:outputPanel>
-							<h:outputText value="#{msg.con_observationDetailsObserver}" />
-							<h:outputText value="#{controlBean.getObserverName()}" />
-							<h:outputText value="#{msg.con_observationDetailsTarget}" />
-							<p:outputPanel styleClass="editable">
-								<p:message for="input-target-observation" />
-								<p:inplace id="input-target-observation" editor="true"
-									emptyLabel="#{msg.con_observationDetailsTargetEmptyLabel}"
-									saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
-									<p:ajax event="save"
-										listener="#{controlBean.onEditObservation}"
-										update=":eventGroupsForm" />
-									<p:inputText value="#{controlBean.selectedObservation.target}"
-										validator="#{validationBean.validateShortString}" />
-								</p:inplace>
-							</p:outputPanel>
-							<h:outputText value="#{msg.con_observationDetailsDuration}" />
-							<h:outputText
-								value="#{controlBean.msToUnits(controlBean.selectedObservation.duration)}" />
-							<h:outputText value="#{msg.con_observationDetailsRecordAmount}" />
-							<h:outputText
-								value="#{controlBean.selectedObservation.records.size()}" />
-						</p:panelGrid>
-					</h:form>
-					<h:form id="observationFormCommands">
-						<p:commandButton value="#{msg.con_showSummary}"
-							icon="fa fa-bar-chart"
-							action="#{controlBean.showObservationInSummaryPage()}" />
-						<p:commandButton value="#{msg.con_removeObservation}"
-							icon="fa fa-trash" action="#{controlBean.removeObservation}"
-							oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}');PF('dlgObservation').hide();"
-							update=":eventGroupsForm:eventGroupsTable otherAnalysesAndObservations">
-							<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
-								message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedObservation.name}. #{msg.dlg_confirmMessage}" />
-						</p:commandButton>
-						<p:commandButton value="#{msg.con_closeObservationDetails}"
-							icon="ui-icon-close" onclick="PF('dlgObservation').hide();" />
-					</h:form>
-				</p:dialog>
-				<h:panelGroup id="newEventGroupPanel">
-					<h:form rendered="#{controlBean.creatingNewEventGroup}"
-						styleClass="new-eventgroup-form">
-						<p:focus for="input-name-eventgroup" />
-						<p:message for="input-name-eventgroup" />
-						<p:inputText id="input-name-eventgroup" required="true"
-							requiredMessage="#{msg.dlg_notEmpty}"
-							value="#{eventGroupManagedBean.eventGroupName}"
-							styleClass="input-name"
-							validator="#{validationBean.validateShortString}" />
+				<h:form id="analysisFormCommands">
+					<p:commandButton value="#{msg.con_showReport}"
+						icon="fa fa-bar-chart"
+						action="#{controlBean.showAnalysisInSummaryPage()}" />
+					<p:commandButton value="#{msg.con_removeObservation}"
+						icon="fa fa-trash" action="#{controlBean.removeAnalysis}"
+						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_analyzationRemoved}'); PF('dlgAnalysis').hide();"
+						update=":eventGroupsForm:eventGroupsTable otherAnalysesAndObservations">
+						<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedAnalysis.analysisName}. #{msg.dlg_confirmMessage}" />
+					</p:commandButton>
+					<p:commandButton value="#{msg.con_closeObservationDetails}"
+						icon="ui-icon-close" onclick="PF('dlgAnalysis').hide();" />
+				</h:form>
+			</p:dialog>
+			<p:dialog header="#{msg.con_observationDetails}"
+				widgetVar="dlgObservation" position="top" resizable="false"
+				responsive="true" modal="true" fitViewport="true"
+				styleClass="coloredDialog observation-dialog">
+				<h:form id="observationDetail">
+					<p:panelGrid layout="grid" columns="2"
+						rendered="#{not empty controlBean.selectedObservation}"
+						columnClasses="label,value">
+						<h:outputText value="#{msg.con_observationDetailsName}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-name-observation" />
+							<p:inplace id="input-name-observation" editor="true"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditObservation}"
+									update=":eventGroupsForm" />
+								<p:inputText required="true"
+									requiredMessage="#{msg.dlg_notEmpty}"
+									value="#{controlBean.selectedObservation.name}"
+									validator="#{validationBean.validateShortString}" />
+							</p:inplace>
+						</p:outputPanel>
+						<h:outputText value="#{msg.con_observationDetailsDescription}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-description-observation" />
+							<p:inplace id="input-description-observation" editor="true"
+								emptyLabel="#{msg.con_observationDetailsDescriptionEmptyLabel}"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditObservation}"
+									update=":eventGroupsForm" />
+								<p:inputTextarea
+									value="#{controlBean.selectedObservation.description}"
+									validator="#{validationBean.validateLongString}" rows="2"
+									cols="16" autoResize="true" />
+							</p:inplace>
+						</p:outputPanel>
+						<h:outputText value="#{msg.con_observationDetailsObserver}" />
+						<h:outputText value="#{controlBean.getObserverName()}" />
+						<h:outputText value="#{msg.con_observationDetailsTarget}" />
+						<p:outputPanel styleClass="editable">
+							<p:message for="input-target-observation" />
+							<p:inplace id="input-target-observation" editor="true"
+								emptyLabel="#{msg.con_observationDetailsTargetEmptyLabel}"
+								saveLabel="#{msg.dlg_save}" cancelLabel="#{msg.dlg_cancel}">
+								<p:ajax event="save" listener="#{controlBean.onEditObservation}"
+									update=":eventGroupsForm" />
+								<p:inputText value="#{controlBean.selectedObservation.target}"
+									validator="#{validationBean.validateShortString}" />
+							</p:inplace>
+						</p:outputPanel>
+						<h:outputText value="#{msg.con_observationDetailsDuration}" />
+						<h:outputText
+							value="#{controlBean.msToUnits(controlBean.selectedObservation.duration)}" />
+						<h:outputText value="#{msg.con_observationDetailsRecordAmount}" />
+						<h:outputText
+							value="#{controlBean.selectedObservation.records.size()}" />
+					</p:panelGrid>
+				</h:form>
+				<h:form id="observationFormCommands">
+					<p:commandButton value="#{msg.con_showSummary}"
+						icon="fa fa-bar-chart"
+						action="#{controlBean.showObservationInSummaryPage()}" />
+					<p:commandButton value="#{msg.con_removeObservation}"
+						icon="fa fa-trash" action="#{controlBean.removeObservation}"
+						oncomplete="onDialogSuccess(args, 'dlgObservation', '#{msg.con_observationRemoved}');PF('dlgObservation').hide();"
+						update=":eventGroupsForm:eventGroupsTable otherAnalysesAndObservations">
+						<p:confirm header="#{msg.dlg_confirmRemoveDialog}"
+							message="#{msg.dlg_confirmRemoveMessage} #{controlBean.selectedObservation.name}. #{msg.dlg_confirmMessage}" />
+					</p:commandButton>
+					<p:commandButton value="#{msg.con_closeObservationDetails}"
+						icon="ui-icon-close" onclick="PF('dlgObservation').hide();" />
+				</h:form>
+			</p:dialog>
+			<h:panelGroup id="newEventGroupPanel">
+				<h:form rendered="#{controlBean.creatingNewEventGroup}"
+					styleClass="new-eventgroup-form">
+					<p:focus for="input-name-eventgroup" />
+					<p:message for="input-name-eventgroup" />
+					<p:inputText id="input-name-eventgroup" required="true"
+						requiredMessage="#{msg.dlg_notEmpty}"
+						value="#{eventGroupManagedBean.eventGroupName}"
+						styleClass="input-name"
+						validator="#{validationBean.validateShortString}" />
 
-						<p:watermark for="input-name-eventgroup"
-							value="#{msg.con_eventName}" />
-						<p:commandButton value="#{msg.dlg_add}" icon="fa fa-plus"
-							action="#{eventGroupManagedBean.createNewEventGroup}"
-							update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel :newEventGroupButton"
-							process="@form" validateClient="true" />
-					</h:form>
-					<p:commandButton value="#{msg.dlg_cancel}" icon="fa fa-close"
-						rendered="#{controlBean.creatingNewEventGroup}"
-						action="#{controlBean.setCreatingNewEventGroup(false)}"
-						update=":newEventGroupPanel :newEventGroupButton" />
-				</h:panelGroup>
-				<h:form id="newEventGroupButton">
-					<p:commandButton value="#{msg.con_newEvent}" icon="fa fa-plus"
-						rendered="#{!controlBean.creatingNewEventGroup}"
-						action="#{controlBean.setCreatingNewEventGroup(true)}"
-						update="newEventGroupPanel @form" />
+					<p:watermark for="input-name-eventgroup"
+						value="#{msg.con_eventName}" />
+					<p:commandButton value="#{msg.dlg_add}" icon="fa fa-plus"
+						action="#{eventGroupManagedBean.createNewEventGroup}"
+						update="@form :eventGroupsForm:eventGroupsTable :newEventGroupPanel :newEventGroupButton"
+						process="@form" validateClient="true" />
 				</h:form>
-				<h:form id="startObservationForm">
-					<p>
-						<p:commandButton value="#{msg.con_startObservationForEvent}"
-							icon="fa fa-caret-square-o-right"
-							action="#{controlBean.newObservation}" styleClass="start-button"
-							disabled="#{empty controlBean.selectedEventGroup}" />
-					</p>
-					<p>
-						<p:commandButton value="#{msg.con_startAnalyzationForEvent}"
-							icon="fa fa-caret-square-o-right"
-							action="#{controlBean.newAnalysis}" styleClass="start-button"
-							disabled="#{empty controlBean.selectedEventGroup}" />
-					</p>
-				</h:form>
-				
+				<p:commandButton value="#{msg.dlg_cancel}" icon="fa fa-close"
+					rendered="#{controlBean.creatingNewEventGroup}"
+					action="#{controlBean.setCreatingNewEventGroup(false)}"
+					update=":newEventGroupPanel :newEventGroupButton" />
+			</h:panelGroup>
+			<h:form id="newEventGroupButton">
+				<p:commandButton value="#{msg.con_newEvent}" icon="fa fa-plus"
+					rendered="#{!controlBean.creatingNewEventGroup}"
+					action="#{controlBean.setCreatingNewEventGroup(true)}"
+					update="newEventGroupPanel @form" />
+			</h:form>
+			<h:form id="startObservationForm">
+				<p>
+					<p:commandButton value="#{msg.con_startObservationForEvent}"
+						icon="fa fa-caret-square-o-right"
+						action="#{controlBean.newObservation}" styleClass="start-button"
+						disabled="#{empty controlBean.selectedEventGroup}" />
+				</p>
+				<p>
+					<p:commandButton value="#{msg.con_startAnalyzationForEvent}"
+						icon="fa fa-caret-square-o-right"
+						action="#{controlBean.newAnalysis}" styleClass="start-button"
+						disabled="#{empty controlBean.selectedEventGroup}" />
+				</p>
+			</h:form>
+
 			<h:panelGroup layout="block" id="otherAnalysesAndObservations">
 				<p:outputPanel id="otherObservations"
 					rendered="#{controlBean.otherObservations.size() > 0}">
@@ -488,23 +483,27 @@
 					<div class="ui-fluid">
 						<h:outputLabel for="input-name-categoryset"
 							value="#{msg.con_categorySetDetailsName}" />
-						<p:message id="category-set-name-message" for="input-name-categoryset" />
+						<p:message id="category-set-name-message"
+							for="input-name-categoryset" />
 						<p:inputText id="input-name-categoryset" required="true"
 							requiredMessage="#{msg.dlg_notEmpty}"
 							value="#{controlBean.selectedCategorySet.label}"
 							onblur="this.value=this.value.trim()"
-							validator="#{validationBean.validateShortString}" >
-							<p:ajax event="change" process="@this" update="@this category-set-name-message"/>
-							</p:inputText>
+							validator="#{validationBean.validateShortString}">
+							<p:ajax event="change" process="@this"
+								update="@this category-set-name-message" />
+						</p:inputText>
 						<h:outputLabel for="input-description-categoryset"
 							value="#{msg.con_categorySetDetailsDescription}" />
-						<p:message id="description-message" for="input-description-categoryset" />
+						<p:message id="description-message"
+							for="input-description-categoryset" />
 						<p:inputTextarea id="input-description-categoryset"
 							value="#{controlBean.selectedCategorySet.description}"
 							validator="#{validationBean.validateLongString}" rows="2"
-							cols="16" autoResize="true" >							
-							<p:ajax event="blur" process="@this" update="@this description-message"/>
-							</p:inputTextarea>
+							cols="16" autoResize="true">
+							<p:ajax event="blur" process="@this"
+								update="@this description-message" />
+						</p:inputTextarea>
 					</div>
 					<p:dataTable id="categoriesTable" var="category"
 						value="#{controlBean.categories}" selectionMode="single"
@@ -530,7 +529,9 @@
 									<p:inputText id="input-name-category" required="true"
 										requiredMessage="#{msg.dlg_notEmpty}"
 										value="#{category.label.text}"
-										onblur="this.value=this.value.trim()" />
+										onblur="this.value=this.value.trim()">
+										<p:ajax process="@this" />
+									</p:inputText>
 									<p:watermark for="input-name-category"
 										value="#{msg.con_newCategoryLabel}" />
 								</f:facet>
@@ -548,6 +549,7 @@
 									<p:selectOneMenu value="#{category.categoryType}">
 										<f:selectItems value="#{controlBean.categoryTypes}" var="type"
 											itemValue="#{type}" itemLabel="#{msg['con_' += type]}" />
+										<p:ajax process="@this"/>
 									</p:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>
@@ -560,7 +562,6 @@
 					<div class="categorySetCommandButtons">
 						<p:commandButton value="#{msg.con_addCategory}" icon="fa fa-plus"
 							action="#{controlBean.addNewCategory}"
-							onclick="submitDataTableEditInputs('.categories-table')"
 							oncomplete="focusDataTableEditInput('.categories-table');"
 							update="categoriesTable" validateClient="true" />
 						<p:commandButton value="#{msg.con_removeCategory}"
@@ -582,7 +583,6 @@
 						</p:outputPanel>
 						<p:commandButton value="#{msg.con_categorySetDetailsSave}"
 							icon="ui-icon-check" action="#{controlBean.saveCategorySet}"
-							onclick="submitDataTableEditInputs('.categories-table')"
 							oncomplete="onDialogSuccess(args, 'dlgCategorySet', '#{msg.con_categorySetSaved}')"
 							update=":eventGroupsForm:eventGroupsTable @form :validationErrorGrowl"
 							validateClient="true" />
@@ -599,26 +599,30 @@
 					<div class="ui-fluid">
 						<h:outputLabel for="input-name-feedbackanalysiscategoryset"
 							value="#{msg.con_categorySetDetailsName}" />
-						<p:message id="category-set-name-message" for="input-name-feedbackanalysiscategoryset" />
+						<p:message id="category-set-name-message"
+							for="input-name-feedbackanalysiscategoryset" />
 						<p:inputText id="input-name-feedbackanalysiscategoryset"
 							required="true" requiredMessage="#{msg.dlg_notEmpty}"
 							value="#{controlBean.selectedCategorySet.label}"
 							onblur="this.value=this.value.trim()"
-							validator="#{validationBean.validateShortString}" >
-							
-							<p:ajax event="change" process="@this" update="@this category-set-name-message"/>
-							</p:inputText>
+							validator="#{validationBean.validateShortString}">
+
+							<p:ajax event="change" process="@this"
+								update="@this category-set-name-message" />
+						</p:inputText>
 						<h:outputLabel for="input-description-feedbackanalysiscategoryset"
 							value="#{msg.con_categorySetDetailsDescription}" />
-						<p:message id="description-message" for="input-description-feedbackanalysiscategoryset" />
+						<p:message id="description-message"
+							for="input-description-feedbackanalysiscategoryset" />
 						<p:inputTextarea
 							id="input-description-feedbackanalysiscategoryset"
 							value="#{controlBean.selectedCategorySet.description}"
 							validator="#{validationBean.validateLongString}" rows="2"
-							cols="16" autoResize="true" >
-							
-							<p:ajax event="blur" process="@this" update="@this description-message"/>
-							</p:inputTextarea>
+							cols="16" autoResize="true">
+
+							<p:ajax event="blur" process="@this"
+								update="@this description-message" />
+						</p:inputTextarea>
 					</div>
 					<p:dataTable id="feedbackAnalysisCategoriesTable" var="category"
 						value="#{controlBean.categories}" selectionMode="single"
@@ -645,7 +649,9 @@
 									<p:inputText id="input-name-feedbackanalysiscategory"
 										required="true" requiredMessage="#{msg.dlg_notEmpty}"
 										value="#{category.label.text}"
-										onblur="this.value=this.value.trim()" />
+										onblur="this.value=this.value.trim()">
+										<p:ajax process="@this" />
+									</p:inputText>
 
 									<p:watermark for="input-name-feedbackanalysiscategory"
 										value="#{msg.con_newCategoryLabel}" />
@@ -660,7 +666,6 @@
 					<div class="categorySetCommandButtons">
 						<p:commandButton value="#{msg.con_addCategory}" icon="fa fa-plus"
 							action="#{controlBean.addNewFeedbackAnalysisCategory}"
-							onclick="submitDataTableEditInputs('.feedback-analysis-categories-table')"
 							oncomplete="focusDataTableEditInput('.feedback-analysis-categories-table');"
 							update="feedbackAnalysisCategoriesTable" validateClient="true" />
 						<p:commandButton value="#{msg.con_removeCategory}"
@@ -683,7 +688,6 @@
 						</p:outputPanel>
 						<p:commandButton value="#{msg.con_categorySetDetailsSave}"
 							icon="ui-icon-check" action="#{controlBean.saveCategorySet}"
-							onclick="submitDataTableEditInputs('.feedback-analysis-categories-table')"
 							oncomplete="onDialogSuccess(args, 'dlgFeedbackAnalysisCategorySet', '#{msg.con_categorySetSaved}')"
 							update=":eventGroupsForm:eventGroupsTable @form :validationErrorGrowl"
 							validateClient="true" />
